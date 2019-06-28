@@ -116,6 +116,8 @@ all source-code must be licensed under MIT license and made publicly available
   - show call to action when type/state suggests (e.g. this is how you delegate)
   - types: BASIC (implicit, tz1/2/3), CONTRACT (w/wo code)
   - states: unclaimed, simple, delegate, baker / not delegated, delegated
+  - baker: delegate efficiency (missed blocks, endorsements, lost rewards)
+  - baker: staking bond, current balance, total capacity, available bonds, available capacity
 - **governance**
   - past and current voting periods on top, navigate left/right
   - voting progress, current proposals, votes, quorum, majority
