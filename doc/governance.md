@@ -1,4 +1,4 @@
-## Tezos Government Process
+## Tezos Governance Process
 
 - https://medium.com/tezos/amending-tezos-b77949d97e1e
 - https://blog.nomadic-labs.com/athens-proposals-injected.html

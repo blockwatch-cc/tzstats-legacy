@@ -93,8 +93,8 @@ all source-code must be licensed under MIT license and made publicly available
 ### Screens
 
 - **landing**
-  - live block(s), cycle, voting
-  - live supply: anything useful on inflation, staking, locked, and unclaimed supply
+  - live block(s), cycle, voting, market (price, mcap) info
+  - live supply: inflation, staking yield, circulating, staking, frozen, and unclaimed supply
   - 30d global market status: market volume, market price
   - 30d global network growth: new funded accounts (new vs cleared accounts)
   - 30d global network activity: rewards, fees, volume, gas, token age transacted time-series
@@ -177,6 +177,11 @@ all source-code must be licensed under MIT license and made publicly available
             - unvested
             - unclaimed
             - frozen rewards (count against total, but not staking)
+    - activation
+      - activated accounts by month
+      - activated coins by month
+      - count and percentage activated vs not activated accounts & coins
+      - histogram of balances across all non-activated accounts
 - **node list/single node** (out of scope)
     - ip address and location
     - update availability: git hash compare against gitlab master

@@ -1,5 +1,19 @@
 ## Block Screen
 
+### Block/Chain History
+
+- Option 1: 24h tx volume bar chart (1440 blocks)
+- Option 2: line/branch of blocks (like Git history)
+  - display last 6-10 blocks and orphan branches only
+  - x is time axis
+  - distance is block time
+  - information: tx count, tx volume, priority, block number, block time
+  - blocks may be visualized by circles
+  - 3 sizes (diameters): empty, low, high tx volume
+  - 4 different fill levels inside the circle for empty, low, medium, high tx count
+  - a missed block time slot may be visualized with a small dot instead of a circle
+    (the number of dots would then also signify the priority visually)
+
 ### Block Card Datafields
 
 A simple block card displaying label/value pairs. Should give overview about main block properties, but avoid too much detail.
@@ -15,12 +29,13 @@ A simple block card displaying label/value pairs. Should give overview about mai
 | 7  | Baker                  | string   | tz1R6Ej25VSerE3MkSoEEeBjKHCDTFbpKuSX | `tz1R6Ej...KuSX` or `TezosSEAsia` |
 | 8  | Slots Endorsed         | uint64   | 4294967295 | 32/32 |
 | 9  | Num Ops                | int64    | 31      | 31 |
-| 10 | Transaction Volume     | float64  | 8726849 | 8.73ꜩ |
-| 11 | Block Fees             | float64  | 35541   | 0.36ꜩ |
-| 12 | Block Rewards          | float64  | 78000000| 78ꜩ |
-| 13 | Gas Used               | int64    | 259943  | 259,943 |
-| 14 | Gas Price              | float64  | 0.13673 | 0.14µꜩ |
-| 15 | Days destroyed         | float64  | 53.533006 | 53.53 days |
+| 10 | Num Tx                 | int64    | 5       | 5 |
+| 11 | Transaction Volume     | float64  | 8726849 | 8.73ꜩ |
+| 12 | Block Fees             | float64  | 35541   | 0.36ꜩ |
+| 13 | Block Rewards          | float64  | 78000000| 78ꜩ |
+| 14 | Gas Used               | int64    | 259943  | 259,943 |
+| 15 | Gas Price              | float64  | 0.13673 | 0.14µꜩ |
+| 16 | Days destroyed         | float64  | 53.533006 | 53.53 days |
 
 ### Example
 
