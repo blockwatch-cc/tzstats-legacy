@@ -218,3 +218,11 @@ Gini Coefficient, Distributions, Voting
 
 Blockies Images JS Lib
 - https://github.com/airgap-it/blockies
+
+## Application
+
+### `npm start`
+### `npm run build` fails to minify
+### `npm run eject`
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### `npm test`
