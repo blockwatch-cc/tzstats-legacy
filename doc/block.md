@@ -5,7 +5,7 @@
 - Option 1: 24h tx volume bar chart (1440 blocks)
 - Option 2: line/branch of blocks (like Git history)
   - display last 6-10 blocks and orphan branches only
-  - x is time axis
+  - x axis is real-time
   - distance is block time
   - information: tx count, tx volume, priority, block number, block time
   - blocks may be visualized by circles

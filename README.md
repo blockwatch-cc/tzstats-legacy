@@ -9,22 +9,22 @@ Project Links
 
 ### Project Schedule
 
-- preparation phase [1w]
+- W25 preparation phase
   - tasks: user poll, persona definition, explorer research, feature definition, team selection
   - deliverables: personas, feature list & priorities, API requirements, tech stack, design brief
-- design phase 1 [1w]
+- W26 design phase 1
   - tasks: ux and architecture design
   - deliverables: UX design sketches, list of screens and displayed information, user journey, URL semantics
-- design phase 2 [1w]
-  - tasks: detailed UX design
+- W27-W30 design phase 2
+  - tasks: detailed UX/UI design
   - deliverables: visual language (colors, fonts, cards, graphs), screen designs, HTML/CSS templates
-- implementation
+- W27 implementation setup
   - dev and test environment setup
   - site controllers
   - data API access layer
   - analytics integration
-- multi-language support foundation
-- screen implementations
+  - multi-language support foundation
+- W28-W33 screen implementations
   - single block screen
   - single operation screen
   - single account screen
@@ -34,12 +34,16 @@ Project Links
   - staking and consensus screen
   - governance screen
   - analytics screens
+  - deliverables
+    - W27 build system and first alpha release
+    - W28 first beta release (block, operation, cycle, account screens and search)
 
 ### User Personas/Groups
 
 Target audience are all stakeholders in the Tezos ecosystem, i.e. investors, bakers, staking services, protocol developers, dapp developers, exchanges, media and the general public.
 
 - **investor**: activity, growth, risk, upside, staking services, on/off-ramps + liquidity, custodians, governance, balance, address activity, payouts (past, pending, future), staking services, votes, on/off-ramps + liquidity, custodians, software upgrades
+- **adopter**: balance, price, address activity, growth, staking services, payouts, governance
 - **dapp user**: balance, address activity, current fees, historic costs (fee, gas), software upgrades
 - **dapp developer**: balance, contract activity, gas & storage stats, code, storage, software upgrades
 - **baker**: balance, delegation activity, #delegations, #rolls, past/current/future rights, steal/miss history, current deposits/rewards/fees, future deposits/rewards predictions (when rights are set), own voting history, software upgrades
@@ -80,6 +84,7 @@ all source-code must be licensed under MIT license and made publicly available
   - op hash -> single operation page
   - addr hash -> single account page
   - service name -> single account page
+- single-page javascript app, no backend rendering, API only data streams
 
 **Optional features**
 - multiple Tezos networks besides mainnet
@@ -92,53 +97,56 @@ all source-code must be licensed under MIT license and made publicly available
 
 ### Screens
 
-- **landing**
+- **landing** `/`
   - live block(s), cycle, voting, market (price, mcap) info
   - live supply: inflation, staking yield, circulating, staking, frozen, and unclaimed supply
   - 30d global market status: market volume, market price
   - 30d global network growth: new funded accounts (new vs cleared accounts)
   - 30d global network activity: rewards, fees, volume, gas, token age transacted time-series
-- **single block**
+- [**single block**](./blob/master/doc/block.md) `/block/:block_id`
   - visual chain history timeline on top, navigate left/right
   - selected block details
   - baker/endorser details
-- **single cycle**
+- [**single cycle**](./blob/master/doc/cycle.md) `/cycle/:cycle_num`
   - visual cycle history timeline on top, navigate left/right
   - #bakers, #endorsers, #roll owners, staking supply
-  - health: actual block priorities distribution, block times
   - top-N bakers
-- **single operation**
+- [**single operation**](./blob/master/doc/op.md) `/op/:op_hash`
   - visual operation list within block on top, navigate left/right
   - block and op details
   - involved accounts (as cards with all type-specific data, e.g. delegator)
-- **single account**
+- [**single account**](./blob/master/doc/account.md) `/account/:address`
   - accounts share basic metadata/balance/etc and have type/state specific data
   - show call to action when type/state suggests (e.g. this is how you delegate)
   - types: BASIC (implicit, tz1/2/3), CONTRACT (w/wo code)
   - states: unclaimed, simple, delegate, baker / not delegated, delegated
   - baker: delegate efficiency (missed blocks, endorsements, lost rewards)
   - baker: staking bond, current balance, total capacity, available bonds, available capacity
-- **governance**
+- [**governance**](./blob/master/doc/governance.md) `/governance`
   - past and current voting periods on top, navigate left/right
   - voting progress, current proposals, votes, quorum, majority
-- **staking** (maybe EOD stats only, 30d view)
+- **staking** `/staking`
+  - maybe EOD stats only, 30d view
   - this is related to data in cycle, but displays evolution across larger time frame
-  - as current numbers and time-series
-  - consensus related supply
-  - active delegators, delegates, daily consensus participants, rolls, owners
-  - block priorities, block times, #bakers, #endorsers
-- **health** (24h or 30d view)
-  - missed endoresements
-  - height, protocol version and node version for our backend & different public nodes
+  - delegation activity and consensus related supply
+  - active delegators, delegates, daily consensus participants (#bakers, #endorsers), rolls, owners
+- **health** `/health`
+  - 24h or 30d views or both
+  - double baking and double endorsements
+  - uncle rate, i.e. alternative heads (backend todo)
+  - missed endorsements
+  - missed blocks: actual block priorities distribution, block times
+  - missed nonce revelations (backend todo)
+  - height, protocol version and node version for our backend & different public nodes (backend todo)
   - block propagation times (optional, missing data)
   - tx propagation times (optional, missing data)
-- **whales** (centralization)
+- **whales** (centralization) `/whales`
   - large bag holders, 100% donut graph = top 1 - 1k balances + rest
   - large bakers, 100% donut graph, top 1, 10, 100, rest delegates
   - wealth centralization by address value and count
   - daily tx on top active addresses
   - daily volume on top active addresses
-- **markets**
+- **markets** `/markets`
   - volume, trades, price across markets (exchanges and pairs)
   - trades per weekday / hour histogram
   - list of volume, price, 24h change by market (selected markets only, like tradeblock)
@@ -146,18 +154,18 @@ all source-code must be licensed under MIT license and made publicly available
   - daily candles + volume in buy/sell side (across all markets) last 30 or 60 days
   - donut charts: XTZ volume by exchange, XTZ volume by quote
   - change: absolute & percent 1d, 7d, 30d, from ATH, YTD
-- **analytics**: understand supply and demand
-    - 3M hodl vs Tx supply
-    - 3M token age transacted
-    - dormancy by age (in addresses and funds)
-    - daily growth overall (new vs cleared accounts)
-    - growth by address type, growth by balances size (= derivative of centralization data)
-    - activity
+- **analytics** `/analytics`
+    - growth/demand
+      - daily growth overall (new vs cleared accounts)
+      - growth by address type, growth by balances size (= derivative of centralization data)
+      - 3M hodl vs Tx supply vs. 3M token age transacted
+      - dormancy by age (in addresses and funds)
+    - on-chain activity
         - volume percentage by type
         - operation counts by type
         - fee and gas prices
         - mean, median, max value by operation
-    - supply side
+    - supply
         - activated/unclaimed, vested/unvested funds
         - inflation: frozen/unfrozen rewards vs burn
         - frozen bonds, staked vs circulating supply
@@ -177,7 +185,7 @@ all source-code must be licensed under MIT license and made publicly available
             - unvested
             - unclaimed
             - frozen rewards (count against total, but not staking)
-    - activation
+    - account activations
       - activated accounts by month
       - activated coins by month
       - count and percentage activated vs not activated accounts & coins
@@ -187,6 +195,27 @@ all source-code must be licensed under MIT license and made publicly available
     - update availability: git hash compare against gitlab master
     - connectivity (can we reach the node?)
     - number of connections
+
+
+## URL Semantics
+
+| URL | Screen    | Comments |
+|-----|-----------|---------|
+| `/` | Landing   ||
+| `/block/:block_id` | [Block](./blob/master/doc/block.md) | `:block_id` is hash or height; 404 when not found |
+| `/block`           | | forward to head block |
+| `/cycle/:cycle_num`| [Cycle](./blob/master/doc/cycle.md) | `:cycle_num` is a number; 404 when not found |
+| `/cycle`           | | forward to current cycle |
+| `/op/:op_hash`     | [Operation](./blob/master/doc/op.md) | `:op_hash` is hash only; 404 when not found |
+| `/op`              | 404 | |
+| `/account/:address`| [Account](./blob/master/doc/account.md) | `:address` is any KT1\*, tz1\*, tz2\*, tz3\*; 404 when not found |
+| `/vote/:vote_id`   | [Governance](./blob/master/doc/governance.md) | `:vote_id` is a voting period; 404 when not found |
+| `/vote`            | | forward to current voting period |
+| `/staking`         | Staking    | todo |
+| `/health`          | Health     | todo |
+| `/whales`          | Whales     | todo |
+| `/markets`         | Markets    | todo |
+| `/analytics`       | Analytics  | todo |
 
 
 ## Inspiration

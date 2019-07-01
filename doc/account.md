@@ -19,13 +19,13 @@
 
 | #  | Name                   | Type     | Example | Display as |
 |----|------------------------|----------|---------|------------|
-| 1  | Address                | string   |
-| 2  | Name                   | string   |
-| 3  | First Seen             | int64    |
-| 4  | Last Seen              | int64    |
-| 5  | Spendable Balance      | float64  |
-| 6  | Num Tx                 | int64    |
-| 7  | Is Activated           | boolean  |
+| 1  | Address                | string   | tz1TmJGQoK1H3ArPtKu4dVzEMJRungBs29Fo | `tz1TmJG...29Fo` |
+| 2  | Name                   | string   | Flippin Tacos | Flippin Tacos |
+| 3  | First Seen             | int64    | 1      | 1 |
+| 4  | Last Seen              | int64    | 326947 | 326,947 |
+| 5  | Spendable Balance      | float64  | 16000.1037 | 16,000.10ꜩ |
+| 6  | Num Tx                 | int64    | 0       | 0 Transactions |
+| 7  | Is Activated           | boolean  | true    | tag `Activated` |
 | 8  | Wealth Rank            | int64    | 5       | Top 5 |
 
 Note: Wealth rank is limited to top 1..500, thereafter use 500+
@@ -37,7 +37,7 @@ An inactive account belonging to a fundraiser investor with unspendable/unclaime
 | #  | Name                   | Type     | Example | Display as |
 |----|------------------------|----------|---------|------------|
 |    | **all general fields** ||||
-| 9  | Unclaimed Balance      | float64  |
+| 9  | Unclaimed Balance      | float64  | 12000   | 12,000ꜩ    |
 
 #### Example
 
@@ -61,22 +61,22 @@ A basic account that has never been registered as delegate.
 | #  | Name                   | Type     | Example | Display as |
 |----|------------------------|----------|---------|------------|
 |    | **all general fields** ||||
-| 9  | First In               | int64    |
-| 10 | First Out              | int64    |
-| 11 | First Seen             | int64    |
-| 12 | Last In                | int64    |
-| 13 | Last Out               | int64    |
-| 14 | Last Seen              | int64    |
-| 15 | Total Received         | float64  |
-| 16 | Total Sent             | float64  |
-| 17 | Total Burned           | float64  |
-| 18 | Total Fees Payed       | float64  |
-| 19 | Is Revealed            | boolean  |
-| 20 | Pubkey                 | string   |
-| 21 | Num Ops                | int64    |
-| 22 | Num Ops Failed         | int64    |
-| 23 | Num Tx                 | int64    |
-| 24 | Num Origination        | int64    |
+| 9  | First In               | int64    |||
+| 10 | First Out              | int64    |||
+| 11 | First Seen             | int64    |||
+| 12 | Last In                | int64    |||
+| 13 | Last Out               | int64    |||
+| 14 | Last Seen              | int64    |||
+| 15 | Total Received         | float64  |||
+| 16 | Total Sent             | float64  |||
+| 17 | Total Burned           | float64  |||
+| 18 | Total Fees Payed       | float64  |||
+| 19 | Is Revealed            | boolean  | true | tag `Revealed` |
+| 20 | Pubkey                 | string   | edpkufHry7MA8oeZs9qEdkRjAzQWSjf8MY3Gpg8o8n9q39n5irLZsD | `edpkufHr...LZsD` |
+| 21 | Num Ops                | int64    |||
+| 22 | Num Ops Failed         | int64    |||
+| 23 | Num Tx                 | int64    |||
+| 24 | Num Origination        | int64    |||
 
 - balance history flow graph (in/out)
 - tx history table (when/age/block, sender/receiver, amount, fee, block, op)
@@ -120,13 +120,13 @@ Note that even though such an account may not have rights to participate as bake
 | #  | Name                   | Type     | Example | Display as |
 |----|------------------------|----------|---------|------------|
 |    | **all basic/simple fields** ||||
-| 24 | Delegated Balance      | float64  |
-| 25 | Total Delegations      | int64    |
-| 26 | Active Delegations     | int64    |
-| 27 | Is Delegate            | boolean  |
-| 28 | Is Active Delegate     | boolean  |
-| 29 | Num Proposals          | int64    |
-| 30 | Num Ballots            | int64    |
+| 24 | Delegated Balance      | float64  |||
+| 25 | Total Delegations      | int64    |||
+| 26 | Active Delegations     | int64    |||
+| 27 | Is Delegate            | boolean  | true | tag `Delegate` |
+| 28 | Is Active Delegate     | boolean  | true | tag `Active Delegate` |
+| 29 | Num Proposals          | int64    |||
+| 30 | Num Ballots            | int64    |||
 
 - current cycle rolls
 - real-time rolls relevant for future cycle
@@ -180,18 +180,18 @@ Note that even though such an account may not have rights to participate as bake
 | #  | Name                   | Type     | Example | Display as |
 |----|------------------------|----------|---------|------------|
 |    | **all basic/delegate fields** ||||
-| 31 | Total Rewards Earned   | float64  |
-| 32 | Total Fees Earned      | float64  |
-| 33 | Total Lost             | float64  |
-| 34 | Frozen Deposits        | float64  |
-| 35 | Frozen Rewards         | float64  |
-| 36 | Frozen Fees            | float64  |
-| 37 | Blocks Baked           | int64    |
-| 38 | Blocks Missed          | int64    |
-| 39 | Blocks Stolen          | int64    |
-| 40 | Blocks Endorsed        | int64    |
-| 41 | Slots Endorsed         | int64    |
-| 42 | Slots Missed           | int64    |
+| 31 | Total Rewards Earned   | float64  |||
+| 32 | Total Fees Earned      | float64  |||
+| 33 | Total Lost             | float64  |||
+| 34 | Frozen Deposits        | float64  |||
+| 35 | Frozen Rewards         | float64  |||
+| 36 | Frozen Fees            | float64  |||
+| 37 | Blocks Baked           | int64    |||
+| 38 | Blocks Missed          | int64    |||
+| 39 | Blocks Stolen          | int64    |||
+| 40 | Blocks Endorsed        | int64    |||
+| 41 | Slots Endorsed         | int64    |||
+| 42 | Slots Missed           | int64    |||
 
 - delegate rank by balance (Top 1..100, then 100+)
 - delegate rank by delegations (Top 1..100, then 100+)
@@ -284,29 +284,29 @@ KT1 can be in two states, *Not-Delegated* or *Delegated*.
 | #  | Name                   | Type     | Example | Display as |
 |----|------------------------|----------|---------|------------|
 |    | **all general fields** ||||
-| 9  | First In               | int64    |
-| 10 | First Out              | int64    |
-| 11 | First Seen             | int64    |
-| 12 | Last In                | int64    |
-| 13 | Last Out               | int64    |
-| 14 | Last Seen              | int64    |
-| 15 | Total Received         | float64  |
-| 16 | Total Sent             | float64  |
-| 17 | Total Burned           | float64  |
-| 18 | Total Fees Payed       | float64  |
-| 19 | Is Revealed            | boolean  |
-| 20 | Pubkey                 | string   |
-| 21 | Num Ops                | int64    |
-| 22 | Num Ops Failed         | int64    |
-| 23 | Num Tx                 | int64    |
-| 24 | Num Delegation         | int64    |
-| 25 | Manager                | string   |
-| 26 | Delegate/Baker         | string   |
-| 27 | Is Vesting             | boolean  |
-| 28 | Is Delegatable         | boolean  |
-| 29 | Is Delegated           | boolean  |
-| 30 | Is Spendable           | boolean  |
-| 31 | Is Contract            | boolean  |
+| 9  | First In               | int64    |||
+| 10 | First Out              | int64    |||
+| 11 | First Seen             | int64    |||
+| 12 | Last In                | int64    |||
+| 13 | Last Out               | int64    |||
+| 14 | Last Seen              | int64    |||
+| 15 | Total Received         | float64  |||
+| 16 | Total Sent             | float64  |||
+| 17 | Total Burned           | float64  |||
+| 18 | Total Fees Payed       | float64  |||
+| 19 | Is Revealed            | boolean  |||
+| 20 | Pubkey                 | string   |||
+| 21 | Num Ops                | int64    |||
+| 22 | Num Ops Failed         | int64    |||
+| 23 | Num Tx                 | int64    |||
+| 24 | Num Delegation         | int64    |||
+| 25 | Manager                | string   |||
+| 26 | Delegate/Baker         | string   |||
+| 27 | Is Vesting             | boolean  | true | tag `Vesting` |
+| 28 | Is Delegatable         | boolean  | true | tag `Delegatable` |
+| 29 | Is Delegated           | boolean  | true | tag `Delegated` |
+| 30 | Is Spendable           | boolean  | true | tag `Spendable` |
+| 31 | Is Contract            | boolean  | true | tag `Contract` |
 
 - display manager account as card
 - display baker account as card when state is `Delegated`
@@ -363,8 +363,8 @@ Smart contracts can also issue `internal` transactions to send funds or call oth
 | #  | Name                   | Type     | Example | Display as |
 |----|------------------------|----------|---------|------------|
 |    | **all basic contract fields** ||||
-| 32 | Code                   | JSON     |
-| 33 | Storage                | JSON     |
+| 32 | Code                   | JSON     | ... | ... |
+| 33 | Storage                | JSON     | ... | ... |
 
 
 
@@ -379,10 +379,10 @@ There is only a total of 32 such accounts and all of them delegate to one of the
 | #  | Name                   | Type     | Example | Display as |
 |----|------------------------|----------|---------|------------|
 |    | **all smart contract fields** ||||
-| 34 | unclaimed balance      | float64  |||
+| 34 | Unclaimed balance      | float64  |||
 
 - same graphs as regular delegated contract
-- vested balance graph
+- unclaimed/vested balance graph
 
 #### Example
 
