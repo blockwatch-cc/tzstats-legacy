@@ -1,0 +1,11 @@
+@import "../../../node_modules/@blueprintjs/core/lib/scss/variables.scss";
+
+body {
+  background-color: $pt-dark-app-background-color;
+}
+
+#root, body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

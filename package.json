@@ -2,19 +2,49 @@
   "name": "tzstats",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
-  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "yarn sass && react-app-env start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sass": "sass src/styles/scss/index.scss:src/styles/css/index.css"
+  },
+  "dependencies": {
+    "@blueprintjs/core": "^3.16.2",
+    "@blueprintjs/select": "^3.8.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "styled-components": "^4.3.2"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^5.0.0",
+    "eslint-config-react-app": "^4.0.1",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2",
+    "react-app-env": "^1.2.3"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "plugin:prettier/recommended",
+      "prettier/react"
+    ]
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "arrowParens": "avoid"
   },
   "browserslist": {
     "production": [
