@@ -8,7 +8,7 @@ ARG           BUILD_DATE
 ARG           BUILD_ID
 
 LABEL         vendor=KIDTSUNAMI\ UG \
-              io.trimmer.service="site" \
+              io.trimmer.service="tzstats" \
               io.trimmer.tier="frontend" \
               io.trimmer.arch="browser" \
               io.trimmer.os="multi" \
