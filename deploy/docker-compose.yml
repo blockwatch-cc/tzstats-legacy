@@ -1,0 +1,69 @@
+# Tzstats/Blockwatch Infrastructure
+#
+# Services/Containers
+#  - tzstats
+#
+# Published Ports
+#  - 8000  spa-ng fileserver
+#
+# Start with
+# docker-compose up -d
+#
+version: '2.2'
+networks:
+  tz_int_prod:
+    external: true
+
+services:
+  tzstats:
+    restart: always
+    image: idx.trimmer.io/tzstats:${TZSTATS_VERSION}
+    # env_file:
+    #   - ./tzstats.env
+    environment:
+      TZ: UTC
+      BLOCKWATCH_API_KEY:
+      SPANG_HEADERS_Content-Security-Policy: >
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://*.mxpnl.com/;
+        style-src 'self' 'unsafe-inline';
+        font-src 'self';
+        img-src 'self' data: blob: https://*.tzstats.com https://www.google-analytics.com https://stats.g.doubleclick.net https://cdn.mxpnl.com/;
+        media-src data: filesystem: mediastream: blob: https://*.tzstats.com;
+        connect-src 'self' https://*.tzstats.com https://api.mixpanel.com/;
+        worker-src 'self' blob:;
+        child-src 'self' blob:;
+        frame-src 'self' https://*.tzstats.com;
+        frame-ancestors 'none';
+        object-src 'none';
+        form-action 'self'
+        https://*.tzstats.com;
+        report-uri /csplog;
+    mem_limit: 64M
+    cpu_count: 1
+    cpus: 1
+    cpuset: "0"
+    labels:
+      - io.trimmer.tier=web
+      - io.trimmer.env=${TZSTATS_ENV}
+      - io.trimmer.dc=${TZSTATS_DC}
+    cap_drop:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - FSETID
+      - SETGID
+      - SETUID
+      - NET_BIND_SERVICE
+      - NET_RAW
+      - SYS_CHROOT
+      - MKNOD
+      - AUDIT_WRITE
+      - SETFCAP
+      - NET_ADMIN
+      - SYS_ADMIN
+    networks:
+      tz_int_prod:
+        aliases:
+          - tz_alpha_site_1
+          - alpha_site
