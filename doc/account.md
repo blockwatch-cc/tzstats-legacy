@@ -14,6 +14,23 @@
   - not delegated
   - delegated
 
+### Account Tags
+
+Tags to display as visual markers in the account header/title
+
+- **[Baker]** for baker accounts (with future rights)
+- **[Delegate]** for an active delegate who is not yet baker
+- **[Delegator]** an account that is delegating
+- **[Smart Contract]** contract with code
+- **[Revealed]** when pubkey is publicly announced
+- **[Inactive]** for inactive delegate (should be a warning for delegateors)
+- **[Overdelegated]** for overdelegated baker (should be a warning for delegateors)
+- **[Fundraiser]** for activated fundraiser account
+- **[Vesting]** for vesting contracts
+- **[Spendable]** account can spend funds
+- **[Delegatable]** account can delegate
+
+
 
 ### General Account Metadata
 
@@ -78,9 +95,14 @@ A basic account that has never been registered as delegate.
 | 23 | Num Tx                 | int64    |||
 | 24 | Num Origination        | int64    |||
 
-- balance history flow graph (in/out)
+- balance
+- address
+- lifetime totals: #transactions, #originations, tz fees payed, tz received, tz sent, tz burned
+- first & last active time/block
+- balance history graph
 - tx history table (when/age/block, sender/receiver, amount, fee, block, op)
 - list of originated and managed KT1 accounts, if any (address, age, balance, delegate)
+
 
 #### Example
 
@@ -193,15 +215,27 @@ Note that even though such an account may not have rights to participate as bake
 | 41 | Slots Endorsed         | int64    |||
 | 42 | Slots Missed           | int64    |||
 
-- delegate rank by balance (Top 1..100, then 100+)
-- delegate rank by delegations (Top 1..100, then 100+)
-- current available staking bond and free staking capacity vs staking balance
-- baking/endorse efficiency last 7 cycles
-- payout accuracy last 7 cycles
+
+- total balance (a.k.a staking bond)
+- pending rewards
+- staking balance
+- staking capacity
+- delegated balance
+- available capacity
+- baker efficiency (rights vs stolen/missed blocks/endorsements + lost rewards) in coin units last 5 cycles
+- baker luck (actual randomized rights vs ideal rights by rolls) in coin units last 5 and next 5 cycles
 - baker fee in percent (for public services only)
+- lifetime totals
+- active delegations
+- next baking block
+- next endorsement block
+- voting history list (election name, proposal name, past number of rolls)
+- payout accuracy last 7 cycles
 - current cycle rolls
 - current cycle rights at priority 0 (baking/endorse) and priority 1 (baking/endorse)
 - current cycle bake/endorse/steal/miss history
+- delegate rank by balance (Top 1..100, then 100+)
+- delegate rank by delegations (Top 1..100, then 100+)
 - real-time rolls relevant for future cycle
 - delegation balance history graph
 - delegation count history graph
@@ -311,7 +345,8 @@ KT1 can be in two states, *Not-Delegated* or *Delegated*.
 - display manager account as card
 - display baker account as card when state is `Delegated`
 - display delegation hint when delegatable and state is `Not delegated`
-- show total earned from delegation
+- lifetime total income from delegation (may be difficult to measure)
+- 30d staking income graph with 1 data point per cycle and 30d sum
 - current baker fee (needs lookup table)
 - next payout time + amount (complex formula, we'll see if we support this)
 - tx history table (when/age/block, sender/receiver, amount, fee, block, op)
@@ -366,6 +401,16 @@ Smart contracts can also issue `internal` transactions to send funds or call oth
 | 32 | Code                   | JSON     | ... | ... |
 | 33 | Storage                | JSON     | ... | ... |
 
+
+- manager account card
+- creation date
+- lifetime #ops, total gas paid, total fees paid, storage paid
+- storage size
+- storage content
+- code
+- list of ops
+- graph gas paid
+- graph fees paid
 
 
 ### Vesting Contract Account Card Datafields

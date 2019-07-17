@@ -99,10 +99,10 @@ all source-code must be licensed under MIT license and made publicly available
 
 - **landing** `/`
   - live block(s), cycle, voting, market (price, mcap) info
-  - live supply: inflation, staking yield, circulating, staking, frozen, and unclaimed supply
+  - live supply: **inflation**, **staking yield**, **1y network share**, circulating, staking, frozen, and unclaimed supply
   - 30d global market status: market volume, market price
   - 30d global network growth: new funded accounts (new vs cleared accounts)
-  - 30d global network activity: rewards, fees, volume, gas, token age transacted time-series
+  - 30d global network activity: rewards, fees, **volume**, gas, token age transacted time-series
 - [**single block**](./blob/master/doc/block.md) `/block/:block_id`
   - visual chain history timeline on top, navigate left/right
   - selected block details
@@ -117,11 +117,25 @@ all source-code must be licensed under MIT license and made publicly available
   - involved accounts (as cards with all type-specific data, e.g. delegator)
 - [**single account**](./blob/master/doc/account.md) `/account/:address`
   - accounts share basic metadata/balance/etc and have type/state specific data
-  - show call to action when type/state suggests (e.g. this is how you delegate)
-  - types: BASIC (implicit, tz1/2/3), CONTRACT (w/wo code)
-  - states: unclaimed, simple, delegate, baker / not delegated, delegated
-  - baker: delegate efficiency (missed blocks, endorsements, lost rewards)
-  - baker: staking bond, current balance, total capacity, available bonds, available capacity
+  - header tags to visualize type/status
+    - [Baker] for baker accounts (with future rights)
+    - [Delegate] for an active delegate who is not yet baker
+    - [Delegator] an account that is delegating
+    - [Smart Contract] contract with code
+    - [Revealed] when pubkey is publicly announced
+    - [Inactive] for inactive delegate (should be a warning for delegateors)
+    - [Overdelegated] for overdelegated baker (should be a warning for delegateors)
+    - [Fundraiser] for activated fundraiser account
+    - [Vesting] for vesting contracts
+    - [Spendable] account can spend funds
+    - [Delegatable] account can delegate
+  - show call to action when type/state suggests (e.g. this is how you delegate on accounts that can delegate but don't do so yet)
+  - types
+    - basic (implicit = tz1/2/3)
+    - delegate (implicit = tz1/2/3)
+    - baker (implicit = tz1/2/3)
+    - delegator (w/wo code = KT1)
+    - smart contract (w/wo code = KT1)
 - [**governance**](./blob/master/doc/governance.md) `/governance`
   - past and current voting periods on top, navigate left/right
   - voting progress, current proposals, votes, quorum, majority
@@ -218,35 +232,6 @@ all source-code must be licensed under MIT license and made publicly available
 | `/analytics`       | Analytics  | todo |
 
 
-## Inspiration
-
-Explorers
-
-- https://tzscan.io/ https://gitlab.com/tzscan/tzscan
-- https://tezos.id
-- https://xtzexplorer.io/
-- https://arronax-beta.cryptonomic.tech/
-  - https://medium.com/the-cryptonomic-aperiodical/arronax-an-analysis-oriented-block-explorer-bd3b5d4f9fcb
-  - https://github.com/Cryptonomic/Arronax
-  - https://github.com/Cryptonomic/Conseil
-- DEAD http://www.ostez.com/
-- DEAD https://tezoschain.io/
-- AirGap [1](https://medium.com/airgap-it/tezblock-a-tezos-block-explorer-concept-a6fce860ae8e), [2](https://medium.com/airgap-it/tezblock-a-tezos-block-explorer-concept-part-2-ffaa1557b5d5), [3](https://medium.com/airgap-it/tezblock-receives-tezos-foundation-grant-f668809fea06)
-
-Other Services
-
-- https://bakendorse.com - baker statistics
-- https://baking-bad.com - baker accountability
-- https://mytezosbaker.com/ - staking service overview
-
-Gini Coefficient, Distributions, Voting
-- https://medium.com/@Melt_Dem/the-tezos-experiment-b97e124e5b38
-- https://bakendorse.com/#/bakers/tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt/dashboard
-- https://mytezosbaker.com/
-- https://baking-bad.org/
-
-Blockies Images JS Lib
-- https://github.com/airgap-it/blockies
 
 ## Application
 
