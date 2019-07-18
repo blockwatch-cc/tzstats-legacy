@@ -174,36 +174,49 @@ all source-code must be licensed under MIT license and made publicly available
       - growth by address type, growth by balances size (= derivative of centralization data)
       - 3M hodl vs Tx supply vs. 3M token age transacted
       - dormancy by age (in addresses and funds)
-    - on-chain activity
-        - volume percentage by type
-        - operation counts by type
-        - fee and gas prices
-        - mean, median, max value by operation
-    - supply
-        - activated/unclaimed, vested/unvested funds
+    - supply breakdowns, multiple charts from total in %
+        - activated supply vs total
+        - circulating supply vs total
+        - bond balance (frozen deposits+spendable balance of all roll owners) vs total
+        - frozen supply vs total
+        - unvested supply vs total
+        - unclaimed supply vs total
+        - staking supply vs total
+        - delegated supply vs total
         - inflation: frozen/unfrozen rewards vs burn
-        - frozen bonds, staked vs circulating supply
-        - supply breakdown donut chart: (100% = total supply)
+        - total supply breakdown
+            - activated
+            - issued
+            - vested
+            - (minus) burned
+            - unvested
+            - unclaimed
+        - circulating supply breakdown chart: (100% = total supply)
+            - circulating
+            - frozen
+            - unvested
+            - unclaimed
+        - delegation supply breakdown chart: (100% = total supply)
+            - staking (= delegated + frozen deposits, delegate spendable funds)
+            - unvested
+            - unclaimed
+            - frozen rewards (count against total, but not staking)
+        - holder breakdown chart: (100% = total supply)
             - sum managed KT1
             - sum implicit tz1
             - sum contract KT1
             - unvested
             - unclaimed
-        - circulating supply breakdown donut chart: (100% = total supply)
-            - circulating
-            - frozen
-            - unvested
-            - unclaimed
-        - delegation supply breakdown donut chart: (100% = total supply)
-            - staking (= delegated + frozen deposits, delegate spendable funds)
-            - unvested
-            - unclaimed
-            - frozen rewards (count against total, but not staking)
     - account activations
       - activated accounts by month
       - activated coins by month
       - count and percentage activated vs not activated accounts & coins
       - histogram of balances across all non-activated accounts
+    - on-chain activity
+        - volume percentage by type
+        - operation counts by type
+        - fee and gas prices
+        - mean, median, max value by operation
 - **node list/single node** (out of scope)
     - ip address and location
     - update availability: git hash compare against gitlab master
