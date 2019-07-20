@@ -103,19 +103,19 @@ all source-code must be licensed under MIT license and made publicly available
   - 30d global market status: market volume, market price
   - 30d global network growth: new funded accounts (new vs cleared accounts)
   - 30d global network activity: rewards, fees, **volume**, gas, token age transacted time-series
-- [**single block**](./blob/master/doc/block.md) `/block/:block_id`
+- [**single block**](./doc/block.md) `/block/:block_id`
   - visual chain history timeline on top, navigate left/right
   - selected block details
   - baker/endorser details
-- [**single cycle**](./blob/master/doc/cycle.md) `/cycle/:cycle_num`
+- [**single cycle**](./doc/cycle.md) `/cycle/:cycle_num`
   - visual cycle history timeline on top, navigate left/right
   - #bakers, #endorsers, #roll owners, staking supply
   - top-N bakers
-- [**single operation**](./blob/master/doc/op.md) `/op/:op_hash`
+- [**single operation**](./doc/op.md) `/op/:op_hash`
   - visual operation list within block on top, navigate left/right
   - block and op details
   - involved accounts (as cards with all type-specific data, e.g. delegator)
-- [**single account**](./blob/master/doc/account.md) `/account/:address`
+- [**single account**](./doc/account.md) `/account/:address`
   - accounts share basic metadata/balance/etc and have type/state specific data
   - header tags to visualize type/status
     - [Baker] for baker accounts (with future rights)
@@ -136,7 +136,7 @@ all source-code must be licensed under MIT license and made publicly available
     - baker (implicit = tz1/2/3)
     - delegator (w/wo code = KT1)
     - smart contract (w/wo code = KT1)
-- [**governance**](./blob/master/doc/governance.md) `/governance`
+- [**governance**](./doc/governance.md) `/governance`
   - past and current voting periods on top, navigate left/right
   - voting progress, current proposals, votes, quorum, majority
 - **staking** `/staking`
@@ -196,11 +196,6 @@ all source-code must be licensed under MIT license and made publicly available
             - frozen
             - unvested
             - unclaimed
-        - delegation supply breakdown chart: (100% = total supply)
-            - staking (= delegated + frozen deposits, delegate spendable funds)
-            - unvested
-            - unclaimed
-            - frozen rewards (count against total, but not staking)
         - holder breakdown chart: (100% = total supply)
             - sum managed KT1
             - sum implicit tz1
@@ -229,14 +224,14 @@ all source-code must be licensed under MIT license and made publicly available
 | URL | Screen    | Comments |
 |-----|-----------|---------|
 | `/` | Landing   ||
-| `/block/:block_id` | [Block](./blob/master/doc/block.md) | `:block_id` is hash or height; 404 when not found |
+| `/block/:block_id` | [Block](./doc/block.md) | `:block_id` is hash or height; 404 when not found |
 | `/block`           | | forward to head block |
-| `/cycle/:cycle_num`| [Cycle](./blob/master/doc/cycle.md) | `:cycle_num` is a number; 404 when not found |
+| `/cycle/:cycle_num`| [Cycle](./doc/cycle.md) | `:cycle_num` is a number; 404 when not found |
 | `/cycle`           | | forward to current cycle |
-| `/op/:op_hash`     | [Operation](./blob/master/doc/op.md) | `:op_hash` is hash only; 404 when not found |
+| `/op/:op_hash`     | [Operation](./doc/op.md) | `:op_hash` is hash only; 404 when not found |
 | `/op`              | 404 | |
-| `/account/:address`| [Account](./blob/master/doc/account.md) | `:address` is any KT1\*, tz1\*, tz2\*, tz3\*; 404 when not found |
-| `/vote/:vote_id`   | [Governance](./blob/master/doc/governance.md) | `:vote_id` is a voting period; 404 when not found |
+| `/account/:address`| [Account](./doc/account.md) | `:address` is any KT1\*, tz1\*, tz2\*, tz3\*; 404 when not found |
+| `/vote/:vote_id`   | [Governance](./doc/governance.md) | `:vote_id` is a voting period; 404 when not found |
 | `/vote`            | | forward to current voting period |
 | `/staking`         | Staking    | todo |
 | `/health`          | Health     | todo |
