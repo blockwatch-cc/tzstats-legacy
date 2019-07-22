@@ -2,6 +2,8 @@
 import { Colors } from '@blueprintjs/core';
 
 export default {
+  MAIN_BACKGROUND: '#4C4F5F',
+
   BLACK: Colors.BLACK,
 
   BLUE1: Colors.BLUE1,
