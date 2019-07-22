@@ -1,0 +1,15 @@
+# Key files
+*.key
+*.csr
+*.crt
+*.pem
+*.env
+
+# OSX specific files
+.DS_Store
+
+# build files and directories
+node_modules/
+*.log
+*.pid
+*~

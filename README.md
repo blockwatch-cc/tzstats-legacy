@@ -99,30 +99,44 @@ all source-code must be licensed under MIT license and made publicly available
 
 - **landing** `/`
   - live block(s), cycle, voting, market (price, mcap) info
-  - live supply: inflation, staking yield, circulating, staking, frozen, and unclaimed supply
+  - live supply: **inflation**, **staking yield**, **1y network share**, circulating, staking, frozen, and unclaimed supply
   - 30d global market status: market volume, market price
   - 30d global network growth: new funded accounts (new vs cleared accounts)
-  - 30d global network activity: rewards, fees, volume, gas, token age transacted time-series
-- [**single block**](./blob/master/doc/block.md) `/block/:block_id`
+  - 30d global network activity: rewards, fees, **volume**, gas, token age transacted time-series
+- [**single block**](./doc/block.md) `/block/:block_id`
   - visual chain history timeline on top, navigate left/right
   - selected block details
   - baker/endorser details
-- [**single cycle**](./blob/master/doc/cycle.md) `/cycle/:cycle_num`
+- [**single cycle**](./doc/cycle.md) `/cycle/:cycle_num`
   - visual cycle history timeline on top, navigate left/right
   - #bakers, #endorsers, #roll owners, staking supply
   - top-N bakers
-- [**single operation**](./blob/master/doc/op.md) `/op/:op_hash`
+- [**single operation**](./doc/op.md) `/op/:op_hash`
   - visual operation list within block on top, navigate left/right
   - block and op details
   - involved accounts (as cards with all type-specific data, e.g. delegator)
-- [**single account**](./blob/master/doc/account.md) `/account/:address`
+- [**single account**](./doc/account.md) `/account/:address`
   - accounts share basic metadata/balance/etc and have type/state specific data
-  - show call to action when type/state suggests (e.g. this is how you delegate)
-  - types: BASIC (implicit, tz1/2/3), CONTRACT (w/wo code)
-  - states: unclaimed, simple, delegate, baker / not delegated, delegated
-  - baker: delegate efficiency (missed blocks, endorsements, lost rewards)
-  - baker: staking bond, current balance, total capacity, available bonds, available capacity
-- [**governance**](./blob/master/doc/governance.md) `/governance`
+  - header tags to visualize type/status
+    - [Baker] for baker accounts (with future rights)
+    - [Delegate] for an active delegate who is not yet baker
+    - [Delegator] an account that is delegating
+    - [Smart Contract] contract with code
+    - [Revealed] when pubkey is publicly announced
+    - [Inactive] for inactive delegate (should be a warning for delegateors)
+    - [Overdelegated] for overdelegated baker (should be a warning for delegateors)
+    - [Fundraiser] for activated fundraiser account
+    - [Vesting] for vesting contracts
+    - [Spendable] account can spend funds
+    - [Delegatable] account can delegate
+  - show call to action when type/state suggests (e.g. this is how you delegate on accounts that can delegate but don't do so yet)
+  - types
+    - basic (implicit = tz1/2/3)
+    - delegate (implicit = tz1/2/3)
+    - baker (implicit = tz1/2/3)
+    - delegator (w/wo code = KT1)
+    - smart contract (w/wo code = KT1)
+- [**governance**](./doc/governance.md) `/governance`
   - past and current voting periods on top, navigate left/right
   - voting progress, current proposals, votes, quorum, majority
 - **staking** `/staking`
@@ -160,36 +174,44 @@ all source-code must be licensed under MIT license and made publicly available
       - growth by address type, growth by balances size (= derivative of centralization data)
       - 3M hodl vs Tx supply vs. 3M token age transacted
       - dormancy by age (in addresses and funds)
-    - on-chain activity
-        - volume percentage by type
-        - operation counts by type
-        - fee and gas prices
-        - mean, median, max value by operation
-    - supply
-        - activated/unclaimed, vested/unvested funds
+    - supply breakdowns, multiple charts from total in %
+        - activated supply vs total
+        - circulating supply vs total
+        - bond balance (frozen deposits+spendable balance of all roll owners) vs total
+        - frozen supply vs total
+        - unvested supply vs total
+        - unclaimed supply vs total
+        - staking supply vs total
+        - delegated supply vs total
         - inflation: frozen/unfrozen rewards vs burn
-        - frozen bonds, staked vs circulating supply
-        - supply breakdown donut chart: (100% = total supply)
+        - total supply breakdown
+            - activated
+            - issued
+            - vested
+            - (minus) burned
+            - unvested
+            - unclaimed
+        - circulating supply breakdown chart: (100% = total supply)
+            - circulating
+            - frozen
+            - unvested
+            - unclaimed
+        - holder breakdown chart: (100% = total supply)
             - sum managed KT1
             - sum implicit tz1
             - sum contract KT1
             - unvested
             - unclaimed
-        - circulating supply breakdown donut chart: (100% = total supply)
-            - circulating
-            - frozen
-            - unvested
-            - unclaimed
-        - delegation supply breakdown donut chart: (100% = total supply)
-            - staking (= delegated + frozen deposits, delegate spendable funds)
-            - unvested
-            - unclaimed
-            - frozen rewards (count against total, but not staking)
     - account activations
       - activated accounts by month
       - activated coins by month
       - count and percentage activated vs not activated accounts & coins
       - histogram of balances across all non-activated accounts
+    - on-chain activity
+        - volume percentage by type
+        - operation counts by type
+        - fee and gas prices
+        - mean, median, max value by operation
 - **node list/single node** (out of scope)
     - ip address and location
     - update availability: git hash compare against gitlab master
@@ -202,14 +224,14 @@ all source-code must be licensed under MIT license and made publicly available
 | URL | Screen    | Comments |
 |-----|-----------|---------|
 | `/` | Landing   ||
-| `/block/:block_id` | [Block](./blob/master/doc/block.md) | `:block_id` is hash or height; 404 when not found |
+| `/block/:block_id` | [Block](./doc/block.md) | `:block_id` is hash or height; 404 when not found |
 | `/block`           | | forward to head block |
-| `/cycle/:cycle_num`| [Cycle](./blob/master/doc/cycle.md) | `:cycle_num` is a number; 404 when not found |
+| `/cycle/:cycle_num`| [Cycle](./doc/cycle.md) | `:cycle_num` is a number; 404 when not found |
 | `/cycle`           | | forward to current cycle |
-| `/op/:op_hash`     | [Operation](./blob/master/doc/op.md) | `:op_hash` is hash only; 404 when not found |
+| `/op/:op_hash`     | [Operation](./doc/op.md) | `:op_hash` is hash only; 404 when not found |
 | `/op`              | 404 | |
-| `/account/:address`| [Account](./blob/master/doc/account.md) | `:address` is any KT1\*, tz1\*, tz2\*, tz3\*; 404 when not found |
-| `/vote/:vote_id`   | [Governance](./blob/master/doc/governance.md) | `:vote_id` is a voting period; 404 when not found |
+| `/account/:address`| [Account](./doc/account.md) | `:address` is any KT1\*, tz1\*, tz2\*, tz3\*; 404 when not found |
+| `/vote/:vote_id`   | [Governance](./doc/governance.md) | `:vote_id` is a voting period; 404 when not found |
 | `/vote`            | | forward to current voting period |
 | `/staking`         | Staking    | todo |
 | `/health`          | Health     | todo |
@@ -218,35 +240,6 @@ all source-code must be licensed under MIT license and made publicly available
 | `/analytics`       | Analytics  | todo |
 
 
-## Inspiration
-
-Explorers
-
-- https://tzscan.io/ https://gitlab.com/tzscan/tzscan
-- https://tezos.id
-- https://xtzexplorer.io/
-- https://arronax-beta.cryptonomic.tech/
-  - https://medium.com/the-cryptonomic-aperiodical/arronax-an-analysis-oriented-block-explorer-bd3b5d4f9fcb
-  - https://github.com/Cryptonomic/Arronax
-  - https://github.com/Cryptonomic/Conseil
-- DEAD http://www.ostez.com/
-- DEAD https://tezoschain.io/
-- AirGap [1](https://medium.com/airgap-it/tezblock-a-tezos-block-explorer-concept-a6fce860ae8e), [2](https://medium.com/airgap-it/tezblock-a-tezos-block-explorer-concept-part-2-ffaa1557b5d5), [3](https://medium.com/airgap-it/tezblock-receives-tezos-foundation-grant-f668809fea06)
-
-Other Services
-
-- https://bakendorse.com - baker statistics
-- https://baking-bad.com - baker accountability
-- https://mytezosbaker.com/ - staking service overview
-
-Gini Coefficient, Distributions, Voting
-- https://medium.com/@Melt_Dem/the-tezos-experiment-b97e124e5b38
-- https://bakendorse.com/#/bakers/tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt/dashboard
-- https://mytezosbaker.com/
-- https://baking-bad.org/
-
-Blockies Images JS Lib
-- https://github.com/airgap-it/blockies
 
 ## Application
 
@@ -255,3 +248,30 @@ Blockies Images JS Lib
 ### `npm run eject`
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 ### `npm test`
+
+## Deploy
+
+```
+DOCKER_REGISTRY_ADDR=<addr> make deploy
+```
+
+will run the following steps
+
+1. build React web app using `yarn build`
+2. build Docker image based on [SPA-ng](https://github.com/echa/spang) file server
+3. publish image to private Docker registry
+4. use `docker-compose` to start/replace Docker container on remote host
+
+for the deploy process to work the following ENV variables need to be specified:
+
+```sh
+DOCKER_HOST
+DOCKER_REGISTRY_USER
+DOCKER_REGISTRY_PASSPHRASE
+BLOCKWATCH_API_KEY
+DEPLOY_KEYS_PASSWORD
+```
+
+CI/CD pipelines usually store these in a supposedly secure way, but you'll never know, so be vigilant.
+
+

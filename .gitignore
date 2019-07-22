@@ -24,3 +24,10 @@ development.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# keys
+.env
+*.key
+*.csr
+*.crt
+*.pem
