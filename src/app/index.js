@@ -18,8 +18,7 @@ const App = () => {
     <BrowserRouter>
       <Layout>
         <Switch>
-          <Redirect exact from="/" to="/home" />
-          <Route path="/home" component={HomePage} />
+          <Route path="/" component={HomePage} />
           <Route path="/account/:hash" component={AccountPage} />
           <Route path="/market" component={MarketPage} />
         </Switch>

@@ -150,3 +150,19 @@ export const getStakingData = async ({ hash, days }) => {
 
   };
 };
+
+//https://api.tzstats.com/series/block?columns=volume,n_tx&start_date=now-24h&collapse=24h
+export const getTxVolume = async () => {
+  const statTime = `now-${24}h`;
+  const response = await request(`/series/block?start_date=${statTime}&collapse=24h&columns=volume,n_tx`);
+
+  if (response.status === 400) {
+    const { error } = await response.json();
+    throw new Error(error);
+  }
+
+  const data = await response.json();
+
+  return data[0];
+};
+

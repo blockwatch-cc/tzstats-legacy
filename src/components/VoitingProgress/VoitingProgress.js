@@ -6,7 +6,7 @@ const AccountsGrowth = props => {
 
   return (
     <Wrapper>
-      <Card title={'Exploration voting progress for proposal'}>
+      <Card title={'Exploration Voting Progress for Proposal'}>
         <Content> We are in <Strong>Proposal Period 11 </Strong>  and there is<Strong> No Proposal</Strong> submitted yet.
 Submission <Strong>closes in 4 days</Strong> and will re-open again right after.</Content>
       </Card>
@@ -28,3 +28,4 @@ const Content = styled.div`
 `
 
 export default AccountsGrowth;
+

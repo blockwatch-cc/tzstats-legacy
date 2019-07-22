@@ -5,7 +5,7 @@ import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreackd
 import VoitingProgress from '../../components/VoitingProgress';
 import AccountsGrowth from '../../components/AccountsGrowth';
 import { getMarketData } from '../../services/api/blockwatch';
-import { getVoitingData, getTxsData } from '../../services/api/tz-stats';
+import { getVoitingData, getTxsData, getTxVolume } from '../../services/api/tz-stats';
 import { wrapTxs } from '../../utils';
 import TransactionVoume from '../../components/TransactionVoume';
 import { Spiner } from '../../components/Common'
@@ -17,7 +17,14 @@ const Home = () => {
     const fetchData = async () => {
       const priceHistory = await getMarketData({ limit: 30 });
       const trasactionVolume = wrapTxs(await getTxsData({ days: 30 }));
-      setData({ priceHistory, txs: trasactionVolume, isLoaded: true });
+      const txData = await getTxVolume();
+
+      setData({
+        priceHistory,
+        txs: trasactionVolume,
+        isLoaded: true,
+        txData: { volume: txData[1], txn: txData[2] }
+      });
     };
 
     fetchData();
@@ -32,7 +39,7 @@ const Home = () => {
             <StakingSupply />
           </JoinContainer>
           <JoinContainer>
-            <TransactionVoume data={data.txs} />
+            <TransactionVoume data={data.txs} txData={data.txData} />
             <CirculatingSupply />
           </JoinContainer>
           <JoinContainer>

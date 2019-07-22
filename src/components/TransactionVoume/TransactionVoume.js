@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Card, FlexColumn, DataBox } from '../Common';
 import TransactionChart from './TransactionChart';
 
-const TransactionVolume = ({ data }) => {
+const TransactionVolume = ({ data, txData }) => {
 
   return (
     <Wrapper>
@@ -13,8 +13,8 @@ const TransactionVolume = ({ data }) => {
             <TransactionChart data={data} />
           </div>
           <FlexColumn justifyContent="space-around">
-            <DataBox title="Volume" value={123} />
-            <DataBox title="Transactoions" value={123} />
+            <DataBox type="currency-short" title="24h Volume" value={txData.volume} />
+            <DataBox title="24h Transactoions" value={txData.txn} />
           </FlexColumn>
         </Content>
       </Card>

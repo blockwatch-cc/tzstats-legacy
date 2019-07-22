@@ -2,8 +2,11 @@ import { BLOCKWATCH_URL, BLOCKWATCH_API_KEY } from '../../config';
 import fetch from 'isomorphic-fetch';
 
 const request = async (endpoint, options) => {
-  return fetch(`${endpoint}&api_key=${BLOCKWATCH_API_KEY}`, {
+  return fetch(`${endpoint}`, {
     ...options,
+    headers: {
+      "X-API-KEY": BLOCKWATCH_API_KEY,
+    }
   });
 };
 
