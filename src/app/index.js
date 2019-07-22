@@ -18,7 +18,7 @@ const App = () => {
     <BrowserRouter>
       <Layout>
         <Switch>
-          <Route path="/" component={HomePage} />
+          <Route exact path="/" component={HomePage} />
           <Route path="/account/:hash" component={AccountPage} />
           <Route path="/market" component={MarketPage} />
         </Switch>

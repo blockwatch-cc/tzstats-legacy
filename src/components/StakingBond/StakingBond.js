@@ -41,8 +41,8 @@ const StakingBond = ({ account, data }) => {
               />
               <ProgressBarWrapper>
                 <Details>
-                  <DataBox type="currency-fixed" value={account.delegated_balance} />
-                  <DataBox type="currency-fixed" value={stackingCapacity} />
+                  <DataBox type="currency-short" value={account.delegated_balance} />
+                  <DataBox type="currency-short" value={stackingCapacity} />
                 </Details>
                 <ProgressBar settings={settings} />
                 <Details>

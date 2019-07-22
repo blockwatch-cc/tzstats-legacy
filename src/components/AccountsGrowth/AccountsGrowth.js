@@ -19,8 +19,8 @@ const AccountsGrowth = props => {
         </Details>
         <ProgressBar settings={settings} />
         <Details>
-          <Title>New accounts</Title>
-          <Title>Removed accounts</Title>
+          <Title>New Accounts</Title>
+          <Title>Cleared Accounts</Title>
         </Details>
       </Card>
     </Wrapper>

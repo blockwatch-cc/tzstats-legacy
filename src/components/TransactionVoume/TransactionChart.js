@@ -83,7 +83,7 @@ const TransactionVoumeChart = ({ data }) => {
                     textAlign: 'left',
                   }}
                 >
-                  <span>{point.serieId} :</span> {point.data.yFormatted} ꜩ
+                  <span>{point.serieId} :</span> {point.data.yFormatted.toFixed()} ꜩ
               </div>
               ))}
             </div>

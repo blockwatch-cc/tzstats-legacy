@@ -30,7 +30,7 @@ const MarketInfo = ({ history }) => {
     return ((lastMarketData.open - lastMarketData.close) / lastMarketData.open * 100).toFixed(1);
   };
   const handleClick = () => {
-    history.push('/market');
+    //history.push('/market');
   };
   const getPriceIndecator = () => {
     return getLastChanges() < 0 ? <span>&#9662;</span> : <span>&#9652;</span>
@@ -40,7 +40,7 @@ const MarketInfo = ({ history }) => {
     <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
       <DataBox title="Tezos price" />
       <PriceWrapper>
-        {format('$,')(lastMarketData.close.toFixed(2))} <PriceChanges>{getPriceIndecator()}{Math.abs(getLastChanges())} %</PriceChanges>
+        {format('$,')(lastMarketData.close.toFixed(2))} <PriceChanges>{getPriceIndecator()}{Math.abs(getLastChanges()) || 0} %</PriceChanges>
       </PriceWrapper>
       <DataBox title="Market Cap" isBottom={false} type="currency-usd-short" value={calculateMarketCup()} />
     </Card>
