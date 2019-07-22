@@ -49,40 +49,30 @@ export function wrapTxs(res) {
   return txVolume;
 }
 
-export function wrapFlowData(flowData) {
-  let inFlowData = {
-    id: 'In-flow',
-    color: '#1af3f9',
-    data: []
-  };
-  let outFlowData = {
-    id: 'Out-flow',
-    color: '#83899B',
-    data: [],
-  };
-  flowData.map((item) => {
-    inFlowData.data.push({ x: item[0], y: item[1].toFixed() });
-    outFlowData.data.push({ x: item[0], y: -item[2].toFixed() });
+export function wrapFlowData(flowData, account) {
+  let inFlowData = { id: 'In-flow', color: '#1af3f9', data: [] };
+  let outFlowData = { id: 'Out-flow', color: '#83899B', data: [], };
+
+  let spandableBalance = account.spendable_balance;
+
+  //[0]-time [1]-in [2]-out
+  flowData.map((item, i) => {
+
+    let curentBalanceIn = flowData[i] ? flowData[i][1] : 0;
+    let curentBalanceOut = flowData[i] ? flowData[i][2] : 0;
+
+    let inflow = (spandableBalance - curentBalanceOut)
+    let outFlow = (spandableBalance - curentBalanceIn)
+    inFlowData.data.push({ x: item[0], y: inflow });
+    outFlowData.data.push({ x: item[0], y: -outFlow });
   });
   return { inFlowData, outFlowData };
 }
 
 export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
-  let stackingBond = {
-    id: 'Stacking Bond',
-    color: '#1af3f9',
-    data: []
-  };
-  let currentDeposit = {
-    id: 'Current Deposit',
-    color: '#83899B',
-    data: [],
-  };
-  let pendingReawards = {
-    id: 'Pending Rewards',
-    color: '#83899B',
-    data: [],
-  };
+  let stackingBond = { id: 'Stacking Bond', color: '#1af3f9', data: [] };
+  let currentDeposit = { id: 'Current Deposit', color: '#83899B', data: [] };
+  let pendingReawards = { id: 'Pending Rewards', color: '#83899B', data: [] };
   let spandableBalance = account.spendable_balance;
   let frozenDeposit = account.frozen_deposits;
   let frozenRewards = account.frozen_rewards;

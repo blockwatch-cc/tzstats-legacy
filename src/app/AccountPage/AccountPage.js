@@ -21,7 +21,7 @@ const AccountPage = ({ match }) => {
 
 
       let { stackingBond, currentDeposit, pendingReawards } = wrapStakingData({ ...stakingData, account })
-      let { inFlowData, outFlowData } = wrapFlowData(flowData);
+      let { inFlowData, outFlowData } = wrapFlowData(flowData, account);
 
       setData({
         account,
