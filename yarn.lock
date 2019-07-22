@@ -8795,9 +8795,10 @@ react@^16.8.6:
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
-reactn@^2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/reactn/-/reactn-2.1.4.tgz#56dea6127fd094fa772b36a86ad933ceadb87999"
+reactn@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/reactn/-/reactn-2.1.6.tgz#153f7c69f2c32b7fa3a0c0e7917abd33b1b4c642"
+  integrity sha512-mGAfC/FEYm+hYhqUT8m6cukkBcn7bDUk5imJHdTzNbOeGh09veZFrOCZjvcgVrAA7tbC8Rz9e3Xpw3plkio3FA==
   dependencies:
     use-force-update "^1.0.5"
 
