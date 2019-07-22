@@ -31,7 +31,7 @@ const StakingChart = ({ data /* see data tab */ }) => {
       lineWidth={0}
       enableArea={true}
       areaBaselineValue={20}
-      areaOpacity={0.5}
+      areaOpacity={1}
       enablePoints={false}
       enableSlices="x"
       useMesh={true}
