@@ -4,7 +4,7 @@ import aggregate from 'timeseries-aggregate';
 import fetch from 'isomorphic-fetch';
 
 const request = async (endpoint, options) => {
-  return fetch(`https://cors-anywhere.herokuapp.com/${TZSTATS_URL}${endpoint}`, {
+  return fetch(`${TZSTATS_URL}${endpoint}`, {
     ...options,
   });
 };

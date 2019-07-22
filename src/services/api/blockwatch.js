@@ -2,7 +2,7 @@ import { BLOCKWATCH_URL, BLOCKWATCH_API_KEY } from '../../config';
 import fetch from 'isomorphic-fetch';
 
 const request = async (endpoint, options) => {
-  return fetch(`https://cors-anywhere.herokuapp.com/${endpoint}&api_key=${BLOCKWATCH_API_KEY}`, {
+  return fetch(`${endpoint}&api_key=${BLOCKWATCH_API_KEY}`, {
     ...options,
   });
 };
