@@ -6,7 +6,6 @@ import VolumeHistory from '../../components/VolumeHistory';
 const Home = props => {
   return (
     <Wrapper>
-      <VolumeHistory />
       <PriceHistory />
     </Wrapper>
   );
