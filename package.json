@@ -33,7 +33,7 @@
     "react-scripts": "3.0.1",
     "react-spring": "^8.0.27",
     "react-stockcharts": "^0.7.8",
-    "reactn": "^2.1.4",
+    "reactn": "^2.1.6",
     "styled-components": "^4.3.2",
     "styled-system": "^5.0.15",
     "timeseries-aggregate": "^0.0.3"

@@ -18,19 +18,33 @@
 
 Tags to display as visual markers in the account header/title
 
-- **[Baker]** for baker accounts (with future rights)
-- **[Delegate]** for an active delegate who is not yet baker
-- **[Delegator]** an account that is delegating
-- **[Smart Contract]** contract with code
+- **[Baker]** for active baker accounts with future rights (only for bakers)
+- **[Delegate]** for an active delegate who is not yet baker (only for tz1/2/3)
+- **[Delegator]** an account that is delegating (only for KT1)
+- **[Smart Contract]** contract with code (only for KT1)
 - **[Revealed]** when pubkey is publicly announced
-- **[Inactive]** for inactive delegate (should be a warning for delegateors)
-- **[Overdelegated]** for overdelegated baker (should be a warning for delegateors)
-- **[Fundraiser]** for activated fundraiser account
-- **[Vesting]** for vesting contracts
-- **[Spendable]** account can spend funds
-- **[Delegatable]** account can delegate
+- **[Inactive]** for inactive delegate (should be a warning for delegateors) (only for delegates)
+- **[Overdelegated]** for overdelegated baker (should be a warning for delegateors) (only for bakers)
+- **[Fundraiser]** for activated fundraiser account (only for tz1)
+- **[Vesting]** for vesting contracts (only for KT1)
+- **[Spendable]** account can spend funds (only for KT1)
+- **[Delegatable]** account can delegate (only for KT1)
 
+### Baker Lifecycle
 
+```
+- basic account (funded)
+> register
+- delegate account (funded, active, no rights, no delegations)
+> delegate
+- delegate account (funded, active, no rights, delegations)
+> cycle end + rights distribution
+- baker account (funded, active, rights, delegations)
+> baking/endorsement activity
+- baker account (funded, active, rights, delegations, pending rewards)
+> inactivity
+- baker account (funded, inactive, no rights, delegations, no pending rewards)
+```
 
 ### General Account Metadata
 
