@@ -61,8 +61,8 @@ export function wrapFlowData(flowData, account) {
     let curentBalanceIn = flowData[i] ? flowData[i][1] : 0;
     let curentBalanceOut = flowData[i] ? flowData[i][2] : 0;
 
-    let inflow = (spandableBalance - curentBalanceOut)
-    let outFlow = (spandableBalance - curentBalanceIn)
+    let inflow = (spandableBalance - curentBalanceIn)
+    let outFlow = (spandableBalance + curentBalanceOut)
     inFlowData.data.push({ x: item[0], y: inflow });
     outFlowData.data.push({ x: item[0], y: -outFlow });
   });

@@ -7,11 +7,11 @@ const BalanceChart = ({ data }) => {
 
   return (
     <ResponsiveLine
-      data={data}
+      data={data.reverse()}
       xScale={{ type: 'point' }}
       yScale={{ type: 'linear', stacked: true, min: 'auto', max: 'auto' }}
       curve="basis"
-      margin={{ top: 0, right: 20, bottom: 0, left: 0 }}
+      margin={{ top: 10, right: 20, bottom: 0, left: 0 }}
       axisTop={null}
       axisRight={null}
       axisBottom={null}
@@ -32,7 +32,19 @@ const BalanceChart = ({ data }) => {
       pointBorderColor={{ from: 'serieColor' }}
       pointLabel="y"
       pointLabelYOffset={-12}
+      markers={[
+        {
+          axis: 'y',
+          value: 0,
+          lineStyle: { stroke: '#4c4f5f', strokeWidth: 1 },
+          legend: '0',
+          textStyle: { fill: '#fff' },
+          legendOrientation: 'horizontal',
+        },
+      ]}
       sliceTooltip={({ slice }) => {
+        let points = slice.points;
+
         return (
           <div
             style={{
@@ -45,20 +57,32 @@ const BalanceChart = ({ data }) => {
           >
             <div>{timeFormat('%B %d, %Y')(new Date(slice.points[0].data.x))}</div>
             <div style={{ height: '2px', margin: '5px 0px', background: '#424552', width: '100%' }}></div>
-            {slice.points.map(point => (
-              <div
-                key={point.id}
-                style={{
-                  color: point.serieColor,
-                  padding: '3px 0',
-                  fontSize: '16px',
-                  fontWeight: 'lighter',
-                  textAlign: 'left',
-                }}
-              >
-                <span>{point.serieId} :</span> {point.data.yFormatted} ꜩ
+
+            <div
+              key={points[1].id}
+              style={{
+                color: points[1].serieColor,
+                padding: '3px 0',
+                fontSize: '16px',
+                fontWeight: 'lighter',
+                textAlign: 'left',
+              }}
+            >
+              <span>{points[1].serieId} :</span> {points[1].data.yFormatted.toFixed()} ꜩ
               </div>
-            ))}
+            <div
+              key={points[0].id}
+              style={{
+                color: points[0].serieColor,
+                padding: '3px 0',
+                fontSize: '16px',
+                fontWeight: 'lighter',
+                textAlign: 'left',
+              }}
+            >
+              <span>{points[0].serieId} :</span> {points[0].data.yFormatted.toFixed()} ꜩ
+              </div>
+
           </div>
         );
       }}
@@ -69,7 +93,7 @@ const theme = {
   crosshair: {
     line: {
       stroke: '#4c4f5f',
-      strokeWidth: 0,
+      strokeWidth: 2,
       strokeOpacity: 1,
       strokeDasharray: '6 6',
     },

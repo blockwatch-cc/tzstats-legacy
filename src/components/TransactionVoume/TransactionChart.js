@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { timeFormat } from 'd3-time-format';
 import _ from 'lodash'
+import ChartTooltip from '../ChartTooltip'
 
 const TransactionVoumeChart = ({ data }) => {
 
@@ -10,16 +11,7 @@ const TransactionVoumeChart = ({ data }) => {
   // const max = _.maxBy(data[0].data, function (o) { return o.y; }).y;
   // const min = _.minBy(data[0].data, function (o) { return o.y; }).y;
 
-  const theme = {
-    crosshair: {
-      line: {
-        stroke: '#4c4f5f',
-        strokeWidth: 0,
-        strokeOpacity: 1,
-        strokeDasharray: '6 6',
-      },
-    },
-  };
+
   return (
     <Content>
       <ResponsiveLine
@@ -92,6 +84,16 @@ const TransactionVoumeChart = ({ data }) => {
       />
     </Content>
   );
+};
+const theme = {
+  crosshair: {
+    line: {
+      stroke: '#4c4f5f',
+      strokeWidth: 2,
+      strokeOpacity: 1,
+      strokeDasharray: '6 6',
+    },
+  },
 };
 const Content = styled.div`
   display: flex;

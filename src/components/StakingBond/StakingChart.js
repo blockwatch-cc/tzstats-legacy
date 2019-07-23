@@ -4,16 +4,7 @@ import { timeFormat } from 'd3-time-format';
 
 const StakingChart = ({ data /* see data tab */ }) => {
 
-  const theme = {
-    crosshair: {
-      line: {
-        stroke: 'red',
-        strokeWidth: 0,
-        strokeOpacity: 1,
-        strokeDasharray: '6 6',
-      },
-    },
-  };
+
   return (
     <ResponsiveLine
       data={data}
@@ -38,37 +29,20 @@ const StakingChart = ({ data /* see data tab */ }) => {
       legends={[]}
       theme={theme}
       sliceTooltip={({ slice }) => {
-        return (
-          <div
-            style={{
-              background: '#30313b',
-              width: '300px',
-              padding: '20px 20px',
-              textAlign: 'center',
-              opacity: 0.8,
-            }}
-          >
-            <div>{timeFormat('%B %d, %Y')(new Date(slice.points[0].data.x))}</div>
-            <div style={{ height: '2px', margin: '5px 0px', background: '#424552', width: '100%' }}></div>
-            {slice.points.map(point => (
-              <div
-                key={point.id}
-                style={{
-                  color: point.serieColor,
-                  padding: '3px 0',
-                  fontSize: '16px',
-                  fontWeight: 'lighter',
-                  textAlign: 'left',
-                }}
-              >
-                <span>{point.serieId} :</span> {point.data.yFormatted.toFixed()}ꜩ
-              </div>
-            ))}
-          </div>
-        );
+
       }}
     />
   );
+};
+const theme = {
+  crosshair: {
+    line: {
+      stroke: '#4c4f5f',
+      strokeWidth: 2,
+      strokeOpacity: 1,
+      strokeDasharray: '6 6',
+    },
+  },
 };
 
 export default StakingChart;

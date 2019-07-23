@@ -5,7 +5,7 @@ import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreackd
 import VoitingProgress from '../../components/VoitingProgress';
 import AccountsGrowth from '../../components/AccountsGrowth';
 import { getMarketData } from '../../services/api/blockwatch';
-import { getVoitingData, getTxsData, getTxVolume } from '../../services/api/tz-stats';
+import { getVoitingData, getTxsData, getLastBlockTxData } from '../../services/api/tz-stats';
 import { wrapTxs } from '../../utils';
 import TransactionVoume from '../../components/TransactionVoume';
 import { Spiner } from '../../components/Common'
@@ -15,15 +15,19 @@ const Home = () => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const priceHistory = await getMarketData({ limit: 30 });
-      const trasactionVolume = wrapTxs(await getTxsData({ days: 30 }));
-      const txData = await getTxVolume();
+
+      let [priceHistory, txDataLast, txData] = await Promise.all([
+        getMarketData({ limit: 30 }),
+        getLastBlockTxData(),
+        getTxsData({ days: 30 })
+      ]);
+      const trasactionVolume = wrapTxs(txData);
 
       setData({
         priceHistory,
         txs: trasactionVolume,
         isLoaded: true,
-        txData: { volume: txData[1], txn: txData[2] }
+        txData: { volume: txDataLast[1], txn: txDataLast[2] }
       });
     };
 

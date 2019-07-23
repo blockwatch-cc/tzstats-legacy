@@ -134,13 +134,14 @@ export const getBlockData = async ({ days }) => {
   return data;
 };
 
-
 export const getStakingData = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
-  const balance = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d`);
-  const deposits = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=deposits&collapse=1d`);
-  const rewards = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=rewards&collapse=1d`);
-  const fees = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=fees&collapse=1d`);
+  let [balance, deposits, rewards, fees] = await Promise.all([
+    request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d`),
+    request(`/series/flow?start_date=${statTime}&account=${hash}&category=deposits&collapse=1d`),
+    request(`/series/flow?start_date=${statTime}&account=${hash}&category=rewards&collapse=1d`),
+    request(`/series/flow?start_date=${statTime}&account=${hash}&category=fees&collapse=1d`),
+  ]);
 
   return {
     balance: (await balance.json()).reverse(),
@@ -152,7 +153,7 @@ export const getStakingData = async ({ hash, days }) => {
 };
 
 //https://api.tzstats.com/series/block?columns=volume,n_tx&start_date=now-24h&collapse=24h
-export const getTxVolume = async () => {
+export const getLastBlockTxData = async () => {
   const statTime = `now-${24}h`;
   const response = await request(`/series/block?start_date=${statTime}&collapse=24h&columns=volume,n_tx`);
 
