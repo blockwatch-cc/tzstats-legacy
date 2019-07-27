@@ -42,9 +42,9 @@ const createUrl = options => {
 export const getMarketData = async options => {
   const urlOptions = {
     columns: ['time', 'open', 'high', 'low', 'close', 'vol_quote'],
-    limit: options.limit,
-    endData: 'now',
-    collapse: '1d',
+    startDate: options.days && `now-${options.days}d`,
+    collapse: options.collapse || '1d',
+    limit: 180,
     datasetCode: 'series/KRAKEN:OHLCV/XTZ_USD',
   };
   const response = await request(createUrl(urlOptions), {
