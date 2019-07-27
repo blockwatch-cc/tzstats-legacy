@@ -33,7 +33,7 @@ const BlockInfo = ({ block }) => {
           </FlexRow>
           <FlexRow justifyContent="space-between">
             <div style={{ fontSize: "14px" }}> {getShortHash(block.hash)}</div>
-            <DataBox title="Slots endorsed" />
+            <DataBox title="Slots Endorsed" />
             <Link>
               <div> <Blockies hash={block.baker} />
                 {getShortHash(block.baker)}</div>
@@ -63,7 +63,6 @@ const BlockInfo = ({ block }) => {
                 title="Gas Price"
                 value={block.gas_price} />
               <DataBox
-                valueType="currency-fixed"
                 title="Gas Limit"
                 value={block.gas_price} />
             </FlexColumn>
