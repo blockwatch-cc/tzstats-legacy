@@ -1,6 +1,7 @@
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import { format } from 'd3-format';
+import _ from 'lodash';
 
 TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
@@ -26,13 +27,14 @@ export function formatValue(value, prefix = ',') {
 }
 export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
   value = value || 0;
-  return prefix === ',' ?
-    `${format(prefix)(value)} ${symbol}`
-    :
-    format(prefix)(value)
-      .replace('M', ' M' + symbol)
-      .replace('k', ' k' + symbol)
-      .replace('G', ' G' + symbol)
+  return prefix === ','
+    ? `${format(prefix)(value)} ${symbol}`
+    : value < 1000
+      ? `${format(prefix)(value)} ${symbol}`
+      : format(prefix)(value)
+        .replace('M', ' M' + symbol)
+        .replace('k', ' k' + symbol)
+        .replace('G', ' G' + symbol)
 }
 
 export const addCommas = format(',');
@@ -67,6 +69,24 @@ export function wrapFlowData(flowData, account) {
     outFlowData.data.push({ x: item[0], y: -outFlow });
   });
   return { inFlowData, outFlowData };
+}
+
+export function wrapToVolume(marketData) {
+  const sum = _.maxBy(marketData, function (o) { return o.volume; }).volume;
+
+  let volumeData = marketData.map((item, i) => {
+    const percent = ((item.volume / sum) * 100).toFixed()
+    const opacity = percent < 25 ? 0.1 : percent < 50 ? 0.3 : percent < 75 ? 0.6 : 0.9
+    return {
+      id: i,
+      value: item.volume,
+      percent: percent,
+      color: "#38E8FF",
+      opacity: opacity,
+      time: item.date
+    }
+  });
+  return volumeData;
 }
 
 export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
@@ -142,3 +162,12 @@ export function fixPercent(settings) {
 
   return settings;
 };
+
+export function getShortHash(hash) {
+  return `${hash.slice(0, 7)}...${hash.slice(-4)}`;
+}
+
+export function capitalizeFirstLetter(str) {
+  return `${str[0].toUpperCase() + str.slice(1)}`;
+}
+

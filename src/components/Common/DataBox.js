@@ -1,55 +1,120 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FlexRow } from './index'
 import { formatCurrency, formatValue } from '../../utils';
 
-const DataBox = ({ value, title, type, isBottom = true, isFixed = true, prefix = ',' }) => {
-    return (
-        isBottom ?
-            <Wrapper>
-                {value && <Value type={type}
-                    value={value}
-                    isFixed={isFixed}
-                    isBottom={isBottom}
-                    prefix={prefix} />
+//Todo refactoring
+const DataBox = ({ value, title, valueType, type = "", valueSize = "18px", titleSize = "10px", style }) => {
+    switch (type) {
+        case 'title-bottom':
+            return (<Wrapper style={style} fontSize={valueSize}>
+                {
+                    title && (valueType && !value)
+                        ? <Title fontSize={titleSize}>
+                            <Value
+                                type={valueType}
+                                value={title}
+                            />
+                        </Title>
+                        : <Title fontSize={titleSize}>{title}</Title>
                 }
-                {title && <Title>{title}</Title>}
-            </Wrapper>
-            :
-            <Wrapper>
-                {title && <Title>{title}</Title>}
-                {value && <Value type={type}
-                    value={value}
-                    isFixed={isFixed}
-                    isBottom={isBottom}
-                    prefix={prefix} />
+                {
+                    value &&
+                    <Value
+                        type={valueType}
+                        value={value}
+                    />
                 }
-            </Wrapper>
-    )
+            </Wrapper>)
+        case 'value-as-title':
+            return (
+                <Wrapper fontSize={valueSize}>
+                    {
+                        title
+                    }
+                    {
+
+                        value &&
+                        <Title fontSize={titleSize}>
+                            <Value
+                                type={valueType}
+                                value={value}
+                            />
+                        </Title>
+                    }
+                </Wrapper>
+            )
+        case 'horizontal-value-as-title':
+            return (
+                <Wrapper fontSize={valueSize}>
+                    <FlexRow justifyContent="space-between">
+                        {
+                            <div>{title}</div>
+                        }
+                        {
+
+                            value &&
+                            <Title fontSize={titleSize}>
+                                <Value
+                                    type={valueType}
+                                    value={value}
+                                />
+                            </Title>
+                        }
+                    </FlexRow>
+                </Wrapper>
+            )
+
+        default:
+            return (
+                <Wrapper fontSize={valueSize}>
+                    {
+                        value && <Value
+                            type={valueType}
+                            value={value}
+                        />
+
+                    }
+                    {
+                        title && <Title fontSize={titleSize}>{title}</Title>
+                    }
+                </Wrapper>
+            )
+    }
+
 };
+
 const Value = ({ type, value }) => {
 
-    switch (type) {
-        case 'currency-fixed':
-            return formatCurrency(value.toFixed(), ',');
-        case 'currency-short':
-            return formatCurrency(value, '.2s');
-        case 'currency-full':
-            return formatCurrency(value, ',');
-        case 'currency-usd-full':
-            return formatValue(value, '$,');
-        case 'currency-usd-fixed':
-            return formatValue(value.toFixed(), '$,');
-        case 'currency-usd-short':
-            return '$' + formatValue(value.toFixed(), '.2s');
-        default:
-            return formatValue(value.toFixed(), ',')
+    if (value && typeof (vale) !== 'string') {
+        switch (type) {
+            case 'currency-fixed':
+                return formatCurrency(Math.round(value), ',');
+            case 'currency-short':
+                return formatCurrency(value, '.2s');
+            case 'currency-full':
+                return formatCurrency(value, ',');
+            case 'currency-usd-full':
+                return formatValue(value, '$,');
+            case 'currency-usd-fixed':
+                return formatValue(value.toFixed(2), '$,');
+            case 'currency-usd-short':
+                return '$' + formatValue(Math.round(value), '.2s');
+            case 'value-short':
+                return formatValue(Math.round(value), '.2s');
+            default:
+                return formatValue(Math.round(value), ',')
+        }
     }
+    return value;
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    font-size: ${props => props.fontSize};
+`;
 const Title = styled.div`
-  color: rgba(255, 255, 255, 0.52);
-  font-size: 10px;
+    color: rgba(255, 255, 255, 0.52);
+    font-size: ${props => props.fontSize};
 `;
 
 export default DataBox;

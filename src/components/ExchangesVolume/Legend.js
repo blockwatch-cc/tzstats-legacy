@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DataBox } from '../Common'
+import { DataBox, FlexRow } from '../Common'
 
 
 const Legend = ({ settings }) => {
@@ -12,27 +12,32 @@ const Legend = ({ settings }) => {
   );
 };
 
+
 const LegendContent = ({ settings }) => {
 
   return settings.map((item, i) => {
 
     return (
       <LegendItem key={i} {...item}>
+
         <DataBox key={i}
+          type="horizontal-value-as-title"
+          title={item.id}
           valueType="currency-short"
-          value={item.value}
-          title={`${item.title} ${Math.round(item.percent)}%`} />
+          valueSize="14px"
+          value={item.value} />
+
       </LegendItem>)
   });
 };
 
 const LegendWrapper = styled.div`
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       flex-wrap: wrap;
-      justify-content: start;
-    `;
-
+      justify-content: space-around;
+      margin-left: 10px;
+`;
 const LegendItem = styled.div`
       margin-bottom: -30px;
       margin-left: 20px;
@@ -41,7 +46,7 @@ const LegendItem = styled.div`
       content: '•';
       position: relative;
       left: -20px;
-      bottom: 45px;
+      bottom: 30px;
       font-size: 30px;
       color: ${ prop => prop.color};
     }

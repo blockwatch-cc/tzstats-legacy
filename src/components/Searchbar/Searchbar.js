@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { backerAccounts } from '../../config/backer-accounts';
 
 const Searchbar = ({ history }) => {
   const [value, setValue] = useState('');
   const searchClick = () => {
-    value && history.push(`/account/${value}`);
+
+    if (value.length === 36)
+      value && history.push(`/account/${value}`);
+    else if (value.length === 51)
+      value && history.push(`/block/${value}`);
+    else
+      value && history.push(`/block/${backerAccounts[0]}`);
   };
   return (
     <SearchContainer>

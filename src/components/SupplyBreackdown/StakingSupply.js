@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, Legend } from '../Common';
-import ProgressBar from '../ProgressBarContainer';
+import { HorizontalProgressBar } from '../ProgressBar';
 import { useGlobal } from 'reactn';
 import { formatCurrency, fixPercent } from '../../utils'
 
 const StakingSupply = () => {
-  const [supply] = useGlobal('supply');
+  const [chain] = useGlobal('chain');
 
-  const settings = fixPercent(getBarSettings(supply));
+  const settings = fixPercent(getBarSettings(chain));
 
   return (
     <Wrapper>
       <Card title={`Staking Supply`}>
-        <ProgressBar settings={settings} />
+        <HorizontalProgressBar settings={settings} />
         <Legend settings={settings} />
       </Card>
     </Wrapper>
@@ -28,43 +28,43 @@ const Wrapper = styled.div`
 
 export default StakingSupply;
 
-function getBarSettings(supply) {
+function getBarSettings(chain) {
   return [
     {
-      percent: Math.round((supply.delegated / supply.total) * 100),
+      percent: Math.round((chain.supply.delegated / chain.supply.total) * 100),
       color: '#19f3f9',
       title: 'Delegated',
-      value: supply.delegated,
+      value: chain.supply.delegated,
     },
     {
-      percent: Math.round(((supply.total - supply.staking - supply.inactive_staking - supply.unclaimed) / supply.total) * 100),
+      percent: Math.round(((chain.supply.total - chain.supply.staking - chain.supply.inactive_staking - chain.supply.unclaimed) / chain.supply.total) * 100),
       color: '#2fb3bd',
       title: 'Undelegated',
-      value: (supply.total - supply.staking - supply.inactive_staking - supply.unclaimed),
+      value: (chain.supply.total - chain.supply.staking - chain.supply.inactive_staking - chain.supply.unclaimed),
     },
     {
-      percent: Math.round((supply.inactive_delegated / supply.total) * 100) || 0.5,
+      percent: Math.round((chain.supply.inactive_delegated / chain.supply.total) * 100) || 0.5,
       color: '#3a94a0',
       title: 'Inactive Delegated',
-      value: supply.inactive_delegated,
+      value: chain.supply.inactive_delegated,
     },
     {
-      percent: Math.round(((supply.inactive_staking - supply.inactive_delegated) / supply.total) * 100) || 0.5,
+      percent: Math.round(((chain.supply.inactive_staking - chain.supply.inactive_delegated) / chain.supply.total) * 100) || 0.5,
       color: '#467583',
       title: 'Inactive Bonds',
-      value: (supply.inactive_staking - supply.inactive_delegated),
+      value: (chain.supply.inactive_staking - chain.supply.inactive_delegated),
     },
     {
-      percent: Math.round(((supply.staking - supply.delegated) / supply.total) * 100),
+      percent: Math.round(((chain.supply.staking - chain.supply.delegated) / chain.supply.total) * 100),
       color: '#858999',
       title: 'Bonds',
-      value: (supply.staking - supply.delegated),
+      value: (chain.supply.staking - chain.supply.delegated),
     },
     {
-      percent: Math.round((supply.unclaimed / supply.total) * 100),
+      percent: Math.round((chain.supply.unclaimed / chain.supply.total) * 100),
       color: '#30313b',
       title: 'Unclaimed',
-      value: supply.unclaimed,
+      value: chain.supply.unclaimed,
     },
   ];
 }

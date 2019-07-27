@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, Legend } from '../Common';
-import ProgressBar from '../ProgressBarContainer';
+import { HorizontalProgressBar } from '../ProgressBar';
 import { useGlobal } from 'reactn';
 import { formatCurrency, fixPercent } from '../../utils'
 const CirculatingSupply = () => {
-  const [supply] = useGlobal('supply');
+  const [chain] = useGlobal('chain');
 
-  let settings = getBarSettings(supply);
+  let settings = getBarSettings(chain);
 
   return (
     <Wrapper>
-      <Card title={`Supply Breakdown for ${formatCurrency(supply.total, '.2s')}`}>
-        <ProgressBar settings={settings} />
+      <Card title={`Supply Breakdown for ${formatCurrency(chain.supply.total, '.2s')}`}>
+        <HorizontalProgressBar settings={settings} />
         <Legend settings={settings} />
       </Card>
     </Wrapper>
@@ -27,31 +27,31 @@ const Wrapper = styled.div`
 export default CirculatingSupply;
 
 
-function getBarSettings(supply) {
+function getBarSettings(chain) {
   return [
     {
-      percent: (supply.circulating / supply.total) * 100,
+      percent: (chain.supply.circulating / chain.supply.total) * 100,
       color: '#3e85f2',
       title: 'Circulating',
-      value: supply.circulating,
+      value: chain.supply.circulating,
     },
     {
-      percent: (supply.unvested / supply.total) * 100,
+      percent: (chain.supply.unvested / chain.supply.total) * 100,
       color: '#4672b9',
       title: 'Unvested',
-      value: supply.unvested,
+      value: chain.supply.unvested,
     },
     {
-      percent: (supply.frozen / supply.total) * 100,
+      percent: (chain.supply.frozen / chain.supply.total) * 100,
       color: '#49679b',
       title: 'Frozen',
-      value: supply.frozen,
+      value: chain.supply.frozen,
     },
     {
-      percent: (supply.unclaimed / supply.total) * 100,
+      percent: (chain.supply.unclaimed / chain.supply.total) * 100,
       color: '#30313b',
       title: 'Unclaimed',
-      value: supply.unclaimed,
+      value: chain.supply.unclaimed,
     },
   ];
 }

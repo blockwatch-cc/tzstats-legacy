@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox } from '../Common';
-import ProgressBar from '../ProgressBarContainer';
+import { HorizontalProgressBar } from '../ProgressBar';
 import { useGlobal } from 'reactn';
 import { format } from 'd3-format';
 
@@ -17,7 +17,7 @@ const AccountsGrowth = props => {
           <Value>{format(',')(chain.new_accounts_30d)}</Value>
           <Value>{format(',')(chain.cleared_accounts_30d)}</Value>
         </Details>
-        <ProgressBar settings={settings} />
+        <HorizontalProgressBar settings={settings} />
         <Details>
           <Title>New Accounts</Title>
           <Title>Cleared Accounts</Title>

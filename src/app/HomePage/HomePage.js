@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import PriceHistory from '../../components/PriceHistory/';
+import { PriceHistory } from '../../components/PriceHistory/';
 import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreackdown';
 import VoitingProgress from '../../components/VoitingProgress';
 import AccountsGrowth from '../../components/AccountsGrowth';
@@ -17,7 +17,7 @@ const Home = () => {
     const fetchData = async () => {
 
       let [priceHistory, txDataLast, txData] = await Promise.all([
-        getMarketData({ limit: 30 }),
+        getMarketData({ days: 30 }),
         getLastBlockTxData(),
         getTxsData({ days: 30 })
       ]);
@@ -29,6 +29,7 @@ const Home = () => {
         isLoaded: true,
         txData: { volume: txDataLast[1], txn: txDataLast[2] }
       });
+
     };
 
     fetchData();
@@ -39,7 +40,7 @@ const Home = () => {
       (
         <Wrapper>
           <JoinContainer>
-            <PriceHistory data={data.priceHistory} />
+            <PriceHistory priceHistory={data.priceHistory} />
             <StakingSupply />
           </JoinContainer>
           <JoinContainer>

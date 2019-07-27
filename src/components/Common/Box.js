@@ -15,6 +15,9 @@ import {
   justifySelf,
   alignSelf,
   height,
+  border,
+  minWidth,
+  minHeight
 } from 'styled-system';
 
 import { Divider } from '@blueprintjs/core'
@@ -103,17 +106,22 @@ export const FlexRow = styled(Box)`
   ${flexWrap}
   ${flexBasis}
   ${flex}
+  ${width}
 `
 
 export const FlexColumn = styled(Box)`
   display: flex;
   flex-direction: column;
+  ${textAlign}
   ${alignItems}
   ${alignContent}
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
   ${flex}
+  ${border}
+  ${minWidth}
+  ${minHeight}
 `
 
 export const FlexRowWrap = styled(Box)`
@@ -129,7 +137,7 @@ export const FlexRowWrap = styled(Box)`
 
 export const FlexColumnWrap = styled(Box)`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   ${alignItems}
   ${alignContent}
   ${justifyContent}

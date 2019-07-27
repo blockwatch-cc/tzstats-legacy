@@ -4,8 +4,7 @@ import AccountInfo from '../../components/AccountInfo';
 import AccountBalance from '../../components/AccountBalance';
 import BalanceHistory from '../../components/BalanceHistory';
 import StakingBond from '../../components/StakingBond';
-import { getAccountData } from '../../services/api/tz-stats';
-import { getFlowData, getStakingData } from '../../services/api/tz-stats';
+import { getAccountData, getFlowData, getStakingData } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common'
 import { wrapFlowData, wrapStakingData } from '../../utils';
 
@@ -56,7 +55,7 @@ const TwoElementsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-left: -5px;
   margin-right: -5px;
 `;

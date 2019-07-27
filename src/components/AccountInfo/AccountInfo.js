@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, FlexRow } from '../Common';
-import { backerAccounts } from './backer-accounts';
+import { backerAccounts } from '../../config/backer-accounts';
 
 import AccountName from './AccountName'
 
@@ -12,20 +12,25 @@ const AccountInfo = props => {
     <Wrapper>
       <Card title={name.length ? 'Baker Account' : 'Basic Account'}>
         <AccountName name={name} {...props} />
-        <FlexRow mt={28} justifyContent="space-between">
-          <DataBox title="Total Received"
-            type="currency-fixed"
+        <FlexRow mt={18} justifyContent="space-between">
+          <DataBox
+            valueType="currency-fixed"
+            title="Total Received"
             value={props.total_received} />
-          <DataBox title="Total Sent"
-            type="currency-fixed"
+          <DataBox
+            valueType="currency-fixed"
+            title="Total Sent"
             value={props.total_sent} />
-          <DataBox title="Total Burned"
-            type="currency-fixed"
+          <DataBox
+            valueType="currency-fixed"
+            title="Total Burned"
             value={props.total_burned} />
-          <DataBox title="Total Fees Paid"
-            type="currency-fixed"
+          <DataBox
+            valueType="currency-fixed"
+            title="Total Fees Paid"
             value={props.total_fees_paid} />
-          <DataBox title="Total Transactions"
+          <DataBox
+            title="Total Transactions"
             value={props.n_tx} />
         </FlexRow>
       </Card>

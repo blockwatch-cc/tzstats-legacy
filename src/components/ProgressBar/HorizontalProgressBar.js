@@ -5,7 +5,7 @@ const ProgressBar = ({ settings }) => {
   return settings.map((item, i) => <ProgressBarItems key={i} {...item}></ProgressBarItems>);
 };
 
-const ProgressBarContainer = ({ settings }) => {
+const HorizontalProgressBar = ({ settings }) => {
   return (
     <ProgressBarWrapper>
       {<ProgressBar settings={settings} />}
@@ -27,4 +27,4 @@ const ProgressBarItems = styled.div`
   border-radius: 2px;
 `;
 
-export default ProgressBarContainer;
+export default HorizontalProgressBar;

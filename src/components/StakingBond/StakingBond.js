@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Card } from '../Common';
-import ProgressBar from '../ProgressBarContainer';
+import { HorizontalProgressBar } from '../ProgressBar';
 import StackingChart from './StakingChart';
 import { useGlobal } from 'reactn';
 import { DataBox, FlexColumn, FlexRow } from '../Common'
@@ -15,19 +15,20 @@ const StakingBond = ({ account, data }) => {
   return (
     <Card title={'Staking Bond (30d)'}>
       <Content>
-        <div style={{ flex: 1, height: 200, width: 600 }}>
-          <StackingChart data={data} />
-        </div>
+        <StackingChart data={data} />
         <FlexColumn mt={18} px={20} justifyContent="space-between">
-          <DataBox type="currency-fixed"
+          <DataBox
+            valueType="currency-fixed"
             title="Total Bond"
             value={account.spendable_balance + account.frozen_deposits}
           />
-          <DataBox type="currency-fixed"
+          <DataBox
+            valueType="currency-fixed"
             title="Current Deposits"
             value={account.frozen_deposits}
           />
-          <DataBox type="currency-fixed"
+          <DataBox
+            valueType="currency-fixed"
             title="Pending Rewards"
             value={account.frozen_rewards}
           />
@@ -41,10 +42,10 @@ const StakingBond = ({ account, data }) => {
               />
               <ProgressBarWrapper>
                 <Details>
-                  <DataBox type="currency-short" value={account.delegated_balance} />
-                  <DataBox type="currency-short" value={stackingCapacity} />
+                  <DataBox valueType="currency-short" value={account.delegated_balance} />
+                  <DataBox valueType="currency-short" value={stackingCapacity} />
                 </Details>
-                <ProgressBar settings={settings} />
+                <HorizontalProgressBar settings={settings} />
                 <Details>
                   <DataBox title="In Staking" />
                   <DataBox title="Staking Capacity" />
@@ -54,7 +55,7 @@ const StakingBond = ({ account, data }) => {
           </BorderBox>
           <FlexRow justifyContent="space-between">
 
-            <DataBox type="currency-fixed"
+            <DataBox valueType="currency-fixed"
               title="Frozen Fees"
               value={account.frozen_fees}
             />
@@ -62,7 +63,7 @@ const StakingBond = ({ account, data }) => {
         </FlexColumn>
 
       </Content>
-    </Card>
+    </Card >
   );
 };
 const ProgressBarWrapper = styled.div`
@@ -72,21 +73,6 @@ const BorderBox = styled.div`
   border: 1px solid #6f727f;
   padding: 15px;
 `;
-// const Row = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-// `;
-
-// const DataBox = styled.div`
-//   justify-content: space-between;
-// `;
-// const Column = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-// `;
-
 const Content = styled.div`
   display: flex;
   flex-direction: row;
@@ -97,19 +83,11 @@ const Details = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-// const Title = styled.div`
-//   color: rgba(255, 255, 255, 0.52);
-//   font-size: 10px;
-// `;
-// const Value = styled.div`
-//   color: #fff;
-//   font-size: 18px;
-// `;
 
 export default StakingBond;
 function getStakingCapacity(account, chain) {
-  return ((account.spendable_balance + account.frozen_deposits) / ((2560 * 4096 * 5) / chain.total_supply)) *
-    ((chain.rolls * 8000) / chain.total_supply);
+  return ((account.spendable_balance + account.frozen_deposits) / ((2560 * 4096 * 5) / chain.supply.total)) *
+    ((chain.rolls * 8000) / chain.supply.total);
 }
 
 function getStakingSettings(account, stackingCapacity) {
@@ -123,7 +101,7 @@ function getStakingSettings(account, stackingCapacity) {
     {
       percent: (stackingCapacity / (account.delegated_balance + stackingCapacity)) * 100,
       color: '#858999;',
-      title: 'Staking capacity',
+      title: 'Staking Capacity',
       value: `${stackingCapacity}`,
     },
   ];

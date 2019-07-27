@@ -20,6 +20,7 @@ export { default as Card } from './Card';
 export { default as Legend } from './Legend';
 export { default as DataBox } from './DataBox';
 export { default as Spiner } from './CenteredSpinner';
+export { default as Blockies } from './Blockies';
 export {
     Box,
     InlineBox,
