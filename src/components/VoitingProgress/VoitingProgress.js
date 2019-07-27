@@ -14,7 +14,7 @@ Submission <Strong>closes in 4 days</Strong> and will re-open again right after.
   );
 };
 const Strong = styled.strong`
-color: rgba(255,255,255,0.52);
+color: #fff;
 fonst-size: 13;
 `
 const Wrapper = styled.div`
@@ -25,6 +25,8 @@ const Wrapper = styled.div`
 const Content = styled.div`
   min-height: 62px;
   font-size: 12px;
+  color:rgba(255,255,255,0.52);
+  
 `
 
 export default AccountsGrowth;
