@@ -9,16 +9,14 @@ const TransactionVolume = ({ data, txData }) => {
     <Wrapper>
       <Card title={'Tezos Transactions Volume (30d)'}>
         <Content>
-          <div style={{ flex: 1, height: 112, width: 300 }}>
-            <TransactionChart data={data} />
-          </div>
+          <TransactionChart data={data} />
           <FlexColumn justifyContent="space-around">
-            <DataBox type="currency-short" title="24h Volume" value={txData.volume} />
+            <DataBox valueType="currency-short" title="24h Volume" value={txData.volume} />
             <DataBox title="24h Transactoions" value={txData.txn} />
           </FlexColumn>
         </Content>
       </Card>
-    </Wrapper>
+    </Wrapper >
   );
 };
 const Content = styled.div`
