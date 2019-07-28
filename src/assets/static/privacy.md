@@ -39,7 +39,7 @@ You can at any time choose to limit the amount of information we share with thir
 
 Please note that activity and analytics information from using our Site will be transferred to the United States of America, the European Union and other countries so as to provide this Site and our data products to You. If you are not a US or EU resident, you acknowledge and agree that we collect, process, use and store your information, as discussed in this Privacy Policy, outside your resident jurisdiction, including in the European Union and the United States. Please be aware that EU law, US law and laws of other countries where we may store and process your data offer different levels of protection for personal information than what may be available in your country.
 
-EU users have the right to access, rectify or delete any personal information that we hold under GDPR data protection legislation. You also have the right to portability and to object to the use of your personal information. If you wish to exercise any of these rights, please send an email to [privacy@tzstats.com](mailto:privacy@tzstats.com).
+EU users have the right to access, rectify or delete any personal information that we hold under GDPR data protection legislation. You also have the right to portability and to object to the use of your personal information. If you wish to exercise any of these rights, please send an email to [info@tzstats.com](mailto:info@tzstats.com).
 
 
 ### 6 Updates to This Policy
@@ -49,4 +49,4 @@ We may update this Privacy Policy to reflect changes to our information practice
 
 ### 8 Contact Us
 
-If you have questions or concerns regarding your privacy or security on our Site, feel free to contact us at [privacy@tzstats.com](mailto:privacy@tzstats.com).
+If you have questions or concerns regarding your privacy or security on our Site, feel free to contact us at [info@tzstats.com](mailto:info@tzstats.com).

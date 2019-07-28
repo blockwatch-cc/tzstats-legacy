@@ -55,21 +55,21 @@ Under the Creative Commons License, you are free to adapt and share the Public D
 
 Attribution allows others to correct errors and keep the Public Data current. You may give Attribution in any reasonable manner, but not in any way that suggests that KIDTSUNAMI or TzStats endorses you or your use. A reasonable way is, for example, to include a note reading "Data provided by TzStats.com" together with a hyperlink to https://tztstats.com.
 
-You are solely responsible for your compliance with the Creative Commons License whenever you use or reuse the Data. If you have any questions regarding Attribution, you can contact us at [license@tzstats.com](mailto:license@tzstats.com).
+You are solely responsible for your compliance with the Creative Commons License whenever you use or reuse the Data. If you have any questions regarding Attribution, you can contact us at [license@kidtsunami.com](mailto:license@kidtsunami.com).
 
 
 #### COMMERCIAL USE
 
 If you wish to use the Data in a manner that is primarily intended for or directed towards commercial advantage or monetary compensation (such use, “Commercial Use”), KIDTSUNAMI requires that you enter into a separate commercial license agreement. Entering into a separate commercial license allows us to protect KIDTSUNAMI’s investment in the Data and to maintain the integrity of the Data.
 
-Please contact us at [license@tzstats.com](mailto:license@tzstats.com) for more information about Commercial Uses of our Data.
+Please contact us at [license@kidtsunami.com](mailto:license@kidtsunami.com) for more information about Commercial Uses of our Data.
 
 
 #### ACADEMIC USE
 
 If you are a researcher, lecturer or student affiliated with an accredited university or research institute and wish to use the Data for research and educational purposes, KIDTSUNAMI offers a separate academic license agreement. Entering into a separate academic license allows us to better tailor your use of the Data to academic work and publication standards and helps us to maintain the quality of the Data.
 
-Please contact us at [license@tzstats.com](mailto:license@tzstats.com) for more information about Academic Uses of our Data.
+Please contact us at [license@kidtsunami.com](mailto:license@kidtsunami.com) for more information about Academic Uses of our Data.
 
 
 ### Intellectual Property
@@ -111,7 +111,7 @@ NOTHING IN THESE TERMS OF USE SHALL AFFECT ANY NON-WAIVABLE STATUTORY RIGHTS THA
 
 TzStats is an database provider and the Data, including but not limited to database schema, text, media content, and data, is protected by copyrights, trademarks, service marks, international treaties, and/or other proprietary rights and laws of the EU and other countries. The Data has been developed, compiled, prepared, revised, selected and arranged by KIDTSUNAMI and others, and is as such also protected as a collective work or compilation under EU copyright and other laws and treaties.
 
-All public data in our databases is a direct copy of data published on various locations on the Internet and on the public Tezos blockchain. Like a search engine, TzStats makes no claim to own the public data it indexes or caches. TzStats endeavors to respect copyright. If you believe this site is indexing your copyright data and you would rather it not do so, you may submit a request to delete to [copyright@tzstats.com](mailto:copyright@tzstats.com).
+All public data in our databases is a direct copy of data published on various locations on the Internet and on the public Tezos blockchain. Like a search engine, TzStats makes no claim to own the public data it indexes or caches. TzStats endeavors to respect copyright. If you believe this site is indexing your copyright data and you would rather it not do so, you may submit a request to delete to [info@tzstats.com](mailto:info@tzstats.com).
 
 ### Notice of Copyright Infringement
 
@@ -132,7 +132,7 @@ Our agent for notice of claims of copyright infringement can be reached as follo
     Kluckstrasse 36
     10785 Berlin
     Germany
-    copyright@tzstats.com
+    info@tzstats.com
 
 You acknowledge that if you fail to comply with all of the requirements above, your notice may not be valid.
 
