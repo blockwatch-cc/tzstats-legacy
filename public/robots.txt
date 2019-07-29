@@ -1,0 +1,15 @@
+# Google Image
+User-agent: Googlebot-Image
+Allow: /
+
+# Google AdSense
+User-agent: Mediapartners-Google*
+Allow: /
+
+# Ahrefs Bot
+user-agent: AhrefsBot
+disallow: /
+
+User-agent: Googlebot
+# disallow all files ending with these extensions
+Disallow: /*.js$
