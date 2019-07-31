@@ -26,7 +26,7 @@ const VoitingProgress = ({ voiting }) => {
             <HorizontalProgressBar settings={voitingSettings} />
             <HorizontalProgressBar settings={proposalSettings} />
             <FlexRowSpaceBetween>
-              <DataBox title={proposalDeitels.name} value={topProposal.rolls || 1000} />
+              <DataBox title={proposalDeitels.name} value={topProposal.rolls} />
               <a target="_blank" style={{ fontSize: 12 }} href={proposalDeitels.link}>{getShortHash(topProposal.hash)}</a>
             </FlexRowSpaceBetween>
           </Card>
@@ -81,13 +81,13 @@ function getProposalSettings(voiting) {
 
   return [
     {
-      percent: ((topProposal.rolls || 1000) / voiting.proposal_vote.eligible_rolls) * 100,
+      percent: ((topProposal.rolls) / voiting.proposal_vote.eligible_rolls) * 100,
       color: '#19f3f9',
       title: 'Top Proposal Rolls',
       value: topProposal.rolls,
     },
     {
-      percent: ((voiting.proposal_vote.eligible_rolls - (topProposal.rolls || 1000)) / voiting.proposal_vote.eligible_rolls) * 100,
+      percent: ((voiting.proposal_vote.eligible_rolls - (topProposal.rolls)) / voiting.proposal_vote.eligible_rolls) * 100,
       color: '#858999;',
       title: 'Maximum Top Rolls',
       value: voiting.proposal_vote.eligible_rolls - topProposal.rolls,
