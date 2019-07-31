@@ -9,7 +9,7 @@ import Popover from '../Popover';
 const BlockHistory = ({ data, currentBlock }) => {
   let lastTime = new Date(data[data.length - 1][0]).setSeconds(0, 0);
   let timeRange = get60mTimeRange(lastTime);
-  console.log(currentBlock)
+
   return (
     <Wrapper>
       <Card title={'Block History'}>
@@ -31,7 +31,7 @@ const TimeScale = ({ timeArray60m }) => {
 
   return (<FlexRowWrap ml={-12} justifyContent="space-between">
     {
-      timeArray60m.reverse().map((item, i) => {
+      timeArray60m.map((item, i) => {
         if (i % 10 === 0 || i === timeArray60m.length - 1) {
           return (<div key={i} style={{ textAlign: 'center' }}>
             <DataBox title="|" />

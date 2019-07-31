@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Colors from '../Common/Colors';
 import { Devices } from '../Common'
+import { Link } from 'react-router-dom';
 
 const Footer = () => (
   <Wrapper hideOnMobile>
@@ -19,8 +20,21 @@ const Footer = () => (
         </a>
       </LinkedText>
     </Text>
-    <Text>Terms & Conditions</Text>
-    <Text>Privacy Policy</Text>
+    <a target="_blank" href="https://tzstats.com/blog">
+      <Text>
+        Blog
+      </Text>
+    </a>
+    <Link to="/terms">
+      <Text>
+        Terms & Conditions
+      </Text>
+    </Link>
+    <Link>
+      <Text to="/privacy">
+        Privacy Policy
+    </Text>
+    </Link>
   </Wrapper>
 );
 export default Footer;

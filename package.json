@@ -30,6 +30,7 @@
     "ethereum-blockies": "^0.1.1",
     "javascript-time-ago": "^2.0.1",
     "lodash": "^4.17.13",
+    "markdown-to-html": "^0.0.13",
     "npm": "^6.10.1",
     "react": "^16.8.6",
     "react-circular-progressbar": "0.8.0",

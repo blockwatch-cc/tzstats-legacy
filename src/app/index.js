@@ -11,10 +11,11 @@ import ReactGA from 'react-ga';
 import { GOOGLE_ANALYTICS_API_KEY } from '../config/index'
 import '../styles/css/index.css';
 import TestPage from './TestPage/TestPage';
+import PrivacyPage from './PrivacyPage/PrivacyPage';
+import TermsPage from './TermsPage/TermsPage';
 
 ReactGA.initialize(GOOGLE_ANALYTICS_API_KEY);
 ReactGA.pageview(window.location.pathname + window.location.search);
-
 
 
 const App = () => {
@@ -28,6 +29,8 @@ const App = () => {
           <Route path="/block/:hash" component={BlockPage} />
           <Route path="/operation/:hash" component={OperationPage} />
           <Route path="/test" component={TestPage} />
+          <Route path="/terms" component={TermsPage} />
+          <Route path="/privacy" component={PrivacyPage} />
           <Route path="/not-found/:value" component={NotFoundPage} />
         </Switch>
       </Layout>

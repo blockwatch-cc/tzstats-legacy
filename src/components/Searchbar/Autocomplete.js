@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { backerAccounts } from '../../config/backer-accounts';
-import { FlexRow, DataBox, FlexRowSpaceBetween } from '../Common';
-
+import { FlexRow, FlexRowSpaceBetween } from '../Common';
 
 const Autocomplete = ({ suggestions, isFocus, handleMouseLeave, handleSearch, cleanSuggestions }) => {
 
