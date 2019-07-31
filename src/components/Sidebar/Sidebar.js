@@ -6,11 +6,12 @@ import LastBlock from '../LastBlock';
 import MarketInfo from '../MarketInfo';
 import { Callout } from '@blueprintjs/core';
 import { Devices } from '../Common'
+import { Link } from 'react-router-dom';
 const Sidebar = prop => {
   return (
     <Wrraper hideOnMobile>
       <Logo>
-        <a href="/">{'TzStats'}</a>
+        <Link to="/">{'TzStats'}</Link>
       </Logo>
       <NetworkCircle />
       <LastBlock />
