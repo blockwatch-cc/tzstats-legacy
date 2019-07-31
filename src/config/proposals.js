@@ -20,7 +20,7 @@ export const proposals = {
 	"PsBABY5nk4JhdEv1N1pZbt6m6ccB9BfNqa23iKZcHBh23jmRS9f": {
 		"name": "Babylon A",
 		"by": "Nomadic Labs",
-		"link": "https://blog.nomadic-labs.com/category/announcements.html",
+		"link": "https://blog.nomadic-labs.com/babylon-proposal-injected.html",
 		"archive": "https://blog.nomadic-labs.com/files/babylon_005_PsBABY5n.tar"
 	}
 }
