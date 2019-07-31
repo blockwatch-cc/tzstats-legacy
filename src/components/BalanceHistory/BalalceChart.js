@@ -86,7 +86,8 @@ const BalanceChart = ({ data }) => {
 
             </div>
           );
-        }}
+        }
+        }
       />
     </div>
   );
