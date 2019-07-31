@@ -73,7 +73,7 @@ export const getAccounts = async days => {
 
 
 
-export const getAccountData = async hash => {
+export const getAccountByHash = async hash => {
   const response = await request(`/explorer/account/${hash}?`);
 
   if (response.status === 400) {
@@ -168,10 +168,9 @@ export const getLastBlockTxData = async () => {
   return data[0];
 };
 
-//https://api.tzstats.com/series/block?collapse=1d&start_date=now-29d
+//https://api.tzstats.com/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60
 export const getBlockData = async () => {
-  const statTime = `now-${2}h`;
-  const response = await request(`/series/block?start_date=${statTime}&collapse=1m&limit=60`);
+  const response = await request(`/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60`);
 
   if (response.status === 400) {
     const { error } = await response.json();
@@ -189,7 +188,7 @@ export const getBlock = async ({ id }) => {
 
   if (response.status === 400) {
     const { error } = await response.json();
-    throw new Error(error);
+    return null;
   }
 
   const data = await response.json();
@@ -197,7 +196,7 @@ export const getBlock = async ({ id }) => {
   return data;
 };
 
-//******************Markets****************** */
+//****************** MARKETS ****************** */
 //https://api.tzstats.com/markets/tickers 
 
 export const getMarketTikers = async () => {
@@ -214,18 +213,18 @@ export const getMarketTikers = async () => {
 };
 
 //https://api.tzstats.com/markets/kraken/XTZ_USD/ticker
-export const getExchangeTikers = async ({ pair }) => {
+export const getExchangeTikers = async () => {
 
-  let [kraken, bitfinex] = await Promise.all([
-    request(`/markets/kraken/${pair}/ticker`),
-    //request(`/markets/hitbtc/${pair}/ticker`),
-    request(`/markets/bitfinex/${pair}/ticker`),
+  let [kraken, bitfinex, hitbtc] = await Promise.all([
+    request(`/markets/kraken/XTZ_USD/ticker`),
+    request(`/markets/hitbtc/XTZ_USDT/ticker`),
+    request(`/markets/bitfinex/XTZ_USD/ticker`),
     // request(`/markets/huobi/${pair}/ticker`),
   ]);
 
   return {
     kraken: await kraken.json(),
-    // hitbtc: (await hitbtc.json()).reverse(),
+    hitbtc: (await hitbtc.json()),
     bitfinex: await bitfinex.json(),
     //  huobi: (await huobi.json()).reverse(),
 
@@ -233,13 +232,15 @@ export const getExchangeTikers = async ({ pair }) => {
 };
 
 //https://api.tzstats.com/markets/kraken/XTZ_USD/ticker
-export const getTradesByCurrencies = async ({ exchange }) => {
+export const getTradesByCurrencies = async () => {
 
-  let [USD, EUR, BTC, ETH] = await Promise.all([
-    request(`/markets/${exchange}/XTZ_USD/ticker`),
-    request(`/markets/${exchange}/XTZ_EUR/ticker`),
-    request(`/markets/${exchange}/XTZ_BTC/ticker`),
-    request(`/markets/${exchange}/XTZ_ETH/ticker`),
+  let [USD, EUR, BTC, ETH, CAD, USDT] = await Promise.all([
+    request(`/markets/kraken/XTZ_USD/ticker`),
+    request(`/markets/kraken/XTZ_EUR/ticker`),
+    request(`/markets/kraken/XTZ_BTC/ticker`),
+    request(`/markets/kraken/XTZ_ETH/ticker`),
+    request(`/markets/kraken/XTZ_CAD/ticker`),
+    request(`/markets/hitbtc/XTZ_USDT/ticker`),
 
   ]);
 
@@ -248,7 +249,23 @@ export const getTradesByCurrencies = async ({ exchange }) => {
     EUR: await EUR.json(),
     BTC: await BTC.json(),
     ETH: await ETH.json(),
+    CAD: await CAD.json(),
+    USDT: await USDT.json(),
   };
 };
 
+//****************** OPERATIONS ****************** */
+//https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T
 
+export const getOperation = async (hash) => {
+  const response = await request(`/explorer/op/${hash}`);
+
+  if (response.status === 400) {
+    const { error } = await response.json();
+    throw new Error(error);
+  }
+
+  const data = await response.json();
+
+  return data[0];
+};
