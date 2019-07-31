@@ -30,7 +30,59 @@ const StakingChart = ({ data /* see data tab */ }) => {
         legends={[]}
         theme={theme}
         sliceTooltip={({ slice }) => {
+          let points = slice.points;
 
+          return (
+            <div
+              style={{
+                background: '#30313b',
+                width: '250px',
+                padding: '20px 20px',
+                textAlign: 'center',
+                opacity: 0.8,
+              }}
+            >
+              <div>{timeFormat('%B %d, %Y')(new Date(slice.points[0].data.x))}</div>
+              <div style={{ height: '2px', margin: '5px 0px', background: '#424552', width: '100%' }}></div>
+
+              <div
+                key={points[1].id}
+                style={{
+                  color: points[1].serieColor,
+                  padding: '3px 0',
+                  fontSize: '16px',
+                  fontWeight: 'lighter',
+                  textAlign: 'left',
+                }}
+              >
+                <span>{points[1].serieId} :</span> {points[1].data.yFormatted.toFixed()} ꜩ
+              </div>
+              <div
+                key={points[0].id}
+                style={{
+                  color: points[0].serieColor,
+                  padding: '3px 0',
+                  fontSize: '16px',
+                  fontWeight: 'lighter',
+                  textAlign: 'left',
+                }}
+              >
+                <span>{points[0].serieId} :</span> {points[0].data.yFormatted.toFixed()} ꜩ
+              </div>
+              <div
+                key={points[2].id}
+                style={{
+                  color: points[2].serieColor,
+                  padding: '3px 0',
+                  fontSize: '16px',
+                  fontWeight: 'lighter',
+                  textAlign: 'left',
+                }}
+              >
+                <span>{points[2].serieId} :</span> {points[2].data.yFormatted.toFixed()} ꜩ
+              </div>
+            </div>
+          );
         }}
       />
     </div>
