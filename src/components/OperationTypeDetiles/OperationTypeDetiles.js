@@ -27,11 +27,11 @@ function getAccountType(operation) {
 const OperationTypeDetiles = ({ operation }) => {
 
   return (
-    <AccountBalanceContainer>
+    <Wrapper>
       <Card title={`${capitalizeFirstLetter(operation.type)} Detiles`}>
         <OperationSwitcher operation={operation} />
       </Card>
-    </AccountBalanceContainer >
+    </Wrapper >
   );
 };
 
@@ -71,9 +71,8 @@ const OperationSwitcher = ({ operation }) => {
 }
 
 
-const AccountBalanceContainer = styled.div`
-    flex: 1;
-    padding: 0 5px;
+const Wrapper = styled.div`
+
 `;
 
 
