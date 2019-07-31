@@ -4,7 +4,7 @@ import { Card, DataBox, FlexRow, FlexColumn, Blockies, CopyHashButton } from '..
 import { backerAccounts } from '../../config/backer-accounts';
 import { timeFormat } from 'd3-time-format';
 import { getShortHash } from '../../utils';
-import BlocksPie from './BlockInfoPie'
+import { Link } from 'react-router-dom';
 
 const BlockInfo = ({ block }) => {
   // const name = Object.keys(backerAccounts).filter(hash => backerAccounts[hash] === props.address);
@@ -36,19 +36,17 @@ const BlockInfo = ({ block }) => {
                 )
 
               })
-              :""
+              : ""
             }
           </FlexRow>
           <FlexRow justifyContent="space-between">
             <CopyHashButton value={block.hash} type="block" />
             {block.endorsed_slots ? <DataBox title="Slots Endorsed" /> : ""}
-            <Link>
-              <div>
-                <Blockies hash={block.baker} />
-                {getShortHash(block.baker)}
-              </div>
+            <BlueLink to={`/account/${block.baker}`}>
+              <Blockies hash={block.baker} />
+              {getShortHash(block.baker)}
               <DataBox title="Baker" />
-            </Link>
+            </BlueLink>
           </FlexRow>
           <FlexRow justifyContent="space-between">
             <FlexColumn minHeight={80} justifyContent="space-between">
@@ -93,11 +91,11 @@ const BlockInfo = ({ block }) => {
     </Wrapper >
   );
 };
-const Link = styled.a`
+const BlueLink = styled(Link)`
     color:#26B2EE;
     font-size:14px;
     text-align:right;
-    `
+`
 const Slot = styled.div`
   height: 12px; 
   margin: 2px;

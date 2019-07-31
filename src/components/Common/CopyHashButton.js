@@ -9,7 +9,7 @@ const CopyHashButton = ({ value, type }) => {
   return (
     <CopyToClipboard text={value}>
       <Wrapper>
-        <Link to={`${type}/${value}`}>{getShortHash(value)}</Link>
+        <Link to={`/${type}/${value}`}>{getShortHash(value)}</Link>
         <Button>Copy</Button>
       </Wrapper>
     </CopyToClipboard>
