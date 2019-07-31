@@ -5,12 +5,12 @@ import { backerAccounts } from '../../config/backer-accounts';
 import { FlexRow, DataBox, FlexRowSpaceBetween } from '../Common';
 
 
-const Autocomplete = ({ suggestions, isFocus, handelClick, handleSearch, cleanSuggestions }) => {
+const Autocomplete = ({ suggestions, isFocus, handleMouseLeave, handleSearch, cleanSuggestions }) => {
 
   return (
 
     (isFocus && suggestions.length > 0) &&
-    <Wrrapper onMouseLeave={handelClick}>
+    <Wrrapper onMouseLeave={handleMouseLeave}>
       <FlexRowSpaceBetween>
         <Title>Recent History</Title>
         <CleanButton onClick={e => cleanSuggestions()}>
