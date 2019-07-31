@@ -4,7 +4,7 @@ import AccountInfo from '../../components/AccountInfo';
 import AccountBalance from '../../components/AccountBalance';
 import BalanceHistory from '../../components/BalanceHistory';
 import StakingBond from '../../components/StakingBond';
-import { getAccountData, getFlowData, getStakingData } from '../../services/api/tz-stats';
+import { getAccountByHash, getFlowData, getStakingData } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common'
 import { wrapFlowData, wrapStakingData } from '../../utils';
 
@@ -16,24 +16,24 @@ const AccountPage = ({ match }) => {
     const fetchData = async () => {
 
       let [account, flowData, stakingData] = await Promise.all([
-        getAccountData(currentUserHash),
+        getAccountByHash(currentUserHash),
         getFlowData({ hash: currentUserHash, days: 30 }),
         getStakingData({ hash: currentUserHash, days: 30 })
       ]);
 
       let { stackingBond, currentDeposit, pendingReawards } = wrapStakingData({ ...stakingData, account })
-      let { inFlowData, outFlowData } = wrapFlowData(flowData, account);
+      let { inFlowData, outFlowData, dataInOut } = wrapFlowData(flowData, account);
 
       setData({
         account,
-        flowData: [outFlowData, inFlowData],
+        flowData: dataInOut,
         isLoaded: true,
         stakingData: [stackingBond, currentDeposit, pendingReawards]
       });
     };
 
     fetchData();
-  }, []);
+  }, [match]);
 
   return (
     data.isLoaded ?
