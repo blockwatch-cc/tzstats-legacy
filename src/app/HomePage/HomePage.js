@@ -16,10 +16,11 @@ const Home = () => {
   React.useEffect(() => {
     const fetchData = async () => {
 
-      let [priceHistory, txDataLast, txData] = await Promise.all([
+      let [priceHistory, txDataLast, txData, voiting] = await Promise.all([
         getMarketData({ days: 30 }),
         getLastBlockTxData(),
-        getTxsData({ days: 30 })
+        getTxsData({ days: 30 }),
+        getVoitingData()
       ]);
       const trasactionVolume = wrapTxs(txData);
 
@@ -27,6 +28,7 @@ const Home = () => {
         priceHistory,
         txs: trasactionVolume,
         isLoaded: true,
+        voiting,
         txData: { volume: txDataLast[1], txn: txDataLast[2] }
       });
 
@@ -49,7 +51,7 @@ const Home = () => {
           </JoinContainer>
           <JoinContainer>
             <AccountsGrowth />
-            <VoitingProgress />
+            <VoitingProgress voiting={data.voiting} />
           </JoinContainer>
         </Wrapper>
       ) :

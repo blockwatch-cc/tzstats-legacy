@@ -21,7 +21,7 @@ function Layout({ children }) {
   return (
     <Wrapper>
       <Sidebar />
-      <MainPanel>
+      <MainPanel id="main-panel">
         <Searchbar />
         <Content>{children}</Content>
         <Footer />
