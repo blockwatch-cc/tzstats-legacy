@@ -11,14 +11,14 @@ const VoitingProgress = ({ voiting }) => {
   let proposalSettings = getProposalSettings(voiting);
   let topProposal = _.maxBy(voiting.proposal_vote.proposals, r => r.rolls)
   let proposalDeitels = proposals[topProposal.hash];
-  let endTime = (new Date(voiting.end_time) - Date.now()) / 60000
+  let endTime = (new Date(voiting.proposal_vote.period_end_time) - Date.now()) / 60000
 
 
   return (
     <Wrapper>
       {
         voiting.proposal_vote
-          ? <Card title={`On-Chain Governance promotion period on ${"Athenes"} proposal period closes in ${convertMinutes(endTime)}`}>
+          ? <Card title={`On-Chain Governance Proposal Period closes in ${convertMinutes(endTime)}`}>
             <FlexRowSpaceBetween>
               <DataBox title="Participation Rolls" value={voiting.proposal_vote.turnout_rolls} />
               <DataBox title="Maximum Rolls" value={voiting.proposal_vote.eligible_rolls} />
