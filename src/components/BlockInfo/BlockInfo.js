@@ -31,7 +31,7 @@ const BlockInfo = ({ block }) => {
                 return (
 
                   <Slot key={i} color={item} >
-                    {item === "0" ? i + 1 : ""}
+                    {item === "0" ? i : ""}
                   </Slot>
                 )
 
