@@ -24,7 +24,7 @@ const MarketInfo = ({ history }) => {
     return (lastMarketData.close * (chain.supply.activated + chain.supply.mined + chain.supply.vested - chain.supply.burned));
   };
   const getLastChanges = () => {
-    return ((lastMarketData.open - lastMarketData.close) / lastMarketData.open * 100).toFixed(1);
+    return ((lastMarketData.close - lastMarketData.open) / lastMarketData.open * 100).toFixed(1);
   };
   const handleClick = () => {
     history.push('/market');
