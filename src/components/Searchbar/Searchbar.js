@@ -11,7 +11,7 @@ const Searchbar = ({ history }) => {
   const [value, setValue] = useState('');
   const [isFocus, setIsFocus] = useState(false);
   const [enterPress, setKeyPressed] = useKeyPress(13);
-  const [suggestions, setSuggestions] = useLocalStorage('suggestions');
+  const [suggestions, setSuggestions] = useLocalStorage('suggestions', []);
 
   const search = (searchValue) => {
     setKeyPressed(false)
@@ -44,7 +44,7 @@ const Searchbar = ({ history }) => {
           placeholder="Explore blocks, operations, accounts, elections, and cycles …"
         />
       </SearchWrapper>
-      {isFocus && suggestions.length &&
+      {(isFocus && suggestions.length > 0) &&
         <AutocompleteWrapper onMouseLeave={e => setIsFocus(false)}>
           <Title>Recent History</Title>
           {
