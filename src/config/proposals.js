@@ -1,4 +1,4 @@
-{
+export const proposals = {
 	"Pt24m4xiPbLDhVgVfABUjirbmda3yohdN82Sp9FeuAXJ4eV9otd": {
 		"name": "Athens A",
 		"by": "Nomadic Labs",
