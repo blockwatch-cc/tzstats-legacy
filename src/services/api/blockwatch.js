@@ -74,7 +74,7 @@ let formatMarketData = data => {
   });
 };
 
-export const getAccountData = async options => {
+export const getAccountByHash = async options => {
   const urlOptions = {
     columns: [
       'account',
