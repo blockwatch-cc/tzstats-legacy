@@ -208,4 +208,7 @@ export function getDailyVolume(data) {
 export function convertToTitle(str) {
   return str.split("_").map(r => capitalizeFirstLetter(r)).join(' ');
 }
+export function getSearchType(searchValue) {
+  return searchValue[0] === 'o' ? "operation" : (searchValue[0] === 'B' || parseInt(searchValue)) ? "block" : "account";
+}
 
