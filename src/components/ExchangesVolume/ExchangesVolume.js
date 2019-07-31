@@ -15,7 +15,7 @@ const VolumesExchanges = ({ data }) => {
 
   return (
     <Wrapper>
-      <Card title={'Volumes by Exchanges'}>
+      <Card title={'Volume by Exchange'}>
         <FlexRowWrap>
           <ExchangesVolumePie data={settings} />
           <Legend settings={settings} />
@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   flex: 1;
   min-width: 340px;
   margin: 0 5px;
- 
+
 `;
 
 export default VolumesExchanges;
