@@ -95,7 +95,7 @@ function getStakingSettings(account, stackingCapacity) {
     {
       percent: (account.delegated_balance / (account.delegated_balance + stackingCapacity)) * 100,
       color: '#418BFD',
-      title: 'In Stacking',
+      title: 'In Staking',
       value: `${account.delegated_balance}`,
     },
     {

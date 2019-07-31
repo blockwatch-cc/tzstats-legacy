@@ -8,14 +8,14 @@ const TransactionVolume = ({ data, txData }) => {
 
   return (
     <Wrapper>
-      <Card title={'Tezos Transactions Volume (30d)'}>
+      <Card title={'Tezos On-Chain Volume (30d)'}>
         <Content>
           <div style={{ marginRight: "20px", height: 112, width: "370px" }} >
             <AreaChart data={data} />
           </div>
           <FlexColumn justifyContent="space-around">
             <DataBox valueType="currency-short" title="24h Volume" value={txData.volume} />
-            <DataBox title="24h Transactoions" value={txData.txn} />
+            <DataBox title="24h Transactions" value={txData.txn} />
           </FlexColumn>
         </Content>
       </Card>

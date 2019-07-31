@@ -21,7 +21,7 @@ import Reveal from './Reveal';
 const OperationDetiles = ({ operation }) => {
   return (
 
-    <Card title={'Operation Detiles'}>
+    <Card title={'Operation Details'}>
       <FlexRowSpaceBetween >
         <FlexRow>
           {/* <DataBox title="N" value={operation.op_n} /> */}

@@ -14,7 +14,7 @@ const TradeCurency = ({ data }) => {
   return (
     <Wrapper>
 
-      <Card title={'Trades by Currency'}>
+      <Card title={'Volume by Currency'}>
         <FlexColumnWrap>
           <VerticalProgressBar settings={settings} />
           <Legend data={settings} />

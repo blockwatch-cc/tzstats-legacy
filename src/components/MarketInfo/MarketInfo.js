@@ -35,7 +35,7 @@ const MarketInfo = ({ history }) => {
 
   return (
     <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
-      <DataBox title="Tezos price" />
+      <DataBox title="Tezos Price" />
       <PriceWrapper>
         {format('$,')(lastMarketData.close.toFixed(2))} <PriceChanges>{getPriceIndecator()}{Math.abs(getLastChanges()) || 0} %</PriceChanges>
       </PriceWrapper>
