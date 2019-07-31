@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, FlexColumn, DataBox } from '../Common';
 import TransactionChart from './TransactionChart';
+import AreaChart from './AreaChart';
 
 const TransactionVolume = ({ data, txData }) => {
 
@@ -9,7 +10,9 @@ const TransactionVolume = ({ data, txData }) => {
     <Wrapper>
       <Card title={'Tezos Transactions Volume (30d)'}>
         <Content>
-          <TransactionChart data={data} />
+          <div style={{ marginRight: "20px", height: 112, width: "370px" }} >
+            <AreaChart data={data} />
+          </div>
           <FlexColumn justifyContent="space-around">
             <DataBox valueType="currency-short" title="24h Volume" value={txData.volume} />
             <DataBox title="24h Transactoions" value={txData.txn} />
