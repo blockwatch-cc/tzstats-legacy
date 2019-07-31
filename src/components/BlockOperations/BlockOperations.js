@@ -1,26 +1,29 @@
 import React from 'react';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll'
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { Card, FlexRowSpaceBetween, Blockies } from '../Common';
+import TxTypeIcon from '../TxTypeIcon';
 import { formatCurrency, getShortHash, capitalizeFirstLetter } from '../../utils'
-import { toDataUrl } from 'blockies';
 
 
-const getTypeIcon = (type) => {
-  switch (type) {
-    case 'transaction':
-      return <TxTypeIcon color="#26B2EE">&#8827;</TxTypeIcon>;
-    case 'unsuccessful':
-      return <TxTypeIcon color="#FC6483">&#8827;</TxTypeIcon>;
-    case 'endorsement':
-      return <TxTypeIcon color="#FC6483">&#x2713;</TxTypeIcon>;
-    case 'delegation':
-      return <TxTypeIcon color="#FC6483">&#8919;</TxTypeIcon>;
-    default:
-      return "";
+const BlockOperations = ({ data }) => {
+
+  const [allOperations, setAllOperations] = React.useState(data);
+  const [tableData, setTableData] = React.useState(data.slice(0, 10));
+  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations);
+
+  function fetchMoreOperations() {
+
+    if (tableData.length != allOperations.length) {
+      const sliceIndex = allOperations.length - tableData.length < 10
+        ? allOperations.length
+        : tableData.length + 10
+      let newTableData = allOperations.slice(tableData.length, sliceIndex);
+      setTableData(prevState => ([...prevState, ...newTableData]));
+      setIsFetching(false);
+    }
   }
-}
-
-const BlockOperations = ({ block }) => {
 
   return (
     <Wrapper>
@@ -33,26 +36,32 @@ const BlockOperations = ({ block }) => {
           <TableHeader>Hash</TableHeader>
         </FlexRowSpaceBetween>
 
-        {block.ops.map((item) => {
+        {tableData.map((item, i) => {
           return (
-            <FlexRowSpaceBetween>
+            <FlexRowSpaceBetween key={i}>
               <TableCell>
                 <Blockies hash={item.sender} />
-                <Link>{getShortHash(item.sender)}</Link>
+                <HashLink to={`/account/${item.sender}`}>
+                  {getShortHash(item.sender)}
+                </HashLink>
               </TableCell>
               <TypeCell>
-                {getTypeIcon(item.type)}
+                <TxTypeIcon isSuccess={item.is_success} type={item.is_contract ? 'contract' : item.type} />
                 {capitalizeFirstLetter(item.type)}
               </TypeCell>
               <TableCell>
                 <Blockies hash={item.sender} />
-                <Link>{getShortHash(item.receiver)}</Link>
+                <HashLink to={`/account/${item.sender}`}>
+                  {getShortHash(item.receiver)}
+                </HashLink>
               </TableCell>
               <TableCell >
                 {formatCurrency(item.volume)}
               </TableCell>
               <TableCell>
-                <Link>{getShortHash(item.hash)}</Link>
+                <HashLink to={`/operation/${item.hash}`}>
+                  {getShortHash(item.hash)}
+                </HashLink>
               </TableCell>
             </FlexRowSpaceBetween>
           )
@@ -62,13 +71,9 @@ const BlockOperations = ({ block }) => {
     </Wrapper>
   );
 };
-const Link = styled.a`
-color:#26B2EE
-`
-const TxTypeIcon = styled.span`
-    font-size:14px;
-    color: ${props => props.color};
-    margin-right: 3px;
+
+const HashLink = styled(Link)`
+    color:#26B2EE
 `;
 
 const TableCell = styled.div`
@@ -77,7 +82,7 @@ const TableCell = styled.div`
     height: 25px;
 `;
 const TypeCell = styled(TableCell)`
-color: #fff;
+    color: #fff;
 `
 const TableHeader = styled.div`
     font-size:12px;
@@ -85,10 +90,10 @@ const TableHeader = styled.div`
     color: rgba(255, 255, 255, 0.52);
     `;
 const Wrapper = styled.div`
-        min-width: 340px;
-        flex:1.8;
-        margin: 0 5px;
-    `
+    min-width: 340px;
+    flex:1.8;
+    margin: 0 5px;
+`
 export default BlockOperations;
 
 

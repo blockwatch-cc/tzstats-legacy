@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRow, FlexColumn, Blockies } from '../Common';
+import { Card, DataBox, FlexRow, FlexColumn, Blockies, CopyHashButton } from '../Common';
 import { backerAccounts } from '../../config/backer-accounts';
 import { timeFormat } from 'd3-time-format';
 import { getShortHash } from '../../utils';
@@ -16,7 +16,7 @@ const BlockInfo = ({ block }) => {
         <FlexColumn minHeight={200} justifyContent="space-between">
           <FlexRow justifyContent="space-between">
             <DataBox
-              title={timeFormat('%a, %d %B %H')(new Date(block.time))}
+              title={timeFormat('%a, %d %B %H:%M')(new Date(block.time))}
               value={block.height}
             />
             <DataBox
@@ -25,29 +25,32 @@ const BlockInfo = ({ block }) => {
             />
           </FlexRow>
           <FlexRow mt={1}>
-            {
-              [...Array(32).keys()].map(() => {
-                return <div style={{ height: "12px", margin: "2px", width: "11px", background: "#27b9f7", }} ></div>
+            {block.endorsed_slots ?
+              [...((block.endorsed_slots).toString(2))].map((item, i) => {
+                console.log(block.endorsed_slots, 'end')
+                return (
+
+                  <Slot key={i} color={item} >
+                    {item === "0" ? i + 1 : ""}
+                  </Slot>
+                )
+
               })
+              :""
             }
           </FlexRow>
           <FlexRow justifyContent="space-between">
-            <div style={{ fontSize: "14px" }}> {getShortHash(block.hash)}</div>
-            <DataBox title="Slots Endorsed" />
+            <CopyHashButton value={block.hash} type="block" />
+            {block.endorsed_slots ? <DataBox title="Slots Endorsed" /> : ""}
             <Link>
-              <div> <Blockies hash={block.baker} />
-                {getShortHash(block.baker)}</div>
-
+              <div>
+                <Blockies hash={block.baker} />
+                {getShortHash(block.baker)}
+              </div>
               <DataBox title="Baker" />
             </Link>
-
           </FlexRow>
-
-
-
           <FlexRow justifyContent="space-between">
-
-
             <FlexColumn minHeight={80} justifyContent="space-between">
               <DataBox
                 title="Gas Used"
@@ -66,44 +69,44 @@ const BlockInfo = ({ block }) => {
                 title="Gas Limit"
                 value={block.gas_price} />
             </FlexColumn>
-
             <FlexColumn textAlign="right" minHeight={80} justifyContent="space-between">
               <DataBox
                 title="Solvetime"
                 value={block.solvetime} />
-
               <DataBox
                 title="Priority"
                 value={block.priority} />
-
             </FlexColumn>
             <FlexColumn textAlign="right" minHeight={80} justifyContent="space-between">
-
-
               <DataBox
                 valueType="currency-fixed"
                 title="Block Rewards"
                 value={block.rewards} />
-
               <DataBox
                 valueType="currency-fixed"
                 title="Block Fees"
                 value={block.fees} />
-
             </FlexColumn>
-
           </FlexRow>
-
         </FlexColumn>
       </Card >
     </Wrapper >
   );
 };
 const Link = styled.a`
-    color:#26B2EE
+    color:#26B2EE;
     font-size:14px;
     text-align:right;
     `
+const Slot = styled.div`
+  height: 12px; 
+  margin: 2px;
+  width: 11px;
+  color: #fff;
+  text-align:center;
+  font-size: 8px;
+  background:${props => props.color === "1" ? "#27b9f7" : "#525566"} ;
+ `
 
 const Wrapper = styled.div`
         min-width: 340px;
@@ -111,14 +114,4 @@ const Wrapper = styled.div`
         margin: 0 5px;
     `
 export default BlockInfo;
-
-
-    // const newData = [
-//   {color: "#18ecf2", value: block.n_accounts, id: "New Accounts" },
-//   {color: "#29bcfa", value: block.n_new_implicit, id: "New Implicit" },
-//   {color: "#858999", value: block.n_new_managed, id: "New Managed" },
-//   {color: "#3e85f1", value: block.n_new_contracts, id: "New Contracts" },
-//   {color: "hsl(357, 70%, 50%)", value: block.n_cleared_accounts, id: "Deleted Accounts", },
-//   {color: "#000", value: block.n_funded_accounts, id: "Funded Accounts" },
-      // ]
 

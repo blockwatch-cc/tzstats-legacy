@@ -47,11 +47,11 @@ const BlocksPie = ({ data }) => {
           anchor: 'right',
           direction: 'column',
           justify: false,
-          translateX: -75,
+          translateX: -90,
           itemDirection: 'left-to-right',
           itemWidth: 78,
           itemHeight: 15,
-          symbolSize: 8,
+          symbolSize: 10,
           symbolShape: 'circle',
           itemTextColor: 'rgba(255, 255, 255, 0.52)',
           effects: [
