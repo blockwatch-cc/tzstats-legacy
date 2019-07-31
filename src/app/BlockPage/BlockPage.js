@@ -6,11 +6,12 @@ import BlockInfo from '../../components/BlockInfo'
 import BlockTxChart from '../../components/BlockTxChart'
 import { getBlock, getBlockData } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common'
-import { wrapToVolume } from '../../utils';
+import { withRouter } from 'react-router-dom';
 
+const BlockPage = ({ match, history }) => {
 
-const BlockPage = ({ match }) => {
-  const [data, setData] = React.useState({ isLoaded: false });
+  const [data, setData] = React.useState({ isLoaded: false, match });
+
   const currentBlockHash = match.params.hash;
 
   React.useEffect(() => {
@@ -18,29 +19,33 @@ const BlockPage = ({ match }) => {
 
       let [block, blockData] = await Promise.all([
         getBlock({ id: currentBlockHash }),
-        getBlockData({ days: 29 }),
+        getBlockData(),
       ]);
+      if (!block) {
+        history.push(`/not-found/${currentBlockHash}`)
+      }
 
       setData({
         isLoaded: true,
         block: block,
-        blockData
+        blockData,
+        operations: block.ops
       });
     };
 
     fetchData();
-  }, []);
+  }, [match]);
 
   return (
     data.isLoaded ?
       (
         <Wrapper>
-          <BlockHistory data={data.blockData} />
+          <BlockHistory data={data.blockData} currentBlock={data.block} />
           <JoinContainer>
             <BlockInfo block={data.block} />
             <BlockTxChart block={data.block} />
           </JoinContainer>
-          <BlockOperations block={data.block} />
+          <BlockOperations data={data.operations} />
         </Wrapper >
       ) :
       <Spiner />
@@ -56,4 +61,4 @@ const JoinContainer = styled.div`
 const Wrapper = styled.div`
                 
 `;
-export default BlockPage;
+export default withRouter(BlockPage);
