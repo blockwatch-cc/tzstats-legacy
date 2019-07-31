@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { PriceHistory } from '../../components/PriceHistory/';
 import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreackdown';
-import VoitingProgress from '../../components/VoitingProgress';
+import ElectionProgress from '../../components/ElectionProgress';
 import AccountsGrowth from '../../components/AccountsGrowth';
 import { getMarketData } from '../../services/api/blockwatch';
-import { getVoitingData, getTxsData, getLastBlockTxData } from '../../services/api/tz-stats';
+import { getElectionData, getTxsData, getLastBlockTxData } from '../../services/api/tz-stats';
 import { wrapTxs } from '../../utils';
 import TransactionVoume from '../../components/TransactionVoume';
 import { Spiner } from '../../components/Common'
@@ -16,11 +16,11 @@ const Home = () => {
   React.useEffect(() => {
     const fetchData = async () => {
 
-      let [priceHistory, txDataLast, txData, voiting] = await Promise.all([
+      let [priceHistory, txDataLast, txData, election] = await Promise.all([
         getMarketData({ days: 30 }),
         getLastBlockTxData(),
         getTxsData({ days: 30 }),
-        getVoitingData()
+        getElectionData()
       ]);
       const trasactionVolume = wrapTxs(txData);
 
@@ -28,7 +28,7 @@ const Home = () => {
         priceHistory,
         txs: trasactionVolume,
         isLoaded: true,
-        voiting,
+        election,
         txData: { volume: txDataLast[1], txn: txDataLast[2] }
       });
 
@@ -51,7 +51,7 @@ const Home = () => {
           </JoinContainer>
           <JoinContainer>
             <AccountsGrowth />
-            <VoitingProgress voiting={data.voiting} />
+            <ElectionProgress election={data.election} />
           </JoinContainer>
         </Wrapper>
       ) :
