@@ -42,11 +42,13 @@ const PriceChart = props => {
   const end = xAccessor(data[Math.max(0, data.length - 70)]);
 
   const xExtents = [start, end];
-  const clamp = false;
-  const zoomEvent = function (e) { };
+
+  const zoomEvent = false;
   const max = _.maxBy(data, function (o) { return o.high; }).high;
   const min = _.minBy(data, function (o) { return o.low; }).low;
 
+  const panEvent = false;
+  const clamp = false;
   const zoomAnchor = function (e) { };
   const bar_colors = [
     '#2FC260',     // unrealized loss
@@ -79,10 +81,12 @@ const PriceChart = props => {
 
   }
 
-  const panEvent = false;
+
   return (
-    <ChartCanvas height={165}
+    <ChartCanvas
+      height={165}
       width={width}
+      seriesName={""}
       margin={{
         left: 0, right: 50, top: 30, bottom: 0
       }}
@@ -96,7 +100,7 @@ const PriceChart = props => {
       xScale={xScale}
       xAccessor={xAccessor}
       displayXAccessor={displayXAccessor}
-      xExtents={xExtents}
+    // xExtents={xExtents}
     >
       <Chart id={1}
         height={55}

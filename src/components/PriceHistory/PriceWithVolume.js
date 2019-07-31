@@ -3,11 +3,12 @@ import PriceChart from './PriceChart';
 import { Card, FlexColumn, FlexRow, DataBox, FlexRowWrap } from '../Common';
 import styled from 'styled-components';
 import { CustomVolumeChart } from '../../components/VolumeChart';
-
+import { getPeakVolumeTime, getDailyVolume } from '../../utils';
 
 //TODO REFACTORING
 const PriceWithVolume = ({ priceHistory, volumeHistory }) => {
   let lastPrice = priceHistory.slice(-1).pop();
+
   return (
     <Wrapper>
       <Card title={'Price History in US Dollars (30d)'}>
@@ -24,7 +25,7 @@ const PriceWithVolume = ({ priceHistory, volumeHistory }) => {
             <DataBox title="-  12:00" />
             <DataBox title="-  14:00" />
           </VolumeScale>
-          <VolumeLegend />
+          <VolumeLegend peak={getPeakVolumeTime(volumeHistory)} daylyVolume={getDailyVolume(priceHistory)} />
         </FlexRowWrap>
       </Card>
     </Wrapper>
@@ -78,34 +79,15 @@ const PriceLegend = ({ lastPrice }) => {
   )
 }
 
-{/* <FlexColumn justifyContent="space-around" minWidth={157} pl={-10} flex={0.25}>
-      <FlexRow justifyContent="space-between">
-        <DataBox valueType="currency-fixed"
-          title="Open price"
-          value={123} />
-        <DataBox
-          valueType="currency-fixed"
-          title="Close price"
-          value={123} />
-      </FlexRow>
-      <FlexRow justifyContent=" space-between">
-        <DataBox valueType="currency-fixed"
-          title="Highest Price"
-          value={123} />
-        <DataBox valueType="currency-fixed"
-          title="Lowest price"
-          value={123} />
-      </FlexRow>
-    </FlexColumn> */}
-const VolumeLegend = (params) => {
+const VolumeLegend = ({ peak, daylyVolume }) => {
   return (
     <FlexColumn border="1px solid #787c8b" textAlign="center" justifyContent="space-around" ml={20} minWidth={157} pl={-10} flex={0.25}>
       <DataBox
-        valueType="currency-usd-fixed"
+        valueType="currency-usd-short"
         title="Daily Volume"
-        value={47677} />
+        value={daylyVolume} />
       <FlexColumn>
-        <TimeBox>{"08:00 - 12:00"}</TimeBox>
+        <TimeBox>{peak}</TimeBox>
         <DataBox
           valueType="currency-fixed"
           title="Peak of Trade"
@@ -115,11 +97,11 @@ const VolumeLegend = (params) => {
   )
 }
 const TimeBox = styled.div`
-color: #39d7ed;
-`
+    color: #39d7ed;
+`;
 const Wrapper = styled.div`
-      min-width: 340px;
-      margin-top:-20px;
-    `
+    min-width: 340px;
+    margin-top:-20px;
+`;
 
 export default PriceWithVolume;
