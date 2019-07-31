@@ -160,7 +160,7 @@ export const FlexRowSpaceBetween = styled(Box)`
 export const FlexRowSpaceAround = styled(Box)`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   ${alignItems}
   ${alignContent}

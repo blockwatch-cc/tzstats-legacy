@@ -21,6 +21,9 @@ export { default as Legend } from './Legend';
 export { default as DataBox } from './DataBox';
 export { default as Spiner } from './CenteredSpinner';
 export { default as Blockies } from './Blockies';
+export { default as CopyHashButton } from './CopyHashButton';
+export { default as HashedBlock } from './HashedBlock';
+export { default as Centered } from './Centered';
 export {
     Box,
     InlineBox,

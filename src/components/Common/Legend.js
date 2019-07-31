@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DataBox } from '../Common'
+import { DataBox } from '.'
 
 
 const Legend = ({ settings }) => {
