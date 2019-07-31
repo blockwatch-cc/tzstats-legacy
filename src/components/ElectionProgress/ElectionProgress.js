@@ -7,7 +7,6 @@ import { convertMinutes, getShortHash } from '../../utils';
 import _ from 'lodash';
 
 const ElectionProgress = ({ election }) => {
-  console.log("Election ", election);
   let vote = election[election.voting_period];
   let voteSettings = getVoteSettings(vote);
   let proposalSettings = getProposalSettings(vote);

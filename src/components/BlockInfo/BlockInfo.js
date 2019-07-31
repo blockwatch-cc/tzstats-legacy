@@ -26,7 +26,7 @@ const BlockInfo = ({ block }) => {
           </FlexRow>
           <FlexRow mt={1}>
             {block.endorsed_slots ?
-              [...((block.endorsed_slots).toString(2))].map((item, i) => {
+              [...((block.endorsed_slots).toString(2))].reverse().map((item, i) => {
                 console.log(block.endorsed_slots, 'end')
                 return (
 
@@ -97,7 +97,7 @@ const BlueLink = styled(Link)`
     text-align:right;
 `
 const Slot = styled.div`
-  height: 12px; 
+  height: 12px;
   margin: 2px;
   width: 11px;
   color: #fff;
