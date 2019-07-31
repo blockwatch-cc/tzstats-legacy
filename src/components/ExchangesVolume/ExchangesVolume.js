@@ -39,7 +39,7 @@ function getVolumeSettings(data) {
     [
       data.kraken.volume_base,
       data.bitfinex.volume_base,
-      //data.hitbtc.volume_base,
+      data.hitbtc.volume_base,
       //data.huobi.volume_base
     ]);
 
@@ -56,12 +56,12 @@ function getVolumeSettings(data) {
       "color": "#29bcfa",
       "percent": Math.round(data.bitfinex.volume_base / sum * 100)
     },
-    // {
-    //   "id": "Hitbtc",
-    //   "value": data.hitbtc.volume_base,
-    //   "color": "#3e85f1",
-    //   "percent": Math.round(data.hitbtc.volume_base / max * 100)
-    // },
+    {
+      "id": "Hitbtc",
+      "value": data.hitbtc.volume_base,
+      "color": "#3e85f1",
+      "percent": Math.round(data.hitbtc.volume_base / sum * 100)
+    },
     // {
     //   "id": "Huobi",
     //   "value": data.huobi.volume_base,
