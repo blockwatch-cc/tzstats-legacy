@@ -87,6 +87,18 @@ function getTradeCurrencySettings(data) {
       percent: ((data.ETH.volume_base / total) * 100).toFixed(),
       value: data.ETH.volume_base.toFixed()
     },
+    {
+      id: "CAD",
+      color: "#858999",
+      percent: ((data.CAD.volume_base / total) * 100).toFixed() && 1,
+      value: data.CAD.volume_base.toFixed()
+    },
+    {
+      id: "USDT",
+      color: "#858999",
+      percent: ((data.USDT.volume_base / total) * 100).toFixed(),
+      value: data.USDT.volume_base.toFixed()
+    },
   ]
 }
 
