@@ -19,8 +19,8 @@ const MarketPage = props => {
       let [marketData, volumeData, tikers, trades] = await Promise.all([
         getMarketData({ days: 29 }),
         getMarketData({ days: 30, collapse: '4h', limit: 180 }),
-        getExchangeTikers({ pair: "XTZ_USD" }),
-        getTradesByCurrencies({ exchange: "kraken" })
+        getExchangeTikers(),
+        getTradesByCurrencies()
 
       ]);
       let volume = wrapToVolume(volumeData)
