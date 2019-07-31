@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, FlexRow } from '../Common';
-import { backerAccounts } from '../../config/backer-accounts';
+import { getDelegatorByHash } from '../../utils'
 
 import AccountName from './AccountName'
 
 const AccountInfo = props => {
-  const name = Object.keys(backerAccounts).filter(hash => backerAccounts[hash] === props.address);
+  const name = getDelegatorByHash(props);
 
   return (
     <Wrapper>
@@ -44,4 +44,5 @@ const Wrapper = styled.div`
     margin: 0 5px;
 
 `
+
 export default AccountInfo;
