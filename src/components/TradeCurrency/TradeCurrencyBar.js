@@ -47,7 +47,7 @@ const data = [
 
 
 const getBarColor = bar => bar.data.color;
-const TradeCurencyBar = ({ data1 }) => (
+const TradeCurrencyBar = ({ data1 }) => (
   <Wrapper >
     <ResponsiveBar
       data={data}
@@ -92,7 +92,7 @@ const TradeCurencyBar = ({ data1 }) => (
 const Wrapper = styled.div`
     flex: 1;
     width:380px;
-    height: 150px; 
+    height: 150px;
     margin-left:-35px;
     @media ${Devices.mobileS} {
       width: 260px;
@@ -103,8 +103,8 @@ const Wrapper = styled.div`
     @media ${Devices.mobileL} {
       width: 260px;
     }
-  
+
 `;
 
 
-export default TradeCurencyBar;
+export default TradeCurrencyBar;

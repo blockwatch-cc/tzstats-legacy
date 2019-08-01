@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { getOperation, getAccountByHash } from '../../services/api/tz-stats';
-import OperationAccountDetiles from '../../components/OperationAccountDetiles'
-import OperationDetiles from '../../components/OperationDetiles'
-import OperationTypeDetiles from '../../components/OperationTypeDetiles'
+import OperationAccountDetails from '../../components/OperationAccountDetails'
+import OperationDetails from '../../components/OperationDetails'
+import OperationTypeDetails from '../../components/OperationTypeDetails'
 import { Spiner } from '../../components/Common'
 import { wrapToVolume, getDelegatorByHash, } from '../../utils';
 
@@ -35,8 +35,8 @@ const OperationPage = ({ match }) => {
     data.isLoaded ?
       (
         <Wrapper>
-          <OperationTypeDetiles operation={data.operation} />
-          <OperationDetiles operation={data.operation} />
+          <OperationTypeDetails operation={data.operation} />
+          <OperationDetails operation={data.operation} />
         </Wrapper >
       ) :
       <Spiner />
@@ -50,6 +50,6 @@ const JoinContainer = styled.div`
 `;
 
 const Wrapper = styled.div`
-                
+
 `;
 export default OperationPage;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PriceHistory } from '../../components/PriceHistory/';
-import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreackdown';
+import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreakdown';
 import ElectionProgress from '../../components/ElectionProgress';
 import AccountsGrowth from '../../components/AccountsGrowth';
 import { getMarketData } from '../../services/api/blockwatch';
