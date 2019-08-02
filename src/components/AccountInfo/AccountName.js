@@ -39,14 +39,6 @@ export default AccountName;
 
 
 const Container = styled.div`
-                  justify-content: space-between;
-                  padding-right: 40px;
-                `;
-
-
-
-const ValueSmall = styled.div`
-                  color: #fff;
-                  font-size: 14px;
-                `;
-
+    justify-content: space-between;
+    padding-right: 40px;
+`;

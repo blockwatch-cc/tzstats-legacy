@@ -9,19 +9,19 @@ import _ from 'lodash';
 const VoitingProgress = ({ voiting }) => {
   let voitingSettings = getVoitingSettings(voiting);
   let proposalSettings = getProposalSettings(voiting);
-  let topProposal = _.maxBy(voiting.proposal_vote.proposals, r => r.rolls)
+  let topProposal = _.maxBy(voiting.proposal.proposals, r => r.rolls)
   let proposalDeitels = proposals[topProposal.hash];
-  let endTime = (new Date(voiting.proposal_vote.period_end_time) - Date.now()) / 60000
+  let endTime = (new Date(voiting.proposal.period_end_time) - Date.now()) / 60000
 
 
   return (
     <Wrapper>
       {
-        voiting.proposal_vote
+        voiting.proposal
           ? <Card title={`On-Chain Governance Proposal Period closes in ${convertMinutes(endTime)}`}>
             <FlexRowSpaceBetween>
-              <DataBox title="Participation Rolls" value={voiting.proposal_vote.turnout_rolls} />
-              <DataBox title="Maximum Rolls" value={voiting.proposal_vote.eligible_rolls} />
+              <DataBox title="Participation Rolls" value={voiting.proposal.turnout_rolls} />
+              <DataBox title="Maximum Rolls" value={voiting.proposal.eligible_rolls} />
             </FlexRowSpaceBetween>
             <HorizontalProgressBar settings={voitingSettings} />
             <HorizontalProgressBar settings={proposalSettings} />
@@ -57,40 +57,39 @@ const Content = styled.div`
   
 `
 function getVoitingSettings(voiting) {
-  let topProposal = voiting.proposal_vote.proposals[0]
+
   return [
     {
-      percent: (voiting.proposal_vote.turnout_rolls / voiting.proposal_vote.eligible_rolls) * 100,
+      percent: (voiting.proposal.proposal / voiting.proposal.eligible_rolls) * 100,
       color: '#19f3f9',
       title: 'Participation Rolls',
-      value: voiting.proposal_vote.turnout_rolls,
+      value: voiting.proposal.turnout_rolls,
     },
     {
-      percent: ((voiting.proposal_vote.eligible_rolls - voiting.proposal_vote.turnout_rolls) / voiting.proposal_vote.eligible_rolls) * 100,
+      percent: ((voiting.proposal.eligible_rolls - voiting.proposal.turnout_rolls) / voiting.proposal.eligible_rolls) * 100,
       color: '#858999;',
       title: 'Maximum Rolls',
-      value: voiting.proposal_vote.eligible_rolls - voiting.proposal_vote.turnout_rolls,
+      value: voiting.proposal.eligible_rolls - voiting.proposal.turnout_rolls,
     },
   ];
 }
 
-//Todo remove || 1
 function getProposalSettings(voiting) {
 
-  let topProposal = voiting.proposal_vote.proposals[0]
+  let topProposal = voiting.proposal.proposals[0]
 
   return [
     {
-      percent: ((topProposal.rolls) / voiting.proposal_vote.eligible_rolls) * 100,
+      percent: ((topProposal.rolls) / voiting.proposal.eligible_rolls) * 100,
       color: '#19f3f9',
       title: 'Top Proposal Rolls',
       value: topProposal.rolls,
     },
     {
-      percent: ((voiting.proposal_vote.eligible_rolls - (topProposal.rolls)) / voiting.proposal_vote.eligible_rolls) * 100,
+      percent: ((voiting.proposal.eligible_rolls - (topProposal.rolls)) / voiting.proposal.eligible_rolls) * 100,
       color: '#858999;',
       title: 'Maximum Top Rolls',
-      value: voiting.proposal_vote.eligible_rolls - topProposal.rolls,
+      value: voiting.proposal.eligible_rolls - topProposal.rolls,
     },
   ];
 }
