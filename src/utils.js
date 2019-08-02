@@ -55,6 +55,7 @@ export function wrapFlowData(flowData, account) {
 
   let spandableBalance = account.spendable_balance;
   let dataInOut = [];
+
   //[0]-time [1]-in [2]-out
   flowData.map((item, i) => {
 

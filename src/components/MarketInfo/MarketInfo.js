@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getMarketData } from '../../services/api/blockwatch';
+import { getLastTezosPrice } from '../../services/api/tz-stats';
 import { useGlobal, setGlobal } from 'reactn';
 import { format } from 'd3-format';
 import { Card, Elevation } from '@blueprintjs/core';
@@ -11,33 +11,32 @@ const MarketInfo = ({ history }) => {
   const [chain] = useGlobal('chain');
 
   const [lastMarketData] = useGlobal('lastMarketData');
+  console.log(lastMarketData, 'la')
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let lastMarketData = await getMarketData({ days: 1 });
-      setGlobal({ lastMarketData: lastMarketData[0] });
+      let lastMarketData = await getLastTezosPrice();
+      setGlobal({ lastMarketData: lastMarketData });
     };
     chain.height && fetchData();
   }, [chain]);
 
   const calculateMarketCup = () => {
-    return (lastMarketData.close * (chain.supply.activated + chain.supply.mined + chain.supply.vested - chain.supply.burned));
+    return (lastMarketData.last * (chain.supply.activated + chain.supply.mined + chain.supply.vested - chain.supply.burned));
   };
-  const getLastChanges = () => {
-    return ((lastMarketData.close - lastMarketData.open) / lastMarketData.open * 100).toFixed(1);
-  };
+
   const handleClick = () => {
     history.push('/market');
   };
   const getPriceIndecator = () => {
-    return getLastChanges() < 0 ? <span>&#9662;</span> : <span>&#9652;</span>
+    return lastMarketData.change < 0 ? <span>&#9662;</span> : <span>&#9652;</span>
   }
 
   return (
     <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
       <DataBox title="Tezos Price" />
       <PriceWrapper>
-        {format('$,')(lastMarketData.close.toFixed(2))} <PriceChanges>{getPriceIndecator()}{Math.abs(getLastChanges()) || 0} %</PriceChanges>
+        {format('$,')(lastMarketData.last.toFixed(2))} <PriceChanges>{getPriceIndecator()}{Math.abs(lastMarketData.change).toFixed()} %</PriceChanges>
       </PriceWrapper>
       <DataBox
         type='title-bottom'

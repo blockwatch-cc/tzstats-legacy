@@ -4,8 +4,7 @@ import { PriceWithVolume } from '../../components/PriceHistory';
 import TzSpinner from '../../components/TzSpinner'
 import TradeCurrency from '../../components/TradeCurrency'
 import ExchangesVolume from '../../components/ExchangesVolume'
-import { getExchangeTikers, getTradesByCurrencies } from '../../services/api/tz-stats';
-import { getMarketData } from '../../services/api/blockwatch';
+import { getExchangeTikers, getTradesByCurrencies, getMarketSeries } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common'
 import { wrapToVolume } from '../../utils';
 
@@ -17,8 +16,8 @@ const MarketPage = props => {
     const fetchData = async () => {
 
       let [marketData, volumeData, tickers, trades] = await Promise.all([
-        getMarketData({ days: 29 }),
-        getMarketData({ days: 30, collapse: '4h', limit: 180 }),
+        getMarketSeries({ days: 30, limit: 30 }),
+        getMarketSeries({ days: 30, collapse: '4h', limit: 180 }),
         getExchangeTikers(),
         getTradesByCurrencies()
 

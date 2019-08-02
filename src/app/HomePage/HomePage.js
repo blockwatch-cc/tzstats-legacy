@@ -4,8 +4,7 @@ import { PriceHistory } from '../../components/PriceHistory/';
 import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreakdown';
 import ElectionProgress from '../../components/ElectionProgress';
 import AccountsGrowth from '../../components/AccountsGrowth';
-import { getMarketData } from '../../services/api/blockwatch';
-import { getElectionData, getTxsData, getLastBlockTxData } from '../../services/api/tz-stats';
+import { getElectionData, getTxsData, getLastBlockTxData, getMarketSeries } from '../../services/api/tz-stats';
 import { wrapTxs } from '../../utils';
 import TransactionVoume from '../../components/TransactionVoume';
 import { Spiner } from '../../components/Common'
@@ -17,7 +16,7 @@ const Home = () => {
     const fetchData = async () => {
 
       let [priceHistory, txDataLast, txData, election] = await Promise.all([
-        getMarketData({ days: 30 }),
+        getMarketSeries({ days: 30, limit: 30 }),
         getLastBlockTxData(),
         getTxsData({ days: 30 }),
         getElectionData()
