@@ -10,7 +10,7 @@ const BlockTxChart = ({ block }) => {
 
   return (
     <Wrapper>
-      <Card title={`Total Operations ${block.n_ops}`}>
+      <Card title={`Total Operations ${block.n_ops}` + (block.n_ops_failed ? ` ( ${block.n_ops_failed} failed)` : "")}>
         <FlexRowSpaceAround>
           <Chart data={settings} />
         </FlexRowSpaceAround>

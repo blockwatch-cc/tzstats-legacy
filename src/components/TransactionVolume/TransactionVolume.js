@@ -10,7 +10,7 @@ const TransactionVolume = ({ txSeries, txVol24h }) => {
     <Wrapper>
       <Card title={'Tezos On-Chain Volume (30d)'}>
         <Content>
-          <div style={{ marginRight: "20px", height: 112, width: "480px" }} >
+          <div style={{ marginRight: "20px", height: 112, width: "370px" }} >
             <AreaChart data={txSeries} />
           </div>
           <FlexColumn justifyContent="space-around">

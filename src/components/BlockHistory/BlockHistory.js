@@ -76,8 +76,8 @@ const Blocks = ({ data, timeArray60m, currentBlockHeight }) => {
 
 
 const BlockSquare = styled(Link)`
-  width: 12.5px;
-  height: 12.5px;
+  width: 10px;
+  height: 10px;
   margin: 1px;
   border: ${prop => prop.isCurrent ? "1px solid #fff;" : "none;"}
   background: ${prop => prop.color};

@@ -94,10 +94,9 @@ const BlueLink = styled(Link)`
     text-align:right;
 `
 const Slot = styled.div`
-    height: 15px;
-    width: 15px;
+    height: 11px;
+    width: 11px;
     margin: 2px;
-    padding: 2px;
     color: #fff;
     text-align:center;
     font-size: 8px;
