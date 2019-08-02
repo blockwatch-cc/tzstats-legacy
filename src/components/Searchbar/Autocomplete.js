@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FlexRow, FlexRowSpaceBetween } from '../Common';
 
-const Autocomplete = ({ suggestions, isFocus, handleMouseLeave, handleSearch, cleanSuggestions }) => {
+const Autocomplete = ({ suggestions, isFocus, onMouseLeave, onMouseEnter, handleSearch, cleanSuggestions }) => {
 
   return (
 
     (isFocus && suggestions.length > 0) &&
-    <Wrrapper onMouseLeave={handleMouseLeave}>
+    <Wrrapper onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
       <FlexRowSpaceBetween>
         <Title>Recent History</Title>
         <CleanButton onClick={e => cleanSuggestions()}>

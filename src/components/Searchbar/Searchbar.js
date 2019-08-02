@@ -9,22 +9,29 @@ import Autocomplete from './Autocomplete'
 const Searchbar = ({ history }) => {
   const [value, setValue] = useState('');
   const [isFocus, setIsFocus] = useState(false);
+  const [isMouseEnter, setIsMouseEnter] = useState(false);
   const [enterPress, setKeyPressed] = useKeyPress(13);
   const [suggestions, setSuggestions] = useLocalStorage('suggestions', []);
 
 
   const search = (searchValue) => {
-    setKeyPressed(false)
-    setValue("")
-    let searchType = getSearchType(searchValue);
-    let newSuggestions = suggestions.filter(r => r.value !== searchValue);
-    newSuggestions.unshift({ type: capitalizeFirstLetter(searchType), value: searchValue });
-    setSuggestions(newSuggestions)
-    searchValue && history.push(`/${searchType}/${searchValue}`);
+
+    if (searchValue) {
+      setKeyPressed(false)
+      setValue("")
+      setIsMouseEnter(true)
+      setIsFocus(false)
+      let searchType = getSearchType(searchValue);
+      let newSuggestions = suggestions.filter(r => r.value !== searchValue);
+      newSuggestions.unshift({ type: capitalizeFirstLetter(searchType), value: searchValue });
+      setSuggestions(newSuggestions)
+      searchValue && history.push(`/${searchType}/${searchValue}`);
+    }
   }
 
-  const handleOnChange = () =>{
-    
+  const handleOnBlur = () => {
+
+
   }
 
 
@@ -36,9 +43,8 @@ const Searchbar = ({ history }) => {
           type="text"
           value={value || ''}
           onChange={e => setValue(e.target.value)}
-          onMouseEnter={e => setIsFocus(true)}
           onFocus={e => setIsFocus(true)}
-          onBlur={e => setIsFocus(false)}
+          onBlur={e => !isMouseEnter && setIsFocus(false)}
           placeholder="Explore blocks, operations, accounts, elections, and cycles …"
         />
         <CleanInput onClick={e => setValue("")}>&#8855;</CleanInput>
@@ -48,7 +54,8 @@ const Searchbar = ({ history }) => {
         isFocus={isFocus}
         handleSearch={search}
         cleanSuggestions={e => setSuggestions([])}
-        handleMouseLeave={e => setIsFocus(false)}
+        onMouseLeave={e => setIsMouseEnter(false)}
+        onMouseEnter={e => setIsMouseEnter(true)}
       />
     </SearchContainer>
   );
