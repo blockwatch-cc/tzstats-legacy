@@ -112,28 +112,47 @@ export const getElectionHistory = async () => {
 
 
 //******************FLOW****************** */
-export const getStakingData = async ({ hash, days }) => {
+export const getStakingData = async ({ hash, days = 30 }) => {
   const statTime = `now-${days}d`;
   let [balance, deposits, rewards, fees] = await Promise.all([
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d`),
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=deposits&collapse=1d`),
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=rewards&collapse=1d`),
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=fees&collapse=1d`),
+    request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`),
+    request(`/series/flow?start_date=${statTime}&account=${hash}&category=deposits&collapse=1d&columns=time,amount_in,amount_out`),
+    request(`/series/flow?start_date=${statTime}&account=${hash}&category=rewards&collapse=1d&columns=time,amount_in,amount_out`),
+    request(`/series/flow?start_date=${statTime}&account=${hash}&category=fees&collapse=1d&columns=time,amount_in,amount_out`),
   ]);
 
   return {
-    balance: (await balance.json()).reverse(),
-    deposits: (await deposits.json()).reverse(),
-    rewards: (await rewards.json()).reverse(),
-    fees: (await fees.json()).reverse(),
-
+    balance: fillTimeSeries((await balance.json()), days, 0, 3),
+    deposits: fillTimeSeries((await deposits.json()), days, 0, 3),
+    rewards: fillTimeSeries((await rewards.json()), days, 0, 3),
+    fees: fillTimeSeries((await fees.json()), days, 0, 3),
   };
 };
+
+function fillTimeSeries(series, days = 30, filler = 0, minlength = 1) {
+   let to = new Date();
+   to.setUTCHours(0, 0, 0, 0);
+   let from = new Date(to);
+   from.setUTCDate(to.getUTCDate()-30);
+   let pos = 0;
+   let res = [];
+   let zero = new Array(series.length?series[0].length:minlength).fill(filler);
+   for (let d = from; d <= to; d.setUTCDate(d.getUTCDate()+1)) {
+     if (pos < series.length && series[pos][0] === d.getTime()) {
+       res.push(series[pos]);
+       pos++;
+     } else {
+       zero[0] = new Date(d).getTime();
+       res.push([...zero]);
+     }
+   }
+   return res;
+}
 
 //https://api.tzstats.com/series/flow?account=tz1WBfwbT66FC6BTLexc2BoyCCBM9LG7pnVW&collapse=1d&start_date=now-30d&category=balance&
 export const getFlowData = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
-  const response = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d`);
+  const response = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`);
 
   if (response.status === 400) {
     const { error } = await response.json();
@@ -141,8 +160,7 @@ export const getFlowData = async ({ hash, days }) => {
   }
 
   const data = await response.json();
-
-  return data;
+  return fillTimeSeries(data, days, 0, 3);
 };
 
 //******************BLOCK****************** */

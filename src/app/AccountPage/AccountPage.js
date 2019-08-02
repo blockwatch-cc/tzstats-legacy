@@ -15,20 +15,20 @@ const AccountPage = ({ match }) => {
   React.useEffect(() => {
     const fetchData = async () => {
 
-      let [account, flowData, stakingData] = await Promise.all([
+      let [account, stakingData] = await Promise.all([
         getAccountByHash(currentUserHash),
-        getFlowData({ hash: currentUserHash, days: 30 }),
+        // getFlowData({ hash: currentUserHash, days: 30 }),
         getStakingData({ hash: currentUserHash, days: 30 })
       ]);
 
-      let { stackingBond, currentDeposit, pendingReawards } = wrapStakingData({ ...stakingData, account })
-      let { inFlowData, outFlowData, dataInOut } = wrapFlowData(flowData, account);
+      let { stakingBond, currentDeposit, pendingRewards } = wrapStakingData({ ...stakingData, account })
+      let { inFlowData, outFlowData, dataInOut } = wrapFlowData(stakingData.balance, account);
 
       setData({
         account,
         flowData: dataInOut,
         isLoaded: true,
-        stakingData: [stackingBond, currentDeposit, pendingReawards]
+        stakingData: [stakingBond, currentDeposit, pendingRewards]
       });
     };
 
