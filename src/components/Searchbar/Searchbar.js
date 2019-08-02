@@ -23,6 +23,10 @@ const Searchbar = ({ history }) => {
     searchValue && history.push(`/${searchType}/${searchValue}`);
   }
 
+  const handleOnChange = () =>{
+    
+  }
+
 
   return (
     <SearchContainer>

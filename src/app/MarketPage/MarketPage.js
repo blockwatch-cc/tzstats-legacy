@@ -4,8 +4,7 @@ import { PriceWithVolume } from '../../components/PriceHistory';
 import TzSpinner from '../../components/TzSpinner'
 import TradeCurrency from '../../components/TradeCurrency'
 import ExchangesVolume from '../../components/ExchangesVolume'
-import { getMarketTickers } from '../../services/api/markets';
-import { getOhlcvData, getSeriesData } from '../../services/api/markets';
+import { getMarketTickers, getOhlcvData, getSeriesData } from '../../services/api/markets';
 import { Spiner } from '../../components/Common'
 import { wrapToVolume } from '../../utils';
 
@@ -20,7 +19,6 @@ const MarketPage = props => {
         getOhlcvData({ days: 30 }),
         getSeriesData({ dataset: 'kraken/XTZ_USD/ohlcv', days: 30, collapse: '4h', limit: 180, columns:['time','vol_base'] }),
         getMarketTickers(),
-
       ]);
       let volume = wrapToVolume(volSeries)
       let byCurrency = tickers.reduce( (s, t) => {

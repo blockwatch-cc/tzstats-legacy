@@ -32,45 +32,7 @@ const CustomVolumeChart = ({ data }) => {
 
     </Wrapper>
   )
-
 }
-
-const ChartTooltip = () => {
-  return (
-    <TooltipWrapper>
-      <Time>Tue, 22 Apr 12:00-16:00</Time>
-      <Separator />
-      <Value>
-        Volume : 123,144 ꜩ
-        </Value>
-    </TooltipWrapper>
-  );
-};
-const Time = styled.div`
-    color: rgba(255,255,255,0.52);
-    fonst-size: 13;
-`
-const Value = styled.div`
-    color: point.serieColor;
-    padding: '3px 0';
-    fontSize: '16px';
-    fontWeight: 'lighter';
-    textAlign: 'left';
-`
-const TooltipWrapper = styled.div`
-    background: '#30313b';
-    width: '300px';
-    padding: '20px 20px';
-    text-align: 'center';
-    opacity: 0.8;
-`;
-const Separator = styled.div`
-    height: '2px';
-    margin: '5px 0px';
-    background: '#424552';
-    width: '100%';
-`
-
 
 const Wrapper = styled(FlexColumnWrap)`
   /* ... */

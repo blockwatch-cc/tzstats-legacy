@@ -201,7 +201,6 @@ export const getBlock = async ({ id }) => {
   return data;
 };
 
-
 //****************** OPERATIONS ****************** */
 //https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T
 

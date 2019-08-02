@@ -11,6 +11,7 @@ const MarketInfo = ({ history }) => {
   const [chain] = useGlobal('chain');
 
   const [lastMarketData] = useGlobal('lastMarketData');
+  console.log(lastMarketData, 'la')
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -31,21 +32,19 @@ const MarketInfo = ({ history }) => {
   const calculateMarketCap = () => {
     return (lastMarketData.price * (chain.supply.activated + chain.supply.mined + chain.supply.vested - chain.supply.burned));
   };
-  const getLastChange = () => {
-    return lastMarketData.change.toFixed(1);
-  };
+
   const handleClick = () => {
     history.push('/market');
   };
-  const getPriceIndicator = () => {
-    return getLastChange() < 0 ? <span>&#9662;</span> : <span>&#9652;</span>
+  const getPriceIndecator = () => {
+    return lastMarketData.change < 0 ? <span>&#9662;</span> : <span>&#9652;</span>
   }
 
   return (
     <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
       <DataBox title="Tezos Price" />
       <PriceWrapper>
-        {format('$,')(lastMarketData.price.toFixed(2))} <PriceChanges>{getPriceIndicator()}{Math.abs(getLastChange()) || 0} %</PriceChanges>
+        {format('$,')(lastMarketData.price.toFixed(2))} <PriceChanges>{getPriceIndicator()}{Math.abs(lastMarketData.change).toFixed(1) || 0} %</PriceChanges>
       </PriceWrapper>
       <DataBox
         type='title-bottom'

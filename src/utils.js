@@ -47,6 +47,7 @@ export function wrapFlowData(flowData, account) {
 
   let spandableBalance = account.spendable_balance;
   let dataInOut = [];
+
   //[0]-time [1]-in [2]-out
   flowData.map((item, i) => {
 
@@ -194,7 +195,7 @@ export function getPeakVolumeTime(data) {
 }
 
 export function getDailyVolume(data) {
-  return _.sumBy(data, (o) => o.volume) / data.length;
+  return _.sumBy(data, (o) => o.vol_base) / data.length;
 }
 
 export function convertToTitle(str) {

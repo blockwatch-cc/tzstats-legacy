@@ -9,8 +9,7 @@ import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { last } from 'react-stockcharts/lib/utils';
 import _ from 'lodash';
-import { set } from "d3-collection";
-import { scaleOrdinal, scalePoint, scaleLinear } from "d3-scale";
+
 const PriceChart = props => {
   const {
     type,
@@ -20,17 +19,9 @@ const PriceChart = props => {
   } = props;
   const [data1, setData] = React.useState({ suffix: 1 });
 
-  let handleReset = (e) => {
 
-    setData({
-      suffix: data1.suffix + 1
-    });
-  }
 
-  let barSize = 200;
-  let bars = [1, 3, 13, 0.3]
-
-  const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => d.date);
+  const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
   let {
     data,
     xScale,
@@ -50,36 +41,6 @@ const PriceChart = props => {
   const panEvent = false;
   const clamp = false;
   const zoomAnchor = function (e) { };
-  const bar_colors = [
-    '#2FC260',     // unrealized loss
-    '#FF4141',     // unrealized profit
-    '#fa0',     // realized available cash
-    '#3df',     // locked cash
-    '#94f',     // occupied cash
-    '#fff',
-    '#025602',
-    '#11dd11',
-    '#94f',     // occupied cash
-    '#fff',  // commission
-  ]
-
-
-  const fill = (d, i) => {
-
-    return bar_colors[Math.floor(Math.random() * 10)];
-
-
-  };
-
-  const yAccessorArray = [];
-  for (let i = 0; i < Object.keys(data[0]).length - 1; i++) {
-    if (i % 2 === 1) {
-      yAccessorArray[i] = (d) => barSize / 2;
-    } else {
-      yAccessorArray[i] = (d) => barSize;
-    }
-
-  }
 
 
   return (
@@ -91,7 +52,7 @@ const PriceChart = props => {
         left: 0, right: 50, top: 30, bottom: 0
       }}
       type={type}
-      ratio={2}
+      ratio={ratio}
       data={data}
       panEvent={panEvent}
       zoomEvent={zoomEvent}
@@ -100,7 +61,7 @@ const PriceChart = props => {
       xScale={xScale}
       xAccessor={xAccessor}
       displayXAccessor={displayXAccessor}
-    // xExtents={xExtents}
+      xExtents={xExtents}
     >
       <Chart id={1}
         height={55}
@@ -148,7 +109,7 @@ const PriceChart = props => {
         />
       </Chart>
       <Chart id={2}
-        yExtents={d => d.volume}
+        yExtents={d => d.vol_base}
         opacity={1}
         height={55}
         origin={(w, h) => [0, 55]}
@@ -173,19 +134,12 @@ const PriceChart = props => {
         />
         <BarSeries
           opacity={0.8}
-          yAccessor={d => d.volume}
+          yAccessor={d => d.vol_base}
           fill={d => (d.close > d.open ? '#18ecf2' : '#858999')}
           stroke={false} />
       </Chart>
-      {/* <Chart id={3} heith={150}
-        yExtents={[0, d => d.close + d.open]}>
-        <StackedBarSeries
-          stroke={false}
-          yAccessor={[d => d.close, d => d.open]}
-          opacity={1}
-          fill={fill} />
-      </Chart> */}
-      <CrossHairCursor ratio={2} stroke="#FFFFFF" />
+
+      <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
     </ChartCanvas >
   )
 };

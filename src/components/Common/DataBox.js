@@ -91,7 +91,7 @@ const Value = ({ type, value }) => {
             case 'currency-fixed':
                 return formatCurrency(Math.round(value), ',');
             case 'currency-short':
-                return formatCurrency(value, '.2s');
+                return formatCurrency(value, '.4s');
             case 'currency-full':
                 return formatCurrency(value, ',');
             case 'currency-usd-full':

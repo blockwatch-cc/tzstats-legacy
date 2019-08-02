@@ -97,19 +97,19 @@ const BlueLink = styled(Link)`
     text-align:right;
 `
 const Slot = styled.div`
-  height: 12px;
-  margin: 2px;
-  width: 11px;
-  color: #fff;
-  text-align:center;
-  font-size: 8px;
-  background:${props => props.color === "1" ? "#27b9f7" : "#525566"} ;
+    height: 12px;
+    margin: 2px;
+    width: 11px;
+    color: #fff;
+    text-align:center;
+    font-size: 8px;
+    background:${props => props.color === "1" ? "#27b9f7" : "#525566"} ;
  `
 
 const Wrapper = styled.div`
-        min-width: 340px;
-        flex:1.8;
-        margin: 0 5px;
-    `
+    min-width: 340px;
+    flex:1.8;
+    margin: 0 5px;
+`
 export default BlockInfo;
 
