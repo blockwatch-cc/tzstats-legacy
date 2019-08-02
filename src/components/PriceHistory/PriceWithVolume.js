@@ -25,7 +25,7 @@ const PriceWithVolume = ({ priceHistory, volumeHistory }) => {
             <DataBox title="-  12:00" />
             <DataBox title="-  20:00" />
           </VolumeScale>
-          <VolumeLegend peak={getPeakVolumeTime(volumeHistory)} daylyVolume={getDailyVolume(priceHistory)} />
+          <VolumeLegend peak={getPeakVolumeTime(volumeHistory, 4)} dailyVolume={getDailyVolume(priceHistory)} />
         </FlexRowWrap>
       </Card>
     </Wrapper>
@@ -43,18 +43,18 @@ const PriceLegend = ({ lastPrice }) => {
   )
 }
 
-const VolumeLegend = ({ peak, daylyVolume }) => {
+const VolumeLegend = ({ peak, dailyVolume }) => {
   return (
     <FlexColumn border="1px solid #787c8b" textAlign="center" justifyContent="space-around" ml={20} minWidth={157} pl={-10} flex={0.25}>
       <DataBox
-        valueType="currency-usd-short"
-        title="Daily Volume"
-        value={daylyVolume} />
+        valueType="currency-short"
+        title="Average Daily Volume"
+        value={dailyVolume} />
       <FlexColumn>
         <TimeBox>{peak}</TimeBox>
         <DataBox
           valueType="currency-fixed"
-          title="Peak of Trade"
+          title="Peak Trading Hours"
         />
       </FlexColumn>
     </FlexColumn>

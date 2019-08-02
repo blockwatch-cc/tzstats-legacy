@@ -11,7 +11,6 @@ const MarketInfo = ({ history }) => {
   const [chain] = useGlobal('chain');
 
   const [lastMarketData] = useGlobal('lastMarketData');
-  console.log(lastMarketData, 'la')
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +35,7 @@ const MarketInfo = ({ history }) => {
   const handleClick = () => {
     history.push('/market');
   };
-  const getPriceIndecator = () => {
+  const getPriceIndicator = () => {
     return lastMarketData.change < 0 ? <span>&#9662;</span> : <span>&#9652;</span>
   }
 

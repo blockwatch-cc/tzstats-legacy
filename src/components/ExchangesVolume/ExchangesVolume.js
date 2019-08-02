@@ -17,7 +17,7 @@ const VolumesExchanges = ({ data }) => {
 
   return (
     <Wrapper>
-      <Card title={'Volume by Exchange'}>
+      <Card title={'24h Volume by Exchange'}>
         <FlexRowWrap>
           <ExchangesVolumePie data={settings} />
           <Legend settings={settings} />

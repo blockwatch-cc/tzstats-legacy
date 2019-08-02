@@ -27,14 +27,11 @@ const BlockInfo = ({ block }) => {
           <FlexRow mt={1}>
             {block.endorsed_slots ?
               [...((block.endorsed_slots).toString(2))].reverse().map((item, i) => {
-                console.log(block.endorsed_slots, 'end')
                 return (
-
                   <Slot key={i} color={item} >
                     {item === "0" ? i : ""}
                   </Slot>
                 )
-
               })
               : ""
             }

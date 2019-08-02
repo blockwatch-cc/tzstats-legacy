@@ -20,7 +20,7 @@ const MarketPage = props => {
         getSeriesData({ dataset: 'kraken/XTZ_USD/ohlcv', days: 30, collapse: '4h', limit: 180, columns:['time','vol_base'] }),
         getMarketTickers(),
       ]);
-      let volume = wrapToVolume(volSeries)
+      let volume = wrapToVolume(volSeries);
       let byCurrency = tickers.reduce( (s, t) => {
         s[t.quote] = (s[t.quote] || 0) + t.volume_base;
         s._total = (s._total || 0) + t.volume_base;

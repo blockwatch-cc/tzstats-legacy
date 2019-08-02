@@ -67,8 +67,8 @@ export const getSeriesData = async options => {
 
 export const getOhlcvData = async options => {
   const urlOptions = {
-    columns: options.columns || ['time', 'open', 'high', 'low', 'close', 'vol_quote'],
-    startDate: options.days && `now-${options.days}d`,
+    columns: options.columns || ['time', 'open', 'high', 'low', 'close', 'vol_base'],
+    startDate: options.days && `now/d-${options.days}d`,
     collapse: options.collapse || '1d',
     limit: options.limit || options.days || 90,
     datasetCode: 'kraken/XTZ_USD/ohlcv',
@@ -90,12 +90,12 @@ export const getOhlcvData = async options => {
 let formatMarketData = data => {
   return data.map(function (item) {
     return {
-      date: new Date(item[0]),
+      time: new Date(item[0]),
       open: item[1],
       high: item[2],
       low: item[3],
       close: item[4],
-      volume: item[5],
+      vol_base: item[5],
     };
   });
 };
@@ -121,46 +121,4 @@ let formatTickerData = data => {
     item.timestamp = new Date(item.timestamp);
     return item;
   });
-};
-
-//https://api.tzstats.com/markets/kraken/XTZ_USD/ticker
-export const getExchangeTickers = async () => {
-
-  let [kraken, bitfinex, hitbtc] = await Promise.all([
-    request(`/markets/kraken/XTZ_USD/ticker`),
-    request(`/markets/hitbtc/XTZ_USDT/ticker`),
-    request(`/markets/bitfinex/XTZ_USD/ticker`),
-    // request(`/markets/huobi/${pair}/ticker`),
-  ]);
-
-  return {
-    kraken: await kraken.json(),
-    hitbtc: (await hitbtc.json()),
-    bitfinex: await bitfinex.json(),
-    //  huobi: (await huobi.json()).reverse(),
-
-  };
-};
-
-//https://api.tzstats.com/markets/kraken/XTZ_USD/ticker
-export const getTradesByCurrencies = async () => {
-
-  let [USD, EUR, BTC, ETH, CAD, USDT] = await Promise.all([
-    request(`/markets/kraken/XTZ_USD/ticker`),
-    request(`/markets/kraken/XTZ_EUR/ticker`),
-    request(`/markets/kraken/XTZ_BTC/ticker`),
-    request(`/markets/kraken/XTZ_ETH/ticker`),
-    request(`/markets/kraken/XTZ_CAD/ticker`),
-    request(`/markets/hitbtc/XTZ_USDT/ticker`),
-
-  ]);
-
-  return {
-    USD: await USD.json(),
-    EUR: await EUR.json(),
-    BTC: await BTC.json(),
-    ETH: await ETH.json(),
-    CAD: await CAD.json(),
-    USDT: await USDT.json(),
-  };
 };
