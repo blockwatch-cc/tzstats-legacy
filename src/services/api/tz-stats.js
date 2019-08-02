@@ -269,11 +269,11 @@ export const getTradesByCurrencies = async () => {
 };
 //https://api.tzstats.com/series/kraken/XTZ_BTC/ohlcv?limit=31&start_date=now-30d&collapse=1d&verbose=1
 
-export const getMarketSeries = async ({ days, limit }) => {
+export const getMarketSeries = async ({ days, limit, collapse = "1d" }) => {
 
   const statTime = `now-${days}d`;
 
-  const response = await request(`/series/kraken/XTZ_USD/ohlcv?limit=${limit}&start_date=${statTime}&collapse=1d&verbose=1`);
+  const response = await request(`/series/kraken/XTZ_USD/ohlcv?limit=${limit}&start_date=${statTime}&collapse=${collapse}&verbose=1`);
 
   if (response.status === 400) {
     const { error } = await response.json();

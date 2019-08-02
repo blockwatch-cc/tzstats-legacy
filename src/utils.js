@@ -72,18 +72,18 @@ export function wrapFlowData(flowData, account) {
 }
 
 export function wrapToVolume(marketData) {
-  const sum = _.maxBy(marketData, function (o) { return o.volume; }).volume;
+  const sum = _.maxBy(marketData, function (o) { return o.vol_base; }).vol_base;
 
   let volumeData = marketData.map((item, i) => {
-    const percent = ((item.volume / sum) * 100).toFixed()
+    const percent = ((item.vol_base / sum) * 100).toFixed()
     const opacity = percent < 25 ? 0.1 : percent < 50 ? 0.3 : percent < 75 ? 0.6 : 0.9
     return {
       id: i,
-      value: item.volume,
+      value: item.vol_base,
       percent: percent,
       color: "#38E8FF",
       opacity: opacity,
-      time: item.date
+      time: item.time
     }
   });
   return volumeData;
@@ -203,7 +203,7 @@ export function getPeakVolumeTime(data) {
 }
 
 export function getDailyVolume(data) {
-  return _.sumBy(data, (o) => o.volume) / data.length;
+  return _.sumBy(data, (o) => o.vol_base) / data.length;
 }
 
 export function convertToTitle(str) {
