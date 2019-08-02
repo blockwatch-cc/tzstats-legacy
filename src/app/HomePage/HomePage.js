@@ -4,10 +4,10 @@ import { PriceHistory } from '../../components/PriceHistory/';
 import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreakdown';
 import ElectionProgress from '../../components/ElectionProgress';
 import AccountsGrowth from '../../components/AccountsGrowth';
-import { getMarketData } from '../../services/api/blockwatch';
-import { getElectionData, getTxsData, getLastBlockTxData } from '../../services/api/tz-stats';
+import { getOhlcvData } from '../../services/api/markets';
+import { getElectionData, getTxVolume, getTxVolume24h } from '../../services/api/tz-stats';
 import { wrapTxs } from '../../utils';
-import TransactionVoume from '../../components/TransactionVoume';
+import TransactionVolume from '../../components/TransactionVolume';
 import { Spiner } from '../../components/Common'
 
 const Home = () => {
@@ -16,20 +16,19 @@ const Home = () => {
   React.useEffect(() => {
     const fetchData = async () => {
 
-      let [priceHistory, txDataLast, txData, election] = await Promise.all([
-        getMarketData({ days: 30 }),
-        getLastBlockTxData(),
-        getTxsData({ days: 30 }),
+      let [priceHistory, txVol24h, txVolSeries, election] = await Promise.all([
+        getOhlcvData({ days: 30 }),
+        getTxVolume24h(),
+        getTxVolume({ days: 30 }),
         getElectionData()
       ]);
-      const trasactionVolume = wrapTxs(txData);
 
       setData({
         priceHistory,
-        txs: trasactionVolume,
+        txVolSeries: txVolSeries,
         isLoaded: true,
         election,
-        txData: { volume: txDataLast[1], txn: txDataLast[2] }
+        txVol24h: { volume: txVol24h[0], txn: txVol24h[1] }
       });
 
     };
@@ -46,7 +45,7 @@ const Home = () => {
             <StakingSupply />
           </JoinContainer>
           <JoinContainer>
-            <TransactionVoume data={data.txs} txData={data.txData} />
+            <TransactionVolume txSeries={data.txVolSeries} txVol24h={data.txVol24h} />
             <CirculatingSupply />
           </JoinContainer>
           <JoinContainer>

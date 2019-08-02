@@ -4,8 +4,8 @@ import { PriceWithVolume } from '../../components/PriceHistory';
 import TzSpinner from '../../components/TzSpinner'
 import TradeCurrency from '../../components/TradeCurrency'
 import ExchangesVolume from '../../components/ExchangesVolume'
-import { getExchangeTikers, getTradesByCurrencies } from '../../services/api/tz-stats';
-import { getMarketData } from '../../services/api/blockwatch';
+import { getMarketTickers } from '../../services/api/markets';
+import { getOhlcvData, getSeriesData } from '../../services/api/markets';
 import { Spiner } from '../../components/Common'
 import { wrapToVolume } from '../../utils';
 
@@ -16,21 +16,30 @@ const MarketPage = props => {
   React.useEffect(() => {
     const fetchData = async () => {
 
-      let [marketData, volumeData, tickers, trades] = await Promise.all([
-        getMarketData({ days: 29 }),
-        getMarketData({ days: 30, collapse: '4h', limit: 180 }),
-        getExchangeTikers(),
-        getTradesByCurrencies()
+      let [marketData, volSeries, tickers] = await Promise.all([
+        getOhlcvData({ days: 30 }),
+        getSeriesData({ dataset: 'kraken/XTZ_USD/ohlcv', days: 30, collapse: '4h', limit: 180, columns:['time','vol_base'] }),
+        getMarketTickers(),
 
       ]);
-      let volume = wrapToVolume(volumeData)
+      let volume = wrapToVolume(volSeries)
+      let byCurrency = tickers.reduce( (s, t) => {
+        s[t.quote] = (s[t.quote] || 0) + t.volume_base;
+        s._total = (s._total || 0) + t.volume_base;
+        return s;
+      }, {});
+      let byExchange = tickers.reduce( (s, t) => {
+        s[t.exchange] = (s[t.exchange] || 0) + t.volume_base;
+        s._total = (s._total || 0) + t.volume_base;
+        return s;
+      }, {});
 
       setData({
         isLoaded: true,
         priceHistory: marketData,
         volume,
-        tickers,
-        trades
+        byExchange,
+        byCurrency,
       });
     };
 
@@ -45,8 +54,8 @@ const MarketPage = props => {
             volumeHistory={data.volume}
           />
           <JoinContainer>
-            <TradeCurrency data={data.trades} />
-            <ExchangesVolume data={data.tickers} />
+            <TradeCurrency data={data.byCurrency} />
+            <ExchangesVolume data={data.byExchange} />
           </JoinContainer>
         </Wrapper>
       ) :

@@ -23,7 +23,7 @@ const PriceWithVolume = ({ priceHistory, volumeHistory }) => {
           <VolumeScale>
             <DataBox title="-  04:00" />
             <DataBox title="-  12:00" />
-            <DataBox title="-  14:00" />
+            <DataBox title="-  20:00" />
           </VolumeScale>
           <VolumeLegend peak={getPeakVolumeTime(volumeHistory)} daylyVolume={getDailyVolume(priceHistory)} />
         </FlexRowWrap>
@@ -35,12 +35,12 @@ const PriceWithVolume = ({ priceHistory, volumeHistory }) => {
 const CandleStickBody = styled.div`
     width: 20px;
     height: 60px;
-    background: #39d7ed; 
+    background: #39d7ed;
 `;
 const CandleStickRoot = styled.div`
     width: 2px;
     height: 40px;
-    background: #39d7ed; 
+    background: #39d7ed;
     margin: 0 9px;
 `;
 const DataBox2 = styled.div`

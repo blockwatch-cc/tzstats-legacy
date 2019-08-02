@@ -100,23 +100,6 @@ export const getElectionData = async hash => {
 };
 
 
-//******************OPERATIONS****************** */
-//https://api.tzstats.com/series/op?collapse=1d&start_date=now-30d
-export const getTxsData = async ({ days }) => {
-  const statTime = `now-${days}d`;
-  const response = await request(`/series/op?start_date=${statTime}&collapse=1d`);
-
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
-};
-
-
 //******************FLOW****************** */
 export const getStakingData = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
@@ -153,10 +136,10 @@ export const getFlowData = async ({ hash, days }) => {
 
 //******************BLOCK****************** */
 
-//https://api.tzstats.com/series/block?columns=volume,n_tx&start_date=now-24h&collapse=24h
-export const getLastBlockTxData = async () => {
+//https://api.tzstats.com/series/block?columns=volume,n_tx&start_date=now-24h&collapse=30m
+export const getTxVolume24h = async () => {
   const statTime = `now-${24}h`;
-  const response = await request(`/series/block?start_date=${statTime}&collapse=24h&columns=volume,n_tx`);
+  const response = await request(`/series/block?start_date=${statTime}&collapse=30m&columns=volume,n_tx`);
 
   if (response.status === 400) {
     const { error } = await response.json();
@@ -165,8 +148,30 @@ export const getLastBlockTxData = async () => {
 
   const data = await response.json();
 
-  return data[0];
+  return data.reduce( (agg, item) => {
+    agg[0]+=item[1];
+    agg[1]+=item[2];
+    return agg;
+  },[0,0]);
 };
+
+//https://api.tzstats.com/series/block?collapse=1d&start_date=now-30d&columns=volume
+export const getTxVolume = async ({ days }) => {
+  const statTime = `now-${days}d`;
+  const response = await request(`/series/block?start_date=${statTime}&collapse=1d&columns=volume`);
+
+  if (response.status === 400) {
+    const { error } = await response.json();
+    throw new Error(error);
+  }
+
+  const data = await response.json();
+
+  return data.map(item => {
+    return { time: new Date(item[0]), value: item[1] };
+  });
+};
+
 
 //https://api.tzstats.com/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60
 export const getBlockData = async () => {
@@ -196,63 +201,6 @@ export const getBlock = async ({ id }) => {
   return data;
 };
 
-//****************** MARKETS ****************** */
-//https://api.tzstats.com/markets/tickers
-
-export const getMarketTikers = async () => {
-  const response = await request(`/markets/tickers`);
-
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
-};
-
-//https://api.tzstats.com/markets/kraken/XTZ_USD/ticker
-export const getExchangeTikers = async () => {
-
-  let [kraken, bitfinex, hitbtc] = await Promise.all([
-    request(`/markets/kraken/XTZ_USD/ticker`),
-    request(`/markets/hitbtc/XTZ_USDT/ticker`),
-    request(`/markets/bitfinex/XTZ_USD/ticker`),
-    // request(`/markets/huobi/${pair}/ticker`),
-  ]);
-
-  return {
-    kraken: await kraken.json(),
-    hitbtc: (await hitbtc.json()),
-    bitfinex: await bitfinex.json(),
-    //  huobi: (await huobi.json()).reverse(),
-
-  };
-};
-
-//https://api.tzstats.com/markets/kraken/XTZ_USD/ticker
-export const getTradesByCurrencies = async () => {
-
-  let [USD, EUR, BTC, ETH, CAD, USDT] = await Promise.all([
-    request(`/markets/kraken/XTZ_USD/ticker`),
-    request(`/markets/kraken/XTZ_EUR/ticker`),
-    request(`/markets/kraken/XTZ_BTC/ticker`),
-    request(`/markets/kraken/XTZ_ETH/ticker`),
-    request(`/markets/kraken/XTZ_CAD/ticker`),
-    request(`/markets/hitbtc/XTZ_USDT/ticker`),
-
-  ]);
-
-  return {
-    USD: await USD.json(),
-    EUR: await EUR.json(),
-    BTC: await BTC.json(),
-    ETH: await ETH.json(),
-    CAD: await CAD.json(),
-    USDT: await USDT.json(),
-  };
-};
 
 //****************** OPERATIONS ****************** */
 //https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T

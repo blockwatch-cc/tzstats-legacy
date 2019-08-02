@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getMarketData } from '../../services/api/blockwatch';
+import { getMarketTickers } from '../../services/api/markets';
 import { useGlobal, setGlobal } from 'reactn';
 import { format } from 'd3-format';
 import { Card, Elevation } from '@blueprintjs/core';
@@ -14,36 +14,44 @@ const MarketInfo = ({ history }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let lastMarketData = await getMarketData({ days: 1 });
-      setGlobal({ lastMarketData: lastMarketData[0] });
+      let tickers = await getMarketTickers();
+      let now = new Date();
+      // filter fresh tickers in USD only (age < 2min)
+      tickers = tickers.filter( e => e.quote === 'USD' && (now-e.timestamp)<2*60000);
+      // price index: use all USD ticker last prices with equal weight
+      setGlobal({ lastMarketData: {
+        date: tickers[0].timestamp,
+        price: tickers.reduce((s, t) => { return s + t.last / tickers.length;}, 0) || 0,
+        change: tickers.reduce((s, t) => { return s + t.change / tickers.length; }, 0) || 0
+      } });
     };
     chain.height && fetchData();
   }, [chain]);
 
-  const calculateMarketCup = () => {
-    return (lastMarketData.close * (chain.supply.activated + chain.supply.mined + chain.supply.vested - chain.supply.burned));
+  const calculateMarketCap = () => {
+    return (lastMarketData.price * (chain.supply.activated + chain.supply.mined + chain.supply.vested - chain.supply.burned));
   };
-  const getLastChanges = () => {
-    return ((lastMarketData.close - lastMarketData.open) / lastMarketData.open * 100).toFixed(1);
+  const getLastChange = () => {
+    return lastMarketData.change.toFixed(1);
   };
   const handleClick = () => {
     history.push('/market');
   };
-  const getPriceIndecator = () => {
-    return getLastChanges() < 0 ? <span>&#9662;</span> : <span>&#9652;</span>
+  const getPriceIndicator = () => {
+    return getLastChange() < 0 ? <span>&#9662;</span> : <span>&#9652;</span>
   }
 
   return (
     <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
       <DataBox title="Tezos Price" />
       <PriceWrapper>
-        {format('$,')(lastMarketData.close.toFixed(2))} <PriceChanges>{getPriceIndecator()}{Math.abs(getLastChanges()) || 0} %</PriceChanges>
+        {format('$,')(lastMarketData.price.toFixed(2))} <PriceChanges>{getPriceIndicator()}{Math.abs(getLastChange()) || 0} %</PriceChanges>
       </PriceWrapper>
       <DataBox
         type='title-bottom'
         title="Market Cap"
         valueType="currency-usd-short"
-        value={calculateMarketCup()} />
+        value={calculateMarketCap()} />
     </Card>
   );
 };

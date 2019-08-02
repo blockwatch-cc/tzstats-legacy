@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { DataBox, FlexRow, FlexRowWrap } from '../Common'
+import { DataBox, FlexRow, FlexColumnWrap } from '../Common'
 import { ResponsiveWaffleHtml } from "@nivo/waffle";
 import styled from 'styled-components';
 import Popover from '../Popover';
@@ -65,14 +65,14 @@ const TooltipWrapper = styled.div`
     opacity: 0.8;
 `;
 const Separator = styled.div`
-    height: '2px'; 
+    height: '2px';
     margin: '5px 0px';
     background: '#424552';
     width: '100%';
 `
 
 
-const Wrapper = styled(FlexRowWrap)`
+const Wrapper = styled(FlexColumnWrap)`
   /* ... */
   min-width:340px;
   max-width:600px;

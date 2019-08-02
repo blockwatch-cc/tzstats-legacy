@@ -22,5 +22,11 @@ export const proposals = {
 		"by": "Nomadic Labs",
 		"link": "https://blog.nomadic-labs.com/babylon-proposal-injected.html",
 		"archive": "https://blog.nomadic-labs.com/files/babylon_005_PsBABY5n.tar"
+	},
+	"PsBABY5HQTSkA4297zNHfsZNKtxULfL18y95qb3m53QJiXGmrbU": {
+		"name": "Babylon B",
+		"by": "Nomadic Labs",
+		"link": "https://blog.nomadic-labs.com/babylon-proposal-injected.html",
+		"archive": "https://blog.nomadic-labs.com/files/babylon_005_PsBABY5H.tar"
 	}
 }

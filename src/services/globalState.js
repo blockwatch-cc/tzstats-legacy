@@ -54,7 +54,7 @@ const chain = {
 };
 
 
-const lastMarketData = { date: new Date(), open: 0.0, high: 0.0, low: 0.0, close: 0.0, volume: 0.0 };
+const lastMarketData = { date: new Date(), price: 0.0, change: 0.0 };
 const setDefaultGlobalState = () => {
   setGlobal({ chain, lastMarketData });
 };

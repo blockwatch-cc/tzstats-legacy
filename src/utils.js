@@ -41,14 +41,6 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
 
 export const addCommas = format(',');
 
-export function wrapTxs(res) {
-
-  return res.map(item => {
-    return { time: new Date(item[0]), value: item[4] };
-  });
-
-}
-
 export function wrapFlowData(flowData, account) {
   let inFlowData = { id: 'In-flow', color: '#1af3f9', data: [] };
   let outFlowData = { id: 'Out-flow', color: '#83899B', data: [], };
@@ -70,19 +62,19 @@ export function wrapFlowData(flowData, account) {
   return { inFlowData, outFlowData, dataInOut };
 }
 
-export function wrapToVolume(marketData) {
-  const sum = _.maxBy(marketData, function (o) { return o.volume; }).volume;
+export function wrapToVolume(volSeries) {
+  const sum = _.maxBy(volSeries, function (o) { return o[1]; })[1];
 
-  let volumeData = marketData.map((item, i) => {
-    const percent = ((item.volume / sum) * 100).toFixed()
+  let volumeData = volSeries.map((item, i) => {
+    const percent = ((item[1] / sum) * 100).toFixed()
     const opacity = percent < 25 ? 0.1 : percent < 50 ? 0.3 : percent < 75 ? 0.6 : 0.9
     return {
       id: i,
-      value: item.volume,
+      value: item[1],
       percent: percent,
       color: "#38E8FF",
       opacity: opacity,
-      time: item.date
+      time: new Date(item[0]),
     }
   });
   return volumeData;
