@@ -32,50 +32,15 @@ const PriceWithVolume = ({ priceHistory, volumeHistory }) => {
   )
 };
 
-const CandleStickBody = styled.div`
-    width: 20px;
-    height: 60px;
-    background: #39d7ed; 
-`;
-const CandleStickRoot = styled.div`
-    width: 2px;
-    height: 40px;
-    background: #39d7ed; 
-    margin: 0 9px;
-`;
-const DataBox2 = styled.div`
-  font-size: 10px;
-  color:#fff;
-`;
-const DataBox3 = styled.div`
-  font-size: 10px;
-  color:rgba(255, 255, 255, 0.52);
-`;
 
-const VolumeScale = styled(FlexColumn)`
-    justify-content: space-around;
-    margin-left: 20px;
-`;
 const PriceLegend = ({ lastPrice }) => {
-  return (<FlexRow ml={15} mr={35} >
-    <FlexColumn mr={15} textAlign="right" justifyContent="space-around">
-      <DataBox2 style={{ marginRight: "-15px" }}>${lastPrice.high.toFixed(2)}</DataBox2>
-      <DataBox2>${lastPrice.open.toFixed(2)}</DataBox2>
-      <DataBox2 >${lastPrice.close.toFixed(2)}</DataBox2>
-      <DataBox2 style={{ marginRight: "-15px" }}>${lastPrice.low.toFixed(2)}</DataBox2>
+  return (
+    <FlexColumn mx={45} textAlign="center" justifyContent="space-around">
+      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Highest Price" value={lastPrice.high} />
+      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Close Price" value={lastPrice.close} />
+      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Open Price" value={lastPrice.open} />
+      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Low Price" value={lastPrice.low} />
     </FlexColumn>
-    <FlexColumn justifyContent="center">
-      <CandleStickRoot />
-      <CandleStickBody />
-      <CandleStickRoot />
-    </FlexColumn>
-    <FlexColumn ml={15} justifyContent="space-around">
-      <DataBox3 style={{ marginLeft: "-15px" }}>Highest </DataBox3>
-      <DataBox3>Open </DataBox3>
-      <DataBox3 >Close </DataBox3>
-      <DataBox3 style={{ marginLeft: "-15px" }}>Lowest </DataBox3>
-    </FlexColumn>
-  </FlexRow>
   )
 }
 
@@ -104,4 +69,8 @@ const Wrapper = styled.div`
     margin-top:-20px;
 `;
 
+const VolumeScale = styled(FlexColumn)`
+    justify-content: space-around;
+    margin-left: 20px;
+`;
 export default PriceWithVolume;
