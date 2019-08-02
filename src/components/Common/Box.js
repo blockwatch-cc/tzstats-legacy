@@ -138,6 +138,7 @@ export const FlexRowWrap = styled(Box)`
 export const FlexColumnWrap = styled(Box)`
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   ${alignItems}
   ${alignContent}
   ${justifyContent}
@@ -166,7 +167,7 @@ export const FlexRowSpaceAround = styled(Box)`
   ${alignContent}
   ${justifyContent}
   ${flexWrap}
-  ${flexBasis}  
+  ${flexBasis}
 `
 
 export const FlexItem = styled.div`

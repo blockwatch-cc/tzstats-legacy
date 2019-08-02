@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getLastTezosPrice } from '../../services/api/tz-stats';
+import { getMarketTickers } from '../../services/api/markets';
 import { useGlobal, setGlobal } from 'reactn';
 import { format } from 'd3-format';
 import { Card, Elevation } from '@blueprintjs/core';
@@ -11,24 +11,31 @@ const MarketInfo = ({ history }) => {
   const [chain] = useGlobal('chain');
 
   const [lastMarketData] = useGlobal('lastMarketData');
-  console.log(lastMarketData, 'la')
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let lastMarketData = await getLastTezosPrice();
-      setGlobal({ lastMarketData: lastMarketData });
+      let tickers = await getMarketTickers();
+      let now = new Date();
+      // filter fresh tickers in USD only (age < 2min)
+      tickers = tickers.filter( e => e.quote === 'USD' && (now-e.timestamp)<2*60000);
+      // price index: use all USD ticker last prices with equal weight
+      setGlobal({ lastMarketData: {
+        date: tickers[0].timestamp,
+        price: tickers.reduce((s, t) => { return s + t.last / tickers.length;}, 0) || 0,
+        change: tickers.reduce((s, t) => { return s + t.change / tickers.length; }, 0) || 0
+      } });
     };
     chain.height && fetchData();
   }, [chain]);
 
-  const calculateMarketCup = () => {
-    return (lastMarketData.last * (chain.supply.activated + chain.supply.mined + chain.supply.vested - chain.supply.burned));
+  const calculateMarketCap = () => {
+    return (lastMarketData.price * (chain.supply.activated + chain.supply.mined + chain.supply.vested - chain.supply.burned));
   };
 
   const handleClick = () => {
     history.push('/market');
   };
-  const getPriceIndecator = () => {
+  const getPriceIndicator = () => {
     return lastMarketData.change < 0 ? <span>&#9662;</span> : <span>&#9652;</span>
   }
 
@@ -36,13 +43,13 @@ const MarketInfo = ({ history }) => {
     <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
       <DataBox title="Tezos Price" />
       <PriceWrapper>
-        {format('$,')(lastMarketData.last.toFixed(2))} <PriceChanges>{getPriceIndecator()}{Math.abs(lastMarketData.change).toFixed()} %</PriceChanges>
+        {format('$,')(lastMarketData.price.toFixed(2))} <PriceChanges>{getPriceIndicator()}{Math.abs(lastMarketData.change).toFixed(1) || 0} %</PriceChanges>
       </PriceWrapper>
       <DataBox
         type='title-bottom'
         title="Market Cap"
         valueType="currency-usd-short"
-        value={calculateMarketCup()} />
+        value={calculateMarketCap()} />
     </Card>
   );
 };

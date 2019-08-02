@@ -4,18 +4,18 @@ import { Card, FlexColumn, DataBox } from '../Common';
 import TransactionChart from './TransactionChart';
 import AreaChart from './AreaChart';
 
-const TransactionVolume = ({ data, txData }) => {
+const TransactionVolume = ({ txSeries, txVol24h }) => {
 
   return (
     <Wrapper>
       <Card title={'Tezos On-Chain Volume (30d)'}>
         <Content>
           <div style={{ marginRight: "20px", height: 112, width: "370px" }} >
-            <AreaChart data={data} />
+            <AreaChart data={txSeries} />
           </div>
           <FlexColumn justifyContent="space-around">
-            <DataBox valueType="currency-short" title="24h Volume" value={txData.volume} />
-            <DataBox title="24h Transactions" value={txData.txn} />
+            <DataBox valueType="currency-short" title="24h Volume" value={txVol24h.volume} />
+            <DataBox title="24h Transactions" value={txVol24h.txn} />
           </FlexColumn>
         </Content>
       </Card>

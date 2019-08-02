@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { DataBox, FlexRow, FlexRowWrap } from '../Common'
+import { DataBox, FlexRow, FlexColumnWrap } from '../Common'
 import { ResponsiveWaffleHtml } from "@nivo/waffle";
 import styled from 'styled-components';
 import Popover from '../Popover';
@@ -34,8 +34,7 @@ const CustomVolumeChart = ({ data }) => {
   )
 }
 
-
-const Wrapper = styled(FlexRowWrap)`
+const Wrapper = styled(FlexColumnWrap)`
   /* ... */
   min-width:340px;
   max-width:600px;

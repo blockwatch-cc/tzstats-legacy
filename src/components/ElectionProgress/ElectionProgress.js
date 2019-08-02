@@ -27,7 +27,7 @@ const ElectionProgress = ({ election }) => {
             <HorizontalProgressBar settings={voteSettings} />
             <HorizontalProgressBar settings={proposalSettings} />
             <FlexRowSpaceBetween>
-              <DataBox title={proposalDetails.name} value={topProposal.rolls} />
+              <DataBox title={`Top: ${proposalDetails.name}`} value={topProposal.rolls} />
               <a target="_blank" style={{ fontSize: 12 }} href={proposalDetails.link}>{getShortHash(topProposal.hash)}</a>
             </FlexRowSpaceBetween>
           </Card>

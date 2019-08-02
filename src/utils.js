@@ -41,14 +41,6 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
 
 export const addCommas = format(',');
 
-export function wrapTxs(res) {
-
-  return res.map(item => {
-    return { time: new Date(item[0]), value: item[4] };
-  });
-
-}
-
 export function wrapFlowData(flowData, account) {
   let inFlowData = { id: 'In-flow', color: '#1af3f9', data: [] };
   let outFlowData = { id: 'Out-flow', color: '#83899B', data: [], };
@@ -71,19 +63,19 @@ export function wrapFlowData(flowData, account) {
   return { inFlowData, outFlowData, dataInOut };
 }
 
-export function wrapToVolume(marketData) {
-  const sum = _.maxBy(marketData, function (o) { return o.vol_base; }).vol_base;
+export function wrapToVolume(volSeries) {
+  const sum = _.maxBy(volSeries, function (o) { return o[1]; })[1];
 
-  let volumeData = marketData.map((item, i) => {
-    const percent = ((item.vol_base / sum) * 100).toFixed()
+  let volumeData = volSeries.map((item, i) => {
+    const percent = ((item[1] / sum) * 100).toFixed()
     const opacity = percent < 25 ? 0.1 : percent < 50 ? 0.3 : percent < 75 ? 0.6 : 0.9
     return {
       id: i,
-      value: item.vol_base,
+      value: item[1],
       percent: percent,
       color: "#38E8FF",
       opacity: opacity,
-      time: item.time
+      time: new Date(item[0]),
     }
   });
   return volumeData;
@@ -190,16 +182,14 @@ export function getDelegatorByHash(hash) {
   return Object.keys(backerAccounts).filter(r => backerAccounts[r] === hash);
 }
 
-export function getPeakVolumeTime(data) {
-  const time_0_4 = { total: _.sumBy(data.slice(0, 30), (o) => o.value), title: "00:00 - 04:00" };
-  const time_4_8 = { total: _.sumBy(data.slice(30, 60), (o) => o.value), title: "04:00 - 08:00" };
-  const time_8_12 = { total: _.sumBy(data.slice(60, 90), (o) => o.value), title: "08:00 - 12:00" };
-  const time_12_16 = { total: _.sumBy(data.slice(90, 120), (o) => o.value), title: "12:00 - 16:00" };
-  const time_16_20 = { total: _.sumBy(data.slice(120, 150), (o) => o.value), title: "16:00 - 20:00" };
-  const time_20_24 = { total: _.sumBy(data.slice(150, 180), (o) => o.value), title: "20:00 - 24:00" };
-
-  const peak = _.maxBy([time_0_4, time_4_8, time_8_12, time_12_16, time_16_20, time_20_24], (o) => o.total).title
-  return peak;
+export function getPeakVolumeTime(data, hours = 1) {
+  const stride = 24/hours;
+  let times = new Array(stride).fill(0);
+  data.map( (v,i) => { times[i%stride] += v.value; });
+  const peak = times.indexOf(Math.max(...times));
+  const a = "0"+peak*hours+":00"; // 00:00 .. 20:00
+  const b = "0"+(peak+1)%stride*hours+":00"; // 00:00 .. 20:00
+  return a.substr(a.length-5) + "-" + b.substr(b.length-5) ;
 }
 
 export function getDailyVolume(data) {

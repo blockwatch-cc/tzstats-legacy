@@ -6,7 +6,7 @@ import _ from 'lodash'
 import ChartTooltip from '../ChartTooltip'
 import { formatCurrency } from '../../utils'
 
-const TransactionVoumeChart = ({ data }) => {
+const TransactionVolumeChart = ({ data }) => {
 
 
   // const max = _.maxBy(data[0].data, function (o) { return o.y; }).y;
@@ -106,4 +106,4 @@ const Content = styled.div`
   height: 112px;
   flex: 1;
 `;
-export default TransactionVoumeChart;
+export default TransactionVolumeChart;

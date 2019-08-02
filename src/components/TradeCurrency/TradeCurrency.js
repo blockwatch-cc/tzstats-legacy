@@ -5,6 +5,7 @@ import TradeCurrencyBar from './TradeCurrencyBar';
 import { VerticalProgressBar } from '../ProgressBar';
 import { useGlobal } from 'reactn';
 import { format } from 'd3-format';
+import { graphColors } from '../../config';
 
 const TradeCurrency = ({ data }) => {
 
@@ -14,7 +15,7 @@ const TradeCurrency = ({ data }) => {
   return (
     <Wrapper>
 
-      <Card title={'Volume by Currency'}>
+      <Card title={'24h Volume by Currency'}>
         <FlexColumnWrap>
           <VerticalProgressBar settings={settings} />
           <Legend data={settings} />
@@ -61,44 +62,16 @@ const Wrapper = styled.div`
 export default TradeCurrency;
 
 function getTradeCurrencySettings(data) {
-  let total = data.USD.volume_base + data.EUR.volume_base + data.BTC.volume_base + data.EUR.volume_base;
-  return [
-    {
-      id: "USD",
-      color: "#18ecf2",
-      percent: ((data.USD.volume_base / total) * 100).toFixed(),
-      value: data.USD.volume_base.toFixed()
-    },
-    {
-      id: "EUR",
-      color: "#29bcfa",
-      percent: ((data.EUR.volume_base / total) * 100).toFixed(),
-      value: data.EUR.volume_base.toFixed()
-    },
-    {
-      id: "BTC",
-      color: "#3e85f1",
-      percent: ((data.BTC.volume_base / total) * 100).toFixed(),
-      value: data.BTC.volume_base.toFixed()
-    },
-    {
-      id: "ETH",
-      color: "#858999",
-      percent: ((data.ETH.volume_base / total) * 100).toFixed(),
-      value: data.ETH.volume_base.toFixed()
-    },
-    {
-      id: "CAD",
-      color: "#858999",
-      percent: ((data.CAD.volume_base / total) * 100).toFixed() && 1,
-      value: data.CAD.volume_base.toFixed()
-    },
-    {
-      id: "USDT",
-      color: "#858999",
-      percent: ((data.USDT.volume_base / total) * 100).toFixed(),
-      value: data.USDT.volume_base.toFixed()
-    },
-  ]
+  return Object.keys(data)
+    .filter( k => { return k[0]!=='_';} )
+    .sort( (a, b) => { return data[b] - data[a]; })
+    .map( (k, i) => {
+      return {
+        id: k,
+        color: graphColors[i%graphColors.length],
+        percent: ((data[k] / data._total) * 100).toFixed(),
+        value: data[k].toFixed()
+      };
+    });
 }
 
