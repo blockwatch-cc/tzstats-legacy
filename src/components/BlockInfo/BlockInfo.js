@@ -97,7 +97,7 @@ const Slot = styled.div`
     height: 15px;
     width: 15px;
     margin: 2px;
-    width: 11px;
+    padding: 2px;
     color: #fff;
     text-align:center;
     font-size: 8px;
