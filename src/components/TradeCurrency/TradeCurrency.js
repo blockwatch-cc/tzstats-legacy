@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, FlexColumnWrap } from '../Common';
-import TradeCurencyBar from './TradeCurencyBar';
+import TradeCurrencyBar from './TradeCurrencyBar';
 import { VerticalProgressBar } from '../ProgressBar';
 import { useGlobal } from 'reactn';
 import { format } from 'd3-format';
 
-const TradeCurency = ({ data }) => {
+const TradeCurrency = ({ data }) => {
 
 
   let settings = getTradeCurrencySettings(data);
@@ -58,7 +58,7 @@ const Wrapper = styled.div`
       margin: 0 5px;
     `;
 
-export default TradeCurency;
+export default TradeCurrency;
 
 function getTradeCurrencySettings(data) {
   let total = data.USD.volume_base + data.EUR.volume_base + data.BTC.volume_base + data.EUR.volume_base;

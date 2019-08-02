@@ -86,8 +86,8 @@ export const getAccountByHash = async hash => {
 };
 
 
-//******************VOITING****************** */
-export const getVoitingData = async hash => {
+//******************ELECTIONS****************** */
+export const getElectionData = async hash => {
   const response = await request(`/explorer/election/head`);
 
   if (response.status === 400) {
@@ -182,7 +182,7 @@ export const getBlockData = async () => {
   return data;
 };
 
-//https://api.tzstats.com/explorer/block/BLGza5RgGDYYwpLPZWEdyd2mhaUJSbCYczr1WoFuvrqxRpDkCJ4 
+//https://api.tzstats.com/explorer/block/BLGza5RgGDYYwpLPZWEdyd2mhaUJSbCYczr1WoFuvrqxRpDkCJ4
 export const getBlock = async ({ id }) => {
   const response = await request(`/explorer/block/${id || 'head'}/op`);
 
@@ -197,7 +197,7 @@ export const getBlock = async ({ id }) => {
 };
 
 //****************** MARKETS ****************** */
-//https://api.tzstats.com/markets/tickers 
+//https://api.tzstats.com/markets/tickers
 
 export const getMarketTikers = async () => {
   const response = await request(`/markets/tickers`);

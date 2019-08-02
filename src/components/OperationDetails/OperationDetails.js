@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRowSpaceBetween, HashedBlock } from '../Common';
-import { capitalizeFirstLetter, getShortHash } from '../../utils';
-import TxTypeIcon from '../TxTypeIcon';
+import TxTypeIcon from '../TxTypeIcon'
+import { Card, DataBox, CopyHashButton, FlexRowSpaceBetween, FlexRow } from '../Common';
+import { convertToTitle } from '../../utils';
+import { timeFormat } from 'd3-time-format';
 import Activation from './Activation'
 import Ballot from './Ballot'
 import Delegation from './Delegation'
@@ -17,21 +18,33 @@ import Transaction from './Transaction';
 import Reveal from './Reveal';
 
 
-function getAccountType(operation) {
-  if (operation.is_delegate) {
-    return "Baker"
-  }
-  return "Sender"
-}
-
-const OperationTypeDetiles = ({ operation }) => {
-
+const OperationDetails = ({ operation }) => {
   return (
-    <Wrapper>
-      <Card title={`${capitalizeFirstLetter(operation.type)} Detiles`}>
+
+    <Card title={'Operation Details'}>
+      <FlexRowSpaceBetween >
+        <FlexRow>
+          {/* <DataBox title="N" value={operation.op_n} /> */}
+          <TypeName>
+            {operation.is_contract ? "Contract Call" : convertToTitle(operation.type)}
+            <DataBox title={timeFormat('%a, %d %B %H:%M')(new Date(operation.time))} />
+          </TypeName>
+          <TxTypeIcon fontSize={24} isSuccess={operation.is_success} type={operation.is_contract ? 'contract' : operation.type} />
+        </FlexRow>
+        <FlexRowSpaceBetween flexBasis={145}>
+          <DataBox title="Cycle" value={operation.cycle} />
+          <DataBox title="Block" value={operation.height} />
+        </FlexRowSpaceBetween>
+      </FlexRowSpaceBetween>
+      <FlexRowSpaceBetween my={20}>
+        <CopyHashButton value={operation.hash} type="operation" />
+        <CopyHashButton value={operation.block} type="block" />
+      </FlexRowSpaceBetween>
+      <FlexRowSpaceBetween>
         <OperationSwitcher operation={operation} />
-      </Card>
-    </Wrapper >
+      </FlexRowSpaceBetween>
+    </Card>
+
   );
 };
 
@@ -70,10 +83,10 @@ const OperationSwitcher = ({ operation }) => {
   }
 }
 
-
-const Wrapper = styled.div`
-
+const TypeName = styled.span`
+    font-size: 16px;
+    padding-right: 5px;
 `;
 
+export default OperationDetails;
 
-export default OperationTypeDetiles;

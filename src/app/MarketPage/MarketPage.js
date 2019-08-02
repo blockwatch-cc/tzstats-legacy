@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { PriceWithVolume } from '../../components/PriceHistory';
 import TzSpinner from '../../components/TzSpinner'
-import TradeCurency from '../../components/TradeCurency'
+import TradeCurrency from '../../components/TradeCurrency'
 import ExchangesVolume from '../../components/ExchangesVolume'
 import { getExchangeTikers, getTradesByCurrencies } from '../../services/api/tz-stats';
 import { getMarketData } from '../../services/api/blockwatch';
@@ -16,7 +16,7 @@ const MarketPage = props => {
   React.useEffect(() => {
     const fetchData = async () => {
 
-      let [marketData, volumeData, tikers, trades] = await Promise.all([
+      let [marketData, volumeData, tickers, trades] = await Promise.all([
         getMarketData({ days: 29 }),
         getMarketData({ days: 30, collapse: '4h', limit: 180 }),
         getExchangeTikers(),
@@ -29,7 +29,7 @@ const MarketPage = props => {
         isLoaded: true,
         priceHistory: marketData,
         volume,
-        tikers,
+        tickers,
         trades
       });
     };
@@ -45,8 +45,8 @@ const MarketPage = props => {
             volumeHistory={data.volume}
           />
           <JoinContainer>
-            <TradeCurency data={data.trades} />
-            <ExchangesVolume data={data.tikers} />
+            <TradeCurrency data={data.trades} />
+            <ExchangesVolume data={data.tickers} />
           </JoinContainer>
         </Wrapper>
       ) :
