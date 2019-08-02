@@ -182,16 +182,14 @@ export function getDelegatorByHash(hash) {
   return Object.keys(backerAccounts).filter(r => backerAccounts[r] === hash);
 }
 
-export function getPeakVolumeTime(data) {
-  const time_0_4 = { total: _.sumBy(data.slice(0, 30), (o) => o.value), title: "00:00 - 04:00" };
-  const time_4_8 = { total: _.sumBy(data.slice(30, 60), (o) => o.value), title: "04:00 - 08:00" };
-  const time_8_12 = { total: _.sumBy(data.slice(60, 90), (o) => o.value), title: "08:00 - 12:00" };
-  const time_12_16 = { total: _.sumBy(data.slice(90, 120), (o) => o.value), title: "12:00 - 16:00" };
-  const time_16_20 = { total: _.sumBy(data.slice(120, 150), (o) => o.value), title: "16:00 - 20:00" };
-  const time_20_24 = { total: _.sumBy(data.slice(150, 180), (o) => o.value), title: "20:00 - 24:00" };
-
-  const peak = _.maxBy([time_0_4, time_4_8, time_8_12, time_12_16, time_16_20, time_20_24], (o) => o.total).title
-  return peak;
+export function getPeakVolumeTime(data, hours = 1) {
+  const stride = 24/hours;
+  let times = new Array(stride).fill(0);
+  data.map( (v,i) => { times[i%stride] += v.value; });
+  const peak = times.indexOf(Math.max(...times));
+  const a = "0"+peak*hours+":00"; // 00:00 .. 20:00
+  const b = "0"+(peak+1)%stride*hours+":00"; // 00:00 .. 20:00
+  return a.substr(a.length-5) + "-" + b.substr(b.length-5) ;
 }
 
 export function getDailyVolume(data) {
