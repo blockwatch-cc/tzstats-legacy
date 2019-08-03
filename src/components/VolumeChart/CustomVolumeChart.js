@@ -36,8 +36,7 @@ const CustomVolumeChart = ({ data }) => {
 
 const Wrapper = styled(FlexColumnWrap)`
   /* ... */
-  min-width:340px;
-  max-width:600px;
+  min-width:600px;
   max-height:120px
 `;
 const Block = styled.div`
