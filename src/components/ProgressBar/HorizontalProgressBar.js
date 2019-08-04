@@ -5,18 +5,28 @@ const ProgressBar = ({ settings }) => {
   return settings.map((item, i) => <ProgressBarItems key={i} {...item}></ProgressBarItems>);
 };
 
-const HorizontalProgressBar = ({ settings }) => {
+const HorizontalProgressBar = ({ settings, delimiter }) => {
   return (
     <ProgressBarWrapper>
-      {<ProgressBar settings={settings} />}
+      {delimiter && <Delimiter delimiter={delimiter} />}
+      <ProgressBar settings={settings} />
     </ProgressBarWrapper>
   );
 };
+const Delimiter = styled.span`
+  height: 25px;
+  z-index: 10;
+  width:1px;
+  background: #424552;
+  position: absolute;
+  left: ${props => props.delimiter}%;  
+`
 const ProgressBarWrapper = styled.div`
   height: 25px;
   border-radius: 2px;
   width: 100%;
   background: inherit;
+  position:relative;
 `;
 const ProgressBarItems = styled.div`
   background: ${prop => prop.color};
