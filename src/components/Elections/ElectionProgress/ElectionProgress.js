@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRow, FlexRowSpaceBetween, CopyHashButton } from '../Common';
-import { HorizontalProgressBar } from '../ProgressBar';
-import { proposals } from '../../config/proposals'
-import { convertMinutes, getShortHash } from '../../utils';
+import { Card, DataBox, FlexRow, FlexRowSpaceBetween, CopyHashButton } from '../../Common';
+import { HorizontalProgressBar } from '../../ProgressBar';
+import { proposals } from '../../../config/proposals'
+import { convertMinutes, getShortHash } from '../../../utils';
 import _ from 'lodash';
 
 const ElectionProgress = ({ election }) => {
@@ -80,7 +80,6 @@ function getVoteSettings(vote) {
   ];
 }
 
-//Todo remove || 1
 function getProposalSettings(vote) {
 
   let topProposal = vote.proposals[0]

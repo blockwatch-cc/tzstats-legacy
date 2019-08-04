@@ -13,6 +13,7 @@ import '../styles/css/index.css';
 import TestPage from './TestPage/TestPage';
 import PrivacyPage from './PrivacyPage/PrivacyPage';
 import TermsPage from './TermsPage/TermsPage';
+import ElectionPage from './ElectionPage/ElectionPage';
 
 ReactGA.initialize(GOOGLE_ANALYTICS_API_KEY);
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/test" component={TestPage} />
           <Route path="/terms" component={TermsPage} />
           <Route path="/privacy" component={PrivacyPage} />
+          <Route path="/election/:id" component={ElectionPage} />
           <Route path="/not-found/:value" component={NotFoundPage} />
         </Switch>
       </Layout>
