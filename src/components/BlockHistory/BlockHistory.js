@@ -55,11 +55,13 @@ const Blocks = ({ data, timeArray60m, currentBlockHeight }) => {
         if (block) {
 
           return (
-            <Popover placement="top" content={
+            <Popover key={index} placement="top" content={
               <DataBox
                 title={`${block.height}`}
               />} >
-              <BlockSquare isCurrent={currentBlockHeight === block.height} to={`/block/${block.hash}`} key={index}
+              <BlockSquare
+                isCurrent={currentBlockHeight === block.height}
+                to={`/block/${block.hash}`}
                 opacity={block.opacity}
                 color="linear-gradient(45deg, #26B2EE 0%, #29C0FF 100%)"
               />
