@@ -1,5 +1,4 @@
 import { TZSTATS_URL } from '../../config';
-import aggregate from 'timeseries-aggregate';
 
 import fetch from 'isomorphic-fetch';
 
@@ -87,8 +86,20 @@ export const getAccountByHash = async hash => {
 
 
 //******************ELECTIONS****************** */
-export const getElectionData = async hash => {
-  const response = await request(`/explorer/election/head`);
+export const getElectionById = async (id = "head") => {
+  const response = await request(`/explorer/election/${id}`);
+
+  if (response.status === 400) {
+    const { error } = await response.json();
+    throw new Error(error);
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+export const getElectionHistory = async () => {
+  const response = await request(`/tables/election?verbose=1`);
 
   if (response.status === 400) {
     const { error } = await response.json();
@@ -148,11 +159,11 @@ export const getTxVolume24h = async () => {
 
   const data = await response.json();
 
-  return data.reduce( (agg, item) => {
-    agg[0]+=item[1];
-    agg[1]+=item[2];
+  return data.reduce((agg, item) => {
+    agg[0] += item[1];
+    agg[1] += item[2];
     return agg;
-  },[0,0]);
+  }, [0, 0]);
 };
 
 //https://api.tzstats.com/series/block?collapse=1d&start_date=now-30d&columns=volume
