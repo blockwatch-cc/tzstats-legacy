@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { PriceHistory } from '../../components/PriceHistory/';
 import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreakdown';
-import ElectionProgress from '../../components/ElectionProgress';
+import { ElectionProgress } from '../../components/Ellections';
 import AccountsGrowth from '../../components/AccountsGrowth';
 import { getOhlcvData } from '../../services/api/markets';
-import { getElectionData, getTxVolume, getTxVolume24h } from '../../services/api/tz-stats';
+import { getElectionById, getTxVolume, getTxVolume24h } from '../../services/api/tz-stats';
 import { wrapTxs } from '../../utils';
 import TransactionVolume from '../../components/TransactionVolume';
 import { Spiner } from '../../components/Common'
@@ -20,7 +20,7 @@ const Home = () => {
         getOhlcvData({ days: 30 }),
         getTxVolume24h(),
         getTxVolume({ days: 30 }),
-        getElectionData()
+        getElectionById()
       ]);
 
       setData({

@@ -12,7 +12,7 @@ const Proposal = ({ operation }) => {
       <TxTypeIcon fontSize={50} isSuccess={operation.is_success} type={operation.type} />
       <FlexColumn>
         <a style={{ fontSize: 14 }} target="_blunk" href={proposalInfo.link}>{proposalInfo.link}</a>
-        <DataBox title={proposalInfo.name}></DataBox>
+        <DataBox title={proposalInfo.name} />
       </FlexColumn>
     </FlexRowSpaceBetween>
   </>
