@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { PriceHistory } from '../../components/PriceHistory/';
 import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreakdown';
-import { ElectionProgress } from '../../components/Ellections';
+import { ElectionProgress } from '../../components/Elections';
 import AccountsGrowth from '../../components/AccountsGrowth';
 import { getOhlcvData } from '../../services/api/markets';
 import { getElectionById, getTxVolume, getTxVolume24h } from '../../services/api/tz-stats';
