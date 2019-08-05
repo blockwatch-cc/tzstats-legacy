@@ -75,8 +75,6 @@ const Blocks = ({ data, timeArray60m, currentBlockHeight }) => {
   )
 };
 
-
-
 const BlockSquare = styled(Link)`
   width: 10px;
   height: 10px;
@@ -92,13 +90,11 @@ const BlockSquare = styled(Link)`
 const Wrapper = styled.div`
     min-width: 340px;
     flex:1.8;
-    margin: 0 5px;
 `
 const BlockHistoryWrapper = styled(FlexRowWrap)`
     min-width: 340px;
     dispaly:flex;
     flex-direction:column;
-    margin: 0 5px;
     flex:0.9
 `
 export default BlockHistory;

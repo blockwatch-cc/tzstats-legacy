@@ -40,30 +40,32 @@ const Home = () => {
     data.isLoaded ?
       (
         <Wrapper>
-          <JoinContainer>
+          <TwoElementsWrapper>
             <PriceHistory priceHistory={data.priceHistory} />
             <StakingSupply />
-          </JoinContainer>
-          <JoinContainer>
+          </TwoElementsWrapper>
+          <TwoElementsWrapper>
             <TransactionVolume txSeries={data.txVolSeries} txVol24h={data.txVol24h} />
             <CirculatingSupply />
-          </JoinContainer>
-          <JoinContainer>
+          </TwoElementsWrapper>
+          <TwoElementsWrapper>
             <AccountsGrowth />
             <ElectionProgress election={data.election} />
-          </JoinContainer>
+          </TwoElementsWrapper>
         </Wrapper>
       ) :
       <Spiner />
   );
 };
 
-const JoinContainer = styled.div`
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin: 0 -5px;
-      `;
+const TwoElementsWrapper = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-left: -5px;
+  margin-right: -5px;
+`;
 const Wrapper = styled.div``;
 
 export default Home;

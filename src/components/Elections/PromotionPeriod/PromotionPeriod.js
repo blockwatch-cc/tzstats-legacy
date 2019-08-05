@@ -72,7 +72,7 @@ function getPeriodSettings(period) {
   return [
     {
       percent: (period.turnout_rolls / period.eligible_rolls) * 100,
-      color: 'linear-gradient(45deg, #26B2EE 0%, #29C0FF 100%)',
+      color: 'linear-gradient(45deg, #17E5EB 0%, #1AF9FF 100%);',
       title: 'Participation Rolls',
       value: period.turnout_rolls,
     },
@@ -90,7 +90,7 @@ function getProposalSettings(period) {
   return [
     {
       percent: (period.yay_rolls / period.turnout_rolls) * 100,
-      color: 'linear-gradient(45deg, #26B2EE 0%, #29C0FF 100%)',
+      color: 'linear-gradient(45deg, #17E5EB 0%, #1AF9FF 100%);',
       title: 'YAY Rolls',
       value: period.yay_rolls,
     },
