@@ -29,12 +29,6 @@ const Searchbar = ({ history }) => {
     }
   }
 
-  const handleOnBlur = () => {
-
-
-  }
-
-
   return (
     <SearchContainer>
       <SearchWrapper>

@@ -102,6 +102,8 @@ const Value = ({ type, value }) => {
                 return '$' + formatValue(Math.round(value), '.2s');
             case 'value-short':
                 return formatValue(Math.round(value), '.2s');
+            case 'percent':
+                return (value * 100 < 1) ? '< 1%' : formatValue(value, '.0%');
             default:
                 return formatValue(Math.round(value), ',')
         }

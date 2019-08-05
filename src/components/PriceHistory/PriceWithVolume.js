@@ -1,6 +1,6 @@
 import React from 'react';
 import PriceChart from './PriceChart';
-import { Card, FlexColumn, FlexRow, DataBox, FlexRowWrap } from '../Common';
+import { Card, FlexColumn, FlexRow, DataBox, FlexRowWrap, FlexRowSpaceBetween } from '../Common';
 import styled from 'styled-components';
 import { CustomVolumeChart } from '../../components/VolumeChart';
 import { getPeakVolumeTime, getDailyVolume } from '../../utils';
@@ -34,11 +34,15 @@ const PriceWithVolume = ({ priceHistory, volumeHistory }) => {
 
 const PriceLegend = ({ lastPrice }) => {
   return (
-    <FlexColumn mx={45} textAlign="center" justifyContent="space-around">
-      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Highest Price" value={lastPrice.high} />
-      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Close Price" value={lastPrice.close} />
-      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Open Price" value={lastPrice.open} />
-      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Low Price" value={lastPrice.low} />
+    <FlexColumn width={135} height={145} mr={15} textAlign="center" justifyContent="space-around">
+      <FlexRowSpaceBetween>
+        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Open Price" value={lastPrice.open} />
+        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Close Price" value={lastPrice.close} />
+      </FlexRowSpaceBetween>
+      <FlexRowSpaceBetween>
+        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Lowest Price" value={lastPrice.low} />
+        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Highest Price" value={lastPrice.high} />
+      </FlexRowSpaceBetween>
     </FlexColumn>
   )
 }
@@ -61,15 +65,15 @@ const VolumeLegend = ({ peak, dailyVolume }) => {
   )
 }
 const TimeBox = styled.div`
-    color: #39d7ed;
-`;
+        color: #39d7ed;
+    `;
 const Wrapper = styled.div`
-    min-width: 340px;
-    margin-top:-20px;
-`;
+        min-width: 340px;
+        margin-top:-20px;
+    `;
 
 const VolumeScale = styled(FlexColumn)`
-    justify-content: space-around;
-    margin-left: 20px;
-`;
+        justify-content: space-around;
+        margin-left: 20px;
+    `;
 export default PriceWithVolume;

@@ -92,7 +92,7 @@ const TableHeader = styled.div`
 const Wrapper = styled.div`
     min-width: 340px;
     flex:1.8;
-    margin: 0 5px;
+    margin-top:20px;
 `
 export default BlockOperations;
 

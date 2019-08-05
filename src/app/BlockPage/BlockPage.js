@@ -41,10 +41,10 @@ const BlockPage = ({ match, history }) => {
       (
         <Wrapper>
           <BlockHistory data={data.blockData} currentBlock={data.block} />
-          <JoinContainer>
+          <TwoElementsWrapper>
             <BlockInfo block={data.block} />
             <BlockTxChart block={data.block} />
-          </JoinContainer>
+          </TwoElementsWrapper>
           <BlockOperations data={data.operations} />
         </Wrapper >
       ) :
@@ -52,10 +52,13 @@ const BlockPage = ({ match, history }) => {
   )
 };
 
-const JoinContainer = styled.div`
+const TwoElementsWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-left: -5px;
+  margin-right: -5px;
 `;
 
 const Wrapper = styled.div`

@@ -55,11 +55,13 @@ const Blocks = ({ data, timeArray60m, currentBlockHeight }) => {
         if (block) {
 
           return (
-            <Popover placement="top" content={
+            <Popover key={index} placement="top" content={
               <DataBox
                 title={`${block.height}`}
               />} >
-              <BlockSquare isCurrent={currentBlockHeight === block.height} to={`/block/${block.hash}`} key={index}
+              <BlockSquare
+                isCurrent={currentBlockHeight === block.height}
+                to={`/block/${block.hash}`}
                 opacity={block.opacity}
                 color="linear-gradient(45deg, #26B2EE 0%, #29C0FF 100%)"
               />
@@ -72,8 +74,6 @@ const Blocks = ({ data, timeArray60m, currentBlockHeight }) => {
     </FlexRow>
   )
 };
-
-
 
 const BlockSquare = styled(Link)`
   width: 10px;
@@ -90,13 +90,11 @@ const BlockSquare = styled(Link)`
 const Wrapper = styled.div`
     min-width: 340px;
     flex:1.8;
-    margin: 0 5px;
 `
 const BlockHistoryWrapper = styled(FlexRowWrap)`
     min-width: 340px;
     dispaly:flex;
     flex-direction:column;
-    margin: 0 5px;
     flex:0.9
 `
 export default BlockHistory;

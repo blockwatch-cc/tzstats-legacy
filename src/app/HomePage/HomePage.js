@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { PriceHistory } from '../../components/PriceHistory/';
 import { StakingSupply, CirculatingSupply } from '../../components/SupplyBreakdown';
-import ElectionProgress from '../../components/ElectionProgress';
+import { ElectionProgress } from '../../components/Ellections';
 import AccountsGrowth from '../../components/AccountsGrowth';
 import { getOhlcvData } from '../../services/api/markets';
-import { getElectionData, getTxVolume, getTxVolume24h } from '../../services/api/tz-stats';
+import { getElectionById, getTxVolume, getTxVolume24h } from '../../services/api/tz-stats';
 import { wrapTxs } from '../../utils';
 import TransactionVolume from '../../components/TransactionVolume';
 import { Spiner } from '../../components/Common'
@@ -20,7 +20,7 @@ const Home = () => {
         getOhlcvData({ days: 30 }),
         getTxVolume24h(),
         getTxVolume({ days: 30 }),
-        getElectionData()
+        getElectionById()
       ]);
 
       setData({
@@ -40,30 +40,32 @@ const Home = () => {
     data.isLoaded ?
       (
         <Wrapper>
-          <JoinContainer>
+          <TwoElementsWrapper>
             <PriceHistory priceHistory={data.priceHistory} />
             <StakingSupply />
-          </JoinContainer>
-          <JoinContainer>
+          </TwoElementsWrapper>
+          <TwoElementsWrapper>
             <TransactionVolume txSeries={data.txVolSeries} txVol24h={data.txVol24h} />
             <CirculatingSupply />
-          </JoinContainer>
-          <JoinContainer>
+          </TwoElementsWrapper>
+          <TwoElementsWrapper>
             <AccountsGrowth />
             <ElectionProgress election={data.election} />
-          </JoinContainer>
+          </TwoElementsWrapper>
         </Wrapper>
       ) :
       <Spiner />
   );
 };
 
-const JoinContainer = styled.div`
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin: 0 -5px;
-      `;
+const TwoElementsWrapper = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-left: -5px;
+  margin-right: -5px;
+`;
 const Wrapper = styled.div``;
 
 export default Home;

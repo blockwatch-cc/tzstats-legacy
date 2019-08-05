@@ -183,13 +183,13 @@ export function getDelegatorByHash(hash) {
 }
 
 export function getPeakVolumeTime(data, hours = 1) {
-  const stride = 24/hours;
+  const stride = 24 / hours;
   let times = new Array(stride).fill(0);
-  data.map( (v,i) => { times[i%stride] += v.value; });
+  data.map((v, i) => { times[i % stride] += v.value; });
   const peak = times.indexOf(Math.max(...times));
-  const a = "0"+peak*hours+":00"; // 00:00 .. 20:00
-  const b = "0"+(peak+1)%stride*hours+":00"; // 00:00 .. 20:00
-  return a.substr(a.length-5) + "-" + b.substr(b.length-5) ;
+  const a = "0" + peak * hours + ":00"; // 00:00 .. 20:00
+  const b = "0" + (peak + 1) % stride * hours + ":00"; // 00:00 .. 20:00
+  return a.substr(a.length - 5) + "-" + b.substr(b.length - 5);
 }
 
 export function getDailyVolume(data) {
@@ -203,7 +203,9 @@ export function getSearchType(searchValue) {
   return searchValue[0] === 'o'
     ? "operation"
     : (searchValue[0] === 'B' || parseInt(searchValue))
-      ? "block" :
-      "account";
+      ? "block"
+      : searchValue[0] === 'P'
+        ? "election"
+        : "account";
 }
 
