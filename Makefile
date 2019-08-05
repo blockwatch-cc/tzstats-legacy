@@ -14,6 +14,10 @@ endif
 BUILD_VERSION ?= $(shell git describe --always --dirty)
 BUILD_DATE := $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
 
+ifndef DOCKER_REGISTRY_ADDR
+$(error DOCKER_REGISTRY_ADDR is not set)
+endif
+
 TARGET_IMAGE := $(DOCKER_REGISTRY_ADDR)/$(ARTIFACT):$(BUILD_VERSION)
 export ARTIFACT TARGET_IMAGE BUILD_ID BUILD_VERSION BUILD_DATE DOCKER_REGISTRY_ADDR
 
