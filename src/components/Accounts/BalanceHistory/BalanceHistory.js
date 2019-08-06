@@ -1,48 +1,43 @@
 import React from 'react';
-import { Card, FlexRowSpaceAround } from '../Common';
-import BalanceChartNew from './BalanceChartNew';
-import { DataBox, FlexColumn, FlexRow } from '../Common'
+import BalanceChart from '../BalanceChart';
+import { DataBox, FlexColumn, FlexRow, Card } from '../../Common';
 import styled from 'styled-components';
+import { useGlobal } from 'reactn';
 
 //Life totals
-const BalanceHistory = ({ account, flowData }) => {
+const BalanceHistory = ({ account, balanceHistory }) => {
+  const [lastMarketData] = useGlobal('lastMarketData');
 
   return (
     <Card title={'Balance History (30d)'}>
       <FlexRow>
-        <div style={{ marginBottom: "20px", marginRight: "20px", height: 135, width: "100%" }} >
-          <BalanceChartNew type={"svg"} data={flowData} />
+        <div style={{ marginBottom: '20px', marginRight: '20px', height: 135, width: '100%' }}>
+          <BalanceChart type={'svg'} data={balanceHistory} />
         </div>
-        <FlexColumn pb={25} width={300} justifyContent="space-around">
+        <FlexColumn pb={25} width={500} justifyContent="space-around">
           <FlexRow justifyContent="space-between">
             <DataBox
-              valueType="currency-fixed"
-              title="Rewards Earned"
-              value={account.total_rewards_earned} />
+              valueType="currency-full"
+              title="Spendable"
+              value={parseFloat(account.spendable_balance.toFixed(2))}
+            />
             <DataBox
-              valueType="currency-fixed"
-              title="Lost rewards"
-              value={account.total_lost} />
+              valueType="currency-usd-fixed"
+              title="Value"
+              value={account.spendable_balance * lastMarketData.price}
+            />
           </FlexRow>
-          <FlexRow justifyContent="space-between">
-            <DataBox
-              valueType="currency-fixed"
-              title="Fees Earned"
-              value={account.total_fees_earned} />
-            <div style={{ height: '40px' }}></div><div style={{ height: '40px' }}></div>
-          </FlexRow>
-
+          <Info>
+            The account is not participating in staking right now. To start earning rewards on the funds securely
+            delegate rights to a staking service or register as a delegate.
+          </Info>
         </FlexColumn>
-      </FlexRow >
-    </Card >
+      </FlexRow>
+    </Card>
   );
 };
-const ChartPanel = styled.div`
-      width: 225px;
-      height: 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    `;
+const Info = styled.div`
+  font-size: 14px;
+`;
 
-export default BalanceHistory; 
+export default BalanceHistory;

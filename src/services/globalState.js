@@ -50,9 +50,8 @@ const chain = {
   new_accounts_30d: 0.0,
   cleared_accounts_30d: 0.0,
   time: new Date(),
-  supply: supply
+  supply: supply,
 };
-
 
 const lastMarketData = { date: new Date(), price: 0.0, change: 0.0 };
 const setDefaultGlobalState = () => {

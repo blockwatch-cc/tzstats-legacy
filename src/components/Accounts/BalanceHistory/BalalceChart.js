@@ -1,10 +1,9 @@
 import { ResponsiveLine } from '@nivo/line';
 import React from 'react';
 import { timeFormat } from 'd3-time-format';
-import _ from 'lodash'
+import _ from 'lodash';
 
 const BalanceChart = ({ data }) => {
-
   return (
     <div style={{ flex: 1, height: 130, width: 300 }}>
       <ResponsiveLine
@@ -83,11 +82,9 @@ const BalanceChart = ({ data }) => {
               >
                 <span>{points[0].serieId} :</span> {points[0].data.yFormatted.toFixed()} ꜩ
               </div>
-
             </div>
           );
-        }
-        }
+        }}
       />
     </div>
   );

@@ -70,8 +70,6 @@ export const getAccounts = async days => {
   return data;
 };
 
-
-
 export const getAccountByHash = async hash => {
   const response = await request(`/explorer/account/${hash}?`);
 
@@ -84,9 +82,8 @@ export const getAccountByHash = async hash => {
   return data;
 };
 
-
 //******************ELECTIONS****************** */
-export const getElectionById = async (id = "head") => {
+export const getElectionById = async (id = 'head') => {
   const response = await request(`/explorer/election/${id}`);
 
   if (response.status === 400) {
@@ -110,7 +107,6 @@ export const getElectionHistory = async () => {
   return data;
 };
 
-
 //******************FLOW****************** */
 export const getStakingData = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
@@ -126,7 +122,6 @@ export const getStakingData = async ({ hash, days }) => {
     deposits: (await deposits.json()).reverse(),
     rewards: (await rewards.json()).reverse(),
     fees: (await fees.json()).reverse(),
-
   };
 };
 
@@ -134,6 +129,20 @@ export const getStakingData = async ({ hash, days }) => {
 export const getFlowData = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
   const response = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d`);
+
+  if (response.status === 400) {
+    const { error } = await response.json();
+    throw new Error(error);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+//https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&op_type=transaction&verbose=1
+export const getAccountSenderOperations = async ({ hash, limit, offset }) => {
+  const response = await request(`/tables/op?sender=${hash}&op_type=transaction&verbose=1`);
 
   if (response.status === 400) {
     const { error } = await response.json();
@@ -159,11 +168,14 @@ export const getTxVolume24h = async () => {
 
   const data = await response.json();
 
-  return data.reduce((agg, item) => {
-    agg[0] += item[1];
-    agg[1] += item[2];
-    return agg;
-  }, [0, 0]);
+  return data.reduce(
+    (agg, item) => {
+      agg[0] += item[1];
+      agg[1] += item[2];
+      return agg;
+    },
+    [0, 0]
+  );
 };
 
 //https://api.tzstats.com/series/block?collapse=1d&start_date=now-30d&columns=volume
@@ -182,7 +194,6 @@ export const getTxVolume = async ({ days }) => {
     return { time: new Date(item[0]), value: item[1] };
   });
 };
-
 
 //https://api.tzstats.com/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60
 export const getBlockData = async () => {
@@ -215,7 +226,7 @@ export const getBlock = async ({ id }) => {
 //****************** OPERATIONS ****************** */
 //https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T
 
-export const getOperation = async (hash) => {
+export const getOperation = async hash => {
   const response = await request(`/explorer/op/${hash}`);
 
   if (response.status === 400) {

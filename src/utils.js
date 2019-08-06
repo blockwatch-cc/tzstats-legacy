@@ -3,7 +3,6 @@ import en from 'javascript-time-ago/locale/en';
 import { format } from 'd3-format';
 import { backerAccounts } from './config/backer-accounts';
 import _ from 'lodash';
-import StakingBond from './components/StakingBond';
 
 TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
@@ -32,51 +31,81 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
   return prefix === ','
     ? `${format(prefix)(value)} ${symbol}`
     : value < 1000
-      ? `${format(prefix)(value)} ${symbol}`
-      : format(prefix)(value)
+    ? `${format(prefix)(value)} ${symbol}`
+    : format(prefix)(value)
         .replace('M', ' M' + symbol)
         .replace('k', ' k' + symbol)
         .replace('G', ' G' + symbol)
+        .replace('m', ' m' + symbol);
 }
 
 export const addCommas = format(',');
 
 export function wrapFlowData(flowData, account) {
   let inFlowData = { id: 'In-flow', color: '#1af3f9', data: [] };
-  let outFlowData = { id: 'Out-flow', color: '#83899B', data: [], };
+  let outFlowData = { id: 'Out-flow', color: '#83899B', data: [] };
 
   let spandableBalance = account.spendable_balance;
   let dataInOut = [];
 
   //[0]-time [1]-in [2]-out
   flowData.map((item, i) => {
-
     let curentBalanceIn = flowData[i] ? flowData[i][1] : 0;
     let curentBalanceOut = flowData[i] ? flowData[i][2] : 0;
 
-    let inFlow = (spandableBalance - curentBalanceIn)
-    let outFlow = (spandableBalance + curentBalanceOut)
+    let inFlow = spandableBalance - curentBalanceIn;
+    let outFlow = spandableBalance + curentBalanceOut;
     inFlowData.data.push({ x: item[0], y: inFlow });
     outFlowData.data.push({ x: item[0], y: -outFlow });
-    dataInOut.push({ time: item[0], inFlow: inFlow, outFlow: -outFlow })
+    dataInOut.push({ time: item[0], inFlow: inFlow, outFlow: -outFlow });
   });
   return { inFlowData, outFlowData, dataInOut };
 }
 
+//todo reafactoring
+export function wrapToBalance(flowData, account) {
+  let spandableBalance = account.spendable_balance;
+  let today = new Date().setHours(0, 0, 0, 0);
+  const day = 1000 * 60 * 60 * 24;
+  const length = today - day * 30;
+  let timeArray30d = [];
+  for (let index = today; index > length; index = index - day) {
+    timeArray30d.push(index);
+  }
+  let res = [];
+
+  timeArray30d.map((timeStamp, i) => {
+    let item = _.findLast(flowData, item => {
+      return new Date(item[0]).setHours(0, 0, 0, 0) === timeStamp;
+    });
+
+    if (item) {
+      let inFlow = item[1];
+      let outFlow = item[2];
+      let sum = parseFloat((inFlow - outFlow).toFixed(4));
+      spandableBalance = parseFloat((spandableBalance - sum).toFixed());
+    }
+    res.push({ time: timeStamp, value: spandableBalance });
+  });
+  return res.reverse();
+}
+
 export function wrapToVolume(volSeries) {
-  const sum = _.maxBy(volSeries, function (o) { return o[1]; })[1];
+  const sum = _.maxBy(volSeries, function(o) {
+    return o[1];
+  })[1];
 
   let volumeData = volSeries.map((item, i) => {
-    const percent = ((item[1] / sum) * 100).toFixed()
-    const opacity = percent < 25 ? 0.1 : percent < 50 ? 0.3 : percent < 75 ? 0.6 : 0.9
+    const percent = ((item[1] / sum) * 100).toFixed();
+    const opacity = percent < 25 ? 0.1 : percent < 50 ? 0.3 : percent < 75 ? 0.6 : 0.9;
     return {
       id: i,
       value: item[1],
       percent: percent,
-      color: "#38E8FF",
+      color: '#38E8FF',
       opacity: opacity,
       time: new Date(item[0]),
-    }
+    };
   });
   return volumeData;
 }
@@ -92,7 +121,6 @@ export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
   let allData = [];
   //[0]-time [1]-in [2]-out
   balance.map((item, i) => {
-
     let curentBalanceIn = balance[i] ? balance[i][1] : 0;
     let curentBalanceOut = balance[i] ? balance[i][2] : 0;
 
@@ -105,40 +133,39 @@ export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
     let cuurentFrozenFeeIn = fees[i] ? fees[i][1] : 0;
     let cuurentFrozenFeeOut = fees[i] ? fees[i][2] : 0;
 
-
-    spandableBalance = (spandableBalance - curentBalanceIn + curentBalanceOut);
-    frozenDeposit = (frozenDeposit - curentDepositsIn + curentDepositsOut);
-    frozenRewards = (frozenRewards - curentRewardsIn + curentRewardsOut);
-    frozenFees = (frozenFees - cuurentFrozenFeeIn + cuurentFrozenFeeOut);
+    spandableBalance = spandableBalance - curentBalanceIn + curentBalanceOut;
+    frozenDeposit = frozenDeposit - curentDepositsIn + curentDepositsOut;
+    frozenRewards = frozenRewards - curentRewardsIn + curentRewardsOut;
+    frozenFees = frozenFees - cuurentFrozenFeeIn + cuurentFrozenFeeOut;
 
     //spandable_balance + frozen depozit
     stackingBond.data.push({ x: balance[i][0], y: spandableBalance + frozenDeposit });
     //frozen depozit
-    currentDeposit.data.push({ x: balance[i][0], y: (frozenDeposit) });
+    currentDeposit.data.push({ x: balance[i][0], y: frozenDeposit });
     //frozen rewards + frozen fees
     pendingReawards.data.push({ x: balance[i][0], y: frozenRewards + frozenFees });
     allData.push({
       time: item[0],
       bond: spandableBalance + frozenDeposit,
       deposit: frozenDeposit,
-      rewards: frozenRewards + frozenFees
-    })
+      rewards: frozenRewards + frozenFees,
+    });
   });
-  stackingBond.data = stackingBond.data.reverse()
-  currentDeposit.data = currentDeposit.data.reverse()
-  pendingReawards.data = pendingReawards.data.reverse()
+  stackingBond.data = stackingBond.data.reverse();
+  currentDeposit.data = currentDeposit.data.reverse();
+  pendingReawards.data = pendingReawards.data.reverse();
   return { stackingBond, currentDeposit, pendingReawards };
 }
 
 //Todo replace it with clean function
 export function fixPercent(settings) {
-  let totalPercent = settings.reduce(function (sum, value) {
+  let totalPercent = settings.reduce(function(sum, value) {
     return sum + value.percent;
   }, 0);
   settings[0].percent = settings[0].percent + (100 - totalPercent); //Todo fix when 0%
 
   return settings;
-};
+}
 
 export function getShortHash(hash) {
   return `${hash.slice(0, 7)}...${hash.slice(-4)}`;
@@ -164,18 +191,10 @@ export function wrappBlockDataToObj(array) {
       hash: item[1],
       height: item[2],
       priority: item[3],
-      opacity: item[3] === 0
-        ? 1
-        : item[3] < 8
-          ? 0.8
-          : item[3] < 16
-            ? 0.6
-            : item[3] < 32
-              ? 0.4
-              : 0.2
-    }
-    return obj
-  }, {})
+      opacity: item[3] === 0 ? 1 : item[3] < 8 ? 0.8 : item[3] < 16 ? 0.6 : item[3] < 32 ? 0.4 : 0.2,
+    };
+    return obj;
+  }, {});
 }
 
 export function getDelegatorByHash(hash) {
@@ -185,27 +204,31 @@ export function getDelegatorByHash(hash) {
 export function getPeakVolumeTime(data, hours = 1) {
   const stride = 24 / hours;
   let times = new Array(stride).fill(0);
-  data.map((v, i) => { times[i % stride] += v.value; });
+  data.map((v, i) => {
+    times[i % stride] += v.value;
+  });
   const peak = times.indexOf(Math.max(...times));
-  const a = "0" + peak * hours + ":00"; // 00:00 .. 20:00
-  const b = "0" + (peak + 1) % stride * hours + ":00"; // 00:00 .. 20:00
-  return a.substr(a.length - 5) + "-" + b.substr(b.length - 5);
+  const a = '0' + peak * hours + ':00'; // 00:00 .. 20:00
+  const b = '0' + ((peak + 1) % stride) * hours + ':00'; // 00:00 .. 20:00
+  return a.substr(a.length - 5) + '-' + b.substr(b.length - 5);
 }
 
 export function getDailyVolume(data) {
-  return _.sumBy(data, (o) => o.vol_base) / data.length;
+  return _.sumBy(data, o => o.vol_base) / data.length;
 }
 
 export function convertToTitle(str) {
-  return str.split("_").map(r => capitalizeFirstLetter(r)).join(' ');
+  return str
+    .split('_')
+    .map(r => capitalizeFirstLetter(r))
+    .join(' ');
 }
 export function getSearchType(searchValue) {
   return searchValue[0] === 'o'
-    ? "operation"
-    : (searchValue[0] === 'B' || parseInt(searchValue))
-      ? "block"
-      : searchValue[0] === 'P'
-        ? "election"
-        : "account";
+    ? 'operation'
+    : searchValue[0] === 'B' || parseInt(searchValue)
+    ? 'block'
+    : searchValue[0] === 'P'
+    ? 'election'
+    : 'account';
 }
-

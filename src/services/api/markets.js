@@ -2,12 +2,12 @@ import { TZSTATS_URL } from '../../config';
 import fetch from 'isomorphic-fetch';
 
 export const marketNames = {
-  "kraken": "Kraken",
-  "bitfinex": "Bitfinex",
-  "hitbtc": "HitBTC",
-  "coinbasepro": "CoinbasePro",
-  "huobi": "Huobi"
-}
+  kraken: 'Kraken',
+  bitfinex: 'Bitfinex',
+  hitbtc: 'HitBTC',
+  coinbasepro: 'CoinbasePro',
+  huobi: 'Huobi',
+};
 
 const request = async (endpoint, options) => {
   return fetch(`${TZSTATS_URL}${endpoint}`, {
@@ -88,7 +88,7 @@ export const getOhlcvData = async options => {
 };
 
 let formatMarketData = data => {
-  return data.map(function (item) {
+  return data.map(function(item) {
     return {
       time: new Date(item[0]),
       open: item[1],
@@ -117,7 +117,7 @@ export const getMarketTickers = async () => {
 };
 
 let formatTickerData = data => {
-  return data.map(function (item) {
+  return data.map(function(item) {
     item.timestamp = new Date(item.timestamp);
     return item;
   });

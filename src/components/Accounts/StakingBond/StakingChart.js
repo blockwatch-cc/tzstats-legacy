@@ -3,8 +3,6 @@ import React from 'react';
 import { timeFormat } from 'd3-time-format';
 
 const StakingChart = ({ data /* see data tab */ }) => {
-
-
   return (
     <div style={{ flex: 1, height: 180, width: 600 }}>
       <ResponsiveLine

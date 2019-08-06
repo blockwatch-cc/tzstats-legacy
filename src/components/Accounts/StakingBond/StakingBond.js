@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Card } from '../Common';
 import { HorizontalProgressBar } from '../ProgressBar';
 import StackingChart from './StakingChart';
 import { useGlobal } from 'reactn';
-import { DataBox, FlexColumn, FlexRow } from '../Common'
+import { DataBox, FlexColumn, FlexRow } from '../Common';
 
 const StakingBond = ({ account, data }) => {
   const [chain] = useGlobal('chain');
   const stackingCapacity = getStakingCapacity(account, chain);
   let settings = getStakingSettings(account, stackingCapacity);
-
 
   return (
     <Card title={'Staking Bond (30d)'}>
@@ -22,24 +21,13 @@ const StakingBond = ({ account, data }) => {
             title="Total Bond"
             value={account.spendable_balance + account.frozen_deposits}
           />
-          <DataBox
-            valueType="currency-fixed"
-            title="Current Deposits"
-            value={account.frozen_deposits}
-          />
-          <DataBox
-            valueType="currency-fixed"
-            title="Pending Rewards"
-            value={account.frozen_rewards}
-          />
+          <DataBox valueType="currency-fixed" title="Current Deposits" value={account.frozen_deposits} />
+          <DataBox valueType="currency-fixed" title="Pending Rewards" value={account.frozen_rewards} />
         </FlexColumn>
         <FlexColumn justifyContent="space-between">
           <BorderBox style={{ minWidth: 250 }}>
-            <FlexColumn >
-              <DataBox
-                title="Active Delegations"
-                value={account.active_delegations}
-              />
+            <FlexColumn>
+              <DataBox title="Active Delegations" value={account.active_delegations} />
               <ProgressBarWrapper>
                 <Details>
                   <DataBox valueType="currency-short" value={account.delegated_balance} />
@@ -54,16 +42,11 @@ const StakingBond = ({ account, data }) => {
             </FlexColumn>
           </BorderBox>
           <FlexRow justifyContent="space-between">
-
-            <DataBox valueType="currency-fixed"
-              title="Frozen Fees"
-              value={account.frozen_fees}
-            />
+            <DataBox valueType="currency-fixed" title="Frozen Fees" value={account.frozen_fees} />
           </FlexRow>
         </FlexColumn>
-
       </Content>
-    </Card >
+    </Card>
   );
 };
 const ProgressBarWrapper = styled.div`
@@ -86,8 +69,10 @@ const Details = styled.div`
 
 export default StakingBond;
 function getStakingCapacity(account, chain) {
-  return ((account.spendable_balance + account.frozen_deposits) / ((2560 * 4096 * 5) / chain.supply.total)) *
-    ((chain.rolls * 8000) / chain.supply.total);
+  return (
+    ((account.spendable_balance + account.frozen_deposits) / ((2560 * 4096 * 5) / chain.supply.total)) *
+    ((chain.rolls * 8000) / chain.supply.total)
+  );
 }
 
 function getStakingSettings(account, stackingCapacity) {
@@ -106,4 +91,3 @@ function getStakingSettings(account, stackingCapacity) {
     },
   ];
 }
-

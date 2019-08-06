@@ -1,48 +1,44 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRow } from '../Common';
-import { getDelegatorByHash } from '../../utils'
+import { Card, DataBox, HashedBox, FlexRowSpaceBetween, Tag, FlexRow } from '../../Common';
+import { timeAgo } from '../../../utils';
+import { timeFormat } from 'd3-time-format';
 
-import AccountName from './AccountName'
-
-const AccountInfo = props => {
-  const name = getDelegatorByHash(props);
+const AccountInfo = ({ account }) => {
+  const tagName = account.is_revealed ? 'revealed' : '';
 
   return (
     <Wrapper>
-      <Card title={name.length ? 'Baker Account' : 'Basic Account'}>
-        <AccountName name={name} {...props} />
-        <FlexRow mt={18} justifyContent="space-between">
+      <Card title={'Basic Account'}>
+        <FlexRowSpaceBetween>
+          <FlexRow>
+            <HashedBox
+              hash={account.address}
+              typeName={`Last active ${timeAgo.format(new Date(account.last_seen_time))}`}
+            />
+            <Tag name={tagName} />
+          </FlexRow>
           <DataBox
-            valueType="currency-fixed"
-            title="Total Received"
-            value={props.total_received} />
-          <DataBox
-            valueType="currency-fixed"
-            title="Total Sent"
-            value={props.total_sent} />
-          <DataBox
-            valueType="currency-fixed"
-            title="Total Burned"
-            value={props.total_burned} />
-          <DataBox
-            valueType="currency-fixed"
-            title="Total Fees Paid"
-            value={props.total_fees_paid} />
-          <DataBox
-            title="Total Transactions"
-            value={props.n_tx} />
-        </FlexRow>
+            title="Creation Date"
+            valueSize="14px"
+            value={` ${timeFormat('%B %d, %Y')(new Date(account.first_seen_time))}`}
+          />
+        </FlexRowSpaceBetween>
+        <FlexRowSpaceBetween mt={20}>
+          <DataBox valueType="currency-short" title="Total Sent" value={account.total_sent} />
+          <DataBox valueType="currency-short" title="Total Received" value={account.total_received} />
+          <DataBox valueType="currency-short" title="Total Fees Paid" value={account.total_fees_paid} />
+          <DataBox title="Transactions" value={account.n_tx} />
+          <DataBox title="Wealth Rank (N/A)" value={12313} />
+        </FlexRowSpaceBetween>
       </Card>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-    min-width: 340px;
-    flex:1.8
-    margin: 0 5px;
-
-`
+  min-width: 340px;
+  flex: 1.8;
+`;
 
 export default AccountInfo;

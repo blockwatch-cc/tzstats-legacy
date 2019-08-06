@@ -1,19 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../../Common'
-
+import { Card } from '../../Common';
+import smile from '../../../assets/img/smile.png';
 
 const EmptyPeriod = ({ title }) => {
-
   return (
     <Wrapper>
       <Card title={title}>
         <div style={{ fontSize: 125, margin: 'auto', opacity: 0.3 }}>
-          <img src="https://img.icons8.com/ios-glyphs/160/000000/sad.png">
-          </img>
+          <img src={smile}></img>
         </div>
       </Card>
-    </Wrapper>)
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`
@@ -24,4 +23,3 @@ const Wrapper = styled.div`
 `;
 
 export default EmptyPeriod;
-

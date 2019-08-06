@@ -1,26 +1,27 @@
-
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import { timeFormat } from 'd3-time-format';
-import { scaleTime } from "d3-scale";
-import { curveMonotoneX, curveNatural, curveLinear } from "d3-shape";
-import { CrossHairCursor, MouseCoordinateY, MouseCoordinateX, PriceCoordinate } from 'react-stockcharts/lib/coordinates';
-import { ChartCanvas, Chart } from "react-stockcharts";
-import { LineSeries } from "react-stockcharts/lib/series";
-import { XAxis, YAxis } from "react-stockcharts/lib/axes";
-import { LabelAnnotation, Label, Annotate } from "react-stockcharts/lib/annotation";
+import { scaleTime } from 'd3-scale';
+import { curveMonotoneX, curveNatural, curveLinear } from 'd3-shape';
+import {
+  CrossHairCursor,
+  MouseCoordinateY,
+  MouseCoordinateX,
+  PriceCoordinate,
+} from 'react-stockcharts/lib/coordinates';
+import { ChartCanvas, Chart } from 'react-stockcharts';
+import { LineSeries } from 'react-stockcharts/lib/series';
+import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
+import { LabelAnnotation, Label, Annotate } from 'react-stockcharts/lib/annotation';
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { last } from 'react-stockcharts/lib/utils';
-import { createVerticalLinearGradient, hexToRGBA } from "react-stockcharts/lib/utils";
+import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/utils';
 import _ from 'lodash';
 import { format } from 'd3-format';
 
-
 class StakingChartNew extends React.Component {
-
   render() {
-
     const { data, width } = this.props;
 
     // const max = _.maxBy(data, function (o) { return o.value; }).value;
@@ -29,27 +30,25 @@ class StakingChartNew extends React.Component {
     return (
       <div style={{ height: 130, width: 300 }}>
         <ChartCanvas
-          seriesName={""}
+          seriesName={''}
           ratio={2}
           height={125}
           width={width}
           margin={{
-            left: 0, right: 50, top: 10, bottom: 20
+            left: 0,
+            right: 50,
+            top: 10,
+            bottom: 20,
           }}
           data={data}
-          type={"svg"}
+          type={'svg'}
           panEvent={panEvent}
           zoomEvent={zoomEvent}
           clamp={clamp}
-
           xAccessor={d => d && d.time}
           xScale={scaleTime()}
         >
-          <Chart
-            id={0}
-            opacity={1}
-            height={100}
-            yExtents={d => [d.deposit]}>
+          <Chart id={0} opacity={1} height={100} yExtents={d => [d.deposit]}>
             <MouseCoordinateX
               opacity={1}
               at="bottom"
@@ -64,7 +63,7 @@ class StakingChartNew extends React.Component {
               orient="right"
               textFill="rgba(255, 255, 255, 0.52)"
               opacity={0}
-              lineStroke={"#858999"}
+              lineStroke={'#858999'}
               displayFormat={format('.2s')}
             />
             <LineSeries strokeWidth={3} yAccessor={d => d.deposit} stroke="#1af3f9" />
@@ -74,7 +73,7 @@ class StakingChartNew extends React.Component {
           </Chart>
         </ChartCanvas>
       </div>
-    )
+    );
   }
 }
 

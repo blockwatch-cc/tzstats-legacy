@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   padding-bottom: 20px;
   justify-content: start;
   margin-top: 10px;
-  height:100%;
+  height: 100%;
 `;
 const Title = styled.div`
   font-size: 12px;

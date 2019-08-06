@@ -2,9 +2,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Colors from '../../components/Common/Colors';
-import Sidebar from '../../components/Sidebar';
-import Searchbar from '../../components/Searchbar';
-import Footer from '../../components/Footer';
+import Sidebar from '../../components/Layout/Sidebar';
+import Searchbar from '../../components/Layout/Searchbar';
+import Footer from '../../components/Layout/Footer';
 import { getChainData } from '../../services/api/tz-stats';
 import { setGlobal } from 'reactn';
 
