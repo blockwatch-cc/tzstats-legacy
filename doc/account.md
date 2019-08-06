@@ -1,34 +1,35 @@
 ## Account Screen
 
 - account types:
-  - basic account (tz1,2,3)
-  - basic contract (KT1) without code
-  - smart contract with code
-  - vesting smart contract
-- basic account states
-  - unclaimed
-  - simple
-  - delegate
-  - baker
-- contract states
-  - not delegated
+  - basic accounts (tz1,2,3) that may or may not delegate (in v5)
+  - baker accounts (tz1,2,3) no matter if active or inactive
+  - smart contracts without and with code, including vesting smart contracts
+- account states
+  - unclaimed (address hashes are blinded so there's no way to explore them)
+  - simple (no delegation, no registration as baker)
+  - active delegate
+  - inactive delegate
   - delegated
+  - not delegated
 
 ### Account Tags
 
-Tags to display as visual markers in the account header/title
+**Name tags** to display as visual markers in the account header/title
 
-- **[Baker]** for active baker accounts with future rights (only for bakers)
-- **[Delegate]** for an active delegate who is not yet baker (only for tz1/2/3)
-- **[Delegator]** an account that is delegating (only for KT1)
+- **[Basic]** for regular accounts
+- **[Baker]** for active or inactive registered delegates
 - **[Smart Contract]** contract with code (only for KT1)
+
+**State tags** to display as visual markers in the account header/title
+
+- **[Fundraiser]** for activated fundraiser accounts
 - **[Revealed]** when pubkey is publicly announced
-- **[Inactive]** for inactive delegate (should be a warning for delegateors) (only for delegates)
-- **[Overdelegated]** for overdelegated baker (should be a warning for delegateors) (only for bakers)
-- **[Fundraiser]** for activated fundraiser account (only for tz1)
+- **[Delegated]** when the account (or contract) is delegating
+- **[Inactive]** for inactive delegates (as warning to delegators) (only for bakers)
+- **[Overdelegated]** for overdelegated delegates (as warning to delegators) (only for bakers)
 - **[Vesting]** for vesting contracts (only for KT1)
-- **[Spendable]** account can spend funds (only for KT1)
-- **[Delegatable]** account can delegate (only for KT1)
+- **[Spendable]** account can spend funds (only for KT1) [deprecated in v5]
+- **[Delegatable]** account can delegate (only for KT1) [deprecated in v5]
 
 ### Baker Lifecycle
 
