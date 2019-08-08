@@ -333,7 +333,53 @@ Notes:
 
 ### Double Endorsement Evidence
 
-no example, but structurally the same as double baking evidence above
+https://api.tzstats.com/explorer/op/ootpxSaVxNnirHzMCZ5kajx8VsZpnxEnmNPxbhjRCdBU59VuBSq
+
+Relevant fields
+```
+ock": "BLUodew5BLhdxRzNV1hMgMoTzhN4RRuYy7wtxrdedfzPigCTNYr",
+"burned": 238,
+"cycle": 135,
+"data": [
+    {
+        "branch": "BLyQHMFeNzZEKHmKgfD9imcowLm8hc4aUo16QtYZcS5yvx7RFqQ",
+        "operations": {
+            "kind": "endorsement",
+            "level": 554811
+        },
+        "signature": "sigqgQgW5qQCsuHP5HhMhAYR2HjcChUE7zAczsyCdF681rfZXpxnXFHu3E6ycmz4pQahjvu3VLfa7FMCxZXmiMiuZFQS4MHy"
+    },
+    "op2": {
+        "branch": "BLTfU3iAfPFMuHTmC1F122AHqdhqnFTfkxBmzYCWtCkBMpYNjxw",
+        "operations": {
+            "kind": "endorsement",
+            "level": 554811
+        },
+        "signature": "sigPwkrKhsDdEidvvUgEEtsaVhyiGmzhCYqCJGKqbYMtH8KxkrFds2HmpDCpRxSTnehKoSC8XKCs9eej6PEzcZoy6fqRAPEZ"
+    }
+],
+"has_data": true,
+"hash": "ootpxSaVxNnirHzMCZ5kajx8VsZpnxEnmNPxbhjRCdBU59VuBSq",
+"height": 555852,
+"is_success": true,
+"op_c": 0,
+"op_n": 29,
+"receiver": "tz1PeZx7FXy7QRuMREGXGxeipb24RsMMzUNe",
+"reward": 224,
+"sender": "tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m",
+"time": "2019-07-14T01:09:29Z",
+"type": "double_baking_evidence",
+"volume": 462
+```
+
+Notes:
+- is always successful
+- does not cost fees or gas
+- data consists of two operations found to be in violation (same endorsement for different branches, i.e. fork blocks)
+- sender is the accuser (who gets the reward)
+- receiver is the offender (who gets slashed)
+- burned: about half the of the slashed funds are burned (not exactly but burned+rewards=slashed)
+- volume: slashed amount
 
 
 ### Transaction (smart contract call)

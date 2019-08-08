@@ -12,6 +12,22 @@
   - delegated
   - not delegated
 
+### Examples
+
+```
+### Basic Account
+https://api.tzstats.com/explorer/account/tz1QKC2cuerZE5kGCtkcobUw2ZpfQwtekn6p
+
+### Delegator Account
+https://api.tzstats.com/explorer/account/KT1SAX5vr9RBtpETgmpdFdgR4kq3iB9w1saT
+
+### Baker Account
+https://api.tzstats.com/explorer/account/tz1VmiY38m3y95HqQLjMwqnMS7sdMfGomzKi
+
+### Smart Contract
+https://api.tzstats.com/explorer/account/KT1SAX5vr9RBtpETgmpdFdgR4kq3iB9w1saT
+```
+
 ### Account Tags
 
 **Name tags** to display as visual markers in the account header/title
