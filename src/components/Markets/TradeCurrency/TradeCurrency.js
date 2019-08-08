@@ -1,11 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexColumnWrap } from '../../Common';
+import { Card, DataBox, FlexColumnWrap, FlexColumn } from '../../Common';
 import { VerticalProgressBar } from '../../Common/ProgressBar';
 import { graphColors } from '../../../config';
+import { formatCurrency } from '../../../utils';
 
-const TradeCurrency = ({ data }) => {
-  let settings = getTradeCurrencySettings(data);
+const TradeCurrency = ({ tickers }) => {
+  let byCurrency = tickers.reduce((s, t) => {
+    s[t.quote] = (s[t.quote] || 0) + t.volume_base;
+    s._total = (s._total || 0) + t.volume_base;
+    return s;
+  }, {});
+  let settings = getTradeCurrencySettings(byCurrency);
 
   return (
     <Wrapper>
@@ -24,13 +30,10 @@ const Legend = ({ data }) => {
     <LegendWrapper>
       {data.map(function(item) {
         return (
-          <DataBox
-            type="value-as-title"
-            title={item.id}
-            valueSize="12px"
-            valueType="currency-short"
-            value={item.value}
-          />
+          <FlexColumn>
+            <div style={{ fontSize: 14 }}>{item.id}</div>
+            <DataBox title={formatCurrency(item.value, '.2s')} />
+          </FlexColumn>
         );
       })}
     </LegendWrapper>

@@ -24,6 +24,7 @@ export { default as Blockies } from './Blockies';
 export { default as CopyHashButton } from './CopyHashButton';
 export { default as HashedBox } from './HashedBox';
 export { default as Centered } from './Centered';
+export { default as InvalidData } from './InvalidData';
 export { default as Tag } from './Tag';
 export {
   Box,

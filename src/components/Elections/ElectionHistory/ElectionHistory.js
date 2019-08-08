@@ -22,7 +22,7 @@ const ElectionHistory = ({ electionHistory, currentElection }) => {
                     <PeriodBox key={i} />
                   ))}
                 </ElectionBox>
-                <DataBox title={proposals[item.proposal] ? proposals[item.proposal].name : <span>&nbsp;</span>} />
+                <DataBox title={getElectionName(item)} />
               </ElectionBoxWrapper>
             );
           })}
@@ -31,6 +31,15 @@ const ElectionHistory = ({ electionHistory, currentElection }) => {
     </Wrapper>
   );
 };
+
+const getElectionName = item => {
+  return proposals[item.proposal] ? (
+    proposals[item.proposal].name.slice(0, proposals[item.proposal].name.length - 1)
+  ) : (
+    <span>-</span>
+  );
+};
+
 const ElectionBoxWrapper = styled.div`
   display: flex;
   flex-direction: column;

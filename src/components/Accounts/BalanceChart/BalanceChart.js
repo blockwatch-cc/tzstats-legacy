@@ -19,95 +19,97 @@ import { last } from 'react-stockcharts/lib/utils';
 import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/utils';
 import _ from 'lodash';
 import { format } from 'd3-format';
+import { formatCurrency } from '../../../utils';
+import CurrentCoordinate from './CurrentCoordinate';
 
 class BalanceChart extends React.Component {
   render() {
-    const { data, width } = this.props;
+    const { data, width, ratio } = this.props;
+
     const max = _.maxBy(data, function(o) {
       return o.value;
     }).value;
 
     return (
-      <div style={{ height: 150, width: 300 }}>
-        <ChartCanvas
-          seriesName={''}
-          ratio={1}
-          height={150}
-          width={width}
-          margin={{
-            left: 0,
-            right: 50,
-            top: 10,
-            bottom: 20,
-          }}
-          data={data}
-          type={'svg'}
-          panEvent={panEvent}
-          zoomEvent={zoomEvent}
-          clamp={clamp}
-          xAccessor={d => d && d.time}
-          xScale={scaleTime()}
-        >
-          <defs>
-            <linearGradient id="MyGradient" x1="0" y1="100%" x2="0" y2="0%">
-              <stop offset="0%" stopColor="#17eef4" stopOpacity={0.2} />
-              <stop offset="50%" stopColor="#17eef4" stopOpacity={0.6} />
-              <stop offset="75%" stopColor="#17eef4" stopOpacity={1} />
-            </linearGradient>
-          </defs>
-          <Chart id={0} opacity={1} height={120} origin={(w, h) => [0, 0]} yExtents={d => [d.value]}>
-            <MouseCoordinateX
-              opacity={1}
-              at="bottom"
-              orient="bottom"
-              dx={200}
-              fill="#424552"
-              textFill="rgba(255, 255, 255, 0.52)"
-              displayFormat={timeFormat('%a, %d %B')}
-            />
-            <MouseCoordinateY
-              at="right"
-              orient="right"
-              textFill="rgba(255, 255, 255, 0.52)"
-              opacity={0}
-              lineStroke={'#858999'}
-              displayFormat={e => `${format('.4s')(e)} tz`}
-            />
-            <PriceCoordinate
-              at="right"
-              fontSize={11}
-              orient="right"
-              price={max}
-              textFill="rgba(255, 255, 255, 0.52)"
-              opacity={0}
-              lineStroke={'#858999'}
-              strokeDasharray="ShortDash"
-              displayFormat={format('.2s')}
-            />
-            <PriceCoordinate
-              at="right"
-              orient="right"
-              price={0}
-              fill="#858999"
-              textFill="rgba(255, 255, 255, 0.52)"
-              fontSize={11}
-              opacity={0}
-              lineStroke={'#858999'}
-              strokeDasharray="ShortDash"
-              displayFormat={format('.2s')}
-            />
-            <AreaSeries
-              yAccessor={d => d.value}
-              stroke="#17eef4"
-              fill="url(#MyGradient)"
-              strokeWidth={3}
-              interpolation={curveNatural}
-              canvasGradient={canvasGradient}
-            />
-            <CrossHairCursor ratio={2} stroke="#FFFFFF" />
-          </Chart>
-        </ChartCanvas>
-      </div>
+      <ChartCanvas
+        seriesName={''}
+        ratio={ratio}
+        width={width}
+        height={150}
+        margin={{
+          left: 0,
+          right: 50,
+          top: 20,
+          bottom: 10,
+        }}
+        data={data}
+        type={'svg'}
+        panEvent={panEvent}
+        zoomEvent={zoomEvent}
+        clamp={clamp}
+        xAccessor={d => d && d.time}
+        xScale={scaleTime()}
+      >
+        <defs>
+          <linearGradient id="MyGradient" x1="0" y1="100%" x2="0" y2="0%">
+            <stop offset="0%" stopColor="#17eef4" stopOpacity={0.4} />
+            <stop offset="50%" stopColor="#17eef4" stopOpacity={0.4} />
+            <stop offset="75%" stopColor="#17eef4" stopOpacity={0.5} />
+          </linearGradient>
+        </defs>
+        <Chart id={0} opacity={1} yExtents={d => [d.value + 2000, 0]}>
+          <MouseCoordinateX
+            opacity={1}
+            at="top"
+            orient="top"
+            dx={200}
+            fill="#424552"
+            textFill="rgba(255, 255, 255, 0.52)"
+            displayFormat={timeFormat('%a, %d %B')}
+          />
+          <MouseCoordinateY
+            at="right"
+            orient="right"
+            textFill="rgba(255, 255, 255, 0.52)"
+            opacity={0}
+            lineStroke={'#858999'}
+            displayFormat={e => formatCurrency(e, '.2s')}
+          />
+          <PriceCoordinate
+            at="right"
+            fontSize={11}
+            orient="right"
+            price={max + 2000}
+            textFill="rgba(255, 255, 255, 0.52)"
+            opacity={0}
+            lineStroke={'#858999'}
+            strokeDasharray="ShortDash"
+            displayFormat={e => format('.2s')(max)}
+          />
+          <PriceCoordinate
+            at="right"
+            orient="right"
+            price={0}
+            fill="#858999"
+            textFill="rgba(255, 255, 255, 0.52)"
+            fontSize={11}
+            opacity={0}
+            lineStroke={'#858999'}
+            strokeDasharray="ShortDash"
+            displayFormat={format('.2s')}
+          />
+          <AreaSeries
+            yAccessor={d => d.value}
+            stroke="#17eef4"
+            fill="url(#MyGradient)"
+            strokeWidth={3}
+            interpolation={curveNatural}
+            canvasGradient={canvasGradient}
+          />
+          <CurrentCoordinate r={3} yAccessor={d => d.value} fill={'#424553'} />
+          <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
+        </Chart>
+      </ChartCanvas>
     );
   }
 }

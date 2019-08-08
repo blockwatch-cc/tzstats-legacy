@@ -10,9 +10,17 @@ export const marketNames = {
 };
 
 const request = async (endpoint, options) => {
-  return fetch(`${TZSTATS_URL}${endpoint}`, {
+  let response = await fetch(`${TZSTATS_URL}${endpoint}`, {
     ...options,
   });
+  return await handleResponse(response);
+};
+const handleResponse = async response => {
+  if (response.status === 400) {
+    const { error } = await response.json();
+    console.log(error);
+  }
+  return await response.json();
 };
 
 const createSeriesUrl = options => {
@@ -56,13 +64,7 @@ export const getSeriesData = async options => {
     method: 'GET',
   });
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-  return data;
+  return response;
 };
 
 export const getOhlcvData = async options => {
@@ -77,19 +79,13 @@ export const getOhlcvData = async options => {
     method: 'GET',
   });
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return formatMarketData(data);
+  return formatMarketData(response);
 };
 
 let formatMarketData = data => {
-  return data.map(function(item) {
+  return data.map(function(item, i) {
     return {
+      id: i,
       time: new Date(item[0]),
       open: item[1],
       high: item[2],
@@ -106,14 +102,7 @@ let formatMarketData = data => {
 export const getMarketTickers = async () => {
   const response = await request(`/markets/tickers`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return formatTickerData(data);
+  return formatTickerData(response);
 };
 
 let formatTickerData = data => {

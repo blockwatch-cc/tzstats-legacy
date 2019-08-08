@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import BasicAccount from '../../components/Accounts/BasicAccount';
-import { getAccountByHash, getFlowData, getStakingData, getAccountSenderOperations } from '../../services/api/tz-stats';
+import { getAccountByHash, getFlowData, getStakingData } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
 import { wrapFlowData, wrapStakingData, wrapToBalance } from '../../utils';
 
@@ -15,7 +15,6 @@ const AccountPage = ({ match }) => {
         getAccountByHash(currentUserHash),
         getFlowData({ hash: currentUserHash, days: 30 }),
         getStakingData({ hash: currentUserHash, days: 30 }),
-        getAccountSenderOperations({ hash: currentUserHash }),
       ]);
 
       let { stackingBond, currentDeposit, pendingReawards } = wrapStakingData({ ...stakingData, account });

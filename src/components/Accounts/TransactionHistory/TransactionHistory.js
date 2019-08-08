@@ -1,27 +1,52 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRowSpaceBetween, Blockies } from '../../Common';
+import { Card, DataBox, FlexRowSpaceBetween, Blockies, FlexRow } from '../../Common';
 import { timeAgo, getShortHash, formatCurrency } from '../../../utils';
 import { Link } from 'react-router-dom';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import useInfiniteScroll from '../../../hooks/useInfiniteScroll';
+import { getAccountOperations } from '../../../services/api/tz-stats';
+const TransactionHistory = ({ hash }) => {
+  const [isOutgoing, setIsOutgoing] = React.useState({ isOutgoing: true });
+  const [operations, setOperations] = React.useState([]);
+  const [tableOperations, setTableOperations] = React.useState([]);
+  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations);
 
-const TransactionHistory = ({ txHistory }) => {
-  // const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations);
-  // function fetchMoreOperations() {
+  function fetchMoreOperations() {
+    if (tableOperations.length != operations.length) {
+      const sliceIndex =
+        operations.length - tableOperations.length < 10 ? operations.length : tableOperations.length + 10;
+      let newTableData = operations.slice(tableOperations.length, sliceIndex);
+      setIsFetching(false);
+      setTableOperations(prevState => [...prevState, ...newTableData]);
+    }
+  }
 
-  //   if (tableData.length != allOperations.length) {
-  //     const sliceIndex = allOperations.length - tableData.length < 10
-  //       ? allOperations.length
-  //       : tableData.length + 10
-  //     let newTableData = allOperations.slice(tableData.length, sliceIndex);
-  //     setTableData(prevState => ([...prevState, ...newTableData]));
-  //     setIsFetching(false);
-  //   }
-  // }
+  const handelClick = isOutgoing => {
+    setIsOutgoing(isOutgoing);
+  };
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const operations = await getAccountOperations({ hash, type: isOutgoing ? 'sender' : 'receiver' });
+      setTableOperations(operations.slice(0, 10));
+      setOperations(operations);
+    };
+
+    fetchData();
+  }, [hash, isOutgoing]);
+
   return (
     <Wrapper>
       <Card title={'Transaction History'}>
+        <FlexRow mb={10}>
+          <Button active={isOutgoing} onClick={e => handelClick(true)}>
+            Outgoing Transactions
+          </Button>
+          <Button active={!isOutgoing} onClick={e => handelClick(false)}>
+            Incoming Transactions
+          </Button>
+        </FlexRow>
         <FlexRowSpaceBetween mb={10}>
           <TableHeader width={30}>Details</TableHeader>
           <TableHeader width={20}>To</TableHeader>
@@ -30,7 +55,7 @@ const TransactionHistory = ({ txHistory }) => {
           <TableHeader width={20}>Hash</TableHeader>
         </FlexRowSpaceBetween>
 
-        {txHistory.map((item, i) => {
+        {tableOperations.map((item, i) => {
           return (
             <FlexRowSpaceBetween key={i}>
               <TypeCell width={30}>
@@ -54,6 +79,15 @@ const TransactionHistory = ({ txHistory }) => {
   );
 };
 
+const Button = styled.div`
+  height: 24px;
+  font-size: 12px;
+  padding: 4px 8px;
+  border: 1px solid #6f727f;
+  background-color: ${props => (props.active ? '#525566' : '#424553')};
+  cursor: pointer;
+`;
+
 const Wrapper = styled.div``;
 const Details = styled.span`
   color: rgba(255, 255, 255, 0.52);
@@ -63,18 +97,19 @@ const HashLink = styled(Link)`
   color: #26b2ee;
 `;
 
+const TableHeader = styled.div`
+  font-size: 12px;
+  width: ${props => props.width}%;
+  color: rgba(255, 255, 255, 0.52);
+`;
 const TableCell = styled.div`
   font-size: 12px;
   width: ${props => props.width}%;
   height: 25px;
 `;
+
 const TypeCell = styled(TableCell)`
   color: #fff;
-`;
-const TableHeader = styled.div`
-  font-size: 12px;
-  width: ${props => props.width}%;
-  color: rgba(255, 255, 255, 0.52);
 `;
 
 export default TransactionHistory;

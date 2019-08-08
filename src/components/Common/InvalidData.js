@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../../Common';
-import smile from '../../../assets/img/smile.png';
+import Card from './Card';
+import smile from '../../assets/img/smile.png';
 
-const EmptyPeriod = ({ title }) => {
+const IvalidData = ({ title = 'Something went wrong' }) => {
   return (
     <Wrapper>
       <Card title={title}>
@@ -22,4 +22,4 @@ const Wrapper = styled.div`
   font-size: 16px;
 `;
 
-export default EmptyPeriod;
+export default IvalidData;

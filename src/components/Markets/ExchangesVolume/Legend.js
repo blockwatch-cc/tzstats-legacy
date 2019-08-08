@@ -19,7 +19,7 @@ const LegendContent = ({ settings }) => {
           type="horizontal-value-as-title"
           title={item.id}
           valueType="currency-short"
-          valueSize="14px"
+          valueSize="12px"
           value={item.value}
         />
       </LegendItem>
@@ -32,12 +32,11 @@ const LegendWrapper = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin-left: 10px;
 `;
 const LegendItem = styled.div`
   margin-bottom: -30px;
   margin-left: 20px;
-  min-width: 110px;
+  min-width: 130px;
   &:after {
     content: '•';
     position: relative;

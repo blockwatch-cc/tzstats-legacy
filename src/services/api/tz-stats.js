@@ -3,36 +3,30 @@ import { TZSTATS_URL } from '../../config';
 import fetch from 'isomorphic-fetch';
 
 const request = async (endpoint, options) => {
-  return fetch(`${TZSTATS_URL}${endpoint}`, {
+  let response = await fetch(`${TZSTATS_URL}${endpoint}`, {
     ...options,
   });
+  return await handleResponse(response);
+};
+const handleResponse = async response => {
+  if (response.status === 400) {
+    const { error } = await response.json();
+    console.log(error);
+  }
+  return await response.json();
 };
 
 //******************COMMON****************** */
 export const getChainData = async options => {
   const response = await request('/explorer/chain');
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 
 export const getStatus = async options => {
   const response = await request('/explorer/status');
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 //******************SUPPLY****************** */
 
@@ -40,14 +34,7 @@ export const getStatus = async options => {
 export const getSupply = async height => {
   const response = await request(`/tables/supply?height=${height}&verbose=1`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data[0];
+  return response[0];
 };
 
 //******************ACCOUNT****************** */
@@ -60,51 +47,25 @@ export const getAccounts = async days => {
     `/tables/block?time.rg=${statTime},${endTime}&columns=time,n_new_accounts,n_cleared_accounts&limit=50000`
   );
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 
 export const getAccountByHash = async hash => {
   const response = await request(`/explorer/account/${hash}?`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-  return data;
+  return response;
 };
 
 //******************ELECTIONS****************** */
 export const getElectionById = async (id = 'head') => {
   const response = await request(`/explorer/election/${id}`);
-
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-  return data;
+  return response;
 };
 
 export const getElectionHistory = async () => {
   const response = await request(`/tables/election?verbose=1`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-  return data;
+  return response;
 };
 
 //******************FLOW****************** */
@@ -118,10 +79,10 @@ export const getStakingData = async ({ hash, days }) => {
   ]);
 
   return {
-    balance: (await balance.json()).reverse(),
-    deposits: (await deposits.json()).reverse(),
-    rewards: (await rewards.json()).reverse(),
-    fees: (await fees.json()).reverse(),
+    balance: balance.reverse(),
+    deposits: deposits.reverse(),
+    rewards: rewards.reverse(),
+    fees: fees.reverse(),
   };
 };
 
@@ -130,28 +91,14 @@ export const getFlowData = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
   const response = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 
 //https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&op_type=transaction&verbose=1
-export const getAccountSenderOperations = async ({ hash, limit, offset }) => {
-  const response = await request(`/tables/op?sender=${hash}&op_type=transaction&verbose=1`);
+export const getAccountOperations = async ({ hash, type }) => {
+  const response = await request(`/tables/op?${type}=${hash}&op_type=transaction&verbose=1`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 
 //******************BLOCK****************** */
@@ -161,14 +108,7 @@ export const getTxVolume24h = async () => {
   const statTime = `now-${24}h`;
   const response = await request(`/series/block?start_date=${statTime}&collapse=30m&columns=volume,n_tx`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data.reduce(
+  return response.reduce(
     (agg, item) => {
       agg[0] += item[1];
       agg[1] += item[2];
@@ -183,14 +123,7 @@ export const getTxVolume = async ({ days }) => {
   const statTime = `now-${days}d`;
   const response = await request(`/series/block?start_date=${statTime}&collapse=1d&columns=volume`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data.map(item => {
+  return response.map(item => {
     return { time: new Date(item[0]), value: item[1] };
   });
 };
@@ -199,28 +132,14 @@ export const getTxVolume = async ({ days }) => {
 export const getBlockData = async () => {
   const response = await request(`/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 
 //https://api.tzstats.com/explorer/block/BLGza5RgGDYYwpLPZWEdyd2mhaUJSbCYczr1WoFuvrqxRpDkCJ4
 export const getBlock = async ({ id }) => {
   const response = await request(`/explorer/block/${id || 'head'}/op`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    return null;
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 
 //****************** OPERATIONS ****************** */
@@ -229,12 +148,5 @@ export const getBlock = async ({ id }) => {
 export const getOperation = async hash => {
   const response = await request(`/explorer/op/${hash}`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data[0];
+  return response[0];
 };

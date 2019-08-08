@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
-import { Card, FlexRowSpaceBetween, DataBox } from '../../Common';
+import { Card, FlexRowSpaceBetween, DataBox, InvalidData } from '../../Common';
 import { getShortHash, convertMinutes } from '../../../utils';
+import { ALPHABET } from '../../../config';
 import { format } from 'd3-format';
-import EmptyPeriod from '../EmptyPeriod/EmptyPeriod';
 
 const ProposalPeriod = ({ period }) => {
   if (!period.proposals.length) {
-    return <EmptyPeriod title={'1 No one proposal'} />;
+    return <InvalidData title={'1 No one proposal'} />;
   }
   const endTime = getEndTime(period);
 
@@ -16,25 +16,29 @@ const ProposalPeriod = ({ period }) => {
     <Wrapper>
       <Card title={`1 Proposal period ${endTime}`}>
         <FlexRowSpaceBetween mb={10}>
-          <TableHeader>Proposal</TableHeader>
-          <TableHeader>Hash</TableHeader>
-          <TableHeader>Source</TableHeader>
-          <TableHeader>Rolls</TableHeader>
+          <TableHeader width={20}>Proposal</TableHeader>
+          <TableHeader width={30}>Hash</TableHeader>
+          <TableHeader width={30}>Source</TableHeader>
+          <TableHeader width={20}>Rolls</TableHeader>
         </FlexRowSpaceBetween>
         <TableBody>
           {period.proposals.map((item, i) => {
             return (
               <TableRow key={i}>
-                <TableCell>{i}</TableCell>
-                <TableCell>{getShortHash(item.hash)}</TableCell>
-                <TableCell>{getShortHash(item.source)}</TableCell>
-                <TableCell>{item.rolls}</TableCell>
+                <TableCell width={20}>{ALPHABET[i]}</TableCell>
+                <TableCell width={30}>{getShortHash(item.hash)}</TableCell>
+                <TableCell width={30}>{getShortHash(item.source)}</TableCell>
+                <TableCell width={20}>{format(',')(item.rolls)}</TableCell>
               </TableRow>
             );
           })}
         </TableBody>
         <FlexRowSpaceBetween>
-          <DataBox valueSize="14px" title="Participation Rolls" value={period.turnout_rolls} />
+          <DataBox
+            valueSize="14px"
+            title={`Participation Rolls ${((period.turnout_rolls / period.eligible_rolls) * 100).toFixed()}%`}
+            value={period.turnout_rolls}
+          />
           <div>
             {`${format(',')(period.period_start_block)} / ${format(',')(period.period_end_block)}`}
             <DataBox title="Start / End Block" />
@@ -54,11 +58,7 @@ const TableBody = styled.div`
   height: 120px;
   overflow: scroll;
 `;
-const TableRow = styled(FlexRowSpaceBetween)`
-  &:hover {
-    color: #26b2ee;
-  }
-`;
+const TableRow = styled(FlexRowSpaceBetween)``;
 
 const Wrapper = styled.div`
   flex: 1;
@@ -66,15 +66,15 @@ const Wrapper = styled.div`
   margin: 0 5px;
   font-size: 14px;
 `;
-
-const TableCell = styled.div`
-  font-size: 12px;
-  height: 25px;
-  min-width: 35px;
-`;
 const TableHeader = styled.div`
   font-size: 12px;
+  width: ${props => props.width}%;
   color: rgba(255, 255, 255, 0.52);
+`;
+const TableCell = styled.div`
+  font-size: 12px;
+  width: ${props => props.width}%;
+  height: 25px;
 `;
 
 export default ProposalPeriod;

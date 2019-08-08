@@ -18,6 +18,14 @@ export function convertMinutes(num) {
     return h + 'h ' + m + 'm';
   }
 }
+export function isValid(...args) {
+  let res = args.map(item => {
+    if (!item) return false;
+    if (Array.isArray(item) && !item.length) return false;
+    return true;
+  });
+  return !res.includes(false);
+}
 
 export function formatValue(value, prefix = ',') {
   value = value || 0;
@@ -91,23 +99,12 @@ export function wrapToBalance(flowData, account) {
 }
 
 export function wrapToVolume(volSeries) {
-  const sum = _.maxBy(volSeries, function(o) {
-    return o[1];
-  })[1];
-
-  let volumeData = volSeries.map((item, i) => {
-    const percent = ((item[1] / sum) * 100).toFixed();
-    const opacity = percent < 25 ? 0.1 : percent < 50 ? 0.3 : percent < 75 ? 0.6 : 0.9;
-    return {
-      id: i,
-      value: item[1],
-      percent: percent,
-      color: '#38E8FF',
-      opacity: opacity,
-      time: new Date(item[0]),
-    };
-  });
-  return volumeData;
+  let chunkedArray = _.chunk(volSeries, 6);
+  let volume = chunkedArray.reduce((prev, current, i) => {
+    prev[i] = current;
+    return prev;
+  }, {});
+  return volume;
 }
 
 export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
@@ -205,7 +202,7 @@ export function getPeakVolumeTime(data, hours = 1) {
   const stride = 24 / hours;
   let times = new Array(stride).fill(0);
   data.map((v, i) => {
-    times[i % stride] += v.value;
+    times[i % stride] += v[1];
   });
   const peak = times.indexOf(Math.max(...times));
   const a = '0' + peak * hours + ':00'; // 00:00 .. 20:00
@@ -232,3 +229,21 @@ export function getSearchType(searchValue) {
     ? 'election'
     : 'account';
 }
+
+export function getAccountTags(account) {
+  let tags = [];
+  if (account.is_revealed) {
+    tags.push('Revealed');
+  }
+  if (account.is_) {
+    tags.push('Revealed');
+  }
+  if (account.is_) {
+    tags.push('Revealed');
+  }
+  if (account.is_) {
+    tags.push('Revealed');
+  }
+}
+
+export function getAccountType(account) {}

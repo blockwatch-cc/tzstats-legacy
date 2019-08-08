@@ -9,7 +9,7 @@ const BasicAccount = ({ account, balanceHistory, txHistory }) => {
     <Wrapper>
       <AccountInfo account={account} />
       <BalanceHistory account={account} balanceHistory={balanceHistory} />
-      <TransactionHistory txHistory={txHistory} />
+      <TransactionHistory hash={account.address} />
     </Wrapper>
   );
 };

@@ -45,7 +45,9 @@ table {
 /*
  * Copyright 2017 Palantir Technologies, Inc. All rights reserved.
  */
-#root, body, html {
+#root,
+body,
+html {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -79,7 +81,7 @@ input[type=button]:hover {
 
 .bp3-button {
   box-shadow: none !important;
-  background-color: #30313B !important;
+  background-color: #30313b !important;
   background-image: none !important;
   color: #fff !important;
   font-size: 14px !important;
@@ -89,7 +91,8 @@ input[type=button]:hover {
   color: #fff !important;
 }
 
-.bp3-popover-content, .bp3-menu {
+.bp3-popover-content,
+.bp3-menu {
   background: #424552 !important;
   color: #fff;
 }
@@ -104,6 +107,11 @@ input[type=button]:hover {
 
 .bp3-callout {
   font-size: 11px !important;
+}
+
+.react-stockcharts-current-coordinate {
+  border: 1px #fff solid !important;
+  fill: "#fff";
 }
 
 * {

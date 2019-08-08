@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, HashedBox, FlexRowSpaceBetween, Tag, FlexRow } from '../../Common';
-import { timeAgo } from '../../../utils';
+import { timeAgo, getAccountTags } from '../../../utils';
 import { timeFormat } from 'd3-time-format';
 
 const AccountInfo = ({ account }) => {

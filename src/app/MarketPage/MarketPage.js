@@ -5,9 +5,8 @@ import TradeCurrency from '../../components/Markets/TradeCurrency';
 import ExchangesVolume from '../../components/Markets/ExchangesVolume';
 import { getMarketTickers, getOhlcvData, getSeriesData } from '../../services/api/markets';
 import { Spiner } from '../../components/Common';
-import { wrapToVolume } from '../../utils';
 
-const MarketPage = props => {
+const MarketPage = () => {
   const [data, setData] = React.useState({ isLoaded: false });
 
   React.useEffect(() => {
@@ -23,24 +22,12 @@ const MarketPage = props => {
         }),
         getMarketTickers(),
       ]);
-      let volume = wrapToVolume(volSeries);
-      let byCurrency = tickers.reduce((s, t) => {
-        s[t.quote] = (s[t.quote] || 0) + t.volume_base;
-        s._total = (s._total || 0) + t.volume_base;
-        return s;
-      }, {});
-      let byExchange = tickers.reduce((s, t) => {
-        s[t.exchange] = (s[t.exchange] || 0) + t.volume_base;
-        s._total = (s._total || 0) + t.volume_base;
-        return s;
-      }, {});
 
       setData({
         isLoaded: true,
-        priceHistory: marketData,
-        volume,
-        byExchange,
-        byCurrency,
+        marketData,
+        volSeries,
+        tickers,
       });
     };
 
@@ -48,10 +35,10 @@ const MarketPage = props => {
   }, []);
   return data.isLoaded ? (
     <Wrapper>
-      <PriceWithVolume priceHistory={data.priceHistory} volumeHistory={data.volume} />
+      <PriceWithVolume marketData={data.marketData} volSeries={data.volSeries} />
       <JoinContainer>
-        <TradeCurrency data={data.byCurrency} />
-        <ExchangesVolume data={data.byExchange} />
+        <TradeCurrency tickers={data.tickers} />
+        <ExchangesVolume tickers={data.tickers} />
       </JoinContainer>
     </Wrapper>
   ) : (

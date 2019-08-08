@@ -34,13 +34,13 @@ class AreaChart extends React.Component {
       <ChartCanvas
         seriesName={''}
         ratio={2}
-        height={125}
+        height={130}
         width={width}
         margin={{
           left: 0,
           right: 50,
-          top: 10,
-          bottom: 20,
+          top: 30,
+          bottom: 0,
         }}
         data={data}
         type={'svg'}
@@ -83,8 +83,8 @@ class AreaChart extends React.Component {
           />
           <MouseCoordinateX
             opacity={1}
-            at="bottom"
-            orient="bottom"
+            at="top"
+            orient="top"
             dx={200}
             fill="#424552"
             textFill="rgba(255, 255, 255, 0.52)"

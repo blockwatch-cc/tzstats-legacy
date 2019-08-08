@@ -1,16 +1,15 @@
 import React from 'react';
-import { Card, FlexRowSpaceBetween, DataBox } from '../../Common';
+import { Card, FlexRowSpaceBetween, DataBox, InvalidData } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { proposals } from '../../../config/proposals';
 import { format } from 'd3-format';
 import { convertMinutes, getShortHash } from '../../../utils';
 import styled from 'styled-components';
 import _ from 'lodash';
-import EmptyPeriod from '../EmptyPeriod/EmptyPeriod';
 
 const PromotionPeriod = ({ period }) => {
   if (!period) {
-    return <EmptyPeriod title={'4 Promotion period not started'} />;
+    return <InvalidData title={'4 Promotion period not started'} />;
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);

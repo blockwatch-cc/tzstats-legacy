@@ -1,16 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexColumnWrap, FlexColumn, FlexRow, FlexRowWrap } from '../../Common';
-import { useGlobal } from 'reactn';
-import { format } from 'd3-format';
+import { Card, InvalidData, FlexRowWrap } from '../../Common';
 import ExchangesVolumePie from './ExchangesVolumePie';
 import Legend from './Legend';
 import _ from 'lodash';
 import { graphColors } from '../../../config';
+import { isValid } from '../../../utils';
 import { marketNames } from '../../../services/api/markets';
 
-const VolumesExchanges = ({ data }) => {
-  let settings = getVolumeSettings(data);
+const VolumesExchanges = ({ tickers }) => {
+  if (!isValid(tickers)) {
+    return <InvalidData />;
+  }
+  let byExchange = tickers.reduce((s, t) => {
+    s[t.exchange] = (s[t.exchange] || 0) + t.volume_base;
+    s._total = (s._total || 0) + t.volume_base;
+    return s;
+  }, {});
+  let settings = getVolumeSettings(byExchange);
 
   return (
     <Wrapper>
