@@ -67,7 +67,7 @@ const DataBox = ({ value, title, valueType, type = "", valueSize = "18px", title
 
         default:
             return (
-                <Wrapper fontSize={valueSize}>
+                <Wrapper style={style} fontSize={valueSize}>
                     {
                         value && <Value
                             type={valueType}
@@ -88,6 +88,8 @@ const Value = ({ type, value }) => {
 
     if (value && typeof (vale) !== 'string') {
         switch (type) {
+            case 'text':
+                return value;
             case 'currency-fixed':
                 return formatCurrency(Math.round(value), ',');
             case 'currency-short':

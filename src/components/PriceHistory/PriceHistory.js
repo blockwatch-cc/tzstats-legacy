@@ -7,15 +7,14 @@ const PriceHistory = ({ priceHistory }) => {
 
   return (<Wrapper>
     <Card title={'Price History in US Dollars (30d)'}>
-      <div style={{ marginBottom: "20px", marginRight: "20px", height: 135, width: "100%" }} >
+      <div style={{ width: "100%" }} >
         <PriceChart type={'svg'} data={priceHistory} />
       </div>
     </Card>
   </Wrapper>)
 };
 const Wrapper = styled.div`
-min-width: 340px;
-  height:240px;
+  min-width: 340px;
   flex:1.8
   margin: 0 5px;
 `

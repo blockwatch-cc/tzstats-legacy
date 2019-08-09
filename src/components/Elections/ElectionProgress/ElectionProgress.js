@@ -22,7 +22,7 @@ const ElectionProgress = ({ election }) => {
           ? <Card title={`On-Chain Governance ${PeriodNames[vote.voting_period_kind]} closes in ${convertMinutes(endTime)}`}>
             <FlexRowSpaceBetween>
               <DataBox title="Participation Rolls" value={vote.turnout_rolls} />
-              <DataBox title="Maximum Rolls" value={vote.eligible_rolls} />
+              <DataBox title="Maximum Rolls" value={vote.eligible_rolls} style={{textAlign: "right"}}/>
             </FlexRowSpaceBetween>
             <HorizontalProgressBar settings={voteSettings} />
             <HorizontalProgressBar settings={proposalSettings} />
@@ -63,7 +63,7 @@ const PeriodNames = {
   "promotion_vote": "Promotion Vote"
 }
 function getVoteSettings(vote) {
-  let topProposal = vote.proposals[0]
+  let topProposal = _.maxBy(vote.proposals, r => r.rolls);
   return [
     {
       percent: (vote.turnout_rolls / vote.eligible_rolls) * 100,
@@ -81,9 +81,7 @@ function getVoteSettings(vote) {
 }
 
 function getProposalSettings(vote) {
-
-  let topProposal = vote.proposals[0]
-
+  let topProposal = _.maxBy(vote.proposals, r => r.rolls);
   return [
     {
       percent: (topProposal.rolls / vote.eligible_rolls) * 100,

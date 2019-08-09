@@ -45,11 +45,11 @@ const PriceChart = props => {
 
   return (
     <ChartCanvas
-      height={165}
+      height={220}
       width={width}
       seriesName={""}
       margin={{
-        left: 0, right: 50, top: 30, bottom: 0
+        left: 0, right: 50, top: 10, bottom: 0
       }}
       type={type}
       ratio={ratio}
@@ -64,8 +64,9 @@ const PriceChart = props => {
       xExtents={xExtents}
     >
       <Chart id={1}
-        height={55}
+        height={120}
         yExtents={[d => [d.high, d.low]]}
+        origin={(w, h) => [0, 0]}
       >
         <MouseCoordinateY
           fontSize={11}
@@ -102,6 +103,7 @@ const PriceChart = props => {
 
         />
         <CandlestickSeries
+          clip={false}
           stroke={d => d.close > d.open ? '#18ecf2' : '#858999'}
           opacity={1}
           wickStroke={d => d.close > d.open ? '#18ecf2' : '#858999'}
@@ -111,8 +113,8 @@ const PriceChart = props => {
       <Chart id={2}
         yExtents={d => d.vol_base}
         opacity={1}
-        height={55}
-        origin={(w, h) => [0, 55]}
+        height={50}
+        origin={(w, h) => [0, h-50]}
       >
 
         <MouseCoordinateX
@@ -133,6 +135,7 @@ const PriceChart = props => {
           displayFormat={format('$.4s')}
         />
         <BarSeries
+          clip={false}
           opacity={0.8}
           yAccessor={d => d.vol_base}
           fill={d => (d.close > d.open ? '#18ecf2' : '#858999')}

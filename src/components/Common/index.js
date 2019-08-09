@@ -8,6 +8,7 @@ import {
     FlexRow,
     FlexColumn,
     FlexColumnWrap,
+    FlexColumnSpaceBetween,
     FlexRowWrap,
     FlexRowSpaceBetween,
     FlexRowSpaceAround
@@ -33,6 +34,7 @@ export {
     FlexItem,
     FlexRow,
     FlexColumn,
+    FlexColumnSpaceBetween,
     FlexRowWrap,
     FlexColumnWrap,
     FlexRowSpaceAround,
