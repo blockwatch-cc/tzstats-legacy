@@ -115,6 +115,7 @@ const Value = ({ type, value }) => {
 
 const Wrapper = styled.div`
     font-size: ${props => props.fontSize};
+    white-space: nowrap;
 `;
 const Title = styled.div`
     color: rgba(255, 255, 255, 0.52);
