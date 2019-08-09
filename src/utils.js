@@ -11,7 +11,7 @@ export const timeAgo = new TimeAgo('en-US');
 export function convertMinutes(num) {
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
-  const m = Math.round(num % 60);
+  const m = Math.floor(num % 60);
 
   if (d > 0) {
     return d + 'd ' + h + 'h ' + m + 'm';
