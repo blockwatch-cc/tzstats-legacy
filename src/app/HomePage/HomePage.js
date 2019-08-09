@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PriceHistory } from '../../components/Home/PriceHistory/';
-import { StakingSupply, CirculatingSupply } from '../../components/Home/SupplyBreakdown';
+import CirculatingSupply from '../../components/Home/CirculatingSupply';
+import SupplyInfo from '../../components/Home/SupplyInfo';
 import ElectionProgress from '../../components/Home/ElectionProgress';
 import AccountsGrowth from '../../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../../services/api/markets';
@@ -14,9 +15,8 @@ const Home = () => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let [priceHistory, txVol24h, txVolSeries, election] = await Promise.all([
+      let [priceHistory, txVolSeries, election] = await Promise.all([
         getOhlcvData({ days: 30 }),
-        getTxVolume24h(),
         getTxVolume({ days: 30 }),
         getElectionById(),
       ]);
@@ -26,7 +26,6 @@ const Home = () => {
         txVolSeries: txVolSeries,
         isLoaded: true,
         election,
-        txVol24h: { volume: txVol24h[0], txn: txVol24h[1] },
       });
     };
 
@@ -36,15 +35,15 @@ const Home = () => {
     <Wrapper>
       <TwoElementsWrapper>
         <PriceHistory priceHistory={data.priceHistory} />
-        <StakingSupply />
-      </TwoElementsWrapper>
-      <TwoElementsWrapper>
-        <TransactionVolume txSeries={data.txVolSeries} txVol24h={data.txVol24h} />
         <CirculatingSupply />
       </TwoElementsWrapper>
       <TwoElementsWrapper>
-        <AccountsGrowth />
+        <TransactionVolume txSeries={data.txVolSeries} />
+        <SupplyInfo />
+      </TwoElementsWrapper>
+      <TwoElementsWrapper>
         <ElectionProgress election={data.election} />
+        <AccountsGrowth />
       </TwoElementsWrapper>
     </Wrapper>
   ) : (

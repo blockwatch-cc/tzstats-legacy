@@ -59,3 +59,9 @@ input[type='button']:hover {
   border: 1px #fff solid !important;
   fill: '#fff';
 }
+.bp3-card.bp3-interactive:hover {
+  box-shadow: 0 0 0 1px rgb(66, 69, 81), 0 2px 4px rgb(23, 238, 244), 0 0px 7px rgb(23, 238, 244) !important;
+}
+.bp3-card {
+  border-radius: 0 !important;
+}

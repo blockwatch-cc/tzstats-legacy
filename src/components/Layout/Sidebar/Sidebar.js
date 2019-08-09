@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import NetworkCircle from './NetworkCircle';
 import NetworkHealth from './NetworkHealth';
 import LastBlock from './LastBlock';
+import Election from './Election';
 import MarketInfo from './MarketInfo';
 import { Callout } from '@blueprintjs/core';
 import { Devices } from '../../Common';
@@ -14,23 +15,19 @@ const Sidebar = () => {
       <Logo>
         <Link to="/">{'TzStats'}</Link>
       </Logo>
-      <NetworkCircle />
-      <LastBlock />
       <MarketInfo />
+      <LastBlock />
+      <NetworkCircle />
+      <Election />
       <NetworkHealth />
-      <CalloutBox>
-        <Callout intent="danger">
-          You are viewing an early version of this application. The data presented may be inaccurate.
-        </Callout>
-      </CalloutBox>
+      <Callout intent="danger">
+        You are viewing an early version of this application. The data presented may be inaccurate.
+      </Callout>
     </Wrraper>
   );
 };
-const CalloutBox = styled.div`
-  padding: 10px 0;
-`;
 const Wrraper = styled.div`
-  width: 235px;
+  width: 220px;
   display: flex;
   display: flex;
   flex-direction: column;
@@ -44,6 +41,6 @@ const Logo = styled.div`
   padding: 20px 0;
   font-size: 18px;
   text-align: center;
-  poiter: cursor;
+  cursor: pointer;
 `;
 export default Sidebar;

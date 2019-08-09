@@ -114,6 +114,14 @@ input[type=button]:hover {
   fill: "#fff";
 }
 
+.bp3-card.bp3-interactive:hover {
+  box-shadow: 0 0 0 1px #424551, 0 2px 4px #17eef4, 0 0px 7px #17eef4 !important;
+}
+
+.bp3-card {
+  border-radius: 0 !important;
+}
+
 * {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

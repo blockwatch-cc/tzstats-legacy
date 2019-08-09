@@ -33,7 +33,7 @@ const LegendWrapper = styled.div`
 `;
 
 const LegendItem = styled.div`
-  margin-bottom: -30px;
+  margin-bottom: -20px;
   margin-left: 20px;
   min-width: 110px;
   &:after {

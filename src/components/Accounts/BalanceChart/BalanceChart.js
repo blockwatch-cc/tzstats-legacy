@@ -20,7 +20,7 @@ import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/u
 import _ from 'lodash';
 import { format } from 'd3-format';
 import { formatCurrency } from '../../../utils';
-import CurrentCoordinate from './CurrentCoordinate';
+import CurrentCoordinate from '../../Common/CurrentCoordinate';
 
 class BalanceChart extends React.Component {
   render() {

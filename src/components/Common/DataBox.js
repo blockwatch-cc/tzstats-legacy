@@ -4,11 +4,11 @@ import { FlexRow } from './index';
 import { formatCurrency, formatValue } from '../../utils';
 
 //Todo refactoring
-const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', titleSize = '10px', style }) => {
+const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', titleSize = '10px', mw }) => {
   switch (type) {
     case 'title-bottom':
       return (
-        <Wrapper style={style} fontSize={valueSize}>
+        <Wrapper mw={mw} fontSize={valueSize}>
           {title && (valueType && !value) ? (
             <Title fontSize={titleSize}>
               <Value type={valueType} value={title} />
@@ -21,7 +21,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
       );
     case 'value-as-title':
       return (
-        <Wrapper fontSize={valueSize}>
+        <Wrapper mw={mw} fontSize={valueSize}>
           {title}
           {value && (
             <Title fontSize={titleSize}>
@@ -32,7 +32,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
       );
     case 'horizontal-value-as-title':
       return (
-        <Wrapper fontSize={valueSize}>
+        <Wrapper mw={mw} fontSize={valueSize}>
           <FlexRow justifyContent="space-between">
             {<div>{title}</div>}
             {value && (
@@ -46,7 +46,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
 
     default:
       return (
-        <Wrapper fontSize={valueSize}>
+        <Wrapper mw={mw} fontSize={valueSize}>
           {value && <Value type={valueType} value={value} />}
           {title && <Title fontSize={titleSize}>{title}</Title>}
         </Wrapper>
@@ -82,6 +82,7 @@ const Value = ({ type, value }) => {
 
 const Wrapper = styled.div`
   font-size: ${props => props.fontSize};
+  min-width: ${props => (props.mw ? props.mw : 'min-content')}px;
 `;
 const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);

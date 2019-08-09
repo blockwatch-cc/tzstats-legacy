@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, Legend } from '../../Common';
-import { HorizontalProgressBar } from '../../Common/ProgressBar';
+import { Card, Legend } from '../Common';
+import { HorizontalProgressBar } from '../Common/ProgressBar';
 import { useGlobal } from 'reactn';
-import { formatCurrency, fixPercent } from '../../../utils';
+import { formatCurrency, fixPercent } from '../../utils';
 
 const StakingSupply = () => {
   const [chain] = useGlobal('chain');

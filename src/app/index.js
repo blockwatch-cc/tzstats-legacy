@@ -14,26 +14,39 @@ import TestPage from './TestPage/TestPage';
 import PrivacyPage from './PrivacyPage/PrivacyPage';
 import TermsPage from './TermsPage/TermsPage';
 import ElectionPage from './ElectionPage/ElectionPage';
+import useRouter from '../hooks/useRouter';
+import { useTransition, animated } from 'react-spring';
 
 ReactGA.initialize(GOOGLE_ANALYTICS_API_KEY);
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const App = () => {
+  const router = useRouter();
+  console.log(router);
+  const transitions = useTransition(router, router => router.location, {
+    from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
+    enter: { opacity: 1, transform: 'translate3d(0%,0,0)' },
+    leave: { opacity: 0, transform: 'translate3d(-50%,0,0)' },
+  });
   return (
     <BrowserRouter>
       <Layout>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/account/:hash" component={AccountPage} />
-          <Route path="/market" component={MarketPage} />
-          <Route path="/block/:hash" component={BlockPage} />
-          <Route path="/operation/:hash" component={OperationPage} />
-          <Route path="/test" component={TestPage} />
-          <Route path="/terms" component={TermsPage} />
-          <Route path="/privacy" component={PrivacyPage} />
-          <Route path="/election/:id" component={ElectionPage} />
-          <Route path="/not-found/:value" component={NotFoundPage} />
-        </Switch>
+        {transitions.map(({ item, props, key }) => (
+          <animated.div key={key} style={props}>
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route path="/account/:hash" component={AccountPage} />
+              <Route path="/market" component={MarketPage} />
+              <Route path="/block/:hash" component={BlockPage} />
+              <Route path="/operation/:hash" component={OperationPage} />
+              <Route path="/test" component={TestPage} />
+              <Route path="/terms" component={TermsPage} />
+              <Route path="/privacy" component={PrivacyPage} />
+              <Route path="/election/:id" component={ElectionPage} />
+              <Route path="/not-found/:value" component={NotFoundPage} />
+            </Switch>
+          </animated.div>
+        ))}
       </Layout>
     </BrowserRouter>
   );

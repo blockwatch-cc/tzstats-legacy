@@ -75,7 +75,6 @@ function helper(props, moreProps) {
     xAccessor,
   } = moreProps;
 
-  // console.log(show);
   if (!show || isNotDefined(currentItem)) return null;
 
   const xValue = xAccessor(currentItem);
@@ -83,7 +82,6 @@ function helper(props, moreProps) {
 
   if (isNotDefined(yValue)) return null;
 
-  // console.log(chartConfig);
   const x = Math.round(xScale(xValue));
   const y = Math.round(yScale(yValue));
 

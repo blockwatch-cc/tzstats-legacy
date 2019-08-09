@@ -1,6 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRow, FlexColumn, Blockies, CopyHashButton } from '../../Common';
+import {
+  Card,
+  DataBox,
+  FlexRow,
+  FlexColumn,
+  Blockies,
+  CopyHashButton,
+  FlexRowSpaceBetween,
+  FlexRowWrap,
+} from '../../Common';
 import { backerAccounts } from '../../../config/backer-accounts';
 import { timeFormat } from 'd3-time-format';
 import { getShortHash } from '../../../utils';
@@ -17,7 +26,7 @@ const BlockInfo = ({ block }) => {
             <DataBox title={timeFormat('%a, %d %B %H:%M')(new Date(block.time))} value={block.height} />
             <DataBox title="Cycle" value={block.cycle} />
           </FlexRow>
-          <FlexRow mt={1}>
+          <FlexRowWrap justifyContent="space-around" mt={1}>
             {block.endorsed_slots
               ? [...block.endorsed_slots.toString(2)].map((item, i) => {
                   return (
@@ -27,7 +36,7 @@ const BlockInfo = ({ block }) => {
                   );
                 })
               : ''}
-          </FlexRow>
+          </FlexRowWrap>
           <FlexRow justifyContent="space-between">
             <CopyHashButton value={block.hash} type="block" />
             {block.endorsed_slots ? <DataBox title="Slots Endorsed" /> : ''}
@@ -77,7 +86,6 @@ const Slot = styled.div`
 
 const Wrapper = styled.div`
   min-width: 340px;
-  flex: 1.8;
   margin: 0 5px;
 `;
 export default BlockInfo;

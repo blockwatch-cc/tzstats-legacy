@@ -28,7 +28,6 @@ class LabelAnnotation extends Component {
 
     if (onMouseEnter) {
       const { xScale, yScale, datum } = this.props;
-      console.log(this.props);
       onMouseEnter({ xScale, yScale, datum }, e);
     }
   }

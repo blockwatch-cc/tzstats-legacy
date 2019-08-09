@@ -14,7 +14,7 @@ const NetworkHealth = () => {
   return (
     <Wrapper>
       <Card interactive={true} elevation={Elevation.ZERO}>
-        <Title>{healthMap[4].status} network health</Title>
+        <Title>{healthMap[4].status} Network Health</Title>
         {healthMap.slice(0, healtIndex + 1).map((item, index) => (
           <NetworkHealthIndicator key={index} color={item.color} opacity={item.opacity} />
         ))}
@@ -23,15 +23,13 @@ const NetworkHealth = () => {
   );
 };
 const Wrapper = styled.div`
-  margin-top: 10px;
+  margin: 10px 0;
 `;
 const Title = styled.div`
-  font-size: 12px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.52);
 `;
-const Content = styled.span`
-  font-size: 14px;
-`;
+
 const NetworkHealthIndicator = styled.div`
   height: 6px;
   width: 16px;

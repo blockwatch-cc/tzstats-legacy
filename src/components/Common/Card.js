@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Card = props => {
   return (
-    <Wrapper>
+    <Wrapper data={props}>
       <Title>{props.title}</Title>
       {props.children}
     </Wrapper>
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   padding-left: 40px;
   padding-top: 20px;
   padding-bottom: 20px;
-  justify-content: start;
+  justify-content: ${props => (props.data.jc ? props.data.jc : 'start')};
   margin-top: 10px;
   height: 100%;
 `;

@@ -7,96 +7,69 @@ import { convertMinutes, getShortHash } from '../../../utils';
 import _ from 'lodash';
 
 const ElectionProgress = ({ election }) => {
-  let vote = election[election.voting_period];
-  let voteSettings = getVoteSettings(vote);
-  let proposalSettings = getProposalSettings(vote);
-  let topProposal = _.maxBy(vote.proposals, r => r.rolls);
-  let proposalDetails = proposals[topProposal.hash];
-  let endTime = (new Date(vote.period_end_time) - Date.now()) / 60000;
+  let period = currentPeriod(election);
+  let settings = getPeriodSettings(period);
+  const endTime = getEndTime(period);
 
+  let title = `${period.title} Period  ${endTime}`;
   return (
     <Wrapper>
-      {vote ? (
-        <Card
-          title={`On-Chain Governance ${PeriodNames[vote.voting_period_kind]} closes in ${convertMinutes(endTime)}`}
-        >
-          <FlexRowSpaceBetween>
-            <DataBox title="Participation Rolls" value={vote.turnout_rolls} />
-            <DataBox title="Maximum Rolls" value={vote.eligible_rolls} />
-          </FlexRowSpaceBetween>
-          <HorizontalProgressBar settings={voteSettings} />
-          <HorizontalProgressBar settings={proposalSettings} />
-          <FlexRowSpaceBetween>
-            <DataBox title={`Top: ${proposalDetails.name}`} value={topProposal.rolls} />
-            <a target="_blank" style={{ fontSize: 12 }} href={proposalDetails.link}>
-              {getShortHash(topProposal.hash)}
-            </a>
-          </FlexRowSpaceBetween>
-        </Card>
-      ) : (
-        <Card title={`On-Chain Governance Proposal Period closes in ${convertMinutes(endTime)}`}>
-          <Content>
-            {' '}
-            <Strong> No Proposal</Strong> submitted yet.
-          </Content>
-        </Card>
-      )}
+      <Card title={title}>
+        <FlexRowSpaceBetween>
+          <DataBox value={period.turnout_rolls} />
+          <DataBox value={period.eligible_rolls} />
+        </FlexRowSpaceBetween>
+        <HorizontalProgressBar settings={settings} />
+        <FlexRowSpaceBetween>
+          <DataBox title={`Participation Rolls ${((100 * period.turnout_rolls) / period.eligible_rolls).toFixed()}%`} />
+          <DataBox title={`Maximum Rolls`} />
+        </FlexRowSpaceBetween>
+      </Card>
     </Wrapper>
   );
 };
-const Strong = styled.strong`
-  color: #fff;
-  fonst-size: 13;
-`;
+
 const Wrapper = styled.div`
-  flex: 1;
+  flex: 2;
   min-width: 340px;
   margin: 0 5px;
 `;
-const Content = styled.div`
-  min-height: 62px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.52);
-`;
-const PeriodNames = {
-  proposal: 'Proposal Period',
-  testing_vote: 'Testing Vote',
-  testing: 'Testing Period',
-  promotion_vote: 'Promotion Vote',
-};
-function getVoteSettings(vote) {
-  let topProposal = vote.proposals[0];
+function getEndTime(period) {
+  return period.is_open
+    ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
+    : 'complete';
+}
+function currentPeriod(election) {
+  if (election.promotion_vote) {
+    election.promotion_vote['title'] = 'Promotion';
+    return election.promotion_vote;
+  }
+  if (election.testing) {
+    election.testing['title'] = 'Testing';
+    return election.testing;
+  }
+  if (election.testing_vote) {
+    election.testing_vote['title'] = 'Testing Vote';
+    return election.testing_vote;
+  }
+  if (election.proposal) {
+    election.proposal['title'] = 'Proposal';
+    return election.proposal;
+  }
+}
+function getPeriodSettings(period) {
   return [
     {
-      percent: (vote.turnout_rolls / vote.eligible_rolls) * 100,
+      percent: (period.turnout_rolls / period.eligible_rolls) * 100,
       color: '#19f3f9',
       title: 'Participation Rolls',
-      value: vote.turnout_rolls,
+      value: period.turnout_rolls,
     },
     {
-      percent: ((vote.eligible_rolls - vote.turnout_rolls) / vote.eligible_rolls) * 100,
+      percent: ((period.eligible_rolls - period.turnout_rolls) / period.eligible_rolls) * 100,
       color: '#858999;',
       title: 'Maximum Rolls',
-      value: vote.eligible_rolls - vote.turnout_rolls,
-    },
-  ];
-}
-
-function getProposalSettings(vote) {
-  let topProposal = vote.proposals[0];
-
-  return [
-    {
-      percent: (topProposal.rolls / vote.eligible_rolls) * 100,
-      color: '#19f3f9',
-      title: 'Top Proposal Rolls',
-      value: topProposal.rolls,
-    },
-    {
-      percent: ((vote.eligible_rolls - topProposal.rolls) / vote.eligible_rolls) * 100,
-      color: '#858999;',
-      title: 'Maximum Top Rolls',
-      value: vote.eligible_rolls - topProposal.rolls,
+      value: period.eligible_rolls - period.turnout_rolls,
     },
   ];
 }

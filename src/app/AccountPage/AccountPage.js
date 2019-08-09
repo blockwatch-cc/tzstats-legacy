@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import BasicAccount from '../../components/Accounts/BasicAccount';
 import { getAccountByHash, getFlowData, getStakingData } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
@@ -18,12 +17,11 @@ const AccountPage = ({ match }) => {
       ]);
 
       let { stackingBond, currentDeposit, pendingReawards } = wrapStakingData({ ...stakingData, account });
-      let { inFlowData, outFlowData, dataInOut } = wrapFlowData(flowData, account);
+
       let balanceHistory = wrapToBalance(flowData, account);
 
       setData({
         account,
-        flowData: dataInOut,
         isLoaded: true,
         txHistory,
         balanceHistory,

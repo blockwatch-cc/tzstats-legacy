@@ -5,7 +5,7 @@ import { useGlobal, setGlobal } from 'reactn';
 import { format } from 'd3-format';
 import { Card, Elevation } from '@blueprintjs/core';
 import { withRouter } from 'react-router-dom';
-import { DataBox } from '../../../Common';
+import { DataBox, FlexRow, FlexRowSpaceBetween, FlexColumn } from '../../../Common';
 
 const MarketInfo = ({ history }) => {
   const [chain] = useGlobal('chain');
@@ -50,26 +50,44 @@ const MarketInfo = ({ history }) => {
   };
 
   return (
-    <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
-      <DataBox title="Tezos Price" />
-      <PriceWrapper>
-        {format('$,')(lastMarketData.price.toFixed(2))}{' '}
-        <PriceChanges>
-          {getPriceIndicator()}
-          {Math.abs(lastMarketData.change).toFixed(1) || 0} %
-        </PriceChanges>
-      </PriceWrapper>
-      <DataBox type="title-bottom" title="Market Cap" valueType="currency-usd-short" value={calculateMarketCap()} />
-    </Card>
+    <Wrapper>
+      <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
+        <FlexRowSpaceBetween>
+          <FlexColumn>
+            <DataBox title="Tezos Price" />
+            <FlexRow>
+              <div style={{ fontSize: 16 }}>${lastMarketData.price.toFixed(2)}</div>
+              <PriceChanges>
+                {getPriceIndicator()}
+                &nbsp;
+                {Math.abs(lastMarketData.change).toFixed(1)}%
+              </PriceChanges>
+            </FlexRow>
+          </FlexColumn>
+          {/* <div style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.52)' }}>
+            <div>|</div>
+            <div>|</div>
+          </div> */}
+          <DataBox
+            valueSize="16px"
+            type="title-bottom"
+            title="Market Cap"
+            valueType="currency-usd-short"
+            value={calculateMarketCap()}
+          />
+        </FlexRowSpaceBetween>
+      </Card>
+    </Wrapper>
   );
 };
 
-const PriceWrapper = styled.div`
-  margin-bottom: 20px;
-`;
 const PriceChanges = styled.span`
   color: #1af9ff;
-  font-size: 14px;
+  font-size: 12px;
   margin-left: 5px;
+  margin-top: 4px;
+`;
+const Wrapper = styled.div`
+  margin-top: 10px;
 `;
 export default withRouter(MarketInfo);

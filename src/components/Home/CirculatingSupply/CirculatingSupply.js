@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, Legend } from '../../Common';
+import { Card, Legend, FlexColumn } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { useGlobal } from 'reactn';
 import { formatCurrency, fixPercent } from '../../../utils';
@@ -12,8 +12,10 @@ const CirculatingSupply = () => {
   return (
     <Wrapper>
       <Card title={`Supply Breakdown for ${formatCurrency(chain.supply.total, '.2s')}`}>
-        <HorizontalProgressBar settings={settings} />
-        <Legend settings={settings} />
+        <FlexColumn height={155} justifyContent="space-around">
+          <HorizontalProgressBar settings={settings} />
+          <Legend settings={settings} />
+        </FlexColumn>
       </Card>
     </Wrapper>
   );

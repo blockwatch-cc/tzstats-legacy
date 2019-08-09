@@ -121,10 +121,10 @@ export const getTxVolume24h = async () => {
 //https://api.tzstats.com/series/block?collapse=1d&start_date=now-30d&columns=volume
 export const getTxVolume = async ({ days }) => {
   const statTime = `now-${days}d`;
-  const response = await request(`/series/block?start_date=${statTime}&collapse=1d&columns=volume`);
+  const response = await request(`/series/block?start_date=${statTime}&collapse=1d&columns=volume,n_tx`);
 
   return response.map(item => {
-    return { time: new Date(item[0]), value: item[1] };
+    return { time: new Date(item[0]), value: item[1], n_tx: item[2] };
   });
 };
 

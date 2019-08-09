@@ -20,14 +20,13 @@ import VolumeAnnotation from './VolumeAnnotation';
 
 const PriceChart = props => {
   const { type, data: initialData, ratio, width, volumeMax, setCurrentValue } = props;
-  console.log(volumeMax, 'volumeMax');
 
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
   let { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
 
   const start = xAccessor(last(data));
   const end = xAccessor(data[Math.max(0, data.length - 70)]);
-  console.log(start, end, 'start');
+
   const xExtents = [start, end];
 
   const zoomEvent = false;

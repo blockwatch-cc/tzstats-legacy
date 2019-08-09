@@ -73,10 +73,9 @@ export default function SegmentedProgressbar(props) {
       renderOverlays={() =>
         getRadialSeparators(16).concat(
           <div style={{ textAlign: 'center' }}>
-            <span style={{ fontSize: 20, color: '#fff' }}>{props.circleNumber}</span>
-            <p>
-              <span style={{ fontSize: 10, color: 'rgba(255, 255, 255, 0.52)' }}>Cycle</span>
-            </p>
+            <div style={{ fontSize: 20, color: '#fff' }}>{props.circleNumber}</div>
+
+            <div style={{ fontSize: 10, color: 'rgba(255, 255, 255, 0.52)' }}>Cycle</div>
           </div>
         )
       }

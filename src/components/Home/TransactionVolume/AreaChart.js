@@ -19,10 +19,10 @@ import { last } from 'react-stockcharts/lib/utils';
 import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/utils';
 import _ from 'lodash';
 import { format } from 'd3-format';
-
+import { CurrentCoordinate } from '../../Common';
 class AreaChart extends React.Component {
   render() {
-    const { data, width } = this.props;
+    const { data, width, setCurrentValue } = this.props;
     const max = _.maxBy(data, function(o) {
       return o.value;
     }).value;
@@ -34,7 +34,7 @@ class AreaChart extends React.Component {
       <ChartCanvas
         seriesName={''}
         ratio={2}
-        height={130}
+        height={105}
         width={width}
         margin={{
           left: 0,
@@ -50,12 +50,12 @@ class AreaChart extends React.Component {
         xAccessor={d => d && d.time}
         xScale={scaleTime()}
       >
-        <Chart id={0} opacity={1} height={95} yExtents={d => d.value}>
+        <Chart id={0} opacity={1} height={70} yExtents={[d => [max + 2000000, min - 2000000]]}>
           <defs>
-            <linearGradient id="MyGradient" x1="0" y1="100%" x2="0" y2="0%">
-              <stop offset="0%" stopColor="#17eef4" stopOpacity={0.2} />
-              <stop offset="50%" stopColor="#17eef4" stopOpacity={0.6} />
-              <stop offset="75%" stopColor="#17eef4" stopOpacity={1} />
+            <linearGradient id="MyGradient2" x1="0" y1="100%" x2="0" y2="0%">
+              <stop offset="0%" stopColor="#29C0FF" stopOpacity={0.4} />
+              <stop offset="50%" stopColor="#29C0FF" stopOpacity={0.4} />
+              <stop offset="75%" stopColor="#29C0FF" stopOpacity={0.6} />
             </linearGradient>
           </defs>
           <PriceCoordinate
@@ -81,6 +81,7 @@ class AreaChart extends React.Component {
             strokeDasharray="ShortDash"
             displayFormat={format('.2s')}
           />
+
           <MouseCoordinateX
             opacity={1}
             at="top"
@@ -101,13 +102,21 @@ class AreaChart extends React.Component {
 
           <AreaSeries
             yAccessor={d => d.value}
-            stroke="#17eef4"
-            fill="url(#MyGradient)"
+            stroke="#29C0FF"
+            fill="url(#MyGradient2)"
             strokeWidth={3}
             interpolation={curveLinear}
             canvasGradient={canvasGradient}
           />
           <CrossHairCursor ratio={2} stroke="#FFFFFF" />
+          <CurrentCoordinate
+            r={3}
+            yAccessor={d => {
+              setCurrentValue(d);
+              return d.value;
+            }}
+            fill={'#424553'}
+          />
         </Chart>
       </ChartCanvas>
     );
@@ -115,9 +124,9 @@ class AreaChart extends React.Component {
 }
 
 const canvasGradient = createVerticalLinearGradient([
-  { stop: 0, color: hexToRGBA('#17eef4', 0.2) },
-  { stop: 0.7, color: hexToRGBA('#17eef4', 0.4) },
-  { stop: 1, color: hexToRGBA('#17eef4', 0.8) },
+  { stop: 0, color: hexToRGBA('#29C0FF', 0.8) },
+  { stop: 0.7, color: hexToRGBA('#29C0FF', 0.8) },
+  { stop: 1, color: hexToRGBA('#29C0FF', 0.8) },
 ]);
 
 const zoomEvent = false;

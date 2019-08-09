@@ -12,7 +12,7 @@ const TestingPeriod = ({ period }) => {
   const endTime = getEndTime(period);
   const proposalDiteils = proposals[period.proposals[0].hash]
     ? proposals[period.proposals[0].hash]
-    : { name: '', link: 'link not found' };
+    : { name: '', link: '', archive: '' };
   return (
     <Wrapper>
       <Card title={`3 Testing period for ${proposalDiteils.name} ${endTime}`}>

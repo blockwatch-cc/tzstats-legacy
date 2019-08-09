@@ -5,6 +5,7 @@ const useInfiniteScroll = callback => {
 
   useEffect(() => {
     document.getElementById('main-panel').addEventListener('scroll', handleScroll);
+    return () => document.getElementById('main-panel').removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
   useEffect(() => {
@@ -20,4 +21,5 @@ const useInfiniteScroll = callback => {
 
   return [isFetching, setIsFetching];
 };
+
 export default useInfiniteScroll;
