@@ -75,8 +75,8 @@ const BlueLink = styled(Link)`
   text-align: right;
 `;
 const Slot = styled.div`
-  height: 11px;
-  width: 11px;
+  height: 10.5px;
+  width: 10.5px;
   margin: 2px;
   color: #fff;
   text-align: center;
@@ -87,5 +87,6 @@ const Slot = styled.div`
 const Wrapper = styled.div`
   min-width: 340px;
   margin: 0 5px;
+  flex: 2;
 `;
 export default BlockInfo;

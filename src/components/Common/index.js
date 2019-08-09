@@ -10,6 +10,7 @@ import {
   FlexColumnWrap,
   FlexRowWrap,
   FlexRowSpaceBetween,
+  FlexColumnSpaceBetween,
   FlexRowSpaceAround,
 } from './Box';
 
@@ -39,6 +40,7 @@ export {
   FlexColumn,
   FlexRowWrap,
   FlexColumnWrap,
+  FlexColumnSpaceBetween,
   FlexRowSpaceAround,
   FlexRowSpaceBetween,
 };

@@ -7,6 +7,7 @@ import Searchbar from '../../components/Layout/Searchbar';
 import Footer from '../../components/Layout/Footer';
 import { getChainData } from '../../services/api/tz-stats';
 import { setGlobal } from 'reactn';
+import { Devices } from '../../components/Common';
 
 function Layout({ children }) {
   React.useEffect(() => {
@@ -38,6 +39,11 @@ const Wrapper = styled.div`
 const Content = styled.div`
   flex: 1;
   padding: 10px 0;
+  max-width: 900px;
+  min-width: 900px;
+  @media ${Devices.mobileL} {
+    min-width: 380px;
+  }
 `;
 const MainPanel = styled.main`
   display: flex;
@@ -45,6 +51,12 @@ const MainPanel = styled.main`
   flex: 1;
   overflow: scroll;
   padding 10px 10%;
+  align-items: center;
+  min-width: 900px;
+  margin: 0 10px;
+  @media ${Devices.mobileL} {
+    min-width: 380px;
+  }
 `;
 
 export default Layout;

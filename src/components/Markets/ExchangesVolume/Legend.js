@@ -30,12 +30,12 @@ const LegendContent = ({ settings }) => {
 const LegendWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  margin-left: 20px;
 `;
 const LegendItem = styled.div`
   margin-bottom: -30px;
   margin-left: 20px;
+  white-space: nowrap;
   min-width: 130px;
   &:after {
     content: '•';

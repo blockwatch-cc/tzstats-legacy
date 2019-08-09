@@ -57,6 +57,8 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
 const Value = ({ type, value }) => {
   if (value && typeof value !== 'string') {
     switch (type) {
+      case 'text':
+        return value;
       case 'currency-fixed':
         return formatCurrency(Math.round(value), ',');
       case 'currency-short':
@@ -81,6 +83,7 @@ const Value = ({ type, value }) => {
 };
 
 const Wrapper = styled.div`
+  white-space: nowrap;
   font-size: ${props => props.fontSize};
   min-width: ${props => (props.mw ? props.mw : 'min-content')}px;
 `;

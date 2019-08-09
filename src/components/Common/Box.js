@@ -121,6 +121,22 @@ export const FlexColumn = styled(Box)`
   ${minHeight}
 `;
 
+export const FlexColumnSpaceBetween = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  ${textAlign}
+  ${alignItems}
+  ${alignContent}
+  ${justifyContent}
+  ${flexWrap}
+  ${flexBasis}
+  ${flex}
+  ${border}
+  ${minWidth}
+  ${minHeight}
+  `;
+
 export const FlexRowWrap = styled(Box)`
   display: flex;
   flex-direction: row;
