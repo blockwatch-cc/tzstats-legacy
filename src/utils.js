@@ -53,19 +53,19 @@ export function wrapFlowData(flowData, account) {
   let inFlowData = { id: 'In-flow', color: '#1af3f9', data: [] };
   let outFlowData = { id: 'Out-flow', color: '#83899B', data: [] };
 
-  let spandableBalance = account.spendable_balance;
+  let balance = account.spendable_balance;
   let dataInOut = [];
 
   //[0]-time [1]-in [2]-out
-  flowData.map((item, i) => {
-    let curentBalanceIn = flowData[i] ? flowData[i][1] : 0;
-    let curentBalanceOut = flowData[i] ? flowData[i][2] : 0;
 
-    let inFlow = spandableBalance - curentBalanceIn;
-    let outFlow = spandableBalance + curentBalanceOut;
-    inFlowData.data.push({ x: item[0], y: inFlow });
-    outFlowData.data.push({ x: item[0], y: -outFlow });
-    dataInOut.push({ time: item[0], inFlow: inFlow, outFlow: -outFlow });
+  flowData.reverse().map(item => {
+    let time = item[0];
+    let inFlow = item[1];
+    let outFlow = item[2];
+    inFlowData.data.unshift({ x: time, y: inFlow });
+    outFlowData.data.unshift({ x: time, y: -outFlow });
+    dataInOut.unshift({ time: time, inFlow: inFlow, outFlow: -outFlow, balance: balance });
+    balance += outFlow - inFlow;
   });
   return { inFlowData, outFlowData, dataInOut };
 }
@@ -108,50 +108,48 @@ export function wrapToVolume(volSeries) {
 }
 
 export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
-  let stackingBond = { id: 'Stacking Bond', color: '#1af3f9', data: [] };
+  let stakingBond = { id: 'Staking Bond', color: '#1af3f9', data: [] };
   let currentDeposit = { id: 'Current Deposit', color: '#83899B', data: [] };
-  let pendingReawards = { id: 'Pending Rewards', color: '#83899B', data: [] };
-  let spandableBalance = account.spendable_balance;
+  let pendingRewards = { id: 'Pending Rewards', color: '#83899B', data: [] };
+  let spendableBalance = account.spendable_balance;
   let frozenDeposit = account.frozen_deposits;
   let frozenRewards = account.frozen_rewards;
   let frozenFees = account.frozen_fees;
   let allData = [];
   //[0]-time [1]-in [2]-out
-  balance.map((item, i) => {
-    let curentBalanceIn = balance[i] ? balance[i][1] : 0;
-    let curentBalanceOut = balance[i] ? balance[i][2] : 0;
+  for (let i = balance.length - 1; i >= 0; i--) {
+    let balanceIn = balance[i][1];
+    let balanceOut = balance[i][2];
 
-    let curentDepositsIn = deposits[i] ? deposits[i][1] : 0;
-    let curentDepositsOut = deposits[i] ? deposits[i][2] : 0;
+    let depositsIn = deposits[i][1];
+    let depositsOut = deposits[i][2];
 
-    let curentRewardsIn = rewards[i] ? rewards[i][1] : 0;
-    let curentRewardsOut = rewards[i] ? rewards[i][2] : 0;
+    let rewardsIn = rewards[i][1];
+    let rewardsOut = rewards[i][2];
 
-    let cuurentFrozenFeeIn = fees[i] ? fees[i][1] : 0;
-    let cuurentFrozenFeeOut = fees[i] ? fees[i][2] : 0;
-
-    spandableBalance = spandableBalance - curentBalanceIn + curentBalanceOut;
-    frozenDeposit = frozenDeposit - curentDepositsIn + curentDepositsOut;
-    frozenRewards = frozenRewards - curentRewardsIn + curentRewardsOut;
-    frozenFees = frozenFees - cuurentFrozenFeeIn + cuurentFrozenFeeOut;
+    let feesIn = fees[i][1];
+    let feesOut = fees[i][2];
 
     //spandable_balance + frozen depozit
-    stackingBond.data.push({ x: balance[i][0], y: spandableBalance + frozenDeposit });
+    stakingBond.data.unshift({ x: balance[i][0], y: spendableBalance + frozenDeposit });
     //frozen depozit
-    currentDeposit.data.push({ x: balance[i][0], y: frozenDeposit });
+    currentDeposit.data.unshift({ x: balance[i][0], y: frozenDeposit });
     //frozen rewards + frozen fees
-    pendingReawards.data.push({ x: balance[i][0], y: frozenRewards + frozenFees });
-    allData.push({
-      time: item[0],
-      bond: spandableBalance + frozenDeposit,
+    pendingRewards.data.unshift({ x: balance[i][0], y: frozenRewards + frozenFees });
+
+    allData.unshift({
+      time: balance[i][0],
+      bond: spendableBalance + frozenDeposit,
       deposit: frozenDeposit,
       rewards: frozenRewards + frozenFees,
     });
-  });
-  stackingBond.data = stackingBond.data.reverse();
-  currentDeposit.data = currentDeposit.data.reverse();
-  pendingReawards.data = pendingReawards.data.reverse();
-  return { stackingBond, currentDeposit, pendingReawards };
+
+    spendableBalance += balanceOut - balanceIn;
+    frozenDeposit += depositsOut - depositsIn;
+    frozenRewards += rewardsOut - rewardsIn;
+    frozenFees += feesOut - feesIn;
+  }
+  return { stakingBond, currentDeposit, pendingRewards };
 }
 
 //Todo replace it with clean function

@@ -56,6 +56,7 @@ const TransactionHistory = ({ hash }) => {
         </FlexRowSpaceBetween>
 
         {tableOperations.map((item, i) => {
+          console.log(item, 'itm');
           return (
             <FlexRowSpaceBetween key={i}>
               <TypeCell width={30}>

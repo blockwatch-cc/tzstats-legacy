@@ -54,7 +54,7 @@ const createSeriesUrl = options => {
 export const getSeriesData = async options => {
   const urlOptions = {
     columns: options.columns,
-    startDate: options.startDate || (options.days && `now/d-${options.days}d`),
+    startDate: options.startDate || (options.days && `now/d-${options.days-1}d`),
     collapse: options.collapse || '1d',
     limit: options.limit || options.days || 90,
     datasetCode: options.dataset || 'kraken/XTZ_USD/ohlcv',
@@ -69,7 +69,7 @@ export const getSeriesData = async options => {
 export const getOhlcvData = async options => {
   const urlOptions = {
     columns: options.columns || ['time', 'open', 'high', 'low', 'close', 'vol_base'],
-    startDate: options.days && `now/d-${options.days}d`,
+    startDate: options.days && `now/d-${options.days-1}d`,
     collapse: options.collapse || '1d',
     limit: options.limit || options.days || 90,
     datasetCode: 'kraken/XTZ_USD/ohlcv',

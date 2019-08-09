@@ -49,7 +49,7 @@ const Content = styled.div`
 function getEndTime(period) {
   return period.is_open
     ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
-    : 'complete';
+    : 'is completed';
 }
 
 export default TestingPeriod;

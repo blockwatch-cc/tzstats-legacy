@@ -4,11 +4,11 @@ import { FlexRow } from './index';
 import { formatCurrency, formatValue } from '../../utils';
 
 //Todo refactoring
-const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', titleSize = '10px', mw }) => {
+const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', titleSize = '10px', style }) => {
   switch (type) {
     case 'title-bottom':
       return (
-        <Wrapper mw={mw} fontSize={valueSize}>
+        <Wrapper style={style} fontSize={valueSize}>
           {title && (valueType && !value) ? (
             <Title fontSize={titleSize}>
               <Value type={valueType} value={title} />
@@ -21,7 +21,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
       );
     case 'value-as-title':
       return (
-        <Wrapper mw={mw} fontSize={valueSize}>
+        <Wrapper style={style} fontSize={valueSize}>
           {title}
           {value && (
             <Title fontSize={titleSize}>
@@ -32,9 +32,9 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
       );
     case 'horizontal-value-as-title':
       return (
-        <Wrapper mw={mw} fontSize={valueSize}>
-          <FlexRow justifyContent="space-between">
-            {<div>{title}</div>}
+        <Wrapper style={style} fontSize={valueSize}>
+          <FlexRow justifyContent="space-between" alignItems="center">
+            {<div style={{ paddingRight: '10px' }}>{title}</div>}
             {value && (
               <Title fontSize={titleSize}>
                 <Value type={valueType} value={value} />
@@ -46,7 +46,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
 
     default:
       return (
-        <Wrapper mw={mw} fontSize={valueSize}>
+        <Wrapper style={style} fontSize={valueSize}>
           {value && <Value type={valueType} value={value} />}
           {title && <Title fontSize={titleSize}>{title}</Title>}
         </Wrapper>
@@ -55,7 +55,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
 };
 
 const Value = ({ type, value }) => {
-  if (value && typeof value !== 'string') {
+  if (value && typeof vale !== 'string') {
     switch (type) {
       case 'text':
         return value;
@@ -74,18 +74,18 @@ const Value = ({ type, value }) => {
       case 'value-short':
         return formatValue(Math.round(value), '.2s');
       case 'percent':
-        return value * 100 < 1 ? '< 1%' : value * 100 > 99 ? '99%' : formatValue(value, '.0%');
+        return value * 100 < 1 ? '< 1%' : formatValue(value, '.0%');
       default:
         return formatValue(Math.round(value), ',');
     }
   }
+
   return value;
 };
 
 const Wrapper = styled.div`
-  white-space: nowrap;
   font-size: ${props => props.fontSize};
-  min-width: ${props => (props.mw ? props.mw : 'min-content')}px;
+  white-space: nowrap;
 `;
 const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);

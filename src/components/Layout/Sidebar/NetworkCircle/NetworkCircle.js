@@ -10,7 +10,8 @@ import { DataBox } from '../../../Common';
 const NetworkCircle = props => {
   const [chain] = useGlobal('chain');
 
-  const time = convertMinutes((chain.cycle + 1) * 4096 - chain.height);
+  let diff = (Date.now() - new Date(chain.timestamp)) / 60000;
+  const time = convertMinutes((chain.cycle + 1) * 4096 - chain.height - diff);
   return (
     <Card interactive={true} elevation={Elevation.FOUR}>
       <Wrapper>

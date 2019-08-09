@@ -69,27 +69,57 @@ export const getElectionHistory = async () => {
 };
 
 //******************FLOW****************** */
-export const getStakingData = async ({ hash, days }) => {
+export const getStakingData = async ({ hash, days = 30 }) => {
   const statTime = `now-${days}d`;
   let [balance, deposits, rewards, fees] = await Promise.all([
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d`),
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=deposits&collapse=1d`),
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=rewards&collapse=1d`),
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=fees&collapse=1d`),
+    request(
+      `/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`
+    ),
+    request(
+      `/series/flow?start_date=${statTime}&account=${hash}&category=deposits&collapse=1d&columns=time,amount_in,amount_out`
+    ),
+    request(
+      `/series/flow?start_date=${statTime}&account=${hash}&category=rewards&collapse=1d&columns=time,amount_in,amount_out`
+    ),
+    request(
+      `/series/flow?start_date=${statTime}&account=${hash}&category=fees&collapse=1d&columns=time,amount_in,amount_out`
+    ),
   ]);
 
   return {
-    balance: balance.reverse(),
-    deposits: deposits.reverse(),
-    rewards: rewards.reverse(),
-    fees: fees.reverse(),
+    balance: fillTimeSeries(balance, days, 0, 3),
+    deposits: fillTimeSeries(deposits, days, 0, 3),
+    rewards: fillTimeSeries(rewards, days, 0, 3),
+    fees: fillTimeSeries(fees, days, 0, 3),
   };
 };
+
+function fillTimeSeries(series, days = 30, filler = 0, minlength = 1) {
+  let to = new Date();
+  to.setUTCHours(0, 0, 0, 0);
+  let from = new Date(to);
+  from.setUTCDate(to.getUTCDate() - 30);
+  let pos = 0;
+  let res = [];
+  let zero = new Array(series.length ? series[0].length : minlength).fill(filler);
+  for (let d = from; d <= to; d.setUTCDate(d.getUTCDate() + 1)) {
+    if (pos < series.length && series[pos][0] === d.getTime()) {
+      res.push(series[pos]);
+      pos++;
+    } else {
+      zero[0] = new Date(d).getTime();
+      res.push([...zero]);
+    }
+  }
+  return res;
+}
 
 //https://api.tzstats.com/series/flow?account=tz1WBfwbT66FC6BTLexc2BoyCCBM9LG7pnVW&collapse=1d&start_date=now-30d&category=balance&
 export const getFlowData = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
-  const response = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d`);
+  const response = await request(
+    `/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`
+  );
 
   return response;
 };

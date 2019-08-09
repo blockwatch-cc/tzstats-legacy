@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 function getEndTime(period) {
   return period.is_open
     ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
-    : 'complete';
+    : 'is completed';
 }
 function currentPeriod(election) {
   if (election.promotion_vote) {
