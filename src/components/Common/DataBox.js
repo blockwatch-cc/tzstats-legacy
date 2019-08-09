@@ -28,7 +28,7 @@ const DataBox = ({ value, title, valueType, type = "", valueSize = "18px", title
             </Wrapper>)
         case 'value-as-title':
             return (
-                <Wrapper fontSize={valueSize}>
+                <Wrapper style={style} fontSize={valueSize}>
                     {
                         title
                     }
@@ -46,10 +46,10 @@ const DataBox = ({ value, title, valueType, type = "", valueSize = "18px", title
             )
         case 'horizontal-value-as-title':
             return (
-                <Wrapper fontSize={valueSize}>
-                    <FlexRow justifyContent="space-between">
+                <Wrapper style={style} fontSize={valueSize}>
+                    <FlexRow justifyContent="space-between" alignItems="center">
                         {
-                            <div>{title}</div>
+                            <div style={{paddingRight:'10px'}}>{title}</div>
                         }
                         {
 

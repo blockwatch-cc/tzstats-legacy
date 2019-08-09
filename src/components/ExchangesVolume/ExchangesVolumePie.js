@@ -10,7 +10,7 @@ const ExchangesVolumePie = ({ data }) => {
 
   const getBarColor = bar => bar.color;
 
-  return (<div style={{ flex: 1, width: 200, height: 200 }}>
+  return (<div style={{ width: 200, height: 200 }}>
     <ResponsivePie
       data={data}
       padAngle={1.5}

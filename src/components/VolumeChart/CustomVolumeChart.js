@@ -17,7 +17,7 @@ const CustomVolumeChart = ({ data }) => {
     <Wrapper>
       {data.map((item, i) => {
         return (
-          <Popover placement="top" content={
+          <Popover key={i} placement="top" content={
             <DataBox
               valueType="currency-fixed"
               value={item.value}
@@ -37,7 +37,7 @@ const CustomVolumeChart = ({ data }) => {
 const Wrapper = styled(FlexColumnWrap)`
   /* ... */
   min-width:600px;
-  max-height:120px
+  max-height:120px;
 `;
 const Block = styled.div`
   min-width: 20px;

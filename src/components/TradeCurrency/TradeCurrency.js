@@ -33,6 +33,7 @@ const Legend = ({ data }) => {
         data.map(function (item) {
           return (
             <DataBox
+              key={item.id}
               type="value-as-title"
               title={item.id}
               valueSize="12px"
