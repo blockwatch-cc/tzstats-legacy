@@ -25,7 +25,6 @@ const TransactionVolume = ({ txSeries, txVol24h }) => {
 const Content = styled.div`
       display: flex;
       flex-direction: row;
-      flex-wrap: wrap;
   `;
 const Wrapper = styled.div`
       min-width: 340px;
