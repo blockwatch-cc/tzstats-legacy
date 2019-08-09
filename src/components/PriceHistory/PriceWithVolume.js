@@ -50,7 +50,6 @@ const PriceLegend = ({ lastPrice, dailyVolume, peak }) => {
 
 const Wrapper = styled.div`
         min-width: 340px;
-        margin-top:-20px;
     `;
 
 const VolumeScale = styled(FlexColumn)`

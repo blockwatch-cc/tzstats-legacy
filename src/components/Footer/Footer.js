@@ -45,7 +45,6 @@ const Wrapper = styled.div`
   text-align: center;
   height: 30px;
   padding: 10px 0;
-  margin-top: 100px;
   @media ${Devices.mobileL} {
     ${props => props.hideOnMobile && "display: none;"}
   }

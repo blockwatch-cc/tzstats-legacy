@@ -29,6 +29,7 @@ const CalloutBox = styled.div`
   padding: 10px 0;
 `;
 const Wrraper = styled.div`
+  min-width: 235px;
   width: 235px;
   display: flex;
   display: flex;

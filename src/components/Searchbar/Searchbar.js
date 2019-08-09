@@ -5,6 +5,7 @@ import useKeyPress from "../../hooks/useKeyPress"
 import useLocalStorage from "../../hooks/useLocalStorage"
 import { getSearchType, capitalizeFirstLetter } from '../../utils';
 import Autocomplete from './Autocomplete'
+import { Devices } from '../Common'
 
 const Searchbar = ({ history }) => {
   const [value, setValue] = useState('');
@@ -65,6 +66,11 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px 0 20px 0;
+  max-width: 900px;
+  min-width: 900px;
+  @media ${Devices.mobileL} {
+    min-width: 380px;
+  }
   `;
 const SearchWrapper = styled.div`
   display: flex;

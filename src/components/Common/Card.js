@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   padding-top: 20px;
   padding-bottom: 20px;
   justify-content: start;
-  margin-top: 10px;
+  margin-bottom: 10px;
   height:100%;
 `;
 const Title = styled.div`
