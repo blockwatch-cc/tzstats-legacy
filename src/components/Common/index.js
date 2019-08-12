@@ -12,6 +12,7 @@ import {
   FlexRowSpaceBetween,
   FlexColumnSpaceBetween,
   FlexRowSpaceAround,
+  FlexColumnSpaceAround,
 } from './Box';
 
 export { default as CurrencySelect } from './CurrencySelect';
@@ -43,4 +44,5 @@ export {
   FlexColumnSpaceBetween,
   FlexRowSpaceAround,
   FlexRowSpaceBetween,
+  FlexColumnSpaceAround,
 };

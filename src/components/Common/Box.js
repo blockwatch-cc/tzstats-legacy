@@ -137,6 +137,22 @@ export const FlexColumnSpaceBetween = styled(Box)`
   ${minHeight}
   `;
 
+export const FlexColumnSpaceAround = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  ${textAlign}
+  ${alignItems}
+  ${alignContent}
+  ${justifyContent}
+  ${flexWrap}
+  ${flexBasis}
+  ${flex}
+  ${border}
+  ${minWidth}
+  ${minHeight}
+  `;
+
 export const FlexRowWrap = styled(Box)`
   display: flex;
   flex-direction: row;
@@ -169,6 +185,9 @@ export const FlexRowSpaceBetween = styled(Box)`
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
+  ${minWidth}
+  ${minHeight}
+  ${height}
 `;
 
 export const FlexRowSpaceAround = styled(Box)`

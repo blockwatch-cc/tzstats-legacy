@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexColumn, FlexRowSpaceBetween, FlexRowWrap } from '../../Common';
+import { Card, DataBox, FlexColumnSpaceAround, FlexRowSpaceBetween, FlexColumnSpaceBetween } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { useGlobal } from 'reactn';
 import { formatCurrency, fixPercent } from '../../../utils';
@@ -10,24 +10,21 @@ const SupplyInfo = () => {
   return (
     <Wrapper>
       <Card title={`Tezos Supply`}>
-        <BorderBox>
-          <FlexRowSpaceBetween>
+        <FlexRowSpaceBetween>
+          <FlexColumnSpaceAround minHeight={150}>
             <DataBox valueType="currency-short" title="Baking Participation" value={1341} />
             <DataBox valueType="currency-short" title="Active Bakers" value={1341} />
-          </FlexRowSpaceBetween>
-          <FlexRowSpaceBetween mt={45}>
-            <DataBox valueType="currency-short" title="Baking Participation" value={1341} />
-            <DataBox valueType="currency-short" title="Active Bakers" value={1341} />
-          </FlexRowSpaceBetween>
-        </BorderBox>
+          </FlexColumnSpaceAround>
+
+          <FlexColumnSpaceAround minHeight={150}>
+            <DataBox valueType="currency-short" title="Staking Rewards" value={1341} />
+            <DataBox valueType="currency-short" title="Current Inflation" value={1341} />
+          </FlexColumnSpaceAround>
+        </FlexRowSpaceBetween>
       </Card>
     </Wrapper>
   );
 };
-const BorderBox = styled.div`
-  border: 1px solid rgba(255, 255, 255, 0.52);
-  padding: 20px;
-`;
 
 const Wrapper = styled.div`
   flex: 1;

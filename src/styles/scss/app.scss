@@ -59,9 +59,33 @@ input[type='button']:hover {
   border: 1px #fff solid !important;
   fill: '#fff';
 }
-.bp3-card.bp3-interactive:hover {
-  box-shadow: 0 0 0 1px rgb(66, 69, 81), 0 2px 4px rgb(23, 238, 244), 0 0px 7px rgb(23, 238, 244) !important;
-}
 .bp3-card {
   border-radius: 0 !important;
+}
+#tooltip {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  text-align: center;
+  width: 250px;
+  height: 55px;
+  padding: 2px;
+  font-size: 0.8em;
+  background: lightgray;
+  box-shadow: 1px 1px 10px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+$m: 0;
+.canvas {
+  position: relative;
+  width: calc(100% - #{$m} * 2 * 1px);
+  height: calc(100% - #{$m} * 2 * 1px);
+  margin: $m * 1px;
+  //background: #aaa;
+  overflow: hidden;
+}
+.node {
+  position: absolute;
 }

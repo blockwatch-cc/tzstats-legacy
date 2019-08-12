@@ -6,14 +6,19 @@ import { convertMinutes } from '../../../../utils';
 import { useGlobal } from 'reactn';
 import { Card, Elevation } from '@blueprintjs/core';
 import { DataBox } from '../../../Common';
+import { withRouter } from 'react-router-dom';
 
-const NetworkCircle = props => {
+const NetworkCircle = ({ history }) => {
   const [chain] = useGlobal('chain');
 
   let diff = (Date.now() - new Date(chain.timestamp)) / 60000;
   const time = convertMinutes((chain.cycle + 1) * 4096 - chain.height - diff);
+
+  const handleClick = () => {
+    history.push(`/cycle/${chain.cycle}`);
+  };
   return (
-    <Card interactive={true} elevation={Elevation.FOUR}>
+    <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
       <Wrapper>
         <Title>Main Network</Title>
 
@@ -43,4 +48,4 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
-export default NetworkCircle;
+export default withRouter(NetworkCircle);

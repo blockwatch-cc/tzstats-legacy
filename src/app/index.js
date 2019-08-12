@@ -14,6 +14,7 @@ import TestPage from './TestPage/TestPage';
 import PrivacyPage from './PrivacyPage/PrivacyPage';
 import TermsPage from './TermsPage/TermsPage';
 import ElectionPage from './ElectionPage/ElectionPage';
+import CyclePage from './CyclePage/CyclePage';
 import useRouter from '../hooks/useRouter';
 import { useTransition, animated } from 'react-spring';
 
@@ -43,6 +44,7 @@ const App = () => {
               <Route path="/terms" component={TermsPage} />
               <Route path="/privacy" component={PrivacyPage} />
               <Route path="/election/:id" component={ElectionPage} />
+              <Route path="/cycle/:id" component={CyclePage} />
               <Route path="/not-found/:value" component={NotFoundPage} />
             </Switch>
           </animated.div>

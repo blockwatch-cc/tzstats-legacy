@@ -30,7 +30,7 @@ const ElectionProgress = ({ election }) => {
 };
 
 const Wrapper = styled.div`
-  flex: 2;
+  flex: 1;
   min-width: 340px;
   margin: 0 5px;
 `;

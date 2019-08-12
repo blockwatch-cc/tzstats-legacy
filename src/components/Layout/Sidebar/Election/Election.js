@@ -45,7 +45,7 @@ const Election = ({ history }) => {
 };
 
 const Wrapper = styled.div`
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 const PeriodName = styled.div`
   margin-left: 10px;

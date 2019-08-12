@@ -68,6 +68,21 @@ export const getElectionHistory = async () => {
   return response;
 };
 
+//******************CYCLE****************** */
+
+export const getCycleById = async ({ id = 'head' }) => {
+  const response = await request(`/explorer/cycle/${id}`);
+  return response;
+};
+
+export const getDelegationHistory = async ({ height, limit }) => {
+  const response = await request(
+    `/tables/snapshot?height=${height}&is_delegate=true&columns=account,rolls,balance,delegated&limit=${limit}`
+  );
+
+  return response;
+};
+
 //******************FLOW****************** */
 export const getStakingData = async ({ hash, days = 30 }) => {
   const statTime = `now-${days}d`;
@@ -179,4 +194,11 @@ export const getOperation = async hash => {
   const response = await request(`/explorer/op/${hash}`);
 
   return response[0];
+};
+export const getTestData = async () => {
+  const response = await fetch(
+    `https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json`
+  );
+
+  return await handleResponse(response);
 };

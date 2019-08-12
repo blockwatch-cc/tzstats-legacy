@@ -15,9 +15,9 @@ const Sidebar = () => {
       <Logo>
         <Link to="/">{'TzStats'}</Link>
       </Logo>
-      <MarketInfo />
-      <LastBlock />
       <NetworkCircle />
+      <LastBlock />
+      <MarketInfo />
       <Election />
       <NetworkHealth />
       <Callout intent="danger">
