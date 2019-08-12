@@ -15,9 +15,9 @@ const LegendContent = ({ settings }) => {
     return (
       <LegendItem key={i} {...item}>
         <DataBox
-          key={i}
           valueType="currency-short"
           value={item.value}
+          valueSize="14px"
           title={`${item.title} ${Math.round(item.percent)}%`}
         />
       </LegendItem>
@@ -30,10 +30,10 @@ const LegendWrapper = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: start;
+  margin-top: 30px;
 `;
 
 const LegendItem = styled.div`
-  margin-bottom: -20px;
   margin-left: 20px;
   min-width: 110px;
   &:after {

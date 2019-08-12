@@ -1,23 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, Elevation } from '@blueprintjs/core';
-const healthMap = [
-  { status: 'Very bad', color: '#8DC9FB', opacity: 0.15 },
-  { status: 'Bad', color: '#79D0FC', opacity: 0.3 },
-  { status: 'Normal', color: '#5BDBFD', opacity: 0.45 },
-  { status: 'Good', color: '#49E1FD', opacity: 0.7 },
-  { status: 'Excellent', color: '#1ADEFF', opacity: 1 },
-];
+import { useGlobal } from 'reactn';
+import { Card, Elevation, Keys } from '@blueprintjs/core';
+import { getNetworkHealthStatus } from '../../../../utils';
 
 const NetworkHealth = () => {
-  const [healtIndex, setHealtIndex] = React.useState(4);
+  const [chain] = useGlobal('chain');
+  const status = getNetworkHealthStatus(chain.health);
   return (
     <Wrapper>
       <Card interactive={true} elevation={Elevation.ZERO}>
-        <Title>{healthMap[4].status} Network Health</Title>
-        {healthMap.slice(0, healtIndex + 1).map((item, index) => (
-          <NetworkHealthIndicator key={index} color={item.color} opacity={item.opacity} />
-        ))}
+        <Title>{status.name} Network Health</Title>
+        {[...new Array(6).keys()].map((item, i) => {
+          return <NetworkHealthIndicator isEmpty={i + 1 > status.value} key={i} />;
+        })}
       </Card>
     </Wrapper>
   );
@@ -31,12 +27,10 @@ const Title = styled.div`
 `;
 
 const NetworkHealthIndicator = styled.div`
-  height: 6px;
-  width: 16px;
-  opacity: ${prop => prop.opacity};
-  margin-left: 5px;
-  border-radius: 2px;
+  height: 8px;
+  width: 20px;
+  margin-left: 1px;
   display: inline-block;
-  background-color: ${prop => prop.color};
+  background-color: ${props => (props.isEmpty ? '#525566' : ' #26B2EE')};
 `;
 export default NetworkHealth;

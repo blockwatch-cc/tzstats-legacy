@@ -6,19 +6,23 @@ import { useGlobal } from 'reactn';
 import { formatCurrency, fixPercent } from '../../../utils';
 const SupplyInfo = () => {
   const [chain] = useGlobal('chain');
-
+  console.log(chain.inflation_rate_1y, chain.supply.staking, chain.supply.total);
+  console.log(chain.inflation_rate_1y / (chain.supply.staking / chain.supply.total));
   return (
     <Wrapper>
-      <Card title={`Tezos Supply`}>
+      <Card title={`Staking Activity`}>
         <FlexRowSpaceBetween>
           <FlexColumnSpaceAround minHeight={150}>
-            <DataBox valueType="currency-short" title="Baking Participation" value={1341} />
-            <DataBox valueType="currency-short" title="Active Bakers" value={1341} />
+            <DataBox valueType="percent" title="Staking Ratio" value={chain.supply.staking / chain.supply.total} />
+            <DataBox
+              valueType="percent"
+              title="Staking Rewards"
+              value={chain.inflation_rate_1y / ((100 * chain.supply.staking) / chain.supply.total)}
+            />
           </FlexColumnSpaceAround>
-
           <FlexColumnSpaceAround minHeight={150}>
-            <DataBox valueType="currency-short" title="Staking Rewards" value={1341} />
-            <DataBox valueType="currency-short" title="Current Inflation" value={1341} />
+            <DataBox title="Active Bakers" value={chain.delegates} />
+            <DataBox valueType="percent" title="Inflation" value={chain.inflation_rate_1y / 100} />
           </FlexColumnSpaceAround>
         </FlexRowSpaceBetween>
       </Card>

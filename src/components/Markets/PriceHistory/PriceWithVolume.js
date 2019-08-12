@@ -9,7 +9,6 @@ import { isValid, getPeakVolumeTime, getDailyVolume, wrapToVolume } from '../../
 
 //TODO REFACTORING
 const PriceWithVolume = ({ marketData, volSeries }) => {
-  console.log(marketData, volSeries);
   const [currentValue, setCurrentValue] = React.useState({
     data: { time: new Date() },
     period: '',

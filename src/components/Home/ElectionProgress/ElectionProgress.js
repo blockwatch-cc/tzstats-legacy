@@ -49,7 +49,7 @@ function currentPeriod(election) {
     return election.testing;
   }
   if (election.testing_vote) {
-    election.testing_vote['title'] = 'Testing Vote';
+    election.testing_vote['title'] = 'Exploration';
     return election.testing_vote;
   }
   if (election.proposal) {

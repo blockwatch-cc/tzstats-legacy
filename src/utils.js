@@ -245,3 +245,19 @@ export function getAccountTags(account) {
 }
 
 export function getAccountType(account) {}
+
+export function getNetworkHealthStatus(value) {
+  return value <= 16.6
+    ? { name: 'Catastrophic', value: 1 }
+    : value <= 33.3
+    ? { name: 'Very Bad', value: 2 }
+    : value <= 50
+    ? { name: 'Bad', value: 3 }
+    : value <= 66.6
+    ? { name: 'Fair', value: 4 }
+    : value <= 83.3
+    ? { name: 'Good', value: 5 }
+    : value < 100
+    ? { name: 'Very Good', value: 6 }
+    : { name: 'Excellent', value: 6 };
+}

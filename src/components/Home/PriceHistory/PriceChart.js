@@ -23,7 +23,7 @@ import { formatCurrency } from '../../../utils';
 import { CurrentCoordinate } from '../../Common';
 
 const PriceChart = props => {
-  const { type, data: initialData, ratio, width, setCurrentValue } = props;
+  const { type, data: initialData, ratio, width } = props;
 
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
   let { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
@@ -47,8 +47,8 @@ const PriceChart = props => {
 
   return (
     <ChartCanvas
-      height={105}
-      width={width}
+      height={170}
+      width={width - 120}
       seriesName={''}
       margin={{
         left: 0,
@@ -70,19 +70,19 @@ const PriceChart = props => {
     >
       <defs>
         <linearGradient id="MyGradient" x1="0" y1="100%" x2="0" y2="0%">
-          <stop offset="0%" stopColor="#17eef4" stopOpacity={0.4} />
-          <stop offset="50%" stopColor="#17eef4" stopOpacity={0.4} />
-          <stop offset="75%" stopColor="#17eef4" stopOpacity={0.5} />
+          <stop offset="0%" stopColor="#17eef4" stopOpacity={0.2} />
+          <stop offset="50%" stopColor="#17eef4" stopOpacity={0.2} />
+          <stop offset="75%" stopColor="#17eef4" stopOpacity={0.2} />
         </linearGradient>
       </defs>
-      <Chart id={1} height={70} yExtents={[d => [d.high, 0]]}>
+      <Chart id={1} height={140} yExtents={[d => [d.high, 0]]}>
         <MouseCoordinateY
-          fontSize={11}
           at="right"
+          orient="right"
           textFill="rgba(255, 255, 255, 0.52)"
           opacity={0}
-          orient="right"
-          displayFormat={() => ''}
+          lineStroke={'#858999'}
+          displayFormat={format('$.2')}
         />
         <MouseCoordinateX
           opacity={1}
@@ -91,42 +91,46 @@ const PriceChart = props => {
           dx={200}
           fill="#424552"
           textFill="rgba(255, 255, 255, 0.52)"
-          displayFormat={timeFormat('%a, %d %B')}
-        />
-        <PriceCoordinate
-          at="right"
-          orient="right"
-          price={min}
-          fill="#858999"
-          textFill="rgba(255, 255, 255, 0.52)"
-          fontSize={11}
-          opacity={0}
-          lineStroke={'#858999'}
-          strokeDasharray="ShortDash"
-          displayFormat={format('$.2f')}
-        />
-        <PriceCoordinate
-          at="right"
-          orient="right"
-          price={0}
-          fill="#858999"
-          textFill="rgba(255, 255, 255, 0.52)"
-          fontSize={11}
-          opacity={0}
-          lineStroke={'#858999'}
-          strokeDasharray="ShortDash"
-          displayFormat={format('$.2f')}
+          displayFormat={timeFormat('%a, %B %d')}
         />
 
         <PriceCoordinate
           at="right"
-          fontSize={11}
           orient="right"
-          price={max}
+          price={(max / 3).toFixed(1)}
+          fill="#858999"
           textFill="rgba(255, 255, 255, 0.52)"
+          fontSize={11}
           opacity={0}
+          lineOpacity={0.3}
           lineStroke={'#858999'}
-          strokeDasharray="ShortDash"
+          strokeDasharray="Solid"
+          displayFormat={format('$.2f')}
+        />
+        <PriceCoordinate
+          at="right"
+          orient="right"
+          price={((2 * max) / 3).toFixed(1)}
+          fill="#858999"
+          textFill="rgba(255, 255, 255, 0.52)"
+          fontSize={11}
+          opacity={0}
+          lineOpacity={0.3}
+          lineStroke={'#858999'}
+          strokeDasharray="Solid"
+          displayFormat={format('$.2f')}
+        />
+        <PriceCoordinate
+          at="right"
+          orient="right"
+          price={max.toFixed(1)}
+          fill="#858999"
+          textFill="rgba(255, 255, 255, 0.52)"
+          fontSize={11}
+          opacity={0}
+          lineOpacity={0.3}
+          lineStroke={'#858999'}
+          strokeDasharray="Solid"
           displayFormat={format('$.2f')}
         />
         <AreaSeries
@@ -137,14 +141,7 @@ const PriceChart = props => {
           interpolation={curveLinear}
           canvasGradient={canvasGradient}
         />
-        <CurrentCoordinate
-          r={3}
-          yAccessor={d => {
-            setCurrentValue(d);
-            return d.open;
-          }}
-          fill={'#424553'}
-        />
+        <CurrentCoordinate r={3} yAccessor={d => d.open} fill={'#424553'} />
       </Chart>
 
       <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
@@ -153,8 +150,8 @@ const PriceChart = props => {
 };
 const canvasGradient = createVerticalLinearGradient([
   { stop: 0, color: hexToRGBA('#17eef4', 0.2) },
-  { stop: 0.7, color: hexToRGBA('#17eef4', 0.4) },
-  { stop: 1, color: hexToRGBA('#17eef4', 0.8) },
+  { stop: 0.7, color: hexToRGBA('#17eef4', 0.2) },
+  { stop: 1, color: hexToRGBA('#17eef4', 0.2) },
 ]);
 
 export default fitWidth(PriceChart);

@@ -54,8 +54,8 @@ const PeriodName = styled.div`
 `;
 const PeriodBox = styled.div`
   background: linear-gradient(45deg, #26b2ee 0%, #29c0ff 100%);
-  width: 8.5px;
-  height: 8.5px;
+  width: 9px;
+  height: 9px;
 `;
 const ElectionBoxWrapper = styled.div`
   display: flex;
@@ -72,9 +72,6 @@ const ElectionBox = styled.div`
   flex-wrap: wrap;
   margin-bottom: 5px;
   cursor: pointer;
-  &:hover {
-    border: 1px solid #fff;
-  }
   border: 1px solid ${props => (props.iscurrent === 'true' ? '#fff' : '#424553')};
 `;
 export default withRouter(Election);

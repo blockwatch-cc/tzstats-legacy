@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, FlexRowSpaceBetween, FlexRow, DataBox } from '../../Common';
+import { Card, FlexColumnSpaceBetween, FlexRow, DataBox } from '../../Common';
 import AreaChart from './AreaChart';
 import _ from 'lodash';
 
@@ -12,22 +12,23 @@ const TransactionVolume = ({ txSeries }) => {
     <Wrapper>
       <Card title={'Tezos On-Chain Volume (30d)'}>
         <FlexRow>
-          <AreaChart data={txSeries} setCurrentValue={setCurrentValue} />
+          <AreaChart data={txSeries} />
+
+          <FlexColumnSpaceBetween minWidth={100} ml={20}>
+            <DataBox valueSize="14px" title="24h Transactions" value={currentValue.n_tx} />
+            <DataBox valueSize="14px" valueType="currency-short" title="24h Volume" value={currentValue.value} />
+            <DataBox valueSize="14px" title="30d Avergae Transactions" value={avrTxn} />
+            <DataBox valueSize="14px" valueType="currency-short" title="30d Average Volume" value={avrVolume} />
+          </FlexColumnSpaceBetween>
         </FlexRow>
-        <FlexRowSpaceBetween mt={20}>
-          <DataBox valueSize="14px" title="Avr. Transaction" value={avrTxn} />
-          <DataBox valueSize="14px" title="Transactions" value={currentValue.n_tx} />
-          <DataBox valueSize="14px" valueType="currency-short" title="Volume" value={currentValue.value} />
-          <DataBox valueSize="14px" valueType="currency-short" title="Avr Volume" value={avrVolume} />
-        </FlexRowSpaceBetween>
       </Card>
     </Wrapper>
   );
 };
 const Wrapper = styled.div`
   min-width: 340px;
-  flex:2
   margin: 0 5px;
+  flex: 2;
 `;
 
 export default TransactionVolume;

@@ -22,7 +22,7 @@ import { format } from 'd3-format';
 import { CurrentCoordinate } from '../../Common';
 class AreaChart extends React.Component {
   render() {
-    const { data, width, setCurrentValue } = this.props;
+    const { data, width } = this.props;
     const max = _.maxBy(data, function(o) {
       return o.value;
     }).value;
@@ -32,10 +32,10 @@ class AreaChart extends React.Component {
 
     return (
       <ChartCanvas
+        height={170}
+        width={width - 120}
         seriesName={''}
         ratio={2}
-        height={105}
-        width={width}
         margin={{
           left: 0,
           right: 50,
@@ -50,37 +50,14 @@ class AreaChart extends React.Component {
         xAccessor={d => d && d.time}
         xScale={scaleTime()}
       >
-        <Chart id={0} opacity={1} height={70} yExtents={[d => [max + 2000000, min - 2000000]]}>
+        <Chart id={0} opacity={1} height={140} yExtents={[d => [max + 2000000, min - 2000000]]}>
           <defs>
             <linearGradient id="MyGradient2" x1="0" y1="100%" x2="0" y2="0%">
-              <stop offset="0%" stopColor="#29C0FF" stopOpacity={0.4} />
-              <stop offset="50%" stopColor="#29C0FF" stopOpacity={0.4} />
-              <stop offset="75%" stopColor="#29C0FF" stopOpacity={0.6} />
+              <stop offset="0%" stopColor="#29C0FF" stopOpacity={0.2} />
+              <stop offset="50%" stopColor="#29C0FF" stopOpacity={0.2} />
+              <stop offset="75%" stopColor="#29C0FF" stopOpacity={0.2} />
             </linearGradient>
           </defs>
-          <PriceCoordinate
-            at="right"
-            fontSize={11}
-            orient="right"
-            price={max}
-            textFill="rgba(255, 255, 255, 0.52)"
-            opacity={0}
-            lineStroke={'#858999'}
-            strokeDasharray="ShortDash"
-            displayFormat={format('.2s')}
-          />
-          <PriceCoordinate
-            at="right"
-            orient="right"
-            price={min}
-            fill="#858999"
-            textFill="rgba(255, 255, 255, 0.52)"
-            fontSize={11}
-            opacity={0}
-            lineStroke={'#858999'}
-            strokeDasharray="ShortDash"
-            displayFormat={format('.2s')}
-          />
 
           <MouseCoordinateX
             opacity={1}
@@ -89,7 +66,7 @@ class AreaChart extends React.Component {
             dx={200}
             fill="#424552"
             textFill="rgba(255, 255, 255, 0.52)"
-            displayFormat={timeFormat('%a, %d %B')}
+            displayFormat={timeFormat('%a, %B %d')}
           />
           <MouseCoordinateY
             at="right"
@@ -98,6 +75,47 @@ class AreaChart extends React.Component {
             opacity={0}
             lineStroke={'#858999'}
             displayFormat={format('.2s')}
+          />
+
+          <PriceCoordinate
+            at="right"
+            orient="right"
+            price={(max / 3).toFixed()}
+            fill="#858999"
+            textFill="rgba(255, 255, 255, 0.52)"
+            fontSize={11}
+            opacity={0}
+            lineOpacity={0.3}
+            lineStroke={'#858999'}
+            strokeDasharray="Solid"
+            displayFormat={format('.0s')}
+          />
+          <PriceCoordinate
+            at="right"
+            orient="right"
+            price={((2 * max) / 3).toFixed()}
+            fill="#858999"
+            textFill="rgba(255, 255, 255, 0.52)"
+            fontSize={11}
+            opacity={0}
+            lineOpacity={0.3}
+            lineStroke={'#858999'}
+            strokeDasharray="Solid"
+            displayFormat={format('.0s')}
+          />
+
+          <PriceCoordinate
+            at="right"
+            orient="right"
+            price={max.toFixed(0)}
+            fill="#858999"
+            textFill="rgba(255, 255, 255, 0.52)"
+            fontSize={11}
+            opacity={0}
+            lineOpacity={0.3}
+            lineStroke={'#858999'}
+            strokeDasharray="Solid"
+            displayFormat={format('.0s')}
           />
 
           <AreaSeries
@@ -109,14 +127,7 @@ class AreaChart extends React.Component {
             canvasGradient={canvasGradient}
           />
           <CrossHairCursor ratio={2} stroke="#FFFFFF" />
-          <CurrentCoordinate
-            r={3}
-            yAccessor={d => {
-              setCurrentValue(d);
-              return d.value;
-            }}
-            fill={'#424553'}
-          />
+          <CurrentCoordinate r={3} yAccessor={d => d.value} fill={'#424553'} />
         </Chart>
       </ChartCanvas>
     );
@@ -124,9 +135,9 @@ class AreaChart extends React.Component {
 }
 
 const canvasGradient = createVerticalLinearGradient([
-  { stop: 0, color: hexToRGBA('#29C0FF', 0.8) },
-  { stop: 0.7, color: hexToRGBA('#29C0FF', 0.8) },
-  { stop: 1, color: hexToRGBA('#29C0FF', 0.8) },
+  { stop: 0, color: hexToRGBA('#29C0FF', 0.2) },
+  { stop: 0.7, color: hexToRGBA('#29C0FF', 0.2) },
+  { stop: 1, color: hexToRGBA('#29C0FF', 0.2) },
 ]);
 
 const zoomEvent = false;
