@@ -18,7 +18,7 @@ const NetworkCircle = ({ history }) => {
     history.push(`/cycle/${chain.cycle}`);
   };
   return (
-    <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
+    <Card interactive={true} elevation={Elevation.ZERO}>
       <Wrapper>
         <Title>Main Network</Title>
 
