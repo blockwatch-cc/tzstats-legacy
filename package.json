@@ -21,8 +21,10 @@
     "@nivo/pie": "^0.59.1",
     "@nivo/waffle": "^0.59.1",
     "accounting-js": "^1.1.1",
+    "axios": "^0.19.0",
+    "babel-plugin-styled-components": "^1.10.6",
     "blockies": "^0.0.2",
-    "d3": "^3.5.16",
+    "d3": "4.13.0",
     "d3-dsv": "^1.0.8",
     "d3-format": "^1.2.1",
     "d3-scale": "^1.0.7",
@@ -63,6 +65,20 @@
       "react-app",
       "plugin:prettier/recommended",
       "prettier/react"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "next/babel"
+    ],
+    "plugins": [
+      [
+        "babel-plugin-styled-components",
+        {
+          "displayName": true,
+          "preprocess": true
+        }
+      ]
     ]
   },
   "prettier": {

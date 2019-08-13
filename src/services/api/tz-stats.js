@@ -3,36 +3,30 @@ import { TZSTATS_URL } from '../../config';
 import fetch from 'isomorphic-fetch';
 
 const request = async (endpoint, options) => {
-  return fetch(`${TZSTATS_URL}${endpoint}`, {
+  let response = await fetch(`${TZSTATS_URL}${endpoint}`, {
     ...options,
   });
+  return await handleResponse(response);
+};
+const handleResponse = async response => {
+  if (response.status === 400) {
+    const { error } = await response.json();
+    console.log(error);
+  }
+  return await response.json();
 };
 
 //******************COMMON****************** */
 export const getChainData = async options => {
   const response = await request('/explorer/chain');
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 
 export const getStatus = async options => {
   const response = await request('/explorer/status');
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 //******************SUPPLY****************** */
 
@@ -40,14 +34,7 @@ export const getStatus = async options => {
 export const getSupply = async height => {
   const response = await request(`/tables/supply?height=${height}&verbose=1`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data[0];
+  return response[0];
 };
 
 //******************ACCOUNT****************** */
@@ -60,107 +47,103 @@ export const getAccounts = async days => {
     `/tables/block?time.rg=${statTime},${endTime}&columns=time,n_new_accounts,n_cleared_accounts&limit=50000`
   );
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
-
-
 
 export const getAccountByHash = async hash => {
   const response = await request(`/explorer/account/${hash}?`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-  return data;
+  return response;
 };
 
-
 //******************ELECTIONS****************** */
-export const getElectionById = async (id = "head") => {
+export const getElectionById = async (id = 'head') => {
   const response = await request(`/explorer/election/${id}`);
-
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-  return data;
+  return response;
 };
 
 export const getElectionHistory = async () => {
   const response = await request(`/tables/election?verbose=1`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-  return data;
+  return response;
 };
 
+//******************CYCLE****************** */
+
+export const getCycleById = async ({ id = 'head' }) => {
+  const response = await request(`/explorer/cycle/${id}`);
+  return response;
+};
+
+export const getDelegationHistory = async ({ height, limit }) => {
+  const response = await request(
+    `/tables/snapshot?height=${height}&is_delegate=true&columns=account,rolls,balance,delegated&limit=${limit}`
+  );
+
+  return response;
+};
 
 //******************FLOW****************** */
 export const getStakingData = async ({ hash, days = 30 }) => {
   const statTime = `now-${days}d`;
   let [balance, deposits, rewards, fees] = await Promise.all([
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`),
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=deposits&collapse=1d&columns=time,amount_in,amount_out`),
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=rewards&collapse=1d&columns=time,amount_in,amount_out`),
-    request(`/series/flow?start_date=${statTime}&account=${hash}&category=fees&collapse=1d&columns=time,amount_in,amount_out`),
+    request(
+      `/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`
+    ),
+    request(
+      `/series/flow?start_date=${statTime}&account=${hash}&category=deposits&collapse=1d&columns=time,amount_in,amount_out`
+    ),
+    request(
+      `/series/flow?start_date=${statTime}&account=${hash}&category=rewards&collapse=1d&columns=time,amount_in,amount_out`
+    ),
+    request(
+      `/series/flow?start_date=${statTime}&account=${hash}&category=fees&collapse=1d&columns=time,amount_in,amount_out`
+    ),
   ]);
 
   return {
-    balance: fillTimeSeries((await balance.json()), days, 0, 3),
-    deposits: fillTimeSeries((await deposits.json()), days, 0, 3),
-    rewards: fillTimeSeries((await rewards.json()), days, 0, 3),
-    fees: fillTimeSeries((await fees.json()), days, 0, 3),
+    balance: fillTimeSeries(balance, days, 0, 3),
+    deposits: fillTimeSeries(deposits, days, 0, 3),
+    rewards: fillTimeSeries(rewards, days, 0, 3),
+    fees: fillTimeSeries(fees, days, 0, 3),
   };
 };
 
 function fillTimeSeries(series, days = 30, filler = 0, minlength = 1) {
-   let to = new Date();
-   to.setUTCHours(0, 0, 0, 0);
-   let from = new Date(to);
-   from.setUTCDate(to.getUTCDate()-30);
-   let pos = 0;
-   let res = [];
-   let zero = new Array(series.length?series[0].length:minlength).fill(filler);
-   for (let d = from; d <= to; d.setUTCDate(d.getUTCDate()+1)) {
-     if (pos < series.length && series[pos][0] === d.getTime()) {
-       res.push(series[pos]);
-       pos++;
-     } else {
-       zero[0] = new Date(d).getTime();
-       res.push([...zero]);
-     }
-   }
-   return res;
+  let to = new Date();
+  to.setUTCHours(0, 0, 0, 0);
+  let from = new Date(to);
+  from.setUTCDate(to.getUTCDate() - 30);
+  let pos = 0;
+  let res = [];
+  let zero = new Array(series.length ? series[0].length : minlength).fill(filler);
+  for (let d = from; d <= to; d.setUTCDate(d.getUTCDate() + 1)) {
+    if (pos < series.length && series[pos][0] === d.getTime()) {
+      res.push(series[pos]);
+      pos++;
+    } else {
+      zero[0] = new Date(d).getTime();
+      res.push([...zero]);
+    }
+  }
+  return res;
 }
 
 //https://api.tzstats.com/series/flow?account=tz1WBfwbT66FC6BTLexc2BoyCCBM9LG7pnVW&collapse=1d&start_date=now-30d&category=balance&
 export const getFlowData = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
-  const response = await request(`/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`);
+  const response = await request(
+    `/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`
+  );
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
+  return response;
+};
 
-  const data = await response.json();
-  return fillTimeSeries(data, days, 0, 3);
+//https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&op_type=transaction&verbose=1
+export const getAccountOperations = async ({ hash, type }) => {
+  const response = await request(`/tables/op?${type}=${hash}&op_type=transaction&verbose=1`);
+
+  return response;
 };
 
 //******************BLOCK****************** */
@@ -170,78 +153,52 @@ export const getTxVolume24h = async () => {
   const statTime = `now-${24}h`;
   const response = await request(`/series/block?start_date=${statTime}&collapse=30m&columns=volume,n_tx`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data.reduce((agg, item) => {
-    agg[0] += item[1];
-    agg[1] += item[2];
-    return agg;
-  }, [0, 0]);
+  return response.reduce(
+    (agg, item) => {
+      agg[0] += item[1];
+      agg[1] += item[2];
+      return agg;
+    },
+    [0, 0]
+  );
 };
 
 //https://api.tzstats.com/series/block?collapse=1d&start_date=now-30d&columns=volume
 export const getTxVolume = async ({ days }) => {
   const statTime = `now-${days}d`;
-  const response = await request(`/series/block?start_date=${statTime}&collapse=1d&columns=volume`);
+  const response = await request(`/series/block?start_date=${statTime}&collapse=1d&columns=volume,n_tx`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data.map(item => {
-    return { time: new Date(item[0]), value: item[1] };
+  return response.map(item => {
+    return { time: new Date(item[0]), value: item[1], n_tx: item[2] };
   });
 };
-
 
 //https://api.tzstats.com/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60
 export const getBlockData = async () => {
   const response = await request(`/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 
 //https://api.tzstats.com/explorer/block/BLGza5RgGDYYwpLPZWEdyd2mhaUJSbCYczr1WoFuvrqxRpDkCJ4
 export const getBlock = async ({ id }) => {
   const response = await request(`/explorer/block/${id || 'head'}/op`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    return null;
-  }
-
-  const data = await response.json();
-
-  return data;
+  return response;
 };
 
 //****************** OPERATIONS ****************** */
 //https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T
 
-export const getOperation = async (hash) => {
+export const getOperation = async hash => {
   const response = await request(`/explorer/op/${hash}`);
 
-  if (response.status === 400) {
-    const { error } = await response.json();
-    throw new Error(error);
-  }
+  return response[0];
+};
+export const getTestData = async () => {
+  const response = await fetch(
+    `https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json`
+  );
 
-  const data = await response.json();
-
-  return data[0];
+  return await handleResponse(response);
 };

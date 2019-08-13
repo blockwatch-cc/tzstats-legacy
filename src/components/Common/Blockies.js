@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { toDataUrl } from '../../services/blockies/blockies'
+import { toDataUrl } from '../../services/blockies/blockies';
 
-const Blockies = ({ hash, width = "15px", height = "15px" }) => {
+const Blockies = ({ hash, width = '15px', height = '15px' }) => {
   return (
     <Wrapper>
       <img width={width} height={height} src={toDataUrl(hash)} alt={hash} />

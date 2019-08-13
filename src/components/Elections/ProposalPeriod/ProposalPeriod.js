@@ -1,84 +1,93 @@
 import React from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
-import { Card, FlexRowSpaceBetween, DataBox } from '../../Common'
-import { getShortHash } from '../../../utils';
+import { Card, FlexRowSpaceBetween, DataBox, InvalidData, Blockies } from '../../Common';
+import { Link } from 'react-router-dom';
+import { getShortHash, getEndTime } from '../../../utils';
+import { ALPHABET } from '../../../config';
 import { format } from 'd3-format';
-import EmptyPeriod from "../EmptyPeriod/EmptyPeriod";
+import { proposals } from '../../../config/proposals';
+import StartEndBlock from '../StartEndBlock';
 
-const ProposalPeriod = ({ proposal }) => {
-    if (!proposal.proposals.length) {
-        return <EmptyPeriod title={"1 No one proposal"} />
-    }
-    return (
-        <Wrapper>
-            <Card title={`1 ${'Athens'} proposal period complete`}>
-                <FlexRowSpaceBetween mb={10}>
-                    <TableHeader>Proposal</TableHeader>
-                    <TableHeader>Hash</TableHeader>
-                    <TableHeader>Source</TableHeader>
-                    <TableHeader>Rolls</TableHeader>
-                </FlexRowSpaceBetween>
-                <TableBody>
-                    {proposal.proposals.map((item, i) => {
-                        return (
-                            <TableRow key={i}>
-                                <TableCell>
-                                    {i}
-                                </TableCell>
-                                <TableCell>
-                                    {getShortHash(item.hash)}
-                                </TableCell>
-                                <TableCell>
-                                    {getShortHash(item.source)}
-                                </TableCell>
-                                <TableCell>
-                                    {item.rolls}
-                                </TableCell>
-                            </TableRow>
-                        )
-                    })}
-                </TableBody>
-                <FlexRowSpaceBetween>
-                    <DataBox valueSize="14px" title="Participation Rolls"
-                        value={proposal.turnout_rolls}
-                    />
-                    <div>
-                        {`${(proposal.period_start_block)} / ${(proposal.period_end_block)}`}
-                        <DataBox title="Start / End Block Heights" />
-                    </div>
-                </FlexRowSpaceBetween>
-            </Card>
-        </Wrapper>
-    );
+const ProposalPeriod = ({ period }) => {
+  if (!period.proposals.length) {
+    return <InvalidData title={'1 No proposal was submitted'} />;
+  }
+  const endTime = getEndTime(period);
+
+  return (
+    <Wrapper>
+      <Card title={`1 Proposal period ${endTime}`}>
+        <FlexRowSpaceBetween mb={10}>
+          <TableHeader width={20}>Proposal</TableHeader>
+          <TableHeader width={30}>Hash</TableHeader>
+          <TableHeader width={35}>Source</TableHeader>
+          <TableHeader width={15}>Rolls</TableHeader>
+        </FlexRowSpaceBetween>
+        <TableBody>
+          {period.proposals.map((item, i) => {
+            return (
+              <TableRow key={i}>
+                <TableCell width={20}>
+                  <UnderlineLink target="_blank" href={proposals[item.hash].archive}>
+                    {ALPHABET[i]}
+                  </UnderlineLink>
+                </TableCell>
+                <TableCell width={30}>
+                  <UnderlineLink target="_blank" href={proposals[item.hash].link}>
+                    {getShortHash(item.hash)}
+                  </UnderlineLink>
+                </TableCell>
+                <TableCell width={35}>
+                  <Blockies hash={item.source} />
+                  <HashLink to={`/account/${item.source}`}>{getShortHash(item.source)}</HashLink>
+                </TableCell>
+                <TableCell width={15}>{format(',')(item.rolls)}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+        <FlexRowSpaceBetween>
+          <DataBox
+            valueSize="14px"
+            title={`Participation Rolls ${((period.turnout_rolls / period.eligible_rolls) * 100).toFixed()}%`}
+            value={period.turnout_rolls}
+          />
+          <StartEndBlock period={period} />
+        </FlexRowSpaceBetween>
+      </Card>
+    </Wrapper>
+  );
 };
+
 const TableBody = styled.div`
-    height: 120px;
-    overflow:scroll;
+  height: 120px;
+  overflow: scroll;
 `;
-const TableRow = styled(FlexRowSpaceBetween)`
-&:hover {
-    color: #26B2EE;
-}
-`
+const TableRow = styled(FlexRowSpaceBetween)``;
+const HashLink = styled(Link)`
+  color: #26b2ee;
+`;
+
+const UnderlineLink = styled.a`
+  text-decoration: underline;
+`;
 
 const Wrapper = styled.div`
   flex: 1;
   min-width: 340px;
   margin: 0 5px;
-  font-size:14px;
-`;
-
-const TableCell = styled.div`
-    font-size:12px;
-    height: 25px;
-    min-width: 35px;
+  font-size: 14px;
 `;
 const TableHeader = styled.div`
-    font-size:12px;
-    color: rgba(255, 255, 255, 0.52);
+  font-size: 12px;
+  width: ${props => props.width}%;
+  color: rgba(255, 255, 255, 0.52);
+`;
+const TableCell = styled.div`
+  font-size: 12px;
+  width: ${props => props.width}%;
+  height: 25px;
 `;
 
-
 export default ProposalPeriod;
-

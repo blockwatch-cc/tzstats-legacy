@@ -1,32 +1,37 @@
 export const proposals = {
-	"Pt24m4xiPbLDhVgVfABUjirbmda3yohdN82Sp9FeuAXJ4eV9otd": {
-		"name": "Athens A",
-		"by": "Nomadic Labs",
-		"link": "https://blog.nomadic-labs.com/athens-proposals-injected.html",
-		"archive": "https://blog.nomadic-labs.com/files/Athens_proposal_A.tar"
-	},
-	"Psd1ynUBhMZAeajwcZJAeq5NrxorM6UCU4GJqxZ7Bx2e9vUWB6z": {
-		"name": "Athens B",
-		"by": "Nomadic Labs",
-		"link": "https://blog.nomadic-labs.com/athens-proposals-injected.html",
-		"archive": "https://blog.nomadic-labs.com/files/Athens_proposal_B.tar"
-	},
-	"PtdRxBHvc91c2ea2evV6wkoqnzW7TadTg9aqS9jAn2GbcPGtumD": {
-		"name": "Brest A",
-		"by": "OCamlPro",
-		"link": "https://www.reddit.com/r/tezos/comments/by5xy8/proposal_for_amendment_brest_a/",
-		"archive": "https://gitlab.com/tzscan/brest-amendment"
-	},
-	"PsBABY5nk4JhdEv1N1pZbt6m6ccB9BfNqa23iKZcHBh23jmRS9f": {
-		"name": "Babylon A",
-		"by": "Nomadic Labs",
-		"link": "https://blog.nomadic-labs.com/babylon-proposal-injected.html",
-		"archive": "https://blog.nomadic-labs.com/files/babylon_005_PsBABY5n.tar"
-	},
-	"PsBABY5HQTSkA4297zNHfsZNKtxULfL18y95qb3m53QJiXGmrbU": {
-		"name": "Babylon B",
-		"by": "Nomadic Labs",
-		"link": "https://blog.nomadic-labs.com/babylon-proposal-injected.html",
-		"archive": "https://blog.nomadic-labs.com/files/babylon_005_PsBABY5H.tar"
-	}
-}
+  Pt24m4xiPbLDhVgVfABUjirbmda3yohdN82Sp9FeuAXJ4eV9otd: {
+    id: 11,
+    name: 'Athens A',
+    by: 'Nomadic Labs',
+    link: 'https://blog.nomadic-labs.com/athens-proposals-injected.html',
+    archive: 'https://blog.nomadic-labs.com/files/Athens_proposal_A.tar',
+  },
+  Psd1ynUBhMZAeajwcZJAeq5NrxorM6UCU4GJqxZ7Bx2e9vUWB6z: {
+    name: 'Athens B',
+    id: 11,
+    by: 'Nomadic Labs',
+    link: 'https://blog.nomadic-labs.com/athens-proposals-injected.html',
+    archive: 'https://blog.nomadic-labs.com/files/Athens_proposal_B.tar',
+  },
+  PtdRxBHvc91c2ea2evV6wkoqnzW7TadTg9aqS9jAn2GbcPGtumD: {
+    id: 12,
+    name: 'Brest A',
+    by: 'OCamlPro',
+    link: 'https://www.reddit.com/r/tezos/comments/by5xy8/proposal_for_amendment_brest_a/',
+    archive: 'https://gitlab.com/tzscan/brest-amendment',
+  },
+  PsBABY5nk4JhdEv1N1pZbt6m6ccB9BfNqa23iKZcHBh23jmRS9f: {
+    id: 13,
+    name: 'Babylon A',
+    by: 'Nomadic Labs',
+    link: 'https://blog.nomadic-labs.com/babylon-proposal-injected.html',
+    archive: 'https://blog.nomadic-labs.com/files/babylon_005_PsBABY5n.tar',
+  },
+  PsBABY5HQTSkA4297zNHfsZNKtxULfL18y95qb3m53QJiXGmrbU: {
+    id: 13,
+    name: 'Babylon B',
+    by: 'Nomadic Labs',
+    link: 'https://blog.nomadic-labs.com/babylon-proposal-injected.html',
+    archive: 'https://blog.nomadic-labs.com/files/babylon_005_PsBABY5H.tar',
+  },
+};

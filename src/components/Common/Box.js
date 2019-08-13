@@ -17,15 +17,12 @@ import {
   height,
   border,
   minWidth,
-  minHeight
+  minHeight,
 } from 'styled-system';
 
-import { Divider } from '@blueprintjs/core'
+import { Divider } from '@blueprintjs/core';
 
-import {
-  Devices
-} from './Variables'
-
+import { Devices } from './Variables';
 
 export const Box = styled.div`
   ${space}
@@ -34,19 +31,19 @@ export const Box = styled.div`
   ${color}
 
   @media ${Devices.mobileS} {
-    ${props => props.hideOnMobileS && "display: none !important;"}
+    ${props => props.hideOnMobileS && 'display: none !important;'}
   }
 
   @media ${Devices.mobileM} {
-    ${props => props.hideOnMobileM && "display: none !important;"}
+    ${props => props.hideOnMobileM && 'display: none !important;'}
   }
 
   @media ${Devices.mobileL} {
-    ${props => props.hideOnMobile && "display: none !important;"}
+    ${props => props.hideOnMobile && 'display: none !important;'}
   }
 
   @media ${Devices.tablet} {
-    ${props => props.hideOnTablet && "display: none !important;"}
+    ${props => props.hideOnTablet && 'display: none !important;'}
   }
 `;
 
@@ -57,19 +54,19 @@ export const InlineBox = styled.span`
   ${color}
 
   @media ${Devices.mobileS} {
-    ${props => props.hideOnMobileS && "display: none;"}
+    ${props => props.hideOnMobileS && 'display: none;'}
   }
 
   @media ${Devices.mobileM} {
-    ${props => props.hideOnMobileM && "display: none;"}
+    ${props => props.hideOnMobileM && 'display: none;'}
   }
 
   @media ${Devices.mobileL} {
-    ${props => props.hideOnMobile && "display: none;"}
+    ${props => props.hideOnMobile && 'display: none;'}
   }
 
   @media ${Devices.tablet} {
-    ${props => props.hideOnTablet && "display: none;"}
+    ${props => props.hideOnTablet && 'display: none;'}
   }
 `;
 
@@ -78,14 +75,14 @@ export const DividerBox = styled(Divider)`
   ${width}
   ${height}
   ${color}
-`
+`;
 
 export const TextBox = styled(Box)`
   ${fontSize}
   ${textAlign}
   ${justifySelf}
   ${alignSelf}
-`
+`;
 
 export const Flex = styled(Box)`
   display: flex;
@@ -95,7 +92,7 @@ export const Flex = styled(Box)`
   ${flexWrap}
   ${flexBasis}
   ${flexDirection}
-`
+`;
 
 export const FlexRow = styled(Box)`
   display: flex;
@@ -107,7 +104,7 @@ export const FlexRow = styled(Box)`
   ${flexBasis}
   ${flex}
   ${width}
-`
+`;
 
 export const FlexColumn = styled(Box)`
   display: flex;
@@ -122,7 +119,7 @@ export const FlexColumn = styled(Box)`
   ${border}
   ${minWidth}
   ${minHeight}
-`
+`;
 
 export const FlexColumnSpaceBetween = styled(Box)`
   display: flex;
@@ -138,7 +135,23 @@ export const FlexColumnSpaceBetween = styled(Box)`
   ${border}
   ${minWidth}
   ${minHeight}
-`
+  `;
+
+export const FlexColumnSpaceAround = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  ${textAlign}
+  ${alignItems}
+  ${alignContent}
+  ${justifyContent}
+  ${flexWrap}
+  ${flexBasis}
+  ${flex}
+  ${border}
+  ${minWidth}
+  ${minHeight}
+  `;
 
 export const FlexRowWrap = styled(Box)`
   display: flex;
@@ -149,7 +162,7 @@ export const FlexRowWrap = styled(Box)`
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
-`
+`;
 
 export const FlexColumnWrap = styled(Box)`
   display: flex;
@@ -160,7 +173,7 @@ export const FlexColumnWrap = styled(Box)`
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
-`
+`;
 
 export const FlexRowSpaceBetween = styled(Box)`
   display: flex;
@@ -172,7 +185,10 @@ export const FlexRowSpaceBetween = styled(Box)`
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
-`
+  ${minWidth}
+  ${minHeight}
+  ${height}
+`;
 
 export const FlexRowSpaceAround = styled(Box)`
   display: flex;
@@ -184,10 +200,10 @@ export const FlexRowSpaceAround = styled(Box)`
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
-`
+`;
 
 export const FlexItem = styled.div`
   ${flex}
   ${justifySelf}
   ${alignSelf}
-`
+`;

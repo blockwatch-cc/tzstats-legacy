@@ -2,12 +2,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import Colors from '../../components/Common/Colors';
-import Sidebar from '../../components/Sidebar';
-import Searchbar from '../../components/Searchbar';
-import Footer from '../../components/Footer';
+import Sidebar from '../../components/Layout/Sidebar';
+import Searchbar from '../../components/Layout/Searchbar';
+import Footer from '../../components/Layout/Footer';
 import { getChainData } from '../../services/api/tz-stats';
 import { setGlobal } from 'reactn';
-import { Devices } from '../../components/Common'
+import { Devices } from '../../components/Common';
 
 function Layout({ children }) {
   React.useEffect(() => {
@@ -32,7 +32,7 @@ function Layout({ children }) {
 }
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 100%;
   display: flex;
   background-color: ${Colors.MAIN_BACKGROUND};
 `;
@@ -50,6 +50,7 @@ const MainPanel = styled.main`
   flex-direction: column;
   flex: 1;
   overflow: scroll;
+  padding 10px 10%;
   align-items: center;
   min-width: 900px;
   margin: 0 10px;

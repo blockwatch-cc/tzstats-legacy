@@ -1,18 +1,18 @@
-@import "../../../node_modules/@blueprintjs/core/lib/scss/variables.scss";
+@import '../../../node_modules/@blueprintjs/core/lib/scss/variables.scss';
 
-
-#root, body, html {
+#root,
+body,
+html {
   height: 100%;
   margin: 0;
   padding: 0;
   color: #fff;
   font-size: 18px;
-  
 }
 *:focus {
   outline: none;
 }
-input::placeholder{
+input::placeholder {
   text-align: center;
 }
 
@@ -21,37 +21,71 @@ a {
   text-decoration: none;
 }
 
-a:hover 
-{
-   color: #fff;
-   text-decoration:none; 
-   cursor:pointer;  
+a:hover {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
 }
-input[type="button"]:hover{
+input[type='button']:hover {
   background-color: #17eef4;
-  color:black;
+  color: black;
 }
 
 .bp3-button {
   box-shadow: none !important;
-  background-color: #30313B !important;
+  background-color: #30313b !important;
   background-image: none !important;
   color: #fff !important;
   font-size: 14px !important;
 }
 .bp3-icon {
- color: #fff !important;
+  color: #fff !important;
 }
-.bp3-popover-content, .bp3-menu  {
+.bp3-popover-content,
+.bp3-menu {
   background: #424552 !important;
   color: #fff;
 }
 .bp3-menu-item.bp3-intent-primary.bp3-active {
   background-color: #3d83ee !important;
 }
-.bp3-card{
+.bp3-card {
   background-color: #424552 !important;
 }
-.bp3-callout{
+.bp3-callout {
   font-size: 11px !important;
+}
+.react-stockcharts-current-coordinate {
+  border: 1px #fff solid !important;
+  fill: '#fff';
+}
+.bp3-card {
+  border-radius: 0 !important;
+}
+#tooltip {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  text-align: center;
+  width: 250px;
+  height: 55px;
+  padding: 2px;
+  font-size: 0.8em;
+  background: lightgray;
+  box-shadow: 1px 1px 10px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+$m: 0;
+.canvas {
+  position: relative;
+  width: calc(100% - #{$m} * 2 * 1px);
+  height: calc(100% - #{$m} * 2 * 1px);
+  margin: $m * 1px;
+  //background: #aaa;
+  overflow: hidden;
+}
+.node {
+  position: absolute;
 }

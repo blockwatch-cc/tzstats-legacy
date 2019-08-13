@@ -1,74 +1,84 @@
 import React from 'react';
-import { Card, FlexRowSpaceBetween, DataBox } from '../../Common'
-import { HorizontalProgressBar } from '../../ProgressBar';
-import { proposals } from '../../../config/proposals'
-import { format } from 'd3-format';
-import { convertMinutes, getShortHash } from '../../../utils';
+import { Card, FlexRowSpaceBetween, DataBox, InvalidData } from '../../Common';
+import { HorizontalProgressBar } from '../../Common/ProgressBar';
+import { proposals } from '../../../config/proposals';
+import StartEndBlock from '../StartEndBlock';
+import { getEndTime } from '../../../utils';
 import styled from 'styled-components';
 import _ from 'lodash';
-import EmptyPeriod from "../EmptyPeriod/EmptyPeriod";
 
 const PromotionPeriod = ({ period }) => {
   if (!period) {
-    return <EmptyPeriod title={"4 Promotion period not started"} />
+    return <InvalidData title={'4 Promotion period not started'} />;
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);
   const proposalSettings = getProposalSettings(period);
   const name = proposals[period.proposals[0].hash] ? proposals[period.proposals[0].hash].name : '';
+  const undecidedRolls = period.eligible_rolls - period.pass_rolls - period.nay_rolls - period.yay_rolls;
 
   return (
     <Wrapper>
       <Card title={`4 Promotion period for ${name} ${endTime}`}>
-
-        <FlexRowSpaceBetween mb={"5px"}>
+        <FlexRowSpaceBetween mb={'5px'}>
           <DataBox
             valueType="percent"
+            valueSize="14px"
             title={`Participation ${period.turnout_rolls}`}
-            value={(period.turnout_rolls / period.eligible_rolls)}
+            value={period.turnout_rolls / period.eligible_rolls}
           />
-          <DataBox title={`Quorum ${period.quorum_pct} %`} />
+          <DataBox
+            ta="right"
+            title={`Quorum`}
+            valueSize="14px"
+            valueType="text"
+            value={`${period.quorum_pct.toFixed()} %`}
+          />
         </FlexRowSpaceBetween>
         <HorizontalProgressBar delimiter={period.quorum_pct} settings={periodSettings} />
         <HorizontalProgressBar delimiter={period.quorum_pct} settings={proposalSettings} />
         <FlexRowSpaceBetween>
-          <DataBox
-            valueType="percent"
-            title={`YAY Votes ${period.yay_rolls}`}
-            value={(period.yay_rolls / period.turnout_rolls)}
-          />
-          <DataBox
-            valueType="percent"
-            title={`NAY Votes ${period.nay_rolls}`}
-            value={(period.nay_rolls / period.turnout_rolls)}
-          />
+          {period.yay_rolls ? (
+            <DataBox
+              valueType="percent"
+              valueSize="14px"
+              title={`YAY Rolls ${period.yay_rolls}`}
+              value={period.yay_rolls / (period.nay_rolls + period.yay_rolls)}
+            />
+          ) : (
+            ''
+          )}
+          {period.nay_rolls ? (
+            <DataBox
+              valueType="percent"
+              valueSize="14px"
+              ta="right"
+              title={`NAY Rolls ${period.nay_rolls}`}
+              value={period.nay_rolls / (period.nay_rolls + period.yay_rolls)}
+            />
+          ) : (
+            ''
+          )}
         </FlexRowSpaceBetween>
         <FlexRowSpaceBetween mt={25}>
           <DataBox
-            title="Pass Rolls"
+            title={`PASS Rolls ${((period.pass_rolls / period.eligible_rolls) * 100).toFixed()}%`}
             valueSize="14px"
             value={period.pass_rolls}
           />
-          <div>
-            {`${(period.period_start_block)} / ${(period.period_end_block)}`}
-            <DataBox title="Start / End Block Heights" />
-          </div>
+          <DataBox
+            title={`Undecided Rolls ${((undecidedRolls / period.eligible_rolls) * 100).toFixed()}%`}
+            valueSize="14px"
+            value={undecidedRolls}
+          />
+          <StartEndBlock period={period} />
         </FlexRowSpaceBetween>
       </Card>
     </Wrapper>
   );
 };
 
-
-function getEndTime(period) {
-  return period.is_open
-    ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now())
-      / 60000)}`
-    : 'complete';
-}
-
 function getPeriodSettings(period) {
-
   return [
     {
       percent: (period.turnout_rolls / period.eligible_rolls) * 100,
@@ -86,16 +96,16 @@ function getPeriodSettings(period) {
 }
 
 function getProposalSettings(period) {
-
+  const total = period.yay_rolls + period.nay_rolls;
   return [
     {
-      percent: (period.yay_rolls / period.turnout_rolls) * 100,
+      percent: (period.yay_rolls / total) * 100,
       color: 'linear-gradient(45deg, #17E5EB 0%, #1AF9FF 100%);',
       title: 'YAY Rolls',
       value: period.yay_rolls,
     },
     {
-      percent: (period.nay_rolls / period.turnout_rolls) * 100,
+      percent: (period.nay_rolls / total) * 100,
       color: '#858999;',
       title: 'NAY',
       value: period.nay_rolls,
@@ -107,8 +117,7 @@ const Wrapper = styled.div`
   flex: 1;
   min-width: 340px;
   margin: 0 5px;
-  font-size:14px;
+  font-size: 14px;
 `;
-
 
 export default PromotionPeriod;
