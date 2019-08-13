@@ -59,6 +59,9 @@ input[type='button']:hover {
   border: 1px #fff solid !important;
   fill: '#fff';
 }
+.react-stockchart{
+  overflow: visible;
+}
 .bp3-card {
   border-radius: 0 !important;
 }
@@ -84,7 +87,7 @@ $m: 0;
   height: calc(100% - #{$m} * 2 * 1px);
   margin: $m * 1px;
   //background: #aaa;
-  overflow: hidden;
+  //overflow: hidden;
 }
 .node {
   position: absolute;

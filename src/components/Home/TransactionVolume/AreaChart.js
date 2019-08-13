@@ -27,21 +27,21 @@ class AreaChart extends React.Component {
     const max = _.maxBy(data, function(o) {
       return o.value;
     }).value;
-    console.log(max, 'max');
+    // console.log(max, 'max');
     const min = _.minBy(data, function(o) {
       return o.value;
     }).value;
 
     return (
       <ChartCanvas
-        height={170}
+        height={180}
         width={width - 120}
         seriesName={''}
         ratio={2}
         margin={{
           left: 0,
-          right: 50,
-          top: 30,
+          right: 40,
+          top: 0,
           bottom: 0,
         }}
         data={data}
@@ -52,86 +52,48 @@ class AreaChart extends React.Component {
         xAccessor={d => d && d.time}
         xScale={scaleTime()}
       >
-        <Chart id={0} opacity={1} height={140} yExtents={[d => [max + 2000000, min - 2000000]]}>
-          <defs>
-            <linearGradient id="MyGradient2" x1="0" y1="100%" x2="0" y2="0%">
-              <stop offset="0%" stopColor="#29C0FF" stopOpacity={0.2} />
-              <stop offset="50%" stopColor="#29C0FF" stopOpacity={0.2} />
-              <stop offset="75%" stopColor="#29C0FF" stopOpacity={0.2} />
-            </linearGradient>
-          </defs>
+        <Chart id={0} opacity={1} height={180} yExtents={[d => [max*1.1, 0]]}>
+          <YAxis axisAt="right" orient="right"
+            ticks={3}
+            tickFormat={(x) => format('~s')(x)+'ꜩ'}
+            innerTickSize={-width+160}
+            tickStrokeDasharray={'Solid'}
+            tickStrokeOpacity={0.3}
+            tickStrokeWidth={1}
+            tickStroke={"rgba(255, 255, 255, 0.52)"}
+            fontWeight={300}
+            fontSize={11}
+            strokeWidth={0}
+            fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+          />
 
           <MouseCoordinateX
             opacity={1}
-            at="top"
-            orient="top"
-            dx={200}
-            fill="#424552"
+            at="bottom"
+            orient="bottom"
+            dx={180}
+            fill="rgba(0,0,0,0)"
+            opacity={1}
             textFill="rgba(255, 255, 255, 0.52)"
-            displayFormat={timeFormat('%a, %B %d')}
-          />
-          <PriceCoordinate
-            at="right"
-            orient="right"
-            price={max / 3}
-            fill="#858999"
-            textFill="rgba(255, 255, 255, 0.52)"
+            displayFormat={timeFormat('%a, %b %d')}
             fontSize={11}
-            opacity={0}
-            lineOpacity={0.3}
-            lineStroke={'#858999'}
-            strokeDasharray="Solid"
-            displayFormat={format('.2s')}
-          />
-          <PriceCoordinate
-            at="right"
-            orient="right"
-            price={(2 * max) / 3}
-            fill="#858999"
-            textFill="rgba(255, 255, 255, 0.52)"
-            fontSize={11}
-            opacity={0}
-            lineOpacity={0.3}
-            lineStroke={'#858999'}
-            strokeDasharray="Solid"
-            displayFormat={format('.2s')}
-          />
-
-          <PriceCoordinate
-            at="right"
-            orient="right"
-            price={max}
-            fill="#858999"
-            textFill="rgba(255, 255, 255, 0.52)"
-            fontSize={11}
-            opacity={0}
-            lineOpacity={0.3}
-            lineStroke={'#858999'}
-            strokeDasharray="Solid"
-            displayFormat={format('.2s')}
+            fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
           />
 
           <AreaSeries
             yAccessor={d => d.value}
             stroke="#29C0FF"
-            fill="url(#MyGradient2)"
-            strokeWidth={3}
+            fill="rgba(41, 192, 255, 0.2)"
+            strokeWidth={2}
             interpolation={curveLinear}
-            canvasGradient={canvasGradient}
           />
           <CrossHairCursor ratio={2} stroke="#FFFFFF" />
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.value} fill={'#424553'} />
+          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.value} fill={'#FFF'} />
         </Chart>
       </ChartCanvas>
     );
   }
 }
-
-const canvasGradient = createVerticalLinearGradient([
-  { stop: 0, color: hexToRGBA('#29C0FF', 0.2) },
-  { stop: 0.7, color: hexToRGBA('#29C0FF', 0.2) },
-  { stop: 1, color: hexToRGBA('#29C0FF', 0.2) },
-]);
 
 const zoomEvent = false;
 const panEvent = false;

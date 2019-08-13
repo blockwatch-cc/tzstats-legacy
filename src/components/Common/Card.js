@@ -30,7 +30,7 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   border-radius: 2px;
   background-color: ${props => (props.isClickable ? '#3D404D' : '#444755')};
-  cursor: ${props => (props.isClickable ? 'pointer' : 'none')};
+  cursor: ${props => (props.isClickable ? 'pointer' : 'default')};
   padding-right: 40px;
   padding-left: 40px;
   padding-top: 20px;

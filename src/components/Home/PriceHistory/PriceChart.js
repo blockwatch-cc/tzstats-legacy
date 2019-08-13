@@ -34,12 +34,12 @@ const PriceChart = props => {
   const xExtents = [start, end];
 
   const zoomEvent = false;
-  const max = _.maxBy(data, function(o) {
-    return o.open;
-  }).open;
   const min = _.minBy(data, function(o) {
     return o.low;
   }).low;
+  const max = _.maxBy(data, function(o) {
+    return o.high;
+  }).high;
 
   const panEvent = false;
   const clamp = false;
@@ -47,13 +47,13 @@ const PriceChart = props => {
 
   return (
     <ChartCanvas
-      height={170}
+      height={180}
       width={width - 120}
       seriesName={''}
       margin={{
         left: 0,
-        right: 50,
-        top: 30,
+        right: 40,
+        top: 0,
         bottom: 0,
       }}
       type={type}
@@ -68,82 +68,46 @@ const PriceChart = props => {
       displayXAccessor={displayXAccessor}
       xExtents={xExtents}
     >
-      <defs>
-        <linearGradient id="MyGradient" x1="0" y1="100%" x2="0" y2="0%">
-          <stop offset="0%" stopColor="#17eef4" stopOpacity={0.2} />
-          <stop offset="50%" stopColor="#17eef4" stopOpacity={0.2} />
-          <stop offset="75%" stopColor="#17eef4" stopOpacity={0.2} />
-        </linearGradient>
-      </defs>
-      <Chart id={1} height={140} yExtents={[d => [d.high, 0]]}>
+      <Chart id={1} height={180} yExtents={[d => [d.high, d.low]]}>
+        <YAxis axisAt="right" orient="right"
+          ticks={2}
+          tickFormat={format('$.2f')}
+          innerTickSize={-width+160}
+          tickStrokeDasharray={'Solid'}
+          tickStrokeOpacity={0.3}
+          tickStrokeWidth={1}
+          tickStroke={"rgba(255, 255, 255, 0.52)"}
+          fontWeight={300}
+          fontSize={11}
+          strokeWidth={0}
+          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+        />
         <MouseCoordinateX
           opacity={1}
-          at="top"
-          orient="top"
-          dx={200}
-          fill="#424552"
+          at="bottom"
+          orient="bottom"
+          dx={180}
+          fill="rgba(0,0,0,0)"
           textFill="rgba(255, 255, 255, 0.52)"
-          displayFormat={timeFormat('%a, %B %d')}
+          opacity={1}
+          displayFormat={timeFormat('%a, %b %d')}
+          fontSize={11}
+          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
         />
 
-        <PriceCoordinate
-          at="right"
-          orient="right"
-          price={max / 3}
-          fill="#858999"
-          textFill="rgba(255, 255, 255, 0.52)"
-          fontSize={11}
-          opacity={0}
-          lineOpacity={0.3}
-          lineStroke={'#858999'}
-          strokeDasharray="Solid"
-          displayFormat={format('$.2')}
-        />
-        <PriceCoordinate
-          at="right"
-          orient="right"
-          price={(2 * max) / 3}
-          fill="#858999"
-          textFill="rgba(255, 255, 255, 0.52)"
-          fontSize={11}
-          opacity={0}
-          lineOpacity={0.3}
-          lineStroke={'#858999'}
-          strokeDasharray="Solid"
-          displayFormat={format('$.2f')}
-        />
-        <PriceCoordinate
-          at="right"
-          orient="right"
-          price={max}
-          fill="#858999"
-          textFill="rgba(255, 255, 255, 0.52)"
-          fontSize={11}
-          opacity={0}
-          lineOpacity={0.3}
-          lineStroke={'#858999'}
-          strokeDasharray="Solid"
-          displayFormat={format('$.2f')}
-        />
         <AreaSeries
-          yAccessor={d => d.open}
+          yAccessor={d => d.close}
           stroke="#17eef4"
-          fill="url(#MyGradient)"
-          strokeWidth={3}
+          fill="rgba(23, 238, 244, 0.2)"
+          strokeWidth={2}
           interpolation={curveLinear}
-          canvasGradient={canvasGradient}
         />
-        <CurrentCoordinate displayFormat={format('$.2f')} r={3} yAccessor={d => d.open} fill={'#424553'} />
+        <CurrentCoordinate displayFormat={format('$.2f')} r={3} yAccessor={d => d.close} fill={'#FFF'} />
       </Chart>
 
       <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
     </ChartCanvas>
   );
 };
-const canvasGradient = createVerticalLinearGradient([
-  { stop: 0, color: hexToRGBA('#17eef4', 0.2) },
-  { stop: 0.7, color: hexToRGBA('#17eef4', 0.2) },
-  { stop: 1, color: hexToRGBA('#17eef4', 0.2) },
-]);
 
 export default fitWidth(PriceChart);

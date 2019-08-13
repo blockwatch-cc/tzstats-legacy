@@ -21,7 +21,7 @@ const PriceHistory = ({ priceHistory }) => {
           <PriceChart type={'svg'} data={priceHistory} />
           <FlexColumnSpaceBetween minWidth={100} ml={20}>
             <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Open Price" value={currentValue.open} />
-            <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Close Price" value={currentValue.close} />
+            <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Last Price" value={currentValue.close} />
             <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Highest Price" value={currentValue.high} />
             <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Lowest Price" value={currentValue.low} />
           </FlexColumnSpaceBetween>
