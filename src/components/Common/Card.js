@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Card = props => {
+const Card = ({ title, children, isClickable = false }) => {
   return (
-    <Wrapper data={props}>
-      <Title>{props.title}</Title>
-      {props.children}
+    <Wrapper isClickable={isClickable}>
+      <Title>{title}</Title>
+      {children}
     </Wrapper>
   );
 };
@@ -15,12 +15,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   border-radius: 2px;
-  background-color: #424553;
+  background-color: ${props => (props.isClickable ? '#3D404D' : '#424553')};
   padding-right: 40px;
   padding-left: 40px;
   padding-top: 20px;
   padding-bottom: 20px;
-  justify-content: ${props => (props.data.jc ? props.data.jc : 'start')};
   margin-top: 10px;
   height: 100%;
 `;

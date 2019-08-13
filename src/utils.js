@@ -1,7 +1,8 @@
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import { format } from 'd3-format';
-import { backerAccounts } from './config/backer-accounts';
+import { bakerAccounts } from './config/baker-accounts';
+import { proposals } from './config/proposals';
 import _ from 'lodash';
 
 TimeAgo.addLocale(en);
@@ -45,6 +46,9 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
         .replace('k', ' k' + symbol)
         .replace('G', ' G' + symbol)
         .replace('m', ' m' + symbol);
+}
+export function formatCurrencyShort(value) {
+  return formatCurrency(value, '.2s');
 }
 
 export const addCommas = format(',');
@@ -193,7 +197,7 @@ export function wrappBlockDataToObj(array) {
 }
 
 export function getDelegatorByHash(hash) {
-  return Object.keys(backerAccounts).filter(r => backerAccounts[r] === hash);
+  return Object.keys(bakerAccounts).filter(r => bakerAccounts[r] === hash);
 }
 
 export function getPeakVolumeTime(data, hours = 1) {
@@ -260,4 +264,35 @@ export function getNetworkHealthStatus(value) {
     : value < 100
     ? { name: 'Very Good', value: 6 }
     : { name: 'Excellent', value: 6 };
+}
+
+export function getEndTime(period) {
+  return period.is_open
+    ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
+    : 'is completed';
+}
+export function getProposalIdByName(value) {
+  const hashes = Object.keys(proposals).filter(key => {
+    return proposals[key].name.includes(value);
+  });
+  return hashes[0] ? proposals[hashes[0]].id : null;
+}
+
+export function getBakerHashByName(value) {
+  const names = Object.keys(bakerAccounts).filter(key => {
+    return key.toLowerCase().includes(value.toLowerCase());
+  });
+  return names[0] ? bakerAccounts[names[0]] : null;
+}
+export function findBakerName(value) {
+  const names = Object.keys(bakerAccounts).filter(key => {
+    return key.toLowerCase().includes(value.toLowerCase());
+  });
+  return names[0];
+}
+export function getProposalName(value) {
+  const hashes = Object.keys(proposals).filter(key => {
+    return proposals[key].name.toLowerCase().includes(value.toLowerCase());
+  });
+  return hashes[0] ? proposals[hashes[0]].name : null;
 }

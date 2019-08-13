@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, FlexRowSpaceBetween, DataBox, InvalidData } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { proposals } from '../../../config/proposals';
-import { format } from 'd3-format';
-import { convertMinutes, getShortHash } from '../../../utils';
+import StartEndBlock from '../StartEndBlock';
+import { getEndTime } from '../../../utils';
 import styled from 'styled-components';
 import _ from 'lodash';
 
@@ -27,25 +27,38 @@ const PromotionPeriod = ({ period }) => {
             title={`Participation ${period.turnout_rolls}`}
             value={period.turnout_rolls / period.eligible_rolls}
           />
-          <DataBox title={`Quorum ${period.quorum_pct} %`} />
+          <DataBox
+            ta="right"
+            title={`Quorum`}
+            valueSize="14px"
+            valueType="text"
+            value={`${period.quorum_pct.toFixed()} %`}
+          />
         </FlexRowSpaceBetween>
         <HorizontalProgressBar delimiter={period.quorum_pct} settings={periodSettings} />
         <HorizontalProgressBar delimiter={period.quorum_pct} settings={proposalSettings} />
         <FlexRowSpaceBetween>
-          <DataBox
-            valueType="percent"
-            valueSize="14px"
-            title={`YAY Rolls ${period.yay_rolls}`}
-            value={period.yay_rolls / (period.nay_rolls + period.yay_rolls)}
-          />
-          <div style={{ textAlign: 'right' }}>
+          {period.yay_rolls ? (
             <DataBox
               valueType="percent"
               valueSize="14px"
+              title={`YAY Rolls ${period.yay_rolls}`}
+              value={period.yay_rolls / (period.nay_rolls + period.yay_rolls)}
+            />
+          ) : (
+            ''
+          )}
+          {period.nay_rolls ? (
+            <DataBox
+              valueType="percent"
+              valueSize="14px"
+              ta="right"
               title={`NAY Rolls ${period.nay_rolls}`}
               value={period.nay_rolls / (period.nay_rolls + period.yay_rolls)}
             />
-          </div>
+          ) : (
+            ''
+          )}
         </FlexRowSpaceBetween>
         <FlexRowSpaceBetween mt={25}>
           <DataBox
@@ -58,21 +71,12 @@ const PromotionPeriod = ({ period }) => {
             valueSize="14px"
             value={undecidedRolls}
           />
-          <div>
-            {`${format(',')(period.period_start_block)} / ${format(',')(period.period_end_block)}`}
-            <DataBox title="Start / End Block" />
-          </div>
+          <StartEndBlock period={period} />
         </FlexRowSpaceBetween>
       </Card>
     </Wrapper>
   );
 };
-
-function getEndTime(period) {
-  return period.is_open
-    ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
-    : 'is completed';
-}
 
 function getPeriodSettings(period) {
   return [

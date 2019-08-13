@@ -19,7 +19,7 @@ import { last } from 'react-stockcharts/lib/utils';
 import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/utils';
 import _ from 'lodash';
 import { format } from 'd3-format';
-import { formatCurrency } from '../../../utils';
+import { formatCurrencyShort, formatCurrency } from '../../../utils';
 import CurrentCoordinate from '../../Common/CurrentCoordinate';
 
 class BalanceChart extends React.Component {
@@ -106,7 +106,7 @@ class BalanceChart extends React.Component {
             interpolation={curveNatural}
             canvasGradient={canvasGradient}
           />
-          <CurrentCoordinate r={3} yAccessor={d => d.value} fill={'#424553'} />
+          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.value} fill={'#424553'} />
           <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
         </Chart>
       </ChartCanvas>

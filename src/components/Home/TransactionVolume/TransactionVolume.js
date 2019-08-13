@@ -17,8 +17,8 @@ const TransactionVolume = ({ txSeries }) => {
           <FlexColumnSpaceBetween minWidth={100} ml={20}>
             <DataBox valueSize="14px" title="24h Transactions" value={currentValue.n_tx} />
             <DataBox valueSize="14px" valueType="currency-short" title="24h Volume" value={currentValue.value} />
-            <DataBox valueSize="14px" title="30d Avergae Transactions" value={avrTxn} />
-            <DataBox valueSize="14px" valueType="currency-short" title="30d Average Volume" value={avrVolume} />
+            <DataBox valueSize="14px" title="30d Transactions Avg." value={avrTxn} />
+            <DataBox valueSize="14px" valueType="currency-short" title="30d Volume Avg." value={avrVolume} />
           </FlexColumnSpaceBetween>
         </FlexRow>
       </Card>

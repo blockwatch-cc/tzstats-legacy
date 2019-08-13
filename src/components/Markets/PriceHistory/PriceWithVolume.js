@@ -65,13 +65,14 @@ const VolumeLegend = ({ peak, currentValue }) => {
   return (
     <FlexColumn mt={20} height={120} border="1px solid #787c8b" textAlign="center" justifyContent="space-around">
       <DataBox
+        ta="center"
         valueType="currency-short"
         title={`${timeFormat('%B %d, %Y')(new Date(currentValue.data.time))} ${currentValue.period}`}
         value={currentValue.volume}
       />
       <FlexColumn>
         <TimeBox>{peak}</TimeBox>
-        <DataBox valueType="currency-fixed" title="Peak Trading Hours" />
+        <DataBox ta="center" valueType="currency-fixed" title="Peak Trading Hours" />
       </FlexColumn>
     </FlexColumn>
   );

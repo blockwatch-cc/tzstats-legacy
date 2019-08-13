@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
-import { Card, FlexRowSpaceBetween, DataBox, InvalidData } from '../../Common';
-import { getShortHash, convertMinutes } from '../../../utils';
+import { Card, FlexRowSpaceBetween, DataBox, InvalidData, Blockies } from '../../Common';
+import { Link } from 'react-router-dom';
+import { getShortHash, getEndTime } from '../../../utils';
 import { ALPHABET } from '../../../config';
 import { format } from 'd3-format';
+import { proposals } from '../../../config/proposals';
+import StartEndBlock from '../StartEndBlock';
 
 const ProposalPeriod = ({ period }) => {
   if (!period.proposals.length) {
-    return <InvalidData title={'1 No one proposal'} />;
+    return <InvalidData title={'1 No proposal was submitted'} />;
   }
   const endTime = getEndTime(period);
 
@@ -18,17 +21,28 @@ const ProposalPeriod = ({ period }) => {
         <FlexRowSpaceBetween mb={10}>
           <TableHeader width={20}>Proposal</TableHeader>
           <TableHeader width={30}>Hash</TableHeader>
-          <TableHeader width={30}>Source</TableHeader>
-          <TableHeader width={20}>Rolls</TableHeader>
+          <TableHeader width={35}>Source</TableHeader>
+          <TableHeader width={15}>Rolls</TableHeader>
         </FlexRowSpaceBetween>
         <TableBody>
           {period.proposals.map((item, i) => {
             return (
               <TableRow key={i}>
-                <TableCell width={20}>{ALPHABET[i]}</TableCell>
-                <TableCell width={30}>{getShortHash(item.hash)}</TableCell>
-                <TableCell width={30}>{getShortHash(item.source)}</TableCell>
-                <TableCell width={20}>{format(',')(item.rolls)}</TableCell>
+                <TableCell width={20}>
+                  <UnderlineLink target="_blank" href={proposals[item.hash].archive}>
+                    {ALPHABET[i]}
+                  </UnderlineLink>
+                </TableCell>
+                <TableCell width={30}>
+                  <UnderlineLink target="_blank" href={proposals[item.hash].link}>
+                    {getShortHash(item.hash)}
+                  </UnderlineLink>
+                </TableCell>
+                <TableCell width={35}>
+                  <Blockies hash={item.source} />
+                  <HashLink to={`/account/${item.source}`}>{getShortHash(item.source)}</HashLink>
+                </TableCell>
+                <TableCell width={15}>{format(',')(item.rolls)}</TableCell>
               </TableRow>
             );
           })}
@@ -39,26 +53,25 @@ const ProposalPeriod = ({ period }) => {
             title={`Participation Rolls ${((period.turnout_rolls / period.eligible_rolls) * 100).toFixed()}%`}
             value={period.turnout_rolls}
           />
-          <div>
-            {`${format(',')(period.period_start_block)} / ${format(',')(period.period_end_block)}`}
-            <DataBox title="Start / End Block" />
-          </div>
+          <StartEndBlock period={period} />
         </FlexRowSpaceBetween>
       </Card>
     </Wrapper>
   );
 };
 
-function getEndTime(period) {
-  return period.is_open
-    ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
-    : 'is completed';
-}
 const TableBody = styled.div`
   height: 120px;
   overflow: scroll;
 `;
 const TableRow = styled(FlexRowSpaceBetween)``;
+const HashLink = styled(Link)`
+  color: #26b2ee;
+`;
+
+const UnderlineLink = styled.a`
+  text-decoration: underline;
+`;
 
 const Wrapper = styled.div`
   flex: 1;

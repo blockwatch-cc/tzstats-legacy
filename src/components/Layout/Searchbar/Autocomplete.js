@@ -2,17 +2,34 @@ import React from 'react';
 import styled from 'styled-components';
 import { FlexRow, FlexRowSpaceBetween } from '../../Common';
 
-const Autocomplete = ({ suggestions, isFocus, onMouseLeave, onMouseEnter, handleSearch, cleanSuggestions }) => {
+const Autocomplete = ({
+  searchHistory,
+  suggestions,
+  isFocus,
+  onMouseLeave,
+  onMouseEnter,
+  handleSearch,
+  cleanSearchHistory,
+  width,
+}) => {
   return (
     isFocus &&
-    suggestions.length > 0 && (
-      <Wrrapper onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
+    searchHistory.length > 0 && (
+      <Wrrapper width={width} onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
+        {suggestions.map((item, i) => {
+          return (
+            <AutocompleteItem key={i} onClick={e => handleSearch(item.value)}>
+              <TypeSearch>{item.type}</TypeSearch>
+              {item.value}
+            </AutocompleteItem>
+          );
+        })}
         <FlexRowSpaceBetween>
           <Title>Recent History</Title>
-          <CleanButton onClick={e => cleanSuggestions()}>Clean History</CleanButton>
+          <CleanButton onClick={e => cleanSearchHistory()}>Clean History</CleanButton>
         </FlexRowSpaceBetween>
 
-        {suggestions.map((item, i) => {
+        {searchHistory.map((item, i) => {
           return (
             <AutocompleteItem key={i} onClick={e => handleSearch(item.value)}>
               <TypeSearch>{item.type}</TypeSearch>
@@ -28,13 +45,12 @@ const Wrrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
-  position: absolute;
-  top: 62px;
   max-height: 220px;
   z-index: 1000;
   overflow: scroll;
-  opacity: 0.95;
-  width: inherit;
+  position: absolute;
+  top: 55px;
+  width: ${props => props.width}px;
   border-radius: 3px;
   margin-top: 1px;
   font-size: 12px;

@@ -3,16 +3,31 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import useKeyPress from '../../../hooks/useKeyPress';
 import useLocalStorage from '../../../hooks/useLocalStorage';
-import { getSearchType, capitalizeFirstLetter } from '../../../utils';
+import {
+  getSearchType,
+  capitalizeFirstLetter,
+  getBakerHashByName,
+  getProposalIdByName,
+  findBakerName,
+  getProposalName,
+} from '../../../utils';
 import Autocomplete from './Autocomplete';
 import { Devices } from '../../Common';
+import ContainerDimensions from 'react-container-dimensions';
 
 const Searchbar = ({ history }) => {
   const [value, setValue] = React.useState('');
+  const [suggestions, setSuggestion] = React.useState([]);
   const [isFocus, setIsFocus] = React.useState(false);
   const [isMouseEnter, setIsMouseEnter] = React.useState(false);
   const [enterPress, setKeyPressed] = useKeyPress(13);
-  const [suggestions, setSuggestions] = useLocalStorage('suggestions', []);
+  const [searchHistory, setHistory] = useLocalStorage('history', []);
+
+  function saveSearch(value, type) {
+    let newHistory = searchHistory.filter(r => r.value !== value);
+    newHistory.unshift({ type: capitalizeFirstLetter(type), value: value });
+    setHistory(newHistory);
+  }
 
   const search = searchValue => {
     if (searchValue) {
@@ -20,36 +35,65 @@ const Searchbar = ({ history }) => {
       setValue('');
       setIsMouseEnter(true);
       setIsFocus(false);
-      let searchType = getSearchType(searchValue);
-      let newSuggestions = suggestions.filter(r => r.value !== searchValue);
-      newSuggestions.unshift({ type: capitalizeFirstLetter(searchType), value: searchValue });
-      setSuggestions(newSuggestions);
-      searchValue && history.push(`/${searchType}/${searchValue}`);
+      const proposalId = getProposalIdByName(searchValue);
+      const bakerName = getBakerHashByName(searchValue);
+
+      if (proposalId) {
+        saveSearch(searchValue, 'election');
+        history.push(`/election/${proposalId}`);
+      } else if (bakerName) {
+        saveSearch(searchValue, 'account');
+        history.push(`/account/${bakerName}`);
+      } else {
+        let searchType = getSearchType(searchValue);
+        saveSearch(searchValue, searchType);
+        searchValue && history.push(`/${searchType}/${searchValue}`);
+      }
     }
+  };
+  const handleOnChange = value => {
+    if (value.length > 3) {
+      const bakerName = findBakerName(value);
+      const proposal = getProposalName(value);
+      if (bakerName) {
+        setSuggestion([{ type: 'Account', value: bakerName }]);
+      } else if (proposal) {
+        setSuggestion([{ type: 'Election', value: proposal }]);
+      }
+    }
+    setValue(value);
   };
 
   return (
     <SearchContainer>
-      <SearchWrapper>
-        {enterPress && search(value)}
-        <SearchInput
-          type="text"
-          value={value || ''}
-          onChange={e => setValue(e.target.value)}
-          onFocus={e => setIsFocus(true)}
-          onBlur={e => !isMouseEnter && setIsFocus(false)}
-          placeholder="Explore blocks, operations, accounts, elections, and cycles …"
-        />
-        <CleanInput onClick={e => setValue('')}>&#8855;</CleanInput>
-      </SearchWrapper>
-      <Autocomplete
-        suggestions={suggestions}
-        isFocus={isFocus}
-        handleSearch={search}
-        cleanSuggestions={e => setSuggestions([])}
-        onMouseLeave={e => setIsMouseEnter(false)}
-        onMouseEnter={e => setIsMouseEnter(true)}
-      />
+      <ContainerDimensions>
+        {({ width, height }) => (
+          <>
+            <SearchWrapper>
+              {enterPress && search(value)}
+              <SearchInput
+                type="text"
+                value={value || ''}
+                onChange={e => handleOnChange(e.target.value)}
+                onFocus={e => setIsFocus(true)}
+                onBlur={e => !isMouseEnter && setIsFocus(false)}
+                placeholder="Explore blocks, operations, accounts, elections, and cycles …"
+              />
+              <CleanInput onClick={e => setValue('')}>&#8855;</CleanInput>
+            </SearchWrapper>
+            <Autocomplete
+              width={width}
+              searchHistory={searchHistory}
+              isFocus={isFocus}
+              suggestions={suggestions}
+              handleSearch={search}
+              cleanSearchHistory={e => setHistory([])}
+              onMouseLeave={e => setIsMouseEnter(false)}
+              onMouseEnter={e => setIsMouseEnter(true)}
+            />
+          </>
+        )}
+      </ContainerDimensions>
     </SearchContainer>
   );
 };

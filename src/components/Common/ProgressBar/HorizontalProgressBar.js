@@ -30,7 +30,8 @@ const ProgressBarWrapper = styled.div`
 `;
 const ProgressBarItems = styled.div`
   background: ${prop => prop.color};
-  width: ${prop => (prop.percent < 1 ? 1 : prop.percent > 99 ? 99 : prop.percent)}%;
+  width: ${prop =>
+    prop.percent < 1 && prop.percent > 0 ? 1 : prop.percent > 99 && prop.percent != 100 ? 99 : prop.percent}%;
   border-right: 1px solid #424552;
   display: inline-block;
   min-height: 16px;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Card, DataBox, FlexRow, FlexRowSpaceBetween, CopyHashButton } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { proposals } from '../../../config/proposals';
-import { convertMinutes, getShortHash } from '../../../utils';
+import { getEndTime } from '../../../utils';
 import _ from 'lodash';
 
 const ElectionProgress = ({ election }) => {
@@ -34,11 +34,7 @@ const Wrapper = styled.div`
   min-width: 340px;
   margin: 0 5px;
 `;
-function getEndTime(period) {
-  return period.is_open
-    ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
-    : 'is completed';
-}
+
 function currentPeriod(election) {
   if (election.promotion_vote) {
     election.promotion_vote['title'] = 'Promotion';
@@ -49,7 +45,7 @@ function currentPeriod(election) {
     return election.testing;
   }
   if (election.testing_vote) {
-    election.testing_vote['title'] = 'Exploration';
+    election.testing_vote['title'] = 'Testing Vote';
     return election.testing_vote;
   }
   if (election.proposal) {

@@ -20,12 +20,14 @@ import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/u
 import _ from 'lodash';
 import { format } from 'd3-format';
 import { CurrentCoordinate } from '../../Common';
+import { formatCurrencyShort } from '../../../utils';
 class AreaChart extends React.Component {
   render() {
     const { data, width } = this.props;
     const max = _.maxBy(data, function(o) {
       return o.value;
     }).value;
+    console.log(max, 'max');
     const min = _.minBy(data, function(o) {
       return o.value;
     }).value;
@@ -68,19 +70,37 @@ class AreaChart extends React.Component {
             textFill="rgba(255, 255, 255, 0.52)"
             displayFormat={timeFormat('%a, %B %d')}
           />
-          <MouseCoordinateY
+          <PriceCoordinate
             at="right"
             orient="right"
+            price={max / 3}
+            fill="#858999"
             textFill="rgba(255, 255, 255, 0.52)"
+            fontSize={11}
             opacity={0}
+            lineOpacity={0.3}
             lineStroke={'#858999'}
+            strokeDasharray="Solid"
+            displayFormat={format('.2s')}
+          />
+          <PriceCoordinate
+            at="right"
+            orient="right"
+            price={(2 * max) / 3}
+            fill="#858999"
+            textFill="rgba(255, 255, 255, 0.52)"
+            fontSize={11}
+            opacity={0}
+            lineOpacity={0.3}
+            lineStroke={'#858999'}
+            strokeDasharray="Solid"
             displayFormat={format('.2s')}
           />
 
           <PriceCoordinate
             at="right"
             orient="right"
-            price={(max / 3).toFixed()}
+            price={max}
             fill="#858999"
             textFill="rgba(255, 255, 255, 0.52)"
             fontSize={11}
@@ -88,34 +108,7 @@ class AreaChart extends React.Component {
             lineOpacity={0.3}
             lineStroke={'#858999'}
             strokeDasharray="Solid"
-            displayFormat={format('.0s')}
-          />
-          <PriceCoordinate
-            at="right"
-            orient="right"
-            price={((2 * max) / 3).toFixed()}
-            fill="#858999"
-            textFill="rgba(255, 255, 255, 0.52)"
-            fontSize={11}
-            opacity={0}
-            lineOpacity={0.3}
-            lineStroke={'#858999'}
-            strokeDasharray="Solid"
-            displayFormat={format('.0s')}
-          />
-
-          <PriceCoordinate
-            at="right"
-            orient="right"
-            price={max.toFixed(0)}
-            fill="#858999"
-            textFill="rgba(255, 255, 255, 0.52)"
-            fontSize={11}
-            opacity={0}
-            lineOpacity={0.3}
-            lineStroke={'#858999'}
-            strokeDasharray="Solid"
-            displayFormat={format('.0s')}
+            displayFormat={format('.2s')}
           />
 
           <AreaSeries
@@ -127,7 +120,7 @@ class AreaChart extends React.Component {
             canvasGradient={canvasGradient}
           />
           <CrossHairCursor ratio={2} stroke="#FFFFFF" />
-          <CurrentCoordinate r={3} yAccessor={d => d.value} fill={'#424553'} />
+          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.value} fill={'#424553'} />
         </Chart>
       </ChartCanvas>
     );

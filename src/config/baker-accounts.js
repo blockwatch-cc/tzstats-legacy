@@ -1,4 +1,4 @@
-export const backerAccounts = {
+export const bakerAccounts = {
   'Tez Baker': 'tz1Lhf4J9Qxoe3DZ2nfe8FGDnvVj7oKjnMY6',
   'Tezos Vote': 'tz1bHzftcTKZMTZgLLtnrXydCm6UEqf4ivca',
   Tezry: 'tz1UJvHTgpVzcKWhTazGxVcn5wsHru5Gietg',

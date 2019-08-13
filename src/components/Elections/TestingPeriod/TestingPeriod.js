@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, FlexRowSpaceBetween, InvalidData } from '../../Common';
-import { format } from 'd3-format';
-import { convertMinutes } from '../../../utils';
+import { getEndTime } from '../../../utils';
 import { proposals } from '../../../config/proposals';
+import StartEndBlock from '../StartEndBlock';
 
 const TestingPeriod = ({ period }) => {
   if (!period) {
@@ -27,10 +27,7 @@ const TestingPeriod = ({ period }) => {
 
         <FlexRowSpaceBetween>
           <div></div>
-          <div>
-            {`${format(',')(period.period_start_block)} / ${format(',')(period.period_end_block)}`}
-            <DataBox title="Start / End Block" />
-          </div>
+          <StartEndBlock period={period} />
         </FlexRowSpaceBetween>
       </Card>
     </Wrapper>
@@ -46,10 +43,5 @@ const Wrapper = styled.div`
 const Content = styled.div`
   margin-bottom: 20px;
 `;
-function getEndTime(period) {
-  return period.is_open
-    ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
-    : 'is completed';
-}
 
 export default TestingPeriod;

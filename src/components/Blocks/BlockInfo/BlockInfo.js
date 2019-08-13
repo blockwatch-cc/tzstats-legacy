@@ -10,13 +10,13 @@ import {
   FlexRowSpaceBetween,
   FlexRowWrap,
 } from '../../Common';
-import { backerAccounts } from '../../../config/backer-accounts';
+import { bakerAccounts } from '../../../config/baker-accounts';
 import { timeFormat } from 'd3-time-format';
 import { getShortHash } from '../../../utils';
 import { Link } from 'react-router-dom';
 
 const BlockInfo = ({ block }) => {
-  // const name = Object.keys(backerAccounts).filter(hash => backerAccounts[hash] === props.address);
+  // const name = Object.keys(bakerAccounts).filter(hash => bakerAccounts[hash] === props.address);
 
   return (
     <Wrapper>

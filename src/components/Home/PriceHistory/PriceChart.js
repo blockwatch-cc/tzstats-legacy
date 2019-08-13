@@ -76,14 +76,6 @@ const PriceChart = props => {
         </linearGradient>
       </defs>
       <Chart id={1} height={140} yExtents={[d => [d.high, 0]]}>
-        <MouseCoordinateY
-          at="right"
-          orient="right"
-          textFill="rgba(255, 255, 255, 0.52)"
-          opacity={0}
-          lineStroke={'#858999'}
-          displayFormat={format('$.2')}
-        />
         <MouseCoordinateX
           opacity={1}
           at="top"
@@ -141,7 +133,7 @@ const PriceChart = props => {
           interpolation={curveLinear}
           canvasGradient={canvasGradient}
         />
-        <CurrentCoordinate r={3} yAccessor={d => d.open} fill={'#424553'} />
+        <CurrentCoordinate displayFormat={format('$.2')} r={3} yAccessor={d => d.open} fill={'#424553'} />
       </Chart>
 
       <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />

@@ -21,24 +21,39 @@ class CurrentCoordinate extends Component {
     ctx.fill();
   }
   renderSVG(moreProps) {
-    const { className } = this.props;
+    const { className, displayFormat } = this.props;
 
     const circle = helper(this.props, moreProps);
     if (!circle) return null;
 
     const fillColor = circle.fill instanceof Function ? circle.fill(moreProps.currentItem) : circle.fill;
-
+    const dy = circle.y < 20 ? 20 : circle.y - 10;
+    const dx = circle.x < 50 ? circle.x + 40 : circle.x - 30;
     return (
-      <circle
-        strokeWidth={1}
-        stroke="#fff"
-        opacity={1}
-        className={className}
-        cx={circle.x}
-        cy={circle.y}
-        r={circle.r}
-        fill={fillColor}
-      />
+      <>
+        <circle
+          strokeWidth={1}
+          stroke="#fff"
+          opacity={1}
+          className={className}
+          cx={circle.x}
+          cy={circle.y}
+          r={circle.r}
+          fill={fillColor}
+        />
+        <text
+          x={dx}
+          text-anchor="middle"
+          font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+          font-size="12"
+          dy={dy}
+          opacity={1}
+          zIndex={100}
+          fill="rgba(255, 255, 255, 0.52)"
+        >
+          {displayFormat(circle.yValue)}
+        </text>
+      </>
     );
   }
   render() {
@@ -57,6 +72,7 @@ CurrentCoordinate.propTypes = {
   yAccessor: PropTypes.func,
   r: PropTypes.number.isRequired,
   className: PropTypes.string,
+  displayFormat: PropTypes.func.isRequired,
 };
 
 CurrentCoordinate.defaultProps = {
@@ -85,7 +101,7 @@ function helper(props, moreProps) {
   const x = Math.round(xScale(xValue));
   const y = Math.round(yScale(yValue));
 
-  return { x, y, r, fill };
+  return { x, y, r, fill, yValue };
 }
 
 export default CurrentCoordinate;

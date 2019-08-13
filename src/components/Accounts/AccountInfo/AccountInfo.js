@@ -29,7 +29,7 @@ const AccountInfo = ({ account }) => {
           <DataBox valueType="currency-short" title="Total Received" value={account.total_received} />
           <DataBox valueType="currency-short" title="Total Fees Paid" value={account.total_fees_paid} />
           <DataBox title="Transactions" value={account.n_tx} />
-          <DataBox title="Wealth Rank (N/A)" value={12313} />
+          <DataBox title="Wealth Rank (N/A)" value={0} />
         </FlexRowSpaceBetween>
       </Card>
     </Wrapper>

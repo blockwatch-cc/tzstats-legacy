@@ -50,6 +50,7 @@ const chain = {
   new_accounts_30d: 0.0,
   cleared_accounts_30d: 0.0,
   time: new Date(),
+  inflation_rate_1y: 0.0,
   supply: supply,
 };
 
