@@ -38,7 +38,7 @@ function RadialSeparator(props) {
   return (
     <div
       style={{
-        background: '#424552',
+        background: '#3D404D',
         width: '1px',
         height: '75%',
         transform: `rotate(${props.degrees}deg)`,
@@ -60,7 +60,7 @@ export default function SegmentedProgressbar(props) {
       strokeWidth={14}
       styles={{
         background: {
-          fill: '#424553',
+          fill: '#3D404D',
         },
         path: {
           stroke: '#17eef4',

@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useGlobal } from 'reactn';
-import { Card, Elevation, Keys } from '@blueprintjs/core';
+import { Card, Elevation } from '@blueprintjs/core';
+import { LinkIcon } from '../../../Common';
 import { getNetworkHealthStatus } from '../../../../utils';
 
 const NetworkHealth = () => {
@@ -9,6 +10,7 @@ const NetworkHealth = () => {
   const status = getNetworkHealthStatus(chain.health);
   return (
     <Wrapper>
+      <LinkIcon>&#x25E5;</LinkIcon>
       <Card interactive={true} elevation={Elevation.ZERO}>
         <Title>{status.name} Network Health</Title>
         {[...new Array(6).keys()].map((item, i) => {
@@ -20,6 +22,7 @@ const NetworkHealth = () => {
 };
 const Wrapper = styled.div`
   margin: 10px 0;
+  position: relative;
 `;
 const Title = styled.div`
   font-size: 10px;

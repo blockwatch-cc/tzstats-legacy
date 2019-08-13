@@ -35,8 +35,8 @@ const PriceChart = props => {
 
   const zoomEvent = false;
   const max = _.maxBy(data, function(o) {
-    return o.high;
-  }).high;
+    return o.open;
+  }).open;
   const min = _.minBy(data, function(o) {
     return o.low;
   }).low;
@@ -89,7 +89,20 @@ const PriceChart = props => {
         <PriceCoordinate
           at="right"
           orient="right"
-          price={(max / 3).toFixed(1)}
+          price={max / 3}
+          fill="#858999"
+          textFill="rgba(255, 255, 255, 0.52)"
+          fontSize={11}
+          opacity={0}
+          lineOpacity={0.3}
+          lineStroke={'#858999'}
+          strokeDasharray="Solid"
+          displayFormat={format('$.2')}
+        />
+        <PriceCoordinate
+          at="right"
+          orient="right"
+          price={(2 * max) / 3}
           fill="#858999"
           textFill="rgba(255, 255, 255, 0.52)"
           fontSize={11}
@@ -102,20 +115,7 @@ const PriceChart = props => {
         <PriceCoordinate
           at="right"
           orient="right"
-          price={((2 * max) / 3).toFixed(1)}
-          fill="#858999"
-          textFill="rgba(255, 255, 255, 0.52)"
-          fontSize={11}
-          opacity={0}
-          lineOpacity={0.3}
-          lineStroke={'#858999'}
-          strokeDasharray="Solid"
-          displayFormat={format('$.2f')}
-        />
-        <PriceCoordinate
-          at="right"
-          orient="right"
-          price={max.toFixed(1)}
+          price={max}
           fill="#858999"
           textFill="rgba(255, 255, 255, 0.52)"
           fontSize={11}
@@ -133,7 +133,7 @@ const PriceChart = props => {
           interpolation={curveLinear}
           canvasGradient={canvasGradient}
         />
-        <CurrentCoordinate displayFormat={format('$.2')} r={3} yAccessor={d => d.open} fill={'#424553'} />
+        <CurrentCoordinate displayFormat={format('$.2f')} r={3} yAccessor={d => d.open} fill={'#424553'} />
       </Chart>
 
       <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />

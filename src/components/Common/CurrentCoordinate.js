@@ -43,12 +43,11 @@ class CurrentCoordinate extends Component {
         />
         <text
           x={dx}
-          text-anchor="middle"
-          font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
-          font-size="12"
+          textAnchor="middle"
+          fontFamily="Helvetica Neue, Helvetica, Arial, sans-serif"
+          fontSize="12px"
           dy={dy}
           opacity={1}
-          zIndex={100}
           fill="rgba(255, 255, 255, 0.52)"
         >
           {displayFormat(circle.yValue)}

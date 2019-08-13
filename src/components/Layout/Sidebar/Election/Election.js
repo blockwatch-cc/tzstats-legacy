@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { timeAgo } from '../../../../utils';
-import { useGlobal } from 'reactn';
 import { Card, Elevation } from '@blueprintjs/core';
-import { DataBox } from '../../../Common';
+import { DataBox, LinkIcon } from '../../../Common';
 import { withRouter } from 'react-router-dom';
 import { getElectionById } from '../../../../services/api/tz-stats';
 import { proposals } from '../../../../config/proposals';
@@ -27,6 +25,7 @@ const Election = ({ history }) => {
       : { name: 'New', link: '', archive: '' };
   return (
     <Wrapper>
+      <LinkIcon>&#x25E5;</LinkIcon>
       {election && (
         <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
           <DataBox title={`On-Chain Governance Period`} />
@@ -46,6 +45,7 @@ const Election = ({ history }) => {
 
 const Wrapper = styled.div`
   margin-top: 10px;
+  position: relative;
 `;
 const PeriodName = styled.div`
   margin-left: 10px;

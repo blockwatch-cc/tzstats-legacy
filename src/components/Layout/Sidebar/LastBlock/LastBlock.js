@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { timeAgo } from '../../../../utils';
 import { useGlobal } from 'reactn';
 import { Card, Elevation } from '@blueprintjs/core';
-import { DataBox, FlexRowSpaceBetween, FlexColumn } from '../../../Common';
+import { DataBox, FlexRowSpaceBetween, FlexColumn, LinkIcon } from '../../../Common';
 import { withRouter } from 'react-router-dom';
 
 //todo add priori
@@ -14,6 +14,7 @@ const LastBlock = ({ history }) => {
   };
   return (
     <Wrapper>
+      <LinkIcon>&#x25E5;</LinkIcon>
       <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
         <FlexRowSpaceBetween>
           <FlexColumn>
@@ -32,5 +33,6 @@ const LastBlock = ({ history }) => {
 
 const Wrapper = styled.div`
   margin-top: 10px;
+  position: relative;
 `;
 export default withRouter(LastBlock);

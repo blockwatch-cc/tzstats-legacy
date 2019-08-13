@@ -31,7 +31,7 @@ const Wrraper = styled.div`
   display: flex;
   display: flex;
   flex-direction: column;
-  background-color: #3b3d4a;
+  background-color: #444755;
   padding: 0px 10px;
   @media ${Devices.mobileL} {
     ${props => props.hideOnMobile && 'display: none;'}
