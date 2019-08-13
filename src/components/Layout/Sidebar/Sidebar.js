@@ -28,6 +28,7 @@ const Sidebar = () => {
 };
 const Wrraper = styled.div`
   width: 220px;
+  min-height: 100vh;
   display: flex;
   display: flex;
   flex-direction: column;
