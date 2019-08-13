@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 
 function currentPeriod(election) {
   if (election.promotion_vote) {
-    election.promotion_vote['title'] = 'Promotion';
+    election.promotion_vote['title'] = 'Promotion Vote';
     return election.promotion_vote;
   }
   if (election.testing) {
@@ -45,7 +45,7 @@ function currentPeriod(election) {
     return election.testing;
   }
   if (election.testing_vote) {
-    election.testing_vote['title'] = 'Testing Vote';
+    election.testing_vote['title'] = 'Exploration Vote';
     return election.testing_vote;
   }
   if (election.proposal) {

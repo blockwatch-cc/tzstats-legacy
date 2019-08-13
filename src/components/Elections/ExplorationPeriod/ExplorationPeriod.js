@@ -20,7 +20,7 @@ const ExplorationPeriod = ({ period }) => {
 
   return (
     <Wrapper>
-      <Card title={`2 Exploration period for ${name} ${endTime}`}>
+      <Card title={`2 Exploration vote period for ${name} ${endTime}`}>
         <FlexRowSpaceBetween mb={'5px'}>
           <DataBox
             valueType="percent"

@@ -269,7 +269,7 @@ export function getNetworkHealthStatus(value) {
 export function getEndTime(period) {
   return period.is_open
     ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
-    : 'is completed';
+    : 'has ended';
 }
 export function getProposalIdByName(value) {
   const hashes = Object.keys(proposals).filter(key => {
