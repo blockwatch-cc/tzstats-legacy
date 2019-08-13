@@ -167,7 +167,7 @@ export function fixPercent(settings) {
 }
 
 export function getShortHash(hash) {
-  return `${hash.slice(0, 7)}...${hash.slice(-4)}`;
+  return `${hash.slice(0, 3)} … ${hash.slice(-4)}`;
 }
 
 export function capitalizeFirstLetter(str) {
