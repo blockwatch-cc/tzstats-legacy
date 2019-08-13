@@ -2,10 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { getMarketTickers } from '../../../../services/api/markets';
 import { useGlobal, setGlobal } from 'reactn';
-import { format } from 'd3-format';
 import { Card, Elevation } from '@blueprintjs/core';
 import { withRouter } from 'react-router-dom';
-import { DataBox, FlexRow, FlexRowSpaceBetween, FlexColumn } from '../../../Common';
+import { DataBox, FlexRow, FlexRowSpaceBetween, FlexColumn, LinkIcon } from '../../../Common';
 
 const MarketInfo = ({ history }) => {
   const [chain] = useGlobal('chain');
@@ -51,6 +50,7 @@ const MarketInfo = ({ history }) => {
 
   return (
     <Wrapper>
+      <LinkIcon>&#x25E5;</LinkIcon>
       <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
         <FlexRowSpaceBetween>
           <FlexColumn>
@@ -89,5 +89,6 @@ const PriceChanges = styled.span`
 `;
 const Wrapper = styled.div`
   margin-top: 10px;
+  position: relative;
 `;
 export default withRouter(MarketInfo);

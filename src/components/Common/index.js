@@ -14,6 +14,7 @@ import {
   FlexRowSpaceAround,
   FlexColumnSpaceAround,
 } from './Box';
+import { LinkIcon } from './Controls';
 
 export { default as CurrencySelect } from './CurrencySelect';
 export { default as IntervalSelect } from './IntervalSelect';
@@ -45,4 +46,5 @@ export {
   FlexRowSpaceAround,
   FlexRowSpaceBetween,
   FlexColumnSpaceAround,
+  LinkIcon,
 };

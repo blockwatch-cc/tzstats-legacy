@@ -5,7 +5,7 @@ import SegmentedProgressbar from './SegmentedProgressbar.js';
 import { convertMinutes } from '../../../../utils';
 import { useGlobal } from 'reactn';
 import { Card, Elevation } from '@blueprintjs/core';
-import { DataBox } from '../../../Common';
+import { DataBox, LinkIcon } from '../../../Common';
 import { withRouter } from 'react-router-dom';
 
 const NetworkCircle = ({ history }) => {
@@ -18,21 +18,29 @@ const NetworkCircle = ({ history }) => {
     history.push(`/cycle/${chain.cycle}`);
   };
   return (
-    <Card interactive={true} elevation={Elevation.ZERO}>
-      <Wrapper>
-        <Title>Main Network</Title>
+    <Wrapper>
+      <Card interactive={true} elevation={Elevation.ZERO}>
+        <LinkIcon>&#x25E5;</LinkIcon>
+        <SegmentWrapper>
+          <Title>Main Network</Title>
 
-        <Container style={{ marginLeft: 15, marginTop: -20, width: '170px', height: '170px' }}>
-          <SegmentedProgressbar percentage={((chain.height % 4096) / 4096) * 100 || 0} circleNumber={chain.cycle} />
-        </Container>
-        <DataBox ta="center" title={'Time until cycle end'} valueType="text" value={`${time}`} />
-      </Wrapper>
-    </Card>
+          <Container style={{ marginLeft: 15, marginTop: -20, width: '170px', height: '170px' }}>
+            <SegmentedProgressbar percentage={((chain.height % 4096) / 4096) * 100 || 0} circleNumber={chain.cycle} />
+          </Container>
+          <DataBox ta="center" title={'Time until cycle end'} valueType="text" value={`${time}`} />
+        </SegmentWrapper>
+      </Card>
+    </Wrapper>
   );
 };
 function Container(props) {
   return <div style={Object.assign({}, props.style)}>{props.children}</div>;
 }
+const Wrapper = styled.div`
+  /* ... */
+  position: relative;
+`;
+
 const Title = styled.div`
   width: 100%;
   z-index: 100;
@@ -42,7 +50,7 @@ const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);
   font-size: 10px;
 `;
-const Wrapper = styled.div`
+const SegmentWrapper = styled.div`
   margin: 0px -20px;
   text-align: center;
 `;

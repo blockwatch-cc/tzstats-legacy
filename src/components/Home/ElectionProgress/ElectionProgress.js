@@ -14,7 +14,7 @@ const ElectionProgress = ({ election }) => {
   let title = `${period.title} Period  ${endTime}`;
   return (
     <Wrapper>
-      <Card title={title}>
+      <Card to="/election/head" title={title}>
         <FlexRowSpaceBetween>
           <DataBox value={period.turnout_rolls} />
           <DataBox value={period.eligible_rolls} />
