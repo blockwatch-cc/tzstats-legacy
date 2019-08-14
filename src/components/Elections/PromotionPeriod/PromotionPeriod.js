@@ -19,7 +19,7 @@ const PromotionPeriod = ({ period }) => {
 
   return (
     <Wrapper>
-      <Card title={`4 Promotion period for ${name} ${endTime}`}>
+      <Card title={`4 Promotion vote period for ${name} ${endTime}`}>
         <FlexRowSpaceBetween mb={'5px'}>
           <DataBox
             valueType="percent"
