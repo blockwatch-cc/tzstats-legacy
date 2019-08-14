@@ -166,7 +166,6 @@ export function fixPercent(settings) {
 }
 
 export function getShortHash(hash) {
-<<<<<<< HEAD
   return `${hash.slice(0, 3)}...${hash.slice(-4)}`;
 }
 export function getShortHashOrBakerName(hash) {
@@ -174,9 +173,6 @@ export function getShortHashOrBakerName(hash) {
     return bakerAccounts[key].toLowerCase().includes(hash.toLowerCase());
   });
   return names[0] ? names[0] : getShortHash(hash);
-=======
-  return `${hash.slice(0, 3)} … ${hash.slice(-4)}`;
->>>>>>> master
 }
 
 export function capitalizeFirstLetter(str) {
