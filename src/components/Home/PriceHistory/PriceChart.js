@@ -69,14 +69,16 @@ const PriceChart = props => {
       xExtents={xExtents}
     >
       <Chart id={1} height={180} yExtents={[d => [d.high, d.low]]}>
-        <YAxis axisAt="right" orient="right"
+        <YAxis
+          axisAt="right"
+          orient="right"
           ticks={2}
           tickFormat={format('$.2f')}
-          innerTickSize={-width+160}
+          innerTickSize={-width + 160}
           tickStrokeDasharray={'Solid'}
           tickStrokeOpacity={0.3}
           tickStrokeWidth={1}
-          tickStroke={"rgba(255, 255, 255, 0.52)"}
+          tickStroke={'rgba(255, 255, 255, 0.52)'}
           fontWeight={300}
           fontSize={11}
           strokeWidth={0}
@@ -89,7 +91,6 @@ const PriceChart = props => {
           dx={180}
           fill="rgba(0,0,0,0)"
           textFill="rgba(255, 255, 255, 0.52)"
-          opacity={1}
           displayFormat={timeFormat('%a, %b %d')}
           fontSize={11}
           fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}

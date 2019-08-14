@@ -8,79 +8,74 @@ import {
   Blockies,
   CopyHashButton,
   FlexRowSpaceBetween,
+  FlexColumnSpaceBetween,
   FlexRowWrap,
 } from '../../Common';
-import { bakerAccounts } from '../../../config/baker-accounts';
 import { timeFormat } from 'd3-time-format';
-import { getShortHash } from '../../../utils';
+import { getShortHashOrBakerName, getSlots } from '../../../utils';
 import { Link } from 'react-router-dom';
+import BlockTxChart from '../BlockTxChart';
 
-const BlockInfo = ({ block }) => {
-  // const name = Object.keys(bakerAccounts).filter(hash => bakerAccounts[hash] === props.address);
+const BlockInfo = ({ block, setTxType }) => {
+  const slots = getSlots(block.endorsed_slots);
 
   return (
     <Wrapper>
       <Card title="Block Info">
-        <FlexColumn minHeight={200} justifyContent="space-between">
-          <FlexRow justifyContent="space-between">
-            <DataBox title={timeFormat('%a, %d %B %H:%M')(new Date(block.time))} value={block.height} />
-            <DataBox title="Cycle" value={block.cycle} />
-          </FlexRow>
-          <FlexRowWrap justifyContent="space-around" mt={1}>
-            {block.endorsed_slots
-              ? [...block.endorsed_slots.toString(2)].map((item, i) => {
+        <FlexRow>
+          <FlexRowSpaceBetween minWidth={550}>
+            <FlexColumnSpaceBetween minHeight={180}>
+              <FlexRowSpaceBetween minWidth={250}>
+                <DataBox title={timeFormat('%a, %d %B %H:%M')(new Date(block.time))} value={block.height} />
+                <CopyHashButton value={block.hash} type="block" />
+              </FlexRowSpaceBetween>
+              <FlexRowWrap width={192} mr={83} justifyContent="space-around" mt={1}>
+                {slots.map((item, i) => {
                   return (
                     <Slot key={i} color={item}>
                       {item === '0' ? i + 1 : ''}
                     </Slot>
                   );
-                })
-              : ''}
-          </FlexRowWrap>
-          <FlexRow justifyContent="space-between">
-            <CopyHashButton value={block.hash} type="block" />
-            {block.endorsed_slots ? <DataBox title="Slots Endorsed" /> : ''}
-            <BlueLink to={`/account/${block.baker}`}>
-              <Blockies hash={block.baker} />
-              {getShortHash(block.baker)}
-              <DataBox title="Baker" />
-            </BlueLink>
-          </FlexRow>
-          <FlexRow justifyContent="space-between">
-            <FlexColumn minHeight={80} justifyContent="space-between">
-              <DataBox title="Gas Used" value={block.gas_used} />
-              <DataBox valueType="currency-fixed" title="Volume" value={block.volume} />
-            </FlexColumn>
-            <FlexColumn mr={100} minHeight={80} justifyContent="space-between">
-              <DataBox valueType="currency-fixed" title="Gas Price" value={block.gas_price} />
-              <DataBox title="Gas Limit" value={block.gas_price} />
-            </FlexColumn>
-            <FlexColumn textAlign="right" minHeight={80} justifyContent="space-between">
-              <DataBox title="Solvetime" value={block.solvetime} />
-              <DataBox title="Priority" value={block.priority} />
-            </FlexColumn>
-            <FlexColumn textAlign="right" minHeight={80} justifyContent="space-between">
-              <DataBox valueType="currency-fixed" title="Block Rewards" value={block.rewards} />
-              <DataBox valueType="currency-fixed" title="Block Fees" value={block.fees} />
-            </FlexColumn>
-          </FlexRow>
-        </FlexColumn>
+                })}
+              </FlexRowWrap>
+              <FlexRowSpaceBetween width={192}>
+                <DataBox valueSize="16px" title="Priority" value={block.priority} />
+                <DataBox valueSize="16px" title="Solvetime" value={block.solvetime} />
+              </FlexRowSpaceBetween>
+            </FlexColumnSpaceBetween>
+
+            <FlexColumnSpaceBetween minHeight={180} minWidth={100} ml={20}>
+              <DataBox title="Cycle" value={block.cycle} />
+              <DataBox valueSize="16px" title="Gas Used" value={block.gas_used} />
+              <DataBox valueSize="16px" valueType="currency-short" title="Gas Price" value={block.gas_price / 1000} />
+            </FlexColumnSpaceBetween>
+            <FlexColumnSpaceBetween minHeight={180} minWidth={100}>
+              <CustomLink to={`/account/${block.baker}`}>
+                <Blockies hash={block.baker} />
+                <span style={{ fontSize: 18 }}> {getShortHashOrBakerName(block.baker)}</span>
+
+                <DataBox title="Baker" />
+              </CustomLink>
+              <DataBox valueSize="16px" valueType="currency-short" title="Block Rewards" value={block.rewards} />
+              <DataBox valueSize="16px" valueType="currency-short" title="Block Fees" value={block.fees} />
+            </FlexColumnSpaceBetween>
+          </FlexRowSpaceBetween>
+          <BlockTxChart block={block} setTxType={setTxType} />
+        </FlexRow>
       </Card>
     </Wrapper>
   );
 };
-const BlueLink = styled(Link)`
-  color: #26b2ee;
+const CustomLink = styled(Link)`
   font-size: 14px;
-  text-align: right;
+  text-align: left;
 `;
 const Slot = styled.div`
-  height: 10.5px;
-  width: 10.5px;
-  margin: 2px;
-  color: #fff;
-  text-align: center;
+  height: 12px;
+  width: 12px;
   font-size: 8px;
+  text-align: center;
+  border: 1px solid #444754;
   background: ${props => (props.color === '1' ? '#27b9f7' : '#525566')};
 `;
 

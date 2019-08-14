@@ -174,18 +174,40 @@ export const getTxVolume = async ({ days }) => {
 };
 
 //https://api.tzstats.com/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60
-export const getBlockData = async () => {
-  const response = await request(`/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60`);
+export const getBlockHistory = async (height, leftDepth, rightDepth) => {
+  const response = await request(
+    `/tables/block?columns=time,hash,height,priority,is_uncle&height.rg=${height - leftDepth},${height + rightDepth}`
+  );
 
   return response;
 };
 
 //https://api.tzstats.com/explorer/block/BLGza5RgGDYYwpLPZWEdyd2mhaUJSbCYczr1WoFuvrqxRpDkCJ4
-export const getBlock = async ({ id }) => {
-  const response = await request(`/explorer/block/${id || 'head'}/op`);
+export const getBlock = async id => {
+  const response = await request(`/explorer/block/${id || 'head'}`);
 
   return response;
 };
+
+//https://api.tzstats.com/tables/op?height=5000&verbose=1&&op_n.rg=0,3&op_type=endorsement
+export const getBlockOperations = async ({ height, limit, offset, type = null }) => {
+  const response = await request(
+    `/tables/op?height=${height}&columns=sender,receiver,op_type,op_hash,volume,is_success&op_n.rg=${offset},${offset +
+      limit}${type ? '&op_type=' + type : ''}`
+  );
+  return response.map(item => {
+    return {
+      sender: item[0],
+      receiver: item[1],
+      op_type: item[2],
+      op_hash: item[3],
+      volume: item[4],
+      is_success: item[5],
+      is_contract: item[6],
+    };
+  });
+};
+//sender,receiver,op_type,op_hash,volume, op_n, time
 
 //****************** OPERATIONS ****************** */
 //https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T

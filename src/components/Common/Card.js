@@ -26,7 +26,6 @@ const LinkIcon = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
   flex-wrap: wrap;
   border-radius: 2px;
   background-color: ${props => (props.isClickable ? '#3D404D' : '#444755')};

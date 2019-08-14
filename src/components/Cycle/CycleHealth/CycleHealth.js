@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, FlexRowWrap, FlexRow, FlexRowSpaceBetween, FlexColumnSpaceBetween } from '../../Common';
-import { get60mTimeRange, wrappBlockDataToObj } from '../../../utils';
+
 import { timeFormat } from 'd3-time-format';
 import { Link } from 'react-router-dom';
 import Popover from '../../Common/Popover';
