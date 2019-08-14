@@ -162,6 +162,9 @@ export const FlexRowWrap = styled(Box)`
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
+  ${minWidth}
+  ${width}
+  ${minHeight}
 `;
 
 export const FlexColumnWrap = styled(Box)`

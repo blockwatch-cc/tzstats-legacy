@@ -82,7 +82,6 @@ class Chart extends Component {
         return y(d.y0) + '%';
       })
       .style('width', function(d) {
-        console.log(d, 'd');
         return x(d.x1) - x(d.x0) + '%';
       })
       .style('height', function(d) {

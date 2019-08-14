@@ -39,13 +39,12 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
   value = value || 0;
   return prefix === ','
     ? `${format(prefix)(value)} ${symbol}`
-    : value < 1000
-    ? `${format(prefix)(value)} ${symbol}`
     : format(prefix)(value)
         .replace('M', ' M' + symbol)
         .replace('k', ' k' + symbol)
         .replace('G', ' G' + symbol)
-        .replace('m', ' m' + symbol);
+        .replace('m', ' m' + symbol)
+        .replace('µ', ' µ' + symbol);
 }
 export function formatCurrencyShort(value) {
   return formatCurrency(value, '.2s');
@@ -167,20 +166,26 @@ export function fixPercent(settings) {
 }
 
 export function getShortHash(hash) {
-  return `${hash.slice(0, 7)}...${hash.slice(-4)}`;
+  return `${hash.slice(0, 3)}...${hash.slice(-4)}`;
+}
+export function getShortHashOrBakerName(hash) {
+  const names = Object.keys(bakerAccounts).filter(key => {
+    return bakerAccounts[key].toLowerCase().includes(hash.toLowerCase());
+  });
+  return names[0] ? names[0] : getShortHash(hash);
 }
 
 export function capitalizeFirstLetter(str) {
   return `${str[0].toUpperCase() + str.slice(1)}`;
 }
 
-export function get60mTimeRange(lastTime) {
-  let timeArray60m = [];
-  const length = lastTime - 60000 * 60;
+export function getMinutesInterval(lastTime, minutes) {
+  let timeArray = [];
+  const length = lastTime - 60000 * minutes;
   for (let index = lastTime; index > length; index = index - 60000) {
-    timeArray60m.push(index);
+    timeArray.push(index);
   }
-  return timeArray60m;
+  return timeArray;
 }
 
 export function wrappBlockDataToObj(array) {
@@ -191,6 +196,7 @@ export function wrappBlockDataToObj(array) {
       height: item[2],
       priority: item[3],
       opacity: item[3] === 0 ? 1 : item[3] < 8 ? 0.8 : item[3] < 16 ? 0.6 : item[3] < 32 ? 0.4 : 0.2,
+      is_uncle: item[4] || false,
     };
     return obj;
   }, {});
@@ -295,4 +301,13 @@ export function getProposalName(value) {
     return proposals[key].name.toLowerCase().includes(value.toLowerCase());
   });
   return hashes[0] ? proposals[hashes[0]].name : null;
+}
+
+export function getSlots(value) {
+  if (!value) {
+    return [...new Array(32).fill('0')];
+  }
+  const bits = value.toString(2);
+  const zeroBits = 32 - bits.length;
+  return [...new Array(zeroBits).fill('0'), ...bits];
 }

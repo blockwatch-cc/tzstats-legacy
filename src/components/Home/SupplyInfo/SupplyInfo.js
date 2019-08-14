@@ -6,8 +6,7 @@ import { useGlobal } from 'reactn';
 import { formatCurrency, fixPercent } from '../../../utils';
 const SupplyInfo = () => {
   const [chain] = useGlobal('chain');
-  console.log(chain.inflation_rate_1y, chain.supply.staking, chain.supply.total);
-  console.log(chain.inflation_rate_1y / (chain.supply.staking / chain.supply.total));
+
   return (
     <Wrapper>
       <Card title={`Staking Activity`}>

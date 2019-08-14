@@ -27,7 +27,6 @@ class AreaChart extends React.Component {
     const max = _.maxBy(data, function(o) {
       return o.value;
     }).value;
-    // console.log(max, 'max');
     const min = _.minBy(data, function(o) {
       return o.value;
     }).value;
@@ -52,15 +51,17 @@ class AreaChart extends React.Component {
         xAccessor={d => d && d.time}
         xScale={scaleTime()}
       >
-        <Chart id={0} opacity={1} height={180} yExtents={[d => [max*1.1, 0]]}>
-          <YAxis axisAt="right" orient="right"
+        <Chart id={0} opacity={1} height={180} yExtents={[d => [max * 1.1, 0]]}>
+          <YAxis
+            axisAt="right"
+            orient="right"
             ticks={3}
-            tickFormat={(x) => format('~s')(x)+'ꜩ'}
-            innerTickSize={-width+160}
+            tickFormat={x => format('~s')(x) + 'ꜩ'}
+            innerTickSize={-width + 160}
             tickStrokeDasharray={'Solid'}
             tickStrokeOpacity={0.3}
             tickStrokeWidth={1}
-            tickStroke={"rgba(255, 255, 255, 0.52)"}
+            tickStroke={'rgba(255, 255, 255, 0.52)'}
             fontWeight={300}
             fontSize={11}
             strokeWidth={0}

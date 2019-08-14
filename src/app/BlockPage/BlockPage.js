@@ -4,27 +4,30 @@ import BlockHistory from '../../components/Blocks/BlockHistory';
 import BlockOperations from '../../components/Blocks/BlockOperations';
 import BlockInfo from '../../components/Blocks/BlockInfo';
 import BlockTxChart from '../../components/Blocks/BlockTxChart';
-import { getBlock, getBlockData } from '../../services/api/tz-stats';
+import { getBlock, getBlockHistory } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
 import { withRouter } from 'react-router-dom';
 
 const BlockPage = ({ match, history }) => {
   const [data, setData] = React.useState({ isLoaded: false, match });
-
+  const [txType, setTxType] = React.useState(null);
   const currentBlockHash = match.params.hash;
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let [block, blockData] = await Promise.all([getBlock({ id: currentBlockHash }), getBlockData()]);
-      if (!block) {
-        history.push(`/not-found/${currentBlockHash}`);
+      let [block, lastBlock] = await Promise.all([getBlock(currentBlockHash), getBlock()]);
+      //todo optimize it for blockNumber
+      let blockHistory = [];
+      if (lastBlock.height - block.height < 50) {
+        blockHistory = await getBlockHistory(lastBlock.height, 50, 0);
+      } else {
+        blockHistory = await getBlockHistory(block.height, 25, 25);
       }
-
       setData({
         isLoaded: true,
         block: block,
-        blockData,
-        operations: block.ops,
+        blockHistory,
+        lastBlock,
       });
     };
 
@@ -33,12 +36,11 @@ const BlockPage = ({ match, history }) => {
 
   return data.isLoaded ? (
     <Wrapper>
-      <BlockHistory data={data.blockData} currentBlock={data.block} />
+      <BlockHistory blockHistory={data.blockHistory} currentBlock={data.block} lastBlock={data.lastBlock} />
       <TwoElementsWrapper>
-        <BlockInfo block={data.block} />
-        <BlockTxChart block={data.block} />
+        <BlockInfo block={data.block} setTxType={setTxType} />
       </TwoElementsWrapper>
-      <BlockOperations data={data.operations} />
+      <BlockOperations block={data.block} txType={txType} />
     </Wrapper>
   ) : (
     <Spiner />

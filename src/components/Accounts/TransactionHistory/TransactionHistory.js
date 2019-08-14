@@ -10,7 +10,7 @@ const TransactionHistory = ({ hash }) => {
   const [isOutgoing, setIsOutgoing] = React.useState({ isOutgoing: true });
   const [operations, setOperations] = React.useState([]);
   const [tableOperations, setTableOperations] = React.useState([]);
-  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations);
+  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'main-panel');
 
   function fetchMoreOperations() {
     if (tableOperations.length != operations.length) {
@@ -56,7 +56,6 @@ const TransactionHistory = ({ hash }) => {
         </FlexRowSpaceBetween>
 
         {tableOperations.map((item, i) => {
-          console.log(item, 'itm');
           return (
             <FlexRowSpaceBetween key={i}>
               <TypeCell width={30}>
