@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Card from './Card';
-import smile from '../../assets/img/smile.png';
 
 const IvalidData = ({ title = 'Something went wrong' }) => {
   return (
