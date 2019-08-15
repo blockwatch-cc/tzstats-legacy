@@ -9,7 +9,7 @@ const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
   return (
     <Wrapper>
       <Card title={'Block History'}>
-        <FlexRowSpaceBetween>
+        <FlexRowSpaceBetween mt={10}>
           <BlockHistoryWrapper>
             {/* <PreviousBlockButton onClick={e => console.log(-60)}>&#9664;</PreviousBlockButton> */}
             <BlockChart blockHistory={blockHistory} currentBlock={currentBlock} />
@@ -31,6 +31,7 @@ const Wrapper = styled.div`
 const BlockHistoryWrapper = styled(FlexColumn)`
   min-width: 340px;
   margin-bottom: 30px;
+  margin-top: 5px;
   flex: 1;
 `;
 

@@ -5,7 +5,7 @@ import { DataBox } from '../../Common';
 const BlocksPie = ({ data, setTxType }) => {
   const getBarColor = bar => bar.color;
   return (
-    <div style={{ width: 100, height: 100, cursor: 'pointer' }}>
+    <div style={{ width: 130, height: 130, cursor: 'pointer' }}>
       <ResponsivePie
         data={data}
         innerRadius={0.7}
@@ -27,34 +27,8 @@ const BlocksPie = ({ data, setTxType }) => {
               background: '#333',
             },
           },
-          // legends: {
-          //   text: { color: '#fff' },
-          // },
         }}
-        tooltip={({ id, value }) => <DataBox value={value} title={`${id}`} />}
-        // legends={[
-        //   {
-        //     anchor: 'right',
-        //     direction: 'column',
-        //     justify: false,
-        //     translateX: 50,
-        //     itemDirection: 'left-to-right',
-        //     itemWidth: 78,
-        //     itemHeight: 15,
-        //     symbolSize: 10,
-        //     symbolShape: 'circle',
-        //     itemTextColor: 'rgba(255, 255, 255, 0.52)',
-        //     effects: [
-        //       {
-        //         on: 'hover',
-        //         style: {
-        //           itemBackground: 'rgba(0, 0, 0, .03)',
-        //           itemOpacity: 1,
-        //         },
-        //       },
-        //     ],
-        //   },
-        // ]}
+        tooltip={({ id, value }) => <DataBox valueType="text" value={id} />}
       />
     </div>
   );

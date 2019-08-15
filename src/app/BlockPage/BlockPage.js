@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import BlockHistory from '../../components/Blocks/BlockHistory';
 import BlockOperations from '../../components/Blocks/BlockOperations';
 import BlockInfo from '../../components/Blocks/BlockInfo';
-import BlockTxChart from '../../components/Blocks/BlockTxChart';
 import { getBlock, getBlockHistory } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
 import { withRouter } from 'react-router-dom';
@@ -29,6 +28,7 @@ const BlockPage = ({ match, history }) => {
         blockHistory,
         lastBlock,
       });
+      setTxType(null);
     };
 
     fetchData();
@@ -37,24 +37,13 @@ const BlockPage = ({ match, history }) => {
   return data.isLoaded ? (
     <Wrapper>
       <BlockHistory blockHistory={data.blockHistory} currentBlock={data.block} lastBlock={data.lastBlock} />
-      <TwoElementsWrapper>
-        <BlockInfo block={data.block} setTxType={setTxType} />
-      </TwoElementsWrapper>
+      <BlockInfo block={data.block} setTxType={setTxType} />
       <BlockOperations block={data.block} txType={txType} />
     </Wrapper>
   ) : (
     <Spiner />
   );
 };
-
-const TwoElementsWrapper = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  margin-left: -5px;
-  margin-right: -5px;
-`;
 
 const Wrapper = styled.div``;
 export default withRouter(BlockPage);

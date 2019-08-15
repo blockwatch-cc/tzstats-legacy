@@ -36,7 +36,12 @@ export function formatValue(value, prefix = ',') {
     .replace('G', ' G');
 }
 export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
-  value = value || 0;
+  if (value === 0) {
+    return 0 + ' ꜩ';
+  }
+  if (value > 1 && value < 1000) {
+    return value + ' ꜩ';
+  }
   return prefix === ','
     ? `${format(prefix)(value)} ${symbol}`
     : format(prefix)(value)
@@ -189,15 +194,21 @@ export function getMinutesInterval(lastTime, minutes) {
 }
 
 export function wrappBlockDataToObj(array) {
-  return array.reduce((obj, item) => {
-    obj[new Date(item[0]).setSeconds(0, 0)] = {
-      time: new Date(item[0]).setSeconds(0, 0),
-      hash: item[1],
-      height: item[2],
-      priority: item[3],
-      opacity: item[3] === 0 ? 1 : item[3] < 8 ? 0.8 : item[3] < 16 ? 0.6 : item[3] < 32 ? 0.4 : 0.2,
-      is_uncle: item[4] || false,
-    };
+  let filtered = array.filter((item, index) => {
+    if (index !== 0 && array[index - 1][2] != item[2]) {
+    }
+  });
+  return array.reduce((obj, item, index) => {
+    if (index !== 0 && array[index - 1][2] != item[2]) {
+      obj[new Date(item[0]).setSeconds(0, 0)] = {
+        time: new Date(item[0]).setSeconds(0, 0),
+        hash: item[1],
+        height: item[2],
+        priority: item[3],
+        opacity: item[3] === 0 ? 1 : item[3] < 8 ? 0.8 : item[3] < 16 ? 0.6 : item[3] < 32 ? 0.4 : 0.2,
+        is_uncle: item[4] || false,
+      };
+    }
     return obj;
   }, {});
 }
