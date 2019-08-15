@@ -11,20 +11,26 @@ const BlockTxChart = ({ block, setTxType }) => {
   return (
     <Wrapper>
       <FlexRow>
-        <Total>
-          <DataBox ta="center" title="Operations" value={block.n_ops} />
-        </Total>
+        {block.n_ops ? (
+          <Total>
+            <DataBox ta="center" title="Operations" value={block.n_ops} />
+          </Total>
+        ) : (
+          ''
+        )}
         <Chart data={settings} setTxType={setTxType} />
         <Legend settings={settings} />
       </FlexRow>
-      <FlexRowSpaceBetween ml={50} mt={50}>
+      <FlexRowSpaceBetween ml={80} mt={25}>
         <DataBox valueSize="16px" valueType="currency-full" title="Transactions volume" value={block.volume} />
       </FlexRowSpaceBetween>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin-left: -30px;
+`;
 
 export default BlockTxChart;
 
@@ -47,14 +53,15 @@ const LegendContent = ({ settings }) => {
 };
 const Total = styled.div`
   position: relative;
-  top: 30px;
-  right: -75px;
+  top: 45px;
+  right: -90px;
 `;
 
 const LegendWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin-left: 10px;
+  margin-top: 20px;
 `;
 const LegendItem = styled.div`
   margin-bottom: -30px;
@@ -76,74 +83,68 @@ function getOperationsSettings(block) {
     {
       color: '#18ecf2',
       value: block.n_ops_contract,
-      id: `Contracts - ${formatValue(block.n_ops_contract)}`,
+      id: `${formatValue(block.n_ops_contract)} Contracts`,
       type: 'contract',
     },
-    { color: '#29bcfa', value: block.n_tx, id: `Transactions - ${formatValue(block.n_tx)}`, type: 'transaction' },
+    { color: '#29bcfa', value: block.n_tx, id: ` ${formatValue(block.n_tx)} Transactions`, type: 'transaction' },
     {
       color: '#3e85f1',
       value: block.n_endorsement,
-      id: `Endorsements - ${formatValue(block.n_endorsement)}`,
+      id: `${formatValue(block.n_endorsement)} Endorsements`,
       type: 'endorsement',
     },
     {
       color: '#858999',
       value: block.n_delegation,
-      id: `Delegations - ${formatValue(block.n_delegation)}`,
+      id: `${formatValue(block.n_delegation)} Delegations`,
       type: 'delegation',
-    },
-    {
-      color: 'hsl(357, 70%, 50%)',
-      value: block.n_ops_failed,
-      id: `Failed - ${formatValue(block.n_ops_failed)}`,
-      type: 'failed',
     },
     {
       color: 'rgb(198, 219, 239)',
       value: block.n_activation,
-      id: `Activations - ${formatValue(block.n_activation)}`,
+      id: `${formatValue(block.n_activation)} Activations`,
       type: 'activation',
     },
     {
       color: 'rgb(158, 202, 225)',
       value: block.n_seed_nonce,
-      id: `Seed Nonces - ${formatValue(block.n_seed_nonce)}`,
+      id: `${formatValue(block.n_seed_nonce)}`,
       type: 'seed_nonce',
     },
     {
       color: 'rgb(107, 174, 214)',
       value: block.n_double_baking,
-      id: `2x Baking - ${formatValue(block.n_double_baking)}`,
+      id: `${formatValue(block.n_double_baking)} 2x Baking`,
       type: 'double_baking',
     },
     {
       color: 'rgb(66, 146, 198)',
       value: block.n_double_endorsement,
-      id: `2x Endoresment - ${formatValue(block.n_double_endorsement)}`,
+      id: `${formatValue(block.n_double_endorsement)} 2x Endoresment`,
       type: 'double_endorsement',
     },
     {
       color: 'rgb(33, 113, 181)',
       value: block.n_reveal,
-      id: `Reveals - ${formatValue(block.n_reveal)}`,
+      id: `${formatValue(block.n_reveal)} Reveals`,
       type: 'reveal',
     },
     {
       color: 'rgb(8, 81, 156)',
       value: block.n_origination,
-      id: `Originations - ${formatValue(block.n_origination)}`,
+      id: `${formatValue(block.n_origination)} Originations`,
       type: 'origination',
     },
     {
       color: 'rgb(8, 48, 107)',
       value: block.n_proposal,
-      id: `Proposals - ${formatValue(block.n_proposal)}`,
+      id: `${formatValue(block.n_proposal)} Proposals`,
       type: 'proposal',
     },
     {
       color: 'rgb(94, 79, 162)',
       value: block.n_ballot,
-      id: `Ballots - ${formatValue(block.n_ballot)}`,
+      id: `${formatValue(block.n_ballot)} Ballots`,
       type: 'ballot',
     },
   ];

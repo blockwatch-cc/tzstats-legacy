@@ -4,7 +4,6 @@ import {
   Card,
   DataBox,
   FlexRow,
-  FlexColumn,
   Blockies,
   CopyHashButton,
   FlexRowSpaceBetween,
@@ -29,7 +28,7 @@ const BlockInfo = ({ block, setTxType }) => {
                 <DataBox title={timeFormat('%a, %d %B %H:%M')(new Date(block.time))} value={block.height} />
                 <CopyHashButton value={block.hash} type="block" />
               </FlexRowSpaceBetween>
-              <FlexRowWrap width={192} mr={83} justifyContent="space-around" mt={1}>
+              <FlexRowWrap width={192} mr={83} justifyContent="space-around">
                 {slots.map((item, i) => {
                   return (
                     <Slot key={i} color={item}>
@@ -51,8 +50,8 @@ const BlockInfo = ({ block, setTxType }) => {
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180} minWidth={100}>
               <CustomLink to={`/account/${block.baker}`}>
-                <Blockies hash={block.baker} />
-                <span style={{ fontSize: 18 }}> {getShortHashOrBakerName(block.baker)}</span>
+                <Blockies width="18" height="18" hash={block.baker} />
+                <span style={{ fontSize: 16 }}> {getShortHashOrBakerName(block.baker)}</span>
 
                 <DataBox title="Baker" />
               </CustomLink>
@@ -81,7 +80,5 @@ const Slot = styled.div`
 
 const Wrapper = styled.div`
   min-width: 340px;
-  margin: 0 5px;
-  flex: 2;
 `;
 export default BlockInfo;

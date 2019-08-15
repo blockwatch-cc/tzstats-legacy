@@ -16,14 +16,9 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
     <BlocksWrapper>
       {timeRange.map((timestamp, index) => {
         const block = blocksMap[timestamp];
-        const previousBlock = blocksMap[timestamp - 60000];
         const isCurrent = block && block.height === currentBlock.height;
         const isEmpty = block === undefined || block === null;
         const isDoubleBlock = block && block['is_uncle'];
-        if (block && previousBlock && block.height === previousBlock.height) {
-          return '';
-        }
-
         return (
           <div key={index}>
             {index % 10 === 0 && (
@@ -33,7 +28,12 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
               </TimeWrapper>
             )}
             <FlexColumn justifyContent="flex-end">
-              <BlockSquare to="#" mb={3} isDoubleBlock={isDoubleBlock} opacity={!isDoubleBlock ? 0 : 1} />
+              <BlockSquare
+                to={block ? `/block/${block.hash}` : '#'}
+                mb={3}
+                isDoubleBlock={isDoubleBlock}
+                opacity={!isDoubleBlock ? 0 : 1}
+              />
               <BlockSquare
                 to={block ? `/block/${block.hash}` : '#'}
                 isCurrent={isCurrent}

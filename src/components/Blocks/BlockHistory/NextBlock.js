@@ -18,7 +18,7 @@ const NextBlockWrapper = styled.div`
   margin-right: 30px;
   height: 50px;
   margin-left: 3px;
-  margin-top: -40px;
+  margin-top: -35px;
 `;
 const NextBlockTitle = styled.div`
   color: rgba(255, 255, 255, 0.52);

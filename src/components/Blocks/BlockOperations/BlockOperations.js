@@ -3,7 +3,7 @@ import useInfiniteScroll from '../../../hooks/useInfiniteScroll';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { getBlockOperations } from '../../../services/api/tz-stats';
-import { Card, FlexRowSpaceBetween, Blockies } from '../../Common';
+import { Card, FlexRowSpaceBetween, Blockies, DataBox } from '../../Common';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import { formatCurrency, getShortHash, getShortHashOrBakerName, capitalizeFirstLetter } from '../../../utils';
 
@@ -107,7 +107,8 @@ const TableCell = styled.div`
   height: 25px;
 `;
 const TypeCell = styled(TableCell)`
-  color: #fff;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 12px;
 `;
 const TableHeader = styled.div`
   font-size: 12px;

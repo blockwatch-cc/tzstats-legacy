@@ -16,14 +16,14 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
           ) : (
             <Title fontSize={titleSize}>{title}</Title>
           )}
-          {value && <Value type={valueType} value={value} />}
+          {value !== undefined && <Value type={valueType} value={value} />}
         </Wrapper>
       );
     case 'value-as-title':
       return (
         <Wrapper ta={ta} fontSize={valueSize}>
           {title}
-          {value && (
+          {value !== undefined && (
             <Title fontSize={titleSize}>
               <Value type={valueType} value={value} />
             </Title>
@@ -35,7 +35,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
         <Wrapper ta={ta} fontSize={valueSize}>
           <FlexRow justifyContent="space-between" alignItems="center">
             {<div style={{ paddingRight: '10px' }}>{title}</div>}
-            {value && (
+            {value !== undefined && (
               <Title fontSize={titleSize}>
                 <Value type={valueType} value={value} />
               </Title>
@@ -47,7 +47,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
     default:
       return (
         <Wrapper ta={ta} fontSize={valueSize}>
-          {value && <Value type={valueType} value={value} />}
+          {value !== undefined && <Value type={valueType} value={value} />}
           {title && <Title fontSize={titleSize}>{title}</Title>}
         </Wrapper>
       );
@@ -55,29 +55,27 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
 };
 
 const Value = ({ type, value }) => {
-  if (value && typeof vale !== 'string') {
-    switch (type) {
-      case 'text':
-        return value;
-      case 'currency-fixed':
-        return formatCurrency(Math.round(value), ',');
-      case 'currency-short':
-        return formatCurrency(value, '.4s');
-      case 'currency-full':
-        return formatCurrency(value, ',');
-      case 'currency-usd-full':
-        return formatValue(value, '$,');
-      case 'currency-usd-fixed':
-        return formatValue(value.toFixed(2), '$,');
-      case 'currency-usd-short':
-        return '$' + formatValue(Math.round(value), '.2s');
-      case 'value-short':
-        return formatValue(Math.round(value), '.2s');
-      case 'percent':
-        return value * 100 < 1 ? '< 1%' : formatValue(value, '.0%');
-      default:
-        return formatValue(Math.round(value), ',');
-    }
+  switch (type) {
+    case 'text':
+      return value;
+    case 'currency-fixed':
+      return formatCurrency(Math.round(value), ',');
+    case 'currency-short':
+      return formatCurrency(value, '.4s');
+    case 'currency-full':
+      return formatCurrency(value, ',');
+    case 'currency-usd-full':
+      return formatValue(value, '$,');
+    case 'currency-usd-fixed':
+      return formatValue(value.toFixed(2), '$,');
+    case 'currency-usd-short':
+      return '$' + formatValue(Math.round(value), '.2s');
+    case 'value-short':
+      return formatValue(Math.round(value), '.2s');
+    case 'percent':
+      return value * 100 < 1 ? '< 1%' : formatValue(value, '.0%');
+    default:
+      return formatValue(Math.round(value), ',');
   }
 
   return value;
