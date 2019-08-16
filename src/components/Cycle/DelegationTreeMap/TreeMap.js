@@ -83,7 +83,7 @@ class Chart extends Component {
                 <div class="tree-map-title">Luck</div>
               </div>
               <div class="tree-map-box" style="text-align:right">
-                ${share}%
+                ${share}
                 <div class="tree-map-title">Share</div>
               </div>
             </div>
