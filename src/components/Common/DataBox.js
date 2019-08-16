@@ -4,11 +4,11 @@ import { FlexRow } from './index';
 import { formatCurrency, formatValue } from '../../utils';
 
 //Todo refactoring
-const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', titleSize = '10px', ta = 'left' }) => {
+const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', titleSize = '10px', ta = 'left', ml = '0', mr = '0' }) => {
   switch (type) {
     case 'title-bottom':
       return (
-        <Wrapper ta={ta} fontSize={valueSize}>
+        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
           {title && (valueType && !value) ? (
             <Title fontSize={titleSize}>
               <Value type={valueType} value={title} />
@@ -21,7 +21,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
       );
     case 'value-as-title':
       return (
-        <Wrapper ta={ta} fontSize={valueSize}>
+        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
           {title}
           {value !== undefined && (
             <Title fontSize={titleSize}>
@@ -32,7 +32,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
       );
     case 'horizontal-value-as-title':
       return (
-        <Wrapper ta={ta} fontSize={valueSize}>
+        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
           <FlexRow justifyContent="space-between" alignItems="center">
             {<div style={{ paddingRight: '10px' }}>{title}</div>}
             {value !== undefined && (
@@ -46,7 +46,7 @@ const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', title
 
     default:
       return (
-        <Wrapper ta={ta} fontSize={valueSize}>
+        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
           {value !== undefined && <Value type={valueType} value={value} />}
           {title && <Title fontSize={titleSize}>{title}</Title>}
         </Wrapper>
@@ -84,6 +84,8 @@ const Value = ({ type, value }) => {
 const Wrapper = styled.div`
   font-size: ${props => props.fontSize};
   text-align: ${props => props.ta};
+  margin-left: ${props => props.ml+'px'};
+  margin-right: ${props => props.mr+'px'};
   white-space: nowrap;
 `;
 const Title = styled.div`

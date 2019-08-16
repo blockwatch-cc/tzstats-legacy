@@ -15,7 +15,7 @@ const CopyHashButton = ({ value, type }) => {
   );
 };
 const Wrapper = styled.span`
-  font-size: 14px;
+  font-size: 12px;
 `;
 const Button = styled.span`
   background-color: #30313b;

@@ -25,7 +25,6 @@ const PriceWithVolume = ({ marketData, volSeries }) => {
     return item;
   });
   let lastPrice = priceHistory.slice(-1).pop();
-  console.log("last", lastPrice, priceHistory);
 
   return (
     <Wrapper>

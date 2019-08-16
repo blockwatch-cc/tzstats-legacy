@@ -19,7 +19,6 @@ const VolumeAnnotation = ({ maxValue, setCurrentValue }) => {
               when={d => true}
               usingProps={{
                 fontSize: 25,
-                lineHeight: 1,
                 fill: d => {
                   let ratio = d.hourVolumes[i] ? d.hourVolumes[i][1] / maxValue * 100 : 0;
                   return 'rgba(24,236,242,'+ opacities[cutoff.findIndex(n=>n>ratio)] +')';
