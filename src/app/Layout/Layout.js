@@ -50,10 +50,10 @@ const MainPanel = styled.main`
   flex-direction: column;
   flex: 1;
   overflow: scroll;
-  padding 10px 10%;
-  align-items: center;
-  min-width: 900px;
-  margin: 0 10px;
+  padding 10px;
+  align-items: left;
+  max-width: 930px;
+  margin: 0 auto;
   @media ${Devices.mobileL} {
     min-width: 380px;
   }
