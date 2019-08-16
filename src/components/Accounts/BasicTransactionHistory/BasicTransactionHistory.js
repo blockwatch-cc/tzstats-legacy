@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import useInfiniteScroll from '../../../hooks/useInfiniteScroll';
 import { getAccountOperations } from '../../../services/api/tz-stats';
-const TransactionHistory = ({ hash }) => {
+const BasicTransactionHistory = ({ hash }) => {
   const [isOutgoing, setIsOutgoing] = React.useState({ isOutgoing: true });
   const [operations, setOperations] = React.useState([]);
   const [tableOperations, setTableOperations] = React.useState([]);
@@ -112,4 +112,4 @@ const TypeCell = styled(TableCell)`
   color: #fff;
 `;
 
-export default TransactionHistory;
+export default BasicTransactionHistory;

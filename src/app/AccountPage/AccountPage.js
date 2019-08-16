@@ -1,5 +1,6 @@
 import React from 'react';
 import BasicAccount from '../../components/Accounts/BasicAccount';
+import BakerAccount from '../../components/Accounts/BakerAccount';
 import { getAccountByHash, getFlowData, getStakingData } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
 import { wrapFlowData, wrapStakingData, wrapToBalance } from '../../utils';
@@ -33,7 +34,8 @@ const AccountPage = ({ match }) => {
   }, [currentUserHash, match]);
 
   return data.isLoaded ? (
-    <BasicAccount account={data.account} txHistory={data.txHistory} balanceHistory={data.balanceHistory} />
+    // <BasicAccount account={data.account} txHistory={data.txHistory} balanceHistory={data.balanceHistory} />
+    <BakerAccount account={data.account} txHistory={data.txHistory} balanceHistory={data.balanceHistory} />
   ) : (
     <Spiner />
   );

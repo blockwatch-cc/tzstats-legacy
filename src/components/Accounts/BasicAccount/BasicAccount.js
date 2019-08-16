@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import AccountInfo from '../AccountInfo';
-import BalanceHistory from '../BalanceHistory';
-import TransactionHistory from '../TransactionHistory';
+import BasicBalanceHistory from '../BasicBalanceHistory';
+import BasicTransactionHistory from '../BasicTransactionHistory';
 
-const BasicAccount = ({ account, balanceHistory, txHistory }) => {
+const BasicAccount = ({ account, balanceHistory }) => {
   return (
     <Wrapper>
       <AccountInfo account={account} />
-      <BalanceHistory account={account} balanceHistory={balanceHistory} />
-      <TransactionHistory hash={account.address} />
+      <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+      <BasicTransactionHistory hash={account.address} />
     </Wrapper>
   );
 };

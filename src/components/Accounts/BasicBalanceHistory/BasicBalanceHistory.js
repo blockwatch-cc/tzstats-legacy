@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useGlobal } from 'reactn';
 
 //Life totals
-const BalanceHistory = ({ account, balanceHistory }) => {
+const BasicBalanceHistory = ({ account, balanceHistory }) => {
   const [lastMarketData] = useGlobal('lastMarketData');
 
   return (
@@ -41,4 +41,4 @@ const Info = styled.div`
   margin-top: 20px;
 `;
 
-export default BalanceHistory;
+export default BasicBalanceHistory;

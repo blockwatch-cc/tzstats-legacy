@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, FlexRowSpaceBetween } from '../Common';
 
-const AccountBalance = props => {
+const BakerAccountBalance = props => {
   return (
     <AccountBalanceContainer>
       <Card title={'Balance'}>
@@ -38,4 +38,4 @@ const ChartPanel = styled.div`
   justify-content: space-between;
 `;
 
-export default AccountBalance;
+export default BakerAccountBalance;
