@@ -36,6 +36,7 @@ const Wrapper = styled.div`
   padding-bottom: 20px;
   margin-top: 10px;
   height: 100%;
+  position: relative;
 `;
 const Title = styled.div`
   font-size: 12px;
