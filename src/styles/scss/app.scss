@@ -71,7 +71,7 @@ input[type='button']:hover {
   position: absolute;
   width: 300px;
   height: 120px;
-  padding: 10px;
+  padding: 20px;
   font-size: 14px;
   background: #262830;
   pointer-events: none;
@@ -88,7 +88,6 @@ input[type='button']:hover {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 15px;
 }
 $m: 0;
 .canvas {

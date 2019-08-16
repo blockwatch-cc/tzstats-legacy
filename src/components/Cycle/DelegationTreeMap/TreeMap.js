@@ -1,35 +1,16 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-import { DataBox, FleRow, FlexColumn } from '../../Common';
-
-let kickStarterData =
-  'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json';
 
 class Chart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      countyData: {},
-      eduData: {},
-    };
-  }
-
   componentDidMount() {
-    d3.queue()
-      .defer(d3.json, kickStarterData)
-      .await((error, kickStarter) => {
-        kickStarter.children = [kickStarter.children[0]];
-        const state = {
-          kickStarter: this.props.data,
-        };
-
-        this.setState(state, this.drawChart.bind(this));
-      });
+    this.drawChart(this.props.data);
+  }
+  componentWillUpdate() {
+    d3.select(this.refs.canvas).html('');
+    this.drawChart(this.props.data);
   }
 
-  drawChart() {
-    const kickStarter = this.state.kickStarter;
-
+  drawChart = data => {
     const width = 830;
     const height = 250;
     const x = d3
@@ -41,23 +22,20 @@ class Chart extends Component {
       .domain([0, height])
       .range([0, height]);
 
-    const text1 = text => {
+    const accountText = text => {
       text
         .selectAll('.account')
         .attr('x', d => d.x0 + 5)
         .attr('y', d => d.y0 + 15);
     };
-    const text2 = text => {
+    const shareText = text => {
       text
         .selectAll('.percent')
         .attr('x', d => d.x1 - 50)
         .attr('y', d => d.y1 - 5);
     };
-    // const colorScale = function(color) {
-    //   return d3.interpolateRgb(color, '#fff')(0.2);
-    // };
-    // const color = d3.scaleOrdinal(d3.schemeCategory20.map(colorScale));
-    const root = d3.hierarchy(kickStarter);
+
+    const root = d3.hierarchy(data);
 
     root.sum(d => {
       return d.value;
@@ -71,7 +49,7 @@ class Chart extends Component {
     treemapLayout(root);
 
     const svg = d3
-      .select('.canvas')
+      .select(this.refs.canvas)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
@@ -81,20 +59,37 @@ class Chart extends Component {
       .selectAll('g')
       .data(root.leaves())
       .enter()
-      .append('g')
-      .style('left', function(d) {
-        return x(d.x0) + '%';
-      })
-      .style('top', function(d) {
-        return y(d.y0) + '%';
-      })
-      .style('width', function(d) {
-        return x(d.x1) - x(d.x0) + '%';
-      })
-      .style('height', function(d) {
-        return y(d.y1) - y(d.y0) + '%';
-      })
-      .attr('class', 'group');
+      .append('g');
+
+    const tooltipHtml = (account, efficiencyPercent, rolls, luckPercent, share) => {
+      return `<div>
+            <div class="tree-map-row">
+              <div class="tree-map-box">
+                ${account}
+                <div class="tree-map-title">Baker</div>
+              </div>
+              <div class="tree-map-box" style="text-align:right">
+                ${efficiencyPercent}%
+                <div class="tree-map-title">Efficency</div>
+              </div>
+            </div>
+            <div class="tree-map-row" style="margin-top: 20px;">
+              <div class="tree-map-box">
+                ${rolls}
+                <div class="tree-map-title">Rolls</div>
+              </div>
+              <div class="tree-map-box">
+                ${luckPercent}%
+                <div class="tree-map-title">Luck</div>
+              </div>
+              <div class="tree-map-box" style="text-align:right">
+                ${share}%
+                <div class="tree-map-title">Share</div>
+              </div>
+            </div>
+          </div>`;
+    };
+
     const tile = cell
       .append('rect')
       .attr('class', 'tile')
@@ -112,30 +107,10 @@ class Chart extends Component {
           .style('left', d.x0 + 'px')
           .style('top', d.y1 - 120 + 'px')
           .style('opacity', 1)
-          .attr('data-value', d.data.value).html(` <div class="tree-map-row">
-          <div class="tree-map-box">
-            ${d.data.account}
-          <div class="tree-map-title">Baker</div>
-          </div>
-          <div class="tree-map-box" style="text-align:right">
-          ${14}%
-          <div class="tree-map-title">Efficency</div>
-          </div>
-        </div>
-        <div class="tree-map-row">
-          <div class="tree-map-box">
-          ${d.data.value}
-          <div class="tree-map-title">Rolls</div>
-          </div>
-          <div class="tree-map-box">
-          ${24}%
-          <div class="tree-map-title">Luck</div>
-          </div>
-          <div class="tree-map-box">
-          ${41.5}%
-          <div class="tree-map-title">Share</div>
-          </div>
-        </div>`);
+          .attr('data-value', d.data.value)
+          .html(
+            tooltipHtml(d.data.account, d.data.efficiencyPercent, d.data.value, d.data.luckPercent, d.data.percent)
+          );
       })
       .on('mouseout', function(d) {
         tooltip.style('display', 'none');
@@ -143,22 +118,24 @@ class Chart extends Component {
       .on('click', function(d) {
         window.location.href = '/account/' + d.data.address;
       });
-    const t1 = cell
+    const accountStr = cell
       .append('text')
       .attr('font-size', 12)
       .style('fill', '#fff');
 
-    const t2 = cell
+    const shareStr = cell
       .append('text')
       .attr('font-size', 16)
       .style('fill', '#fff');
 
-    t1.append('tspan')
+    accountStr
+      .append('tspan')
       .attr('class', 'account')
       .text(d => (d.x1 - d.x0 < 100 ? '' : d.data.account));
-    t2.append('tspan')
+    shareStr
+      .append('tspan')
       .attr('class', 'percent')
-      .text(d => d.data.percent);
+      .text(d => (d.x1 - d.x0 < 100 ? '' : d.data.percent));
 
     const tooltip = d3
       .select('.canvas')
@@ -166,12 +143,12 @@ class Chart extends Component {
       .attr('id', 'tree-map-tooltip')
       .attr('opacity', 1);
 
-    t1.call(text1);
-    t2.call(text2);
-  }
+    accountStr.call(accountText);
+    shareStr.call(shareText);
+  };
 
   render() {
-    return <div id="" />;
+    return <div ref="canvas" />;
   }
 }
 

@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../../Common';
+import { Card, InvalidData } from '../../Common';
 import TreeMap from './TreeMap';
 import _ from 'lodash';
 import { getShortHashOrBakerName } from '../../../utils';
 import { format } from 'd3-format';
+import { isValid } from '../../../utils';
 
 const DelegationTreeMap = ({ data, cycle }) => {
+  if (!isValid(data, cycle) || !cycle.is_snapshot) {
+    return <InvalidData title="No data for this cycle" />;
+  }
+
   data = _.sortBy(data, o => o[1])
     .splice(-20)
     .reverse();
@@ -18,8 +23,8 @@ const DelegationTreeMap = ({ data, cycle }) => {
       account: getShortHashOrBakerName(item[0]),
       address: item[0],
       value: item[1],
-      balance: item[2],
-      delegated: item[3],
+      luckPercent: item[2],
+      efficiencyPercent: item[3],
       percent: format('.2%')(item[1] / cycle.rolls),
       opacity: percent < 20 ? 0.2 : percent < 40 ? 0.4 : percent < 60 ? 0.6 : percent < 80 ? 0.8 : 1,
     };
@@ -29,7 +34,7 @@ const DelegationTreeMap = ({ data, cycle }) => {
     <Wrapper>
       <Card title={'Delegates'}>
         <TreeMapWrapper className="canvas">
-          <TreeMap data={{ children: [{ children: wrappedData, name: 'sub' }], name: 'root' }} />
+          <TreeMap id="treeMap" data={{ children: [{ children: wrappedData, name: 'sub' }], name: 'root' }} />
         </TreeMapWrapper>
       </Card>
     </Wrapper>

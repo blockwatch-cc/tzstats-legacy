@@ -15,12 +15,11 @@ const CyclePage = ({ match, history }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let [cycle] = await Promise.all([getCycleById({ id: currentCycleId })]);
-      let delegationHistory = await getDelegationHistory({
-        height: cycle.snapshot_cycle.snapshot_height,
-        limit: cycle.snapshot_cycle.roll_owners,
-      });
-      console.log(delegationHistory);
+      let [cycle, delegationHistory] = await Promise.all([
+        getCycleById({ id: currentCycleId }),
+        getDelegationHistory({ cycle: currentCycleId }),
+      ]);
+
       setData({
         isLoaded: true,
         cycle,

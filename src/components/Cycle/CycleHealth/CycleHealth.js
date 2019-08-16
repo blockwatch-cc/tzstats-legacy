@@ -9,25 +9,46 @@ const CycleHealth = ({ cycle }) => {
 
   return (
     <Wrapper>
-      <Card title={'Cycle Health'}>
-        <FlexRowSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={100}>
-            <DataBox title="Active Bakers" value={cycle.active_bakers} />
-            <DataBox title="Active Endorsers" value={cycle.active_endorsers} />
-          </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={100}>
-            <DataBox title="Missed Block Priorites" value={cycle.missed_priorities} />
-            <DataBox title="Missed Endorsments" value={cycle.missed_endorsements} />
-          </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={100}>
-            <DataBox title="Double Baking" value={cycle.n_double_baking} />
-            <DataBox title="Double Endorsments" value={cycle.n_double_endorsement} />
-          </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={100}>
-            <DataBox title="Orphaned Blocks" value={cycle.n_orphans} />
-            <DataBox title="Cycle Solvetime" valueType="text" value={cycleSolveTime} />
-          </FlexColumnSpaceBetween>
-        </FlexRowSpaceBetween>
+      <Card title={`Cycle ${cycle.cycle}  Health`}>
+        {cycle.is_active || cycle.is_complete ? (
+          <FlexRowSpaceBetween>
+            <FlexColumnSpaceBetween minHeight={100}>
+              <DataBox title="Active Bakers" value={cycle.active_bakers} />
+              <DataBox title="Active Endorsers" value={cycle.active_endorsers} />
+            </FlexColumnSpaceBetween>
+            <FlexColumnSpaceBetween minHeight={100}>
+              <DataBox title="Missed Block Priorites" value={cycle.missed_priorities} />
+              <DataBox title="Missed Endorsments" value={cycle.missed_endorsements} />
+            </FlexColumnSpaceBetween>
+            <FlexColumnSpaceBetween minHeight={100}>
+              <DataBox title="Double Baking" value={cycle.n_double_baking} />
+              <DataBox title="Double Endorsments" value={cycle.n_double_endorsement} />
+            </FlexColumnSpaceBetween>
+            <FlexColumnSpaceBetween minHeight={100}>
+              <DataBox title="Orphaned Blocks" value={cycle.n_orphans} />
+              <DataBox title="Cycle Solvetime" valueType="text" value={cycleSolveTime} />
+            </FlexColumnSpaceBetween>
+          </FlexRowSpaceBetween>
+        ) : (
+          <FlexRowSpaceBetween>
+            <FlexColumnSpaceBetween minHeight={100}>
+              <DataBox title="Active Bakers" valueType="text" value="-" />
+              <DataBox title="Active Endorsers" valueType="text" value="-" />
+            </FlexColumnSpaceBetween>
+            <FlexColumnSpaceBetween minHeight={100}>
+              <DataBox title="Missed Block Priorites" valueType="text" value="-" />
+              <DataBox title="Missed Endorsments" valueType="text" value="-" />
+            </FlexColumnSpaceBetween>
+            <FlexColumnSpaceBetween minHeight={100}>
+              <DataBox title="Double Baking" valueType="text" value="-" />
+              <DataBox title="Double Endorsments" valueType="text" value="-" />
+            </FlexColumnSpaceBetween>
+            <FlexColumnSpaceBetween minHeight={100}>
+              <DataBox title="Orphaned Blocks" valueType="text" value="-" />
+              <DataBox title="Cycle Solvetime" valueType="text" value="-" />
+            </FlexColumnSpaceBetween>
+          </FlexRowSpaceBetween>
+        )}
       </Card>
     </Wrapper>
   );

@@ -56,7 +56,7 @@ export default function CycleSegmentedBar(props) {
           fill: '#444754',
         },
         path: {
-          stroke: '#17eef4',
+          stroke: props.isCurrent ? '#17eef4' : '#29C0FF',
           strokeLinecap: 'butt',
         },
         trail: {

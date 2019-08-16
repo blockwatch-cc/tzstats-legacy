@@ -23,10 +23,10 @@ const Wrapper = styled.div``;
 
 const CycleDots = ({ cycleNumber }) => {
   return (
-    <FlexRowSpaceBetween flex={0.4}>
+    <FlexRowSpaceBetween zIndex={1000} flex={0.4}>
       {[1, 2, 3, 4, 5, 6, 7].map(item => {
         return (
-          <Link key={item} to={`/cycle/${cycleNumber + item}`}>
+          <Link key={cycleNumber + item} to={`/cycle/${cycleNumber + item}`}>
             <Dot />
           </Link>
         );

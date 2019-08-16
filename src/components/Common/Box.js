@@ -18,6 +18,7 @@ import {
   border,
   minWidth,
   minHeight,
+  zIndex,
 } from 'styled-system';
 
 import { Divider } from '@blueprintjs/core';
@@ -192,6 +193,7 @@ export const FlexRowSpaceBetween = styled(Box)`
   ${minHeight}
   ${height}
   ${flex}
+  ${zIndex}
 `;
 
 export const FlexRowSpaceAround = styled(Box)`
