@@ -1,20 +1,48 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../../Common';
+import { Card, InvalidData } from '../../Common';
 import TreeMap from './TreeMap';
+import _ from 'lodash';
+import { getShortHashOrBakerName } from '../../../utils';
+import { format } from 'd3-format';
+import { isValid } from '../../../utils';
 
-const DelegationTreeMap = ({ data }) => {
+const DelegationTreeMap = ({ data, cycle }) => {
+  if (!isValid(data, cycle) || !cycle.is_snapshot) {
+    return <InvalidData title="No data for this cycle" />;
+  }
+
+  data = _.sortBy(data, o => o[1])
+    .splice(-20)
+    .reverse();
+  const max = _.maxBy(data, o => o[1])[1];
+
+  let wrappedData = data.map(item => {
+    let percent = (item[1] * 100) / max;
+    return {
+      account: getShortHashOrBakerName(item[0]),
+      address: item[0],
+      value: item[1],
+      luckPercent: item[2],
+      efficiencyPercent: item[3],
+      percent: format('.2%')(item[1] / cycle.rolls),
+      opacity: percent < 20 ? 0.2 : percent < 40 ? 0.4 : percent < 60 ? 0.6 : percent < 80 ? 0.8 : 1,
+    };
+  });
+
   return (
     <Wrapper>
       <Card title={'Delegates'}>
         <TreeMapWrapper className="canvas">
-          <TreeMap />
+          <TreeMap id="treeMap" data={{ children: [{ children: wrappedData, name: 'sub' }], name: 'root' }} />
         </TreeMapWrapper>
       </Card>
     </Wrapper>
   );
 };
-const TreeMapWrapper = styled.div``;
+const TreeMapWrapper = styled.div`
+  cursor: pointer;
+`;
 const Wrapper = styled.div`
   min-width: 340px;
   flex:1

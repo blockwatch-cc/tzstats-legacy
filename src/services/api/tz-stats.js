@@ -74,12 +74,11 @@ export const getCycleById = async ({ id = 'head' }) => {
   const response = await request(`/explorer/cycle/${id}`);
   return response;
 };
-
-export const getDelegationHistory = async ({ height, limit }) => {
+//https://api.tzstats.com/tables/income?cycle=137&columns=account,luck_percent,efficiency_percent
+export const getDelegationHistory = async ({ cycle }) => {
   const response = await request(
-    `/tables/snapshot?height=${height}&is_delegate=true&columns=account,rolls,balance,delegated&limit=${limit}`
+    `/tables/income?cycle=${cycle}&columns=account,rolls,luck_percent,efficiency_percent&limit=1000`
   );
-
   return response;
 };
 

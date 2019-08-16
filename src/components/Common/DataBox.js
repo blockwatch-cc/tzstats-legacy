@@ -77,8 +77,6 @@ const Value = ({ type, value }) => {
     default:
       return formatValue(Math.round(value), ',');
   }
-
-  return value;
 };
 
 const Wrapper = styled.div`

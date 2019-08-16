@@ -1,35 +1,18 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 
-let kickStarterData =
-  'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json';
-
 class Chart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      countyData: {},
-      eduData: {},
-    };
-  }
-
   componentDidMount() {
-    d3.queue()
-      .defer(d3.json, kickStarterData)
-      .await((error, kickStarter) => {
-        kickStarter.children = [kickStarter.children[0]];
-        const state = {
-          kickStarter: kickStarter,
-        };
-        this.setState(state, this.drawChart.bind(this));
-      });
+    this.drawChart(this.props.data);
+  }
+  componentWillUpdate() {
+    d3.select(this.refs.canvas).html('');
+    this.drawChart(this.props.data);
   }
 
-  drawChart() {
-    const kickStarter = this.state.kickStarter;
-
-    const width = 700;
-    const height = 200;
+  drawChart = data => {
+    const width = 830;
+    const height = 250;
     const x = d3
       .scaleLinear()
       .domain([0, width])
@@ -39,11 +22,20 @@ class Chart extends Component {
       .domain([0, height])
       .range([0, height]);
 
-    const colorScale = function(color) {
-      return d3.interpolateRgb(color, '#fff')(0.2);
+    const accountText = text => {
+      text
+        .selectAll('.account')
+        .attr('x', d => d.x0 + 5)
+        .attr('y', d => d.y0 + 15);
     };
-    const color = d3.scaleOrdinal(d3.schemeCategory20.map(colorScale));
-    const root = d3.hierarchy(kickStarter);
+    const shareText = text => {
+      text
+        .selectAll('.percent')
+        .attr('x', d => d.x1 - 50)
+        .attr('y', d => d.y1 - 5);
+    };
+
+    const root = d3.hierarchy(data);
 
     root.sum(d => {
       return d.value;
@@ -57,37 +49,46 @@ class Chart extends Component {
     treemapLayout(root);
 
     const svg = d3
-      .select('.canvas')
+      .select(this.refs.canvas)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
-      .attr('transform', 'translate(' + (width - 550) / 2.0 + ')');
-
-    // const tooltip = d3
-    //   .select('.canvas')
-    //   .append('div')
-    //   .attr('class', 'toolTip')
-    //   .attr('id', 'tooltip')
-    //   .attr('opacity', 0);
+      .attr('transform', 'translate(' + (width - 830) / 2.0 + ')');
 
     const cell = svg
       .selectAll('g')
       .data(root.leaves())
       .enter()
-      .append('g')
-      .style('left', function(d) {
-        return x(d.x0) + '%';
-      })
-      .style('top', function(d) {
-        return y(d.y0) + '%';
-      })
-      .style('width', function(d) {
-        return x(d.x1) - x(d.x0) + '%';
-      })
-      .style('height', function(d) {
-        return y(d.y1) - y(d.y0) + '%';
-      })
-      .attr('class', 'group');
+      .append('g');
+
+    const tooltipHtml = (account, efficiencyPercent, rolls, luckPercent, share) => {
+      return `<div>
+            <div class="tree-map-row">
+              <div class="tree-map-box">
+                ${account}
+                <div class="tree-map-title">Baker</div>
+              </div>
+              <div class="tree-map-box" style="text-align:right">
+                ${efficiencyPercent}%
+                <div class="tree-map-title">Efficency</div>
+              </div>
+            </div>
+            <div class="tree-map-row" style="margin-top: 20px;">
+              <div class="tree-map-box">
+                ${rolls}
+                <div class="tree-map-title">Rolls</div>
+              </div>
+              <div class="tree-map-box">
+                ${luckPercent}%
+                <div class="tree-map-title">Luck</div>
+              </div>
+              <div class="tree-map-box" style="text-align:right">
+                ${share}%
+                <div class="tree-map-title">Share</div>
+              </div>
+            </div>
+          </div>`;
+    };
 
     const tile = cell
       .append('rect')
@@ -96,40 +97,58 @@ class Chart extends Component {
       .attr('y', d => d.y0)
       .attr('width', d => d.x1 - d.x0)
       .attr('height', d => d.y1 - d.y0)
-      .style('fill', d => color(d.data.category))
-      .style('stroke', 'black')
-      .attr('opacity', 0.5)
-      .attr('data-name', d => d.data.name)
-      .attr('data-category', d => d.data.category)
-      .attr('data-value', d => d.data.value);
-    //   .on('mouseover', function(d, i) {
-    //     tooltip
-    //       .style('display', 'inline-block')
-    //       .style('left', d3.event.pageX + 20 + 'px')
-    //       .style('top', d3.event.pageY + 'px')
-    //       .style('opacity', 0.9)
-    //       .attr('data-name', d.data.name)
-    //       .attr('data-category', d.data.category)
-    //       .attr('data-value', d.data.value)
-    //       .html('Name: ' + d.data.name + '<br/>Category: ' + d.data.category + '<br/>Value: ' + d.data.value);
-    //   })
-    //   .on('mouseout', function(d) {
-    //     tooltip.style('display', 'none');
-    //   });
-
-    svg
+      .style('fill', '#418BFD')
+      .style('stroke', '#444755')
+      .style('stroke-width', 1)
+      .attr('opacity', d => d.data.opacity)
+      .on('mouseover', function(d, i) {
+        tooltip
+          .style('display', 'inline-block')
+          .style('left', d.x0 + 'px')
+          .style('top', d.y1 - 120 + 'px')
+          .style('opacity', 1)
+          .attr('data-value', d.data.value)
+          .html(
+            tooltipHtml(d.data.account, d.data.efficiencyPercent, d.data.value, d.data.luckPercent, d.data.percent)
+          );
+      })
+      .on('mouseout', function(d) {
+        tooltip.style('display', 'none');
+      })
+      .on('click', function(d) {
+        window.location.href = '/account/' + d.data.address;
+      });
+    const accountStr = cell
       .append('text')
-      .attr('x', width / 5)
-      .attr('y', height - 65);
+      .attr('font-size', 12)
+      .style('fill', '#fff');
 
-    svg
+    const shareStr = cell
       .append('text')
-      .attr('x', width / 3)
-      .attr('y', height - 65);
-  }
+      .attr('font-size', 16)
+      .style('fill', '#fff');
+
+    accountStr
+      .append('tspan')
+      .attr('class', 'account')
+      .text(d => (d.x1 - d.x0 < 100 ? '' : d.data.account));
+    shareStr
+      .append('tspan')
+      .attr('class', 'percent')
+      .text(d => (d.x1 - d.x0 < 100 ? '' : d.data.percent));
+
+    const tooltip = d3
+      .select('.canvas')
+      .append('div')
+      .attr('id', 'tree-map-tooltip')
+      .attr('opacity', 1);
+
+    accountStr.call(accountText);
+    shareStr.call(shareText);
+  };
 
   render() {
-    return <div id="" />;
+    return <div ref="canvas" />;
   }
 }
 

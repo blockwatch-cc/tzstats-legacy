@@ -20,7 +20,7 @@ const IvalidData = ({ title = 'Something went wrong' }) => {
 const Wrapper = styled.div`
   flex: 1;
   min-width: 340px;
-  margin: 0 5px;
+  margin-top: 20px;
   font-size: 16px;
 `;
 
