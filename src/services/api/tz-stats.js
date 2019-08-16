@@ -79,7 +79,6 @@ export const getDelegationHistory = async ({ height, limit }) => {
   const response = await request(
     `/tables/snapshot?height=${height}&is_delegate=true&columns=account,rolls,balance,delegated&limit=${limit}`
   );
-
   return response;
 };
 

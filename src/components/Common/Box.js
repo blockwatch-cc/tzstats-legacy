@@ -191,6 +191,7 @@ export const FlexRowSpaceBetween = styled(Box)`
   ${minWidth}
   ${minHeight}
   ${height}
+  ${flex}
 `;
 
 export const FlexRowSpaceAround = styled(Box)`

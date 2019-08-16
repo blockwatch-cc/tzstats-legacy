@@ -15,11 +15,12 @@ const CyclePage = ({ match, history }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let [cycle, delegationHistory] = await Promise.all([
-        getCycleById({ id: currentCycleId }),
-        getDelegationHistory({ height: 526592, limit: 467 }),
-      ]);
-
+      let [cycle] = await Promise.all([getCycleById({ id: currentCycleId })]);
+      let delegationHistory = await getDelegationHistory({
+        height: cycle.snapshot_cycle.snapshot_height,
+        limit: cycle.snapshot_cycle.roll_owners,
+      });
+      console.log(delegationHistory);
       setData({
         isLoaded: true,
         cycle,
@@ -32,12 +33,12 @@ const CyclePage = ({ match, history }) => {
 
   return data.isLoaded ? (
     <Wrapper>
-      <CycleHistory currentCycle={data.cycle} />
+      <CycleHistory cycle={data.cycle} />
       <TwoElementsWrapper>
-        <CycleSnapshotInfo block={data.cycle} />
-        <CycleHealth block={data.cycle} />
+        <CycleSnapshotInfo cycle={data.cycle} />
+        <CycleHealth cycle={data.cycle} />
       </TwoElementsWrapper>
-      <DelegationTreeMap data={data.delegationHistory} />
+      <DelegationTreeMap data={data.delegationHistory} cycle={data.cycle} />
     </Wrapper>
   ) : (
     <Spiner />

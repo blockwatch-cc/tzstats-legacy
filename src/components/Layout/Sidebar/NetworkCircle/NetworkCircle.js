@@ -19,7 +19,7 @@ const NetworkCircle = ({ history }) => {
   };
   return (
     <Wrapper>
-      <Card interactive={true} elevation={Elevation.ZERO}>
+      <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
         <LinkIcon>&#x25E5;</LinkIcon>
         <SegmentWrapper>
           <Title>Main Network</Title>
