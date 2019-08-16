@@ -11,7 +11,10 @@ const DelegationTreeMap = ({ data, cycle }) => {
   if (!isValid(data, cycle) || !cycle.snapshot_cycle.is_snapshot) {
     return <InvalidData title="No data for this cycle" />;
   }
-
+  let totalRolls = cycle.rolls;
+  if (!cycle.is_active && !cycle.is_complete) {
+    totalRolls = _.sumBy(data, r => r[1]);
+  }
   data = _.sortBy(data, o => o[1])
     .splice(-20)
     .reverse();
@@ -25,7 +28,7 @@ const DelegationTreeMap = ({ data, cycle }) => {
       value: item[1],
       luckPercent: item[2],
       efficiencyPercent: item[3],
-      percent: format('.2%')(item[1] / cycle.rolls),
+      percent: format('.2%')(item[1] / totalRolls),
       opacity: percent < 20 ? 0.2 : percent < 40 ? 0.4 : percent < 60 ? 0.6 : percent < 80 ? 0.8 : 1,
     };
   });
