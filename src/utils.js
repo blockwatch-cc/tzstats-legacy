@@ -9,15 +9,20 @@ TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
 
 export function convertMinutes(num) {
-  console.log(num, 'num');
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
   const m = Math.floor(num % 60);
   let res = [];
 
-  if (d > 0) { res.push(d + 'd') }
-  if (h > 0) { res.push(h + 'h') }
-  if (m > 0) { res.push(m + 'm') }
+  if (d > 0) {
+    res.push(d + 'd');
+  }
+  if (h > 0) {
+    res.push(h + 'h');
+  }
+  if (m > 0) {
+    res.push(m + 'm');
+  }
   return res.join(' ');
 }
 

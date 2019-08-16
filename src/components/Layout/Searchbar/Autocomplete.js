@@ -18,7 +18,7 @@ const Autocomplete = ({
       <Wrrapper width={width} onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
         {suggestions.map((item, i) => {
           return (
-            <AutocompleteItem key={i} onClick={e => handleSearch(item.value)}>
+            <AutocompleteItem key={i} onClick={e => handleSearch(item.value, item.type)}>
               <TypeSearch>{item.type}</TypeSearch>
               {item.value}
             </AutocompleteItem>

@@ -13,9 +13,11 @@ import {
 } from '../../../utils';
 import Autocomplete from './Autocomplete';
 import { Devices } from '../../Common';
+import { useGlobal } from 'reactn';
 import ContainerDimensions from 'react-container-dimensions';
 
 const Searchbar = ({ history }) => {
+  const [chain] = useGlobal('chain');
   const [value, setValue] = React.useState('');
   const [suggestions, setSuggestion] = React.useState([]);
   const [isFocus, setIsFocus] = React.useState(false);
@@ -29,7 +31,7 @@ const Searchbar = ({ history }) => {
     setHistory(newHistory);
   }
 
-  const search = searchValue => {
+  const search = (searchValue, type) => {
     if (searchValue) {
       setKeyPressed(false);
       setValue('');
@@ -38,7 +40,10 @@ const Searchbar = ({ history }) => {
       const proposalId = getProposalIdByName(searchValue);
       const bakerName = getBakerHashByName(searchValue);
 
-      if (proposalId) {
+      if (type) {
+        saveSearch(searchValue, type);
+        history.push(`/${type.toLocaleLowerCase()}/${searchValue}`);
+      } else if (proposalId) {
         saveSearch(searchValue, 'election');
         history.push(`/election/${proposalId}`);
       } else if (bakerName) {
@@ -52,7 +57,8 @@ const Searchbar = ({ history }) => {
     }
   };
   const handleOnChange = value => {
-    if (value.length > 3) {
+    const number = parseInt(value);
+    if (value.length > 3 && typeof number !== 'number') {
       const bakerName = findBakerName(value);
       const proposal = getProposalName(value);
       if (bakerName) {
@@ -61,6 +67,12 @@ const Searchbar = ({ history }) => {
         setSuggestion([{ type: 'Election', value: proposal }]);
       }
     }
+    if (number <= chain.cycle) {
+      setSuggestion([{ type: 'Block', value: value }, { type: 'Cycle', value }]);
+    } else {
+      setSuggestion(suggestions.filter(item => item.type !== 'Cycle' && item.type !== 'Block'));
+    }
+
     setValue(value);
   };
 
