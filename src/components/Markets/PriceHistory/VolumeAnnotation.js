@@ -4,6 +4,7 @@ import LabelAnnotation from './LabelAnnotation';
 const VolumeAnnotation = ({ maxValue, setCurrentValue }) => {
   let data = [5, 4, 3, 2, 1, 0];
   let periods = ['00:00 - 04:00', '04:00 - 08:00', '08:00 - 12:00', '12:00 - 16:00', '16:00 - 20:00', '20:00 - 24:00'];
+  const cutoff = [25, 50, 75, 95];
 
   return (
     <>
@@ -12,11 +13,12 @@ const VolumeAnnotation = ({ maxValue, setCurrentValue }) => {
           <>
             <Annotate
               with={LabelAnnotation}
-              when={d => d.hourVolumes[i] && (d.hourVolumes[i][1] / maxValue) * 100 < 25}
+              when={d => d.hourVolumes[i] && (d.hourVolumes[i][1] / maxValue) * 100 < cutoff[0]}
               usingProps={{
-                fontSize: 28,
+                fontSize: 25,
+                lineHeight: 1,
                 fill: '#18ecf2',
-                opacity: 0.1,
+                opacity: 0.05,
                 text: '\u25FC',
                 y: ({ yScale }) => yScale.range()[0] - item * 20,
                 onMouseEnter: d =>
@@ -27,11 +29,12 @@ const VolumeAnnotation = ({ maxValue, setCurrentValue }) => {
               with={LabelAnnotation}
               when={d =>
                 d.hourVolumes[i] &&
-                (d.hourVolumes[i][1] / maxValue) * 100 >= 25 &&
-                (d.hourVolumes[i][1] / maxValue) * 100 < 50
+                (d.hourVolumes[i][1] / maxValue) * 100 >= cutoff[0] &&
+                (d.hourVolumes[i][1] / maxValue) * 100 < cutoff[1]
               }
               usingProps={{
-                fontSize: 28,
+                fontSize: 25,
+                lineHeight: 1,
                 fill: '#18ecf2',
                 opacity: 0.3,
                 text: '\u25FC',
@@ -43,11 +46,12 @@ const VolumeAnnotation = ({ maxValue, setCurrentValue }) => {
               with={LabelAnnotation}
               when={d =>
                 d.hourVolumes[i] &&
-                (d.hourVolumes[i][1] / maxValue) * 100 >= 50 &&
-                (d.hourVolumes[i][1] / maxValue) * 100 < 75
+                (d.hourVolumes[i][1] / maxValue) * 100 >= cutoff[1] &&
+                (d.hourVolumes[i][1] / maxValue) * 100 < cutoff[2]
               }
               usingProps={{
-                fontSize: 28,
+                fontSize: 25,
+                lineHeight: 1,
                 fill: '#18ecf2',
                 opacity: 0.6,
                 text: '\u25FC',
@@ -57,9 +61,27 @@ const VolumeAnnotation = ({ maxValue, setCurrentValue }) => {
             />
             <Annotate
               with={LabelAnnotation}
-              when={d => d.hourVolumes[i] && (d.hourVolumes[i][1] / maxValue) * 100 >= 75}
+              when={d =>
+                d.hourVolumes[i] &&
+                (d.hourVolumes[i][1] / maxValue) * 100 >= cutoff[2] &&
+                (d.hourVolumes[i][1] / maxValue) * 100 < cutoff[3]
+              }
               usingProps={{
-                fontSize: 28,
+                fontSize: 25,
+                lineHeight: 1,
+                fill: '#18ecf2',
+                opacity: 0.9,
+                text: '\u25FC',
+                y: ({ yScale }) => yScale.range()[0] - item * 20,
+                tooltip: d => d.hourVolumes[i][1],
+              }}
+            />
+            <Annotate
+              with={LabelAnnotation}
+              when={d => d.hourVolumes[i] && (d.hourVolumes[i][1] / maxValue) * 100 >= cutoff[3]}
+              usingProps={{
+                fontSize: 25,
+                lineHeight: 1,
                 className: 'react-stockcharts-labelannotation1',
                 fill: '#18ecf2',
                 opacity: 0.9,

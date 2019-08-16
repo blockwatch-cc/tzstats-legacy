@@ -29,11 +29,11 @@ const PriceWithVolume = ({ marketData, volSeries }) => {
   return (
     <Wrapper>
       <Card title={'Price History in US Dollars (30d)'}>
-        <FlexRowWrap height={310}>
-          <div style={{ flex: 1.1, marginBottom: '20px', marginRight: '20px', height: 290, width: 270 }}>
+        <FlexRowWrap height={360}>
+          <div style={{ flex: 1.1, marginLeft: 10 }}>
             <PriceChart type={'svg'} data={priceHistory} volumeMax={max} setCurrentValue={setCurrentValue} />
           </div>
-          <FlexColumn height={310} justifyContent="space-between">
+          <FlexColumn justifyContent="space-between">
             <PriceLegend lastPrice={lastPrice} />
             <DataBox valueType="currency-short" title="Average Daily Volume" value={getDailyVolume(priceHistory)} />
             <VolumeLegend peak={getPeakVolumeTime(volSeries, 4)} currentValue={currentValue} />
@@ -82,7 +82,6 @@ const TimeBox = styled.div`
 `;
 const Wrapper = styled.div`
   min-width: 340px;
-  margin-top: -20px;
 `;
 
 export default PriceWithVolume;
