@@ -30,10 +30,10 @@ const LegendContent = ({ settings }) => {
 const LegendWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin-left: 40px;
 `;
 const LegendItem = styled.div`
-  margin-bottom: -30px;
+  margin-bottom: -28px;
   margin-left: 20px;
   white-space: nowrap;
   min-width: 130px;
@@ -41,7 +41,7 @@ const LegendItem = styled.div`
     content: '•';
     position: relative;
     left: -20px;
-    bottom: 30px;
+    bottom: 28px;
     font-size: 30px;
     color: ${prop => prop.color};
   }
