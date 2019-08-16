@@ -27,20 +27,24 @@ const CycleDots = ({ cycleNumber }) => {
       {[1, 2, 3, 4, 5, 6, 7].map(item => {
         return (
           <Link key={cycleNumber + item} to={`/cycle/${cycleNumber + item}`}>
-            <Dot />
+            <DotBox>
+              <Dot />
+            </DotBox>
           </Link>
         );
       })}
     </FlexRowSpaceBetween>
   );
 };
-
+const DotBox = styled.div`
+  cursor: pointer;
+  padding: 15px;
+`;
 const Dot = styled.div`
   width: 7px;
   height: 7px;
   border-radius: 3px;
   background: linear-gradient(45deg, #26b2ee 0%, #29c0ff 100%);
-  cursor: pointer;
   &:hover {
     border: 1px solid #fff;
   }
