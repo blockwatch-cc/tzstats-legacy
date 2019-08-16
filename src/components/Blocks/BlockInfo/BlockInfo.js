@@ -20,15 +20,20 @@ const BlockInfo = ({ block, setTxType }) => {
 
   return (
     <Wrapper>
-      <Card title="Block Info">
+      <Card title="Block Info" right={<CopyHashButton value={block.hash} type="block"/>}>
         <FlexRow>
-          <FlexRowSpaceBetween minWidth={550}>
+          <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180}>
-              <FlexRowSpaceBetween minWidth={250}>
-                <DataBox title={timeFormat('%a, %d %B %H:%M')(new Date(block.time))} value={block.height} />
-                <CopyHashButton value={block.hash} type="block" />
-              </FlexRowSpaceBetween>
-              <FlexRowWrap width={192} mr={83} justifyContent="space-around">
+              <FlexRowWrap minWidth={250}>
+                <DataBox title={timeFormat('%a, %b %d %H:%M')(new Date(block.time))} value={block.height} />
+                <DataBox ml={80} title="Cycle" value={block.cycle} />
+              </FlexRowWrap>
+              <CustomLink to={`/account/${block.baker}`}>
+                <Blockies width="18" height="18" hash={block.baker} />
+                <span style={{ fontSize: 16 }}> {getShortHashOrBakerName(block.baker)}</span>
+                <DataBox title="Baker" />
+              </CustomLink>
+              <FlexRowWrap width={192}>
                 {slots.map((item, i) => {
                   return (
                     <Slot key={i} color={item}>
@@ -36,25 +41,17 @@ const BlockInfo = ({ block, setTxType }) => {
                     </Slot>
                   );
                 })}
+                <DataBox title="Slots Endorsed" />
               </FlexRowWrap>
-              <FlexRowSpaceBetween width={192}>
-                <DataBox valueSize="16px" title="Priority" value={block.priority} />
-                <DataBox valueSize="16px" title="Solvetime" value={block.solvetime} />
-              </FlexRowSpaceBetween>
             </FlexColumnSpaceBetween>
 
             <FlexColumnSpaceBetween minHeight={180} minWidth={100} ml={20}>
-              <DataBox title="Cycle" value={block.cycle} />
+              <DataBox valueSize="16px" title="Priority" value={block.priority} />
               <DataBox valueSize="16px" title="Gas Used" value={block.gas_used} />
               <DataBox valueSize="16px" valueType="currency-short" title="Gas Price" value={block.gas_price / 1000} />
             </FlexColumnSpaceBetween>
-            <FlexColumnSpaceBetween minHeight={180} minWidth={100}>
-              <CustomLink to={`/account/${block.baker}`}>
-                <Blockies width="18" height="18" hash={block.baker} />
-                <span style={{ fontSize: 16 }}> {getShortHashOrBakerName(block.baker)}</span>
-
-                <DataBox title="Baker" />
-              </CustomLink>
+            <FlexColumnSpaceBetween minHeight={180} minWidth={100} ml={20}>
+              <DataBox valueSize="16px" valueType="text" title="Solvetime" value={block.solvetime+' sec'} />
               <DataBox valueSize="16px" valueType="currency-short" title="Block Rewards" value={block.rewards} />
               <DataBox valueSize="16px" valueType="currency-short" title="Block Fees" value={block.fees} />
             </FlexColumnSpaceBetween>

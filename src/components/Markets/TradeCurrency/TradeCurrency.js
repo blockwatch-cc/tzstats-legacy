@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import _ from 'lodash';
 import { Card, DataBox, FlexColumnWrap, FlexColumn } from '../../Common';
 import { VerticalProgressBar } from '../../Common/ProgressBar';
 import { graphColors } from '../../../config';
@@ -8,9 +9,10 @@ import { formatCurrency } from '../../../utils';
 const TradeCurrency = ({ tickers }) => {
   let byCurrency = tickers.reduce((s, t) => {
     s[t.quote] = (s[t.quote] || 0) + t.volume_base;
-    s._total = (s._total || 0) + t.volume_base;
+    s._sum = (s._sum || 0) + t.volume_base;
     return s;
   }, {});
+  byCurrency._max = _.max(_.keys(byCurrency).filter(k=>k[0]!=='_').map(k=>byCurrency[k]));
   let settings = getTradeCurrencySettings(byCurrency);
 
   return (
@@ -67,7 +69,8 @@ function getTradeCurrencySettings(data) {
       return {
         id: k,
         color: graphColors[i % graphColors.length],
-        percent: ((data[k] / data._total) * 100).toFixed(),
+        size: ((data[k] / data._max) * 100).toFixed(),
+        percent: ((data[k] / data._sum) * 100).toFixed(),
         value: data[k].toFixed(),
       };
     });

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
-const Card = ({ history, title, children, to = null }) => {
+const Card = ({ history, title, right, children, to = null }) => {
   const handleClick = () => {
     if (to) {
       history.push(to);
@@ -12,6 +12,7 @@ const Card = ({ history, title, children, to = null }) => {
     <Wrapper onClick={handleClick} isClickable={to}>
       {to && <LinkIcon>&#x25E5;</LinkIcon>}
       <Title>{title}</Title>
+      <RightSide>{right}</RightSide>
       {children}
     </Wrapper>
   );
@@ -36,11 +37,18 @@ const Wrapper = styled.div`
   padding-bottom: 20px;
   margin-top: 10px;
   height: 100%;
+  position: relative;
 `;
 const Title = styled.div`
   font-size: 12px;
   color: #fff;
   padding-bottom: 20px;
+`;
+const RightSide = styled.div`
+  font-size: 12px;
+  color: #fff;
+  right: 20px;
+  position: absolute;
 `;
 
 export default withRouter(Card);

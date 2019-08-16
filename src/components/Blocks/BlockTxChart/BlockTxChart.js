@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DataBox, FlexRow, FlexRowSpaceBetween } from '../../Common';
+import { DataBox, FlexColumn, FlexColumnSpaceBetween, FlexRowSpaceBetween } from '../../Common';
 import { formatValue } from '../../../utils';
 import Chart from '../BlockInfo/Chart';
 
@@ -10,26 +10,29 @@ const BlockTxChart = ({ block, setTxType }) => {
 
   return (
     <Wrapper>
-      <FlexRow>
-        {block.n_ops ? (
-          <Total>
-            <DataBox ta="center" title="Operations" value={block.n_ops} />
-          </Total>
-        ) : (
-          ''
-        )}
-        <Chart data={settings} setTxType={setTxType} />
-        <Legend settings={settings} />
-      </FlexRow>
-      <FlexRowSpaceBetween ml={80} mt={25}>
-        <DataBox valueSize="16px" valueType="currency-full" title="Transactions volume" value={block.volume} />
+      <FlexRowSpaceBetween>
+        <FlexColumnSpaceBetween minHeight={180}>
+          {block.n_ops ? (
+            <Total>
+              <DataBox ta="center" title="Operations" value={block.n_ops} />
+            </Total>
+          ) : (
+            ''
+          )}
+          <Chart data={settings} setTxType={setTxType} />
+          <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transactions Volume" value={block.volume} />
+        </FlexColumnSpaceBetween>
+        <FlexColumn height={130}>
+          <Legend settings={settings} />
+        </FlexColumn>
       </FlexRowSpaceBetween>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  margin-left: -30px;
+  margin-left: 20px;
+  position: relative;
 `;
 
 export default BlockTxChart;
@@ -52,9 +55,9 @@ const LegendContent = ({ settings }) => {
   });
 };
 const Total = styled.div`
-  position: relative;
-  top: 45px;
-  right: -90px;
+  position: absolute;
+  top: 48px;
+  left: 39px;
 `;
 
 const LegendWrapper = styled.div`

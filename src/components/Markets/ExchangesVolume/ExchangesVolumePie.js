@@ -9,7 +9,7 @@ const ExchangesVolumePie = ({ data }) => {
   const getBarColor = bar => bar.color;
 
   return (
-    <div style={{ flex: 1, width: 270, height: 190 }}>
+    <div style={{ width: 150, height: 150 }}>
       <ResponsivePie
         data={data}
         padAngle={1.5}
@@ -31,6 +31,7 @@ const ExchangesVolumePie = ({ data }) => {
           tooltip: {
             container: {
               background: '#333',
+              whiteSpace: 'nowrap',
             },
           },
         }}

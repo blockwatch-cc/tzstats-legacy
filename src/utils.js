@@ -13,13 +13,14 @@ export function convertMinutes(num) {
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
   const m = Math.floor(num % 60);
+  let res = [];
 
-  if (d > 0) {
-    return d + 'd ' + h + 'h ' + m + 'm';
-  } else {
-    return h + 'h ' + m + 'm';
-  }
+  if (d > 0) { res.push(d + 'd') }
+  if (h > 0) { res.push(h + 'h') }
+  if (m > 0) { res.push(m + 'm') }
+  return res.join(' ');
 }
+
 export function isValid(...args) {
   let res = args.map(item => {
     if (!item) return false;
@@ -52,6 +53,7 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
         .replace('m', ' m' + symbol)
         .replace('µ', ' µ' + symbol);
 }
+
 export function formatCurrencyShort(value) {
   return formatCurrency(value, '.2s');
 }
@@ -227,7 +229,7 @@ export function getPeakVolumeTime(data, hours = 1) {
   const peak = times.indexOf(Math.max(...times));
   const a = '0' + peak * hours + ':00'; // 00:00 .. 20:00
   const b = '0' + ((peak + 1) % stride) * hours + ':00'; // 00:00 .. 20:00
-  return a.substr(a.length - 5) + '-' + b.substr(b.length - 5);
+  return a.substr(a.length - 5) + '-' + b.substr(b.length - 5) + ' UTC';
 }
 
 export function getDailyVolume(data) {
