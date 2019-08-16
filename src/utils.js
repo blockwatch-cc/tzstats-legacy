@@ -51,6 +51,7 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
         .replace('m', ' m' + symbol)
         .replace('µ', ' µ' + symbol);
 }
+
 export function formatCurrencyShort(value) {
   return formatCurrency(value, '.2s');
 }
@@ -226,7 +227,7 @@ export function getPeakVolumeTime(data, hours = 1) {
   const peak = times.indexOf(Math.max(...times));
   const a = '0' + peak * hours + ':00'; // 00:00 .. 20:00
   const b = '0' + ((peak + 1) % stride) * hours + ':00'; // 00:00 .. 20:00
-  return a.substr(a.length - 5) + '-' + b.substr(b.length - 5);
+  return a.substr(a.length - 5) + '-' + b.substr(b.length - 5) + ' UTC';
 }
 
 export function getDailyVolume(data) {

@@ -1,10 +1,13 @@
 import React from 'react';
-import { Label, Annotate } from 'react-stockcharts/lib/annotation';
+import { Label } from 'react-stockcharts/lib/annotation';
 import LabelAnnotation from './LabelAnnotation';
+import Annotate from './Annotate';
+import {formatCurrencyShort} from '../../../utils';
 const VolumeAnnotation = ({ maxValue, setCurrentValue }) => {
   let data = [5, 4, 3, 2, 1, 0];
   let periods = ['00:00 - 04:00', '04:00 - 08:00', '08:00 - 12:00', '12:00 - 16:00', '16:00 - 20:00', '20:00 - 24:00'];
-  const cutoff = [25, 50, 75, 95];
+  const cutoff = [0.0001, 25, 50, 75, 95, 101];
+  const opacities = [0, 0.05, 0.3, 0.6, 0.9, 1];
 
   return (
     <>
@@ -13,81 +16,20 @@ const VolumeAnnotation = ({ maxValue, setCurrentValue }) => {
           <>
             <Annotate
               with={LabelAnnotation}
-              when={d => d.hourVolumes[i] && (d.hourVolumes[i][1] / maxValue) * 100 < cutoff[0]}
+              when={d => true}
               usingProps={{
                 fontSize: 25,
                 lineHeight: 1,
-                fill: '#18ecf2',
-                opacity: 0.05,
+                fill: d => {
+                  let ratio = d.hourVolumes[i] ? d.hourVolumes[i][1] / maxValue * 100 : 0;
+                  return 'rgba(24,236,242,'+ opacities[cutoff.findIndex(n=>n>ratio)] +')';
+                },
                 text: '\u25FC',
                 y: ({ yScale }) => yScale.range()[0] - item * 20,
+                tooltip: d => d.hourVolumes[i] ? formatCurrencyShort(d.hourVolumes[i][1]) : '',
                 onMouseEnter: d =>
+                  d.datum.hourVolumes[i] &&
                   setCurrentValue({ volume: d.datum.hourVolumes[i][1], data: d.datum, period: periods[i] }),
-              }}
-            />
-            <Annotate
-              with={LabelAnnotation}
-              when={d =>
-                d.hourVolumes[i] &&
-                (d.hourVolumes[i][1] / maxValue) * 100 >= cutoff[0] &&
-                (d.hourVolumes[i][1] / maxValue) * 100 < cutoff[1]
-              }
-              usingProps={{
-                fontSize: 25,
-                lineHeight: 1,
-                fill: '#18ecf2',
-                opacity: 0.3,
-                text: '\u25FC',
-                y: ({ yScale }) => yScale.range()[0] - item * 20,
-                tooltip: d => d.hourVolumes[i][1],
-              }}
-            />
-            <Annotate
-              with={LabelAnnotation}
-              when={d =>
-                d.hourVolumes[i] &&
-                (d.hourVolumes[i][1] / maxValue) * 100 >= cutoff[1] &&
-                (d.hourVolumes[i][1] / maxValue) * 100 < cutoff[2]
-              }
-              usingProps={{
-                fontSize: 25,
-                lineHeight: 1,
-                fill: '#18ecf2',
-                opacity: 0.6,
-                text: '\u25FC',
-                y: ({ yScale }) => yScale.range()[0] - item * 20,
-                tooltip: d => d.hourVolumes[i][1],
-              }}
-            />
-            <Annotate
-              with={LabelAnnotation}
-              when={d =>
-                d.hourVolumes[i] &&
-                (d.hourVolumes[i][1] / maxValue) * 100 >= cutoff[2] &&
-                (d.hourVolumes[i][1] / maxValue) * 100 < cutoff[3]
-              }
-              usingProps={{
-                fontSize: 25,
-                lineHeight: 1,
-                fill: '#18ecf2',
-                opacity: 0.9,
-                text: '\u25FC',
-                y: ({ yScale }) => yScale.range()[0] - item * 20,
-                tooltip: d => d.hourVolumes[i][1],
-              }}
-            />
-            <Annotate
-              with={LabelAnnotation}
-              when={d => d.hourVolumes[i] && (d.hourVolumes[i][1] / maxValue) * 100 >= cutoff[3]}
-              usingProps={{
-                fontSize: 25,
-                lineHeight: 1,
-                className: 'react-stockcharts-labelannotation1',
-                fill: '#18ecf2',
-                opacity: 0.9,
-                text: '\u25FC',
-                y: ({ yScale }) => yScale.range()[0] - item * 20,
-                tooltip: d => <div style={{ fill: 'red', width: 100 }}> {d.hourVolumes[i][1]}</div>,
               }}
             />
           </>

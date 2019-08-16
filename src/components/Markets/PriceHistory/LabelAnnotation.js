@@ -95,7 +95,7 @@ LabelAnnotation.propTypes = {
 
 export const defaultProps = {
   textAnchor: 'middle',
-  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+  fontFamily: '-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif',
   fontSize: 12,
   fill: '#000000',
   opacity: 1,

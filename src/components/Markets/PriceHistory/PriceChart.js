@@ -76,18 +76,6 @@ const PriceChart = props => {
           fontWeight={300}
           fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
         />
-        <MouseCoordinateX
-          opacity={1}
-          at="bottom"
-          orient="bottom"
-          dx={200}
-          fill="rgba(0,0,0,0)"
-          textFill="rgba(255, 255, 255, 0.52)"
-          displayFormat={timeFormat('%a, %b %d')}
-          fontSize={11}
-          fontWeight={300}
-          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
-        />
         <YAxis
           axisAt="right"
           orient="right"
@@ -134,6 +122,18 @@ const PriceChart = props => {
         />
       </Chart>
       <Chart id={3} yExtents={d => d.id} opacity={1} height={145} origin={(w, h) => [0, h-145]}>
+        <MouseCoordinateX
+          opacity={1}
+          at="bottom"
+          orient="bottom"
+          dx={200}
+          fill="rgba(0,0,0,0)"
+          textFill="rgba(255, 255, 255, 0.52)"
+          displayFormat={timeFormat('%a, %b %d')}
+          fontSize={11}
+          fontWeight={300}
+          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+        />
         <YAxis
           axisAt="right"
           orient="right"
