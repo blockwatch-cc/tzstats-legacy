@@ -12,13 +12,14 @@ export function convertMinutes(num) {
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
   const m = Math.floor(num % 60);
+  let res = [];
 
-  if (d > 0) {
-    return d + 'd ' + h + 'h ' + m + 'm';
-  } else {
-    return h + 'h ' + m + 'm';
-  }
+  if (d > 0) { res.push(d + 'd') }
+  if (h > 0) { res.push(h + 'h') }
+  if (m > 0) { res.push(m + 'm') }
+  return res.join(' ');
 }
+
 export function isValid(...args) {
   let res = args.map(item => {
     if (!item) return false;
