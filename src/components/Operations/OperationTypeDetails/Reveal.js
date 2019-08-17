@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, CopyHashButton, FlexRowSpaceBetween, FlexRow } from '../../Common';
+import { Card, DataBox } from '../../Common';
 
 // "data": "edpkuxFdwJbfMscVN3tkVUWb1yKvoDyvW1ZYni6C3Lh5CUccZ9bgUc",
 // "fee": 0,

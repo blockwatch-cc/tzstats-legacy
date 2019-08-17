@@ -32,15 +32,7 @@ const PriceChart = props => {
   const end = xAccessor(data[Math.max(0, data.length - 70)]);
 
   const xExtents = [start, end];
-
   const zoomEvent = false;
-  const min = _.minBy(data, function(o) {
-    return o.low;
-  }).low;
-  const max = _.maxBy(data, function(o) {
-    return o.high;
-  }).high;
-
   const panEvent = false;
   const clamp = false;
   const zoomAnchor = function(e) {};

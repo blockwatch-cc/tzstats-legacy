@@ -9,15 +9,20 @@ TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
 
 export function convertMinutes(num) {
-  console.log(num, 'num');
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
   const m = Math.floor(num % 60);
   let res = [];
 
-  if (d > 0) { res.push(d + 'd') }
-  if (h > 0) { res.push(h + 'h') }
-  if (m > 0) { res.push(m + 'm') }
+  if (d > 0) {
+    res.push(d + 'd');
+  }
+  if (h > 0) {
+    res.push(h + 'h');
+  }
+  if (m > 0) {
+    res.push(m + 'm');
+  }
   return res.join(' ');
 }
 
@@ -197,10 +202,6 @@ export function getMinutesInterval(lastTime, minutes) {
 }
 
 export function wrappBlockDataToObj(array) {
-  let filtered = array.filter((item, index) => {
-    if (index !== 0 && array[index - 1][2] != item[2]) {
-    }
-  });
   return array.reduce((obj, item, index) => {
     if (index !== 0 && array[index - 1][2] != item[2]) {
       obj[new Date(item[0]).setSeconds(0, 0)] = {
@@ -257,18 +258,35 @@ export function getAccountTags(account) {
   if (account.is_revealed) {
     tags.push('Revealed');
   }
-  if (account.is_) {
-    tags.push('Revealed');
+  if (account.is_funded) {
+    tags.push('Fundraiser');
   }
-  if (account.is_) {
-    tags.push('Revealed');
+  if (account.is_vesting) {
+    tags.push('Vesting');
   }
-  if (account.is_) {
-    tags.push('Revealed');
+  if (account.is_spendable) {
+    tags.push('Spendable');
   }
+  if (!account.is_active_delegate && account.is_delegate) {
+    tags.push('Inactive');
+  }
+  return tags;
 }
 
-export function getAccountType(account) {}
+export function getAccountType(account) {
+  if (!account.is_contract && !account.is_delegate && !account.is_delegated) {
+    return 'Basic Account';
+  }
+  if (!account.is_delegate && account.is_delegated) {
+    return 'Delegator Account';
+  }
+  if (account.is_delegate && !account.is_delegated) {
+    return 'Baker Account';
+  }
+  if (account.is_contract) {
+    return 'Smart Contract';
+  }
+}
 
 export function getNetworkHealthStatus(value) {
   return value <= 16.6

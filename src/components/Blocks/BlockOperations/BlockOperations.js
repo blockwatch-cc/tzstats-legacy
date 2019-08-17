@@ -45,27 +45,27 @@ const BlockOperations = ({ block, txType }) => {
     <Wrapper>
       <Card title={'Block Operations'}>
         <FlexRowSpaceBetween mb={10}>
-          <TableHeader>From</TableHeader>
-          <TableHeader>Type</TableHeader>
-          <TableHeader>To</TableHeader>
-          <TableHeader>Amount</TableHeader>
-          <TableHeader>Fee</TableHeader>
-          <TableHeader>Hash</TableHeader>
+          <TableHeader width={25}>From</TableHeader>
+          <TableHeader width={20}>Type</TableHeader>
+          <TableHeader width={25}>To</TableHeader>
+          <TableHeader width={10}>Amount</TableHeader>
+          <TableHeader width={10}>Fee</TableHeader>
+          <TableHeader width={10}>Hash</TableHeader>
         </FlexRowSpaceBetween>
         <TableBody id={'block-operations'}>
           {operations.length ? (
             operations.map((item, i) => {
               return (
                 <FlexRowSpaceBetween key={i}>
-                  <TableCell>
+                  <TableCell width={25}>
                     <Blockies hash={item.sender} />
                     <Link to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                   </TableCell>
-                  <TypeCell>
+                  <TypeCell width={20}>
                     <TxTypeIcon isSuccess={item.is_success} type={item.is_contract ? 'contract' : item.op_type} />
                     {capitalizeFirstLetter(item.op_type)}
                   </TypeCell>
-                  <TableCell>
+                  <TableCell width={25}>
                     {item.receiver ? (
                       <>
                         <Blockies hash={item.receiver} />
@@ -75,9 +75,9 @@ const BlockOperations = ({ block, txType }) => {
                       '-'
                     )}
                   </TableCell>
-                  <TableCell>{item.volume ? formatCurrency(item.volume) : '-'}</TableCell>
-                  <TableCell>{item.fee ? formatCurrency(item.fee) : '-'}</TableCell>
-                  <TableCell>
+                  <TableCell width={10}>{item.volume ? formatCurrency(item.volume) : '-'}</TableCell>
+                  <TableCell width={10}>{item.fee ? formatCurrency(item.fee) : '-'}</TableCell>
+                  <TableCell width={10}>
                     <Link to={`/operation/${item.op_hash}`}>{getShortHash(item.op_hash)}</Link>
                   </TableCell>
                 </FlexRowSpaceBetween>
@@ -103,7 +103,7 @@ const TableBody = styled.div`
 
 const TableCell = styled.div`
   font-size: 12px;
-  width: 25%;
+  width: ${props => props.width}%;
   height: 25px;
 `;
 const TypeCell = styled(TableCell)`
@@ -111,8 +111,8 @@ const TypeCell = styled(TableCell)`
   font-size: 12px;
 `;
 const TableHeader = styled.div`
+  width: ${props => props.width}%;
   font-size: 12px;
-  width: 25%;
   color: rgba(255, 255, 255, 0.52);
 `;
 const Wrapper = styled.div`

@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   text-align: center;
   width: fit-content;
   height: fit-content;
+  margin-right: 5px;
 `;
 
 export default Tag;

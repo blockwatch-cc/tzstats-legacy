@@ -24,102 +24,93 @@ import CurrentCoordinate from '../../Common/CurrentCoordinate';
 
 class BalanceChart extends React.Component {
   render() {
-    const { data, width, ratio } = this.props;
+    const { data: initialData, width, ratio } = this.props;
 
-    const max = _.maxBy(data, function(o) {
+    const max = _.maxBy(initialData, function(o) {
+      return o.value;
+    }).value;
+    const min = _.minBy(initialData, function(o) {
       return o.value;
     }).value;
 
+    const yGrid = { innerTickSize: -width + 40 };
+    const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
+    let { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
+
+    const start = xAccessor(last(data));
+    const end = xAccessor(data[Math.max(0, data.length - 70)]);
+
+    const xExtents = [start, end];
+    const zoomEvent = false;
+    const panEvent = false;
+    const clamp = false;
+    const zoomAnchor = function(e) {};
+
     return (
       <ChartCanvas
-        seriesName={''}
-        ratio={ratio}
+        height={180}
         width={width}
-        height={150}
+        seriesName={''}
         margin={{
           left: 0,
-          right: 50,
-          top: 20,
-          bottom: 10,
+          right: 40,
+          top: 0,
+          bottom: 0,
         }}
-        data={data}
         type={'svg'}
+        ratio={ratio}
+        data={data}
         panEvent={panEvent}
         zoomEvent={zoomEvent}
         clamp={clamp}
-        xAccessor={d => d && d.time}
-        xScale={scaleTime()}
+        zoomAnchor={zoomAnchor}
+        xScale={xScale}
+        xAccessor={xAccessor}
+        displayXAccessor={displayXAccessor}
+        xExtents={xExtents}
       >
-        <defs>
-          <linearGradient id="MyGradient" x1="0" y1="100%" x2="0" y2="0%">
-            <stop offset="0%" stopColor="#17eef4" stopOpacity={0.4} />
-            <stop offset="50%" stopColor="#17eef4" stopOpacity={0.4} />
-            <stop offset="75%" stopColor="#17eef4" stopOpacity={0.5} />
-          </linearGradient>
-        </defs>
-        <Chart id={0} opacity={1} yExtents={d => [d.value + 2000, 0]}>
+        <Chart id={1} height={180} yExtents={[d => [max * 1.2, 0]]}>
+          <YAxis
+            axisAt="right"
+            orient="right"
+            ticks={2}
+            tickFormat={x => format('~s')(x) + 'ꜩ'}
+            tickStrokeDasharray={'Solid'}
+            tickStrokeOpacity={0.3}
+            tickStrokeWidth={1}
+            tickStroke={'rgba(255, 255, 255, 0.52)'}
+            fontWeight={300}
+            fontSize={11}
+            {...yGrid}
+            strokeWidth={0}
+            fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+          />
           <MouseCoordinateX
             opacity={1}
-            at="top"
-            orient="top"
-            dx={200}
-            fill="#424552"
+            at="bottom"
+            orient="bottom"
+            dx={180}
+            fill="rgba(0,0,0,0)"
             textFill="rgba(255, 255, 255, 0.52)"
-            displayFormat={timeFormat('%a, %d %B')}
-          />
-          <MouseCoordinateY
-            at="right"
-            orient="right"
-            textFill="rgba(255, 255, 255, 0.52)"
-            opacity={0}
-            lineStroke={'#858999'}
-            displayFormat={e => formatCurrency(e, '.2s')}
-          />
-          <PriceCoordinate
-            at="right"
+            displayFormat={timeFormat('%a, %b %d')}
             fontSize={11}
-            orient="right"
-            price={max + 2000}
-            textFill="rgba(255, 255, 255, 0.52)"
-            opacity={0}
-            lineStroke={'#858999'}
-            strokeDasharray="ShortDash"
-            displayFormat={e => format('.2s')(max)}
+            fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
           />
-          <PriceCoordinate
-            at="right"
-            orient="right"
-            price={0}
-            fill="#858999"
-            textFill="rgba(255, 255, 255, 0.52)"
-            fontSize={11}
-            opacity={0}
-            lineStroke={'#858999'}
-            strokeDasharray="ShortDash"
-            displayFormat={format('.2s')}
-          />
+
           <AreaSeries
             yAccessor={d => d.value}
             stroke="#17eef4"
-            fill="url(#MyGradient)"
-            strokeWidth={3}
-            interpolation={curveNatural}
-            canvasGradient={canvasGradient}
+            fill="rgba(23, 238, 244, 0.2)"
+            strokeWidth={2}
+            interpolation={curveLinear}
           />
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.value} fill={'#424553'} />
-          <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
+          <CurrentCoordinate displayFormat={format('$.2f')} r={3} yAccessor={d => d.value} fill={'#FFF'} />
         </Chart>
+
+        <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
       </ChartCanvas>
     );
   }
 }
-const canvasGradient = createVerticalLinearGradient([
-  { stop: 0, color: hexToRGBA('#17eef4', 0.2) },
-  { stop: 0.7, color: hexToRGBA('#17eef4', 0.4) },
-  { stop: 1, color: hexToRGBA('#17eef4', 0.8) },
-]);
-const zoomEvent = false;
-const panEvent = false;
-const clamp = false;
 
 export default fitWidth(BalanceChart);

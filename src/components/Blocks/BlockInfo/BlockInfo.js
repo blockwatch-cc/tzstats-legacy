@@ -20,7 +20,7 @@ const BlockInfo = ({ block, setTxType }) => {
 
   return (
     <Wrapper>
-      <Card title="Block Info" right={<CopyHashButton value={block.hash} type="block"/>}>
+      <Card title="Block Info" right={<CopyHashButton value={block.hash} type="block" />}>
         <FlexRow>
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180}>
@@ -51,7 +51,7 @@ const BlockInfo = ({ block, setTxType }) => {
               <DataBox valueSize="16px" valueType="currency-short" title="Gas Price" value={block.gas_price / 1000} />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180} minWidth={100} ml={20}>
-              <DataBox valueSize="16px" valueType="text" title="Solvetime" value={block.solvetime+' sec'} />
+              <DataBox valueSize="16px" valueType="text" title="Solvetime" value={block.solvetime + ' sec'} />
               <DataBox valueSize="16px" valueType="currency-short" title="Block Rewards" value={block.rewards} />
               <DataBox valueSize="16px" valueType="currency-short" title="Block Fees" value={block.fees} />
             </FlexColumnSpaceBetween>

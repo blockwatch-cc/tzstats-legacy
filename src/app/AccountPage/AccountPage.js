@@ -34,9 +34,9 @@ const AccountPage = ({ match }) => {
   }, [currentUserHash, match]);
 
   return data.isLoaded ? (
-    // <BasicAccount account={data.account} txHistory={data.txHistory} balanceHistory={data.balanceHistory} />
-    <BakerAccount account={data.account} txHistory={data.txHistory} balanceHistory={data.balanceHistory} />
+    <BasicAccount account={data.account} txHistory={data.txHistory} balanceHistory={data.balanceHistory} />
   ) : (
+    // <BakerAccount account={data.account} txHistory={data.txHistory} balanceHistory={data.balanceHistory} />
     <Spiner />
   );
 };

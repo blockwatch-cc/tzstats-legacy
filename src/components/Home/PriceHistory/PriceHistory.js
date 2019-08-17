@@ -1,14 +1,6 @@
 import React from 'react';
 import PriceChart from './PriceChart';
-import {
-  Card,
-  DataBox,
-  FlexRow,
-  FlexColumnSpaceAround,
-  FlexColumn,
-  FlexRowSpaceBetween,
-  FlexColumnSpaceBetween,
-} from '../../Common';
+import { Card, DataBox, FlexRow, FlexColumnSpaceBetween } from '../../Common';
 import styled from 'styled-components';
 
 const PriceHistory = ({ priceHistory }) => {
