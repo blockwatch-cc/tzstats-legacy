@@ -35,6 +35,7 @@ const BlockOperations = ({ block, txType }) => {
         type: txType,
       });
 
+      operations.type = txType;
       setOperations(operations);
     };
 
@@ -43,7 +44,7 @@ const BlockOperations = ({ block, txType }) => {
 
   return (
     <Wrapper>
-      <Card title={'Block Operations'}>
+      <Card title={'Block Operations' + (operations.type?' ('+capitalizeFirstLetter(operations.type)+'s)':'')}>
         <FlexRowSpaceBetween mb={10}>
           <TableHeader>From</TableHeader>
           <TableHeader>Type</TableHeader>
