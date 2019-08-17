@@ -7,7 +7,7 @@ const CycleSnapshotInfo = ({ cycle }) => {
   return (
     <Wrapper>
       <Card title={'Snapshot Info'}>
-        {cycle.snapshot_cycle.is_snapshot ? (
+        {cycle.snapshot_cycle ? (cycle.snapshot_cycle.is_snapshot ? (
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
               <DataBox
@@ -28,6 +28,8 @@ const CycleSnapshotInfo = ({ cycle }) => {
         ) : (
           <Text>{`A roll snapshot from cycle ${cycle.cycle} will be selected at end of the cycle in
            ${((new Date(cycle.start_time).getTime() - Date.now()) / (1000 * 3600 * 24)).toFixed()} days.`}</Text>
+        )) : (
+          <Text>{`No roll snapshot for cycle ${cycle.cycle}!`}</Text>
         )}
       </Card>
     </Wrapper>

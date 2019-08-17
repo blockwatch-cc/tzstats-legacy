@@ -8,8 +8,11 @@ import { format } from 'd3-format';
 import { Link } from 'react-router-dom';
 
 function LayeredProgressbar(props) {
-  const { renderOverlays, cycle, isCurrent, ...otherProps } = props;
+  const { renderOverlays, cycle, isCurrent, isCenter, ...otherProps } = props;
 
+  if (!cycle) {
+    return (<Wrapper></Wrapper>);
+  }
   const overlays = props.renderOverlays();
   return (
     <Wrapper>
@@ -19,7 +22,7 @@ function LayeredProgressbar(props) {
       <Link to={`/cycle/${cycle.cycle}`}>
         <CycleBorderBox isCurrent={isCurrent} />
       </Link>
-      {isCurrent && (
+      {isCenter && (
         <CycleDataBox>
           <FlexColumnSpaceBetween textAlign="right" minHeight="100%">
             <div>{timeFormat('%d %b, %H:%M')(new Date(cycle.start_time))}</div>
@@ -51,6 +54,7 @@ export default function CycleSegmentedBar(props) {
       cycle={props.cycle}
       strokeWidth={14}
       isCurrent={props.isCurrent}
+      isCenter={props.isCenter}
       styles={{
         background: {
           fill: '#444754',

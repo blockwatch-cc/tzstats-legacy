@@ -8,7 +8,7 @@ import { format } from 'd3-format';
 import { isValid } from '../../../utils';
 
 const DelegationTreeMap = ({ data, cycle }) => {
-  if (!isValid(data, cycle) || !cycle.snapshot_cycle.is_snapshot) {
+  if (!isValid(data, cycle) || !cycle.snapshot_cycle || !cycle.snapshot_cycle.is_snapshot) {
     return <InvalidData title="No data for this cycle" />;
   }
   let totalRolls = cycle.rolls;
