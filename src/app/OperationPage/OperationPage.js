@@ -9,7 +9,6 @@ import { wrapToVolume, getDelegatorByHash } from '../../utils';
 const OperationPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
   const currentOperationHash = match.params.hash;
-  const delegatorName = getDelegatorByHash(currentOperationHash);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -22,12 +21,12 @@ const OperationPage = ({ match }) => {
 
       setData({
         isLoaded: true,
-        operation: { ...operation, sender, receiver, delegatorName },
+        operation: { ...operation, sender, receiver },
       });
     };
 
     fetchData();
-  }, [currentOperationHash, delegatorName, match]);
+  }, [currentOperationHash, match]);
 
   return data.isLoaded ? (
     <Wrapper>
