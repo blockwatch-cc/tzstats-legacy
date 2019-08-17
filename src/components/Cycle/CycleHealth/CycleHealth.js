@@ -17,12 +17,12 @@ const CycleHealth = ({ cycle }) => {
               <DataBox title="Active Endorsers" value={cycle.active_endorsers} />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
-              <DataBox title="Missed Block Priorites" value={cycle.missed_priorities} />
-              <DataBox title="Missed Endorsments" value={cycle.missed_endorsements} />
+              <DataBox title="Missed Priorities" value={cycle.missed_priorities} />
+              <DataBox title="Missed Endorsements" value={cycle.missed_endorsements} />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
               <DataBox title="Double Baking" value={cycle.n_double_baking} />
-              <DataBox title="Double Endorsments" value={cycle.n_double_endorsement} />
+              <DataBox title="Double Endorsements" value={cycle.n_double_endorsement} />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
               <DataBox title="Orphaned Blocks" value={cycle.n_orphans} />
@@ -36,12 +36,12 @@ const CycleHealth = ({ cycle }) => {
               <DataBox title="Active Endorsers" valueType="text" value="-" />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
-              <DataBox title="Missed Block Priorites" valueType="text" value="-" />
-              <DataBox title="Missed Endorsments" valueType="text" value="-" />
+              <DataBox title="Missed Priorites" valueType="text" value="-" />
+              <DataBox title="Missed Endorsements" valueType="text" value="-" />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
               <DataBox title="Double Baking" valueType="text" value="-" />
-              <DataBox title="Double Endorsments" valueType="text" value="-" />
+              <DataBox title="Double Endorsements" valueType="text" value="-" />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
               <DataBox title="Orphaned Blocks" valueType="text" value="-" />

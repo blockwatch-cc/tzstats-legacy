@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceBetween } from '../../Common';
+import { Link } from 'react-router-dom';
 import { timeFormat } from 'd3-time-format';
 
 const CycleSnapshotInfo = ({ cycle }) => {
@@ -10,24 +11,24 @@ const CycleSnapshotInfo = ({ cycle }) => {
         {cycle.snapshot_cycle ? (cycle.snapshot_cycle.is_snapshot ? (
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
-              <DataBox
-                title={timeFormat('%B %d, %Y')(new Date(cycle.snapshot_cycle.start_time))}
-                value={cycle.snapshot_cycle.cycle}
-              />
-              <DataBox title="Participation" value={cycle.snapshot_cycle.staking_percent} />
+              <Link to={`/block/${cycle.snapshot_cycle.snapshot_height}`}>
+                <DataBox title="Block" value={cycle.snapshot_cycle.snapshot_height} />
+              </Link>
+              <DataBox title="Participation" valueType="percent" value={cycle.snapshot_cycle.staking_percent/100} />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
-              <DataBox title="Block Height" value={cycle.snapshot_cycle.start_height} />
+              <Link to={`/cycle/${cycle.snapshot_cycle.cycle}`}>
+                <DataBox title="Cycle" value={cycle.snapshot_cycle.cycle} />
+              </Link>
               <DataBox title="Roll Owners" value={cycle.snapshot_cycle.roll_owners} />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
-              <div>&nbsp;</div>
+              <DataBox title="Index" value={cycle.snapshot_cycle.snapshot_index} />
               <DataBox title="Rolls" value={cycle.snapshot_cycle.rolls} />
             </FlexColumnSpaceBetween>
           </FlexRowSpaceBetween>
         ) : (
-          <Text>{`A roll snapshot from cycle ${cycle.cycle} will be selected at end of the cycle in
-           ${((new Date(cycle.start_time).getTime() - Date.now()) / (1000 * 3600 * 24)).toFixed()} days.`}</Text>
+          <Text>A roll snapshot for cycle {cycle.cycle} will be selected at end of <Link key="next" to={`/cycle/${cycle.cycle-6}`}>cycle {cycle.cycle-6}</Link>.</Text>
         )) : (
           <Text>{`No roll snapshot for cycle ${cycle.cycle}!`}</Text>
         )}
