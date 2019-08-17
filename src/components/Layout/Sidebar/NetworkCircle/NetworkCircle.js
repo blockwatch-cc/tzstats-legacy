@@ -27,7 +27,7 @@ const NetworkCircle = ({ history }) => {
           <Container style={{ marginLeft: 15, marginTop: -20, width: '170px', height: '170px' }}>
             <SegmentedProgressbar percentage={((chain.height % 4096) / 4096) * 100 || 0} circleNumber={chain.cycle} />
           </Container>
-          <DataBox ta="center" title={'Time until cycle end'} valueType="text" value={`${time}`} />
+          <DataBox ta="center" title={'Until Cycle End'} valueType="text" value={`${time}`} />
         </SegmentWrapper>
       </Card>
     </Wrapper>

@@ -20,15 +20,17 @@ const Footer = () => (
         </a>
       </LinkedText>
     </Text>
-    <a target="_blank" href="https://tzstats.com/blog">
-      <Text>Blog</Text>
-    </a>
-    <Link to="/terms">
-      <Text>Terms & Conditions</Text>
-    </Link>
-    <Link to="/privacy">
-      <Text>Privacy Policy</Text>
-    </Link>
+    <Text>
+      <LinkedText>
+        <a target="_blank" href="https://tzstats.com/blog">Blog</a>
+      </LinkedText>
+    </Text>
+    <Text>
+      <Link to="/terms">Terms & Conditions</Link>
+    </Text>
+    <Text>
+      <Link to="/privacy">Privacy Policy</Link>
+    </Text>
   </Wrapper>
 );
 export default Footer;
