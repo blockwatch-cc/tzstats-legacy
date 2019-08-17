@@ -27,21 +27,27 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
                 <Time>{timeFormat('%H:%M')(new Date(timestamp))}</Time>
               </TimeWrapper>
             )}
-            <FlexColumn justifyContent="flex-end">
-              <BlockSquare
-                to={block ? `/block/${block.hash}` : '#'}
-                mb={3}
-                isDoubleBlock={isDoubleBlock}
-                opacity={!isDoubleBlock ? 0 : 1}
-              />
-              <BlockSquare
-                to={block ? `/block/${block.hash}` : '#'}
-                isCurrent={isCurrent}
-                height={block ? format(',')(block.height) : null}
-                isEmpty={isEmpty}
-                isLineShow={isDoubleBlock}
-              />
-            </FlexColumn>
+            {isEmpty ? (
+              <FlexColumn justifyContent="flex-end">
+                <EmptyBlockSquare/>
+              </FlexColumn>
+            ) : (
+              <FlexColumn justifyContent="flex-end">
+                <BlockSquare
+                  to={block ? `/block/${block.hash}` : '#'}
+                  mb={3}
+                  isDoubleBlock={isDoubleBlock}
+                  opacity={!isDoubleBlock ? 0 : 1}
+                />
+                <BlockSquare
+                  to={block ? `/block/${block.hash}` : '#'}
+                  isCurrent={isCurrent}
+                  height={block ? format(',')(block.height) : null}
+                  isEmpty={isEmpty}
+                  isLineShow={isDoubleBlock}
+                />
+              </FlexColumn>
+            )}
           </div>
         );
       })}
@@ -75,6 +81,15 @@ const Line = styled.div`
   font-size: 18px;
 `;
 
+const EmptyBlockSquare = styled.div`
+  width: 11px;
+  height: 11px;
+  z-index: 1000;
+  opacity: 1;
+  background: #525666;
+  margin-top: 14px;
+`;
+
 const BlockSquare = styled(Link)`
   width: 11px;
   height: 11px;
@@ -89,7 +104,8 @@ const BlockSquare = styled(Link)`
       color: rgba(255,255,255,0.52);
       font-size: 10px;
       top: -25px;
-      margin-left: -16px; 
+      transform: translate(-50%,0);
+      margin-left: 3px;
     }
     &:before {
       content: '${prop => (prop.height && !prop.isLineShow ? '|' : '')}';
@@ -99,7 +115,6 @@ const BlockSquare = styled(Link)`
       z-index: -1;
       font-size: 22px;
       top: -15px;
-      margin-left: 3px;
     }
   }
   background: ${prop =>

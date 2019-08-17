@@ -182,6 +182,7 @@ export function getShortHash(hash) {
   return `${hash.slice(0, 3)}...${hash.slice(-4)}`;
 }
 export function getShortHashOrBakerName(hash) {
+  if (!hash) { return "God"; }
   const names = Object.keys(bakerAccounts).filter(key => {
     return bakerAccounts[key].toLowerCase().includes(hash.toLowerCase());
   });

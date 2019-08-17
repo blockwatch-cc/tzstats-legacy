@@ -20,7 +20,7 @@ const BlockTxChart = ({ block, setTxType }) => {
             ''
           )}
           <Chart data={settings} setTxType={setTxType} />
-          <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transactions Volume" value={block.volume} />
+          <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transaction Volume" value={block.volume} />
         </FlexColumnSpaceBetween>
         <FlexColumn height={130}>
           <Legend settings={settings} />
