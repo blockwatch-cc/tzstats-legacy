@@ -3,6 +3,7 @@ import useInfiniteScroll from '../../../hooks/useInfiniteScroll';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { getBlockOperations } from '../../../services/api/tz-stats';
+import { opNames } from '../../../config';
 import { Card, FlexRowSpaceBetween, Blockies, DataBox } from '../../Common';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import { formatCurrency, getShortHash, getShortHashOrBakerName, capitalizeFirstLetter } from '../../../utils';
@@ -44,7 +45,7 @@ const BlockOperations = ({ block, txType }) => {
 
   return (
     <Wrapper>
-      <Card title={'Block Operations' + (operations.type?' ('+capitalizeFirstLetter(operations.type)+'s)':'')}>
+      <Card title={'Block Operations' + (operations.type?' ('+opNames[operations.type]+'s)':'')}>
         <FlexRowSpaceBetween mb={10}>
           <TableHeader>From</TableHeader>
           <TableHeader>Type</TableHeader>
@@ -64,7 +65,7 @@ const BlockOperations = ({ block, txType }) => {
                   </TableCell>
                   <TypeCell>
                     <TxTypeIcon isSuccess={item.is_success} type={item.is_contract ? 'contract' : item.op_type} />
-                    {capitalizeFirstLetter(item.op_type)}
+                    {opNames[item.op_type]}
                   </TypeCell>
                   <TableCell>
                     {item.receiver ? (

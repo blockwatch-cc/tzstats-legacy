@@ -32,3 +32,16 @@ export const ALPHABET = [
   'Y',
   'Z',
 ];
+export const opNames = {
+  "activate_account": "Activation",
+  "double_baking_evidence": "Double Baking",
+  "double_endorsement_evidence": "Double Endorsement",
+  "seed_nonce_revelation": "Seed Nonce",
+  "transaction": "Transaction",
+  "origination": "Origination",
+  "delegation": "Delegation",
+  "reveal": "Reveal",
+  "endorsement": "Endorsement",
+  "proposals": "Proposals",
+  "ballot" : "Ballot",
+};
