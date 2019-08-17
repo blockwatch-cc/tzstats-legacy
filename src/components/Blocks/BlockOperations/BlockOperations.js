@@ -84,7 +84,7 @@ const BlockOperations = ({ block, txType }) => {
               );
             })
           ) : (
-            <NoOperations>No one operation found :(</NoOperations>
+            <NoOperations>No operations found :(</NoOperations>
           )}
         </TableBody>
       </Card>

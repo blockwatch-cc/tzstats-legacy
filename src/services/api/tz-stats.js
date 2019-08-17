@@ -191,7 +191,7 @@ export const getBlock = async id => {
 //https://api.tzstats.com/tables/op?height=5000&verbose=1&&op_n.rg=0,3&op_type=endorsement
 export const getBlockOperations = async ({ height, limit, offset, type = null }) => {
   const response = await request(
-    `/tables/op?height=${height}&columns=sender,receiver,op_type,op_hash,volume,is_success&op_n.rg=${offset},${offset +
+    `/tables/op?height=${height}&columns=sender,receiver,op_type,op_hash,volume,fee,is_success,is_contract&op_n.rg=${offset},${offset +
       limit}${type ? '&op_type=' + type : ''}`
   );
   return response.map(item => {
@@ -201,8 +201,9 @@ export const getBlockOperations = async ({ height, limit, offset, type = null })
       op_type: item[2],
       op_hash: item[3],
       volume: item[4],
-      is_success: item[5],
-      is_contract: item[6],
+      fee: item[5],
+      is_success: item[6],
+      is_contract: item[7],
     };
   });
 };
