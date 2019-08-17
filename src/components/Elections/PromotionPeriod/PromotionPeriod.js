@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 const PromotionPeriod = ({ period }) => {
   if (!period) {
-    return <InvalidData title={'4 Promotion period not started'} />;
+    return (<Wrapper><InvalidData title={'4 Promotion period not started'} /></Wrapper>);
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);

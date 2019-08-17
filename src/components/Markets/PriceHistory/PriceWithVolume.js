@@ -15,7 +15,7 @@ const PriceWithVolume = ({ marketData, volSeries }) => {
     volume: volSeries[volSeries.length - 1][1],
   });
   if (!isValid(marketData, volSeries)) {
-    return <InvalidData />;
+    return (<Wrapper><InvalidData /></Wrapper>);
   }
 
   let max = _.maxBy(volSeries, item => item[1])[1];

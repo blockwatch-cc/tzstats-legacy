@@ -49,7 +49,8 @@ const TwoElementsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 9px;
+  padding-bottom: 1px;
   margin-left: -5px;
   margin-right: -5px;
 `;

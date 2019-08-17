@@ -9,7 +9,7 @@ import { isValid } from '../../../utils';
 
 const DelegationTreeMap = ({ data, cycle }) => {
   if (!isValid(data, cycle) || !cycle.snapshot_cycle || !cycle.snapshot_cycle.is_snapshot) {
-    return <InvalidData title="No data for this cycle" />;
+    return <Wrapper><InvalidData title="No data for this cycle" /></Wrapper>;
   }
   let totalRolls = cycle.rolls;
   if (!cycle.is_active && !cycle.is_complete) {

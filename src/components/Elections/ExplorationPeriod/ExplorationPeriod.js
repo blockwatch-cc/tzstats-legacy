@@ -10,7 +10,7 @@ import StartEndBlock from '../StartEndBlock';
 
 const ExplorationPeriod = ({ period }) => {
   if (!period) {
-    return <InvalidData title={'2 Exploration period not started'} />;
+    return (<Wrapper><InvalidData title={'2 Exploration period not started'} /></Wrapper>);
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);

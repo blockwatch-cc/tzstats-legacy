@@ -11,7 +11,7 @@ import StartEndBlock from '../StartEndBlock';
 
 const ProposalPeriod = ({ period }) => {
   if (!period.proposals.length) {
-    return <InvalidData title={'1 No proposal was submitted'} />;
+    return (<Wrapper><InvalidData title={'1 No proposal was submitted'} /></Wrapper>);
   }
   const endTime = getEndTime(period);
 
