@@ -234,7 +234,7 @@ export function getPeakVolumeTime(data, hours = 1) {
   const peak = times.indexOf(Math.max(...times));
   const a = '0' + peak * hours + ':00'; // 00:00 .. 20:00
   const b = '0' + ((peak + 1) % stride) * hours + ':00'; // 00:00 .. 20:00
-  return a.substr(a.length - 5) + '-' + b.substr(b.length - 5) + ' UTC';
+  return a.substr(a.length - 5) + ' - ' + b.substr(b.length - 5) + ' UTC';
 }
 
 export function getDailyVolume(data) {

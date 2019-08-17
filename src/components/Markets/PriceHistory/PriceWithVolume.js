@@ -47,12 +47,10 @@ const PriceWithVolume = ({ marketData, volSeries }) => {
 const PriceLegend = ({ lastPrice }) => {
   return (
     <FlexColumn height={170} borderBottom="1px solid #787c8b" justifyContent="space-evenly">
-        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Open Price" value={lastPrice.open} />
-        <div style={{ marginRight: 10 }}>
-          <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Last Price" value={lastPrice.close} />
-        </div>
-        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Lowest Price" value={lastPrice.low} />
-        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Highest Price" value={lastPrice.high} />
+        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Last Price" value={lastPrice.close} />
+        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Open Price Today" value={lastPrice.open} />
+        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Highest Price Today" value={lastPrice.high} />
+        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Lowest Price Today" value={lastPrice.low} />
     </FlexColumn>
   );
 };
