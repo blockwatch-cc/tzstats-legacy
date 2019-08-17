@@ -17,7 +17,7 @@ const ProposalPeriod = ({ period }) => {
 
   return (
     <Wrapper>
-      <Card title={`1 Proposal period ${endTime}`}>
+      <Card title={`1 Proposal Period ${endTime}`}>
         <FlexRowSpaceBetween mb={10}>
           <TableHeader width={20}>Proposal</TableHeader>
           <TableHeader width={30}>Hash</TableHeader>
