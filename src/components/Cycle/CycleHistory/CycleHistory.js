@@ -89,7 +89,6 @@ const Dot = styled.div`
       z-index: -1;
       font-size: 22px;
       top: -31px;
-      left: -0.5px;
     }
   }
 `;
