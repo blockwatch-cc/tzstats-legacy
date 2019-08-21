@@ -32,6 +32,7 @@ export { default as InvalidData } from './InvalidData';
 export { default as CurrentCoordinate } from './CurrentCoordinate';
 export { default as Tag } from './Tag';
 export { default as CopyButton } from './CopyButton';
+export { default as NoDataFound } from './NoDataFound';
 export {
   Box,
   InlineBox,

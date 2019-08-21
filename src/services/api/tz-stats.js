@@ -39,19 +39,74 @@ export const getSupply = async height => {
 
 //******************ACCOUNT****************** */
 
-//https://api.tzstats.com/tables/block?time.rg=now-30d,now&columns=time,n_new_accounts,n_cleared_accounts&limit=50000
-export const getAccounts = async days => {
-  const endTime = new Date().getTime();
-  const statTime = new Date(endTime - days * 24 * 60 * 60 * 1000).getTime();
-  const response = await request(
-    `/tables/block?time.rg=${statTime},${endTime}&columns=time,n_new_accounts,n_cleared_accounts&limit=50000`
-  );
+export const getAccountByHash = async hash => {
+  const response = await request(`/explorer/account/${hash}?`);
 
   return response;
 };
 
-export const getAccountByHash = async hash => {
-  const response = await request(`/explorer/account/${hash}?`);
+export const getTableDataByType = async ({ type, cycle, address }) => {
+  let ops = [];
+  switch (type) {
+    case 'delegation':
+      ops = await getAccountDelegators({ address, cycle });
+      break;
+    case 'managment':
+      ops = await getAccountManagment({ address });
+      break;
+    case 'incoming':
+      ops = await getAccountOperations({ address, type: 'receiver' });
+      break;
+    case 'outcoming':
+      ops = await getAccountOperations({ address, type: 'sender' });
+      break;
+    case 'proposals':
+      ops = await getAccountVoiting({ address });
+      break;
+    default:
+      break;
+  }
+  return ops;
+};
+
+//https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&op_type=transaction&verbose=1
+export const getAccountOperations = async ({ address, type }) => {
+  const response = await request(`/tables/op?${type}=${address}&op_type=transaction&verbose=1`);
+
+  return response;
+};
+
+//https://api.tzstats.com/tables/ballot?source=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&verbose=1
+export const getAccountVoiting = async ({ address }) => {
+  const response = await request(`/tables/ballot?source=${address}&verbose=1`);
+
+  return response;
+};
+//api.tzstats.com/tables/account?manager=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt
+export const getAccountManagment = async ({ address }) => {
+  const response = await request(`/tables/account?manager=${address}&verbose=1`);
+
+  return response;
+};
+//https://api.tzstats.com/tables/income?cycle=137&verbose=1&account=tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9
+export const getAccountIncome = async ({ address, cycle }) => {
+  const response = await request(`/tables/income?account=${address}&cycle=${cycle}&verbose=1`);
+
+  return response[0];
+};
+//api.tzstats.com/tables/rights?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=50000&verbose=1
+export const getAccountRights = async ({ address, cycle }) => {
+  const response = await request(
+    `/tables/rights?delegate=${address}&cycle=${cycle}&columns=height,type,priority,is_stolen,is_missed,is_lost&limit=50000`
+  );
+
+  return response;
+};
+//api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&account.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
+export const getAccountDelegators = async ({ address, cycle }) => {
+  const response = await request(
+    `/tables/snapshot?delegate=${address}&account.nin=${address}&cycle=${cycle}&limit=10000&verbose=1`
+  );
 
   return response;
 };
@@ -85,7 +140,7 @@ export const getDelegationHistory = async ({ cycle }) => {
 //******************FLOW****************** */
 export const getStakingData = async ({ hash, days = 30 }) => {
   const statTime = `now-${days}d`;
-  let [balance, deposits, rewards, fees] = await Promise.all([
+  let [balance, deposits, rewards, fees, delegation] = await Promise.all([
     request(
       `/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`
     ),
@@ -98,6 +153,9 @@ export const getStakingData = async ({ hash, days = 30 }) => {
     request(
       `/series/flow?start_date=${statTime}&account=${hash}&category=fees&collapse=1d&columns=time,amount_in,amount_out`
     ),
+    request(
+      `/series/flow?start_date=${statTime}&account=${hash}&category=delegation&collapse=1d&columns=time,amount_in,amount_out`
+    ),
   ]);
 
   return {
@@ -105,6 +163,7 @@ export const getStakingData = async ({ hash, days = 30 }) => {
     deposits: fillTimeSeries(deposits, days, 0, 3),
     rewards: fillTimeSeries(rewards, days, 0, 3),
     fees: fillTimeSeries(fees, days, 0, 3),
+    delegation: fillTimeSeries(delegation, days, 0, 3),
   };
 };
 
@@ -134,13 +193,6 @@ export const getFlowData = async ({ hash, days }) => {
   const response = await request(
     `/series/flow?start_date=${statTime}&account=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`
   );
-
-  return response;
-};
-
-//https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&op_type=transaction&verbose=1
-export const getAccountOperations = async ({ hash, type }) => {
-  const response = await request(`/tables/op?${type}=${hash}&op_type=transaction&verbose=1`);
 
   return response;
 };
@@ -215,11 +267,4 @@ export const getOperation = async hash => {
   const response = await request(`/explorer/op/${hash}`);
 
   return response[0];
-};
-export const getTestData = async () => {
-  const response = await fetch(
-    `https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json`
-  );
-
-  return await handleResponse(response);
 };

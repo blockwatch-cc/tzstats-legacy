@@ -19,10 +19,10 @@ const AccountInfo = ({ account }) => {
 
   return (
     <Wrapper>
-      <Card title={`${accountType}`}>
+      <Card title={`${accountType.name}`}>
         <TagsBox>
-          {tags.map(item => {
-            return <Tag name={item} />;
+          {tags.map((item, index) => {
+            return <Tag key={index} name={item} />;
           })}
         </TagsBox>
         <FlexRowSpaceBetween mt={10}>
@@ -42,13 +42,17 @@ const AccountInfo = ({ account }) => {
               )}
             </FlexRowSpaceBetween>
             <FlexRowSpaceBetween>
-              <DataBox valueType="currency-short" title="Total Sent" value={account.total_sent} />
-              <DataBox valueType="currency-short" title="Total Received" value={account.total_received} />
+              <DataBox valueType="currency-full" title="Total Sent" value={account.total_sent} />
+              <DataBox valueType="currency-full" title="Total Received" value={account.total_received} />
             </FlexRowSpaceBetween>
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
             {account.manager ? <HashedBox hash={account.address} typeName={`Account Manager`} /> : <div>&nbsp;</div>}
-            <DataBox valueType="currency-short" title="Total Fees Paid" value={account.total_fees_paid} />
+            <DataBox valueType="currency-full" title="Total Fees Paid" value={account.total_fees_paid} />
+          </FlexColumnSpaceBetween>
+          <FlexColumnSpaceBetween minHeight={100}>
+            <div>&nbsp;</div>
+            <DataBox title="Transactions" value={account.n_tx} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
             <DataBox
@@ -57,7 +61,7 @@ const AccountInfo = ({ account }) => {
               valueType="text"
               value={` ${timeFormat('%B %d, %Y')(new Date(account.first_seen_time))}`}
             />
-            <DataBox title="Wealth Rank (N/A)" value={0} />
+            <DataBox title="Wealth Rank" valueType="text" value="1" />
           </FlexColumnSpaceBetween>
         </FlexRowSpaceBetween>
       </Card>

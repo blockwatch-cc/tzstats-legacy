@@ -1,9 +1,10 @@
 import React from 'react';
-import BasicAccount from '../../components/Accounts/BasicAccount';
-import BakerAccount from '../../components/Accounts/BakerAccount';
-import { getAccountByHash, getFlowData, getStakingData } from '../../services/api/tz-stats';
+import BalanceHistory from '../../components/Accounts/BalanceHistory';
+import TransactionHistory from '../../components/Accounts/TransactionHistory';
+import AccountInfo from '../../components/Accounts/AccountInfo';
+import { getAccountByHash, getFlowData, getStakingData, getAccountIncome } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
-import { wrapFlowData, wrapStakingData, wrapToBalance } from '../../utils';
+import { wrapStakingData, wrapToBalance } from '../../utils';
 
 const AccountPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
@@ -11,22 +12,21 @@ const AccountPage = ({ match }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let [account, flowData, stakingData, txHistory] = await Promise.all([
+      let [account, flowData, stakingData] = await Promise.all([
         getAccountByHash(currentUserHash),
         getFlowData({ hash: currentUserHash, days: 30 }),
         getStakingData({ hash: currentUserHash, days: 30 }),
       ]);
 
-      let { stackingBond, currentDeposit, pendingReawards } = wrapStakingData({ ...stakingData, account });
+      let staking = wrapStakingData({ ...stakingData, account });
 
       let balanceHistory = wrapToBalance(flowData, account);
 
       setData({
         account,
         isLoaded: true,
-        txHistory,
         balanceHistory,
-        stakingData: [stackingBond, currentDeposit, pendingReawards],
+        staking,
       });
     };
 
@@ -34,9 +34,12 @@ const AccountPage = ({ match }) => {
   }, [currentUserHash, match]);
 
   return data.isLoaded ? (
-    <BasicAccount account={data.account} txHistory={data.txHistory} balanceHistory={data.balanceHistory} />
+    <>
+      <AccountInfo account={data.account} />
+      <BalanceHistory account={data.account} balanceHistory={data.balanceHistory} stakingData={data.staking} />
+      <TransactionHistory account={data.account} />
+    </>
   ) : (
-    // <BakerAccount account={data.account} txHistory={data.txHistory} balanceHistory={data.balanceHistory} />
     <Spiner />
   );
 };

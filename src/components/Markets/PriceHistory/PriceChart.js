@@ -20,7 +20,7 @@ import VolumeAnnotation from './VolumeAnnotation';
 
 const PriceChart = props => {
   const { type, data: initialData, ratio, width, volumeMax, setCurrentValue } = props;
-  const yaxis = ['04:00','12:00','20:00'];
+  const yaxis = ['04:00', '12:00', '20:00'];
 
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
   let { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
@@ -65,7 +65,7 @@ const PriceChart = props => {
       displayXAccessor={displayXAccessor}
       xExtents={xExtents}
     >
-      <Chart id={1} height={150} yExtents={[d => [d.high, d.low]]} >
+      <Chart id={1} height={150} yExtents={[d => [d.high, d.low]]}>
         <MouseCoordinateY
           at="right"
           textFill="rgba(255, 255, 255, 0.52)"
@@ -101,7 +101,7 @@ const PriceChart = props => {
           fill={d => (d.close > d.open ? '#18ecf2' : '#858999')}
         />
       </Chart>
-      <Chart id={2} yExtents={d => d.vol_base} opacity={1} height={50} origin={(w, h) => [0, h-170]}>
+      <Chart id={2} yExtents={d => d.vol_base} opacity={1} height={50} origin={(w, h) => [0, h - 170]}>
         <MouseCoordinateY
           at="right"
           orient="right"
@@ -121,7 +121,7 @@ const PriceChart = props => {
           stroke={false}
         />
       </Chart>
-      <Chart id={3} yExtents={d => d.id} opacity={1} height={145} origin={(w, h) => [0, h-145]}>
+      <Chart id={3} yExtents={d => d.id} opacity={1} height={145} origin={(w, h) => [0, h - 145]}>
         <MouseCoordinateX
           opacity={1}
           at="bottom"
@@ -137,8 +137,8 @@ const PriceChart = props => {
         <YAxis
           axisAt="right"
           orient="right"
-          tickValues={[4,12,20]}
-          tickFormat={d => yaxis[2-(d-4)/8]}
+          tickValues={[4, 12, 20]}
+          tickFormat={d => yaxis[2 - (d - 4) / 8]}
           opacity={0}
           strokeWidth={0}
           outerTickSize={0}
@@ -150,7 +150,7 @@ const PriceChart = props => {
           fontSize={11}
           fontWeight={300}
           fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
-         />
+        />
         <VolumeAnnotation maxValue={volumeMax} setCurrentValue={setCurrentValue} clip={false} />
       </Chart>
       <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />

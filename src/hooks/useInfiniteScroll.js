@@ -4,8 +4,16 @@ const useInfiniteScroll = (callback, targetId) => {
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    document.getElementById(targetId).addEventListener('scroll', handleScroll);
-    return () => document.getElementById(targetId).removeEventListener('scroll', handleScroll);
+    let targetElem = document.getElementById(targetId);
+    if (targetElem) {
+      document.getElementById(targetId).addEventListener('scroll', handleScroll);
+      return () => {
+        let elem = document.getElementById(targetId);
+        if (elem) {
+          elem.removeEventListener('scroll', handleScroll);
+        }
+      };
+    }
   }, [handleScroll, targetId]);
 
   useEffect(() => {

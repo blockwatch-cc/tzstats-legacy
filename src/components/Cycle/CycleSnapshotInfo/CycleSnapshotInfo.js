@@ -4,7 +4,6 @@ import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceBetween } from '../.
 import { timeFormat } from 'd3-time-format';
 
 const CycleSnapshotInfo = ({ cycle }) => {
-  console.log(cycle.start_time);
   return (
     <Wrapper>
       <Card title={'Snapshot Info'}>

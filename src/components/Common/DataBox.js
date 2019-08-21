@@ -4,7 +4,17 @@ import { FlexRow } from './index';
 import { formatCurrency, formatValue } from '../../utils';
 
 //Todo refactoring
-const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', titleSize = '10px', ta = 'left', ml = '0', mr = '0' }) => {
+const DataBox = ({
+  value,
+  title,
+  valueType,
+  type = '',
+  valueSize = '18px',
+  titleSize = '10px',
+  ta = 'left',
+  ml = '0',
+  mr = '0',
+}) => {
   switch (type) {
     case 'title-bottom':
       return (
@@ -63,7 +73,7 @@ const Value = ({ type, value }) => {
     case 'currency-short':
       return formatCurrency(value, '.4s');
     case 'currency-full':
-      return formatCurrency(value, ',');
+      return formatCurrency(value.toFixed(2), ',');
     case 'currency-usd-full':
       return formatValue(value, '$,');
     case 'currency-usd-fixed':
@@ -82,8 +92,8 @@ const Value = ({ type, value }) => {
 const Wrapper = styled.div`
   font-size: ${props => props.fontSize};
   text-align: ${props => props.ta};
-  margin-left: ${props => props.ml+'px'};
-  margin-right: ${props => props.mr+'px'};
+  margin-left: ${props => props.ml + 'px'};
+  margin-right: ${props => props.mr + 'px'};
   white-space: nowrap;
 `;
 const Title = styled.div`

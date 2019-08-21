@@ -9,7 +9,7 @@ import {
   getBakerHashByName,
   getProposalIdByName,
   findBakerName,
-  getProposalName,
+  findProposalName,
 } from '../../../utils';
 import Autocomplete from './Autocomplete';
 import { Devices } from '../../Common';
@@ -54,7 +54,7 @@ const Searchbar = ({ history }) => {
   const handleOnChange = value => {
     if (value.length > 3) {
       const bakerName = findBakerName(value);
-      const proposal = getProposalName(value);
+      const proposal = findProposalName(value);
       if (bakerName) {
         setSuggestion([{ type: 'Account', value: bakerName }]);
       } else if (proposal) {

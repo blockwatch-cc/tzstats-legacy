@@ -13,14 +13,13 @@ export function convertMinutes(num) {
   const h = Math.floor((num - d * 1440) / 60);
   const m = Math.floor(num % 60);
   let res = [];
-
   if (d > 0) {
     res.push(d + 'd');
   }
   if (h > 0) {
     res.push(h + 'h');
   }
-  if (m > 0) {
+  if (m > 0 || (d === 0 && h === 0 && m === 0)) {
     res.push(m + 'm');
   }
   return res.join(' ');
@@ -65,27 +64,6 @@ export function formatCurrencyShort(value) {
 
 export const addCommas = format(',');
 
-export function wrapFlowData(flowData, account) {
-  let inFlowData = { id: 'In-flow', color: '#1af3f9', data: [] };
-  let outFlowData = { id: 'Out-flow', color: '#83899B', data: [] };
-
-  let balance = account.spendable_balance;
-  let dataInOut = [];
-
-  //[0]-time [1]-in [2]-out
-
-  flowData.reverse().map(item => {
-    let time = item[0];
-    let inFlow = item[1];
-    let outFlow = item[2];
-    inFlowData.data.unshift({ x: time, y: inFlow });
-    outFlowData.data.unshift({ x: time, y: -outFlow });
-    dataInOut.unshift({ time: time, inFlow: inFlow, outFlow: -outFlow, balance: balance });
-    balance += outFlow - inFlow;
-  });
-  return { inFlowData, outFlowData, dataInOut };
-}
-
 //todo reafactoring
 export function wrapToBalance(flowData, account) {
   let spandableBalance = account.spendable_balance;
@@ -123,15 +101,13 @@ export function wrapToVolume(volSeries) {
   return volume;
 }
 
-export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
-  let stakingBond = { id: 'Staking Bond', color: '#1af3f9', data: [] };
-  let currentDeposit = { id: 'Current Deposit', color: '#83899B', data: [] };
-  let pendingRewards = { id: 'Pending Rewards', color: '#83899B', data: [] };
+export function wrapStakingData({ balance, deposits, rewards, fees, account, delegation }) {
   let spendableBalance = account.spendable_balance;
   let frozenDeposit = account.frozen_deposits;
   let frozenRewards = account.frozen_rewards;
   let frozenFees = account.frozen_fees;
-  let allData = [];
+  let delegationBalance = account.delegated_balance;
+  let data = [];
   //[0]-time [1]-in [2]-out
   for (let i = balance.length - 1; i >= 0; i--) {
     let balanceIn = balance[i][1];
@@ -146,26 +122,25 @@ export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
     let feesIn = fees[i][1];
     let feesOut = fees[i][2];
 
-    //spandable_balance + frozen depozit
-    stakingBond.data.unshift({ x: balance[i][0], y: spendableBalance + frozenDeposit });
-    //frozen depozit
-    currentDeposit.data.unshift({ x: balance[i][0], y: frozenDeposit });
-    //frozen rewards + frozen fees
-    pendingRewards.data.unshift({ x: balance[i][0], y: frozenRewards + frozenFees });
+    let delegationIn = delegation[i][1];
+    let delegationOut = delegation[i][2];
 
-    allData.unshift({
+    data.unshift({
       time: balance[i][0],
-      bond: spendableBalance + frozenDeposit,
+      total: spendableBalance + frozenDeposit,
       deposit: frozenDeposit,
-      rewards: frozenRewards + frozenFees,
+      balance: spendableBalance,
+      reward: frozenRewards + frozenFees,
+      delegation: delegationBalance,
     });
 
     spendableBalance += balanceOut - balanceIn;
     frozenDeposit += depositsOut - depositsIn;
     frozenRewards += rewardsOut - rewardsIn;
     frozenFees += feesOut - feesIn;
+    delegationBalance += delegationOut - delegationIn;
   }
-  return { stakingBond, currentDeposit, pendingRewards };
+  return data;
 }
 
 //Todo replace it with clean function
@@ -275,16 +250,16 @@ export function getAccountTags(account) {
 
 export function getAccountType(account) {
   if (!account.is_contract && !account.is_delegate && !account.is_delegated) {
-    return 'Basic Account';
+    return { name: 'Basic Account', type: 'basic' };
   }
   if (!account.is_delegate && account.is_delegated) {
-    return 'Delegator Account';
+    return { name: 'Delegator Account', type: 'delegator' };
   }
   if (account.is_delegate && !account.is_delegated) {
-    return 'Baker Account';
+    return { name: 'Baker Account', type: 'baker' };
   }
   if (account.is_contract) {
-    return 'Smart Contract';
+    return { name: 'Smart Contract', type: 'contract' };
   }
 }
 
@@ -315,6 +290,12 @@ export function getProposalIdByName(value) {
   });
   return hashes[0] ? proposals[hashes[0]].id : null;
 }
+export function getProposaNameByHash(value) {
+  const hashes = Object.keys(proposals).filter(key => {
+    return key.includes(value);
+  });
+  return hashes[0] ? proposals[hashes[0]].name : null;
+}
 
 export function getBakerHashByName(value) {
   const names = Object.keys(bakerAccounts).filter(key => {
@@ -328,7 +309,7 @@ export function findBakerName(value) {
   });
   return names[0];
 }
-export function getProposalName(value) {
+export function findProposalName(value) {
   const hashes = Object.keys(proposals).filter(key => {
     return proposals[key].name.toLowerCase().includes(value.toLowerCase());
   });

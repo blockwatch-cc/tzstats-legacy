@@ -53,10 +53,11 @@ const chain = {
   inflation_rate_1y: 0.0,
   supply: supply,
 };
+const cycle = { cycle: 0, start_height: 0 };
 
 const lastMarketData = { date: new Date(), price: 0.0, change: 0.0 };
 const setDefaultGlobalState = () => {
-  setGlobal({ chain, lastMarketData });
+  setGlobal({ chain, lastMarketData, cycle });
 };
 
 export default setDefaultGlobalState;
