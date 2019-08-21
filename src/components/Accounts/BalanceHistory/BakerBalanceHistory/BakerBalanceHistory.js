@@ -1,5 +1,5 @@
 import React from 'react';
-import BalanceChart from './BalanceChart';
+import BalanceChart from '../DelegationHistory/BalanceChart';
 import { DataBox, FlexRowSpaceBetween, FlexRow, Card, FlexRowWrap, FlexColumnSpaceBetween } from '../../../Common';
 import styled from 'styled-components';
 import { useGlobal } from 'reactn';

@@ -1,5 +1,5 @@
 import React from 'react';
-import BalanceChart from '../BalanceChart';
+import BalanceChart from './BalanceChart';
 import {
   DataBox,
   FlexColumnSpaceAround,
