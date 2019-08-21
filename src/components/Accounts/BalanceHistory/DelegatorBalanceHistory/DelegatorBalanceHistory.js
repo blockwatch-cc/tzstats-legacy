@@ -11,7 +11,7 @@ const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
     <Card title={'Balance History (30d)'}>
       <FlexRowWrap>
         <FlexRow flex={1} mb={10}>
-          <BalanceChart type={'svg'} data={balanceHistory} getValue={e => e.value} />
+          <BalanceChart type={'svg'} data={balanceHistory} />
         </FlexRow>
         <FlexRowSpaceBetween width={250} ml={30}>
           <FlexColumnSpaceAround minHeight={150}>
@@ -21,7 +21,7 @@ const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
               value={parseFloat(account.spendable_balance.toFixed(2))}
             />
 
-            <DataBox valueType="text" title="Stacking Earnings" value="N/A" />
+            {/* <DataBox valueType="text" title="Stacking Earnings" value="N/A" /> */}
           </FlexColumnSpaceAround>
           <FlexColumnSpaceAround minHeight={150}>
             <DataBox
@@ -29,7 +29,7 @@ const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
               title="Value"
               value={account.spendable_balance * lastMarketData.price}
             />
-            <DataBox valueType="text" title="Pending Earnings" value="N/A" />
+            {/* <DataBox valueType="text" title="Pending Earnings" value="N/A" /> */}
           </FlexColumnSpaceAround>
         </FlexRowSpaceBetween>
       </FlexRowWrap>
