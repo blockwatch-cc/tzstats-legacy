@@ -1,9 +1,9 @@
 import React from 'react';
-import BalanceChart from '../DelegationHistory/BalanceChart';
+import BalanceChart from './BalanceChart';
 import { DataBox, FlexColumnSpaceAround, FlexRow, Card, FlexRowWrap, FlexRowSpaceBetween } from '../../../Common';
 import { useGlobal } from 'reactn';
 import styled from 'styled-components';
-//Life totals
+
 const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
   const [lastMarketData] = useGlobal('lastMarketData');
 

@@ -17,8 +17,8 @@ class BalanceChart extends React.Component {
   render() {
     const { data: initialData, width, ratio } = this.props;
 
-    const max = _.maxBy(initialData, d => d.value).value;
-    const min = _.minBy(initialData, d => d.value).value;
+    const max = _.maxBy(initialData, d => d.delegation).delegation;
+    const min = _.minBy(initialData, d => d.delegation).delegation;
 
     const yGrid = { innerTickSize: -width + 40 };
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
@@ -85,13 +85,13 @@ class BalanceChart extends React.Component {
           />
 
           <AreaSeries
-            yAccessor={d => d.value}
+            yAccessor={d => d.delegation}
             stroke="#29C0FF"
             fill="rgba(41, 192, 255, 0.2)"
             strokeWidth={2}
             interpolation={curveLinear}
           />
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.value} fill={'#FFF'} />
+          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.delegation} fill={'#FFF'} />
         </Chart>
 
         <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
