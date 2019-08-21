@@ -8,13 +8,11 @@ import MarketInfo from './MarketInfo';
 import { Callout } from '@blueprintjs/core';
 import { Devices } from '../../Common';
 import { Link } from 'react-router-dom';
-
+import Logo from './Logo';
 const Sidebar = () => {
   return (
     <Wrraper hideOnMobile>
-      <Logo>
-        <Link to="/">{'TzStats'}</Link>
-      </Logo>
+      <Logo />
       <NetworkCircle />
       <LastBlock />
       <MarketInfo />
@@ -38,10 +36,5 @@ const Wrraper = styled.div`
     ${props => props.hideOnMobile && 'display: none;'}
   }
 `;
-const Logo = styled.div`
-  padding: 20px 0;
-  font-size: 18px;
-  text-align: center;
-  cursor: pointer;
-`;
 export default Sidebar;
+

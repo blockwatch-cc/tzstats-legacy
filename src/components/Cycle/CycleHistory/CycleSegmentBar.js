@@ -8,25 +8,52 @@ import { format } from 'd3-format';
 import { Link } from 'react-router-dom';
 
 function LayeredProgressbar(props) {
-  const { renderOverlays, cycle, isCurrent, ...otherProps } = props;
+  const { renderOverlays, cycle, isCurrent, isCenter, isSnapshot, index, ...otherProps } = props;
 
+  if (!cycle) {
+    return (<Wrapper></Wrapper>);
+  }
   const overlays = props.renderOverlays();
   return (
     <Wrapper>
       <ProgressBarWrapper>
         <CyclProgressbar {...otherProps} textForPercentage={null} />
       </ProgressBarWrapper>
+      { isSnapshot ? (
+        <ProgressBarWrapper>
+          <CyclProgressbar
+            styles={{
+              background: {
+                fill: 'transparent',
+              },
+              path: {
+                stroke: '#FFF',
+                strokeLinecap: 'butt',
+                transform: `rotate(${(index/16.0).toFixed(3)}turn)`,
+                transformOrigin: 'center center'
+              },
+              trail: {
+                stroke: 'transparent',
+              },
+            }}
+            background
+            percentage={6.2}
+            strokeWidth={14}
+            textForPercentage={null} />
+        </ProgressBarWrapper>
+        ) : ( ''
+       )}
       <Link to={`/cycle/${cycle.cycle}`}>
         <CycleBorderBox isCurrent={isCurrent} />
       </Link>
-      {isCurrent && (
+      {isCenter && (
         <CycleDataBox>
           <FlexColumnSpaceBetween textAlign="right" minHeight="100%">
-            <div>{timeFormat('%d %b, %H:%M')(new Date(cycle.start_time))}</div>
+            <div>{timeFormat('%b %d, %H:%M')(new Date(cycle.start_time))}</div>
             <div>{format(',')(cycle.start_height)}</div>
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight="100%">
-            <div>{timeFormat('%d %b, %H:%M')(new Date(cycle.end_time))}</div>
+            <div>{timeFormat('%b %d, %H:%M')(new Date(cycle.end_time))}</div>
             <div>{format(',')(cycle.end_height)}</div>
           </FlexColumnSpaceBetween>
         </CycleDataBox>
@@ -51,6 +78,9 @@ export default function CycleSegmentedBar(props) {
       cycle={props.cycle}
       strokeWidth={14}
       isCurrent={props.isCurrent}
+      isCenter={props.isCenter}
+      isSnapshot={props.isSnapshot}
+      index={props.index}
       styles={{
         background: {
           fill: '#444754',

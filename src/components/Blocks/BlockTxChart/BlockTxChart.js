@@ -20,7 +20,7 @@ const BlockTxChart = ({ block, setTxType }) => {
             ''
           )}
           <Chart data={settings} setTxType={setTxType} />
-          <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transactions Volume" value={block.volume} />
+          <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transaction Volume" value={block.volume} />
         </FlexColumnSpaceBetween>
         <FlexColumn height={130}>
           <Legend settings={settings} />
@@ -106,25 +106,25 @@ function getOperationsSettings(block) {
       color: 'rgb(198, 219, 239)',
       value: block.n_activation,
       id: `${formatValue(block.n_activation)} Activations`,
-      type: 'activation',
+      type: 'activate_account',
     },
     {
       color: 'rgb(158, 202, 225)',
       value: block.n_seed_nonce,
-      id: `${formatValue(block.n_seed_nonce)}`,
-      type: 'seed_nonce',
+      id: `${formatValue(block.n_seed_nonce)} Seed Nonces`,
+      type: 'seed_nonce_revelation',
     },
     {
       color: 'rgb(107, 174, 214)',
       value: block.n_double_baking,
-      id: `${formatValue(block.n_double_baking)} 2x Baking`,
-      type: 'double_baking',
+      id: `${formatValue(block.n_double_baking)} Double Bakings`,
+      type: 'double_baking_evidence',
     },
     {
       color: 'rgb(66, 146, 198)',
       value: block.n_double_endorsement,
-      id: `${formatValue(block.n_double_endorsement)} 2x Endoresment`,
-      type: 'double_endorsement',
+      id: `${formatValue(block.n_double_endorsement)} Double Endorsements`,
+      type: 'double_endorsement_evidence',
     },
     {
       color: 'rgb(33, 113, 181)',
@@ -142,7 +142,7 @@ function getOperationsSettings(block) {
       color: 'rgb(8, 48, 107)',
       value: block.n_proposal,
       id: `${formatValue(block.n_proposal)} Proposals`,
-      type: 'proposal',
+      type: 'proposals',
     },
     {
       color: 'rgb(94, 79, 162)',

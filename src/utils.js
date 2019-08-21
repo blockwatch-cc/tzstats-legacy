@@ -19,6 +19,7 @@ export function convertMinutes(num) {
   if (h > 0) {
     res.push(h + 'h');
   }
+
   if (m > 0 || (d === 0 && h === 0 && m === 0)) {
     res.push(m + 'm');
   }
@@ -157,6 +158,9 @@ export function getShortHash(hash) {
   return `${hash.slice(0, 3)}...${hash.slice(-4)}`;
 }
 export function getShortHashOrBakerName(hash) {
+  if (!hash) {
+    return 'God';
+  }
   const names = Object.keys(bakerAccounts).filter(key => {
     return bakerAccounts[key].toLowerCase().includes(hash.toLowerCase());
   });
@@ -205,7 +209,7 @@ export function getPeakVolumeTime(data, hours = 1) {
   const peak = times.indexOf(Math.max(...times));
   const a = '0' + peak * hours + ':00'; // 00:00 .. 20:00
   const b = '0' + ((peak + 1) % stride) * hours + ':00'; // 00:00 .. 20:00
-  return a.substr(a.length - 5) + '-' + b.substr(b.length - 5) + ' UTC';
+  return a.substr(a.length - 5) + ' - ' + b.substr(b.length - 5) + ' UTC';
 }
 
 export function getDailyVolume(data) {

@@ -4,7 +4,7 @@ import CycleHistory from '../../components/Cycle/CycleHistory';
 import CycleSnapshotInfo from '../../components/Cycle/CycleSnapshotInfo';
 import CycleHealth from '../../components/Cycle/CycleHealth';
 import DelegationTreeMap from '../../components/Cycle/DelegationTreeMap';
-import { getCycleById, getDelegationHistory } from '../../services/api/tz-stats';
+import { getChainData, getCycleById, getDelegationHistory } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
 import { withRouter } from 'react-router-dom';
 
@@ -15,14 +15,17 @@ const CyclePage = ({ match, history }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let [cycle, delegationHistory] = await Promise.all([
+      let [chainData, cycle, delegationHistory] = await Promise.all([
+        getChainData(),
         getCycleById({ id: currentCycleId }),
         getDelegationHistory({ cycle: currentCycleId }),
       ]);
+      let lastCycle = chainData.cycle;
 
       setData({
         isLoaded: true,
         cycle,
+        lastCycle,
         delegationHistory,
       });
     };
@@ -32,9 +35,9 @@ const CyclePage = ({ match, history }) => {
 
   return data.isLoaded ? (
     <Wrapper>
-      <CycleHistory cycle={data.cycle} />
+      <CycleHistory cycle={data.cycle} lastCycle={data.lastCycle}/>
       <TwoElementsWrapper>
-        <CycleSnapshotInfo cycle={data.cycle} />
+        <CycleSnapshotInfo cycle={data.cycle}/>
         <CycleHealth cycle={data.cycle} />
       </TwoElementsWrapper>
       <DelegationTreeMap data={data.delegationHistory} cycle={data.cycle} />

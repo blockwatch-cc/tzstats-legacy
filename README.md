@@ -3,9 +3,6 @@
 Project Links
 - [Discord](https://discord.gg/D5e98Hw) for talking to devs
 - [Airtable](https://airtable.com/invite/l?inviteId=inv6CUL9bNO7iV91W&inviteToken=751ab81f062ecd294fb0463e44e624764c5f0fc51a1aa7bcaff740c23f0e8d0a) for persona and requirements mapping
-- [XTZ Database](https://blockwatch.cc/databases/blockchains/XTZ) enhanced blockchain data as tables
-- [XTZ-EOD Database](https://blockwatch.cc/databases/blockchains/XTZ-EOD) blockchain time-series statistics
-- [Blockwatch API](https://blockwatch.cc/docs/api)
 
 ### Project Schedule
 
@@ -231,8 +228,8 @@ all source-code must be licensed under MIT license and made publicly available
 | `/op/:op_hash`     | [Operation](./doc/op.md) | `:op_hash` is hash only; 404 when not found |
 | `/op`              | 404 | |
 | `/account/:address`| [Account](./doc/account.md) | `:address` is any KT1\*, tz1\*, tz2\*, tz3\*; 404 when not found |
-| `/vote/:vote_id`   | [Governance](./doc/governance.md) | `:vote_id` is a voting period; 404 when not found |
-| `/vote`            | | forward to current voting period |
+| `/election/:election_id`   | [Governance](./doc/governance.md) | `:election_id` is an election round; 404 when not found |
+| `/election`        | | forward to current election round |
 | `/staking`         | Staking    | todo |
 | `/health`          | Health     | todo |
 | `/whales`          | Whales     | todo |

@@ -54,23 +54,18 @@ const MarketInfo = ({ history }) => {
       <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
         <FlexRowSpaceBetween>
           <FlexColumn>
-            <DataBox title="Tezos Price" />
             <FlexRow>
               <div style={{ fontSize: 16 }}>${lastMarketData.price.toFixed(2)}</div>
-              <PriceChanges>
+              <PriceChanges style={{color:(lastMarketData.change < 0 ?'#FC6483':'#1af9ff')}}>
                 {getPriceIndicator()}
                 &nbsp;
                 {Math.abs(lastMarketData.change).toFixed(1)}%
               </PriceChanges>
             </FlexRow>
+            <DataBox title="Tezos Price" />
           </FlexColumn>
-          {/* <div style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.52)' }}>
-            <div>|</div>
-            <div>|</div>
-          </div> */}
           <DataBox
             valueSize="16px"
-            type="title-bottom"
             title="Market Cap"
             valueType="currency-usd-short"
             value={calculateMarketCap()}

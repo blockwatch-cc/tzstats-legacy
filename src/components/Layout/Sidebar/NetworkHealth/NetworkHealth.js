@@ -12,10 +12,10 @@ const NetworkHealth = () => {
     <Wrapper>
       <LinkIcon>&#x25E5;</LinkIcon>
       <Card interactive={true} elevation={Elevation.ZERO}>
-        <Title>{status.name} Network Health</Title>
         {[...new Array(6).keys()].map((item, i) => {
           return <NetworkHealthIndicator isEmpty={i + 1 > status.value} key={i} />;
         })}
+        <Title>{status.name} Network Health</Title>
       </Card>
     </Wrapper>
   );

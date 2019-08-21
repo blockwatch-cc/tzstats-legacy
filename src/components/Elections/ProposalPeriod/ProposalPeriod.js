@@ -11,13 +11,13 @@ import StartEndBlock from '../StartEndBlock';
 
 const ProposalPeriod = ({ period }) => {
   if (!period.proposals.length) {
-    return <InvalidData title={'1 No proposal was submitted'} />;
+    return (<Wrapper><InvalidData title={'1 No proposal was submitted'} /></Wrapper>);
   }
   const endTime = getEndTime(period);
 
   return (
     <Wrapper>
-      <Card title={`1 Proposal period ${endTime}`}>
+      <Card title={`1 Proposal Period ${endTime}`}>
         <FlexRowSpaceBetween mb={10}>
           <TableHeader width={20}>Proposal</TableHeader>
           <TableHeader width={30}>Hash</TableHeader>

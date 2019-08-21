@@ -3,14 +3,14 @@ import { Card, FlexRowSpaceBetween, DataBox, InvalidData } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { proposals } from '../../../config/proposals';
 import { format } from 'd3-format';
-import { getEndTime } from '../../../utils';
+import { getEndTime, formatValue } from '../../../utils';
 import styled from 'styled-components';
 import _ from 'lodash';
 import StartEndBlock from '../StartEndBlock';
 
 const ExplorationPeriod = ({ period }) => {
   if (!period) {
-    return <InvalidData title={'2 Exploration period not started'} />;
+    return (<Wrapper><InvalidData title={'2 Exploration period not started'} /></Wrapper>);
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);
@@ -20,12 +20,12 @@ const ExplorationPeriod = ({ period }) => {
 
   return (
     <Wrapper>
-      <Card title={`2 Exploration vote period for ${name} ${endTime}`}>
+      <Card title={`2 Exploration Vote Period for ${name} ${endTime}`}>
         <FlexRowSpaceBetween mb={'5px'}>
           <DataBox
             valueType="percent"
             valueSize="14px"
-            title={`Participation ${period.turnout_rolls}`}
+            title={`Participation ${formatValue(period.turnout_rolls)}`}
             value={period.turnout_rolls / period.eligible_rolls}
           />
           <DataBox
@@ -37,13 +37,13 @@ const ExplorationPeriod = ({ period }) => {
           />
         </FlexRowSpaceBetween>
         <HorizontalProgressBar delimiter={period.quorum_pct} settings={periodSettings} />
-        <HorizontalProgressBar delimiter={period.quorum_pct} settings={proposalSettings} />
+        <HorizontalProgressBar delimiter={80} settings={proposalSettings} />
         <FlexRowSpaceBetween>
           {period.yay_rolls ? (
             <DataBox
               valueType="percent"
               valueSize="14px"
-              title={`YAY Rolls ${period.yay_rolls}`}
+              title={`YAY Rolls ${formatValue(period.yay_rolls)}`}
               value={period.yay_rolls / (period.nay_rolls + period.yay_rolls)}
             />
           ) : (
@@ -54,7 +54,7 @@ const ExplorationPeriod = ({ period }) => {
               valueType="percent"
               valueSize="14px"
               ta="right"
-              title={`NAY Rolls ${period.nay_rolls}`}
+              title={`NAY Rolls ${formatValue(period.nay_rolls)}`}
               value={period.nay_rolls / (period.nay_rolls + period.yay_rolls)}
             />
           ) : (

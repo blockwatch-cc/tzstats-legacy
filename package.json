@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "yarn sass && react-app-env start",
-    "build": "react-scripts build",
+    "build": "yarn sass && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "sass": "sass src/styles/scss/index.scss:src/styles/css/index.css"

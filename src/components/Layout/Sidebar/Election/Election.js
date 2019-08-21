@@ -28,7 +28,6 @@ const Election = ({ history }) => {
       <LinkIcon>&#x25E5;</LinkIcon>
       {election && (
         <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
-          <DataBox title={`On-Chain Governance Period`} />
           <ElectionBoxWrapper>
             <ElectionBox>
               {new Array(periodNumber).fill(0).map((item, i) => (
@@ -37,6 +36,7 @@ const Election = ({ history }) => {
             </ElectionBox>
             <PeriodName>{proposalDiteils.name}</PeriodName>
           </ElectionBoxWrapper>
+          <DataBox title={`On-Chain Election`} />
         </Card>
       )}
     </Wrapper>
