@@ -15,10 +15,11 @@ import CurrentCoordinate from '../../../Common/CurrentCoordinate';
 
 class BalanceChart extends React.Component {
   render() {
-    const { data: initialData, width, ratio, getValue, isDelegation } = this.props;
+    const { data: initialData, width, ratio } = this.props;
+    console.log(initialData, 'initialData');
 
-    const max = getValue(_.maxBy(initialData, getValue));
-    const min = getValue(_.minBy(initialData, getValue));
+    const max = _.maxBy(initialData, d => d.value).value;
+    const min = _.minBy(initialData, d => d.value).value;
 
     const yGrid = { innerTickSize: -width + 40 };
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
@@ -85,13 +86,13 @@ class BalanceChart extends React.Component {
           />
 
           <AreaSeries
-            yAccessor={d => getValue(d)}
-            stroke={isDelegation ? '#29C0FF' : '#17eef4'}
-            fill={isDelegation ? 'rgba(41, 192, 255, 0.2)' : 'rgba(23, 238, 244, 0.2)'}
+            yAccessor={d => d.value}
+            stroke="#29C0FF"
+            fill="rgba(41, 192, 255, 0.2)"
             strokeWidth={2}
             interpolation={curveLinear}
           />
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => getValue(d)} fill={'#FFF'} />
+          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.value} fill={'#FFF'} />
         </Chart>
 
         <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />

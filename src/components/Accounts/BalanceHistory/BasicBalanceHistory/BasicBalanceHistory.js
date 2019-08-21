@@ -12,7 +12,7 @@ const BasicBalanceHistory = ({ account, balanceHistory }) => {
     <Card title={'Balance History (30d)'}>
       <FlexRowWrap>
         <FlexRow flex={1} mb={10}>
-          <BalanceChart type={'svg'} data={balanceHistory} getValue={e => e.value} />
+          <BalanceChart type={'svg'} data={balanceHistory} />
         </FlexRow>
         <FlexColumnSpaceAround pl={50} py={25} width={300}>
           <FlexRow width={200} justifyContent="space-between">

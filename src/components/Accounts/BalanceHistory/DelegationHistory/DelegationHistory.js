@@ -25,7 +25,7 @@ const DelegationHistory = ({ account, stakingData }) => {
     <Card title={'Delegation History (30d)'}>
       <FlexRowWrap>
         <FlexRow flex={1} mb={10}>
-          <BalanceChart isDelegation={true} type={'svg'} data={stakingData} getValue={e => e.delegation} />
+          <BalanceChart type={'svg'} data={stakingData} />
         </FlexRow>
         <FlexRowSpaceBetween width={350} ml={30}>
           <FlexColumnSpaceAround minHeight={150}>

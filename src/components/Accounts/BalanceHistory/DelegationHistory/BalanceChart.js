@@ -17,13 +17,17 @@ class BalanceChart extends React.Component {
   render() {
     const { data: initialData, width, ratio } = this.props;
 
-    const max = _.maxBy(initialData, d => d.total).total;
-    const min = _.minBy(initialData, d => d.total).total;
+    const max = _.maxBy(initialData, d => d.delegation).delegation;
+    const min = _.minBy(initialData, d => d.delegation).delegation;
 
     const yGrid = { innerTickSize: -width + 40 };
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
     let { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
 
+    const start = xAccessor(last(data));
+    const end = xAccessor(data[Math.max(0, data.length - 70)]);
+
+    const xExtents = [start, end];
     const zoomEvent = false;
     const panEvent = false;
     const clamp = false;
@@ -50,13 +54,13 @@ class BalanceChart extends React.Component {
         xScale={xScale}
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
-        // xExtents={xExtents}
+        xExtents={xExtents}
       >
         <Chart id={1} height={180} yExtents={[d => [max * 1.2, 0]]}>
           <YAxis
             axisAt="right"
             orient="right"
-            ticks={3}
+            ticks={2}
             tickFormat={x => format('~s')(x) + 'ꜩ'}
             tickStrokeDasharray={'Solid'}
             tickStrokeOpacity={0.3}
@@ -79,23 +83,15 @@ class BalanceChart extends React.Component {
             fontSize={11}
             fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
           />
-          <AreaSeries
-            yAccessor={d => d.total}
-            stroke={'#858999'}
-            fill={'rgb(79,82,97, 0.8)'}
-            strokeWidth={2}
-            interpolation={curveLinear}
-          />
-          <AreaSeries
-            yAccessor={d => d.balance}
-            stroke={'#17eef4'}
-            fill={'rgba(23, 238, 244, 0.2)'}
-            strokeWidth={2}
-            interpolation={curveLinear}
-          />
 
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.total} fill={'#FFF'} />
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.balance} fill={'#FFF'} />
+          <AreaSeries
+            yAccessor={d => d.delegation}
+            stroke="#29C0FF"
+            fill="rgba(41, 192, 255, 0.2)"
+            strokeWidth={2}
+            interpolation={curveLinear}
+          />
+          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.delegation} fill={'#FFF'} />
         </Chart>
 
         <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />

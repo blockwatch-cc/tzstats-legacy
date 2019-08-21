@@ -43,10 +43,7 @@ const DelegationTable = ({ data }) => {
     </>
   );
 };
-const NoData = styled.div`
-  margin: 20px 0;
-  color: rgba(255, 255, 255, 0.52);
-`;
+
 const TableBody = styled.div`
   height: 200px;
   overflow: scroll;
