@@ -65,7 +65,7 @@ const wrappedData = (array, startHeight) => {
     return [];
   }
   let filteredData = array.reduce((obj, item, index) => {
-    if (item[1] && item[2] === 0 && (item[1] === 'baking' || item[1] === 'endorsing')) {
+    if (item[1] && ((item[2] === 0 && item[1] === 'baking') || item[1] === 'endorsing')) {
       let diff = item[0] - startHeight;
       let period = diff - (diff % 8);
       obj[period] = [

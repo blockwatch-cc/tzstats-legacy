@@ -6,59 +6,48 @@ import { getAccountOperations } from '../../../../services/api/tz-stats';
 import TransactionTable from '../TransactionTable';
 
 const BasicTransactionHistory = ({ hash }) => {
-  const [data, setData] = React.useState({ isLoaded: false, operations: [], tableData: [], isOutgoing: true });
-  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'account-operations');
+  const [isOutgoing, setIsOutgoing] = React.useState({ isOutgoing: true });
+  const [operations, setOperations] = React.useState([]);
+  const [tableOperations, setTableOperations] = React.useState([]);
+  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'main-panel');
 
   function fetchMoreOperations() {
-    if (data.tableData.length !== data.operations.length) {
+    if (tableOperations.length != operations.length) {
       const sliceIndex =
-        data.operations.length - data.tableData.length < 10 ? data.operations.length : data.tableData.length + 10;
-      let newTableData = data.operations.slice(data.tableData.length, sliceIndex);
+        operations.length - tableOperations.length < 10 ? operations.length : tableOperations.length + 10;
+      let newTableData = operations.slice(tableOperations.length, sliceIndex);
       setIsFetching(false);
-      setData(prevState => {
-        prevState.tableData = [...prevState.tableData, ...newTableData];
-        return prevState;
-      });
+      setTableOperations(prevState => [...prevState, ...newTableData]);
     }
   }
 
-  const handelClick = async isOutgoing => {
-    const operations = await getAccountOperations({ address: hash, type: data.isOutgoing ? 'sender' : 'receiver' });
-    setData({
-      operations,
-      isLoaded: true,
-      tableData: operations.slice(0, 10),
-      isOutgoing,
-    });
+  const handelClick = isOutgoing => {
+    setIsOutgoing(isOutgoing);
   };
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let operations = await getAccountOperations({ address: hash, type: data.isOutgoing ? 'sender' : 'receiver' });
-      operations = operations.reverse();
-      setData({
-        operations,
-        isLoaded: true,
-        tableData: operations.slice(0, 10),
-        isOutgoing: true,
-      });
+      const operations = await getAccountOperations({ address: hash, type: isOutgoing ? 'sender' : 'receiver' });
+      operations.reverse();
+      setTableOperations(operations.slice(0, 10));
+      setOperations(operations);
     };
 
     fetchData();
-  }, [data.isOutgoing, hash]);
+  }, [hash, isOutgoing]);
 
   return (
     <Wrapper>
       <Card title={'Transaction History'}>
         <FlexRow mb={30}>
-          <Button active={data.isOutgoing} onClick={e => handelClick(data.isOutgoing)}>
+          <Button active={isOutgoing} onClick={e => handelClick(true)}>
             Outgoing Transactions
           </Button>
-          <Button active={!data.isOutgoing} onClick={e => handelClick(!data.isOutgoing)}>
+          <Button active={!isOutgoing} onClick={e => handelClick(false)}>
             Incoming Transactions
           </Button>
         </FlexRow>
-        <TransactionTable data={data.tableData} />
+        <TransactionTable data={tableOperations} />
       </Card>
     </Wrapper>
   );
