@@ -1,5 +1,5 @@
 import React from 'react';
-import BalanceChart from '../DelegatorBalanceHistory/BalanceChart';
+import BalanceChart from '../DelegationHistory/BalanceChart';
 import { DataBox, FlexRowSpaceBetween, FlexRow, Card, FlexRowWrap, FlexColumnSpaceBetween } from '../../../Common';
 import styled from 'styled-components';
 import { useGlobal } from 'reactn';
@@ -13,7 +13,7 @@ const BakerBalanceHistory = ({ account, balanceHistory, stakingData }) => {
     <Card title={'Balance History (30d)'}>
       <FlexRowWrap>
         <FlexRow flex={1} mb={10}>
-          <BalanceChart type={'svg'} data={stakingData} />
+          <BalanceChart type={'svg'} data={balanceHistory} />
         </FlexRow>
         <FlexRowSpaceBetween width={350} ml={30}>
           <FlexColumnSpaceBetween minHeight={120}>
