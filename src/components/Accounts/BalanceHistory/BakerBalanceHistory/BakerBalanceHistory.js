@@ -44,7 +44,7 @@ const BakerBalanceHistory = ({ account, balanceHistory, stakingData }) => {
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={120}>
             <div style={{ height: 40 }}></div>
-            <DataBox valueType="currency-full" valueSize="14px" title="Daily Rewards" value={avgRewards} />
+            <DataBox valueType="currency-short" valueSize="14px" title="Daily Rewards" value={avgRewards} />
           </FlexColumnSpaceBetween>
         </FlexRowSpaceBetween>
       </FlexRowWrap>

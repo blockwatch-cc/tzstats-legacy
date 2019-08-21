@@ -35,25 +35,47 @@ const RightsChart = props => {
 
   const panEvent = false;
   const clamp = false;
+
+  const getStats = function(data) {
+    let totalEndorsed = 0;
+    let totalLost = 0;
+    let totalBaking = 0;
+    let totalStolen = 0;
+    for (let index = 0; index < data.length; index++) {
+      const subData = data[index];
+      subData.forEach(element => {
+        totalEndorsed += element & element.isEndorsed ? 1 : 0;
+        totalBaking += element & element.isEndorsed ? 1 : 0;
+        totalLost += element & element.isEndorsed ? 1 : 0;
+        totalStolen += element & element.isEndorsed ? 1 : 0;
+      });
+    }
+    return { totalEndorsed, totalLost, totalBaking, totalStolen };
+  };
   const zoomAnchor = function(e) {};
 
   function tooltipContent(ys) {
     return ({ currentItem, xAccessor }) => {
+      let stats = getStats(currentItem);
       return {
-        x: currentItem,
         y: [
           {
-            label: 'open',
-            value: currentItem.x,
+            label: 'Endorsed Blocks',
+            value: stats.totalEndorsed,
           },
-        ]
-          .concat(
-            ys.map(each => ({
-              label: each.label,
-              value: each.value(currentItem),
-            }))
-          )
-          .filter(line => line.value),
+          {
+            label: 'Baking Blocks',
+            value: stats.totalBaking,
+          },
+          {
+            label: 'Stole Blocks',
+            value: stats.totalStolen,
+          },
+          {
+            label: 'Lost Blocks',
+            value: stats.totalLost,
+          },
+        ],
       };
     };
   }
@@ -64,7 +86,7 @@ const RightsChart = props => {
       width={width}
       seriesName={''}
       margin={{
-        left: 5,
+        left: 0,
         right: 5,
         top: 0,
         bottom: 0,
@@ -76,25 +98,15 @@ const RightsChart = props => {
       zoomEvent={zoomEvent}
       clamp={clamp}
       zoomAnchor={zoomAnchor}
-      xScale={scaleLinear([0, 32])}
+      xScale={scaleLinear([0, 64])}
       xAccessor={d => d.x}
-      xExtents={[0, 32]}
+      xExtents={[0, 64]}
     >
       <Chart id={3} height={190} yExtents={[d => [0, 16]]}>
-        <HoverTooltip
-          yAccessor={d => d.y5}
-          tooltipContent={tooltipContent([
-            {
-              label: `111`,
-              value: d => d.y1,
-            },
-          ])}
-          bgOpacity={0}
-          fontSize={15}
-        />
+        {/* <HoverTooltip yAccessor={d => d} tooltipContent={tooltipContent()} bgOpacity={0} fontSize={15} /> */}
         <ScatterSeries
           clip={false}
-          yAccessor={d => d.data[0]}
+          yAccessor={d => 1}
           color={d => d.color}
           marker={SquareMarker}
           markerProps={{ width: 10, opacity: 1, stroke: '#444754' }}
@@ -107,20 +119,3 @@ const RightsChart = props => {
 };
 
 export default fitWidth(RightsChart);
-
-{
-  /* <XAxis
-          axisAt="bottom"
-          orient="bottom"
-          ticks={10}
-          tickFormat={x => x}
-          showDomain={false}
-          innerTickSize={0}
-          fontWeight={300}
-          fontSize={11}
-          strokeWidth={0}
-          tickPadding={-5}
-          tickStroke={'rgba(255, 255, 255, 0.52)'}
-          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
-        /> */
-}

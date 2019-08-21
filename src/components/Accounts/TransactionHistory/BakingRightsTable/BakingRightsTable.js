@@ -12,29 +12,38 @@ const BakingRightsTable = ({ income, tableData, account }) => {
   const nextTimeBakerBlock = convertMinutes((new Date(account.next_bake_time).getTime() - Date.now()) / 60000);
   const nextTimeEndoresBlock = convertMinutes((new Date(account.next_endorse_time).getTime() - Date.now()) / 60000);
 
-  const earned = income.baking_income + income.endorsing_income + income.fees_income;
-  const lost = income.lost_baking_income + income.missed_endorsing_income + income.slashed_income;
-  const stolen = income.stolen_baking_income;
-
   React.useEffect(() => {
     const fetchData = async () => {
       const cycle = await getCycleById({});
-      const rights = wrappedData(tableData, cycle.start_height);
-      setData({ cycle, rights, isLoaded: true });
+      const rights = wrappeData(tableData, cycle.start_height);
+      const earned = income.baking_income + income.endorsing_income + income.fees_income;
+      const lost = income.lost_baking_income + income.missed_endorsing_income + income.slashed_income;
+      const stolen = income.stolen_baking_income;
+      console.log(rights, 'rights');
+      setData({ cycle, rights, earned, lost, stolen, isLoaded: true });
     };
 
     fetchData();
-  }, [tableData]);
+  }, [
+    income.baking_income,
+    income.endorsing_income,
+    income.fees_income,
+    income.lost_baking_income,
+    income.missed_endorsing_income,
+    income.slashed_income,
+    income.stolen_baking_income,
+    tableData,
+  ]);
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>
       <FlexColumn>
-        <FlexRowSpaceBetween mb={10}>
+        <FlexRowSpaceBetween>
           <DataBox valueSize="14px" valueType="text" title={`Efficiency`} value={`${income.efficiency_percent}%`} />
           <DataBox valueSize="14px" valueType="text" title={`Luck`} value={`${income.luck_percent}%`} />
         </FlexRowSpaceBetween>
         <div style={{ width: 570 }}>
-          {data.rights ? <RightsChart data={data.rights} startHeight={data.cycle && data.cycle.start_height} /> : <></>}
+          <RightsChart data={data.rights} startHeight={data.cycle && data.cycle.start_height} />
         </div>
       </FlexColumn>
 
@@ -49,9 +58,9 @@ const BakingRightsTable = ({ income, tableData, account }) => {
           />
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween minHeight={170}>
-          <DataBox valueSize="14px" title="Earned" valueType="currency-full" value={earned} />
-          <DataBox valueSize="14px" title="Lost" valueType="currency-full" value={lost} />
-          <DataBox valueSize="14px" title="Stolen" valueType="currency-full" value={stolen} />
+          <DataBox valueSize="14px" title="Earned" valueType="currency-full" value={data.earned} />
+          <DataBox valueSize="14px" title="Lost" valueType="currency-full" value={data.lost} />
+          <DataBox valueSize="14px" title="Stolen" valueType="currency-full" value={data.stolen} />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>
     </FlexRowSpaceBetween>
@@ -60,77 +69,59 @@ const BakingRightsTable = ({ income, tableData, account }) => {
   );
 };
 
-const wrappedData = (array, startHeight) => {
-  if (!array.length) {
-    return [];
-  }
-  let filteredData = array.reduce((obj, item, index) => {
-    if (item[1] && ((item[2] === 0 && item[1] === 'baking') || item[1] === 'endorsing')) {
-      let diff = item[0] - startHeight;
-      let period = diff - (diff % 8);
-      obj[period] = [
-        ...(obj[period] || []),
-        {
-          index: index,
-          type: item[1],
-          height: item[0],
-          priority: item[2],
-          isStolen: item[3],
-          isMissed: item[4],
-          isLost: item[5],
-          isOk: !item[3] && !item[4] && !item[5],
-        },
-      ];
-    }
-    return obj;
-  }, {});
-  let counter;
+const wrappeData = (rights, startHeight) => {
+  let data = prepareData(rights, startHeight);
   let res = [];
-  let array16items = [];
-  for (counter = 0; counter < 4096; counter++) {
-    if (counter % 8 === 0) {
-      let block = filteredData[counter] || null;
-      array16items.push(block);
-      if (counter !== 0 && counter % (16 * 8) === 0) {
-        res.push({ x: counter / (16 * 8), data: array16items });
-        array16items = [];
+  let yChartItems = [];
+  let counter, endorsedCound, bakingCount, stolenCount, lostCount;
+  let yScale = 16;
+  let interval = 4;
+  let totalBlocks = 4096;
+  for (counter = 0; counter <= totalBlocks; counter++) {
+    if (counter % interval === 0 && counter !== 0) {
+      let rang4blocks = data[counter] || null;
+
+      yChartItems.push(rang4blocks);
+      if (counter % (yScale * interval) === 0) {
+        res.push({
+          x: counter / (yScale * interval),
+          data: yChartItems,
+          stats: { bakingCount, endorsedCound, stolenCount, lostCount },
+        });
+        yChartItems = [];
+        endorsedCound = 0;
+        bakingCount = 0;
+        stolenCount = 0;
+        lostCount = 0;
       }
     }
   }
   return res;
 };
 
-// const wrappedData2 = (array, startHeight) => {
-//   if (!startHeight) return {};
-
-//   let filteredArray = array.reduce((obj, item, index) => {
-//     if (item[1] && item[2] === 0 && (item[1] === 'baking' || item[1] === 'endorsing')) {
-//       let diff = item[0] - startHeight;
-//       let period = diff - (diff % 8);
-//       obj[period] = [
-//         ...(obj[period] || []),
-//         {
-//           index: index,
-//           type: item[1],
-//           height: item[0],
-//           priority: item[2],
-//           isStolen: item[3],
-//           isMissed: item[4],
-//           isLost: item[5],
-//           isOk: !item[3] && !item[4] && !item[5],
-//         },
-//       ];
-//     }
-//     return obj;
-//   }, {});
-//   for (key = startHeight, counter = 0; key < startHeight + 4096; key++, counter++) {
-//     let block = filteredData[key] || null;
-//     array16items.push(block);
-//     if (counter !== 0 && counter % 16 === 0) {
-//       res.push({ x: counter / 16, data: array16items });
-//       array16items = [];
-//     }
-//   }
-// };
-
 export default BakingRightsTable;
+
+function prepareData(array, startHeight) {
+  return array.reduce((obj, item, index) => {
+    if (item[1] && ((item[2] === 0 && item[1] === 'baking') || item[1] === 'endorsing')) {
+      let diff = item[0] - startHeight;
+      let period = diff - (diff % 4);
+      obj[period] = [
+        ...(obj[period] || []),
+        {
+          index: index,
+          isEndorsed: item[1] === 'endorsing',
+          isBaking: item[1] === 'baking',
+          type: item[1],
+          height: item[0],
+          priority: item[2],
+          isStolen: item[3],
+          isMissed: item[4],
+          isLost: item[5],
+          isBad: item[3] && item[4] && item[5],
+        },
+      ];
+    }
+    return obj;
+  }, {});
+}
