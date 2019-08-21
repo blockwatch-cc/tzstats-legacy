@@ -47,11 +47,11 @@ const AccountInfo = ({ account }) => {
             </FlexRowSpaceBetween>
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
-            {account.manager ? <HashedBox hash={account.address} typeName={`Account Manager`} /> : <div>&nbsp;</div>}
+            {account.manager ? <HashedBox hash={account.manager} typeName={`Account Manager`} /> : <div>&nbsp;</div>}
             <DataBox valueType="currency-full" title="Total Fees Paid" value={account.total_fees_paid} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
-            <div>&nbsp;</div>
+            {account.delegate ? <HashedBox hash={account.delegate} typeName={`Account Delegate`} /> : <div>&nbsp;</div>}
             <DataBox title="Transactions" value={account.n_tx} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
