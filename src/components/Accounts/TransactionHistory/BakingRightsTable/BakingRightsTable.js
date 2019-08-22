@@ -11,11 +11,12 @@ const BakingRightsTable = ({ income, tableData, account }) => {
   const [data, setData] = React.useState({ cycle: null, rights: null, isLoaded: false });
   const nextTimeBakerBlock = convertMinutes((new Date(account.next_bake_time).getTime() - Date.now()) / 60000);
   const nextTimeEndoresBlock = convertMinutes((new Date(account.next_endorse_time).getTime() - Date.now()) / 60000);
+  const [chain] = useGlobal('chain');
 
   React.useEffect(() => {
     const fetchData = async () => {
       const cycle = await getCycleById({});
-      const rights = wrappeData(tableData, cycle.start_height);
+      const rights = wrappeData(tableData, cycle.start_height, chain.height);
       const earned = income.baking_income + income.endorsing_income + income.fees_income + income.seed_income;
       const slashed =  income.slashed_income;
       const missed = income.missed_endorsing_income + income.lost_baking_income;
@@ -47,6 +48,10 @@ const BakingRightsTable = ({ income, tableData, account }) => {
         <div style={{ width: 570 }}>
           <RightsChart data={data.rights} startHeight={data.cycle && data.cycle.start_height} />
         </div>
+        <FlexRowSpaceBetween mt={-10}>
+          <DataBox title="Past Efficiency" />
+          <DataBox ta={'right'} title="Future Rights" />
+        </FlexRowSpaceBetween>
       </FlexColumn>
 
       <FlexRowSpaceBetween minHeight={170} minWidth={230} mt={10}>
@@ -73,8 +78,8 @@ const BakingRightsTable = ({ income, tableData, account }) => {
   );
 };
 
-const wrappeData = (rights, startHeight) => {
-  let data = prepareData(rights, startHeight);
+const wrappeData = (rights, startHeight, currentHeight) => {
+  let data = prepareData(rights, startHeight, currentHeight);
   let res = [];
   let yChartItems = [];
   let counter, endorsedCound, bakingCount, stolenCount, lostCount, missedCount;
@@ -106,7 +111,7 @@ const wrappeData = (rights, startHeight) => {
 
 export default BakingRightsTable;
 
-function prepareData(array, startHeight) {
+function prepareData(array, startHeight, currentHeight) {
   return array.reduce((obj, item, index) => {
     if (item[1] && ((item[2] === 0 && item[1] === 'baking') || item[1] === 'endorsing')) {
       let diff = item[0] - startHeight;
@@ -124,6 +129,7 @@ function prepareData(array, startHeight) {
           isMissed: item[4],
           isLost: item[5],
           isBad: item[4] && item[5],
+          isFuture: item[0] > currentHeight,
         },
       ];
     }

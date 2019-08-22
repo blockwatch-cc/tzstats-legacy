@@ -112,7 +112,8 @@ function drawOnCanvas(ctx, props, points) {
           let newPoint = { ...point };
           newPoint.y = point.y - index * 11;
           let invalidBlocks = item && item.length ? item.filter(d => d.isBad) : [];
-          let color = !item ? '#525566' : invalidBlocks.length ? '#ED6290' : '#418BFD';
+          let futureRights = item && item.length ? item.filter(d => d.isFuture) : [];
+          let color = !item ? '#525566' : (futureRights.length ? '#FFFFFF' : (invalidBlocks.length ? '#ED6290' : '#418BFD'));
           newPoint.marker.drawOnCanvas({ ...point.marker.defaultProps, ...markerProps, fill: color }, newPoint, ctx);
         });
       });
