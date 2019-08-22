@@ -16,11 +16,12 @@ const BakingRightsTable = ({ income, tableData, account }) => {
     const fetchData = async () => {
       const cycle = await getCycleById({});
       const rights = wrappeData(tableData, cycle.start_height);
-      const earned = income.baking_income + income.endorsing_income + income.fees_income;
-      const lost = income.lost_baking_income + income.missed_endorsing_income + income.slashed_income;
+      const earned = income.baking_income + income.endorsing_income + income.fees_income + income.seed_income;
+      const slashed =  income.slashed_income;
+      const missed = income.missed_endorsing_income + income.lost_baking_income;
       const stolen = income.stolen_baking_income;
-      console.log(rights, 'rights');
-      setData({ cycle, rights, earned, lost, stolen, isLoaded: true });
+      // console.log(rights, 'rights');
+      setData({ cycle, rights, earned, slashed, stolen, missed, isLoaded: true });
     };
 
     fetchData();
@@ -39,28 +40,31 @@ const BakingRightsTable = ({ income, tableData, account }) => {
     <FlexRowSpaceBetween>
       <FlexColumn>
         <FlexRowSpaceBetween>
-          <DataBox valueSize="14px" valueType="text" title={`Efficiency`} value={`${income.efficiency_percent}%`} />
-          <DataBox valueSize="14px" valueType="text" title={`Luck`} value={`${income.luck_percent}%`} />
+          <DataBox valueSize="14px" valueType="text" title={`Efficiency ${formatCurrency(income.total_income)}`} value={`${income.efficiency_percent}%`} />
+          <DataBox valueSize="14px" title={`Cycle ${income.cycle}`} />
+          <DataBox ta={'right'} valueSize="14px" valueType="text" title={`Luck ${formatCurrency(income.expected_income)}`} value={`${income.luck_percent}%`} />
         </FlexRowSpaceBetween>
         <div style={{ width: 570 }}>
           <RightsChart data={data.rights} startHeight={data.cycle && data.cycle.start_height} />
         </div>
       </FlexColumn>
 
-      <FlexRowSpaceBetween minHeight={170} minWidth={200} mt={35}>
+      <FlexRowSpaceBetween minHeight={170} minWidth={230} mt={10}>
         <FlexColumnSpaceBetween minHeight={170}>
           <DataBox valueSize="14px" title={`Next Baking in ${nextTimeBakerBlock}`} value={account.next_bake_height} />
-          <div style={{ height: 35 }}></div>
           <DataBox
             valueSize="14px"
             title={`Next Endorsing in ${nextTimeEndoresBlock}`}
             value={account.next_endorse_height}
           />
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween minHeight={170}>
-          <DataBox valueSize="14px" title="Earned" valueType="currency-full" value={data.earned} />
-          <DataBox valueSize="14px" title="Lost" valueType="currency-full" value={data.lost} />
-          <DataBox valueSize="14px" title="Stolen" valueType="currency-full" value={data.stolen} />
+          <DataBox valueSize="14px" title="Earned Rewards" valueType="currency-full" value={data.earned} />
+          <DataBox valueSize="14px" title="Stolen Rewards" valueType="currency-full" value={data.stolen} />
+          <DataBox valueSize="14px" title="Missed Rewards" valueType="currency-full" value={data.missed} />
+          <DataBox valueSize="14px" title="Slashed Value" valueType="currency-full" value={data.slashed} />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>
     </FlexRowSpaceBetween>
@@ -73,7 +77,7 @@ const wrappeData = (rights, startHeight) => {
   let data = prepareData(rights, startHeight);
   let res = [];
   let yChartItems = [];
-  let counter, endorsedCound, bakingCount, stolenCount, lostCount;
+  let counter, endorsedCound, bakingCount, stolenCount, lostCount, missedCount;
   let yScale = 16;
   let interval = 4;
   let totalBlocks = 4096;
@@ -86,13 +90,14 @@ const wrappeData = (rights, startHeight) => {
         res.push({
           x: counter / (yScale * interval),
           data: yChartItems,
-          stats: { bakingCount, endorsedCound, stolenCount, lostCount },
+          stats: { bakingCount, endorsedCound, stolenCount, lostCount, missedCount },
         });
         yChartItems = [];
         endorsedCound = 0;
         bakingCount = 0;
         stolenCount = 0;
         lostCount = 0;
+        missedCount = 0;
       }
     }
   }
@@ -118,7 +123,7 @@ function prepareData(array, startHeight) {
           isStolen: item[3],
           isMissed: item[4],
           isLost: item[5],
-          isBad: item[3] && item[4] && item[5],
+          isBad: item[4] && item[5],
         },
       ];
     }

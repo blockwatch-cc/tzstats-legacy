@@ -9,6 +9,7 @@ TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
 
 export function convertMinutes(num) {
+  num = num<0?0:num;
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
   const m = Math.floor(num % 60);
@@ -237,14 +238,14 @@ export function getAccountTags(account) {
   if (account.is_revealed) {
     tags.push('Revealed');
   }
-  if (account.is_funded) {
+  if (account.is_activated) {
     tags.push('Fundraiser');
   }
   if (account.is_vesting) {
     tags.push('Vesting');
   }
-  if (account.is_spendable) {
-    tags.push('Spendable');
+  if (account.is_delegated) {
+    tags.push('Delegating');
   }
   if (!account.is_active_delegate && account.is_delegate) {
     tags.push('Inactive');

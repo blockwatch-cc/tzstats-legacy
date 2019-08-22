@@ -17,7 +17,7 @@ const DelegationHistory = ({ account, stakingData }) => {
   const [chain] = useGlobal('chain');
   const stackingCapacity = getStakingCapacity(account, chain);
   const totalStaking =
-    account.delegated_balance + account.delegated_balance + account.frozen_deposits + account.frozen_fees;
+    account.delegated_balance + account.spendable_balance + account.frozen_deposits + account.frozen_fees;
 
   let settings = getStakingSettings(totalStaking, stackingCapacity);
 
@@ -37,7 +37,7 @@ const DelegationHistory = ({ account, stakingData }) => {
           <FlexColumnSpaceAround width={175} minHeight={150}>
             <FlexRowSpaceBetween>
               <DataBox valueSize="14px" title="Active Delegations" value={account.active_delegations} />
-              <DataBox valueSize="14px" title="Rolls Owned" value={chain.roll_owners} />
+              <DataBox valueSize="14px" title="Rolls Owned" value={account.rolls} />
             </FlexRowSpaceBetween>
             <FlexColumn>
               <FlexRowSpaceBetween>
@@ -65,13 +65,13 @@ function getStakingCapacity(account, chain) {
 function getStakingSettings(totalStaking, stackingCapacity) {
   return [
     {
-      percent: (100 * totalStaking) / (totalStaking + stackingCapacity),
+      percent: (100 * totalStaking) / stackingCapacity,
       color: '#418BFD',
       title: 'In Staking',
       value: `${totalStaking}`,
     },
     {
-      percent: (100 * stackingCapacity) / (totalStaking + stackingCapacity),
+      percent: (100 * (stackingCapacity-totalStaking)) / stackingCapacity,
       color: '#858999;',
       title: 'Staking Capacity',
       value: `${stackingCapacity}`,

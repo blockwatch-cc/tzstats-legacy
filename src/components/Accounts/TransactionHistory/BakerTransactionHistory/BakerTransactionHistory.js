@@ -109,7 +109,7 @@ const BakerTransactionHistory = ({ account }) => {
 const OperationsTable = ({ type, tableData, account, income }) => {
   switch (type) {
     case 'delegation':
-      return <DelegationTable data={tableData} />;
+      return <DelegationTable data={tableData} account={account} />;
     case 'managment':
       return <AccountManagmentTable data={tableData} />;
     case 'incoming':

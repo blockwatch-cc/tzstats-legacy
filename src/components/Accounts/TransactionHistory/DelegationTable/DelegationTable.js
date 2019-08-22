@@ -7,7 +7,7 @@ import TxTypeIcon from '../../../Common/TxTypeIcon';
 import { timeFormat } from 'd3-time-format';
 import { useGlobal } from 'reactn';
 
-const DelegationTable = ({ data }) => {
+const DelegationTable = ({ data, account }) => {
   const [chain] = useGlobal('chain');
   return (
     <>
@@ -31,8 +31,8 @@ const DelegationTable = ({ data }) => {
                   <DataBox title={timeFormat('%b %d, %H:%M')(item.time)} />
                 </TableCell>
                 <TableCell width={20}>{formatCurrency(item.balance)}</TableCell>
-                <TableCell width={20}>{`${(item.rolls / chain.rolls).toFixed()}%`}</TableCell>
-                <TableCell width={20}>{item.is_active ? 'Active' : 'Inactive'}</TableCell>
+                <TableCell width={20}>{`${(item.balance / account.delegated_balance*100).toFixed()}%`}</TableCell>
+                <TableCell width={20}>{account.is_active_delegate ? 'Active' : 'Inactive'}</TableCell>
               </FlexRowSpaceBetween>
             );
           })

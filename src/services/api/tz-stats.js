@@ -105,7 +105,7 @@ export const getAccountRights = async ({ address, cycle }) => {
 //api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&account.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
 export const getAccountDelegators = async ({ address, cycle }) => {
   const response = await request(
-    `/tables/snapshot?delegate=${address}&account.nin=${address}&cycle=${cycle}&limit=10000&verbose=1`
+    `/tables/snapshot?delegate=${address}&account.nin=${address}&cycle=${cycle-7}&is_selected=true&limit=10000&verbose=1`
   );
 
   return response;

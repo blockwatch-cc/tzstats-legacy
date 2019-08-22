@@ -41,16 +41,18 @@ const RightsChart = props => {
     let totalLost = 0;
     let totalBaking = 0;
     let totalStolen = 0;
+    let totalMissed = 0;
     for (let index = 0; index < data.length; index++) {
       const subData = data[index];
       subData.forEach(element => {
         totalEndorsed += element & element.isEndorsed ? 1 : 0;
-        totalBaking += element & element.isEndorsed ? 1 : 0;
-        totalLost += element & element.isEndorsed ? 1 : 0;
-        totalStolen += element & element.isEndorsed ? 1 : 0;
+        totalBaking += element & element.isBaking ? 1 : 0;
+        totalLost += element & element.isLost ? 1 : 0;
+        totalStolen += element & element.isStolen ? 1 : 0;
+        totalMissed += element & element.isMissed ? 1 : 0;
       });
     }
-    return { totalEndorsed, totalLost, totalBaking, totalStolen };
+    return { totalEndorsed, totalLost, totalBaking, totalStolen, totalMissed };
   };
   const zoomAnchor = function(e) {};
 
@@ -64,16 +66,20 @@ const RightsChart = props => {
             value: stats.totalEndorsed,
           },
           {
-            label: 'Baking Blocks',
+            label: 'Baked Blocks',
             value: stats.totalBaking,
           },
           {
-            label: 'Stole Blocks',
+            label: 'Stolen Blocks',
             value: stats.totalStolen,
           },
           {
             label: 'Lost Blocks',
             value: stats.totalLost,
+          },
+          {
+            label: 'Missed Endorsements',
+            value: stats.missedLost,
           },
         ],
       };
@@ -86,9 +92,9 @@ const RightsChart = props => {
       width={width}
       seriesName={''}
       margin={{
-        left: 0,
+        left: -5,
         right: 5,
-        top: 0,
+        top: -5,
         bottom: 0,
       }}
       type={type}
