@@ -5,12 +5,12 @@ import { timeAgo, getShortHash } from '../../../../utils';
 import { Link } from 'react-router-dom';
 import TxTypeIcon from '../../../Common/TxTypeIcon';
 
-const TransactionTable = ({ data }) => {
+const TransactionTable = ({ data, incoming }) => {
   return (
     <>
       <FlexRowSpaceBetween mb={10}>
         <TableHeader width={30}>Details</TableHeader>
-        <TableHeader width={20}>To</TableHeader>
+        <TableHeader width={20}>{incoming?'From':'To'}</TableHeader>
         <TableHeader width={20}>Amount</TableHeader>
         <TableHeader width={20}>Fees</TableHeader>
         <TableHeader width={10}>Hash</TableHeader>
@@ -24,10 +24,17 @@ const TransactionTable = ({ data }) => {
                   <TxTypeIcon isSuccess={item.is_success} type={item.op_type} />
                   <Details>{`Transaction ${timeAgo.format(new Date(item.time))}`}</Details>
                 </TypeCell>
-                <TableCell width={20}>
-                  <Blockies hash={item.receiver} />
-                  <HashLink to={`/account/${item.receiver}`}>{getShortHash(item.receiver)}</HashLink>
-                </TableCell>
+                {incoming ? (
+                  <TableCell width={20}>
+                    <Blockies hash={item.sender} />
+                    <HashLink to={`/account/${item.sender}`}>{getShortHash(item.sender)}</HashLink>
+                  </TableCell>
+                  ) : (
+                  <TableCell width={20}>
+                    <Blockies hash={item.receiver} />
+                    <HashLink to={`/account/${item.receiver}`}>{getShortHash(item.receiver)}</HashLink>
+                  </TableCell>
+                )}
                 <TableCell width={20}>{`${item.volume} ꜩ`}</TableCell>
                 <TableCell width={20}>{`${item.fee} ꜩ`}</TableCell>
                 <TableCell width={10}>

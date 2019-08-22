@@ -88,10 +88,10 @@ const BakerTransactionHistory = ({ account }) => {
           <Button active={data.opType === 'managment'} onClick={e => handelClick('managment')}>
             Managed Accounts
           </Button>
-          <Button active={data.opType === 'incoming'} onClick={e => handelClick('incoming')}>
+          <Button active={data.opType === 'outcoming'} onClick={e => handelClick('outcoming')}>
             Outgoing Transactions
           </Button>
-          <Button active={data.opType === 'outcoming'} onClick={e => handelClick('outcoming')}>
+          <Button active={data.opType === 'incoming'} onClick={e => handelClick('incoming')}>
             Incoming Transactions
           </Button>
           <Button active={data.opType === 'proposals'} onClick={e => handelClick('proposals')}>
@@ -113,9 +113,9 @@ const OperationsTable = ({ type, tableData, account, income }) => {
     case 'managment':
       return <AccountManagmentTable data={tableData} />;
     case 'incoming':
-      return <TransactionTable data={tableData} />;
+      return <TransactionTable data={tableData} incoming={true} />;
     case 'outcoming':
-      return <TransactionTable data={tableData} />;
+      return <TransactionTable data={tableData} incoming={false} />;
     case 'proposals':
       return <VoitingTable data={tableData} />;
     default:
