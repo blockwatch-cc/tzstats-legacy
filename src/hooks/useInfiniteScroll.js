@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 const useInfiniteScroll = (callback, targetId) => {
   const [isFetching, setIsFetching] = useState(false);
+  let debounce = false;
 
   useEffect(() => {
     let targetElem = document.getElementById(targetId);
@@ -21,9 +22,16 @@ const useInfiniteScroll = (callback, targetId) => {
     callback();
   }, [callback, isFetching]);
 
-  function handleScroll() {
-    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || isFetching)
+  function handleScroll(ev) {
+    const e = ev.target;
+    const containerHeight = e.clientHeight;
+    const contentHeight = e.scrollHeight
+    const scrollPos = e.scrollTop;
+    if (debounce || isFetching || scrollPos < (contentHeight - 3 * containerHeight)) {
+      debounce = false;
       return;
+    }
+    debounce = true;
     setIsFetching(true);
   }
 
