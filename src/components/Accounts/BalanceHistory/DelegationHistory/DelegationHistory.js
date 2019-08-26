@@ -5,11 +5,11 @@ import {
   FlexColumnSpaceAround,
   FlexRow,
   Card,
-  FlexRowWrap,
   FlexRowSpaceBetween,
   FlexColumn,
 } from '../../../Common';
 import { HorizontalProgressBar } from '../../../Common/ProgressBar';
+import { formatCurrency, formatValue } from '../../../../utils';
 import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 
@@ -22,38 +22,20 @@ const DelegationHistory = ({ account, stakingData }) => {
   let settings = getStakingSettings(totalStaking, stackingCapacity);
 
   return (
+    <Wrapper>
     <Card title={'Delegation History (30d)'}>
-      <FlexRowWrap>
-        <FlexRow flex={1} mb={10}>
+      <FlexColumn>
+        <FlexRow flex={1} mb={20}>
           <BalanceChart type={'svg'} data={stakingData} />
         </FlexRow>
-        <FlexRowSpaceBetween width={350} ml={30}>
-          <FlexColumnSpaceAround minHeight={150}>
-            <LegendItem color={'#29C0FF'}>
-              <DataBox title="Delegated Balance" valueType={'currency-full'} value={account.delegated_balance} />
-            </LegendItem>
-            <div style={{ height: 75 }}></div>
-          </FlexColumnSpaceAround>
-          <FlexColumnSpaceAround width={175} minHeight={150}>
-            <FlexRowSpaceBetween>
-              <DataBox valueSize="14px" title="Active Delegations" value={account.active_delegations} />
-              <DataBox valueSize="14px" title="Rolls Owned" value={account.rolls} />
-            </FlexRowSpaceBetween>
-            <FlexColumn>
-              <FlexRowSpaceBetween>
-                <DataBox valueSize="14px" valueType="currency-short" value={totalStaking} />
-                <DataBox valueSize="14px" valueType="currency-short" value={stackingCapacity} />
-              </FlexRowSpaceBetween>
-              <HorizontalProgressBar height={10} settings={settings} />
-              <FlexRowSpaceBetween>
-                <DataBox title="Staking Balance" />
-                <DataBox title="Staking Capacity" />
-              </FlexRowSpaceBetween>
-            </FlexColumn>
-          </FlexColumnSpaceAround>
-        </FlexRowSpaceBetween>
-      </FlexRowWrap>
+        <FlexRow>
+          <LegendItem color={'#418BFD'}>
+            <DataBox title={`Delegated Balance ${formatCurrency(account.delegated_balance)}`} />
+          </LegendItem>
+        </FlexRow>
+      </FlexColumn>
     </Card>
+    </Wrapper>
   );
 };
 function getStakingCapacity(account, chain) {
@@ -79,18 +61,25 @@ function getStakingSettings(totalStaking, stackingCapacity) {
   ];
 }
 const LegendItem = styled.div`
-  margin-bottom: -28px;
   margin-left: 20px;
+  margin-right: 10px;
+  position: relative;
   white-space: nowrap;
-  min-width: 130px;
   &:after {
-    content: '•';
-    position: relative;
+    content: '-';
+    position: absolute;
+    line-height: 0;
     left: -20px;
-    bottom: 45px;
+    top: 5px;
     font-size: 30px;
     color: ${prop => prop.color};
   }
+`;
+
+const Wrapper = styled.div`
+  flex: 1;
+  min-width: 340px;
+  margin: 0 5px;
 `;
 
 export default DelegationHistory;

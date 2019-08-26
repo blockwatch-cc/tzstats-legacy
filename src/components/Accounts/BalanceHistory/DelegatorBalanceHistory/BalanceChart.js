@@ -19,7 +19,8 @@ class BalanceChart extends React.Component {
     console.log(initialData, 'initialData');
 
     const max = _.maxBy(initialData, d => d.value).value;
-    const min = _.minBy(initialData, d => d.value).value;
+    let min = _.minBy(initialData, d => d.value).value;
+    min = min<0.5*max?0:min;
 
     const yGrid = { innerTickSize: -width + 40 };
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
@@ -57,7 +58,7 @@ class BalanceChart extends React.Component {
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}
       >
-        <Chart id={1} height={180} yExtents={[d => [max * 1.2, 0]]}>
+        <Chart id={1} height={180} yExtents={[d => [max * 1.05, min * 0.95]]}>
           <YAxis
             axisAt="right"
             orient="right"

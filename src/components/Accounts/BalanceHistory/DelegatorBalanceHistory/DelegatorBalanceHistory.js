@@ -8,6 +8,7 @@ const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
   const [lastMarketData] = useGlobal('lastMarketData');
 
   return (
+    <Wrapper>
     <Card title={'Balance History (30d)'}>
       <FlexRowWrap>
         <FlexRow flex={1} mb={10}>
@@ -34,7 +35,14 @@ const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
         </FlexRowSpaceBetween>
       </FlexRowWrap>
     </Card>
+    </Wrapper>
   );
 };
 
 export default DelegatorBalanceHistory;
+
+const Wrapper = styled.div`
+  flex: 1;
+  min-width: 340px;
+  margin: 0 5px;
+`;

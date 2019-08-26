@@ -1,23 +1,39 @@
 import React from 'react';
+import styled from 'styled-components';
 import BasicBalanceHistory from './BasicBalanceHistory';
 import DelegatorBalanceHistory from './DelegatorBalanceHistory';
 import BakerBalanceHistory from './BakerBalanceHistory';
 import DelegationHistory from './DelegationHistory';
+import { EmptyData } from '../../Common';
 import { getAccountType } from '../../../utils';
 
 const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
   const accountType = getAccountType(account);
   switch (accountType.type) {
     case 'basic':
-      return <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />;
+      return (
+        <JoinContainer>
+          <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+          <Wrapper>
+            <EmptyData title={'How to delegate?'} height={212} text={'The account is not participating in staking right now. To start earning rewards on all funds you can securely delegate rights to a staking service or register as a delegate.'}/>
+          </Wrapper>
+        </JoinContainer>
+      );
     case 'delegator':
-      return <DelegatorBalanceHistory account={account} balanceHistory={balanceHistory} />;
+      return (
+        <JoinContainer>
+          <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+          <Wrapper>
+            <EmptyData title={'Payout history'} height={212} text={'TODO'}/>
+          </Wrapper>
+        </JoinContainer>
+      );
     case 'baker':
       return (
-        <>
+        <JoinContainer>
           <BakerBalanceHistory account={account} balanceHistory={balanceHistory} stakingData={stakingData} />
           <DelegationHistory account={account} stakingData={stakingData} />
-        </>
+        </JoinContainer>
       );
     case 'contract':
       return <DelegatorBalanceHistory account={account} balanceHistory={balanceHistory} />;
@@ -28,3 +44,15 @@ const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
 };
 
 export default BalanceHistory;
+const JoinContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 -5px;
+`;
+
+const Wrapper = styled.div`
+  flex: 1;
+  min-width: 340px;
+  margin: 0 5px;
+`;

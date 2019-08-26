@@ -18,7 +18,8 @@ class BalanceChart extends React.Component {
     const { data: initialData, width, ratio } = this.props;
 
     const max = _.maxBy(initialData, d => d.delegation).delegation;
-    const min = _.minBy(initialData, d => d.delegation).delegation;
+    let min = _.minBy(initialData, d => d.delegation).delegation;
+    min = min<0.5*max?0:min;
 
     const yGrid = { innerTickSize: -width + 40 };
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
@@ -56,11 +57,11 @@ class BalanceChart extends React.Component {
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}
       >
-        <Chart id={1} height={180} yExtents={[d => [max * 1.2, 0]]}>
+        <Chart id={1} height={180} yExtents={[d => [max * 1.05, min * 0.95]]}>
           <YAxis
             axisAt="right"
             orient="right"
-            ticks={2}
+            ticks={4}
             tickFormat={x => format('~s')(x) + 'ꜩ'}
             tickStrokeDasharray={'Solid'}
             tickStrokeOpacity={0.3}
@@ -86,8 +87,8 @@ class BalanceChart extends React.Component {
 
           <AreaSeries
             yAccessor={d => d.delegation}
-            stroke="#29C0FF"
-            fill="rgba(41, 192, 255, 0.2)"
+            stroke="#418BFD"
+            fill="rgba(65, 139, 253, 0.2)"
             strokeWidth={2}
             interpolation={curveLinear}
           />
@@ -99,5 +100,7 @@ class BalanceChart extends React.Component {
     );
   }
 }
+
+// #29C0FF
 
 export default fitWidth(BalanceChart);

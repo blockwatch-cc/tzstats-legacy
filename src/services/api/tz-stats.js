@@ -45,23 +45,33 @@ export const getAccountByHash = async hash => {
   return response;
 };
 
-export const getTableDataByType = async ({ type, cycle, address }) => {
+// decodes packed table arrays into js objects
+function unpackColumns({response = [], columns = []}) {
+  return response.map(item => {
+    return columns.reduce((o, col, i) => {
+      o[col] = item[i];
+      return o;
+    }, {})
+  });
+}
+
+export const getTableDataByType = async ({ type, cycle, address, cursor, limit }) => {
   let ops = [];
   switch (type) {
     case 'delegation':
-      ops = await getAccountDelegators({ address, cycle });
+      ops = await getAccountDelegators({ address, cycle, cursor, limit });
       break;
-    case 'managment':
-      ops = await getAccountManagment({ address });
+    case 'managed':
+      ops = await getAccountManagment({ address, cursor, limit });
       break;
     case 'incoming':
-      ops = await getAccountOperations({ address, type: 'receiver' });
+      ops = await getAccountOperations({ address, direction: 'receiver', type: 'transaction', cursor, limit });
       break;
-    case 'outcoming':
-      ops = await getAccountOperations({ address, type: 'sender' });
+    case 'outgoing':
+      ops = await getAccountOperations({ address, direction: 'sender', type: 'transaction', cursor, limit });
       break;
-    case 'proposals':
-      ops = await getAccountVoiting({ address });
+    case 'votes':
+      ops = await getAccountVoting({ address, cursor, limit });
       break;
     default:
       break;
@@ -70,44 +80,98 @@ export const getTableDataByType = async ({ type, cycle, address }) => {
 };
 
 //https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&op_type=transaction&verbose=1
-export const getAccountOperations = async ({ address, type }) => {
-  const response = await request(`/tables/op?${type}=${address}&op_type=transaction&verbose=1`);
-
-  return response;
+export const getAccountOperations = async ({ address, type = 'transaction', cursor, direction, limit = 100 }) => {
+  const columns = [
+    'row_id',
+    'op_type',
+    'op_hash',
+    'sender',
+    'receiver',
+    'is_success',
+    'time',
+    'volume',
+    'fee'
+  ];
+  const typ = 'op_type' + (type === 'other' ? '.ne=transaction' : '='+type);
+  cursor = cursor?'&cursor='+cursor:'';
+  const response = await request(`/tables/op?${direction}=${address}&${typ}&columns=${columns.join(',')}&limit=${limit}${cursor}`);
+  return unpackColumns({response, columns})
 };
 
-//https://api.tzstats.com/tables/ballot?source=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&verbose=1
-export const getAccountVoiting = async ({ address }) => {
-  const response = await request(`/tables/ballot?source=${address}&verbose=1`);
 
+//https://api.tzstats.com/tables/ballot?source=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&verbose=1
+export const getAccountVoting = async ({ address, cursor, limit = 50 }) => {
+  cursor = cursor?'&cursor='+cursor:'';
+  const response = await request(`/tables/ballot?source=${address}&limit=${limit}${cursor}&verbose=1`);
   return response;
 };
 //api.tzstats.com/tables/account?manager=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt
-export const getAccountManagment = async ({ address }) => {
-  const response = await request(`/tables/account?manager=${address}&verbose=1`);
-
-  return response;
+export const getAccountManagment = async ({ address, cursor, limit = 50 }) => {
+  const columns = [
+    'row_id',
+    'account',
+    'first_in_time',
+    'last_seen_time',
+    'spendable_balance',
+    'delegate',
+  ];
+  cursor = cursor?'&cursor='+cursor:'';
+  const response = await request(`/tables/account?manager=${address}&limit=${limit}${cursor}&columns=${columns.join(',')}`);
+  return unpackColumns({response, columns})
 };
+
 //https://api.tzstats.com/tables/income?cycle=137&verbose=1&account=tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9
 export const getAccountIncome = async ({ address, cycle }) => {
-  const response = await request(`/tables/income?account=${address}&cycle=${cycle}&verbose=1`);
-
-  return response[0];
+  const response = await request(`/tables/income?account=${address}&cycle=${cycle}&limit=1&verbose=1`);
+  return response[0] || {
+      cycle: cycle,
+      luck_percent: 0,
+      efficiency_percent: 0,
+      expected_income: 0,
+      total_income: 0,
+      baking_income: 0,
+      endorsing_income: 0,
+      fees_income: 0,
+      seed_income: 0,
+      slashed_income: 0,
+      missed_endorsing_income: 0,
+      lost_baking_income: 0,
+      stolen_baking_income: 0,
+    };
 };
+
+//api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&account.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
+export const getAccountDelegators = async ({ address, cycle, cursor, limit }) => {
+  const columns = [
+    'row_id',
+    'account',
+    'balance',
+    'time'
+  ];
+  cursor = cursor?'&cursor='+cursor:'';
+  const response = await request(
+    // from a cycle's role snapshot
+    `/tables/snapshot?delegate=${address}&account.nin=${address}&cycle=${cycle-7}&is_selected=true&columns=${columns.join(',')}&limit=${limit}${cursor}`
+
+    // from most-recent state
+    // `/tables/account?delegate=${address}&account.nin=${address}&limit=10000&verbose=1`
+  );
+  return unpackColumns({response, columns})
+};
+
 //api.tzstats.com/tables/rights?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=50000&verbose=1
 export const getAccountRights = async ({ address, cycle }) => {
+  const columns = [
+    'height',
+    'type',
+    'priority',
+    'is_stolen',
+    'is_missed',
+    'is_lost',
+  ];
   const response = await request(
-    `/tables/rights?delegate=${address}&cycle=${cycle}&columns=height,type,priority,is_stolen,is_missed,is_lost&limit=50000`
+    `/tables/rights?delegate=${address}&cycle=${cycle}&columns=${columns.join(',')}&limit=50000`
   );
-
-  return response;
-};
-//api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&account.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
-export const getAccountDelegators = async ({ address, cycle }) => {
-  const response = await request(
-    `/tables/snapshot?delegate=${address}&account.nin=${address}&cycle=${cycle-7}&is_selected=true&limit=10000&verbose=1`
-  );
-
   return response;
 };
 

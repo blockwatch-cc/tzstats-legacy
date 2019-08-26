@@ -2,55 +2,53 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, FlexRow } from '../../../Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
-import { getAccountOperations } from '../../../../services/api/tz-stats';
 import TransactionTable from '../TransactionTable';
+import AccountManagmentTable from '../AccountManagmentTable';
 
-const BasicTransactionHistory = ({ hash }) => {
-  const [isOutgoing, setIsOutgoing] = React.useState({ isOutgoing: true });
-  const [operations, setOperations] = React.useState([]);
-  const [tableOperations, setTableOperations] = React.useState([]);
-  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'main-panel');
-
-  function fetchMoreOperations() {
-    if (tableOperations.length != operations.length) {
-      const sliceIndex =
-        operations.length - tableOperations.length < 10 ? operations.length : tableOperations.length + 10;
-      let newTableData = operations.slice(tableOperations.length, sliceIndex);
-      setIsFetching(false);
-      setTableOperations(prevState => [...prevState, ...newTableData]);
-    }
-  }
-
-  const handelClick = isOutgoing => {
-    setIsOutgoing(isOutgoing);
+const BasicTransactionHistory = ({ account }) => {
+  const [data, setData] = React.useState({ tab: 'outgoing' });
+  const handleClick = tab => {
+    setData({tab:tab});
   };
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const operations = await getAccountOperations({ address: hash, type: isOutgoing ? 'sender' : 'receiver' });
-      operations.reverse();
-      setTableOperations(operations.slice(0, 10));
-      setOperations(operations);
-    };
-
-    fetchData();
-  }, [hash, isOutgoing]);
 
   return (
     <Wrapper>
-      <Card title={'Transaction History'}>
+      <Card>
         <FlexRow mb={30}>
-          <Button active={isOutgoing} onClick={e => handelClick(true)}>
+          <Button active={data.tab==='outgoing'} onClick={e => handleClick('outgoing')}>
             Outgoing Transactions
           </Button>
-          <Button active={!isOutgoing} onClick={e => handelClick(false)}>
+          <Button active={data.tab==='incoming'} onClick={e => handleClick('incoming')}>
             Incoming Transactions
           </Button>
+          <Button active={data.tab==='other'} onClick={e => handleClick('other')}>
+            Other Operations
+          </Button>
+          {account.n_origination ? (
+          <Button active={data.tab === 'managed'} onClick={e => handleClick('managed')}>
+            Managed Accounts
+          </Button>
+          ):''}
         </FlexRow>
-        <TransactionTable data={tableOperations} />
+        <OperationsTable account={account} type={data.tab} />
       </Card>
     </Wrapper>
   );
+};
+
+const OperationsTable = ({ type, account }) => {
+  switch (type) {
+    case 'managed':
+      return <AccountManagmentTable account={account} />;
+    case 'incoming':
+      return <TransactionTable account={account} incoming={true} type={"transaction"} />;
+    case 'outgoing':
+      return <TransactionTable account={account} incoming={false} type={"transaction"} />;
+    case 'other':
+      return <TransactionTable account={account} incoming={false} type={type} />;
+    default:
+      return <></>;
+  }
 };
 
 const Button = styled.div`

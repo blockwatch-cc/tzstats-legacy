@@ -26,11 +26,6 @@ const RightsChart = props => {
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.x));
   let { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
 
-  const start = xAccessor(last(data));
-  const end = xAccessor(data[Math.max(0, data.length - 70)]);
-
-  const xExtents = [start, end];
-
   const zoomEvent = false;
 
   const panEvent = false;
@@ -45,11 +40,11 @@ const RightsChart = props => {
     for (let index = 0; index < data.length; index++) {
       const subData = data[index];
       subData.forEach(element => {
-        totalEndorsed += element & element.isEndorsed ? 1 : 0;
-        totalBaking += element & element.isBaking ? 1 : 0;
-        totalLost += element & element.isLost ? 1 : 0;
-        totalStolen += element & element.isStolen ? 1 : 0;
-        totalMissed += element & element.isMissed ? 1 : 0;
+        totalEndorsed += element.isEndorsed ? 1 : 0;
+        totalBaking +=  element.isBaking ? 1 : 0;
+        totalLost += element.isLost ? 1 : 0;
+        totalStolen += element.isStolen ? 1 : 0;
+        totalMissed += element.isMissed ? 1 : 0;
       });
     }
     return { totalEndorsed, totalLost, totalBaking, totalStolen, totalMissed };
@@ -58,8 +53,12 @@ const RightsChart = props => {
 
   function tooltipContent(ys) {
     return ({ currentItem, xAccessor }) => {
+      const x = xAccessor(currentItem);
+      const data = currentItem.data
       let stats = getStats(currentItem);
       return {
+        x: `Height`,
+        // x: `${format(data[x]?data[x][0].height:0, ",") - format(data[x]?data[x].splice(-1).height:0, ",") }`,
         y: [
           {
             label: 'Endorsed Blocks',
@@ -79,7 +78,7 @@ const RightsChart = props => {
           },
           {
             label: 'Missed Endorsements',
-            value: stats.missedLost,
+            value: stats.totalMissed,
           },
         ],
       };
@@ -104,12 +103,11 @@ const RightsChart = props => {
       zoomEvent={zoomEvent}
       clamp={clamp}
       zoomAnchor={zoomAnchor}
-      xScale={scaleLinear([0, 64])}
+      xScale={scaleLinear([0, 63])}
       xAccessor={d => d.x}
-      xExtents={[0, 64]}
+      xExtents={[0, 63]}
     >
-      <Chart id={3} height={190} yExtents={[d => [0, 16]]}>
-        {/* <HoverTooltip yAccessor={d => d} tooltipContent={tooltipContent()} bgOpacity={0} fontSize={15} /> */}
+      <Chart id={1} height={190} yExtents={[d => [0, 15]]}>
         <ScatterSeries
           clip={false}
           yAccessor={d => 1}
@@ -125,3 +123,11 @@ const RightsChart = props => {
 };
 
 export default fitWidth(RightsChart);
+
+/*<HoverTooltip
+  yAccessor={d => d}
+  tooltipContent={tooltipContent()}
+  bgOpacity={0}
+  fontSize={12}
+  fontFamily={"sans-serif"}
+/>*/

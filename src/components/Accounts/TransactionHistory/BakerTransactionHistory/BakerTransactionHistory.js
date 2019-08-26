@@ -1,127 +1,82 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, FlexRow } from '../../../Common';
-import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
-import { getTableDataByType, getAccountRights, getAccountIncome } from '../../../../services/api/tz-stats';
 import DelegationTable from '../DelegationTable';
 import AccountManagmentTable from '../AccountManagmentTable';
 import BakingRightsTable from '../BakingRightsTable';
 import TransactionTable from '../TransactionTable';
-import VoitingTable from '../VoitingTable';
+import VotingTable from '../VotingTable';
 import { useGlobal } from 'reactn';
 
-//Todo refactoring
 const BakerTransactionHistory = ({ account }) => {
-  const [data, setData] = React.useState({ opType: null, operations: [], tableData: [], isLoaded: false });
-  const [accountIncome, setAccountIncome] = React.useState({ inCome: [], rights: [] });
-  const [chain] = useGlobal('chain');
-  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'account-operations');
-
-  //toDo make it with normal paging;
-  function fetchMoreOperations() {
-    if (data.tableData.length !== data.operations.length) {
-      const sliceIndex =
-        data.operations.length - data.tableData.length < 10 ? data.operations.length : data.tableData.length + 10;
-      let newTableData = data.operations.slice(data.tableData.length, sliceIndex);
-
-      setData(prevState => {
-        return {
-          opType: prevState.opType,
-          operations: prevState.operations,
-          tableData: [...prevState.tableData, ...newTableData],
-        };
-      });
-    }
-  }
-
-  const handelClick = async type => {
-    if (type) {
-      let ops = await getTableDataByType({ type, address: account.address, cycle: chain.cycle });
-      ops = ops.reverse();
-      setData({
-        opType: type,
-        operations: ops,
-        isLoaded: true,
-        tableData: [...ops.slice(0, 10)],
-      });
-    } else {
-      let rights = await getAccountRights({ address: account.address, cycle: chain.cycle });
-      setData({
-        opType: type,
-        isLoaded: true,
-        operations: [],
-        tableData: rights,
-      });
-      return;
-    }
+  const [data, setData] = React.useState({ tab: 'rights' });
+  const handleClick = async tab => {
+    setData({
+      tab: tab,
+    });
   };
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      let [rights, inCome] = await Promise.all([
-        getAccountRights({ address: account.address, cycle: chain.cycle }),
-        getAccountIncome({ address: account.address, cycle: chain.cycle }),
-      ]);
-
-      setAccountIncome(inCome);
-      setData({
-        opType: null,
-        operations: [],
-        tableData: rights,
-        isLoaded: true,
-      });
-    };
-
-    fetchData();
-  }, [account, chain.cycle]);
-
-  return data.isLoaded ? (
+  return (
     <Wrapper>
-      <Card title={'Transaction History'}>
-        <FlexRow mb={30}>
-          <Button active={data.opType == null} onClick={e => handelClick(null)}>
-            Baking History & Rights
+      <Card>
+        <ButtonRow>
+          <Button active={data.tab === 'rights'} onClick={e => handleClick('rights')}>
+            {account.n_origination?'Baking & Rights':'Baking History & Rights'}
           </Button>
-          <Button active={data.opType === 'delegation'} onClick={e => handelClick('delegation')}>
+          <Button active={data.tab === 'delegation'} onClick={e => handleClick('delegation')}>
             Delegators
           </Button>
-          <Button active={data.opType === 'managment'} onClick={e => handelClick('managment')}>
+          {account.n_origination ? (
+          <Button active={data.tab === 'managed'} onClick={e => handleClick('managed')}>
             Managed Accounts
           </Button>
-          <Button active={data.opType === 'outcoming'} onClick={e => handelClick('outcoming')}>
+          ):''}
+          <Button active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
             Outgoing Transactions
           </Button>
-          <Button active={data.opType === 'incoming'} onClick={e => handelClick('incoming')}>
+          <Button active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
             Incoming Transactions
           </Button>
-          <Button active={data.opType === 'proposals'} onClick={e => handelClick('proposals')}>
-            Voting History
+          <Button active={data.tab === 'other'} onClick={e => handleClick('other')}>
+            {account.n_origination?'Other Ops':'Other Operations'}
           </Button>
-        </FlexRow>
-        <OperationsTable type={data.opType} tableData={data.tableData} account={account} income={accountIncome} />
+          <Button active={data.tab === 'votes'} onClick={e => handleClick('votes')}>
+            {account.n_origination?'Voting':'Voting History'}
+          </Button>
+        </ButtonRow>
+        <OperationsTable type={data.tab} account={account} />
       </Card>
     </Wrapper>
-  ) : (
-    ''
   );
 };
 
-const OperationsTable = ({ type, tableData, account, income }) => {
+const OperationsTable = ({ type, account }) => {
   switch (type) {
     case 'delegation':
-      return <DelegationTable data={tableData} account={account} />;
-    case 'managment':
-      return <AccountManagmentTable data={tableData} />;
+      return <DelegationTable account={account} />;
+    case 'managed':
+      return <AccountManagmentTable account={account} />;
     case 'incoming':
-      return <TransactionTable data={tableData} incoming={true} />;
-    case 'outcoming':
-      return <TransactionTable data={tableData} incoming={false} />;
-    case 'proposals':
-      return <VoitingTable data={tableData} />;
+      return <TransactionTable account={account} incoming={true} type={"transaction"} />;
+    case 'outgoing':
+      return <TransactionTable account={account} incoming={false} type={"transaction"} />;
+    case 'other':
+      return <TransactionTable account={account} incoming={false} type={type} />;
+    case 'votes':
+      return <VotingTable account={account} />;
+    case 'rights':
+      return <BakingRightsTable account={account} />;
     default:
-      return <BakingRightsTable income={income} tableData={tableData} account={account} />;
+      return <></>;
   }
 };
+
+const ButtonRow = styled(FlexRow)`
+  text-overflow: ellipsis;
+  word-break: break-word;
+  white-space: nowrap;
+  margin-bottom: 20px;
+`;
 
 const Button = styled.div`
   height: 24px;

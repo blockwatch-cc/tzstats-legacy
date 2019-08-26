@@ -50,13 +50,12 @@ class BalanceChart extends React.Component {
         xScale={xScale}
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
-        // xExtents={xExtents}
       >
-        <Chart id={1} height={180} yExtents={[d => [max * 1.2, 0]]}>
+        <Chart id={1} height={180} yExtents={[d => [max * 1.1, 0]]}>
           <YAxis
             axisAt="right"
             orient="right"
-            ticks={3}
+            ticks={4}
             tickFormat={x => format('~s')(x) + 'ꜩ'}
             tickStrokeDasharray={'Solid'}
             tickStrokeOpacity={0.3}
@@ -93,9 +92,25 @@ class BalanceChart extends React.Component {
             strokeWidth={2}
             interpolation={curveLinear}
           />
+          <AreaSeries
+            yAccessor={d => d.deposit}
+            stroke={'#22BAF8'}
+            fill={'rgba(34, 186, 248, 0.2)'}
+            strokeWidth={2}
+            interpolation={curveLinear}
+          />
+          <AreaSeries
+            yAccessor={d => d.reward}
+            stroke={'#626977'}
+            fill={'rgba(98, 105, 119, 0.2)'}
+            strokeWidth={2}
+            interpolation={curveLinear}
+          />
 
           <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.total} fill={'#FFF'} />
           <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.balance} fill={'#FFF'} />
+          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.deposit} fill={'#FFF'} />
+          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.reward} fill={'#FFF'} />
         </Chart>
 
         <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />

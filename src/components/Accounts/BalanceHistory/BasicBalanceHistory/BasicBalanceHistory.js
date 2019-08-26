@@ -1,6 +1,6 @@
 import React from 'react';
 import BalanceChart from './BalanceChart';
-import { DataBox, FlexRow, Card, FlexRowWrap, FlexColumnSpaceAround } from '../../../Common';
+import { DataBox, FlexRow, Card, FlexColumn } from '../../../Common';
 import styled from 'styled-components';
 import { useGlobal } from 'reactn';
 
@@ -9,38 +9,44 @@ const BasicBalanceHistory = ({ account, balanceHistory }) => {
   const [lastMarketData] = useGlobal('lastMarketData');
 
   return (
+    <Wrapper>
     <Card title={'Balance History (30d)'}>
-      <FlexRowWrap>
-        <FlexRow flex={1} mb={10}>
+      <FlexColumn>
+        <FlexRow flex={1} mb={20}>
           <BalanceChart type={'svg'} data={balanceHistory} />
         </FlexRow>
-        <FlexColumnSpaceAround pl={50} py={25} width={300}>
-          <FlexRow width={200} justifyContent="space-between">
-            <DataBox
-              valueType="currency-full"
-              title="Spendable"
-              value={parseFloat(account.spendable_balance.toFixed(2))}
-            />
-
-            <DataBox
-              valueType="currency-usd-fixed"
-              title="Value"
-              value={account.spendable_balance * lastMarketData.price}
-            />
-          </FlexRow>
-          <Info>
-            The account is not participating in staking right now. To start earning rewards on the funds securely
-            delegate rights to a staking service or register as a delegate.
-          </Info>
-        </FlexColumnSpaceAround>
-      </FlexRowWrap>
+        <FlexRow>
+          <LegendItem color={'#29C0FF'}>
+            <DataBox title="Spendable Balance" />
+          </LegendItem>
+        </FlexRow>
+      </FlexColumn>
     </Card>
+    </Wrapper>
   );
 };
 
-const Info = styled.div`
-  font-size: 12px;
-  margin-top: 20px;
+const Wrapper = styled.div`
+  flex: 1;
+  min-width: 340px;
+  margin: 0 5px;
+`;
+
+const LegendItem = styled.div`
+  margin-left: 20px;
+  margin-right: 10px;
+  position: relative;
+  white-space: nowrap;
+  &:after {
+    content: '-';
+    position: absolute;
+    line-height: 0;
+    left: -20px;
+    top: 5px;
+    font-size: 30px;
+    color: ${prop => prop.color};
+  }
 `;
 
 export default BasicBalanceHistory;
+

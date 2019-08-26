@@ -1,75 +1,85 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FlexRowSpaceBetween, Blockies, DataBox, NoDataFound } from '../../../Common';
-import { timeAgo, getShortHash } from '../../../../utils';
+import { Spiner } from '../../../../components/Common';
+import { Blockies, DataBox, NoDataFound } from '../../../Common';
+import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
+import { timeAgo, getShortHashOrBakerName, formatCurrency } from '../../../../utils';
+import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Link } from 'react-router-dom';
 import TxTypeIcon from '../../../Common/TxTypeIcon';
 import { timeFormat } from 'd3-time-format';
 
-const AccountManagmentTable = ({ data }) => {
-  return (
+const AccountManagmentTable = ({ account }) => {
+  const [data, setData] = React.useState({table:[], isLoaded: false });
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      let acc = await getTableDataByType({
+        address: account.address,
+        type: 'managed',
+        limit: account.n_origination
+      });
+      setData({table: acc, isLoaded: true});
+    };
+    if (account.n_origination) {
+      fetchData();
+    } else {
+      setData({isLoaded: true});
+    }
+  }, []);
+
+return (
     <>
-      <FlexRowSpaceBetween mb={10}>
-        <TableHeader width={20}>Account</TableHeader>
-        <TableHeader width={20}>Created</TableHeader>
-        <TableHeader width={20}>Last Seen</TableHeader>
-        <TableHeader width={15}>Balance</TableHeader>
-        <TableHeader width={15}>Delegate</TableHeader>
-        <TableHeader width={10}>Status</TableHeader>
-      </FlexRowSpaceBetween>
-      <TableBody id={'account-operations'}>
-        {data.length ? (
-          data.map((item, i) => {
-            return (
-              <FlexRowSpaceBetween key={i}>
-                <TableCell width={20}>
-                  <Blockies hash={item.account} />
-                  <HashLink to={`/account/${item.account}`}>{getShortHash(item.account)}</HashLink>
-                </TableCell>
-                <TableCell width={20}>
-                  <DataBox title={timeFormat('%b %d, %H:%M')(item.first_in_time)} />
-                </TableCell>
-                <TableCell width={20}>
-                  <DataBox title={timeFormat('%b %d, %H:%M')(item.last_seen_time)} />
-                </TableCell>
-                <TableCell width={15}>{item.spendable_balance}</TableCell>
-                <TableCell width={15}>
-                  <Blockies hash={item.delegate} />
-                  <HashLink to={`/account/${item.delegate}`}>{getShortHash(item.delegate)}</HashLink>
-                </TableCell>
-                <TableCell width={10}>{item.is_active ? 'Active' : 'Inactive'}</TableCell>
-              </FlexRowSpaceBetween>
-            );
-          })
-        ) : (
-          <NoDataFound />
-        )}
-      </TableBody>
+      <TableHeader>
+        <TableHeaderCell width={5}>No</TableHeaderCell>
+        <TableHeaderCell width={15}>Account</TableHeaderCell>
+        <TableHeaderCell width={15}>Created</TableHeaderCell>
+        <TableHeaderCell width={15}>Last Seen</TableHeaderCell>
+        <TableHeaderCell width={20}>Balance</TableHeaderCell>
+        <TableHeaderCell width={20}>Delegate</TableHeaderCell>
+        <TableHeaderCell width={10}>Status</TableHeaderCell>
+      </TableHeader>
+      {data.isLoaded ? (
+        <TableBody id={'account-managed'}>
+          {data.table && data.table.length ? (
+            data.table.map((item, i) => {
+              return (
+                <TableRow key={i}>
+                  <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
+                  <TableCell width={15}>
+                    <Blockies hash={item.account} />
+                    <Link to={`/account/${item.account}`}>{getShortHashOrBakerName(item.account)}</Link>
+                  </TableCell>
+                  <TableCell width={15}>
+                    <DataBox title={timeFormat('%b %d, %H:%M')(item.first_in_time)} />
+                  </TableCell>
+                  <TableCell width={15}>
+                    <DataBox title={timeFormat('%b %d, %H:%M')(item.last_seen_time)} />
+                  </TableCell>
+                  <TableCell width={20}>{formatCurrency(item.spendable_balance)}</TableCell>
+                  {item.delegate?(
+                    <TableCell width={20}>
+                      <Blockies hash={item.delegate} />
+                      <Link to={`/account/${item.delegate}`}>{getShortHashOrBakerName(item.delegate)}</Link>
+                    </TableCell>
+                  ) : (
+                    <TableCell width={20}>-</TableCell>
+                  )}
+                  <TableCell width={10}>{item.is_active ? 'Active' : 'Inactive'}</TableCell>
+                </TableRow>
+              );
+            })
+          ) : (
+            <NoDataFound />
+          )}
+        </TableBody>
+      ) : (
+        <TableBody>
+          <Spiner />
+        </TableBody>
+      )}
     </>
   );
 };
-const NoData = styled.div`
-  margin: 20px 0;
-  color: rgba(255, 255, 255, 0.52);
-  margin: 75px auto;
-`;
-const TableBody = styled.div`
-  height: 200px;
-  overflow: scroll;
-`;
-const HashLink = styled(Link)`
-  color: #26b2ee;
-`;
-
-const TableHeader = styled.div`
-  font-size: 12px;
-  width: ${props => props.width}%;
-  color: rgba(255, 255, 255, 0.52);
-`;
-const TableCell = styled.div`
-  font-size: 12px;
-  width: ${props => props.width}%;
-  height: 25px;
-`;
 
 export default AccountManagmentTable;

@@ -1,6 +1,6 @@
 import React from 'react';
 import BalanceChart from './BalanceChart';
-import { DataBox, FlexRowSpaceBetween, FlexRow, Card, FlexRowWrap, FlexColumnSpaceBetween } from '../../../Common';
+import { DataBox, FlexRow, FlexColumn, Card } from '../../../Common';
 import styled from 'styled-components';
 import { useGlobal } from 'reactn';
 import _ from 'lodash';
@@ -10,58 +10,49 @@ const BakerBalanceHistory = ({ account, balanceHistory, stakingData }) => {
   const avgRewards = _.sumBy(stakingData, d => d.reward) / stakingData.length;
 
   return (
+    <Wrapper>
     <Card title={'Balance History (30d)'}>
-      <FlexRowWrap>
-        <FlexRow flex={1} mb={10}>
+      <FlexColumn>
+        <FlexRow flex={1} mb={20}>
           <BalanceChart type={'svg'} data={stakingData} />
         </FlexRow>
-        <FlexRowSpaceBetween width={350} ml={30}>
-          <FlexColumnSpaceBetween minHeight={120}>
-            <LegendItem color={'#17eef4'}>
-              <DataBox
-                valueType="currency-full"
-                title="Spendable"
-                value={parseFloat(account.spendable_balance.toFixed(2))}
-              />
-            </LegendItem>
-            <LegendItem color={'#858999'}>
-              <DataBox valueType="currency-full" title="Total" value={account.total_balance} />
-            </LegendItem>
-          </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={120}>
-            <DataBox
-              valueType="currency-usd-fixed"
-              title="Value"
-              valueSize="14px"
-              value={account.spendable_balance * lastMarketData.price}
-            />
-            <DataBox
-              valueType="currency-full"
-              valueSize="14px"
-              title="Pending Rewards"
-              value={account.frozen_rewards + account.frozen_fees}
-            />
-          </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={120}>
-            <div style={{ height: 40 }}></div>
-            <DataBox valueType="currency-short" valueSize="14px" title="Daily Rewards" value={avgRewards} />
-          </FlexColumnSpaceBetween>
-        </FlexRowSpaceBetween>
-      </FlexRowWrap>
+        <FlexRow>
+          <LegendItem color={'#858999'}>
+            <DataBox title="Total" />
+          </LegendItem>
+          <LegendItem color={'#17eef4'}>
+            <DataBox title="Spendable" />
+          </LegendItem>
+          <LegendItem color={'#22BAF8'}>
+            <DataBox title="Deposits" />
+          </LegendItem>
+          <LegendItem color={'#626977'}>
+            <DataBox title="Pending Rewards" />
+          </LegendItem>
+        </FlexRow>
+      </FlexColumn>
     </Card>
+    </Wrapper>
   );
 };
 
+const Wrapper = styled.div`
+  flex: 1;
+  min-width: 340px;
+  margin: 0 5px;
+`;
+
 const LegendItem = styled.div`
-  margin-bottom: -28px;
   margin-left: 20px;
+  margin-right: 10px;
+  position: relative;
   white-space: nowrap;
-  min-width: 130px;
   &:after {
-    content: '•';
-    position: relative;
+    content: '-';
+    position: absolute;
+    line-height: 0;
     left: -20px;
-    bottom: 45px;
+    top: 5px;
     font-size: 30px;
     color: ${prop => prop.color};
   }

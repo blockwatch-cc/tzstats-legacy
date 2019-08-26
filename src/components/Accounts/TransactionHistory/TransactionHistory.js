@@ -8,13 +8,13 @@ const TransactionHistory = ({ account }) => {
 
   switch (accountType.type) {
     case 'basic':
-      return <BasicTransactionHistory hash={account.address} />;
+      return <BasicTransactionHistory account={account} />;
     case 'delegator':
-      return <BasicTransactionHistory hash={account.address} />;
+      return <BasicTransactionHistory account={account} />;
     case 'baker':
       return <BakerTransactionHistory account={account} />;
     case 'contract':
-      return <BasicTransactionHistory hash={account.address} />;
+      return <BasicTransactionHistory account={account} />;
 
     default:
       break;
