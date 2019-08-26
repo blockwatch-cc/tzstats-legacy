@@ -51,13 +51,13 @@ const RightsChart = props => {
   };
   const zoomAnchor = function(e) {};
 
-  function tooltipContent(ys) {
+  function tooltipContent() {
     return ({ currentItem, xAccessor }) => {
       const x = xAccessor(currentItem);
       const data = currentItem.data
       let stats = getStats(currentItem);
       return {
-        x: `Height`,
+        x: 'Height',
         // x: `${format(data[x]?data[x][0].height:0, ",") - format(data[x]?data[x].splice(-1).height:0, ",") }`,
         y: [
           {
@@ -87,13 +87,13 @@ const RightsChart = props => {
 
   return (
     <ChartCanvas
-      height={195}
+      height={190}
       width={width}
       seriesName={''}
       margin={{
         left: -5,
         right: 5,
-        top: -5,
+        top: -10,
         bottom: 0,
       }}
       type={type}
@@ -115,9 +115,7 @@ const RightsChart = props => {
           marker={SquareMarker}
           markerProps={{ width: 10, opacity: 1, stroke: '#444754' }}
         />
-        );
       </Chart>
-      <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
     </ChartCanvas>
   );
 };
@@ -130,4 +128,6 @@ export default fitWidth(RightsChart);
   bgOpacity={0}
   fontSize={12}
   fontFamily={"sans-serif"}
-/>*/
+/>
+<CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
+*/

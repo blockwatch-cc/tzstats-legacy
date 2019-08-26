@@ -8,7 +8,7 @@ const PriceHistory = ({ priceHistory }) => {
 
   return (
     <Wrapper>
-      <Card to="/market" title={'Price History in US Dollars (30d)'}>
+      <Card title={'Price History in US Dollars (30d)'}>
         <FlexRow>
           <PriceChart type={'svg'} data={priceHistory} />
           <FlexColumnSpaceBetween minWidth={100} ml={20}>

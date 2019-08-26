@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { PriceHistory } from '../../components/Home/PriceHistory/';
 import CirculatingSupply from '../../components/Home/CirculatingSupply';
-import SupplyInfo from '../../components/Home/SupplyInfo';
+import StakingInfo from '../../components/Home/StakingInfo';
 import ElectionProgress from '../../components/Home/ElectionProgress';
 import AccountsGrowth from '../../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../../services/api/markets';
 import { getElectionById, getTxVolume, getTxVolume24h } from '../../services/api/tz-stats';
 import TransactionVolume from '../../components/Home/TransactionVolume';
-import { Spiner } from '../../components/Common';
+import { FlexColumn, Spiner } from '../../components/Common';
 
 const Home = () => {
   const [data, setData] = React.useState({ isLoaded: false });
@@ -34,16 +34,18 @@ const Home = () => {
   return data.isLoaded ? (
     <Wrapper>
       <TwoElementsWrapper>
-        <PriceHistory priceHistory={data.priceHistory} />
         <CirculatingSupply />
+        <AccountsGrowth />
+      </TwoElementsWrapper>
+      <TwoElementsWrapper>
+        <PriceHistory priceHistory={data.priceHistory} />
+        <FlexColumn>
+          <StakingInfo />
+          <ElectionProgress election={data.election} />
+        </FlexColumn>
       </TwoElementsWrapper>
       <TwoElementsWrapper>
         <TransactionVolume txSeries={data.txVolSeries} />
-        <SupplyInfo />
-      </TwoElementsWrapper>
-      <TwoElementsWrapper>
-        <ElectionProgress election={data.election} />
-        <AccountsGrowth />
       </TwoElementsWrapper>
     </Wrapper>
   ) : (

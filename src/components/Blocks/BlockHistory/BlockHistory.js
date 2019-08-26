@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRowWrap, FlexRowSpaceBetween, FlexColumn } from '../../Common';
+import { Card, DataBox, FlexRowWrap, FlexRow, FlexColumn } from '../../Common';
 import BlockChart from './BlockChart';
 import NextBlock from './NextBlock';
 import { Link } from 'react-router-dom';
@@ -9,17 +9,17 @@ const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
   return (
     <Wrapper>
       <Card title={'Block History'}>
-        <FlexRowSpaceBetween mt={10}>
+        <FlexRow mt={20}>
           <BlockHistoryWrapper>
             {/* <PreviousBlockButton onClick={e => console.log(-60)}>&#9664;</PreviousBlockButton> */}
             <BlockChart blockHistory={blockHistory} currentBlock={currentBlock} />
           </BlockHistoryWrapper>
           <NextBlock lastTime={lastBlock.time} />
           {/* <NextBlockButton onClick={e => console.log(60)}>&#9654;</NextBlockButton> */}
-          <Link to={`/block/${lastBlock.height}`}>
+          <Link to={`/block/${lastBlock.height}`} style={{marginTop:-10}} >
             <DataBox value={lastBlock.height} title="Last Block" />
           </Link>
-        </FlexRowSpaceBetween>
+        </FlexRow>
       </Card>
     </Wrapper>
   );
@@ -30,6 +30,7 @@ const Wrapper = styled.div`
 `;
 const BlockHistoryWrapper = styled(FlexColumn)`
   min-width: 340px;
+  max-width: 720px;
   margin-bottom: 30px;
   flex: 1;
 `;

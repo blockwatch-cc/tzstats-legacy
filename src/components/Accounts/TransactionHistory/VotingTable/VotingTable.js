@@ -42,7 +42,7 @@ const VotingTable = ({ account }) => {
       setData({
         table: votes,
         isLoaded: true,
-        cursor: votes[0].row_id,
+        cursor: votes.length?votes[0].row_id:0,
         eof: !votes.length
       });
     };

@@ -40,7 +40,7 @@ const Wrapper = styled.div`
   border-radius: 2px;
   background-color: ${props => (props.isClickable ? '#3D404D' : '#444755')};
   cursor: ${props => (props.isClickable ? 'pointer' : 'default')};
-  padding: 20px 40px;
+  padding: 20px 30px;
   margin-top: 10px;
   position: relative;
 `;
@@ -53,7 +53,7 @@ const Title = styled.div`
   font-size: 12px;
   color: #fff;
   line-height: 1.2rem;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 `;
 const RightSide = styled.div`
   font-size: 12px;

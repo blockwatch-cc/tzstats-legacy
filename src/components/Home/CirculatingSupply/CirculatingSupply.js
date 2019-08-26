@@ -12,7 +12,7 @@ const CirculatingSupply = () => {
   return (
     <Wrapper>
       <Card title={`Supply Breakdown for ${formatCurrency(chain.supply.total, '.5s')}`}>
-        <FlexColumnSpaceBetween height={180}>
+        <FlexColumnSpaceBetween>
           <HorizontalProgressBar settings={settings} />
           <Legend settings={settings} />
         </FlexColumnSpaceBetween>
