@@ -1,6 +1,6 @@
 import React from 'react';
 import PriceChart from './PriceChart';
-import { Card, FlexColumn, DataBox, InvalidData, FlexRowWrap, FlexRowSpaceBetween } from '../../Common';
+import { Card, FlexColumn, DataBox, EmptyData, FlexRowWrap, FlexRowSpaceBetween } from '../../Common';
 import styled from 'styled-components';
 import VolumeChart from '../VolumeChart';
 import _ from 'lodash';
@@ -17,7 +17,7 @@ const PriceWithVolume = ({ marketData, volSeries }) => {
   if (!isValid(marketData, volSeries)) {
     return (
       <Wrapper>
-        <InvalidData />
+        <EmptyData />
       </Wrapper>
     );
   }

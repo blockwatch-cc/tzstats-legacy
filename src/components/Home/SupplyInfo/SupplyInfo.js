@@ -11,7 +11,7 @@ const SupplyInfo = () => {
     <Wrapper>
       <Card title={`Staking Activity`}>
         <FlexRowSpaceBetween>
-          <FlexColumnSpaceAround minHeight={150}>
+          <FlexColumnSpaceAround minHeight={180}>
             <DataBox
               title="Staking Ratio"
               valueType="text"

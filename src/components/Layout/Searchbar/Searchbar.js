@@ -91,7 +91,7 @@ const Searchbar = ({ history }) => {
                 onBlur={e => !isMouseEnter && setIsFocus(false)}
                 placeholder="Explore blocks, operations, accounts, elections, and cycles …"
               />
-              <CleanInput onClick={e => setValue('')}>&#8855;</CleanInput>
+              {value?<CleanInput onClick={e => setValue('')}>&#8855;</CleanInput>:<></>}
             </SearchWrapper>
             <Autocomplete
               width={width}
@@ -119,7 +119,7 @@ const CleanInput = styled.div`
 const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px 0 20px 0;
+  padding-top: 10px;
   max-width: 900px;
   min-width: 900px;
   @media ${Devices.mobileL} {

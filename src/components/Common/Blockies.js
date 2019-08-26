@@ -11,7 +11,7 @@ const Blockies = ({ hash, width = '15px', height = '15px' }) => {
 };
 
 const Wrapper = styled.span`
-  margin-right: 10px;
+  margin-right: 5px;
   vertical-align: middle;
 `;
 export default Blockies;

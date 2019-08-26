@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DataBox, Blockies, CopyButton } from './';
-import { getShortHashOrBakerName } from '../../utils';
+import { getShortHashOrBakerName, getHashOrBakerName } from '../../utils';
 import { Link } from 'react-router-dom';
 
-const HashedBox = ({ hash, typeName, name, isCopy = true }) => {
+const HashedBox = ({ hash, typeName, name, short = true, isCopy = true }) => {
+  const getter = short?getShortHashOrBakerName:getHashOrBakerName;
   return (
     <HashBlockWrapper>
       <Blockies hash={hash} />
       {name && <BakerName />}
-      <HashLink to={`/account/${hash}`}>{getShortHashOrBakerName(hash)}</HashLink>
+      <HashLink to={`/account/${hash}`}>{getter(hash)}</HashLink>
       {isCopy && <CopyButton />}
       <DataBox title={typeName} />
     </HashBlockWrapper>

@@ -46,12 +46,11 @@ const CycleDots = ({ cycleNumber, lastCycle }) => {
       {[1, 2, 3, 4, 5, 6].slice(0,numCycles).map(item => {
         return (
           <Link key={cycleNumber + item} to={`/cycle/${cycleNumber + item}`}>
-            <DotBox>
+            <DotBox cycle={format(',')(cycleNumber+item)}>
               <Dot
                 style={{background:(
                   (lastCycle<cycleNumber+item) ? '#525566':
                   (lastCycle===cycleNumber+item) ? '#19EDF4':'#29C0FF')}}
-                cycle={format(',')(cycleNumber+item)}
               />
             </DotBox>
           </Link>
@@ -63,21 +62,14 @@ const CycleDots = ({ cycleNumber, lastCycle }) => {
 const DotBox = styled.div`
   cursor: pointer;
   padding: 17px;
-`;
-const Dot = styled.div`
-  width: 7px;
-  height: 7px;
-  border-radius: 3px;
-  background: #29C0FF;
   position: relative;
   &:hover {
-    border: 1px solid #fff;
     &:after {
       content: '${prop => (prop.cycle ? prop.cycle : '')}';
       position: absolute;
       color: rgba(255,255,255,0.52);
       font-size: 10px;
-      top: -40px;
+      top: -20px;
       transform: translate(-50%,0);
       margin-left: 3px;
     }
@@ -87,10 +79,20 @@ const Dot = styled.div`
       font-weight: 100;
       color: rgba(255, 255, 255, 0.52);
       z-index: -1;
-      font-size: 22px;
-      top: -31px;
-      left: -0.5px;
+      font-size: 16px;
+      top: -8px;
+      margin-left: 3.5px;
+      transform: translate(-50%,0);
     }
+  }
+`;
+const Dot = styled.div`
+  width: 7px;
+  height: 7px;
+  border-radius: 3px;
+  background: #29C0FF;
+  &:hover {
+    border: 1px solid #fff;
   }
 `;
 export default CycleHistory;

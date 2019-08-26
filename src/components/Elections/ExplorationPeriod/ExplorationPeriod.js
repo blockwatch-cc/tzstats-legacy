@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, FlexRowSpaceBetween, DataBox, InvalidData } from '../../Common';
+import { Card, FlexRowSpaceBetween, DataBox, EmptyData } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { proposals } from '../../../config/proposals';
 import { format } from 'd3-format';
@@ -10,7 +10,7 @@ import StartEndBlock from '../StartEndBlock';
 
 const ExplorationPeriod = ({ period }) => {
   if (!period) {
-    return (<Wrapper><InvalidData title={'2 Exploration period not started'} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'2 Exploration period not started'} /></Wrapper>);
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);
@@ -61,7 +61,7 @@ const ExplorationPeriod = ({ period }) => {
             ''
           )}
         </FlexRowSpaceBetween>
-        <FlexRowSpaceBetween mt={25}>
+        <FlexRowSpaceBetween mt={30}>
           <DataBox
             title={`PASS Rolls ${((period.pass_rolls / period.eligible_rolls) * 100).toFixed()}%`}
             valueSize="14px"

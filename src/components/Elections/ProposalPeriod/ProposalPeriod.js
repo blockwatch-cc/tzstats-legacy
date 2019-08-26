@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
-import { Card, FlexRowSpaceBetween, DataBox, InvalidData, Blockies } from '../../Common';
+import { Card, FlexRowSpaceBetween, DataBox, EmptyData, Blockies } from '../../Common';
 import { Link } from 'react-router-dom';
 import { getShortHash, getEndTime } from '../../../utils';
 import { ALPHABET } from '../../../config';
@@ -11,7 +11,7 @@ import StartEndBlock from '../StartEndBlock';
 
 const ProposalPeriod = ({ period }) => {
   if (!period.proposals.length) {
-    return (<Wrapper><InvalidData title={'1 No proposal was submitted'} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'1 No proposal was submitted'} /></Wrapper>);
   }
   const endTime = getEndTime(period);
 
@@ -30,7 +30,7 @@ const ProposalPeriod = ({ period }) => {
               <TableRow key={i}>
                 <TableCell width={20}>
                   <UnderlineLink target="_blank" href={proposals[item.hash].archive}>
-                    {ALPHABET[i]}
+                    {proposals[item.hash].name.split(" ").slice(-1)}
                   </UnderlineLink>
                 </TableCell>
                 <TableCell width={30}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, FlexRowSpaceBetween, DataBox, InvalidData } from '../../Common';
+import { Card, FlexRowSpaceBetween, DataBox, EmptyData } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { proposals } from '../../../config/proposals';
 import StartEndBlock from '../StartEndBlock';
@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 const PromotionPeriod = ({ period }) => {
   if (!period) {
-    return (<Wrapper><InvalidData title={'4 Promotion period not started'} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'4 Promotion period not started'} /></Wrapper>);
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);

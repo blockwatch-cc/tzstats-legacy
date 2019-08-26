@@ -43,5 +43,6 @@ const Wrapper = styled.div`
 `;
 const Text = styled.div`
   font-size: 14px;
+  height: 100px;
 `;
 export default CycleSnapshotInfo;

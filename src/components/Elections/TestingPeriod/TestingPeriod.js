@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRowSpaceBetween, InvalidData } from '../../Common';
+import { Card, DataBox, FlexRowSpaceBetween, EmptyData } from '../../Common';
 import { getEndTime } from '../../../utils';
 import { proposals } from '../../../config/proposals';
 import StartEndBlock from '../StartEndBlock';
 
 const TestingPeriod = ({ period }) => {
   if (!period) {
-    return (<Wrapper><InvalidData title={'3 Testing period not started'} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'3 Testing period not started'} /></Wrapper>);
   }
   const endTime = getEndTime(period);
   const proposalDetails = proposals[period.proposals[0].hash]
@@ -41,7 +41,7 @@ const Wrapper = styled.div`
   font-size: 14px;
 `;
 const Content = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 `;
 
 export default TestingPeriod;

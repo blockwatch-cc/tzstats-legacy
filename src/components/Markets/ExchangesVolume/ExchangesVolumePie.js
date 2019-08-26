@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox } from '../../Common';
 import { useGlobal } from 'reactn';
-import { format } from 'd3-format';
 import { ResponsivePie } from '@nivo/pie';
 
 const ExchangesVolumePie = ({ data }) => {

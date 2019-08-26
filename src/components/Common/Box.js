@@ -98,6 +98,7 @@ export const Flex = styled(Box)`
 export const FlexRow = styled(Box)`
   display: flex;
   flex-direction: row;
+  position: relative;
   ${alignItems}
   ${alignContent}
   ${justifyContent}
@@ -110,6 +111,7 @@ export const FlexRow = styled(Box)`
 export const FlexColumn = styled(Box)`
   display: flex;
   flex-direction: column;
+  position: relative;
   ${textAlign}
   ${alignItems}
   ${alignContent}
@@ -126,6 +128,7 @@ export const FlexColumnSpaceBetween = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
   ${textAlign}
   ${alignItems}
   ${alignContent}
@@ -142,6 +145,7 @@ export const FlexColumnSpaceAround = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  position: relative;
   ${textAlign}
   ${alignItems}
   ${alignContent}
@@ -184,6 +188,7 @@ export const FlexRowSpaceBetween = styled(Box)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: relative;
   ${alignItems}
   ${alignContent}
   ${justifyContent}
@@ -201,6 +206,7 @@ export const FlexRowSpaceAround = styled(Box)`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  position: relative;
   ${alignItems}
   ${alignContent}
   ${justifyContent}
@@ -212,4 +218,38 @@ export const FlexItem = styled.div`
   ${flex}
   ${justifySelf}
   ${alignSelf}
+`;
+
+export const TableBody = styled.div`
+  height: 200px;
+  overflow: scroll;
+`;
+
+export const TableHeader = styled(FlexRowSpaceBetween)`
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.52);
+  margin-bottom: 10px;
+`;
+
+export const TableHeaderCell = styled.div`
+  width: ${props => props.width}%;
+  padding: 3px 5px;
+`;
+
+export const TableRow = styled(FlexRowSpaceBetween)`
+  line-height: 20px;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+`;
+
+export const TableCell = styled.div`
+  font-size: 12px;
+  width: ${props => props.width}%;
+  padding: 4px 5px;
+`;
+
+export const TableDetails = styled.span`
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 10px;
 `;

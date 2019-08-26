@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, InvalidData } from '../../Common';
+import { Card, EmptyData } from '../../Common';
 import TreeMap from './TreeMap';
 import _ from 'lodash';
 import { getShortHashOrBakerName } from '../../../utils';
@@ -9,7 +9,7 @@ import { isValid } from '../../../utils';
 
 const DelegationTreeMap = ({ data, cycle }) => {
   if (!isValid(data, cycle) || !cycle.snapshot_cycle || !cycle.snapshot_cycle.is_snapshot) {
-    return <Wrapper><InvalidData title="No data for this cycle" /></Wrapper>;
+    return <Wrapper><EmptyData title="No data for this cycle" /></Wrapper>;
   }
   let totalRolls = cycle.rolls;
   if (!cycle.is_active && !cycle.is_complete) {
@@ -49,6 +49,5 @@ const TreeMapWrapper = styled.div`
 const Wrapper = styled.div`
   min-width: 340px;
   flex:1
-  margin-top: 20px;
 `;
 export default DelegationTreeMap;
