@@ -40,6 +40,7 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
                   height={format(',')(block.height)}
                   to={`/block/${block.hash}`}
                   mb={12*index}
+                  opacity={block.opacity}
                   bg={block.is_uncle?red:(isCurrent?white:blue)}
                   border={isCurrent?'1px solid #fff':'none'}
                 />);
@@ -105,7 +106,7 @@ const BlockSquare = styled(Link)`
   height: 11px;
   z-index: 1000;
   margin-bottom: ${prop => (prop.mb ? prop.mb : 0)}px;
-  opacity: 1;
+  opacity: ${prop => prop.opacity||1};
   border: ${prop => prop.border||'none'};
   &:hover {
     border: 1px solid #fff;
