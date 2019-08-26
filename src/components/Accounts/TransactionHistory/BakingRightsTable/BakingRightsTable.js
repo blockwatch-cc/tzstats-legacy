@@ -29,7 +29,7 @@ const BakingRightsTable = ({ account }) => {
 
   React.useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>
