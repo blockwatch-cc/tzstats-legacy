@@ -1,12 +1,23 @@
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import { format } from 'd3-format';
+import { timeFormat } from 'd3-time-format';
 import { bakerAccounts } from './config/baker-accounts';
 import { proposals } from './config/proposals';
 import _ from 'lodash';
 
 TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
+
+export function formatDay(ts) {
+  const d = new Date(ts);
+  const isThisYear = d.getFullYear()===(new Date()).getFullYear();
+  return timeFormat(isThisYear?'%b %d':'%b %d, %Y')(d);
+}
+
+export function formatTime(ts) {
+  return timeFormat('%H:%M')(new Date(ts));
+}
 
 export function convertMinutes(num) {
   num = num<0?0:num;
@@ -200,7 +211,7 @@ export function wrappBlockDataToObj(array) {
       hash: item[1],
       height: item[2],
       priority: item[3],
-      opacity: item[3] === 0 ? 1 : item[3] < 2 ? 0.9 : item[3] < 4 ? 0.8 : item[3] < 8 ? 0.6 : item[3] < 16 ? 0.4 : 0.2,
+      opacity: item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.6 : item[3] < 8 ? 0.4 : item[3] < 16 ? 0.2 : 0.1,
       is_uncle: item[4] || 0,
     }];
     return obj;
@@ -267,9 +278,9 @@ export function getAccountTags(account) {
   if (account.is_vesting) {
     tags.push('Vesting');
   }
-  if (account.is_delegated) {
-    tags.push('Delegating');
-  }
+  // if (account.is_delegated) {
+  //   tags.push('Delegating');
+  // }
   if (!account.is_active_delegate && account.is_delegate) {
     tags.push('Inactive');
   }

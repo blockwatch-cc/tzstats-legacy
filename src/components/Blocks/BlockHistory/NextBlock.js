@@ -22,6 +22,7 @@ const NextBlockWrapper = styled.div`
 const NextBlockTitle = styled.div`
   color: rgba(255, 255, 255, 0.52);
   font-size: 10px;
+  font-weight: 100;
   position: absolute;
   width: 30px;
   bottom: -24px;

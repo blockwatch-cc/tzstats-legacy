@@ -17,7 +17,7 @@ const BlockPage = ({ match, history }) => {
       let [block, lastBlock] = await Promise.all([getBlock(currentBlockHash), getBlock()]);
       //todo optimize it for blockNumber
       let blockHistory = [];
-      if (lastBlock.height - block.height < 60) {
+      if (lastBlock.height - block.height < 59) {
         blockHistory = await getBlockHistory(lastBlock.height, 60, 0);
       } else {
         blockHistory = await getBlockHistory(block.height, 30, 30);
