@@ -12,13 +12,9 @@ const BlockTxChart = ({ block, setTxType }) => {
     <Wrapper>
       <FlexRowSpaceBetween>
         <FlexColumnSpaceBetween minHeight={180}>
-          {block.n_ops ? (
-            <Total>
-              <DataBox ta="center" title="Operations" value={block.n_ops} />
-            </Total>
-          ) : (
-            ''
-          )}
+          <Total>
+            <DataBox ta="center" title="Operations" value={block.n_ops} />
+          </Total>
           <Chart data={settings} setTxType={setTxType} />
           <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transaction Volume" value={block.volume} />
         </FlexColumnSpaceBetween>

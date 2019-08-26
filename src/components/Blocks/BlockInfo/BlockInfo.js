@@ -11,7 +11,7 @@ import {
   FlexRowWrap,
 } from '../../Common';
 import { timeFormat } from 'd3-time-format';
-import { getShortHashOrBakerName, getSlots } from '../../../utils';
+import { getShortHashOrBakerName, getSlots, getBlockTags } from '../../../utils';
 import { Link } from 'react-router-dom';
 import BlockTxChart from '../BlockTxChart';
 
@@ -20,7 +20,7 @@ const BlockInfo = ({ block, setTxType }) => {
 
   return (
     <Wrapper>
-      <Card title="Block Info" right={<CopyHashButton value={block.hash} type="block" />}>
+      <Card title="Block Info" tags={getBlockTags(block)} right={<CopyHashButton value={block.hash} type="block" />}>
         <FlexRow>
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180}>

@@ -31,7 +31,6 @@ const Wrapper = styled.div`
 const BlockHistoryWrapper = styled(FlexColumn)`
   min-width: 340px;
   margin-bottom: 30px;
-  margin-top: 5px;
   flex: 1;
 `;
 

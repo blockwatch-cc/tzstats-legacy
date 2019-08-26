@@ -156,8 +156,9 @@ export function fixPercent(settings) {
 }
 
 export function getShortHash(hash) {
-  return `${hash.slice(0, 3)}...${hash.slice(-4)}`;
+  return hash?`${hash.slice(0, 3)}...${hash.slice(-4)}`:'-';
 }
+
 export function getShortHashOrBakerName(hash) {
   if (!hash) {
     return 'God';
@@ -166,6 +167,16 @@ export function getShortHashOrBakerName(hash) {
     return bakerAccounts[key].toLowerCase().includes(hash.toLowerCase());
   });
   return names[0] ? names[0] : getShortHash(hash);
+}
+
+export function getHashOrBakerName(hash) {
+  if (!hash) {
+    return 'God';
+  }
+  const names = Object.keys(bakerAccounts).filter(key => {
+    return bakerAccounts[key].toLowerCase().includes(hash.toLowerCase());
+  });
+  return names[0] ? names[0] : hash;
 }
 
 export function capitalizeFirstLetter(str) {
@@ -183,16 +194,15 @@ export function getMinutesInterval(lastTime, minutes) {
 
 export function wrappBlockDataToObj(array) {
   return array.reduce((obj, item, index) => {
-    if (index !== 0 && array[index - 1][2] != item[2]) {
-      obj[new Date(item[0]).setSeconds(0, 0)] = {
-        time: new Date(item[0]).setSeconds(0, 0),
-        hash: item[1],
-        height: item[2],
-        priority: item[3],
-        opacity: item[3] === 0 ? 1 : item[3] < 8 ? 0.8 : item[3] < 16 ? 0.6 : item[3] < 32 ? 0.4 : 0.2,
-        is_uncle: item[4] || false,
-      };
-    }
+    let time = new Date(item[0]).setSeconds(0, 0);
+    obj[time] = [...obj[time]||[], {
+      time: new Date(item[0]),
+      hash: item[1],
+      height: item[2],
+      priority: item[3],
+      opacity: item[3] === 0 ? 1 : item[3] < 2 ? 0.9 : item[3] < 4 ? 0.8 : item[3] < 8 ? 0.6 : item[3] < 16 ? 0.4 : 0.2,
+      is_uncle: item[4] || 0,
+    }];
     return obj;
   }, {});
 }
@@ -231,6 +241,19 @@ export function getSearchType(searchValue) {
     : searchValue[0] === 'P'
     ? 'election'
     : 'account';
+}
+
+export function getBlockTags(block) {
+  let tags = [];
+  if (block.is_uncle) {
+    tags.push('Orphan');
+  }
+  if (block.is_cycle_snapshot) {
+    tags.push('Snapshot');
+  } else if (block>0&&block.height%256) {
+    tags.push('Snapshot Candidate');
+  }
+  return tags;
 }
 
 export function getAccountTags(account) {
@@ -328,4 +351,29 @@ export function getSlots(value) {
   const bits = value.toString(2);
   const zeroBits = 32 - bits.length;
   return [...new Array(zeroBits).fill('0'), ...bits];
+}
+
+export function isCycleStart(height) {
+    return height > 0 && ((height-1)%4096 === 0);
+}
+
+export function isCycleEnd(height) {
+    return height > 0 && (height%4096 === 0)
+}
+
+export function cycleFromHeight(height) {
+    return !height ? 0 : (height - 1) / 4096;
+}
+
+export function cycleStartHeight(cycle) {
+    return cycle*4096 + 1;
+}
+
+export function cycleEndHeight(cycle) {
+    return (cycle + 1) * 4096
+}
+
+export function snapshotBlock(cycle, index) {
+    // no snapshot before cycle 7
+    return cycle < 7 ? 0 : cycleStartHeight(cycle-7) + (index+1)*256 - 1;
 }

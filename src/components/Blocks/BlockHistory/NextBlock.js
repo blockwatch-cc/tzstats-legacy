@@ -15,10 +15,9 @@ export default NextBlock;
 
 const NextBlockWrapper = styled.div`
   position: relative;
-  margin-right: 30px;
   height: 50px;
-  margin-left: 3px;
-  margin-top: -35px;
+  margin-right: 30px;
+  margin-top: -50px;
 `;
 const NextBlockTitle = styled.div`
   color: rgba(255, 255, 255, 0.52);
@@ -35,6 +34,7 @@ const NextBlockLine = styled.div`
   font-weight: 100;
   z-index: 0;
   position: absolute;
+  margin-left: -2px;
 `;
 
 const SmallBlock = styled.div`
@@ -43,7 +43,7 @@ const SmallBlock = styled.div`
   width: 8px;
   z-index: 5;
   position: absolute;
-  top: 32px;
+  top: 31px;
   left: 1px;
   border: 1px solid #424553;
   background: linear-gradient(45deg, #26b2ee 0%, #29c0ff 100%);

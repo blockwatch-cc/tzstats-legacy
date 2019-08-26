@@ -17,10 +17,10 @@ const BlockPage = ({ match, history }) => {
       let [block, lastBlock] = await Promise.all([getBlock(currentBlockHash), getBlock()]);
       //todo optimize it for blockNumber
       let blockHistory = [];
-      if (lastBlock.height - block.height < 50) {
-        blockHistory = await getBlockHistory(lastBlock.height, 50, 0);
+      if (lastBlock.height - block.height < 60) {
+        blockHistory = await getBlockHistory(lastBlock.height, 60, 0);
       } else {
-        blockHistory = await getBlockHistory(block.height, 25, 25);
+        blockHistory = await getBlockHistory(block.height, 30, 30);
       }
       setData({
         isLoaded: true,
@@ -38,7 +38,9 @@ const BlockPage = ({ match, history }) => {
     <Wrapper>
       <BlockHistory blockHistory={data.blockHistory} currentBlock={data.block} lastBlock={data.lastBlock} />
       <BlockInfo block={data.block} setTxType={setTxType} />
-      <BlockOperations block={data.block} txType={txType} />
+      {!data.block.is_uncle?(
+        <BlockOperations block={data.block} txType={txType} />
+       ):('')}
     </Wrapper>
   ) : (
     <Spiner />
