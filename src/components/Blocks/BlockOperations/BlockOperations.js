@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { getBlockOperations } from '../../../services/api/tz-stats';
 import { opNames } from '../../../config';
-import { Spiner, Card, Blockies, DataBox } from '../../Common';
+import { Spiner, Card, Blockies } from '../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../Common';
 import TxTypeIcon from '../../Common/TxTypeIcon';
-import { formatCurrency, getShortHash, getShortHashOrBakerName, capitalizeFirstLetter } from '../../../utils';
+import { formatCurrency, getShortHash, getShortHashOrBakerName } from '../../../utils';
 
 const BlockOperations = ({ block, txType }) => {
   const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false });
-  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'block-operations');
+  const [, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'block-operations');
 
   async function fetchMoreOperations() {
     if (data.eof) { return; }

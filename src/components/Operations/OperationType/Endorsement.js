@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, HashedBox, FlexRowSpaceBetween, FlexColumnSpaceBetween, FlexRow, FlexColumn, FlexRowWrap, Spiner } from '../../Common';
+import { Card, DataBox, FlexColumnSpaceBetween, FlexRow, FlexColumn, FlexRowWrap, Spiner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';

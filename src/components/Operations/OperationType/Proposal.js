@@ -1,11 +1,10 @@
 import React from 'react';
-import { Card, DataBox, HashedBox, FlexRowSpaceBetween, FlexColumnSpaceBetween, FlexRow, Spiner } from '../../Common';
+import { Card, DataBox, FlexColumnSpaceBetween, FlexRow, Spiner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
 import { proposals, opNames } from '../../../config';
 import { getAccountByHash, getAccountVoting } from '../../../services/api/tz-stats';
-import { capitalizeFirstLetter } from '../../../utils';
 
 const Proposal = ({ op }) => {
   const [data, setData] = React.useState({ isLoaded: false });
@@ -45,7 +44,7 @@ const Proposal = ({ op }) => {
               </FlexRow>
               {data.proposals[0] && (
                 <FlexRow>
-                  <DataBox title="Link" value={<a target="_blank" href={data.proposals[0].link||'#'}>{data.proposals[0].link||'-'}</a>} valueSize="14px" valueType="text" />
+                  <DataBox title="Link" value={<a target="_blank" rel="noopener noreferrer" href={data.proposals[0].link||'#'}>{data.proposals[0].link||'-'}</a>} valueSize="14px" valueType="text" />
                 </FlexRow>
               )}
             </FlexColumnSpaceBetween>

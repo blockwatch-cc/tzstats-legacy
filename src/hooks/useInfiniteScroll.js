@@ -5,6 +5,19 @@ const useInfiniteScroll = (callback, targetId) => {
   let debounce = false;
 
   useEffect(() => {
+    function handleScroll(ev) {
+      const e = ev.target;
+      const containerHeight = e.clientHeight||e.scrollingElement.clientHeight;
+      const contentHeight = e.scrollHeight||e.scrollingElement.scrollHeight;
+      const scrollPos = typeof(e.scrollTop!=='undefined')?e.scrollTop:e.scrollingElement.scrollTop;
+      if (debounce || isFetching || scrollPos < (contentHeight - 3 * containerHeight)) {
+        debounce = false;
+        return;
+      }
+      debounce = true;
+      setIsFetching(true);
+    }
+
     let targetElem = targetId==='body'?window:document.getElementById(targetId);
     if (targetElem) {
       targetElem.addEventListener('scroll', handleScroll);
@@ -15,25 +28,13 @@ const useInfiniteScroll = (callback, targetId) => {
         }
       };
     }
-  }, [handleScroll, targetId]);
+  }, [targetId]);
 
   useEffect(() => {
     if (!isFetching) return;
     callback();
   }, [callback, isFetching]);
 
-  function handleScroll(ev) {
-    const e = ev.target;
-    const containerHeight = e.clientHeight||e.scrollingElement.clientHeight;
-    const contentHeight = e.scrollHeight||e.scrollingElement.scrollHeight;
-    const scrollPos = typeof(e.scrollTop!=='undefined')?e.scrollTop:e.scrollingElement.scrollTop;
-    if (debounce || isFetching || scrollPos < (contentHeight - 3 * containerHeight)) {
-      debounce = false;
-      return;
-    }
-    debounce = true;
-    setIsFetching(true);
-  }
 
   return [isFetching, setIsFetching];
 };

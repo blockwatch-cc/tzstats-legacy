@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataBox, HashedBox, FlexColumnSpaceBetween, FlexRowSpaceBetween, FlexRow } from '../../Common';
+import { DataBox, HashedBox, FlexColumnSpaceBetween, FlexRowSpaceBetween } from '../../Common';
 import { Link } from 'react-router-dom';
 import { timeFormat } from 'd3-time-format';
 

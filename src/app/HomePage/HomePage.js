@@ -6,7 +6,7 @@ import StakingInfo from '../../components/Home/StakingInfo';
 import ElectionProgress from '../../components/Home/ElectionProgress';
 import AccountsGrowth from '../../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../../services/api/markets';
-import { getElectionById, getTxVolume, getTxVolume24h } from '../../services/api/tz-stats';
+import { getElectionById, getTxVolume } from '../../services/api/tz-stats';
 import TransactionVolume from '../../components/Home/TransactionVolume';
 import { FlexColumn, Spiner } from '../../components/Common';
 

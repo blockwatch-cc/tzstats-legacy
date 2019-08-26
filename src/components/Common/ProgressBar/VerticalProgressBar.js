@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Popover from '../../Common/Popover';
 import { DataBox } from '../../Common';
-import { formatCurrency } from '../../../utils';
 
 const ProgressBar = ({ settings }) => {
   return settings.map((item, i) => {

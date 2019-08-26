@@ -48,18 +48,18 @@ const LegendItem = styled.div`
   }
 `;
 
-const LegendTitle = styled.div`
-  position: relative;
-  margin-left: 0;
-  &:after {
-    content: '•';
-    position: absolute;
-    right: -15px;
-    font-size: 25px;
-    line-height: 0;
-    top: 4px;
-    color: ${prop => prop.color};
-  }
-`;
+// const LegendTitle = styled.div`
+//   position: relative;
+//   margin-left: 0;
+//   &:after {
+//     content: '•';
+//     position: absolute;
+//     right: -15px;
+//     font-size: 25px;
+//     line-height: 0;
+//     top: 4px;
+//     color: ${prop => prop.color};
+//   }
+// `;
 
 export default Legend;

@@ -16,8 +16,10 @@ const request = async (endpoint, options) => {
   return await handleResponse(response);
 };
 const handleResponse = async response => {
+  // TODO: forward errors
   if (response.status === 400) {
     const { error } = await response.json();
+    console.error(error);
   }
   return await response.json();
 };

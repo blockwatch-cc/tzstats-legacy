@@ -1,18 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { DataBox, NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { timeAgo, getProposaNameByHash, capitalizeFirstLetter } from '../../../../utils';
+import { getProposaNameByHash, capitalizeFirstLetter } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
-import { Link } from 'react-router-dom';
 import { Spiner } from '../../../../components/Common';
-import TxTypeIcon from '../../../Common/TxTypeIcon';
 import { timeFormat } from 'd3-time-format';
 
 const VotingTable = ({ account }) => {
   const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false });
-  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'account-votes');
+  const [, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'account-votes');
 
   async function fetchMoreOperations() {
     if (data.eof) { return; }
@@ -55,7 +52,7 @@ const VotingTable = ({ account }) => {
         eof: false
       });
     };
-  }, []);
+  }, [account]);
   return (
     <>
       <TableHeader>

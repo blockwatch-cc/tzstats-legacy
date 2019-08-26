@@ -5,21 +5,18 @@ import {
   Card,
   DataBox,
   HashedBox,
-  FlexRow,
   FlexColumn,
   FlexRowSpaceBetween,
   FlexColumnSpaceBetween,
   CopyHashButton,
 } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
-import { format } from 'd3-format';
-import { formatValue, timeAgo, getAccountTags, getDelegatorByHash, getAccountType } from '../../../utils';
+import { formatValue, timeAgo, getAccountTags, getAccountType } from '../../../utils';
 import { timeFormat } from 'd3-time-format';
 
 const AccountInfo = ({ account }) => {
   const tags = getAccountTags(account);
   const accountType = getAccountType(account);
-  const isNameExist = getDelegatorByHash(account.address).length || false;
 
   const [chain] = useGlobal('chain');
   const stackingCapacity = getStakingCapacity(account, chain);

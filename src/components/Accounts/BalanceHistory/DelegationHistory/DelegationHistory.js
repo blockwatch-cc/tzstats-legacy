@@ -2,24 +2,21 @@ import React from 'react';
 import BalanceChart from './BalanceChart';
 import {
   DataBox,
-  FlexColumnSpaceAround,
   FlexRow,
   Card,
-  FlexRowSpaceBetween,
   FlexColumn,
 } from '../../../Common';
-import { HorizontalProgressBar } from '../../../Common/ProgressBar';
-import { formatCurrency, formatValue } from '../../../../utils';
-import { useGlobal } from 'reactn';
+import { formatCurrency } from '../../../../utils';
+// import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 
 const DelegationHistory = ({ account, stakingData }) => {
-  const [chain] = useGlobal('chain');
-  const stackingCapacity = getStakingCapacity(account, chain);
-  const totalStaking =
-    account.delegated_balance + account.spendable_balance + account.frozen_deposits + account.frozen_fees;
+  // const [chain] = useGlobal('chain');
+  // const stackingCapacity = getStakingCapacity(account, chain);
+  // const totalStaking =
+  //   account.delegated_balance + account.spendable_balance + account.frozen_deposits + account.frozen_fees;
 
-  let settings = getStakingSettings(totalStaking, stackingCapacity);
+  // let settings = getStakingSettings(totalStaking, stackingCapacity);
 
   return (
     <Wrapper>
@@ -38,28 +35,31 @@ const DelegationHistory = ({ account, stakingData }) => {
     </Wrapper>
   );
 };
-function getStakingCapacity(account, chain) {
-  return (
-    ((account.spendable_balance + account.frozen_deposits) / ((2560 * 4096 * 5) / chain.supply.total)) *
-    ((chain.rolls * 8000) / chain.supply.total)
-  );
-}
-function getStakingSettings(totalStaking, stackingCapacity) {
-  return [
-    {
-      percent: (100 * totalStaking) / stackingCapacity,
-      color: '#418BFD',
-      title: 'In Staking',
-      value: `${totalStaking}`,
-    },
-    {
-      percent: (100 * (stackingCapacity-totalStaking)) / stackingCapacity,
-      color: '#858999;',
-      title: 'Staking Capacity',
-      value: `${stackingCapacity}`,
-    },
-  ];
-}
+
+// function getStakingCapacity(account, chain) {
+//   return (
+//     ((account.spendable_balance + account.frozen_deposits) / ((2560 * 4096 * 5) / chain.supply.total)) *
+//     ((chain.rolls * 8000) / chain.supply.total)
+//   );
+// }
+
+// function getStakingSettings(totalStaking, stackingCapacity) {
+//   return [
+//     {
+//       percent: (100 * totalStaking) / stackingCapacity,
+//       color: '#418BFD',
+//       title: 'In Staking',
+//       value: `${totalStaking}`,
+//     },
+//     {
+//       percent: (100 * (stackingCapacity-totalStaking)) / stackingCapacity,
+//       color: '#858999;',
+//       title: 'Staking Capacity',
+//       value: `${stackingCapacity}`,
+//     },
+//   ];
+// }
+
 const LegendItem = styled.div`
   margin-left: 20px;
   margin-right: 10px;

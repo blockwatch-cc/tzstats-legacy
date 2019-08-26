@@ -2,11 +2,11 @@ import React from 'react';
 import BalanceChart from './BalanceChart';
 import { DataBox, FlexRow, Card, FlexColumn } from '../../../Common';
 import styled from 'styled-components';
-import { useGlobal } from 'reactn';
+// import { useGlobal } from 'reactn';
 
 //Life totals
 const BasicBalanceHistory = ({ account, balanceHistory }) => {
-  const [lastMarketData] = useGlobal('lastMarketData');
+  // const [lastMarketData] = useGlobal('lastMarketData');
 
   return (
     <Wrapper>

@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Spiner } from '../../../../components/Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails, Blockies, NoDataFound } from '../../../Common';
@@ -11,7 +10,7 @@ import TxTypeIcon from '../../../Common/TxTypeIcon';
 
 const TransactionTable = ({ account, incoming, type = 'transaction' }) => {
   const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false });
-  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'account-operations');
+  const [, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'account-operations');
 
   async function fetchMoreOperations() {
     if (data.eof) { return; }

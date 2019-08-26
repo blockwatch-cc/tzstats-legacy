@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import _ from 'lodash';
 import { Card, FlexRowSpaceBetween, DataBox, EmptyData, Blockies } from '../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell } from '../../Common';
 import { Link } from 'react-router-dom';
 import { getShortHash, getShortHashOrBakerName, getEndTime } from '../../../utils';
-import { ALPHABET } from '../../../config';
 import { format } from 'd3-format';
 import { proposals } from '../../../config/proposals';
 import StartEndBlock from '../StartEndBlock';

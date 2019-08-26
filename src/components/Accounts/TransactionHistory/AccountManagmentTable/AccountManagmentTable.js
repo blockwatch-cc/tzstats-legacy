@@ -1,12 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Spiner } from '../../../../components/Common';
 import { Blockies, DataBox, NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { timeAgo, getShortHashOrBakerName, formatCurrency } from '../../../../utils';
+import { getShortHashOrBakerName, formatCurrency } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Link } from 'react-router-dom';
-import TxTypeIcon from '../../../Common/TxTypeIcon';
 import { timeFormat } from 'd3-time-format';
 
 const AccountManagmentTable = ({ account }) => {

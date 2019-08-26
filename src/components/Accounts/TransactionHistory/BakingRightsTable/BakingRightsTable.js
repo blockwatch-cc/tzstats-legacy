@@ -1,8 +1,7 @@
 import React from 'react';
-import { FlexRowSpaceBetween, FlexColumnSpaceBetween, DataBox, FlexColumn, FlexRow } from '../../../Common';
-import { convertMinutes, formatCurrency, isValid, cycleStartHeight } from '../../../../utils';
+import { FlexRowSpaceBetween, FlexColumnSpaceBetween, DataBox, FlexColumn } from '../../../Common';
+import { convertMinutes, formatCurrency, cycleStartHeight } from '../../../../utils';
 import styled from 'styled-components';
-import _ from 'lodash';
 import { useGlobal } from 'reactn';
 import { getAccountRights, getAccountIncome } from '../../../../services/api/tz-stats';
 import RightsChart from './RightsChart';
@@ -13,6 +12,7 @@ const BakingRightsTable = ({ account }) => {
   const nextTimeBakerBlock = convertMinutes((new Date(account.next_bake_time).getTime() - Date.now()) / 60000);
   const nextTimeEndoresBlock = convertMinutes((new Date(account.next_endorse_time).getTime() - Date.now()) / 60000);
   const [chain] = useGlobal('chain');
+
   let fetchData = async (id = 'head') => {
     if (id > chain.cycle + 5 || id < 0) { return; }
     let [rights, income] = await Promise.all([
@@ -27,7 +27,9 @@ const BakingRightsTable = ({ account }) => {
     setData({ income, rights, earned, slashed, stolen, missed, isLoaded: true });
   };
 
-  React.useEffect(() => { fetchData(); }, []);
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>

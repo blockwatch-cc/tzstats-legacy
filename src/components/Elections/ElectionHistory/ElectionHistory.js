@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, FlexRow, DataBox } from '../../Common';
 import styled from 'styled-components';
-import _ from 'lodash';
 import { proposals } from '../../../config/proposals';
 import { Link } from 'react-router-dom';
 

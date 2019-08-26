@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRowWrap, FlexRow, FlexColumn } from '../../Common';
+import { Card, DataBox, FlexRow, FlexColumn } from '../../Common';
 import BlockChart from './BlockChart';
 import NextBlock from './NextBlock';
 import { Link } from 'react-router-dom';
@@ -35,24 +35,24 @@ const BlockHistoryWrapper = styled(FlexColumn)`
   flex: 1;
 `;
 
-const PreviousBlockButton = styled.div`
-  color: #83858d;
-  font-size: 15px;
-  margin-right: 5px;
-  margin-top: -3px;
-  cursor:pointer;
-  &:hover {
-    color #27a2ee
-  }
-`;
-const NextBlockButton = styled.div`
-  color: #83858d;
-  font-size: 15px;
-  margin-left: 5px;
-  margin-top: -3px;
-  cursor:pointer;
-  &:hover {
-    color #27a2ee
-  }
-`;
+// const PreviousBlockButton = styled.div`
+//   color: #83858d;
+//   font-size: 15px;
+//   margin-right: 5px;
+//   margin-top: -3px;
+//   cursor:pointer;
+//   &:hover {
+//     color #27a2ee
+//   }
+// `;
+// const NextBlockButton = styled.div`
+//   color: #83858d;
+//   font-size: 15px;
+//   margin-left: 5px;
+//   margin-top: -3px;
+//   cursor:pointer;
+//   &:hover {
+//     color #27a2ee
+//   }
+// `;
 export default BlockHistory;

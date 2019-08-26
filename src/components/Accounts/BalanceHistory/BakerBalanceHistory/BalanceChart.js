@@ -7,7 +7,6 @@ import { AreaSeries } from 'react-stockcharts/lib/series';
 import { YAxis } from 'react-stockcharts/lib/axes';
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import { fitWidth } from 'react-stockcharts/lib/helper';
-import { last } from 'react-stockcharts/lib/utils';
 import _ from 'lodash';
 import { format } from 'd3-format';
 import { formatCurrencyShort } from '../../../../utils';
@@ -18,7 +17,7 @@ class BalanceChart extends React.Component {
     const { data: initialData, width, ratio } = this.props;
 
     const max = _.maxBy(initialData, d => d.total).total;
-    const min = _.minBy(initialData, d => d.total).total;
+    // const min = _.minBy(initialData, d => d.total).total;
 
     const yGrid = { innerTickSize: -width + 40 };
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));

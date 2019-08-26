@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRow, FlexRowSpaceBetween } from '../../Common';
+import { Card, DataBox, FlexRowSpaceBetween } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
-import { proposals } from '../../../config/proposals';
 import { getEndTime } from '../../../utils';
-import _ from 'lodash';
 
 const ElectionProgress = ({ election }) => {
   let period = currentPeriod(election);

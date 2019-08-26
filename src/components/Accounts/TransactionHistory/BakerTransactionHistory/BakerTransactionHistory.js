@@ -6,7 +6,6 @@ import AccountManagmentTable from '../AccountManagmentTable';
 import BakingRightsTable from '../BakingRightsTable';
 import TransactionTable from '../TransactionTable';
 import VotingTable from '../VotingTable';
-import { useGlobal } from 'reactn';
 
 const BakerTransactionHistory = ({ account }) => {
   const [data, setData] = React.useState({ tab: 'rights' });

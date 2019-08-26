@@ -2,10 +2,8 @@ import React from 'react';
 import { Card, FlexRowSpaceBetween, DataBox, EmptyData } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { proposals } from '../../../config/proposals';
-import { format } from 'd3-format';
 import { getEndTime, formatValue } from '../../../utils';
 import styled from 'styled-components';
-import _ from 'lodash';
 import StartEndBlock from '../StartEndBlock';
 
 const ExplorationPeriod = ({ period }) => {

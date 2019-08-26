@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Card, Legend, FlexColumnSpaceBetween } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { useGlobal } from 'reactn';
-import { formatCurrency, fixPercent } from '../../../utils';
+import { formatCurrency } from '../../../utils';
 const CirculatingSupply = () => {
   const [chain] = useGlobal('chain');
 

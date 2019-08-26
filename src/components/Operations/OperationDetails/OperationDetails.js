@@ -1,9 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import TxTypeIcon from '../../Common/TxTypeIcon';
-import { Card, DataBox, CopyHashButton, FlexRowSpaceBetween, FlexRow } from '../../Common';
-import { convertToTitle, getOpTags } from '../../../utils';
-import { timeFormat } from 'd3-time-format';
+import { Card, CopyHashButton } from '../../Common';
+import { getOpTags } from '../../../utils';
 import Activation from './Activation';
 import Ballot from './Ballot';
 import Delegation from './Delegation';
@@ -35,8 +32,6 @@ const OperationSwitcher = ({ op }) => {
       return <DoubleBakingEvidence op={op} />;
     case 'double_endorsement_evidence':
       return <DoubleEndorsementEvidence op={op} />;
-    case 'transaction':
-      return <SmartContract op={op} />;
     case 'seed_nonce_revelation':
       return <SeedNonceRevelation op={op} />;
     case 'proposals':

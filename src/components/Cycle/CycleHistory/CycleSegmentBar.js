@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 import CyclProgressbar from 'react-circular-progressbar';
-import { FlexColumnSpaceBetween, FlexRowSpaceBetween } from '../../Common';
+import { FlexColumnSpaceBetween } from '../../Common';
 import { timeFormat } from 'd3-time-format';
 import { format } from 'd3-format';
 import { Link } from 'react-router-dom';
@@ -150,9 +150,9 @@ const Separator = styled.div`
   height: 75%;
   transform: rotate(${props => props.degrees}deg);
 `;
-const Line = styled.div`
-  background: rgba(255, 255, 255, 0.52);
-  width: 1px;
-  height: 75%;
-  transform: rotate(${props => props.degrees}deg);
-`;
+// const Line = styled.div`
+//   background: rgba(255, 255, 255, 0.52);
+//   width: 1px;
+//   height: 75%;
+//   transform: rotate(${props => props.degrees}deg);
+// `;

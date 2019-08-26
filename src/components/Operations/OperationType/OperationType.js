@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRowSpaceBetween, HashedBox } from '../../Common';
-import { capitalizeFirstLetter, getShortHash } from '../../../utils';
 import Activation from './Activation';
 import Ballot from './Ballot';
 import Delegation from './Delegation';
@@ -48,6 +46,8 @@ const OperationSwitcher = ({ op }) => {
       return <DoubleEndorsementEvidence op={op} />;
     case 'seed_nonce_revelation':
       return <SeedNonceRevelation op={op} />;
+    default:
+      return <></>;
   }
 };
 

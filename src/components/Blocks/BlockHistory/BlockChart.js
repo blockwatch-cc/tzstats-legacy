@@ -22,7 +22,7 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
         const isCurrent = blocks[0] && blocks[0].hash === currentBlock.hash;
         return (
           <BlockColumn key={index}>
-            {(index===0 || isMidnight(ts) && index > 7) && (
+            {(index===0 || (isMidnight(ts) && index > 7)) && (
               <DayTick>{index < 54?formatDay(ts):''}</DayTick>
             )}
             {(ts%600000===0) && (

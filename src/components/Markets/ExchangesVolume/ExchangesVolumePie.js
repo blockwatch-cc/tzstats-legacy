@@ -1,7 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Card, DataBox } from '../../Common';
-import { useGlobal } from 'reactn';
+import { DataBox } from '../../Common';
 import { ResponsivePie } from '@nivo/pie';
 
 const ExchangesVolumePie = ({ data }) => {

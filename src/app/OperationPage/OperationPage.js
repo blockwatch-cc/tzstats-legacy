@@ -5,11 +5,10 @@ import { getOperations } from '../../services/api/tz-stats';
 import OperationDetails from '../../components/Operations/OperationDetails';
 import OperationType from '../../components/Operations/OperationType';
 import { Spiner } from '../../components/Common';
-import { wrapToVolume, getDelegatorByHash } from '../../utils';
 
 const OperationPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
-  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'body');
+  const [, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'body');
   const currentOperationHash = match.params.hash;
 
   async function fetchMoreOperations() {
@@ -51,12 +50,6 @@ const OperationPage = ({ match }) => {
     <Spiner />
   );
 };
-
-const JoinContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
 
 const Wrapper = styled.div``;
 export default OperationPage;

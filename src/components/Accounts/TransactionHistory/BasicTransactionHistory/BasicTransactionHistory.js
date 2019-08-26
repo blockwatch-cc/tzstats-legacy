@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, FlexRow } from '../../../Common';
-import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import TransactionTable from '../TransactionTable';
 import AccountManagmentTable from '../AccountManagmentTable';
 

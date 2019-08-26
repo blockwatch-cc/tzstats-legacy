@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceBetween } from '../../Common';
 import { Link } from 'react-router-dom';
-import { timeFormat } from 'd3-time-format';
 
 const CycleSnapshotInfo = ({ cycle }) => {
   return (

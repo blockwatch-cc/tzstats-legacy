@@ -5,7 +5,6 @@ import { proposals } from '../../../config/proposals';
 import StartEndBlock from '../StartEndBlock';
 import { getEndTime, formatValue } from '../../../utils';
 import styled from 'styled-components';
-import _ from 'lodash';
 
 const PromotionPeriod = ({ period }) => {
   if (!period) {

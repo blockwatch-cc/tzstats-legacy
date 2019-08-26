@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexColumnSpaceAround, FlexRowSpaceBetween, FlexColumnSpaceBetween } from '../../Common';
-import { HorizontalProgressBar } from '../../Common/ProgressBar';
+import { Card, DataBox, FlexRowSpaceBetween } from '../../Common';
 import { useGlobal } from 'reactn';
-import { formatCurrency, fixPercent } from '../../../utils';
+
 const StakingInfo = () => {
   const [chain] = useGlobal('chain');
 

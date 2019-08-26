@@ -4,7 +4,7 @@ import { nest as d3Nest } from 'd3-collection';
 
 import GenericChartComponent from 'react-stockcharts/lib/GenericChartComponent';
 import { getAxisCanvas } from 'react-stockcharts/lib/GenericComponent';
-import { hexToRGBA, functor } from 'react-stockcharts/lib/utils';
+import { functor } from 'react-stockcharts/lib/utils';
 
 class ScatterSeries extends Component {
   constructor(props) {
@@ -75,7 +75,7 @@ function helper(props, moreProps, xAccessor) {
 
     const mProps = { ...Marker.defaultProps, ...markerProps };
 
-    const fill = functor(mProps.fill);
+    // const fill = functor(mProps.fill);
     const stroke = functor(mProps.stroke);
 
     return {
@@ -108,7 +108,7 @@ function drawOnCanvas(ctx, props, points) {
       const { values: strokeValues } = strokeGroup;
 
       strokeValues.forEach(point => {
-        point.datum.data.map((item, index) => {
+        point.datum.data.forEach((item, index) => {
           let newPoint = { ...point };
           newPoint.y = point.y + index * 11 - 160;
           let invalidBlocks = item && item.length ? item.filter(d => d.isBad) : [];

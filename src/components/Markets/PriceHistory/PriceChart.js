@@ -1,17 +1,14 @@
 import React from 'react';
 import { timeFormat } from 'd3-time-format';
 import { format } from 'd3-format';
-import { SingleValueTooltip } from 'react-stockcharts/lib/tooltip';
-import { ChartCanvas, Chart, ZoomButtons } from 'react-stockcharts';
-import { BarSeries, CandlestickSeries, StackedBarSeries, GenericChartComponent } from 'react-stockcharts/lib/series';
-import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
+import { ChartCanvas, Chart } from 'react-stockcharts';
+import { BarSeries, CandlestickSeries } from 'react-stockcharts/lib/series';
+import { YAxis } from 'react-stockcharts/lib/axes';
 import {
   CrossHairCursor,
   MouseCoordinateY,
   MouseCoordinateX,
-  PriceCoordinate,
 } from 'react-stockcharts/lib/coordinates';
-import { LabelAnnotation, Label, Annotate } from 'react-stockcharts/lib/annotation';
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { last } from 'react-stockcharts/lib/utils';
@@ -65,7 +62,7 @@ const PriceChart = props => {
       displayXAccessor={displayXAccessor}
       xExtents={xExtents}
     >
-      <Chart id={1} height={150} yExtents={[d => [d.high, d.low]]}>
+      <Chart id={1} height={150} yExtents={[d => [max, min]]}>
         <MouseCoordinateY
           at="right"
           textFill="rgba(255, 255, 255, 0.52)"

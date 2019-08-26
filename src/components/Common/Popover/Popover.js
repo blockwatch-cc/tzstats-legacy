@@ -91,7 +91,6 @@ class Popover extends React.Component {
       backgroundColor: '#30313b',
       color: 'white',
       borderRadius: 3,
-      opacity: 1,
       // border: "1px solid lightgray",
       padding: '10px',
       zIndex: 99,

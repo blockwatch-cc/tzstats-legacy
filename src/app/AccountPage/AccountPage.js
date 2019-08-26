@@ -2,7 +2,7 @@ import React from 'react';
 import BalanceHistory from '../../components/Accounts/BalanceHistory';
 import TransactionHistory from '../../components/Accounts/TransactionHistory';
 import AccountInfo from '../../components/Accounts/AccountInfo';
-import { getAccountByHash, getFlowData, getStakingData, getAccountIncome } from '../../services/api/tz-stats';
+import { getAccountByHash, getFlowData, getStakingData } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
 import { wrapStakingData, wrapToBalance } from '../../utils';
 

@@ -13,14 +13,14 @@ class Chart extends Component {
   drawChart = data => {
     const width = 830;
     const height = 250;
-    const x = d3
-      .scaleLinear()
-      .domain([0, width])
-      .range([0, width]);
-    const y = d3
-      .scaleLinear()
-      .domain([0, height])
-      .range([0, height]);
+    // const x = d3
+    //   .scaleLinear()
+    //   .domain([0, width])
+    //   .range([0, width]);
+    // const y = d3
+    //   .scaleLinear()
+    //   .domain([0, height])
+    //   .range([0, height]);
 
     const accountText = text => {
       text
@@ -90,7 +90,7 @@ class Chart extends Component {
           </div>`;
     };
 
-    const tile = cell
+    cell
       .append('rect')
       .attr('class', 'tile')
       .attr('x', d => d.x0)

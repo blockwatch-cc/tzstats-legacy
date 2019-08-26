@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRowWrap, FlexRow, FlexRowSpaceBetween, FlexColumnSpaceBetween } from '../../Common';
+import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceBetween } from '../../Common';
 import { convertMinutes } from '../../../utils';
 
 const CycleHealth = ({ cycle }) => {

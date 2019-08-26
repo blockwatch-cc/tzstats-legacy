@@ -7,7 +7,6 @@ import Election from './Election';
 import MarketInfo from './MarketInfo';
 import { Callout } from '@blueprintjs/core';
 import { Devices } from '../../Common';
-import { Link } from 'react-router-dom';
 import Logo from './Logo';
 const Sidebar = () => {
   return (

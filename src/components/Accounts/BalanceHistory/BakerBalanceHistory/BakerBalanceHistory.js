@@ -2,12 +2,12 @@ import React from 'react';
 import BalanceChart from './BalanceChart';
 import { DataBox, FlexRow, FlexColumn, Card } from '../../../Common';
 import styled from 'styled-components';
-import { useGlobal } from 'reactn';
-import _ from 'lodash';
+// import { useGlobal } from 'reactn';
+// import _ from 'lodash';
 
 const BakerBalanceHistory = ({ account, balanceHistory, stakingData }) => {
-  const [lastMarketData] = useGlobal('lastMarketData');
-  const avgRewards = _.sumBy(stakingData, d => d.reward) / stakingData.length;
+  // const [lastMarketData] = useGlobal('lastMarketData');
+  // const avgRewards = _.sumBy(stakingData, d => d.reward) / stakingData.length;
 
   return (
     <Wrapper>

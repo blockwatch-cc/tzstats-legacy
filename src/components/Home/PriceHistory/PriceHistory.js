@@ -4,7 +4,7 @@ import { Card, DataBox, FlexRow, FlexColumnSpaceBetween } from '../../Common';
 import styled from 'styled-components';
 
 const PriceHistory = ({ priceHistory }) => {
-  const [currentValue, setCurrentValue] = React.useState(priceHistory[priceHistory.length - 1]);
+  const [currentValue] = React.useState(priceHistory[priceHistory.length - 1]);
 
   return (
     <Wrapper>

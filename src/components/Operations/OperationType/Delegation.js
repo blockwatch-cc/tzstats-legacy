@@ -1,10 +1,9 @@
 import React from 'react';
-import { Card, DataBox, HashedBox, FlexRowSpaceBetween, FlexColumnSpaceAround, FlexRow, Spiner } from '../../Common';
+import { Card, DataBox, FlexColumnSpaceAround, FlexRow, Spiner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
 import { opNames } from '../../../config';
-import { timeAgo } from '../../../utils';
 import { getAccountByHash } from '../../../services/api/tz-stats';
 
 const Delegation = ({ op }) => {

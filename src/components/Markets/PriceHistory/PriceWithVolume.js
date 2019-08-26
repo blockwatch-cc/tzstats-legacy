@@ -1,8 +1,7 @@
 import React from 'react';
 import PriceChart from './PriceChart';
-import { Card, FlexColumn, DataBox, EmptyData, FlexRowWrap, FlexRowSpaceBetween } from '../../Common';
+import { Card, FlexColumn, DataBox, EmptyData, FlexRowWrap } from '../../Common';
 import styled from 'styled-components';
-import VolumeChart from '../VolumeChart';
 import _ from 'lodash';
 import { timeFormat } from 'd3-time-format';
 import { isValid, getPeakVolumeTime, getDailyVolume, wrapToVolume } from '../../../utils';

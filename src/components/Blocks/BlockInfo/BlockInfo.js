@@ -4,7 +4,6 @@ import {
   Card,
   DataBox,
   FlexRow,
-  Blockies,
   HashedBox,
   CopyHashButton,
   FlexRowSpaceBetween,
@@ -13,8 +12,7 @@ import {
   FlexRowWrap,
 } from '../../Common';
 import { timeFormat } from 'd3-time-format';
-import { getShortHashOrBakerName, getSlots, getBlockTags } from '../../../utils';
-import { Link } from 'react-router-dom';
+import { getSlots, getBlockTags } from '../../../utils';
 import BlockTxChart from '../BlockTxChart';
 
 const BlockInfo = ({ block, setTxType }) => {
@@ -63,13 +61,7 @@ const BlockInfo = ({ block, setTxType }) => {
     </Wrapper>
   );
 };
-const CustomLink = styled(Link)`
-  font-size: 14px;
-  text-align: left;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
+
 const Slot = styled.div`
   height: 12px;
   width: 12px;

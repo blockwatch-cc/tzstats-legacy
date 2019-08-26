@@ -1,89 +1,77 @@
 import React from 'react';
-import { timeFormat } from 'd3-time-format';
-import { format } from 'd3-format';
-import { SingleValueTooltip } from 'react-stockcharts/lib/tooltip';
-import { ChartCanvas, Chart, ZoomButtons } from 'react-stockcharts';
-import { BarSeries, SquareMarker, GenericChartComponent } from 'react-stockcharts/lib/series';
-import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
-import {
-  CrossHairCursor,
-  MouseCoordinateY,
-  MouseCoordinateX,
-  PriceCoordinate,
-} from 'react-stockcharts/lib/coordinates';
-import { LabelAnnotation, Label, Annotate } from 'react-stockcharts/lib/annotation';
+import { ChartCanvas, Chart } from 'react-stockcharts';
+import { SquareMarker } from 'react-stockcharts/lib/series';
+// import { CrossHairCursor } from 'react-stockcharts/lib/coordinates';
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import { fitWidth } from 'react-stockcharts/lib/helper';
-import { last } from 'react-stockcharts/lib/utils';
-import _ from 'lodash';
-import { scalePoint, scaleLinear } from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 import ScatterSeries from './ScatterSeries';
-import { HoverTooltip } from 'react-stockcharts/lib/tooltip';
+// import { HoverTooltip } from 'react-stockcharts/lib/tooltip';
 
 const RightsChart = props => {
   const { type, data: initialData, ratio, width } = props;
 
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.x));
-  let { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
+  let { data } = xScaleProvider(initialData);
 
   const zoomEvent = false;
-
   const panEvent = false;
   const clamp = false;
-
-  const getStats = function(data) {
-    let totalEndorsed = 0;
-    let totalLost = 0;
-    let totalBaking = 0;
-    let totalStolen = 0;
-    let totalMissed = 0;
-    for (let index = 0; index < data.length; index++) {
-      const subData = data[index];
-      subData.forEach(element => {
-        totalEndorsed += element.isEndorsed ? 1 : 0;
-        totalBaking +=  element.isBaking ? 1 : 0;
-        totalLost += element.isLost ? 1 : 0;
-        totalStolen += element.isStolen ? 1 : 0;
-        totalMissed += element.isMissed ? 1 : 0;
-      });
-    }
-    return { totalEndorsed, totalLost, totalBaking, totalStolen, totalMissed };
-  };
   const zoomAnchor = function(e) {};
 
-  function tooltipContent() {
-    return ({ currentItem, xAccessor }) => {
-      const x = xAccessor(currentItem);
-      const data = currentItem.data
-      let stats = getStats(currentItem);
-      return {
-        x: 'Height',
-        // x: `${format(data[x]?data[x][0].height:0, ",") - format(data[x]?data[x].splice(-1).height:0, ",") }`,
-        y: [
-          {
-            label: 'Endorsed Blocks',
-            value: stats.totalEndorsed,
-          },
-          {
-            label: 'Baked Blocks',
-            value: stats.totalBaking,
-          },
-          {
-            label: 'Stolen Blocks',
-            value: stats.totalStolen,
-          },
-          {
-            label: 'Lost Blocks',
-            value: stats.totalLost,
-          },
-          {
-            label: 'Missed Endorsements',
-            value: stats.totalMissed,
-          },
-        ],
-      };
-    };
-  }
+  // const getStats = function(data) {
+  //   let totalEndorsed = 0;
+  //   let totalLost = 0;
+  //   let totalBaking = 0;
+  //   let totalStolen = 0;
+  //   let totalMissed = 0;
+  //   function sum(item) {
+  //     totalEndorsed += item.isEndorsed ? 1 : 0;
+  //     totalBaking +=  item.isBaking ? 1 : 0;
+  //     totalLost += item.isLost ? 1 : 0;
+  //     totalStolen += item.isStolen ? 1 : 0;
+  //     totalMissed += item.isMissed ? 1 : 0;
+  //   }
+  //   for (let index = 0; index < data.length; index++) {
+  //     const subData = data[index];
+  //     subData.forEach(sum);
+  //   }
+  //   return { totalEndorsed, totalLost, totalBaking, totalStolen, totalMissed };
+  // };
+
+  // function tooltipContent() {
+  //   return ({ currentItem, xAccessor }) => {
+  //     const x = xAccessor(currentItem);
+  //     const data = currentItem.data
+  //     let stats = getStats(currentItem);
+  //     return {
+  //       x: 'Height',
+  //       // x: `${format(data[x]?data[x][0].height:0, ",") - format(data[x]?data[x].splice(-1).height:0, ",") }`,
+  //       y: [
+  //         {
+  //           label: 'Endorsed Blocks',
+  //           value: stats.totalEndorsed,
+  //         },
+  //         {
+  //           label: 'Baked Blocks',
+  //           value: stats.totalBaking,
+  //         },
+  //         {
+  //           label: 'Stolen Blocks',
+  //           value: stats.totalStolen,
+  //         },
+  //         {
+  //           label: 'Lost Blocks',
+  //           value: stats.totalLost,
+  //         },
+  //         {
+  //           label: 'Missed Endorsements',
+  //           value: stats.totalMissed,
+  //         },
+  //       ],
+  //     };
+  //   };
+  // }
 
   return (
     <ChartCanvas
