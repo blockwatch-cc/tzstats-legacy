@@ -221,14 +221,14 @@ export const FlexItem = styled.div`
 `;
 
 export const TableBody = styled.div`
-  height: 200px;
+  height: ${props => props.height||200}px;
   overflow: scroll;
 `;
 
 export const TableHeader = styled(FlexRowSpaceBetween)`
   font-size: 12px;
   color: rgba(255, 255, 255, 0.52);
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;
 
 export const TableHeaderCell = styled.div`

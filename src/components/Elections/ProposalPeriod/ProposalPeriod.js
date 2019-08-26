@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
 import { Card, FlexRowSpaceBetween, DataBox, EmptyData, Blockies } from '../../Common';
+import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell } from '../../Common';
 import { Link } from 'react-router-dom';
-import { getShortHash, getEndTime } from '../../../utils';
+import { getShortHash, getShortHashOrBakerName, getEndTime } from '../../../utils';
 import { ALPHABET } from '../../../config';
 import { format } from 'd3-format';
 import { proposals } from '../../../config/proposals';
@@ -18,29 +19,29 @@ const ProposalPeriod = ({ period }) => {
   return (
     <Wrapper>
       <Card title={`1 Proposal Period ${endTime}`}>
-        <FlexRowSpaceBetween mb={10}>
-          <TableHeader width={20}>Proposal</TableHeader>
-          <TableHeader width={30}>Hash</TableHeader>
-          <TableHeader width={35}>Source</TableHeader>
-          <TableHeader width={15}>Rolls</TableHeader>
-        </FlexRowSpaceBetween>
-        <TableBody>
+        <TableHeader>
+          <TableHeaderCell width={20}>Proposal</TableHeaderCell>
+          <TableHeaderCell width={30}>Hash</TableHeaderCell>
+          <TableHeaderCell width={35}>Source</TableHeaderCell>
+          <TableHeaderCell width={15}>Rolls</TableHeaderCell>
+        </TableHeader>
+        <TableBody height={120}>
           {period.proposals.map((item, i) => {
             return (
               <TableRow key={i}>
                 <TableCell width={20}>
-                  <UnderlineLink target="_blank" href={proposals[item.hash].archive}>
+                  <OutLink target="_blank" href={proposals[item.hash].link}>
                     {proposals[item.hash].name.split(" ").slice(-1)}
-                  </UnderlineLink>
+                  </OutLink>
                 </TableCell>
                 <TableCell width={30}>
-                  <UnderlineLink target="_blank" href={proposals[item.hash].link}>
+                  <OutLink target="_blank" href={proposals[item.hash].archive}>
                     {getShortHash(item.hash)}
-                  </UnderlineLink>
+                  </OutLink>
                 </TableCell>
                 <TableCell width={35}>
                   <Blockies hash={item.source} />
-                  <HashLink to={`/account/${item.source}`}>{getShortHash(item.source)}</HashLink>
+                  <Link to={`/account/${item.source}`}>{getShortHashOrBakerName(item.source)}</Link>
                 </TableCell>
                 <TableCell width={15}>{format(',')(item.rolls)}</TableCell>
               </TableRow>
@@ -60,17 +61,10 @@ const ProposalPeriod = ({ period }) => {
   );
 };
 
-const TableBody = styled.div`
-  height: 120px;
-  overflow: scroll;
-`;
-const TableRow = styled(FlexRowSpaceBetween)``;
-const HashLink = styled(Link)`
-  color: #26b2ee;
-`;
-
-const UnderlineLink = styled.a`
-  text-decoration: underline;
+const OutLink = styled.a`
+  &:hover{
+    border-bottom: 1px dotted;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -78,16 +72,6 @@ const Wrapper = styled.div`
   min-width: 340px;
   margin: 0 5px;
   font-size: 14px;
-`;
-const TableHeader = styled.div`
-  font-size: 12px;
-  width: ${props => props.width}%;
-  color: rgba(255, 255, 255, 0.52);
-`;
-const TableCell = styled.div`
-  font-size: 12px;
-  width: ${props => props.width}%;
-  height: 25px;
 `;
 
 export default ProposalPeriod;
