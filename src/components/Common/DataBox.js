@@ -68,12 +68,14 @@ const Value = ({ type, value }) => {
   switch (type) {
     case 'text':
       return value;
-    case 'currency-fixed':
+    case 'currency-rounded':
       return formatCurrency(Math.round(value), ',');
     case 'currency-short':
       return formatCurrency(value, '.4s');
-    case 'currency-full':
+    case 'currency-fixed':
       return formatCurrency(value.toFixed(2), ',');
+    case 'currency-full':
+      return formatCurrency(value.toFixed(6), ',');
     case 'currency-usd-full':
       return formatValue(value, '$,');
     case 'currency-usd-fixed':
@@ -82,6 +84,8 @@ const Value = ({ type, value }) => {
       return '$' + formatValue(Math.round(value), '.2s');
     case 'value-short':
       return formatValue(Math.round(value), '.2s');
+    case 'value-full':
+      return formatValue(value, ',');
     case 'percent':
       return value * 100 < 1 ? '< 1%' : formatValue(value, '.0%');
     default:

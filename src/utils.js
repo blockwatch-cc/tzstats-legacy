@@ -267,6 +267,23 @@ export function getBlockTags(block) {
   return tags;
 }
 
+export function getOpTags(op) {
+  let tags = [];
+  if (op.is_internal) {
+    tags.push('Internal');
+  }
+  if (op.is_contract) {
+    tags.push('Contract Call');
+  }
+  if (op.params) {
+    tags.push('Params');
+  }
+  if (!op.is_success) {
+    tags.push('Failed');
+  }
+  return tags;
+}
+
 export function getAccountTags(account) {
   let tags = [];
   if (account.is_revealed) {
@@ -357,11 +374,11 @@ export function findProposalName(value) {
 
 export function getSlots(value) {
   if (!value) {
-    return [...new Array(32).fill('0')];
+    return [...new Array(32).fill(0)];
   }
-  const bits = value.toString(2);
+  const bits = value.toString(2).split('').map(b=>parseInt(b));
   const zeroBits = 32 - bits.length;
-  return [...new Array(zeroBits).fill('0'), ...bits];
+  return [...new Array(zeroBits).fill(0), ...bits];
 }
 
 export function isCycleStart(height) {

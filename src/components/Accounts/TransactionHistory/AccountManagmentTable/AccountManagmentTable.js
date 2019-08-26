@@ -26,9 +26,9 @@ const AccountManagmentTable = ({ account }) => {
     } else {
       setData({isLoaded: true});
     }
-  }, []);
+  }, [account]);
 
-return (
+  return (
     <>
       <TableHeader>
         <TableHeaderCell width={5}>No</TableHeaderCell>

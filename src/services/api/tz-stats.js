@@ -100,11 +100,13 @@ export const getAccountOperations = async ({ address, type = 'transaction', curs
 
 
 //https://api.tzstats.com/tables/ballot?source=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&verbose=1
-export const getAccountVoting = async ({ address, cursor, limit = 50 }) => {
+export const getAccountVoting = async ({ address, op, cursor, limit = 50 }) => {
   cursor = cursor?'&cursor='+cursor:'';
-  const response = await request(`/tables/ballot?source=${address}&limit=${limit}${cursor}&verbose=1`);
+  op = op?'&op='+op:'';
+  const response = await request(`/tables/ballot?source=${address}${op}&limit=${limit}${cursor}&verbose=1`);
   return response;
 };
+
 //api.tzstats.com/tables/account?manager=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt
 export const getAccountManagment = async ({ address, cursor, limit = 50 }) => {
   const columns = [
@@ -328,8 +330,7 @@ export const getBlockOperations = async ({ height, limit, offset, type = null })
 //****************** OPERATIONS ****************** */
 //https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T
 
-export const getOperation = async hash => {
+export const getOperations = async hash => {
   const response = await request(`/explorer/op/${hash}`);
-
-  return response[0];
+  return response;
 };

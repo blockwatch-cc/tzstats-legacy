@@ -1,3 +1,5 @@
+import { bakerAccounts } from './baker-accounts';
+import { proposals } from './proposals';
 export const fiatCurrencies = [{ name: 'USD', symbol: '$' }, { name: 'EUR', symbol: '€' }];
 export const networks = [{ name: 'MAINNET' }, { name: 'ZERONET' }, { name: 'ALPHANET' }];
 export const graphColors = ['#18ecf2', '#29bcfa', '#3e85f1', '#858999', '#858999', '#858999'];
@@ -42,6 +44,20 @@ export const opNames = {
   "delegation": "Delegation",
   "reveal": "Reveal",
   "endorsement": "Endorsement",
-  "proposals": "Proposals",
+  "proposals": "Proposal",
   "ballot" : "Ballot",
 };
+export const govNames = {
+  "1": "Proposal",
+  "proposal": "Proposal",
+  "2": "Exploration Vote",
+  "testing_vote": "Exploration Vote",
+  "3": "Testing",
+  "testing": "Testing",
+  "4": "Promotion Vote",
+  "promotion_vote": "Promotion Vote"
+};
+export {
+  bakerAccounts,
+  proposals
+}

@@ -24,7 +24,7 @@ const ExchangesVolumePie = ({ data }) => {
         motionStiffness={90}
         motionDamping={15}
         tooltip={({ id, value, color, percent }) => (
-          <DataBox valueType="currency-fixed" value={value} title={`${id} ${percent}%`} />
+          <DataBox valueType="currency-rounded" value={value} title={`${id} ${percent}%`} />
         )}
         theme={{
           tooltip: {

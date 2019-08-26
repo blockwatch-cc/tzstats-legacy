@@ -43,7 +43,7 @@ const AccountInfo = ({ account }) => {
                 title="Creation Date"
                 valueSize="14px"
                 valueType="text"
-                value={` ${timeFormat('%B %d, %Y')(new Date(account.first_seen_time))}`}
+                value={` ${timeFormat('%b %d, %Y')(new Date(account.first_seen_time))}`}
               />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>

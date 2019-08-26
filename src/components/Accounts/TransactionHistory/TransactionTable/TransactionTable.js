@@ -59,9 +59,9 @@ const TransactionTable = ({ account, incoming, type = 'transaction' }) => {
 
   switch (type) {
     case 'transaction':
-      return <TxTable data={data} account={account} incoming={incoming} />
+      return <TxTable data={data} account={account} incoming={incoming} />;
     default:
-      return <OtherTable data={data} account={account} incoming={incoming} />
+      return <OtherTable data={data} account={account} incoming={incoming} />;
   }
 };
 

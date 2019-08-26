@@ -4,10 +4,14 @@ import { getShortHash } from '../../utils';
 import { Link } from 'react-router-dom';
 import { CopyButton } from '../Common';
 
-const CopyHashButton = ({ value, type }) => {
+const CopyHashButton = ({ value, type, link }) => {
   return (
     <Wrapper>
-      <Link to={`/${type}/${value}`}>{getShortHash(value)}</Link>
+      {link?(
+      	<Link to={`/${type}/${value}`}>{getShortHash(value)}</Link>
+      ):(
+        getShortHash(value)
+      )}
       <CopyButton value={value} />
     </Wrapper>
   );

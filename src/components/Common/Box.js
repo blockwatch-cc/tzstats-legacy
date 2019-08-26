@@ -247,9 +247,19 @@ export const TableCell = styled.div`
   font-size: 12px;
   width: ${props => props.width}%;
   padding: 4px 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export const TableDetails = styled.span`
   color: rgba(255, 255, 255, 0.52);
   font-size: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;

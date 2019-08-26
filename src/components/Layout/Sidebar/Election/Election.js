@@ -8,7 +8,7 @@ import { proposals } from '../../../../config/proposals';
 
 const Election = ({ history }) => {
   const [election, setElection] = React.useState({});
-  const periodNumber = election.promotion_vote ? 4 : election.testing ? 3 : election.testing_vote ? 2 : 1;
+  const periodNumber = election.num_periods;
   const handleClick = () => {
     history.push(`/election/${election.election_id}`);
   };
@@ -19,7 +19,7 @@ const Election = ({ history }) => {
     };
     fetchData();
   }, []);
-  const proposalDiteils =
+  const proposalDetails =
     election.testing_vote && proposals[election.testing_vote.proposals[0].hash]
       ? proposals[election.testing_vote.proposals[0].hash]
       : { name: 'New', link: '', archive: '' };
@@ -34,7 +34,7 @@ const Election = ({ history }) => {
                 <PeriodBox key={i} />
               ))}
             </ElectionBox>
-            <PeriodName>{proposalDiteils.name}</PeriodName>
+            <PeriodName>{proposalDetails.name}</PeriodName>
           </ElectionBoxWrapper>
           <DataBox title={`On-Chain Election`} />
         </Card>

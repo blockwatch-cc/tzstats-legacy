@@ -9,7 +9,6 @@ const HashedBox = ({ hash, typeName, name, short = true, isCopy = true }) => {
   return (
     <HashBlockWrapper>
       <Blockies hash={hash} />
-      {name && <BakerName />}
       <HashLink to={`/account/${hash}`}>{getter(hash)}</HashLink>
       {isCopy && <CopyButton />}
       <DataBox title={typeName} />
@@ -20,9 +19,8 @@ const HashedBox = ({ hash, typeName, name, short = true, isCopy = true }) => {
 const HashBlockWrapper = styled.div`
   font-size: 14px;
 `;
-const BakerName = styled.div`
-  font-size: 18px;
+const HashLink = styled(Link)`
+  font-size: 16px;
 `;
-const HashLink = styled(Link)``;
 
 export default HashedBox;

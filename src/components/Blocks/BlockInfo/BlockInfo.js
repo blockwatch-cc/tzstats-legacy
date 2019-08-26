@@ -5,9 +5,11 @@ import {
   DataBox,
   FlexRow,
   Blockies,
+  HashedBox,
   CopyHashButton,
   FlexRowSpaceBetween,
   FlexColumnSpaceBetween,
+  FlexColumn,
   FlexRowWrap,
 } from '../../Common';
 import { timeFormat } from 'd3-time-format';
@@ -25,24 +27,23 @@ const BlockInfo = ({ block, setTxType }) => {
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180}>
               <FlexRowWrap minWidth={250}>
-                <DataBox title={timeFormat('%a, %b %d %H:%M')(new Date(block.time))} value={block.height} />
-                <DataBox ml={80} title="Cycle" value={block.cycle} />
+                <DataBox valueSize="16px" title={timeFormat('%a, %b %d %H:%M')(new Date(block.time))} value={block.height} />
+                <DataBox valueSize="16px" ml={80} title="Cycle" value={block.cycle} />
               </FlexRowWrap>
-              <CustomLink to={`/account/${block.baker}`}>
-                <Blockies width="18" height="18" hash={block.baker} />
-                <span style={{ fontSize: 16 }}> {getShortHashOrBakerName(block.baker)}</span>
-                <DataBox title="Baker" />
-              </CustomLink>
-              <FlexRowWrap width={192}>
-                {slots.map((item, i) => {
-                  return (
-                    <Slot key={i} color={item}>
-                      {item === '0' ? i + 1 : ''}
-                    </Slot>
-                  );
-                })}
+              <HashedBox hash={block.baker} isCopy={false} short={true} typeName={'Baker'} />
+              <FlexColumn>
+                <FlexRowWrap width={192} mb={'2px'}>
+                  {slots.map((item, i) => {
+                    return (
+                      <a key={i} href={`/account/${block.endorsers[31-i]}`}><Slot key={i} color={item}>
+                        {item === 0 ? 31-i : ''}
+                      </Slot>
+                      </a>
+                    );
+                  })}
+                </FlexRowWrap>
                 <DataBox title="Slots Endorsed" />
-              </FlexRowWrap>
+              </FlexColumn>
             </FlexColumnSpaceBetween>
 
             <FlexColumnSpaceBetween minHeight={180} minWidth={100} ml={20}>
@@ -65,6 +66,9 @@ const BlockInfo = ({ block, setTxType }) => {
 const CustomLink = styled(Link)`
   font-size: 14px;
   text-align: left;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 const Slot = styled.div`
   height: 12px;
@@ -72,7 +76,7 @@ const Slot = styled.div`
   font-size: 8px;
   text-align: center;
   border: 1px solid #444754;
-  background: ${props => (props.color === '1' ? '#27b9f7' : '#525566')};
+  background: ${props => (props.color === 1 ? '#27b9f7' : '#525566')};
 `;
 
 const Wrapper = styled.div`
