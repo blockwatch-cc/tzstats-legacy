@@ -79,7 +79,7 @@ export const addCommas = format(',');
 
 //todo reafactoring
 export function wrapToBalance(flowData, account) {
-  let spandableBalance = account.spendable_balance;
+  let spendableBalance = account.spendable_balance;
   let today = new Date().setHours(0, 0, 0, 0);
   const day = 1000 * 60 * 60 * 24;
   const length = today - day * 30;
@@ -89,7 +89,7 @@ export function wrapToBalance(flowData, account) {
   }
   let res = [];
 
-  timeArray30d.map((timeStamp, i) => {
+  timeArray30d.forEach((timeStamp, i) => {
     let item = _.findLast(flowData, item => {
       return new Date(item[0]).setHours(0, 0, 0, 0) === timeStamp;
     });
@@ -98,9 +98,9 @@ export function wrapToBalance(flowData, account) {
       let inFlow = item[1];
       let outFlow = item[2];
       let sum = parseFloat((inFlow - outFlow).toFixed(4));
-      spandableBalance = parseFloat((spandableBalance - sum).toFixed());
+      spendableBalance = parseFloat((spendableBalance - sum).toFixed());
     }
-    res.push({ time: timeStamp, value: spandableBalance });
+    res.push({ time: timeStamp, value: spendableBalance });
   });
   return res.reverse();
 }
@@ -174,20 +174,16 @@ export function getShortHashOrBakerName(hash) {
   if (!hash) {
     return 'God';
   }
-  const names = Object.keys(bakerAccounts).filter(key => {
-    return bakerAccounts[key].toLowerCase().includes(hash.toLowerCase());
-  });
-  return names[0] ? names[0] : getShortHash(hash);
+  const baker = bakerAccounts[hash];
+  return baker ? baker.name : getShortHash(hash);
 }
 
 export function getHashOrBakerName(hash) {
   if (!hash) {
     return 'God';
   }
-  const names = Object.keys(bakerAccounts).filter(key => {
-    return bakerAccounts[key].toLowerCase().includes(hash.toLowerCase());
-  });
-  return names[0] ? names[0] : hash;
+  const baker = bakerAccounts[hash];
+  return baker ? baker.name : hash;
 }
 
 export function capitalizeFirstLetter(str) {
@@ -218,14 +214,10 @@ export function wrappBlockDataToObj(array) {
   }, {});
 }
 
-export function getDelegatorByHash(hash) {
-  return Object.keys(bakerAccounts).filter(r => bakerAccounts[r] === hash);
-}
-
 export function getPeakVolumeTime(data, hours = 1) {
   const stride = 24 / hours;
   let times = new Array(stride).fill(0);
-  data.map((v, i) => {
+  data.forEach((v, i) => {
     times[i % stride] += v[1];
   });
   const peak = times.indexOf(Math.max(...times));
@@ -354,16 +346,18 @@ export function getProposaNameByHash(value) {
 }
 
 export function getBakerHashByName(value) {
-  const names = Object.keys(bakerAccounts).filter(key => {
-    return key.toLowerCase().includes(value.toLowerCase());
+  value = value.toLowerCase();
+  const baker = Object.keys(bakerAccounts).filter(key => {
+    return bakerAccounts[key].name.toLowerCase().includes(value);
   });
-  return names[0] ? bakerAccounts[names[0]] : null;
+  return baker[0]||null;
 }
 export function findBakerName(value) {
-  const names = Object.keys(bakerAccounts).filter(key => {
-    return key.toLowerCase().includes(value.toLowerCase());
+  value = value.toLowerCase();
+  const bakers = Object.keys(bakerAccounts).filter(key => {
+    return bakerAccounts[key].name.toLowerCase().includes(value);
   });
-  return names[0];
+  return bakers[0];
 }
 export function findProposalName(value) {
   const hashes = Object.keys(proposals).filter(key => {
