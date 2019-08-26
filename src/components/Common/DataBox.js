@@ -74,6 +74,8 @@ const Value = ({ type, value }) => {
       return formatCurrency(value, '.4s');
     case 'currency-fixed':
       return formatCurrency(value.toFixed(2), ',');
+    case 'currency-smart':
+      return formatCurrency(value, ',');
     case 'currency-full':
       return formatCurrency(value.toFixed(6), ',');
     case 'currency-usd-full':

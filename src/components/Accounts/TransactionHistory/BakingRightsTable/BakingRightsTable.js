@@ -62,10 +62,10 @@ const BakingRightsTable = ({ account }) => {
           <div>&nbsp;</div>
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween minHeight={170}>
-          <DataBox valueSize="14px" title="Earned Rewards" valueType="currency-full" value={data.earned} />
-          <DataBox valueSize="14px" title="Stolen Rewards" valueType="currency-full" value={data.stolen} />
-          <DataBox valueSize="14px" title="Missed Rewards" valueType="currency-full" value={data.missed} />
-          <DataBox valueSize="14px" title="Slashed Value" valueType="currency-full" value={data.slashed} />
+          <DataBox valueSize="14px" title="Earned Rewards" valueType="currency-smart" value={data.earned} />
+          <DataBox valueSize="14px" title="Stolen Rewards" valueType="currency-smart" value={data.stolen} />
+          <DataBox valueSize="14px" title="Missed Rewards" valueType="currency-smart" value={data.missed} />
+          <DataBox valueSize="14px" title="Slashed Value" valueType="currency-smart" value={data.slashed} />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>
     </FlexRowSpaceBetween>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import { Card, DataBox, CopyHashButton, FlexRowSpaceBetween, FlexRow } from '../../Common';
-import { convertToTitle } from '../../../utils';
+import { convertToTitle, getOpTags } from '../../../utils';
 import { timeFormat } from 'd3-time-format';
 import Activation from './Activation';
 import Ballot from './Ballot';
@@ -16,74 +16,46 @@ import DoubleEndorsementEvidence from './DoubleEndorsementEvidence';
 import DoubleBakingEvidence from './DoubleBakingEvidence';
 import Transaction from './Transaction';
 import Reveal from './Reveal';
+import { opNames } from '../../../config';
 
-const OperationDetails = ({ operation }) => {
+const OperationDetails = ({ op }) => {
   return (
-    <Card title={'Operation Details'}>
-      <FlexRowSpaceBetween>
-        <FlexRow>
-          {/* <DataBox title="N" value={operation.op_n} /> */}
-          <TypeName>
-            {operation.is_contract ? 'Contract Call' : convertToTitle(operation.type)}
-            <DataBox title={timeFormat('%a, %d %B %H:%M')(new Date(operation.time))} />
-          </TypeName>
-          <TxTypeIcon
-            fontSize={24}
-            isSuccess={operation.is_success}
-            type={operation.is_contract ? 'contract' : operation.type}
-          />
-        </FlexRow>
-        <FlexRowSpaceBetween flexBasis={145}>
-          <DataBox title="Cycle" value={operation.cycle} />
-          <DataBox title="Block" value={operation.height} />
-        </FlexRowSpaceBetween>
-      </FlexRowSpaceBetween>
-      <FlexRowSpaceBetween my={20}>
-        <CopyHashButton value={operation.hash} type="operation" />
-        <CopyHashButton value={operation.block} type="block" />
-      </FlexRowSpaceBetween>
-      <FlexRowSpaceBetween>
-        <OperationSwitcher operation={operation} />
-      </FlexRowSpaceBetween>
+    <Card title={opNames[op.type]+' Details'} tags={getOpTags(op)} right={<CopyHashButton value={op.hash} type="op" />}>
+      <OperationSwitcher op={op} />
     </Card>
   );
 };
 
-const OperationSwitcher = ({ operation }) => {
-  switch (operation.type) {
+const OperationSwitcher = ({ op }) => {
+  switch (op.type) {
     case 'transaction':
-      if (operation.is_contract) return <SmartContract operation={operation} />;
-      else return <Transaction operation={operation} />;
+      if (op.is_contract) return <SmartContract op={op} />;
+      else return <Transaction op={op} />;
     case 'double_baking_evidence':
-      return <DoubleBakingEvidence operation={operation} />;
+      return <DoubleBakingEvidence op={op} />;
     case 'double_endorsement_evidence':
-      return <DoubleEndorsementEvidence operation={operation} />;
+      return <DoubleEndorsementEvidence op={op} />;
     case 'transaction':
-      return <SmartContract operation={operation} />;
+      return <SmartContract op={op} />;
     case 'seed_nonce_revelation':
-      return <SeedNonceRevelation operation={operation} />;
+      return <SeedNonceRevelation op={op} />;
     case 'proposals':
-      return <Proposal operation={operation} />;
+      return <Proposal op={op} />;
     case 'origination':
-      return <Origination operation={operation} />;
+      return <Origination op={op} />;
     case 'endorsement':
-      return <Endorsement operation={operation} />;
+      return <Endorsement op={op} />;
     case 'delegation':
-      return <Delegation operation={operation} />;
+      return <Delegation op={op} />;
     case 'ballot':
-      return <Ballot operation={operation} />;
+      return <Ballot op={op} />;
     case 'activate_account':
-      return <Activation operation={operation} />;
+      return <Activation op={op} />;
     case 'reveal':
-      return <Reveal operation={operation} />;
+      return <Reveal op={op} />;
     default:
       break;
   }
 };
-
-const TypeName = styled.span`
-  font-size: 16px;
-  padding-right: 5px;
-`;
 
 export default OperationDetails;
