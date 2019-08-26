@@ -5,11 +5,11 @@ const useInfiniteScroll = (callback, targetId) => {
   let debounce = false;
 
   useEffect(() => {
-    let targetElem = document.getElementById(targetId);
+    let targetElem = targetId==='body'?window:document.getElementById(targetId);
     if (targetElem) {
-      document.getElementById(targetId).addEventListener('scroll', handleScroll);
+      targetElem.addEventListener('scroll', handleScroll);
       return () => {
-        let elem = document.getElementById(targetId);
+        let elem = targetId==='body'?window:document.getElementById(targetId);
         if (elem) {
           elem.removeEventListener('scroll', handleScroll);
         }
@@ -24,9 +24,9 @@ const useInfiniteScroll = (callback, targetId) => {
 
   function handleScroll(ev) {
     const e = ev.target;
-    const containerHeight = e.clientHeight;
-    const contentHeight = e.scrollHeight
-    const scrollPos = e.scrollTop;
+    const containerHeight = e.clientHeight||e.scrollingElement.clientHeight;
+    const contentHeight = e.scrollHeight||e.scrollingElement.scrollHeight;
+    const scrollPos = typeof(e.scrollTop!=='undefined')?e.scrollTop:e.scrollingElement.scrollTop;
     if (debounce || isFetching || scrollPos < (contentHeight - 3 * containerHeight)) {
       debounce = false;
       return;
