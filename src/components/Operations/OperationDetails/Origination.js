@@ -12,7 +12,7 @@ const Origination = ({ op }) => {
         <DataBox title="Gas Limit" valueSize="14px" value={op.gas_limit} />
       </FlexColumnSpaceBetween>
       <FlexColumnSpaceBetween ml={20} minHeight={80}>
-        <DataBox title="Cycle" valueSize="14px" value={op.cycle} />
+        <Link to={`/cycle/${op.cycle}`}><DataBox title="Cycle" valueSize="14px" value={op.cycle} /></Link>
         <DataBox title="Gas Used" valueSize="14px" value={op.gas_used} />
       </FlexColumnSpaceBetween>
       <FlexColumnSpaceBetween ml={20} minHeight={80}>

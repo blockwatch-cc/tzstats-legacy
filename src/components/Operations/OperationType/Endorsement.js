@@ -53,7 +53,7 @@ const Endorsement = ({ op }) => {
 					  );
 					})}
 					</FlexRowWrap>
-					<DataBox title={`Slots Endorsed (${data.opslots.map((s,i)=>i).filter(s=>data.opslots[s]).reverse().map(s=>31-s).join(', ')})`} />
+					<DataBox title={`Slots Endorsed (${data.opslots.map((s,i)=>i).filter(s=>data.opslots[s]).reverse().map(s=>32-s).join(', ')})`} />
 				</FlexColumn>
               </FlexRow>
             </FlexColumnSpaceBetween>

@@ -19,7 +19,7 @@ const ElectionProgress = ({ election }) => {
         </FlexRowSpaceBetween>
         <HorizontalProgressBar settings={settings} />
         <FlexRowSpaceBetween>
-          <DataBox title={`Participation Rolls ${((100 * period.turnout_rolls) / period.eligible_rolls).toFixed()}%`} />
+          <DataBox title={`Participation Rolls ${((100 * period.turnout_rolls) / period.eligible_rolls).toFixed(2)}% (${period.quorum_pct}%)`}  />
           <DataBox title={`Maximum Rolls`} />
         </FlexRowSpaceBetween>
       </Card>

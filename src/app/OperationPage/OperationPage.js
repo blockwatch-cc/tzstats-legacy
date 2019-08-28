@@ -40,8 +40,8 @@ const OperationPage = ({ match }) => {
       {data.render.map((op, index) => {
         return (
           <div key={index}>
-            <OperationType op={op} key={'ot'+index} />
             <OperationDetails op={op} key={'od'+index} />
+            <OperationType op={op} key={'ot'+index} />
           </div>
         );
       })}

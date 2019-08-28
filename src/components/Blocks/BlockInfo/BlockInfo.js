@@ -34,7 +34,7 @@ const BlockInfo = ({ block, setTxType }) => {
                   {slots.map((item, i) => {
                     return (
                       <a key={i} href={`/account/${block.endorsers[31-i]}`}><Slot key={i} color={item}>
-                        {item === 0 ? 31-i : ''}
+                        {item === 0 ? 32-i : ''}
                       </Slot>
                       </a>
                     );

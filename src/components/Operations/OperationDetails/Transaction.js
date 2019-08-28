@@ -7,7 +7,7 @@ const Transaction = ({ op }) => {
   return (
     <FlexRowSpaceBetween>
       <Link to={`/block/${op.block}`}><DataBox title="Block" valueSize="14px" value={op.height} /></Link>
-      <DataBox title="Cycle" valueSize="14px" value={op.cycle} />
+      <Link to={`/cycle/${op.cycle}`}><DataBox title="Cycle" valueSize="14px" value={op.cycle} /></Link>
       <DataBox title="Date & Time" valueSize="14px" valueType="text" value={timeFormat('%b %d, %Y %H:%M:%S')(new Date(op.time))} />
       <DataBox title="Days destroyed" valueSize="14px" valueType="value-full" value={op.days_destroyed} />
       <DataBox title="Gas Limit" valueSize="14px" value={op.gas_limit} />
