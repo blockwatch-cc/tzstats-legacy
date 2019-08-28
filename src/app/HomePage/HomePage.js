@@ -16,13 +16,13 @@ const Home = () => {
   const [data, setData] = React.useState({ isLoaded: false });
 
   React.useEffect(() => {
-    const now = (new Date()).getTime();
+    const now = new Date().setSeconds(0,0);
     const fetchData = async () => {
       let [priceHistory, txVolSeries, election, blocks] = await Promise.all([
         getOhlcvData({ days: 30 }),
         getTxVolume({ days: 30 }),
         getElectionById(),
-        getBlockTimeRange(now-3600000, now),
+        getBlockTimeRange(now-3600000, now+60000),
       ]);
 
       setData({
