@@ -16,7 +16,7 @@ import { getSlots, getBlockTags } from '../../../utils';
 import BlockTxChart from '../BlockTxChart';
 
 const BlockInfo = ({ block, setTxType }) => {
-  const slots = getSlots(block.endorsed_slots);
+  const slots = getSlots(block.endorsed_slots).reverse();
 
   return (
     <Wrapper>
@@ -33,8 +33,8 @@ const BlockInfo = ({ block, setTxType }) => {
                 <FlexRowWrap width={192} mb={'2px'}>
                   {slots.map((item, i) => {
                     return (
-                      <a key={i} href={`/account/${block.endorsers[31-i]}`}><Slot key={i} color={item}>
-                        {item === 0 ? 32-i : ''}
+                      <a key={i} href={`/account/${block.endorsers[i]}`}><Slot key={i} color={item}>
+                        {item === 0 ? i+1 : ''}
                       </Slot>
                       </a>
                     );
@@ -67,7 +67,9 @@ const Slot = styled.div`
   width: 12px;
   font-size: 8px;
   text-align: center;
-  border: 1px solid #444754;
+  padding-top: 1px;
+  border-right: 1px solid #444754;
+  border-bottom: 1px solid #444754;
   background: ${props => (props.color === 1 ? '#27b9f7' : '#525566')};
 `;
 

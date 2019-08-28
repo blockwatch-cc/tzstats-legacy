@@ -23,8 +23,8 @@ const Endorsement = ({ op }) => {
         op: op,
         sender: sender,
         block: block,
-        allslots: getSlots(block.endorsed_slots),
-        opslots: getSlots(parseInt(op.data))
+        allslots: getSlots(block.endorsed_slots).reverse(),
+        opslots: getSlots(parseInt(op.data)).reverse()
       });
     };
 
@@ -53,7 +53,7 @@ const Endorsement = ({ op }) => {
 					  );
 					})}
 					</FlexRowWrap>
-					<DataBox title={`Slots Endorsed (${data.opslots.map((s,i)=>i).filter(s=>data.opslots[s]).reverse().map(s=>32-s).join(', ')})`} />
+					<DataBox title={`Slots Endorsed (${data.opslots.map((s,i)=>i).filter(s=>data.opslots[s]).reverse().map(s=>s+1).join(', ')})`} />
 				</FlexColumn>
               </FlexRow>
             </FlexColumnSpaceBetween>
