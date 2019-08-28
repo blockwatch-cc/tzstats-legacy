@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const NextBlock = ({ lastTime }) => {
+  let ago = Math.floor((Date.now() - new Date(lastTime).getTime()) / 60000) || '<1';
   return (
     <NextBlockWrapper>
       <NextBlockLine>|</NextBlockLine>
       <SmallBlock />
-      <NextBlockTitle>{Math.floor((Date.now() - new Date(lastTime).getTime()) / 60000)} min</NextBlockTitle>
+      <NextBlockTitle>{ago} min</NextBlockTitle>
     </NextBlockWrapper>
   );
 };
@@ -24,7 +25,7 @@ const NextBlockTitle = styled.div`
   font-size: 10px;
   font-weight: 100;
   position: absolute;
-  width: 30px;
+  width: 40px;
   bottom: -24px;
   left: -9px;
 `;

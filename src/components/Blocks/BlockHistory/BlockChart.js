@@ -6,9 +6,13 @@ import { Link } from 'react-router-dom';
 import { format } from 'd3-format';
 
 const BlocksChart = ({ blockHistory, currentBlock }) => {
-  let lastBlock = blockHistory[blockHistory.length - 1];
+  let lastBlock = blockHistory.slice(-1)[0];
+  let firstTime = new Date(blockHistory[0][0]).setSeconds(0, 0);
   let lastTime = new Date(lastBlock[0]).setSeconds(0, 0);
-  let timeRange = getMinutesInterval(lastTime, 60).reverse();
+  if (firstTime < lastTime-3600000) {
+    firstTime = lastTime-3600000;
+  }
+  let timeRange = getMinutesInterval(firstTime+3600000, 60);
   let blocksMap = wrappBlockDataToObj(blockHistory);
   function isMidnight(ts) {
     const d = new Date(ts);
@@ -19,7 +23,7 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
     <BlocksWrapper>
       {timeRange.map((ts, index) => {
         const blocks = (blocksMap[ts]||[]).sort((a,b) => (a.is_uncle?1:0)-(b.is_uncle?1:0));
-        const isCurrent = blocks[0] && blocks[0].hash === currentBlock.hash;
+        const isCurrent = currentBlock && blocks[0] && blocks[0].hash === currentBlock.hash;
         return (
           <BlockColumn key={index}>
             {(index===0 || (isMidnight(ts) && index > 7)) && (

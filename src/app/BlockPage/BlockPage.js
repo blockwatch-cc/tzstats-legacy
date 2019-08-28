@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import BlockHistory from '../../components/Blocks/BlockHistory';
 import BlockOperations from '../../components/Blocks/BlockOperations';
 import BlockInfo from '../../components/Blocks/BlockInfo';
-import { getBlock, getBlockHistory } from '../../services/api/tz-stats';
+import { getBlock, getBlockRange } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
 import { withRouter } from 'react-router-dom';
 
@@ -18,9 +18,9 @@ const BlockPage = ({ match, history }) => {
       //todo optimize it for blockNumber
       let blockHistory = [];
       if (lastBlock.height - block.height < 59) {
-        blockHistory = await getBlockHistory(lastBlock.height, 60, 0);
+        blockHistory = await getBlockRange(lastBlock.height, 60, 0);
       } else {
-        blockHistory = await getBlockHistory(block.height, 30, 30);
+        blockHistory = await getBlockRange(block.height, 30, 30);
       }
       setData({
         isLoaded: true,

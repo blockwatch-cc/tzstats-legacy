@@ -194,7 +194,7 @@ export function getMinutesInterval(lastTime, minutes) {
   let timeArray = [];
   const length = lastTime - 60000 * minutes;
   for (let index = lastTime; index > length; index = index - 60000) {
-    timeArray.push(index);
+    timeArray.unshift(index);
   }
   return timeArray;
 }

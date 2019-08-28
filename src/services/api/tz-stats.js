@@ -291,13 +291,33 @@ export const getTxVolume = async ({ days }) => {
 };
 
 //https://api.tzstats.com/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60
-export const getBlockHistory = async (height, leftDepth, rightDepth) => {
+export const getBlockRange = async (height, leftDepth, rightDepth) => {
   const response = await request(
     `/tables/block?columns=time,hash,height,priority,is_uncle&height.rg=${height - leftDepth},${height + rightDepth}`
   );
 
   return response;
 };
+
+export const getBlockTimeRange = async (from, to) => {
+  to = to || new Date().getTime();
+  const response = await request(
+    `/tables/block?columns=time,hash,height,priority,is_uncle&time.rg=${from},${to}`
+  );
+
+  return response;
+};
+
+export const unwrapBlock = b => {
+  return {
+    time: b[0],
+    hash: b[1],
+    height: b[2],
+    priority: b[3],
+    is_uncle: b[4]
+  }
+};
+
 
 //https://api.tzstats.com/explorer/block/BLGza5RgGDYYwpLPZWEdyd2mhaUJSbCYczr1WoFuvrqxRpDkCJ4
 export const getBlock = async id => {
