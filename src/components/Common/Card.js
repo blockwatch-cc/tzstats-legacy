@@ -18,31 +18,6 @@ const Card = ({ title, tags = [], right, children, to = null }) => {
   );
 };
 
-// const Card = ({ history, title, tags = [], right, children, to = null }) => {
-//   const handleClick = () => {
-//     if (to) {
-//       history.push(to);
-//     }
-//   };
-//   return (
-//     <Wrapper onClick={handleClick} isClickable={to}>
-//       {to && <LinkIcon>&#x25E5;</LinkIcon>}
-//       {title?(
-//         <CardHeader>
-//           <Title>{title}</Title>
-//           <Tags>
-//             {tags.map((item, index) => {
-//               return <Tag key={index} name={item} />;
-//             })}
-//           </Tags>
-//           <RightSide>{right}</RightSide>
-//          </CardHeader>
-//       ) : '' }
-//       {children}
-//     </Wrapper>
-//   );
-// };
-
 const CardContent = ({ title, tags = [], right, children }) => {
   return (
     <>
