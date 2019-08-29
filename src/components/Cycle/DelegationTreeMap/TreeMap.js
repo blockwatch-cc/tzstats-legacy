@@ -94,7 +94,6 @@ class Chart extends Component {
       .style('stroke-width', 1)
       .attr('opacity', d => d.data.opacity)
       .on('mouseover', function(d, i) {
-        console.log(d, i);
         tooltip
           .style('display', 'inline-block')
           .style('left', `${width - d.x0 < tooltipWidth ? d.x1 - tooltipWidth : d.x0}px`)
