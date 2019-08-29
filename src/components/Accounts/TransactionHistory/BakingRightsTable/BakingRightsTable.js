@@ -16,7 +16,9 @@ const BakingRightsTable = ({ account }) => {
 
   const getAccountData = React.useCallback(
     async cycleId => {
-      if (cycleId > chain.cycle + 5 || cycleId < 0) { return; }
+      if (cycleId > chain.cycle + 5 || cycleId < 0) {
+        return;
+      }
       let [rights, income] = await Promise.all([
         getAccountRights({ address: account.address, cycle: cycleId }),
         getAccountIncome({ address: account.address, cycle: cycleId }),
@@ -28,7 +30,7 @@ const BakingRightsTable = ({ account }) => {
       const stolen = income.stolen_baking_income;
       setData({ income, rights, earned, slashed, stolen, missed, isLoaded: true });
     },
-    [account.address, chain.height]
+    [account.address, chain.cycle, chain.height]
   );
 
   React.useEffect(() => {
