@@ -2,16 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, Elevation } from '@blueprintjs/core';
 import { DataBox, LinkIcon } from '../../../Common';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { getElectionById } from '../../../../services/api/tz-stats';
 import { proposals } from '../../../../config/proposals';
 
 const Election = ({ history }) => {
   const [election, setElection] = React.useState({});
   const periodNumber = election.num_periods;
-  const handleClick = () => {
-    history.push(`/election/${election.election_id}`);
-  };
   React.useEffect(() => {
     const fetchData = async () => {
       let election = await getElectionById();
@@ -25,9 +22,10 @@ const Election = ({ history }) => {
       : { name: 'New', link: '', archive: '' };
   return (
     <Wrapper>
+      <Link to={`/election/${election.election_id}`}>
       <LinkIcon>&#x25E5;</LinkIcon>
       {election && (
-        <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
+        <Card interactive={true} elevation={Elevation.ZERO}>
           <ElectionBoxWrapper>
             <ElectionBox>
               {new Array(periodNumber).fill(0).map((item, i) => (
@@ -39,6 +37,7 @@ const Election = ({ history }) => {
           <DataBox title={`On-Chain Election`} />
         </Card>
       )}
+      </Link>
     </Wrapper>
   );
 };

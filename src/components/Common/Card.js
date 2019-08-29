@@ -1,16 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Tag from './Tag';
-const Card = ({ history, title, tags = [], right, children, to = null }) => {
-  const handleClick = () => {
-    if (to) {
-      history.push(to);
-    }
-  };
+const Card = ({ title, tags = [], right, children, to = null }) => {
   return (
-    <Wrapper onClick={handleClick} isClickable={to}>
-      {to && <LinkIcon>&#x25E5;</LinkIcon>}
+    <Wrapper isClickable={to}>
+      {to ? (
+        <Link to={to}>
+          <LinkIcon>&#x25E5;</LinkIcon>
+          <CardContent title={title} tags={tags} right={right} children={children} />
+        </Link>
+      ):(
+        <CardContent title={title} tags={tags} right={right} children={children} />
+      )}
+    </Wrapper>
+  );
+};
+
+const CardContent = ({ title, tags = [], right, children }) => {
+  return (
+    <>
       {title?(
         <CardHeader>
           <Title>{title}</Title>
@@ -23,9 +33,11 @@ const Card = ({ history, title, tags = [], right, children, to = null }) => {
          </CardHeader>
       ) : '' }
       {children}
-    </Wrapper>
+    </>
   );
 };
+
+
 const LinkIcon = styled.div`
   font-size: 8px;
   color: #646876;

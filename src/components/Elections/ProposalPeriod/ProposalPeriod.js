@@ -60,8 +60,9 @@ const ProposalPeriod = ({ period }) => {
 };
 
 const OutLink = styled.a`
+  border-bottom: 1px solid transparent;
   &:hover{
-    border-bottom: 1px dotted;
+    border-bottom: 1px dotted #fff;
   }
 `;
 

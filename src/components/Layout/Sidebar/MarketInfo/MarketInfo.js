@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { getMarketTickers } from '../../../../services/api/markets';
 import { useGlobal, setGlobal } from 'reactn';
 import { Card, Elevation } from '@blueprintjs/core';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { DataBox, FlexRow, FlexRowSpaceBetween, FlexColumn, LinkIcon } from '../../../Common';
 
 const MarketInfo = ({ history }) => {
@@ -41,17 +41,15 @@ const MarketInfo = ({ history }) => {
     );
   };
 
-  const handleClick = () => {
-    history.push('/market');
-  };
   const getPriceIndicator = () => {
     return lastMarketData.change < 0 ? <span>&#9662;</span> : <span>&#9652;</span>;
   };
 
   return (
     <Wrapper>
+      <Link to={"/market"}>
       <LinkIcon>&#x25E5;</LinkIcon>
-      <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
+      <Card interactive={true} elevation={Elevation.ZERO}>
         <FlexRowSpaceBetween>
           <FlexColumn>
             <FlexRow>
@@ -72,6 +70,7 @@ const MarketInfo = ({ history }) => {
           />
         </FlexRowSpaceBetween>
       </Card>
+      </Link>
     </Wrapper>
   );
 };
