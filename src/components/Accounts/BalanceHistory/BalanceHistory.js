@@ -1,44 +1,58 @@
 import React from 'react';
-import BalanceChart from '../BalanceChart';
-import { DataBox, FlexColumn, FlexRow, Card, FlexRowWrap } from '../../Common';
 import styled from 'styled-components';
-import { useGlobal } from 'reactn';
+import BasicBalanceHistory from './BasicBalanceHistory';
+import DelegatorBalanceHistory from './DelegatorBalanceHistory';
+import BakerBalanceHistory from './BakerBalanceHistory';
+import DelegationHistory from './DelegationHistory';
+import { EmptyData } from '../../Common';
+import { getAccountType } from '../../../utils';
 
-//Life totals
-const BalanceHistory = ({ account, balanceHistory }) => {
-  const [lastMarketData] = useGlobal('lastMarketData');
+const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
+  const accountType = getAccountType(account);
+  switch (accountType.type) {
+    case 'basic':
+      return (
+        <JoinContainer>
+          <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+          <Wrapper>
+            <EmptyData title={'How to delegate?'} height={212} text={'The account is not participating in staking right now. To start earning rewards on all funds you can securely delegate rights to a staking service or register as a delegate.'}/>
+          </Wrapper>
+        </JoinContainer>
+      );
+    case 'delegator':
+      return (
+        <JoinContainer>
+          <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+          <Wrapper>
+            <EmptyData title={'Payout history'} height={212} text={'TODO'}/>
+          </Wrapper>
+        </JoinContainer>
+      );
+    case 'baker':
+      return (
+        <JoinContainer>
+          <BakerBalanceHistory account={account} balanceHistory={balanceHistory} stakingData={stakingData} />
+          <DelegationHistory account={account} stakingData={stakingData} />
+        </JoinContainer>
+      );
+    case 'contract':
+      return <DelegatorBalanceHistory account={account} balanceHistory={balanceHistory} />;
 
-  return (
-    <Card title={'Balance History (30d)'}>
-      <FlexRowWrap>
-        <div style={{ marginRight: '20px', width: '300', flex: 1 }}>
-          <BalanceChart type={'svg'} data={balanceHistory} />
-        </div>
-        <FlexColumn pb={25} width={305} justifyContent="space-around">
-          <FlexRow justifyContent="space-between">
-            <DataBox
-              valueType="currency-full"
-              title="Spendable"
-              value={parseFloat(account.spendable_balance.toFixed(2))}
-            />
-            <DataBox
-              valueType="currency-usd-fixed"
-              title="Value"
-              value={account.spendable_balance * lastMarketData.price}
-            />
-          </FlexRow>
-          <Info>
-            &nbsp;&nbsp;&nbsp;The account is not participating in staking right now. To start earning rewards on the
-            funds securely delegate rights to a staking service or register as a delegate.
-          </Info>
-        </FlexColumn>
-      </FlexRowWrap>
-    </Card>
-  );
+    default:
+      break;
+  }
 };
-const Info = styled.div`
-  font-size: 14px;
-  margin-top: 20px;
-`;
 
 export default BalanceHistory;
+const JoinContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 -5px;
+`;
+
+const Wrapper = styled.div`
+  flex: 1;
+  min-width: 340px;
+  margin: 0 5px;
+`;

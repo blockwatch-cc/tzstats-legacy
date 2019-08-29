@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import BlockHistory from '../../components/Blocks/BlockHistory';
 import BlockOperations from '../../components/Blocks/BlockOperations';
 import BlockInfo from '../../components/Blocks/BlockInfo';
-import { getBlock, getBlockHistory } from '../../services/api/tz-stats';
+import { getBlock, getBlockRange } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
 import { withRouter } from 'react-router-dom';
 
@@ -17,10 +17,10 @@ const BlockPage = ({ match, history }) => {
       let [block, lastBlock] = await Promise.all([getBlock(currentBlockHash), getBlock()]);
       //todo optimize it for blockNumber
       let blockHistory = [];
-      if (lastBlock.height - block.height < 50) {
-        blockHistory = await getBlockHistory(lastBlock.height, 50, 0);
+      if (lastBlock.height - block.height < 59) {
+        blockHistory = await getBlockRange(lastBlock.height, 60, 0);
       } else {
-        blockHistory = await getBlockHistory(block.height, 25, 25);
+        blockHistory = await getBlockRange(block.height, 30, 30);
       }
       setData({
         isLoaded: true,
@@ -36,9 +36,9 @@ const BlockPage = ({ match, history }) => {
 
   return data.isLoaded ? (
     <Wrapper>
-      <BlockHistory blockHistory={data.blockHistory} currentBlock={data.block} lastBlock={data.lastBlock} />
+      <BlockHistory blockHistory={data.blockHistory} currentBlock={data.block} />
       <BlockInfo block={data.block} setTxType={setTxType} />
-      <BlockOperations block={data.block} txType={txType} />
+      {!data.block.is_uncle ? <BlockOperations block={data.block} txType={txType} /> : ''}
     </Wrapper>
   ) : (
     <Spiner />

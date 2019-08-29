@@ -1,6 +1,7 @@
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import { format } from 'd3-format';
+import { timeFormat } from 'd3-time-format';
 import { bakerAccounts } from './config/baker-accounts';
 import { proposals } from './config/proposals';
 import _ from 'lodash';
@@ -8,19 +9,30 @@ import _ from 'lodash';
 TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
 
+export function formatDay(ts) {
+  const d = new Date(ts);
+  const isThisYear = d.getFullYear()===(new Date()).getFullYear();
+  return timeFormat(isThisYear?'%b %d':'%b %d, %Y')(d);
+}
+
+export function formatTime(ts) {
+  return timeFormat('%H:%M')(new Date(ts));
+}
+
 export function convertMinutes(num) {
+  num = num<0?0:num;
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
   const m = Math.floor(num % 60);
   let res = [];
-
   if (d > 0) {
     res.push(d + 'd');
   }
   if (h > 0) {
     res.push(h + 'h');
   }
-  if (m > 0) {
+
+  if (m > 0 || (d === 0 && h === 0 && m === 0)) {
     res.push(m + 'm');
   }
   return res.join(' ');
@@ -65,30 +77,9 @@ export function formatCurrencyShort(value) {
 
 export const addCommas = format(',');
 
-export function wrapFlowData(flowData, account) {
-  let inFlowData = { id: 'In-flow', color: '#1af3f9', data: [] };
-  let outFlowData = { id: 'Out-flow', color: '#83899B', data: [] };
-
-  let balance = account.spendable_balance;
-  let dataInOut = [];
-
-  //[0]-time [1]-in [2]-out
-
-  flowData.reverse().map(item => {
-    let time = item[0];
-    let inFlow = item[1];
-    let outFlow = item[2];
-    inFlowData.data.unshift({ x: time, y: inFlow });
-    outFlowData.data.unshift({ x: time, y: -outFlow });
-    dataInOut.unshift({ time: time, inFlow: inFlow, outFlow: -outFlow, balance: balance });
-    balance += outFlow - inFlow;
-  });
-  return { inFlowData, outFlowData, dataInOut };
-}
-
 //todo reafactoring
 export function wrapToBalance(flowData, account) {
-  let spandableBalance = account.spendable_balance;
+  let spendableBalance = account.spendable_balance;
   let today = new Date().setHours(0, 0, 0, 0);
   const day = 1000 * 60 * 60 * 24;
   const length = today - day * 30;
@@ -98,7 +89,7 @@ export function wrapToBalance(flowData, account) {
   }
   let res = [];
 
-  timeArray30d.map((timeStamp, i) => {
+  timeArray30d.forEach((timeStamp, i) => {
     let item = _.findLast(flowData, item => {
       return new Date(item[0]).setHours(0, 0, 0, 0) === timeStamp;
     });
@@ -107,9 +98,9 @@ export function wrapToBalance(flowData, account) {
       let inFlow = item[1];
       let outFlow = item[2];
       let sum = parseFloat((inFlow - outFlow).toFixed(4));
-      spandableBalance = parseFloat((spandableBalance - sum).toFixed());
+      spendableBalance = parseFloat((spendableBalance - sum).toFixed());
     }
-    res.push({ time: timeStamp, value: spandableBalance });
+    res.push({ time: timeStamp, value: spendableBalance });
   });
   return res.reverse();
 }
@@ -123,15 +114,13 @@ export function wrapToVolume(volSeries) {
   return volume;
 }
 
-export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
-  let stakingBond = { id: 'Staking Bond', color: '#1af3f9', data: [] };
-  let currentDeposit = { id: 'Current Deposit', color: '#83899B', data: [] };
-  let pendingRewards = { id: 'Pending Rewards', color: '#83899B', data: [] };
+export function wrapStakingData({ balance, deposits, rewards, fees, account, delegation }) {
   let spendableBalance = account.spendable_balance;
   let frozenDeposit = account.frozen_deposits;
   let frozenRewards = account.frozen_rewards;
   let frozenFees = account.frozen_fees;
-  let allData = [];
+  let delegationBalance = account.delegated_balance;
+  let data = [];
   //[0]-time [1]-in [2]-out
   for (let i = balance.length - 1; i >= 0; i--) {
     let balanceIn = balance[i][1];
@@ -146,26 +135,25 @@ export function wrapStakingData({ balance, deposits, rewards, fees, account }) {
     let feesIn = fees[i][1];
     let feesOut = fees[i][2];
 
-    //spandable_balance + frozen depozit
-    stakingBond.data.unshift({ x: balance[i][0], y: spendableBalance + frozenDeposit });
-    //frozen depozit
-    currentDeposit.data.unshift({ x: balance[i][0], y: frozenDeposit });
-    //frozen rewards + frozen fees
-    pendingRewards.data.unshift({ x: balance[i][0], y: frozenRewards + frozenFees });
+    let delegationIn = delegation[i][1];
+    let delegationOut = delegation[i][2];
 
-    allData.unshift({
+    data.unshift({
       time: balance[i][0],
-      bond: spendableBalance + frozenDeposit,
+      total: spendableBalance + frozenDeposit,
       deposit: frozenDeposit,
-      rewards: frozenRewards + frozenFees,
+      balance: spendableBalance,
+      reward: frozenRewards + frozenFees,
+      delegation: delegationBalance,
     });
 
     spendableBalance += balanceOut - balanceIn;
     frozenDeposit += depositsOut - depositsIn;
     frozenRewards += rewardsOut - rewardsIn;
     frozenFees += feesOut - feesIn;
+    delegationBalance += delegationOut - delegationIn;
   }
-  return { stakingBond, currentDeposit, pendingRewards };
+  return data;
 }
 
 //Todo replace it with clean function
@@ -179,14 +167,23 @@ export function fixPercent(settings) {
 }
 
 export function getShortHash(hash) {
-  return `${hash.slice(0, 3)}...${hash.slice(-4)}`;
+  return hash?`${hash.slice(0, 3)}...${hash.slice(-4)}`:'-';
 }
+
 export function getShortHashOrBakerName(hash) {
-  if (!hash) { return "God"; }
-  const names = Object.keys(bakerAccounts).filter(key => {
-    return bakerAccounts[key].toLowerCase().includes(hash.toLowerCase());
-  });
-  return names[0] ? names[0] : getShortHash(hash);
+  if (!hash) {
+    return 'God';
+  }
+  const baker = bakerAccounts[hash];
+  return baker ? baker.name : getShortHash(hash);
+}
+
+export function getHashOrBakerName(hash) {
+  if (!hash) {
+    return 'God';
+  }
+  const baker = bakerAccounts[hash];
+  return baker ? baker.name : hash;
 }
 
 export function capitalizeFirstLetter(str) {
@@ -197,39 +194,30 @@ export function getMinutesInterval(lastTime, minutes) {
   let timeArray = [];
   const length = lastTime - 60000 * minutes;
   for (let index = lastTime; index > length; index = index - 60000) {
-    timeArray.push(index);
+    timeArray.unshift(index);
   }
   return timeArray;
 }
 
 export function wrappBlockDataToObj(array) {
-  let filtered = array.filter((item, index) => {
-    if (index !== 0 && array[index - 1][2] != item[2]) {
-    }
-  });
   return array.reduce((obj, item, index) => {
-    if (index !== 0 && array[index - 1][2] != item[2]) {
-      obj[new Date(item[0]).setSeconds(0, 0)] = {
-        time: new Date(item[0]).setSeconds(0, 0),
-        hash: item[1],
-        height: item[2],
-        priority: item[3],
-        opacity: item[3] === 0 ? 1 : item[3] < 8 ? 0.8 : item[3] < 16 ? 0.6 : item[3] < 32 ? 0.4 : 0.2,
-        is_uncle: item[4] || false,
-      };
-    }
+    let time = new Date(item[0]).setSeconds(0, 0);
+    obj[time] = [...obj[time]||[], {
+      time: new Date(item[0]),
+      hash: item[1],
+      height: item[2],
+      priority: item[3],
+      opacity: item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.6 : item[3] < 8 ? 0.4 : item[3] < 16 ? 0.2 : 0.1,
+      is_uncle: item[4] || 0,
+    }];
     return obj;
   }, {});
-}
-
-export function getDelegatorByHash(hash) {
-  return Object.keys(bakerAccounts).filter(r => bakerAccounts[r] === hash);
 }
 
 export function getPeakVolumeTime(data, hours = 1) {
   const stride = 24 / hours;
   let times = new Array(stride).fill(0);
-  data.map((v, i) => {
+  data.forEach((v, i) => {
     times[i % stride] += v[1];
   });
   const peak = times.indexOf(Math.max(...times));
@@ -258,23 +246,70 @@ export function getSearchType(searchValue) {
     : 'account';
 }
 
+export function getBlockTags(block) {
+  let tags = [];
+  if (block.is_uncle) {
+    tags.push('Orphan');
+  }
+  if (block.is_cycle_snapshot) {
+    tags.push('Snapshot');
+  } else if (block>0&&block.height%256) {
+    tags.push('Snapshot Candidate');
+  }
+  return tags;
+}
+
+export function getOpTags(op) {
+  let tags = [];
+  if (op.is_internal) {
+    tags.push('Internal');
+  }
+  if (op.is_contract) {
+    tags.push('Contract Call');
+  }
+  if (op.params) {
+    tags.push('Params');
+  }
+  if (!op.is_success) {
+    tags.push('Failed');
+  }
+  return tags;
+}
+
 export function getAccountTags(account) {
   let tags = [];
   if (account.is_revealed) {
     tags.push('Revealed');
   }
-  if (account.is_) {
-    tags.push('Revealed');
+  if (account.is_activated) {
+    tags.push('Fundraiser');
   }
-  if (account.is_) {
-    tags.push('Revealed');
+  if (account.is_vesting) {
+    tags.push('Vesting');
   }
-  if (account.is_) {
-    tags.push('Revealed');
+  // if (account.is_delegated) {
+  //   tags.push('Delegating');
+  // }
+  if (!account.is_active_delegate && account.is_delegate) {
+    tags.push('Inactive');
   }
+  return tags;
 }
 
-export function getAccountType(account) {}
+export function getAccountType(account) {
+  if (!account.is_contract && !account.is_delegate && !account.is_delegated) {
+    return { name: 'Basic Account', type: 'basic' };
+  }
+  if (!account.is_contract && !account.is_delegate && account.is_delegated) {
+    return { name: 'Delegator Account', type: 'delegator' };
+  }
+  if (!account.is_contract && account.is_delegate && !account.is_delegated) {
+    return { name: 'Baker Account', type: 'baker' };
+  }
+  if (account.is_contract) {
+    return { name: 'Smart Contract', type: 'contract' };
+  }
+}
 
 export function getNetworkHealthStatus(value) {
   return value <= 16.6
@@ -303,20 +338,28 @@ export function getProposalIdByName(value) {
   });
   return hashes[0] ? proposals[hashes[0]].id : null;
 }
+export function getProposaNameByHash(value) {
+  const hashes = Object.keys(proposals).filter(key => {
+    return key.includes(value);
+  });
+  return hashes[0] ? proposals[hashes[0]].name : null;
+}
 
 export function getBakerHashByName(value) {
-  const names = Object.keys(bakerAccounts).filter(key => {
-    return key.toLowerCase().includes(value.toLowerCase());
+  value = value.toLowerCase();
+  const baker = Object.keys(bakerAccounts).filter(key => {
+    return bakerAccounts[key].name.toLowerCase().includes(value);
   });
-  return names[0] ? bakerAccounts[names[0]] : null;
+  return baker[0]||null;
 }
 export function findBakerName(value) {
-  const names = Object.keys(bakerAccounts).filter(key => {
-    return key.toLowerCase().includes(value.toLowerCase());
+  value = value.toLowerCase();
+  const bakers = Object.keys(bakerAccounts).filter(key => {
+    return bakerAccounts[key].name.toLowerCase().includes(value);
   });
-  return names[0];
+  return bakers[0];
 }
-export function getProposalName(value) {
+export function findProposalName(value) {
   const hashes = Object.keys(proposals).filter(key => {
     return proposals[key].name.toLowerCase().includes(value.toLowerCase());
   });
@@ -325,9 +368,34 @@ export function getProposalName(value) {
 
 export function getSlots(value) {
   if (!value) {
-    return [...new Array(32).fill('0')];
+    return [...new Array(32).fill(0)];
   }
-  const bits = value.toString(2);
+  const bits = value.toString(2).split('').map(b=>parseInt(b));
   const zeroBits = 32 - bits.length;
-  return [...new Array(zeroBits).fill('0'), ...bits];
+  return [...new Array(zeroBits).fill(0), ...bits];
+}
+
+export function isCycleStart(height) {
+    return height > 0 && ((height-1)%4096 === 0);
+}
+
+export function isCycleEnd(height) {
+    return height > 0 && (height%4096 === 0)
+}
+
+export function cycleFromHeight(height) {
+    return !height ? 0 : (height - 1) / 4096;
+}
+
+export function cycleStartHeight(cycle) {
+    return cycle*4096 + 1;
+}
+
+export function cycleEndHeight(cycle) {
+    return (cycle + 1) * 4096
+}
+
+export function snapshotBlock(cycle, index) {
+    // no snapshot before cycle 7
+    return cycle < 7 ? 0 : cycleStartHeight(cycle-7) + (index+1)*256 - 1;
 }

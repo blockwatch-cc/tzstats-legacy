@@ -16,7 +16,7 @@ class IntervalSelect extends Component {
   }
 
   render() {
-    const { items, item, icon } = this.props;
+    const { items, item } = this.props;
 
     const buttonText = `Last ${item.interval} days`;
 

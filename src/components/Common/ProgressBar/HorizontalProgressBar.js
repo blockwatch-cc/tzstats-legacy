@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ProgressBar = ({ settings }) => {
-  return settings.map((item, i) => <ProgressBarItems key={i} {...item}></ProgressBarItems>);
+const ProgressBar = ({ settings, height }) => {
+  return settings.map((item, i) => <ProgressBarItems height={height} key={i} {...item}></ProgressBarItems>);
 };
 
-const HorizontalProgressBar = ({ settings, delimiter }) => {
+const HorizontalProgressBar = ({ settings, delimiter, height = 15 }) => {
   return (
     <ProgressBarWrapper>
       {delimiter && <Delimiter delimiter={delimiter} />}
-      <ProgressBar settings={settings} />
+      <ProgressBar settings={settings} height={height} />
     </ProgressBarWrapper>
   );
 };
@@ -31,10 +31,10 @@ const ProgressBarWrapper = styled.div`
 const ProgressBarItems = styled.div`
   background: ${prop => prop.color};
   width: ${prop =>
-    prop.percent < 1 && prop.percent > 0 ? 1 : prop.percent > 99 && prop.percent != 100 ? 99 : prop.percent}%;
+    prop.percent < 1 && prop.percent > 0 ? 1 : prop.percent > 99 && prop.percent !== 100 ? 99 : prop.percent}%;
   border-right: 1px solid #424552;
   display: inline-block;
-  min-height: 16px;
+  min-height: ${props => props.height}px;
   border-radius: 2px;
 `;
 

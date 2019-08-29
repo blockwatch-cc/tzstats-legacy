@@ -29,21 +29,37 @@ const LegendWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: start;
-  margin-top: 30px;
+  justify-content: left;
+  margin-top: 5px;
 `;
 
 const LegendItem = styled.div`
-  margin-left: 20px;
-  min-width: 110px;
+  margin-right: 10px;
+  margin-left: 15px;
+  position: relative;
   &:after {
     content: '•';
-    position: relative;
-    left: -20px;
-    bottom: 45px;
-    font-size: 30px;
+    position: absolute;
+    left: -15px;
+    font-size: 25px;
+    line-height: 0;
+    top: 7px;
     color: ${prop => prop.color};
   }
 `;
+
+// const LegendTitle = styled.div`
+//   position: relative;
+//   margin-left: 0;
+//   &:after {
+//     content: '•';
+//     position: absolute;
+//     right: -15px;
+//     font-size: 25px;
+//     line-height: 0;
+//     top: 4px;
+//     color: ${prop => prop.color};
+//   }
+// `;
 
 export default Legend;

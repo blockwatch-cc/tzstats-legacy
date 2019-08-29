@@ -9,20 +9,20 @@ const Footer = () => (
     <Text>
       {'Have a question? Contact us via '}
       <LinkedText>
-        <a target="_blank" href="https://twitter.com/tzstats">
+        <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/tzstats">
           Twitter
         </a>
       </LinkedText>
       {' or '}
       <LinkedText>
-        <a target="_blank" href="https://discord.gg/D5e98Hw">
+        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/D5e98Hw">
           Discord
         </a>
       </LinkedText>
     </Text>
     <Text>
       <LinkedText>
-        <a target="_blank" href="https://tzstats.com/blog">Blog</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://tzstats.com/blog">Blog</a>
       </LinkedText>
     </Text>
     <Text>

@@ -1,8 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Card, DataBox } from '../../Common';
-import { useGlobal } from 'reactn';
-import { format } from 'd3-format';
+import { DataBox } from '../../Common';
 import { ResponsivePie } from '@nivo/pie';
 
 const ExchangesVolumePie = ({ data }) => {
@@ -25,7 +22,7 @@ const ExchangesVolumePie = ({ data }) => {
         motionStiffness={90}
         motionDamping={15}
         tooltip={({ id, value, color, percent }) => (
-          <DataBox valueType="currency-fixed" value={value} title={`${id} ${percent}%`} />
+          <DataBox valueType="currency-rounded" value={value} title={`${id} ${percent}%`} />
         )}
         theme={{
           tooltip: {

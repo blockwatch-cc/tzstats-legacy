@@ -1,8 +1,7 @@
 import React from 'react';
 import PriceChart from './PriceChart';
-import { Card, FlexColumn, DataBox, InvalidData, FlexRowWrap, FlexRowSpaceBetween } from '../../Common';
+import { Card, FlexColumn, DataBox, EmptyData, FlexRowWrap } from '../../Common';
 import styled from 'styled-components';
-import VolumeChart from '../VolumeChart';
 import _ from 'lodash';
 import { timeFormat } from 'd3-time-format';
 import { isValid, getPeakVolumeTime, getDailyVolume, wrapToVolume } from '../../../utils';
@@ -15,7 +14,11 @@ const PriceWithVolume = ({ marketData, volSeries }) => {
     volume: volSeries[volSeries.length - 1][1],
   });
   if (!isValid(marketData, volSeries)) {
-    return (<Wrapper><InvalidData /></Wrapper>);
+    return (
+      <Wrapper>
+        <EmptyData />
+      </Wrapper>
+    );
   }
 
   let max = _.maxBy(volSeries, item => item[1])[1];
@@ -33,9 +36,14 @@ const PriceWithVolume = ({ marketData, volSeries }) => {
           <div style={{ flex: 1.1, marginLeft: 10, marginRight: 20 }}>
             <PriceChart type={'svg'} data={priceHistory} volumeMax={max} setCurrentValue={setCurrentValue} />
           </div>
-          <FlexColumn justifyContent="space-between" width={160} borderTop="1px solid #787c8b" >
+          <FlexColumn justifyContent="space-between" width={160} borderTop="1px solid #787c8b">
             <PriceLegend lastPrice={lastPrice} />
-            <DataBox valueSize="14px" valueType="currency-short" title="Average Daily Volume" value={getDailyVolume(priceHistory)} />
+            <DataBox
+              valueSize="14px"
+              valueType="currency-short"
+              title="Average Daily Volume"
+              value={getDailyVolume(priceHistory)}
+            />
             <VolumeLegend peak={getPeakVolumeTime(volSeries, 4)} currentValue={currentValue} />
           </FlexColumn>
         </FlexRowWrap>
@@ -47,17 +55,22 @@ const PriceWithVolume = ({ marketData, volSeries }) => {
 const PriceLegend = ({ lastPrice }) => {
   return (
     <FlexColumn height={170} borderBottom="1px solid #787c8b" justifyContent="space-evenly">
-        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Last Price" value={lastPrice.close} />
-        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Open Price Today" value={lastPrice.open} />
-        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Highest Price Today" value={lastPrice.high} />
-        <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Lowest Price Today" value={lastPrice.low} />
+      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Last Price" value={lastPrice.close} />
+      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Open Price Today" value={lastPrice.open} />
+      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Highest Price Today" value={lastPrice.high} />
+      <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Lowest Price Today" value={lastPrice.low} />
     </FlexColumn>
   );
 };
 
 const VolumeLegend = ({ peak, currentValue }) => {
   return (
-    <FlexColumn height={130} borderTop="1px solid #787c8b"  borderBottom="1px solid #787c8b" justifyContent="space-evenly">
+    <FlexColumn
+      height={130}
+      borderTop="1px solid #787c8b"
+      borderBottom="1px solid #787c8b"
+      justifyContent="space-evenly"
+    >
       <DataBox valueSize="14px" value={peak} valueType="text" title="Peak Trading Hours" />
       <DataBox
         valueSize="14px"
@@ -65,7 +78,7 @@ const VolumeLegend = ({ peak, currentValue }) => {
         title={`${timeFormat('%b %d, %Y')(new Date(currentValue.data.time))} ${currentValue.period} UTC`}
         value={currentValue.volume}
       />
-      <FlexColumn/>
+      <FlexColumn />
     </FlexColumn>
   );
 };

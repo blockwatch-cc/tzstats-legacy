@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Card, Legend, FlexColumnSpaceBetween } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { useGlobal } from 'reactn';
-import { formatCurrency, fixPercent } from '../../../utils';
+import { formatCurrency } from '../../../utils';
 const CirculatingSupply = () => {
   const [chain] = useGlobal('chain');
 
@@ -11,8 +11,8 @@ const CirculatingSupply = () => {
 
   return (
     <Wrapper>
-      <Card title={`Supply Breakdown for ${formatCurrency(chain.supply.total, '.2s')}`}>
-        <FlexColumnSpaceBetween height={170}>
+      <Card title={`Supply Breakdown for ${formatCurrency(chain.supply.total, '.5s')}`}>
+        <FlexColumnSpaceBetween>
           <HorizontalProgressBar settings={settings} />
           <Legend settings={settings} />
         </FlexColumnSpaceBetween>

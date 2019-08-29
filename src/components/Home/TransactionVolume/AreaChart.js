@@ -1,22 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { timeFormat } from 'd3-time-format';
 import { scaleTime } from 'd3-scale';
-import { curveMonotoneX, curveNatural, curveLinear } from 'd3-shape';
+import { curveLinear } from 'd3-shape';
 import {
   CrossHairCursor,
-  MouseCoordinateY,
   MouseCoordinateX,
-  PriceCoordinate,
 } from 'react-stockcharts/lib/coordinates';
 import { ChartCanvas, Chart } from 'react-stockcharts';
 import { AreaSeries } from 'react-stockcharts/lib/series';
-import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
-import { LabelAnnotation, Label, Annotate } from 'react-stockcharts/lib/annotation';
-import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
+import { YAxis } from 'react-stockcharts/lib/axes';
 import { fitWidth } from 'react-stockcharts/lib/helper';
-import { last } from 'react-stockcharts/lib/utils';
-import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/utils';
 import _ from 'lodash';
 import { format } from 'd3-format';
 import { CurrentCoordinate } from '../../Common';
@@ -27,9 +20,9 @@ class AreaChart extends React.Component {
     const max = _.maxBy(data, function(o) {
       return o.value;
     }).value;
-    const min = _.minBy(data, function(o) {
-      return o.value;
-    }).value;
+    // const min = _.minBy(data, function(o) {
+    //   return o.value;
+    // }).value;
 
     return (
       <ChartCanvas
@@ -74,7 +67,6 @@ class AreaChart extends React.Component {
             orient="bottom"
             dx={180}
             fill="rgba(0,0,0,0)"
-            opacity={1}
             textFill="rgba(255, 255, 255, 0.52)"
             displayFormat={timeFormat('%a, %b %d')}
             fontSize={11}

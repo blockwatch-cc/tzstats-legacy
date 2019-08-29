@@ -4,7 +4,17 @@ import { FlexRow } from './index';
 import { formatCurrency, formatValue } from '../../utils';
 
 //Todo refactoring
-const DataBox = ({ value, title, valueType, type = '', valueSize = '18px', titleSize = '10px', ta = 'left', ml = '0', mr = '0' }) => {
+const DataBox = ({
+  value,
+  title,
+  valueType,
+  type = '',
+  valueSize = '18px',
+  titleSize = '10px',
+  ta = 'left',
+  ml = '0',
+  mr = '0',
+}) => {
   switch (type) {
     case 'title-bottom':
       return (
@@ -58,12 +68,16 @@ const Value = ({ type, value }) => {
   switch (type) {
     case 'text':
       return value;
-    case 'currency-fixed':
+    case 'currency-rounded':
       return formatCurrency(Math.round(value), ',');
     case 'currency-short':
       return formatCurrency(value, '.4s');
-    case 'currency-full':
+    case 'currency-fixed':
+      return formatCurrency(value.toFixed(2), ',');
+    case 'currency-smart':
       return formatCurrency(value, ',');
+    case 'currency-full':
+      return formatCurrency(value.toFixed(6), ',');
     case 'currency-usd-full':
       return formatValue(value, '$,');
     case 'currency-usd-fixed':
@@ -72,6 +86,8 @@ const Value = ({ type, value }) => {
       return '$' + formatValue(Math.round(value), '.2s');
     case 'value-short':
       return formatValue(Math.round(value), '.2s');
+    case 'value-full':
+      return formatValue(value, ',');
     case 'percent':
       return value * 100 < 1 ? '< 1%' : formatValue(value, '.0%');
     default:
@@ -82,8 +98,8 @@ const Value = ({ type, value }) => {
 const Wrapper = styled.div`
   font-size: ${props => props.fontSize};
   text-align: ${props => props.ta};
-  margin-left: ${props => props.ml+'px'};
-  margin-right: ${props => props.mr+'px'};
+  margin-left: ${props => props.ml + 'px'};
+  margin-right: ${props => props.mr + 'px'};
   white-space: nowrap;
 `;
 const Title = styled.div`

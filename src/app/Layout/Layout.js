@@ -5,20 +5,9 @@ import Colors from '../../components/Common/Colors';
 import Sidebar from '../../components/Layout/Sidebar';
 import Searchbar from '../../components/Layout/Searchbar';
 import Footer from '../../components/Layout/Footer';
-import { getChainData } from '../../services/api/tz-stats';
-import { setGlobal } from 'reactn';
 import { Devices } from '../../components/Common';
 
 function Layout({ children }) {
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const chainData = await getChainData();
-
-      setGlobal({ chain: chainData });
-    };
-    fetchData();
-  }, []);
-
   return (
     <Wrapper>
       <Sidebar />

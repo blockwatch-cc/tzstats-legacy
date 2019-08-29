@@ -4,18 +4,16 @@ import { timeAgo } from '../../../../utils';
 import { useGlobal } from 'reactn';
 import { Card, Elevation } from '@blueprintjs/core';
 import { DataBox, FlexRowSpaceBetween, FlexColumn, LinkIcon } from '../../../Common';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 //todo add priori
 const LastBlock = ({ history }) => {
   const [chain] = useGlobal('chain');
-  const handleClick = () => {
-    history.push(`/block/${chain.block_hash}`);
-  };
   return (
     <Wrapper>
+      <Link to={`/block/${chain.block_hash}`}>
       <LinkIcon>&#x25E5;</LinkIcon>
-      <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
+      <Card interactive={true} elevation={Elevation.ZERO}>
         <FlexRowSpaceBetween>
           <FlexColumn>
             <DataBox
@@ -26,6 +24,7 @@ const LastBlock = ({ history }) => {
           </FlexColumn>
         </FlexRowSpaceBetween>
       </Card>
+      </Link>
     </Wrapper>
   );
 };

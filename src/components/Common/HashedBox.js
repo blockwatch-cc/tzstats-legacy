@@ -1,19 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DataBox, Blockies } from '.';
-import { getShortHash } from '../../utils';
+import { DataBox, Blockies, CopyButton } from './';
+import { getShortHashOrBakerName, getHashOrBakerName } from '../../utils';
 import { Link } from 'react-router-dom';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-const HashedBox = ({ hash, typeName, name }) => {
+const HashedBox = ({ hash, typeName, name, short = true, isCopy = true }) => {
+  const getter = short?getShortHashOrBakerName:getHashOrBakerName;
   return (
     <HashBlockWrapper>
       <Blockies hash={hash} />
-      {name && <BakerName />}
-      <HashLink to={`/account/${hash}`}>{getShortHash(hash)}</HashLink>
-      <CopyToClipboard text={hash}>
-        <Button>Copy</Button>
-      </CopyToClipboard>
+      <HashLink to={`/account/${hash}`}>{getter(hash)}</HashLink>
+      {isCopy && <CopyButton />}
       <DataBox title={typeName} />
     </HashBlockWrapper>
   );
@@ -22,19 +19,8 @@ const HashedBox = ({ hash, typeName, name }) => {
 const HashBlockWrapper = styled.div`
   font-size: 14px;
 `;
-const BakerName = styled.div`
-  font-size: 18px;
-`;
-const HashLink = styled(Link)``;
-
-const Button = styled.span`
-  background-color: #30313b;
-  font-size: 12px;
-  margin: 0 5px;
-  border-radius: 2px;
-  padding: 5px 2px;
-  padding: 4px 8px;
-  cursor: pointer;
+const HashLink = styled(Link)`
+  font-size: 16px;
 `;
 
 export default HashedBox;

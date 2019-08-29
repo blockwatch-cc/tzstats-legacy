@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, InvalidData, FlexRowWrap } from '../../Common';
+import { Card, EmptyData, FlexRowWrap } from '../../Common';
 import ExchangesVolumePie from './ExchangesVolumePie';
 import Legend from './Legend';
 import _ from 'lodash';
@@ -10,7 +10,7 @@ import { marketNames } from '../../../services/api/markets';
 
 const VolumesExchanges = ({ tickers }) => {
   if (!isValid(tickers)) {
-    return (<Wrapper><InvalidData /></Wrapper>);
+    return (<Wrapper><EmptyData /></Wrapper>);
   }
   let byExchange = tickers.reduce((s, t) => {
     s[t.exchange] = (s[t.exchange] || 0) + t.volume_base;
@@ -22,7 +22,7 @@ const VolumesExchanges = ({ tickers }) => {
   return (
     <Wrapper>
       <Card title={'24h Volume by Exchange'}>
-        <FlexRowWrap>
+        <FlexRowWrap height={160}>
           <ExchangesVolumePie data={settings} />
           <Legend settings={settings} />
         </FlexRowWrap>

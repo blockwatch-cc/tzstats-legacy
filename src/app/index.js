@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
+import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom';
 import Layout from './Layout/Layout';
 import HomePage from './HomePage/HomePage';
 import AccountPage from './AccountPage/AccountPage';
@@ -37,12 +37,15 @@ const App = () => {
               <Route exact path="/" component={HomePage} />
               <Route path="/account/:hash" component={AccountPage} />
               <Route path="/market" component={MarketPage} />
+              <Redirect exact from="/block" to="/block/head" />
               <Route path="/block/:hash" component={BlockPage} />
               <Route path="/operation/:hash" component={OperationPage} />
               <Route path="/test" component={TestPage} />
               <Route path="/terms" component={TermsPage} />
               <Route path="/privacy" component={PrivacyPage} />
+              <Redirect exact from="/election" to="/election/head" />
               <Route path="/election/:id" component={ElectionPage} />
+              <Redirect exact from="/cycle" to="/cycle/head" />
               <Route path="/cycle/:id" component={CyclePage} />
               <Route path="/not-found/:value" component={NotFoundPage} />
             </Switch>

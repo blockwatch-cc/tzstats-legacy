@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRow, FlexRowSpaceBetween, CopyHashButton } from '../../Common';
+import { Card, DataBox, FlexRowSpaceBetween } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
-import { proposals } from '../../../config/proposals';
 import { getEndTime } from '../../../utils';
-import _ from 'lodash';
 
 const ElectionProgress = ({ election }) => {
   let period = currentPeriod(election);
@@ -14,14 +12,14 @@ const ElectionProgress = ({ election }) => {
   let title = `${period.title} Period  ${endTime}`;
   return (
     <Wrapper>
-      <Card to="/election/head" title={title}>
+      <Card title={title}>
         <FlexRowSpaceBetween>
           <DataBox value={period.turnout_rolls} />
           <DataBox value={period.eligible_rolls} />
         </FlexRowSpaceBetween>
         <HorizontalProgressBar settings={settings} />
         <FlexRowSpaceBetween>
-          <DataBox title={`Participation Rolls ${((100 * period.turnout_rolls) / period.eligible_rolls).toFixed()}%`} />
+          <DataBox title={`Participation Rolls ${((100 * period.turnout_rolls) / period.eligible_rolls).toFixed(2)}% (${period.quorum_pct}%)`}  />
           <DataBox title={`Maximum Rolls`} />
         </FlexRowSpaceBetween>
       </Card>

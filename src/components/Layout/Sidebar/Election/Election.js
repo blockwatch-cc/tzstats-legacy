@@ -2,16 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, Elevation } from '@blueprintjs/core';
 import { DataBox, LinkIcon } from '../../../Common';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { getElectionById } from '../../../../services/api/tz-stats';
 import { proposals } from '../../../../config/proposals';
 
 const Election = ({ history }) => {
   const [election, setElection] = React.useState({});
-  const periodNumber = election.promotion_vote ? 4 : election.testing ? 3 : election.testing_vote ? 2 : 1;
-  const handleClick = () => {
-    history.push(`/election/${election.election_id}`);
-  };
+  const periodNumber = election.num_periods;
   React.useEffect(() => {
     const fetchData = async () => {
       let election = await getElectionById();
@@ -19,26 +16,28 @@ const Election = ({ history }) => {
     };
     fetchData();
   }, []);
-  const proposalDiteils =
+  const proposalDetails =
     election.testing_vote && proposals[election.testing_vote.proposals[0].hash]
       ? proposals[election.testing_vote.proposals[0].hash]
       : { name: 'New', link: '', archive: '' };
   return (
     <Wrapper>
+      <Link to={`/election/${election.election_id}`}>
       <LinkIcon>&#x25E5;</LinkIcon>
       {election && (
-        <Card onClick={handleClick} interactive={true} elevation={Elevation.ZERO}>
+        <Card interactive={true} elevation={Elevation.ZERO}>
           <ElectionBoxWrapper>
             <ElectionBox>
               {new Array(periodNumber).fill(0).map((item, i) => (
                 <PeriodBox key={i} />
               ))}
             </ElectionBox>
-            <PeriodName>{proposalDiteils.name}</PeriodName>
+            <PeriodName>{proposalDetails.name}</PeriodName>
           </ElectionBoxWrapper>
           <DataBox title={`On-Chain Election`} />
         </Card>
       )}
+      </Link>
     </Wrapper>
   );
 };

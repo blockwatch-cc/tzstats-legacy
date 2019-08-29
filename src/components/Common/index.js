@@ -13,6 +13,12 @@ import {
   FlexColumnSpaceBetween,
   FlexRowSpaceAround,
   FlexColumnSpaceAround,
+  TableBody,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+  TableCell,
+  TableDetails,
 } from './Box';
 import { LinkIcon } from './Controls';
 
@@ -28,9 +34,11 @@ export { default as Blockies } from './Blockies';
 export { default as CopyHashButton } from './CopyHashButton';
 export { default as HashedBox } from './HashedBox';
 export { default as Centered } from './Centered';
-export { default as InvalidData } from './InvalidData';
+export { default as EmptyData } from './EmptyData';
 export { default as CurrentCoordinate } from './CurrentCoordinate';
 export { default as Tag } from './Tag';
+export { default as CopyButton } from './CopyButton';
+export { default as NoDataFound } from './NoDataFound';
 export {
   Box,
   InlineBox,
@@ -47,4 +55,10 @@ export {
   FlexRowSpaceBetween,
   FlexColumnSpaceAround,
   LinkIcon,
+  TableBody,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+  TableCell,
+  TableDetails,
 };

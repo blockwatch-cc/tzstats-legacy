@@ -22,14 +22,14 @@ export const proposals = {
   },
   PsBABY5nk4JhdEv1N1pZbt6m6ccB9BfNqa23iKZcHBh23jmRS9f: {
     id: 13,
-    name: 'Babylon A',
+    name: 'Babylon 1.0',
     by: 'Nomadic Labs',
     link: 'https://blog.nomadic-labs.com/babylon-proposal-injected.html',
     archive: 'https://blog.nomadic-labs.com/files/babylon_005_PsBABY5n.tar',
   },
   PsBABY5HQTSkA4297zNHfsZNKtxULfL18y95qb3m53QJiXGmrbU: {
     id: 13,
-    name: 'Babylon B',
+    name: 'Babylon 2.0',
     by: 'Nomadic Labs',
     link: 'https://blog.nomadic-labs.com/babylon-proposal-injected.html',
     archive: 'https://blog.nomadic-labs.com/files/babylon_005_PsBABY5H.tar',

@@ -1,21 +1,18 @@
 import React from 'react';
-import { DataBox } from '../../Common';
+import { DataBox, FlexRowSpaceBetween } from '../../Common';
+import { Link } from 'react-router-dom';
+import { timeFormat } from 'd3-time-format';
 
-// "fee": 0.001257,
-// "gas_limit": 10000,
-// "gas_price": 0.1257,
-// "gas_used": 10000,
-// "is_success": true,
-// "receiver": "tz1iDu3tHhf7H4jyXk6rGV4FNUsMqQmRkwLp",
-// "sender": "KT1DEDKqWYr5FEf85k6BG7pyy6jLvDGYet9S",
-const Delegation = ({ operation }) => {
+const Delegation = ({ op }) => {
   return (
-    <>
-      <DataBox title="Gas Used" value={operation.gas_used} />
-      <DataBox title="Gas Price" valueType="currency-fixed" value={operation.gas_price} />
-      <DataBox title="Gas Limit" value={operation.gas_limit} />
-      <DataBox title="Fee" valueType="currency-fixed" value={operation.fee} />
-    </>
+    <FlexRowSpaceBetween>
+      <Link to={`/block/${op.block}`}><DataBox title="Block" valueSize="14px" value={op.height} /></Link>
+      <Link to={`/cycle/${op.cycle}`}><DataBox title="Cycle" valueSize="14px" value={op.cycle} /></Link>
+      <DataBox title="Date & Time" valueSize="14px" valueType="text" value={timeFormat('%b %d, %Y %H:%M:%S')(new Date(op.time))} />
+      <DataBox title="Gas Limit" valueSize="14px" value={op.gas_limit} />
+      <DataBox title="Gas Used" valueSize="14px" value={op.gas_used} />
+      <DataBox title="Gas Price" valueSize="14px" valueType="currency-short" value={op.gas_price/1000} />
+    </FlexRowSpaceBetween>
   );
 };
 

@@ -30,9 +30,9 @@ const TradeCurrency = ({ tickers }) => {
 const Legend = ({ data }) => {
   return (
     <LegendWrapper>
-      {data.map(function(item) {
+      {data.map((item, i) => {
         return (
-          <FlexColumn>
+          <FlexColumn key={i}>
             <div style={{ fontSize: 14 }}>{item.id}</div>
             <DataBox title={formatCurrency(item.value, '.2s')} />
           </FlexColumn>

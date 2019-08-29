@@ -11,20 +11,19 @@ const BlockTxChart = ({ block, setTxType }) => {
   return (
     <Wrapper>
       <FlexRowSpaceBetween>
-        <FlexColumnSpaceBetween minHeight={180}>
-          {block.n_ops ? (
-            <Total>
-              <DataBox ta="center" title="Operations" value={block.n_ops} />
-            </Total>
-          ) : (
-            ''
-          )}
+        <FlexColumnSpaceBetween minHeight={140}>
+          <Total>
+            <DataBox ta="center" title="Operations" value={block.n_ops} />
+          </Total>
           <Chart data={settings} setTxType={setTxType} />
-          <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transaction Volume" value={block.volume} />
         </FlexColumnSpaceBetween>
         <FlexColumn height={130}>
           <Legend settings={settings} />
         </FlexColumn>
+      </FlexRowSpaceBetween>
+      <FlexRowSpaceBetween  minHeight={40} alignItems={'flex-end'} >
+          <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transaction Volume" value={block.volume} />
+          <DataBox ta={"center"} valueSize="16px" valueType="value-full" title="Days destroyed" value={block.days_destroyed} />
       </FlexRowSpaceBetween>
     </Wrapper>
   );

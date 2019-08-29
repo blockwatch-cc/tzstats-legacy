@@ -1,54 +1,56 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FlexRowWrap, FlexColumn } from '../../Common';
-import { getMinutesInterval, wrappBlockDataToObj } from '../../../utils';
+import { formatDay, formatTime, getMinutesInterval, wrappBlockDataToObj } from '../../../utils';
 import { Link } from 'react-router-dom';
-import { timeFormat } from 'd3-time-format';
 import { format } from 'd3-format';
 
 const BlocksChart = ({ blockHistory, currentBlock }) => {
-  let lastBlock = blockHistory[blockHistory.length - 1];
+  let lastBlock = blockHistory.slice(-1)[0];
+  let firstTime = new Date(blockHistory[0][0]).setSeconds(0, 0);
   let lastTime = new Date(lastBlock[0]).setSeconds(0, 0);
-  let timeRange = getMinutesInterval(lastTime, 50).reverse();
+  if (firstTime < lastTime-3600000) {
+    firstTime = lastTime-3600000;
+  }
+  let timeRange = getMinutesInterval(firstTime+3600000, 60);
   let blocksMap = wrappBlockDataToObj(blockHistory);
+  function isMidnight(ts) {
+    const d = new Date(ts);
+    return d.getHours()===0&&d.getMinutes()===0;
+  }
 
   return (
     <BlocksWrapper>
-      {timeRange.map((timestamp, index) => {
-        const block = blocksMap[timestamp];
-        const isCurrent = block && block.height === currentBlock.height;
-        const isEmpty = block === undefined || block === null;
-        const isDoubleBlock = block && block['is_uncle'];
+      {timeRange.map((ts, index) => {
+        const blocks = (blocksMap[ts]||[]).sort((a,b) => (a.is_uncle?1:0)-(b.is_uncle?1:0));
+        const isCurrent = currentBlock && blocks[0] && blocks[0].hash === currentBlock.hash;
         return (
-          <div key={index}>
-            {index % 10 === 0 && (
-              <TimeWrapper>
-                <Line>|</Line>
-                <Time>{timeFormat('%H:%M')(new Date(timestamp))}</Time>
-              </TimeWrapper>
+          <BlockColumn key={index}>
+            {(index===0 || (isMidnight(ts) && index > 7)) && (
+              <DayTick>{index < 54?formatDay(ts):''}</DayTick>
             )}
-            {isEmpty ? (
-              <FlexColumn justifyContent="flex-end">
-                <EmptyBlockSquare/>
-              </FlexColumn>
+            {(ts%600000===0) && (
+              <TimeMajor>{index < 58?formatTime(ts):''}</TimeMajor>
+            )}
+            {(ts%600000!==0 && ts%300000===0 && index < 59) && (
+              <TimeMinor></TimeMinor>
+            )}
+            {!blocks.length ? (
+              <EmptyBlockSquare/>
             ) : (
-              <FlexColumn justifyContent="flex-end">
-                <BlockSquare
-                  to={block ? `/block/${block.hash}` : '#'}
-                  mb={3}
-                  isDoubleBlock={isDoubleBlock}
-                  opacity={!isDoubleBlock ? 0 : 1}
-                />
-                <BlockSquare
-                  to={block ? `/block/${block.hash}` : '#'}
-                  isCurrent={isCurrent}
-                  height={block ? format(',')(block.height) : null}
-                  isEmpty={isEmpty}
-                  isLineShow={isDoubleBlock}
-                />
-              </FlexColumn>
+              blocks.map((block, index) => {
+                return (<BlockSquare
+                  key={index}
+                  height={format(',')(block.height)}
+                  to={`/block/${block.hash}`}
+                  mb={12*index}
+                  opacity={block.opacity}
+                  bg={block.is_uncle?red:(isCurrent?white:blue)}
+                  border={isCurrent?'1px solid #fff':'none'}
+                />);
+               })
             )}
-          </div>
+          </BlockColumn>
         );
       })}
     </BlocksWrapper>
@@ -56,29 +58,43 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
 };
 export default BlocksChart;
 
+
+const red = 'linear-gradient(45deg, #ED6290 0%, #FC6483 100%)';
+const blue = 'linear-gradient(45deg, #26B2EE 0%, #29C0FF 100%)';
+const white = '#fff';
+
 const BlocksWrapper = styled(FlexRowWrap)`
-  justify-content: space-between;
+  justify-content: flex-start;
   position: relative;
 `;
-const TimeWrapper = styled.div`
-  position: relative;
-  margin-left: -4px;
+
+const BlockColumn = styled(FlexColumn)`
+  margin-right: 1px;
+  justify-content: flex-end;
 `;
-const Time = styled.div`
+
+const TimeMajor = styled.div`
   color: rgba(255, 255, 255, 0.52);
   font-size: 10px;
-  top: 46px;
+  top: 12px;
   position: absolute;
-  left: -10px;
-`;
-const Line = styled.div`
+  border-left: 1px solid #83858d;
   font-weight: 100;
-  color: #83858d;
-  z-index: 0;
-  position: absolute;
-  left: 0px;
-  top: 23px;
-  font-size: 18px;
+  height: 16px;
+  width: 25px;
+  padding-left: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
+
+const TimeMinor = styled(TimeMajor)`
+  height: 8px;
+`;
+
+const DayTick = styled(TimeMajor)`
+  height: 34px;
+  width: 70px;
 `;
 
 const EmptyBlockSquare = styled.div`
@@ -87,7 +103,6 @@ const EmptyBlockSquare = styled.div`
   z-index: 1000;
   opacity: 1;
   background: #525666;
-  margin-top: 14px;
 `;
 
 const BlockSquare = styled(Link)`
@@ -95,34 +110,29 @@ const BlockSquare = styled(Link)`
   height: 11px;
   z-index: 1000;
   margin-bottom: ${prop => (prop.mb ? prop.mb : 0)}px;
-  opacity: ${prop => (prop.opacity !== undefined ? prop.opacity : 1)};
+  opacity: ${prop => prop.opacity||1};
+  border: ${prop => prop.border||'none'};
   &:hover {
-    border: ${prop => (!prop.isDoubleBlock ? '1px solid #fff' : 'none')};
+    border: 1px solid #fff;
     &:after {
-      content: '${prop => (prop.height ? prop.height : '')}';
+      content: '${prop => prop.height}';
       position: absolute;
       color: rgba(255,255,255,0.52);
       font-size: 10px;
-      top: -25px;
+      top: -28px;
       transform: translate(-50%,0);
-      margin-left: 3px;
+      margin-left: 5px;
     }
     &:before {
-      content: '${prop => (prop.height && !prop.isLineShow ? '|' : '')}';
+      content: '|';
       position: absolute;
       font-weight: 100;
       color: rgba(255, 255, 255, 0.52);
       z-index: -1;
-      font-size: 22px;
+      font-size: 14px;
       top: -15px;
+      left: 3.5px;
     }
   }
-  background: ${prop =>
-    prop.isCurrent
-      ? '#fff'
-      : prop.isEmpty
-      ? '#525566'
-      : prop.isDoubleBlock
-      ? 'linear-gradient(45deg, #ED6290 0%, #FC6483 100%)'
-      : 'linear-gradient(45deg, #26B2EE 0%, #29C0FF 100%)'};
+  background: ${prop => prop.bg};
 `;

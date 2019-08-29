@@ -1,24 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
+import BlockHistory from '../../components/Blocks/BlockHistory';
 import { PriceHistory } from '../../components/Home/PriceHistory/';
 import CirculatingSupply from '../../components/Home/CirculatingSupply';
-import SupplyInfo from '../../components/Home/SupplyInfo';
+import StakingInfo from '../../components/Home/StakingInfo';
 import ElectionProgress from '../../components/Home/ElectionProgress';
 import AccountsGrowth from '../../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../../services/api/markets';
-import { getElectionById, getTxVolume, getTxVolume24h } from '../../services/api/tz-stats';
+import { getElectionById, getTxVolume, getBlockTimeRange, unwrapBlock } from '../../services/api/tz-stats';
 import TransactionVolume from '../../components/Home/TransactionVolume';
-import { Spiner } from '../../components/Common';
+import { FlexColumn, Spiner } from '../../components/Common';
 
 const Home = () => {
   const [data, setData] = React.useState({ isLoaded: false });
 
   React.useEffect(() => {
+    const now = new Date().setSeconds(0,0);
     const fetchData = async () => {
-      let [priceHistory, txVolSeries, election] = await Promise.all([
+      let [priceHistory, txVolSeries, election, blocks] = await Promise.all([
         getOhlcvData({ days: 30 }),
         getTxVolume({ days: 30 }),
         getElectionById(),
+        getBlockTimeRange(now-3600000, now+60000),
       ]);
 
       setData({
@@ -26,6 +29,8 @@ const Home = () => {
         txVolSeries: txVolSeries,
         isLoaded: true,
         election,
+        blocks,
+        currentBlock:unwrapBlock(blocks.slice(-1)[0])
       });
     };
 
@@ -33,16 +38,19 @@ const Home = () => {
   }, []);
   return data.isLoaded ? (
     <Wrapper>
+      <BlockHistory blockHistory={data.blocks} lastBlock={data.currentBlock} />
       <TwoElementsWrapper>
         <PriceHistory priceHistory={data.priceHistory} />
-        <CirculatingSupply />
+        <FlexColumn>
+          <StakingInfo />
+          <ElectionProgress election={data.election} />
+        </FlexColumn>
       </TwoElementsWrapper>
       <TwoElementsWrapper>
         <TransactionVolume txSeries={data.txVolSeries} />
-        <SupplyInfo />
       </TwoElementsWrapper>
       <TwoElementsWrapper>
-        <ElectionProgress election={data.election} />
+        <CirculatingSupply />
         <AccountsGrowth />
       </TwoElementsWrapper>
     </Wrapper>
@@ -55,7 +63,6 @@ const TwoElementsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  margin-bottom: 10px;
   margin-left: -5px;
   margin-right: -5px;
 `;

@@ -1,24 +1,23 @@
 import React from 'react';
-import { Card, FlexRowSpaceBetween, DataBox } from '../../Common';
+import { Card, FlexRow, DataBox } from '../../Common';
 import styled from 'styled-components';
-import _ from 'lodash';
 import { proposals } from '../../../config/proposals';
 import { Link } from 'react-router-dom';
 
 const ElectionHistory = ({ electionHistory, currentElection }) => {
-  const periodMap = { proposal: 1, testing_vote: 2, testing: 3, promotion_vote: 4 };
+  const periodMap = { empty: 0, proposal: 1, testing_vote: 2, testing: 3, promotion_vote: 4 };
   return (
     <Wrapper>
       <Card title="Election History">
-        <FlexRowSpaceBetween>
-          {electionHistory.map((item, i) => {
+        <FlexRow>
+          {electionHistory.filter(e => {return !e.is_empty || e.is_open;}).map((item, i) => {
             return (
               <ElectionBoxWrapper key={i}>
                 <ElectionBox
                   to={`/election/${item.row_id}`}
                   iscurrent={`${item.row_id === currentElection.election_id}`}
                 >
-                  {new Array(periodMap[item.last_voting_period]).fill(0).map((item, i) => (
+                  {new Array(periodMap[item.is_empty&&!item.is_open?'empty':item.last_voting_period]).fill(0).map((item, i) => (
                     <PeriodBox key={i} />
                   ))}
                 </ElectionBox>
@@ -26,7 +25,7 @@ const ElectionHistory = ({ electionHistory, currentElection }) => {
               </ElectionBoxWrapper>
             );
           })}
-        </FlexRowSpaceBetween>
+        </FlexRow>
       </Card>
     </Wrapper>
   );
@@ -34,7 +33,7 @@ const ElectionHistory = ({ electionHistory, currentElection }) => {
 
 const getElectionName = item => {
   return proposals[item.proposal] ? (
-    proposals[item.proposal].name.slice(0, proposals[item.proposal].name.length - 1)
+    proposals[item.proposal].name.split(" ")[0]
   ) : (
     <span>-</span>
   );
@@ -44,6 +43,7 @@ const ElectionBoxWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-right: 40px;
 `;
 const ElectionBox = styled(Link)`
   width: 25px;
