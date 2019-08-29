@@ -15,6 +15,7 @@ const BakingRightsTable = ({ account }) => {
 
   const getAccountData = React.useCallback(
     async cycleId => {
+      if (cycleId > chain.cycle + 5 || cycleId < 0) { return; }
       let [rights, income] = await Promise.all([
         getAccountRights({ address: account.address, cycle: cycleId }),
         getAccountIncome({ address: account.address, cycle: cycleId }),
