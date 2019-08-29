@@ -4,8 +4,11 @@ import { Card, DataBox, FlexRow, FlexColumn } from '../../Common';
 import BlockChart from './BlockChart';
 import NextBlock from './NextBlock';
 import { Link } from 'react-router-dom';
+import { useGlobal } from 'reactn';
 
 const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
+  const [chain] = useGlobal('chain');
+
   return (
     <Wrapper>
       <Card title={'Block History'}>
@@ -14,10 +17,10 @@ const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
             {/* <PreviousBlockButton onClick={e => console.log(-60)}>&#9664;</PreviousBlockButton> */}
             <BlockChart blockHistory={blockHistory} currentBlock={currentBlock} />
           </BlockHistoryWrapper>
-          <NextBlock lastTime={lastBlock.time} />
+          <NextBlock lastTime={chain.timestamp} />
           {/* <NextBlockButton onClick={e => console.log(60)}>&#9654;</NextBlockButton> */}
-          <Link to={`/block/${lastBlock.hash}`} style={{ marginTop: -10 }}>
-            <DataBox value={lastBlock.height} title="Last Block" />
+          <Link to={`/block/${chain.block_hash}`} style={{ marginTop: -10 }}>
+            <DataBox value={chain.height} title="Last Block" />
           </Link>
         </FlexRow>
       </Card>

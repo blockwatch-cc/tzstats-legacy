@@ -1,11 +1,6 @@
 import React from 'react';
 import BalanceChart from './BalanceChart';
-import {
-  DataBox,
-  FlexRow,
-  Card,
-  FlexColumn,
-} from '../../../Common';
+import { DataBox, FlexRow, Card, FlexColumn } from '../../../Common';
 import { formatCurrency } from '../../../../utils';
 // import { useGlobal } from 'reactn';
 import styled from 'styled-components';
@@ -20,18 +15,18 @@ const DelegationHistory = ({ account, stakingData }) => {
 
   return (
     <Wrapper>
-    <Card title={'Delegation History (30d)'}>
-      <FlexColumn>
-        <FlexRow flex={1} mb={20}>
-          <BalanceChart type={'svg'} data={stakingData} />
-        </FlexRow>
-        <FlexRow>
-          <LegendItem color={'#418BFD'}>
-            <DataBox title={`Delegated Balance ${formatCurrency(account.delegated_balance)}`} />
-          </LegendItem>
-        </FlexRow>
-      </FlexColumn>
-    </Card>
+      <Card title={'Delegation History (30d)'}>
+        <FlexColumn>
+          <FlexRow flex={1} mb={20}>
+            <BalanceChart type={'svg'} data={stakingData} />
+          </FlexRow>
+          <FlexRow>
+            <LegendItem color={'#418BFD'}>
+              <DataBox title={`Delegated Balance ${formatCurrency(account.delegated_balance)}`} />
+            </LegendItem>
+          </FlexRow>
+        </FlexColumn>
+      </Card>
     </Wrapper>
   );
 };

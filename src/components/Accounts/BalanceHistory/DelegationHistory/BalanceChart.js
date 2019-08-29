@@ -19,7 +19,7 @@ class BalanceChart extends React.Component {
 
     const max = _.maxBy(initialData, d => d.delegation).delegation;
     let min = _.minBy(initialData, d => d.delegation).delegation;
-    min = min<0.5*max?0:min;
+    min = min < 0.5 * max ? 0 : min;
 
     const yGrid = { innerTickSize: -width + 40 };
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
@@ -100,7 +100,5 @@ class BalanceChart extends React.Component {
     );
   }
 }
-
-// #29C0FF
 
 export default fitWidth(BalanceChart);

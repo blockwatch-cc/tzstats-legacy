@@ -36,11 +36,9 @@ const BlockPage = ({ match, history }) => {
 
   return data.isLoaded ? (
     <Wrapper>
-      <BlockHistory blockHistory={data.blockHistory} currentBlock={data.block} lastBlock={data.lastBlock} />
+      <BlockHistory blockHistory={data.blockHistory} currentBlock={data.block} />
       <BlockInfo block={data.block} setTxType={setTxType} />
-      {!data.block.is_uncle?(
-        <BlockOperations block={data.block} txType={txType} />
-       ):('')}
+      {!data.block.is_uncle ? <BlockOperations block={data.block} txType={txType} /> : ''}
     </Wrapper>
   ) : (
     <Spiner />

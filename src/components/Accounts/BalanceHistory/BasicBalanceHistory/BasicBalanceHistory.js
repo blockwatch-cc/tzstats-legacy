@@ -2,26 +2,23 @@ import React from 'react';
 import BalanceChart from './BalanceChart';
 import { DataBox, FlexRow, Card, FlexColumn } from '../../../Common';
 import styled from 'styled-components';
-// import { useGlobal } from 'reactn';
 
 //Life totals
 const BasicBalanceHistory = ({ account, balanceHistory }) => {
-  // const [lastMarketData] = useGlobal('lastMarketData');
-
   return (
     <Wrapper>
-    <Card title={'Balance History (30d)'}>
-      <FlexColumn>
-        <FlexRow flex={1} mb={20}>
-          <BalanceChart type={'svg'} data={balanceHistory} />
-        </FlexRow>
-        <FlexRow>
-          <LegendItem color={'#29C0FF'}>
-            <DataBox title="Spendable Balance" />
-          </LegendItem>
-        </FlexRow>
-      </FlexColumn>
-    </Card>
+      <Card title={'Balance History (30d)'}>
+        <FlexColumn>
+          <FlexRow flex={1} mb={20}>
+            <BalanceChart type={'svg'} data={balanceHistory} />
+          </FlexRow>
+          <FlexRow>
+            <LegendItem color={'#29C0FF'}>
+              <DataBox title="Spendable Balance" />
+            </LegendItem>
+          </FlexRow>
+        </FlexColumn>
+      </Card>
     </Wrapper>
   );
 };
@@ -49,4 +46,3 @@ const LegendItem = styled.div`
 `;
 
 export default BasicBalanceHistory;
-
