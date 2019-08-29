@@ -1,12 +1,12 @@
 import React from 'react';
 import { ChartCanvas, Chart } from 'react-stockcharts';
 import { SquareMarker } from 'react-stockcharts/lib/series';
-// import { CrossHairCursor } from 'react-stockcharts/lib/coordinates';
+import { CrossHairCursor } from 'react-stockcharts/lib/coordinates';
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { scaleLinear } from 'd3-scale';
 import ScatterSeries from './ScatterSeries';
-// import { HoverTooltip } from 'react-stockcharts/lib/tooltip';
+import HoverTooltip from './HoverTooltip';
 
 const RightsChart = props => {
   const { type, data: initialData, ratio, width } = props;
@@ -19,69 +19,58 @@ const RightsChart = props => {
   const clamp = false;
   const zoomAnchor = function(e) {};
 
-  // const getStats = function(data) {
-  //   let totalEndorsed = 0;
-  //   let totalLost = 0;
-  //   let totalBaking = 0;
-  //   let totalStolen = 0;
-  //   let totalMissed = 0;
-  //   function sum(item) {
-  //     totalEndorsed += item.isEndorsed ? 1 : 0;
-  //     totalBaking +=  item.isBaking ? 1 : 0;
-  //     totalLost += item.isLost ? 1 : 0;
-  //     totalStolen += item.isStolen ? 1 : 0;
-  //     totalMissed += item.isMissed ? 1 : 0;
-  //   }
-  //   for (let index = 0; index < data.length; index++) {
-  //     const subData = data[index];
-  //     subData.forEach(sum);
-  //   }
-  //   return { totalEndorsed, totalLost, totalBaking, totalStolen, totalMissed };
-  // };
-
-  // function tooltipContent() {
-  //   return ({ currentItem, xAccessor }) => {
-  //     const x = xAccessor(currentItem);
-  //     const data = currentItem.data
-  //     let stats = getStats(currentItem);
-  //     return {
-  //       x: 'Height',
-  //       // x: `${format(data[x]?data[x][0].height:0, ",") - format(data[x]?data[x].splice(-1).height:0, ",") }`,
-  //       y: [
-  //         {
-  //           label: 'Endorsed Blocks',
-  //           value: stats.totalEndorsed,
-  //         },
-  //         {
-  //           label: 'Baked Blocks',
-  //           value: stats.totalBaking,
-  //         },
-  //         {
-  //           label: 'Stolen Blocks',
-  //           value: stats.totalStolen,
-  //         },
-  //         {
-  //           label: 'Lost Blocks',
-  //           value: stats.totalLost,
-  //         },
-  //         {
-  //           label: 'Missed Endorsements',
-  //           value: stats.totalMissed,
-  //         },
-  //       ],
-  //     };
-  //   };
-  // }
+  function tooltipContent() {
+    return ({ currentBlocks }) => {
+      if (!currentBlocks) {
+        return null;
+      }
+      let baking = currentBlocks.blocks.filter(item => item.isBaking).length;
+      let endorsed = currentBlocks.blocks.filter(item => item.isEndorsed).length;
+      let stolen = currentBlocks.blocks.filter(item => item.isStolen).length;
+      let lost = currentBlocks.blocks.filter(item => item.isLost).length;
+      let missed = currentBlocks.blocks.filter(item => item.isMissed).length;
+      return {
+        x: currentBlocks.interval,
+        y: [
+          {
+            label: 'Baking:',
+            stroke: 'rgba(255, 255, 255, 0.52)',
+            value: baking,
+          },
+          {
+            label: 'Endorsed:',
+            stroke: 'rgba(255, 255, 255, 0.52)',
+            value: endorsed,
+          },
+          {
+            label: 'Stolen:',
+            stroke: 'rgba(255, 255, 255, 0.52)',
+            value: stolen,
+          },
+          {
+            label: 'Lost:',
+            stroke: 'rgba(255, 255, 255, 0.52)',
+            value: lost,
+          },
+          {
+            label: 'Missed:',
+            stroke: 'rgba(255, 255, 255, 0.52)',
+            value: missed,
+          },
+        ],
+      };
+    };
+  }
 
   return (
     <ChartCanvas
-      height={190}
+      height={160}
       width={width}
       seriesName={''}
       margin={{
         left: -5,
         right: 5,
-        top: -10,
+        top: 0,
         bottom: 0,
       }}
       type={type}
@@ -95,7 +84,7 @@ const RightsChart = props => {
       xAccessor={d => d.x}
       xExtents={[0, 63]}
     >
-      <Chart id={1} height={190} yExtents={[d => [0, 15]]}>
+      <Chart id={1} height={160} yExtents={[d => [0, 16]]}>
         <ScatterSeries
           clip={false}
           yAccessor={d => 1}
@@ -103,19 +92,17 @@ const RightsChart = props => {
           marker={SquareMarker}
           markerProps={{ width: 10, opacity: 1, stroke: '#444754' }}
         />
+        <HoverTooltip
+          yAccessor={d => d}
+          tooltipContent={tooltipContent()}
+          bgOpacity={0}
+          fontSize={12}
+          fontFamily={'sans-serif'}
+        />
+        <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
       </Chart>
     </ChartCanvas>
   );
 };
 
 export default fitWidth(RightsChart);
-
-/*<HoverTooltip
-  yAccessor={d => d}
-  tooltipContent={tooltipContent()}
-  bgOpacity={0}
-  fontSize={12}
-  fontFamily={"sans-serif"}
-/>
-<CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
-*/

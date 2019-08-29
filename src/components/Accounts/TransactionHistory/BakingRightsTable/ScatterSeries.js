@@ -110,10 +110,17 @@ function drawOnCanvas(ctx, props, points) {
       strokeValues.forEach(point => {
         point.datum.data.forEach((item, index) => {
           let newPoint = { ...point };
-          newPoint.y = point.y + index * 11 - 160;
-          let invalidBlocks = item && item.length ? item.filter(d => d.isBad) : [];
-          let futureRights = item && item.length ? item.filter(d => d.isFuture) : [];
-          let color = !item ? '#525566' : (futureRights.length ? '#FFFFFF' : (invalidBlocks.length ? '#ED6290' : '#418BFD'));
+          console.log(point.y);
+          newPoint.y = index * 10 + 5;
+          let invalidBlocks = item.blocks.length ? item.blocks.filter(d => d.isBad) : [];
+          let futureRights = item.blocks.length ? item.blocks.filter(d => d.isFuture) : [];
+          let color = !item.blocks.length
+            ? '#525566'
+            : futureRights.length
+            ? '#FFFFFF'
+            : invalidBlocks.length
+            ? '#ED6290'
+            : '#418BFD';
           newPoint.marker.drawOnCanvas({ ...point.marker.defaultProps, ...markerProps, fill: color }, newPoint, ctx);
         });
       });

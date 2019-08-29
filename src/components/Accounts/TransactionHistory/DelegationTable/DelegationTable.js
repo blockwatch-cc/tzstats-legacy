@@ -10,7 +10,7 @@ import { useGlobal } from 'reactn';
 
 const DelegationTable = ({ account }) => {
   const [chain] = useGlobal('chain');
-  const [data, setData] = React.useState({table:[], isLoaded: false });
+  const [data, setData] = React.useState({ table: [], isLoaded: false });
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -18,9 +18,9 @@ const DelegationTable = ({ account }) => {
         type: 'delegation',
         address: account.address,
         cycle: chain.cycle,
-        limit: account.total_delegations
+        limit: account.total_delegations,
       });
-      ops = ops.sort((a,b) => b.balance - a.balance);
+      ops = ops.sort((a, b) => b.balance - a.balance);
       setData({
         table: ops,
         isLoaded: true,
@@ -45,7 +45,9 @@ const DelegationTable = ({ account }) => {
             data.table.map((item, i) => {
               return (
                 <TableRow key={i}>
-                  <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
+                  <TableCell width={5}>
+                    <TableDetails>{i + 1}</TableDetails>
+                  </TableCell>
                   <TableCell width={15}>
                     <Blockies hash={item.account} />
                     <Link to={`/account/${item.account}`}>{getShortHash(item.account)}</Link>
@@ -54,7 +56,9 @@ const DelegationTable = ({ account }) => {
                     <DataBox title={timeFormat('%b %d, %H:%M')(item.time)} />
                   </TableCell>
                   <TableCell width={20}>{formatCurrency(item.balance)}</TableCell>
-                  <TableCell width={20}>{`${(item.balance / account.delegated_balance*100).toFixed(3)}%`}</TableCell>
+                  <TableCell width={20}>{`${((item.balance / account.delegated_balance) * 100).toFixed(
+                    3
+                  )}%`}</TableCell>
                   <TableCell width={20}>{account.is_active_delegate ? 'Active' : 'Inactive'}</TableCell>
                 </TableRow>
               );

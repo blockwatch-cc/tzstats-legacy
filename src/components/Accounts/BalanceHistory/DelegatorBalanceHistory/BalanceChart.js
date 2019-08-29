@@ -16,11 +16,10 @@ import CurrentCoordinate from '../../../Common/CurrentCoordinate';
 class BalanceChart extends React.Component {
   render() {
     const { data: initialData, width, ratio } = this.props;
-    console.log(initialData, 'initialData');
 
     const max = _.maxBy(initialData, d => d.value).value;
     let min = _.minBy(initialData, d => d.value).value;
-    min = min<0.5*max?0:min;
+    min = min < 0.5 * max ? 0 : min;
 
     const yGrid = { innerTickSize: -width + 40 };
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));

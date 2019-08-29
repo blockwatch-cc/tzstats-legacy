@@ -1,10 +1,11 @@
 import React from 'react';
 import { FlexRowSpaceBetween, FlexColumnSpaceBetween, DataBox, FlexColumn } from '../../../Common';
-import { convertMinutes, formatCurrency, cycleStartHeight } from '../../../../utils';
+import { convertMinutes, formatCurrency, cycleStartHeight, formatValue } from '../../../../utils';
 import styled from 'styled-components';
 import { useGlobal } from 'reactn';
 import { getAccountRights, getAccountIncome } from '../../../../services/api/tz-stats';
 import RightsChart from './RightsChart';
+import { timeFormat } from 'd3-time-format';
 import { Spiner } from '../../../../components/Common';
 
 const BakingRightsTable = ({ account }) => {
@@ -69,7 +70,7 @@ const BakingRightsTable = ({ account }) => {
         <div style={{ width: 570 }}>
           <RightsChart data={data.rights} startHeight={cycleStartHeight(data.income.cycle)} />
         </div>
-        <FlexRowSpaceBetween mt={-10}>
+        <FlexRowSpaceBetween>
           <DataBox title="Past Efficiency" />
           <DataBox ta={'right'} title="Future Rights" />
         </FlexRowSpaceBetween>
@@ -105,27 +106,23 @@ const wrapData = (rights, startHeight, currentHeight) => {
   let data = prepareData(rights, startHeight, currentHeight);
   let res = [];
   let yChartItems = [];
-  let counter, endorsedCount, bakingCount, stolenCount, lostCount, missedCount;
   let yScale = 16;
   let interval = 4;
   let totalBlocks = 4096;
-  for (counter = 1; counter <= totalBlocks; counter++) {
+  for (let counter = 1; counter <= totalBlocks; counter++) {
     if (counter % interval === 0 && counter !== 0) {
-      let rang4blocks = data[counter] || null;
+      let rang4blocks = data[counter] || [];
+      const blocksInterval = `From ${formatValue(startHeight + counter - interval)} to ${formatValue(
+        startHeight + counter
+      )}`;
 
-      yChartItems.push(rang4blocks);
+      yChartItems.push({ blocks: rang4blocks, interval: blocksInterval });
       if (counter % (yScale * interval) === 0) {
         res.push({
           x: counter / (yScale * interval),
           data: yChartItems,
-          stats: { bakingCount, endorsedCount, stolenCount, lostCount, missedCount },
         });
         yChartItems = [];
-        endorsedCount = 0;
-        bakingCount = 0;
-        stolenCount = 0;
-        lostCount = 0;
-        missedCount = 0;
       }
     }
   }
@@ -153,6 +150,7 @@ function prepareData(array, startHeight, currentHeight) {
           isLost: item[5],
           isBad: item[4] || item[5],
           isFuture: item[0] > currentHeight,
+          time: timeFormat('%b %d, %H:%M')(item[6]),
         },
       ];
     }

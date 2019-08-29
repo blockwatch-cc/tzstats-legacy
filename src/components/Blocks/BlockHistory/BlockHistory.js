@@ -16,7 +16,7 @@ const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
           </BlockHistoryWrapper>
           <NextBlock lastTime={lastBlock.time} />
           {/* <NextBlockButton onClick={e => console.log(60)}>&#9654;</NextBlockButton> */}
-          <Link to={`/block/${lastBlock.hash}`} style={{marginTop:-10}} >
+          <Link to={`/block/${lastBlock.hash}`} style={{ marginTop: -10 }}>
             <DataBox value={lastBlock.height} title="Last Block" />
           </Link>
         </FlexRow>
