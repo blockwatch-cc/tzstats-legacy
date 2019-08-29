@@ -13,7 +13,7 @@ const BakingRightsTable = ({ account }) => {
   const nextTimeEndoresBlock = convertMinutes((new Date(account.next_endorse_time).getTime() - Date.now()) / 60000);
   const [chain] = useGlobal('chain');
 
-  let fetchData = async (id = 'head') => {
+  let fetchData = async (id = chain.cycle) => {
     if (id > chain.cycle + 5 || id < 0) { return; }
     let [rights, income] = await Promise.all([
       getAccountRights({ address: account.address, cycle: id }),
