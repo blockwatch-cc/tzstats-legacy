@@ -13,14 +13,7 @@ class Chart extends Component {
   drawChart = data => {
     const width = 830;
     const height = 250;
-    // const x = d3
-    //   .scaleLinear()
-    //   .domain([0, width])
-    //   .range([0, width]);
-    // const y = d3
-    //   .scaleLinear()
-    //   .domain([0, height])
-    //   .range([0, height]);
+    const tooltipWidth = 300;
 
     const accountText = text => {
       text
@@ -52,8 +45,7 @@ class Chart extends Component {
       .select(this.refs.canvas)
       .append('svg')
       .attr('width', width)
-      .attr('height', height)
-      .attr('transform', 'translate(' + (width - 830) / 2.0 + ')');
+      .attr('height', height);
 
     const cell = svg
       .selectAll('g')
@@ -102,9 +94,10 @@ class Chart extends Component {
       .style('stroke-width', 1)
       .attr('opacity', d => d.data.opacity)
       .on('mouseover', function(d, i) {
+        console.log(d, i);
         tooltip
           .style('display', 'inline-block')
-          .style('left', d.x0 + 'px')
+          .style('left', `${width - d.x0 < tooltipWidth ? d.x1 - tooltipWidth : d.x0}px`)
           .style('top', d.y1 - 120 + 'px')
           .style('opacity', 1)
           .attr('data-value', d.data.value)
