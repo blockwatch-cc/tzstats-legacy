@@ -110,7 +110,6 @@ function drawOnCanvas(ctx, props, points) {
       strokeValues.forEach(point => {
         point.datum.data.forEach((item, index) => {
           let newPoint = { ...point };
-          console.log(point.y);
           newPoint.y = index * 10 + 5;
           let invalidBlocks = item.blocks.length ? item.blocks.filter(d => d.isBad) : [];
           let futureRights = item.blocks.length ? item.blocks.filter(d => d.isFuture) : [];

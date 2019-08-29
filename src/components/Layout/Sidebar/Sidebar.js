@@ -8,7 +8,28 @@ import MarketInfo from './MarketInfo';
 import { Callout } from '@blueprintjs/core';
 import { Devices } from '../../Common';
 import Logo from './Logo';
+import { getChainData } from '../../../services/api/tz-stats';
+import { setGlobal } from 'reactn';
+
 const Sidebar = () => {
+  const [countInTimeout, setCountInTimeout] = React.useState(0);
+
+  //After update chain data after 1 minute
+  React.useEffect(() => {
+    setTimeout(() => {
+      setCountInTimeout(countInTimeout + 1);
+    }, 60000);
+  }, [countInTimeout]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const chainData = await getChainData();
+
+      setGlobal({ chain: chainData });
+    };
+    fetchData();
+  }, [countInTimeout]);
+
   return (
     <Wrraper hideOnMobile>
       <Logo />
@@ -36,4 +57,3 @@ const Wrraper = styled.div`
   }
 `;
 export default Sidebar;
-
