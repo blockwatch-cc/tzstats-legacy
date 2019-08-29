@@ -13,35 +13,58 @@ const BakingRightsTable = ({ account }) => {
   const nextTimeEndoresBlock = convertMinutes((new Date(account.next_endorse_time).getTime() - Date.now()) / 60000);
   const [chain] = useGlobal('chain');
 
-  let fetchData = async (id = chain.cycle) => {
-    if (id > chain.cycle + 5 || id < 0) { return; }
-    let [rights, income] = await Promise.all([
-      getAccountRights({ address: account.address, cycle: id }),
-      getAccountIncome({ address: account.address, cycle: id }),
-    ]);
-    rights = wrapData(rights, cycleStartHeight(income.cycle), chain.height);
-    const earned = income.baking_income + income.endorsing_income + income.fees_income + income.seed_income;
-    const slashed =  income.slashed_income;
-    const missed = income.missed_endorsing_income + income.lost_baking_income;
-    const stolen = income.stolen_baking_income;
-    setData({ income, rights, earned, slashed, stolen, missed, isLoaded: true });
-  };
+  const getAccountData = React.useCallback(
+    async cycleId => {
+      let [rights, income] = await Promise.all([
+        getAccountRights({ address: account.address, cycle: cycleId }),
+        getAccountIncome({ address: account.address, cycle: cycleId }),
+      ]);
+      rights = wrapData(rights, cycleStartHeight(income.cycle), chain.height);
+      const earned = income.baking_income + income.endorsing_income + income.fees_income + income.seed_income;
+      const slashed = income.slashed_income;
+      const missed = income.missed_endorsing_income + income.lost_baking_income;
+      const stolen = income.stolen_baking_income;
+      setData({ income, rights, earned, slashed, stolen, missed, isLoaded: true });
+    },
+    [account.address, chain.height]
+  );
 
   React.useEffect(() => {
-    fetchData();
-  }, []);
+    getAccountData(chain.cycle);
+  }, [chain.cycle, getAccountData]);
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>
       <FlexColumn>
         <FlexRowSpaceBetween>
-          <DataBox valueSize="14px" valueType="text" title={`Efficiency ${formatCurrency(data.income.total_income)}`} value={`${data.income.efficiency_percent}%`} />
+          <DataBox
+            valueSize="14px"
+            valueType="text"
+            title={`Efficiency ${formatCurrency(data.income.total_income)}`}
+            value={`${data.income.efficiency_percent}%`}
+          />
           <CycleSwitcher>
-            <PreviousButton show={data.income.cycle>0} onClick={e => fetchData(data.income.cycle?data.income.cycle-1:0)}>&#9664;</PreviousButton>
+            <PreviousButton
+              show={data.income.cycle > 0}
+              onClick={e => getAccountData(data.income.cycle ? data.income.cycle - 1 : 0)}
+            >
+              &#9664;
+            </PreviousButton>
             <DataBox valueSize="14px" title={`Cycle ${data.income.cycle}`} />
-            <NextButton show={data.income.cycle+1<=chain.cycle+5} onClick={e => fetchData(data.income.cycle+1)}>&#9654;</NextButton>
+            <NextButton
+              show={data.income.cycle + 1 <= chain.cycle + 5}
+              onClick={e => getAccountData(data.income.cycle + 1)}
+            >
+              &#9654;
+            </NextButton>
           </CycleSwitcher>
-          <DataBox ta={'right'} valueSize="14px" valueType="text" title={`Luck ${formatCurrency(data.income.expected_income)}`} value={`${data.income.luck_percent}%`} />
+          <DataBox
+            ta={'right'}
+            valueSize="14px"
+            valueType="text"
+            title={`Luck ${formatCurrency(data.income.expected_income)}`}
+            value={`${data.income.luck_percent}%`}
+          />
         </FlexRowSpaceBetween>
         <div style={{ width: 570 }}>
           <RightsChart data={data.rights} startHeight={cycleStartHeight(data.income.cycle)} />
@@ -143,7 +166,7 @@ const PreviousButton = styled.div`
   margin-right: 5px;
   margin-top: -3px;
   cursor:pointer;
-  visibility: ${props => props.show?'visible':'hidden'};
+  visibility: ${props => (props.show ? 'visible' : 'hidden')};
   user-select: none;
   &:hover {
     color #27a2ee
@@ -155,7 +178,7 @@ const NextButton = styled.div`
   margin-left: 5px;
   margin-top: -3px;
   cursor:pointer;
-  visibility: ${props => props.show?'visible':'hidden'};
+  visibility: ${props => (props.show ? 'visible' : 'hidden')};
   user-select: none;
   &:hover {
     color #27a2ee
@@ -167,5 +190,5 @@ const CycleSwitcher = styled.div`
   display: flex;
   top: 10px;
   left: 50%;
-  transform: translate(-50%,0);
+  transform: translate(-50%, 0);
 `;
