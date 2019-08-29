@@ -1,5 +1,4 @@
 import React from 'react';
-import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 import BlockHistory from '../../components/Blocks/BlockHistory';
 import { PriceHistory } from '../../components/Home/PriceHistory/';
