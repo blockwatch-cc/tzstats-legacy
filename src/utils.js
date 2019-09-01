@@ -64,17 +64,11 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
   if (value === 0) {
     return 0 + ' ꜩ';
   }
-  // if (value > 1 && value < 1000) {
-  //   return value + ' ꜩ';
-  // }
   return prefix === ','
     ? `${format(prefix)(value)} ${symbol}`
     : format(prefix)(value)
-        .replace('M', ' M' + symbol)
-        .replace('k', ' k' + symbol)
-        .replace('G', ' G' + symbol)
-        .replace('m', ' m' + symbol)
-        .replace('µ', ' µ' + symbol);
+      .replace(/(.*)([MkGmµ])$/, '$1 $2')
+      .replace(/(.*)(?:[^MkGmµ])$/, '$1 ') + symbol;
 }
 
 export function formatCurrencyShort(value) {
@@ -213,7 +207,7 @@ export function wrappBlockDataToObj(array) {
       hash: item[1],
       height: item[2],
       priority: item[3],
-      opacity: item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.6 : item[3] < 8 ? 0.4 : item[3] < 16 ? 0.2 : 0.1,
+      opacity: item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.7 : item[3] < 8 ? 0.6 : item[3] < 16 ? 0.5 : 0.4,
       is_uncle: item[4] || 0,
     }];
     return obj;
