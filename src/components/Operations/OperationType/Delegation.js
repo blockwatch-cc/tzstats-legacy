@@ -13,7 +13,7 @@ const Delegation = ({ op }) => {
     const fetchData = async () => {
       let [sender, delegate] = await Promise.all([
         op.sender && getAccountByHash(op.sender),
-        op.receiver && getAccountByHash(op.receiver),
+        op.delegate && getAccountByHash(op.delegate),
       ]);
 
       setData({

@@ -2,7 +2,7 @@ import React from 'react';
 import { Spiner } from '../../../../components/Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails, Blockies, NoDataFound } from '../../../Common';
-import { timeAgo, getShortHashOrBakerName, formatCurrency } from '../../../../utils';
+import { timeAgo, getShortHashOrBakerName, formatCurrency, formatValue } from '../../../../utils';
 import { opNames } from '../../../../config';
 import { Link } from 'react-router-dom';
 import { getAccountOperations } from '../../../../services/api/tz-stats';
@@ -71,8 +71,9 @@ const TxTable = ({ data, account, incoming }) => {
         <TableHeaderCell width={5}>No</TableHeaderCell>
         <TableHeaderCell width={25}>Details</TableHeaderCell>
         <TableHeaderCell width={20}>{incoming?'From':'To'}</TableHeaderCell>
-        <TableHeaderCell width={20}>Amount</TableHeaderCell>
-        <TableHeaderCell width={20}>Fees</TableHeaderCell>
+        <TableHeaderCell width={15}>Amount</TableHeaderCell>
+        <TableHeaderCell width={10}>Fees</TableHeaderCell>
+        <TableHeaderCell width={10}>Block</TableHeaderCell>
         <TableHeaderCell width={10}>Hash</TableHeaderCell>
       </TableHeader>
       {data.isLoaded ? (
@@ -83,8 +84,8 @@ const TxTable = ({ data, account, incoming }) => {
                 <TableRow key={i}>
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   <TableCell width={25}>
-                    <TxTypeIcon isSuccess={item.is_success} type={item.op_type} />
-                    <TableDetails>{`${opNames[item.op_type]} ${timeAgo.format(new Date(item.time))}`}</TableDetails>
+                    <TxTypeIcon isSuccess={item.is_success} type={item.type} />
+                    <TableDetails>{`${opNames[item.type]} ${timeAgo.format(new Date(item.time))}`}</TableDetails>
                   </TableCell>
                   { incoming ? (
                     <TableCell width={20}>
@@ -97,10 +98,11 @@ const TxTable = ({ data, account, incoming }) => {
                       <Link to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                     </TableCell>
                   )}
-                  <TableCell width={20}>{`${formatCurrency(item.volume)}`}</TableCell>
-                  <TableCell width={20}>{`${formatCurrency(item.fee)}`}</TableCell>
+                  <TableCell width={15}>{`${formatCurrency(item.volume)}`}</TableCell>
+                  <TableCell width={10}>{`${formatCurrency(item.fee)}`}</TableCell>
+                  <TableCell width={10}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
                   <TableCell width={10}>
-                    <Link to={`/operation/${item.op_hash}`}>{getShortHashOrBakerName(item.op_hash)}</Link>
+                    <Link to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
               );
@@ -124,9 +126,11 @@ const OtherTable = ({ data, account }) => {
       <TableHeader>
         <TableHeaderCell width={5}>No</TableHeaderCell>
         <TableHeaderCell width={25}>Details</TableHeaderCell>
-        <TableHeaderCell width={20}>From</TableHeaderCell>
-        <TableHeaderCell width={20}>To</TableHeaderCell>
-        <TableHeaderCell width={20}>Fees</TableHeaderCell>
+        <TableHeaderCell width={15}>From</TableHeaderCell>
+        <TableHeaderCell width={15}>To</TableHeaderCell>
+        <TableHeaderCell width={10}>Amount</TableHeaderCell>
+        <TableHeaderCell width={10}>Fees</TableHeaderCell>
+        <TableHeaderCell width={10}>Block</TableHeaderCell>
         <TableHeaderCell width={10}>Hash</TableHeaderCell>
       </TableHeader>
       {data.isLoaded ? (
@@ -137,24 +141,26 @@ const OtherTable = ({ data, account }) => {
                 <TableRow key={i}>
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   <TableCell width={25}>
-                    <TxTypeIcon isSuccess={item.is_success} type={item.op_type} />
-                    <TableDetails>{`${opNames[item.op_type]} ${timeAgo.format(new Date(item.time))}`}</TableDetails>
+                    <TxTypeIcon isSuccess={item.is_success} type={item.type} />
+                    <TableDetails>{`${opNames[item.type]} ${timeAgo.format(new Date(item.time))}`}</TableDetails>
                   </TableCell>
-                  <TableCell width={20}>
+                  <TableCell width={15}>
                     <Blockies hash={item.sender} />
                     <Link to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                   </TableCell>
                   {item.receiver ? (
-                    <TableCell width={20}>
+                    <TableCell width={15}>
                       <Blockies hash={item.receiver} />
                       <Link to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                     </TableCell>
                   ) : (
-                    <TableCell width={20}>-</TableCell>
+                    <TableCell width={15}>-</TableCell>
                   )}
-                  <TableCell width={20}>{`${formatCurrency(item.fee)}`}</TableCell>
+                  <TableCell width={10}>{(item.volume||item.reward)?formatCurrency(item.volume||item.reward):'-'}</TableCell>
+                  <TableCell width={10}>{item.fee?formatCurrency(item.fee):'-'}</TableCell>
+                  <TableCell width={10}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
                   <TableCell width={10}>
-                    <Link to={`/operation/${item.op_hash}`}>{getShortHashOrBakerName(item.op_hash)}</Link>
+                    <Link to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
               );

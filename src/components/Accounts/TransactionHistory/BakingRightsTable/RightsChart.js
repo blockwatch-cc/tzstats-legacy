@@ -33,27 +33,27 @@ const RightsChart = props => {
         x: currentBlocks.interval,
         y: [
           {
-            label: 'Baking:',
+            label: 'Blocks Baked:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: baking,
           },
           {
-            label: 'Endorsed:',
+            label: 'Blocks Endorsed:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: endorsed,
           },
           {
-            label: 'Stolen:',
+            label: 'Blocks Stolen:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: stolen,
           },
           {
-            label: 'Lost:',
+            label: 'Blocks Lost:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: lost,
           },
           {
-            label: 'Missed:',
+            label: 'Endorsements Missed:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: missed,
           },
@@ -80,9 +80,9 @@ const RightsChart = props => {
       zoomEvent={zoomEvent}
       clamp={clamp}
       zoomAnchor={zoomAnchor}
-      xScale={scaleLinear([0, 63])}
+      xScale={scaleLinear([0, 64])}
       xAccessor={d => d.x}
-      xExtents={[0, 63]}
+      xExtents={[0, 64]}
     >
       <Chart id={1} height={160} yExtents={[d => [0, 16]]}>
         <ScatterSeries

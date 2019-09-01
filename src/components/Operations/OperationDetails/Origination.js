@@ -29,7 +29,7 @@ const Origination = ({ op }) => {
       </FlexColumnSpaceBetween>
       <FlexColumnSpaceBetween ml={20} minHeight={80}>
         <HashedBox
-          hash={op.data.split(',')[0]}
+          hash={op.manager}
           isCopy={false}
           short={true}
           typeName={'Manager'}

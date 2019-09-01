@@ -102,8 +102,7 @@ let formatMarketData = data => {
 
 export const getMarketTickers = async () => {
   const response = await request(`/markets/tickers`);
-
-  return formatTickerData(response);
+  return response.errors?[[],response.errors]:[formatTickerData(response),null];
 };
 
 let formatTickerData = data => {

@@ -13,14 +13,14 @@ const MarketInfo = ({ history }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let tickers = await getMarketTickers();
+      let [tickers, error] = await getMarketTickers();
       let now = new Date();
       // filter fresh tickers in USD only (age < 2min)
       tickers = tickers.filter(e => e.quote === 'USD' && now - e.timestamp < 2 * 60000);
       // price index: use all USD ticker last prices with equal weight
       setGlobal({
         lastMarketData: {
-          date: tickers[0].timestamp,
+          date: tickers.length?tickers[0].timestamp:new Date(),
           price:
             tickers.reduce((s, t) => {
               return s + t.last / tickers.length;

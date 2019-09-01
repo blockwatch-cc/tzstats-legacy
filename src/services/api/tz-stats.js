@@ -79,10 +79,10 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
   return ops;
 };
 
-//https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&op_type=transaction&verbose=1
+//https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&type=transaction&verbose=1
 export const getAccountOperations = async ({ address, type = 'transaction', cursor, direction, limit = 100 }) => {
-  const columns = ['row_id', 'op_type', 'op_hash', 'sender', 'receiver', 'is_success', 'time', 'volume', 'fee'];
-  const typ = 'op_type' + (type === 'other' ? '.ne=transaction' : '=' + type);
+  const columns = ['row_id', 'type', 'hash', 'sender', 'receiver', 'is_success', 'time', 'volume', 'fee', 'height', 'reward'];
+  const typ = 'type' + (type === 'other' ? '.ne=transaction' : '=' + type);
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     `/tables/op?${direction}=${address}&${typ}&columns=${columns.join(',')}&limit=${limit}${cursor}`
@@ -300,18 +300,18 @@ export const getBlock = async id => {
   return response;
 };
 
-//https://api.tzstats.com/tables/op?height=5000&verbose=1&&op_n.rg=0,3&op_type=endorsement
+//https://api.tzstats.com/tables/op?height=5000&verbose=1&&op_n.rg=0,3&type=endorsement
 export const getBlockOperations = async ({ height, limit, offset, type = null }) => {
   const response = await request(
-    `/tables/op?height=${height}&columns=sender,receiver,op_type,op_hash,volume,fee,is_success,is_contract&op_n.rg=${offset},${offset +
-      limit}${type ? '&op_type=' + type : ''}`
+    `/tables/op?height=${height}&columns=sender,receiver,type,hash,volume,fee,is_success,is_contract&op_n.rg=${offset},${offset +
+      limit}${type ? '&type=' + type : ''}`
   );
   return response.map(item => {
     return {
       sender: item[0],
       receiver: item[1],
-      op_type: item[2],
-      op_hash: item[3],
+      type: item[2],
+      hash: item[3],
       volume: item[4],
       fee: item[5],
       is_success: item[6],
@@ -319,7 +319,7 @@ export const getBlockOperations = async ({ height, limit, offset, type = null })
     };
   });
 };
-//sender,receiver,op_type,op_hash,volume, op_n, time
+//sender,receiver,type,hash,volume, op_n, time
 
 //****************** OPERATIONS ****************** */
 //https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T

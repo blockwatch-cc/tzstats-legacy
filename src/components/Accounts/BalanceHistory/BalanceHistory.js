@@ -24,7 +24,7 @@ const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
         <JoinContainer>
           <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
           <Wrapper>
-            <EmptyData title={'Payout history'} height={212} text={'TODO'}/>
+            <EmptyData title={'Payout History'} height={212} text={'Work in progress...'}/>
           </Wrapper>
         </JoinContainer>
       );

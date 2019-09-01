@@ -76,8 +76,8 @@ const BlockOperations = ({ block, txType }) => {
                       <Link to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                     </TableCell>
                     <TableCell width={15}>
-                      <TxTypeIcon isSuccess={item.is_success} type={item.is_contract ? 'contract' : item.op_type} />
-                      <TableDetails>{opNames[item.op_type]}</TableDetails>
+                      <TxTypeIcon isSuccess={item.is_success} type={item.is_contract ? 'contract' : item.type} />
+                      <TableDetails>{opNames[item.type]}</TableDetails>
                     </TableCell>
                     <TableCell width={20}>
                       {item.receiver ? (
@@ -92,7 +92,7 @@ const BlockOperations = ({ block, txType }) => {
                     <TableCell width={15}>{item.volume ? formatCurrency(item.volume) : '-'}</TableCell>
                     <TableCell width={10}>{item.fee ? formatCurrency(item.fee) : '-'}</TableCell>
                     <TableCell width={10}>
-                      <Link to={`/operation/${item.op_hash}`}>{getShortHash(item.op_hash)}</Link>
+                      <Link to={`/operation/${item.hash}`}>{getShortHash(item.hash)}</Link>
                     </TableCell>
                   </TableRow>
                 );

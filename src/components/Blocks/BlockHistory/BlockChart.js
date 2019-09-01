@@ -27,7 +27,7 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
         return (
           <BlockColumn key={index}>
             {(index===0 || (isMidnight(ts) && index > 7)) && (
-              <DayTick>{index < 54?formatDay(ts):''}</DayTick>
+              <DayTick>{index < 51?formatDay(ts):''}</DayTick>
             )}
             {(ts%600000===0) && (
               <TimeMajor>{index < 58?formatTime(ts):''}</TimeMajor>
@@ -94,7 +94,7 @@ const TimeMinor = styled(TimeMajor)`
 
 const DayTick = styled(TimeMajor)`
   height: 34px;
-  width: 70px;
+  width: 95px;
 `;
 
 const EmptyBlockSquare = styled.div`
