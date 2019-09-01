@@ -5,12 +5,12 @@ import HomePage from './HomePage/HomePage';
 import AccountPage from './AccountPage/AccountPage';
 import MarketPage from './MarketPage/MarketPage';
 import BlockPage from './BlockPage/BlockPage';
+import StakingPage from './StakingPage/StakingPage';
 import OperationPage from './OperationPage/OperationPage';
 import NotFoundPage from './NotFoundPage/NotFoundPage';
 import ReactGA from 'react-ga';
 import { GOOGLE_ANALYTICS_API_KEY } from '../config/index';
 import '../styles/css/index.css';
-import TestPage from './TestPage/TestPage';
 import PrivacyPage from './PrivacyPage/PrivacyPage';
 import TermsPage from './TermsPage/TermsPage';
 import ElectionPage from './ElectionPage/ElectionPage';
@@ -40,7 +40,6 @@ const App = () => {
               <Redirect exact from="/block" to="/block/head" />
               <Route path="/block/:hash" component={BlockPage} />
               <Route path="/operation/:hash" component={OperationPage} />
-              <Route path="/test" component={TestPage} />
               <Route path="/terms" component={TermsPage} />
               <Route path="/privacy" component={PrivacyPage} />
               <Redirect exact from="/election" to="/election/head" />
@@ -48,6 +47,7 @@ const App = () => {
               <Redirect exact from="/cycle" to="/cycle/head" />
               <Route path="/cycle/:id" component={CyclePage} />
               <Route path="/not-found/:value" component={NotFoundPage} />
+              <Route path="/staking" component={StakingPage} />
             </Switch>
           </animated.div>
         ))}
