@@ -80,13 +80,13 @@ HoverTooltip.defaultProps = {
   origin: origin,
   fill: '#30313b',
   bgFill: '#30313b',
-  bgOpacity: 0.5,
+  bgOpacity: 1,
   stroke: '#30313b',
   fontFill: '#fff',
-  opacity: 0.8,
+  opacity: 1,
   backgroundShapeSVG: backgroundShapeSVG,
   backgroundShapeCanvas: backgroundShapeCanvas,
-  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+  fontFamily: '-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif',
   fontSize: 12,
 };
 

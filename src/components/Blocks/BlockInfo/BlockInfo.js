@@ -11,8 +11,7 @@ import {
   FlexColumn,
   FlexRowWrap,
 } from '../../Common';
-import { timeFormat } from 'd3-time-format';
-import { getSlots, getBlockTags } from '../../../utils';
+import { getSlots, getBlockTags, formatDayTime } from '../../../utils';
 import BlockTxChart from '../BlockTxChart';
 
 const BlockInfo = ({ block, setTxType }) => {
@@ -25,7 +24,7 @@ const BlockInfo = ({ block, setTxType }) => {
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180}>
               <FlexRowWrap minWidth={250}>
-                <DataBox valueSize="16px" title={timeFormat('%a, %b %d %H:%M:%S')(new Date(block.time))} value={block.height} />
+                <DataBox valueSize="16px" title={formatDayTime(block.time)} value={block.height} />
                 <DataBox valueSize="16px" ml={80} title="Cycle" value={block.cycle} />
               </FlexRowWrap>
               <HashedBox hash={block.baker} isCopy={false} short={true} typeName={'Baker'} />

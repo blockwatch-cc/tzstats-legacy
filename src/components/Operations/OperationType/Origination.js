@@ -12,12 +12,11 @@ const Origination = ({ op }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const embedded = op.data?op.data.split(','):[];
       let [sender, contract, manager, delegate] = await Promise.all([
         op.sender && getAccountByHash(op.sender),
         op.receiver && getAccountByHash(op.receiver),
-        (embedded[0]&&embedded[0]!==op.sender) && getAccountByHash(embedded[0]),
-        (embedded[1]&&embedded[1]!==op.sender) && getAccountByHash(embedded[1]),
+        (op.manager&&op.manager!==op.sender) && getAccountByHash(op.manager),
+        (op.delegate&&op.delegate!==op.sender) && getAccountByHash(op.delegate),
       ]);
 
       setData({
@@ -25,8 +24,8 @@ const Origination = ({ op }) => {
         op: op,
         sender: sender,
         contract: contract,
-        manager: embedded[0]?manager||sender:null,
-        delegate: delegate||(embedded[1]?sender:null),
+        manager: op.manager?manager||sender:null,
+        delegate: delegate||(op.delegate?sender:null),
       });
     };
 

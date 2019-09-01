@@ -19,11 +19,11 @@ const AccountInfo = ({ account }) => {
   const accountType = getAccountType(account);
 
   const [chain] = useGlobal('chain');
-  const stackingCapacity = getStakingCapacity(account, chain);
+  const stakingCapacity = getStakingCapacity(account, chain);
   const totalStaking =
     account.delegated_balance + account.spendable_balance + account.frozen_deposits + account.frozen_fees;
 
-  let settings = getStakingSettings(totalStaking, stackingCapacity);
+  let settings = getStakingSettings(totalStaking, stakingCapacity);
 
   return (
     <Wrapper>
@@ -48,7 +48,7 @@ const AccountInfo = ({ account }) => {
             <DataBox valueSize="14px" valueType="currency-full" title="Spendable Balance" value={account.spendable_balance} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
-              <DataBox title="Rank" valueType="text" value="-" />
+              <DataBox title="Rank" valueType="text" value={account.rich_rank?formatValue(account.rich_rank):'-'} />
               <DataBox valueSize="14px" valueType="text" title="Transactions / Operations" value={`${formatValue(account.n_tx)} / ${formatValue(account.n_ops)}`} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
@@ -59,8 +59,8 @@ const AccountInfo = ({ account }) => {
               <FlexColumnSpaceBetween width={200} minHeight={100}>
                 <FlexColumn>
                   <FlexRowSpaceBetween>
-                    <DataBox valueSize="14px" valueType="currency-short" value={totalStaking} />
-                    <DataBox valueSize="14px" valueType="currency-short" value={stackingCapacity} />
+                    <DataBox valueSize="14px" valueType="currency-rounded" value={totalStaking} />
+                    <DataBox valueSize="14px" valueType="currency-rounded" value={stakingCapacity} />
                   </FlexRowSpaceBetween>
                   <HorizontalProgressBar height={10} settings={settings} />
                   <FlexRowSpaceBetween>
@@ -92,19 +92,20 @@ function getStakingCapacity(account, chain) {
     ((chain.rolls * 8000) / chain.supply.total)
   );
 }
-function getStakingSettings(totalStaking, stackingCapacity) {
+function getStakingSettings(totalStaking, stakingCapacity) {
+  stakingCapacity = stakingCapacity || 1;
   return [
     {
-      percent: (100 * totalStaking) / stackingCapacity,
+      percent: (100 * totalStaking) / stakingCapacity,
       color: '#418BFD',
       title: 'In Staking',
       value: `${totalStaking}`,
     },
     {
-      percent: (100 * (stackingCapacity-totalStaking)) / stackingCapacity,
+      percent: (100 * (stakingCapacity-totalStaking)) / stakingCapacity,
       color: '#858999;',
       title: 'Staking Capacity',
-      value: `${stackingCapacity}`,
+      value: `${stakingCapacity}`,
     },
   ];
 }

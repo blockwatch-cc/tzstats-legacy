@@ -9,10 +9,16 @@ import _ from 'lodash';
 TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
 
+export function formatDayTime(ts) {
+  const d = new Date(ts);
+  const isThisYear = d.getFullYear()===(new Date()).getFullYear();
+  return timeFormat(isThisYear?'%a, %b %d %H:%M:%S':'%a, %b %d %Y %H:%M:%S')(d);
+}
+
 export function formatDay(ts) {
   const d = new Date(ts);
   const isThisYear = d.getFullYear()===(new Date()).getFullYear();
-  return timeFormat(isThisYear?'%b %d':'%b %d, %Y')(d);
+  return timeFormat(isThisYear?'%a, %b %d':'%a, %b %d %Y')(d);
 }
 
 export function formatTime(ts) {
@@ -58,9 +64,9 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
   if (value === 0) {
     return 0 + ' ꜩ';
   }
-  if (value > 1 && value < 1000) {
-    return value + ' ꜩ';
-  }
+  // if (value > 1 && value < 1000) {
+  //   return value + ' ꜩ';
+  // }
   return prefix === ','
     ? `${format(prefix)(value)} ${symbol}`
     : format(prefix)(value)

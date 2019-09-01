@@ -81,11 +81,20 @@ const BakingRightsTable = ({ account }) => {
 
       <FlexRowSpaceBetween minHeight={170} minWidth={230} mt={10}>
         <FlexColumnSpaceBetween minHeight={170}>
-          <DataBox valueSize="14px" title={`Next Baking in ${nextTimeBakerBlock}`} value={account.next_bake_height} />
+          <DataBox
+            valueSize="14px"
+            title={`Next Baking in ${nextTimeBakerBlock}`}
+            value={account.next_bake_height}
+          />
           <DataBox
             valueSize="14px"
             title={`Next Endorsing in ${nextTimeEndoresBlock}`}
             value={account.next_endorse_height}
+          />
+          <DataBox
+            valueSize="14px"
+            title="Grace Period"
+            value={account.grace_period||0}
           />
           <div>&nbsp;</div>
           <div>&nbsp;</div>
@@ -116,7 +125,7 @@ const wrapData = (rights, startHeight, currentHeight) => {
     if (counter % interval === 0 && counter !== 0) {
       let rang4blocks = data[counter] || [];
       const blocksInterval = `From ${formatValue(startHeight + counter - interval)} to ${formatValue(
-        startHeight + counter
+        startHeight + counter - 1
       )}`;
 
       yChartItems.push({ blocks: rang4blocks, interval: blocksInterval });
