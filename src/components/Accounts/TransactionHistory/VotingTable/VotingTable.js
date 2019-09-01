@@ -2,29 +2,31 @@ import React from 'react';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { DataBox, NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { getProposaNameByHash, capitalizeFirstLetter } from '../../../../utils';
+import { getProposalNameByHash, capitalizeFirstLetter } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Spiner } from '../../../../components/Common';
 import { timeFormat } from 'd3-time-format';
 
 const VotingTable = ({ account }) => {
-  const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false });
+  const [data, setData] = React.useState({ table: [], isLoaded: false, cursor: 0, eof: false });
   const [, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'account-votes');
 
   async function fetchMoreOperations() {
-    if (data.eof) { return; }
+    if (data.eof) {
+      return;
+    }
     let votes = await getTableDataByType({
       address: account.address,
       type: 'votes',
-      cursor: data.cursor
+      cursor: data.cursor,
     });
     let eof = !votes.length;
     votes = votes.reverse();
     setData({
       table: [...data.table, ...votes],
       isLoaded: true,
-      cursor: eof?data.cursor:votes[0].row_id,
-      eof: eof
+      cursor: eof ? data.cursor : votes[0].row_id,
+      eof: eof,
     });
     setIsFetching(false);
   }
@@ -39,8 +41,8 @@ const VotingTable = ({ account }) => {
       setData({
         table: votes,
         isLoaded: true,
-        cursor: votes.length?votes[0].row_id:0,
-        eof: !votes.length
+        cursor: votes.length ? votes[0].row_id : 0,
+        eof: !votes.length,
       });
     };
     fetchData();
@@ -49,7 +51,7 @@ const VotingTable = ({ account }) => {
         table: [],
         isLoaded: false,
         cursor: 0,
-        eof: false
+        eof: false,
       });
     };
   }, [account]);
@@ -69,9 +71,13 @@ const VotingTable = ({ account }) => {
             data.table.map((item, i) => {
               return (
                 <TableRow key={i}>
-                  <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
-                  <TableCell width={25}>{getProposaNameByHash(item.proposal)}</TableCell>
-                  <TableCell width={20}>{capitalizeFirstLetter(item.voting_period_kind).replace('_vote', '')}</TableCell>
+                  <TableCell width={5}>
+                    <TableDetails>{i + 1}</TableDetails>
+                  </TableCell>
+                  <TableCell width={25}>{getProposalNameByHash(item.proposal)}</TableCell>
+                  <TableCell width={20}>
+                    {capitalizeFirstLetter(item.voting_period_kind).replace('_vote', '')}
+                  </TableCell>
                   <TableCell width={20}>
                     <DataBox title={timeFormat('%b %d, %H:%M')(item.time)} />
                   </TableCell>

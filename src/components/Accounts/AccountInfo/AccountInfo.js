@@ -27,64 +27,88 @@ const AccountInfo = ({ account }) => {
 
   return (
     <Wrapper>
-      <Card title={`${accountType.name}`} tags={tags} right={<CopyHashButton value={account.address} type="account" />} >
+      <Card title={`${accountType.name}`} tags={tags} right={<CopyHashButton value={account.address} type="account" />}>
         <FlexRowSpaceBetween mt={10}>
           <FlexColumnSpaceBetween minHeight={100}>
-              <HashedBox
-                hash={account.address}
-                isCopy={false}
-                short={true}
-                typeName={`Last active ${timeAgo.format(new Date(account.last_seen_time))}`}
-              />
-              <DataBox
-                title="Creation Date"
-                valueSize="14px"
-                valueType="text"
-                value={` ${timeFormat('%b %d, %Y')(new Date(account.first_seen_time))}`}
-              />
+            <HashedBox
+              hash={account.address}
+              isCopy={false}
+              short={true}
+              typeName={`Last active ${timeAgo.format(new Date(account.last_seen_time))}`}
+            />
+            <DataBox
+              title="Creation Date"
+              valueSize="14px"
+              valueType="text"
+              value={` ${timeFormat('%b %d, %Y')(new Date(account.first_seen_time))}`}
+            />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
             <DataBox valueSize="14px" valueType="currency-full" title="Total Balance" value={account.total_balance} />
-            <DataBox valueSize="14px" valueType="currency-full" title="Spendable Balance" value={account.spendable_balance} />
+            <DataBox
+              valueSize="14px"
+              valueType="currency-full"
+              title="Spendable Balance"
+              value={account.spendable_balance}
+            />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
-              <DataBox title="Rank" valueType="text" value="-" />
-              <DataBox valueSize="14px" valueType="text" title="Transactions / Operations" value={`${formatValue(account.n_tx)} / ${formatValue(account.n_ops)}`} />
+            <DataBox title="Rank" valueType="text" value="-" />
+            <DataBox
+              valueSize="14px"
+              valueType="text"
+              title="Transactions / Operations"
+              value={`${formatValue(account.n_tx)} / ${formatValue(account.n_ops)}`}
+            />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
-            <DataBox valueSize="14px" valueType="currency-full" title="Total Fees Paid" value={account.total_fees_paid} />
+            <DataBox
+              valueSize="14px"
+              valueType="currency-full"
+              title="Total Fees Paid"
+              value={account.total_fees_paid}
+            />
             <DataBox valueSize="14px" valueType="currency-full" title="Total Burned" value={account.total_burned} />
           </FlexColumnSpaceBetween>
-          {account.is_delegate?(
-              <FlexColumnSpaceBetween width={200} minHeight={100}>
-                <FlexColumn>
-                  <FlexRowSpaceBetween>
-                    <DataBox valueSize="14px" valueType="currency-short" value={totalStaking} />
-                    <DataBox valueSize="14px" valueType="currency-short" value={stackingCapacity} />
-                  </FlexRowSpaceBetween>
-                  <HorizontalProgressBar height={10} settings={settings} />
-                  <FlexRowSpaceBetween>
-                    <DataBox title="Staking Balance" />
-                    <DataBox title="Staking Capacity" />
-                  </FlexRowSpaceBetween>
-                </FlexColumn>
+          {account.is_delegate ? (
+            <FlexColumnSpaceBetween width={200} minHeight={100}>
+              <FlexColumn>
                 <FlexRowSpaceBetween>
-                  <DataBox valueSize="14px" title="Active Delegations" value={account.active_delegations} />
-                  <DataBox valueSize="14px" title="Rolls Owned" value={account.rolls} />
+                  <DataBox valueSize="14px" valueType="currency-short" value={totalStaking} />
+                  <DataBox valueSize="14px" valueType="currency-short" value={stackingCapacity} />
                 </FlexRowSpaceBetween>
-              </FlexColumnSpaceBetween>
-             ) : (account.is_delegated?(
-              <FlexColumnSpaceBetween minHeight={100}>
-                {account.delegate&&!account.is_delegate ? <HashedBox hash={account.delegate} isCopy={false} typeName={`Current Delegate`} /> : <div>&nbsp;</div>}
-                {account.manager ? <HashedBox hash={account.manager} isCopy={false} typeName={`Manager`} /> : <div>&nbsp;</div>}
-              </FlexColumnSpaceBetween>
-           ) :  <FlexColumnSpaceBetween minHeight={100}/> )}
+                <HorizontalProgressBar height={10} settings={settings} />
+                <FlexRowSpaceBetween>
+                  <DataBox title="Staking Balance" />
+                  <DataBox title="Staking Capacity" />
+                </FlexRowSpaceBetween>
+              </FlexColumn>
+              <FlexRowSpaceBetween>
+                <DataBox valueSize="14px" title="Active Delegations" value={account.active_delegations} />
+                <DataBox valueSize="14px" title="Rolls Owned" value={account.rolls} />
+              </FlexRowSpaceBetween>
+            </FlexColumnSpaceBetween>
+          ) : account.is_delegated ? (
+            <FlexColumnSpaceBetween minHeight={100}>
+              {account.delegate && !account.is_delegate ? (
+                <HashedBox hash={account.delegate} isCopy={false} typeName={`Current Delegate`} />
+              ) : (
+                <div>&nbsp;</div>
+              )}
+              {account.manager ? (
+                <HashedBox hash={account.manager} isCopy={false} typeName={`Manager`} />
+              ) : (
+                <div>&nbsp;</div>
+              )}
+            </FlexColumnSpaceBetween>
+          ) : (
+            <FlexColumnSpaceBetween minHeight={100} />
+          )}
         </FlexRowSpaceBetween>
       </Card>
     </Wrapper>
   );
 };
-
 
 function getStakingCapacity(account, chain) {
   return (
@@ -101,7 +125,7 @@ function getStakingSettings(totalStaking, stackingCapacity) {
       value: `${totalStaking}`,
     },
     {
-      percent: (100 * (stackingCapacity-totalStaking)) / stackingCapacity,
+      percent: (100 * (stackingCapacity - totalStaking)) / stackingCapacity,
       color: '#858999;',
       title: 'Staking Capacity',
       value: `${stackingCapacity}`,

@@ -11,8 +11,8 @@ export const timeAgo = new TimeAgo('en-US');
 
 export function formatDay(ts) {
   const d = new Date(ts);
-  const isThisYear = d.getFullYear()===(new Date()).getFullYear();
-  return timeFormat(isThisYear?'%b %d':'%b %d, %Y')(d);
+  const isThisYear = d.getFullYear() === new Date().getFullYear();
+  return timeFormat(isThisYear ? '%b %d' : '%b %d, %Y')(d);
 }
 
 export function formatTime(ts) {
@@ -20,7 +20,7 @@ export function formatTime(ts) {
 }
 
 export function convertMinutes(num) {
-  num = num<0?0:num;
+  num = num < 0 ? 0 : num;
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
   const m = Math.floor(num % 60);
@@ -167,7 +167,7 @@ export function fixPercent(settings) {
 }
 
 export function getShortHash(hash) {
-  return hash?`${hash.slice(0, 3)}...${hash.slice(-4)}`:'-';
+  return hash ? `${hash.slice(0, 3)}...${hash.slice(-4)}` : '-';
 }
 
 export function getShortHashOrBakerName(hash) {
@@ -202,14 +202,18 @@ export function getMinutesInterval(lastTime, minutes) {
 export function wrappBlockDataToObj(array) {
   return array.reduce((obj, item, index) => {
     let time = new Date(item[0]).setSeconds(0, 0);
-    obj[time] = [...obj[time]||[], {
-      time: new Date(item[0]),
-      hash: item[1],
-      height: item[2],
-      priority: item[3],
-      opacity: item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.6 : item[3] < 8 ? 0.4 : item[3] < 16 ? 0.2 : 0.1,
-      is_uncle: item[4] || 0,
-    }];
+    obj[time] = [
+      ...(obj[time] || []),
+      {
+        time: new Date(item[0]),
+        hash: item[1],
+        height: item[2],
+        priority: item[3],
+        opacity:
+          item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.6 : item[3] < 8 ? 0.4 : item[3] < 16 ? 0.2 : 0.1,
+        is_uncle: item[4] || 0,
+      },
+    ];
     return obj;
   }, {});
 }
@@ -253,7 +257,7 @@ export function getBlockTags(block) {
   }
   if (block.is_cycle_snapshot) {
     tags.push('Snapshot');
-  } else if (block>0&&block.height%256) {
+  } else if (block > 0 && block.height % 256) {
     tags.push('Snapshot Candidate');
   }
   return tags;
@@ -338,7 +342,7 @@ export function getProposalIdByName(value) {
   });
   return hashes[0] ? proposals[hashes[0]].id : null;
 }
-export function getProposaNameByHash(value) {
+export function getProposalNameByHash(value) {
   const hashes = Object.keys(proposals).filter(key => {
     return key.includes(value);
   });
@@ -350,7 +354,7 @@ export function getBakerHashByName(value) {
   const baker = Object.keys(bakerAccounts).filter(key => {
     return bakerAccounts[key].name.toLowerCase().includes(value);
   });
-  return baker[0]||null;
+  return baker[0] || null;
 }
 export function findBakerName(value) {
   value = value.toLowerCase();
@@ -370,32 +374,35 @@ export function getSlots(value) {
   if (!value) {
     return [...new Array(32).fill(0)];
   }
-  const bits = value.toString(2).split('').map(b=>parseInt(b));
+  const bits = value
+    .toString(2)
+    .split('')
+    .map(b => parseInt(b));
   const zeroBits = 32 - bits.length;
   return [...new Array(zeroBits).fill(0), ...bits];
 }
 
 export function isCycleStart(height) {
-    return height > 0 && ((height-1)%4096 === 0);
+  return height > 0 && (height - 1) % 4096 === 0;
 }
 
 export function isCycleEnd(height) {
-    return height > 0 && (height%4096 === 0)
+  return height > 0 && height % 4096 === 0;
 }
 
 export function cycleFromHeight(height) {
-    return !height ? 0 : (height - 1) / 4096;
+  return !height ? 0 : (height - 1) / 4096;
 }
 
 export function cycleStartHeight(cycle) {
-    return cycle*4096 + 1;
+  return cycle * 4096 + 1;
 }
 
 export function cycleEndHeight(cycle) {
-    return (cycle + 1) * 4096
+  return (cycle + 1) * 4096;
 }
 
 export function snapshotBlock(cycle, index) {
-    // no snapshot before cycle 7
-    return cycle < 7 ? 0 : cycleStartHeight(cycle-7) + (index+1)*256 - 1;
+  // no snapshot before cycle 7
+  return cycle < 7 ? 0 : cycleStartHeight(cycle - 7) + (index + 1) * 256 - 1;
 }

@@ -221,7 +221,7 @@ export const FlexItem = styled.div`
 `;
 
 export const TableBody = styled.div`
-  height: ${props => props.height||200}px;
+  height: ${props => props.height || 200}px;
   overflow: scroll;
 `;
 
