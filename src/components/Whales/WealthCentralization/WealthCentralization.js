@@ -39,7 +39,7 @@ const WealthCentralization = () => {
               <LegendItem color={'#418BFD'}>
                 <DataBox title="Value > 1 M" />
               </LegendItem>
-              <LegendItem color={'##858999'}>
+              <LegendItem color={'#858999'}>
                 <DataBox title="Value > 100 k" />
               </LegendItem>
             </FlexRow>
@@ -55,7 +55,7 @@ const WealthCentralization = () => {
               <LegendItem color={'#418BFD'}>
                 <DataBox title="Count > 1 M" />
               </LegendItem>
-              <LegendItem color={'##858999'}>
+              <LegendItem color={'#858999'}>
                 <DataBox title="Count > 100 k" />
               </LegendItem>
             </FlexRow>

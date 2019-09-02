@@ -28,9 +28,9 @@ const WhaleDomination = () => {
         <FlexRowSpaceBetween>
           <FlexColumn>
             <FlexRowSpaceBetween mb={10}>
-              <DataBox title="#1 Account Total Balance 4.1%" valueType="currecny-short" value={1123123} />
-              <DataBox title="#2 Account Total Balance 2.1%" valueType="currecny-short" value={5141} />
-              <DataBox title="#3 Account Total Balance 3.1%" valueType="currecny-short" value={14151} />
+              <DataBox title="#1 Account Total Balance 4.1%" valueType="currency-short" value={1123123} />
+              <DataBox title="#2 Account Total Balance 2.1%" valueType="currency-short" value={5141} />
+              <DataBox title="#3 Account Total Balance 3.1%" valueType="currency-short" value={14151} />
             </FlexRowSpaceBetween>
             <FlexRow width={600} mb={10}>
               <WhaleDominationChart type={'svg'} data={tempData} />
@@ -42,7 +42,7 @@ const WhaleDomination = () => {
               <LegendItem color={'#418BFD'}>
                 <DataBox title="Top 100" />
               </LegendItem>
-              <LegendItem color={'##858999'}>
+              <LegendItem color={'#858999'}>
                 <DataBox title="Top 10" />
               </LegendItem>
             </FlexRow>
