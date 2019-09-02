@@ -48,7 +48,7 @@ const AccountInfo = ({ account }) => {
             <DataBox valueSize="14px" valueType="currency-full" title="Spendable Balance" value={account.spendable_balance} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
-              <DataBox title="Rank" valueType="text" value={account.rich_rank?formatValue(account.rich_rank):'-'} />
+              <DataBox valueSize="14px" title="Rank" valueType="text" value={account.rich_rank?formatValue(account.rich_rank):'-'} />
               <DataBox valueSize="14px" valueType="text" title="Transactions / Operations" value={`${formatValue(account.n_tx)} / ${formatValue(account.n_ops)}`} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>

@@ -13,7 +13,7 @@ const MarketInfo = ({ history }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let [tickers, error] = await getMarketTickers();
+      let tickers = await getMarketTickers();
       let now = new Date();
       // filter fresh tickers in USD only (age < 2min)
       tickers = tickers.filter(e => e.quote === 'USD' && now - e.timestamp < 2 * 60000);

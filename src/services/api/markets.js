@@ -17,7 +17,7 @@ const request = async (endpoint, options) => {
 };
 const handleResponse = async response => {
   // TODO: forward errors
-  if (response.status === 400) {
+  if (response.status >= 400) {
     const { error } = await response.json();
     console.error(error);
   }
@@ -102,7 +102,7 @@ let formatMarketData = data => {
 
 export const getMarketTickers = async () => {
   const response = await request(`/markets/tickers`);
-  return response.errors?[[],response.errors]:[formatTickerData(response),null];
+  return formatTickerData(response);
 };
 
 let formatTickerData = data => {
