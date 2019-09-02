@@ -57,7 +57,7 @@ const BlockOperations = ({ block, txType }) => {
       <Card title={'Block Operations' + (data.type?' ('+opNames[data.type]+'s)':'')}>
         <TableHeader>
           <TableHeaderCell width={5}>No</TableHeaderCell>
-          <TableHeaderCell width={25}>From</TableHeaderCell>
+          <TableHeaderCell width={20}>From</TableHeaderCell>
           <TableHeaderCell width={15}>Type</TableHeaderCell>
           <TableHeaderCell width={20}>To</TableHeaderCell>
           <TableHeaderCell width={15}>Amount</TableHeaderCell>
@@ -71,7 +71,7 @@ const BlockOperations = ({ block, txType }) => {
                 return (
                   <TableRow key={i}>
                     <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
-                    <TableCell width={25}>
+                    <TableCell width={20}>
                       <Blockies hash={item.sender} />
                       <Link to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                     </TableCell>

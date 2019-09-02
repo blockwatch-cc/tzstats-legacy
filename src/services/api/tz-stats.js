@@ -132,7 +132,7 @@ export const getAccountIncome = async ({ address, cycle }) => {
 
 //api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&account.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
 export const getAccountDelegators = async ({ address, cycle, cursor, limit }) => {
-  const columns = ['row_id', 'account', 'balance', 'time'];
+  const columns = ['row_id', 'account', 'balance', 'time', 'since_time'];
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     // from a cycle's role snapshot

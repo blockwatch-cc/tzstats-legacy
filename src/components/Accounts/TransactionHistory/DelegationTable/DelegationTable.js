@@ -1,11 +1,10 @@
 import React from 'react';
 import { Spiner } from '../../../../components/Common';
-import { Blockies, DataBox, NoDataFound } from '../../../Common';
+import { Blockies, NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { formatCurrency, getShortHash } from '../../../../utils';
+import { formatCurrency, getShortHash, formatDayTime } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Link } from 'react-router-dom';
-import { timeFormat } from 'd3-time-format';
 import { useGlobal } from 'reactn';
 
 const DelegationTable = ({ account }) => {
@@ -37,7 +36,7 @@ const DelegationTable = ({ account }) => {
         <TableHeaderCell width={20}>Since</TableHeaderCell>
         <TableHeaderCell width={20}>Balance</TableHeaderCell>
         <TableHeaderCell width={20}>Share</TableHeaderCell>
-        <TableHeaderCell width={20}>Status</TableHeaderCell>
+        <TableHeaderCell width={5}></TableHeaderCell>
       </TableHeader>
       {data.isLoaded ? (
         <TableBody id={'account-operations'}>
@@ -52,14 +51,12 @@ const DelegationTable = ({ account }) => {
                     <Blockies hash={item.account} />
                     <Link to={`/account/${item.account}`}>{getShortHash(item.account)}</Link>
                   </TableCell>
-                  <TableCell width={20}>
-                    <DataBox title={timeFormat('%b %d, %H:%M')(item.time)} />
-                  </TableCell>
+                  <TableCell width={20}>{formatDayTime(item.since_time,1,1)}</TableCell>
                   <TableCell width={20}>{formatCurrency(item.balance)}</TableCell>
-                  <TableCell width={20}>{`${((item.balance / account.delegated_balance) * 100).toFixed(
-                    3
-                  )}%`}</TableCell>
-                  <TableCell width={20}>{account.is_active_delegate ? 'Active' : 'Inactive'}</TableCell>
+                  <TableCell width={20}>
+                    {`${((item.balance / account.delegated_balance) * 100).toFixed(3)}%`}
+                  </TableCell>
+                  <TableCell width={5}></TableCell>
                 </TableRow>
               );
             })

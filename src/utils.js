@@ -9,16 +9,17 @@ import _ from 'lodash';
 TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
 
-export function formatDayTime(ts) {
+export function formatDayTime(ts, fullyear, noweekday) {
   const d = new Date(ts);
   const isThisYear = d.getFullYear()===(new Date()).getFullYear();
-  return timeFormat(isThisYear?'%a, %b %d %H:%M:%S':'%a, %b %d %Y %H:%M:%S')(d);
+  const fmt = (!fullyear&&isThisYear)?'%b %d - %H:%M:%S':'%b %d, %Y - %H:%M:%S';
+  return timeFormat(noweekday?fmt:'%a '+fmt)(d);
 }
 
 export function formatDay(ts) {
   const d = new Date(ts);
   const isThisYear = d.getFullYear()===(new Date()).getFullYear();
-  return timeFormat(isThisYear?'%a, %b %d':'%a, %b %d %Y')(d);
+  return timeFormat(isThisYear?'%a %b %d':'%a %b %d, %Y')(d);
 }
 
 export function formatTime(ts) {
@@ -167,21 +168,20 @@ export function fixPercent(settings) {
 }
 
 export function getShortHash(hash) {
+  if (hash === null) { return 'none'; }
   return hash?`${hash.slice(0, 3)}...${hash.slice(-4)}`:'-';
 }
 
 export function getShortHashOrBakerName(hash) {
-  if (!hash) {
-    return 'God';
-  }
+  if (hash === null) { return 'none'; }
+  if (!hash) { return 'God'; }
   const baker = bakerAccounts[hash];
   return baker ? baker.name : getShortHash(hash);
 }
 
 export function getHashOrBakerName(hash) {
-  if (!hash) {
-    return 'God';
-  }
+  if (hash === null) { return 'none'; }
+  if (!hash) { return 'God'; }
   const baker = bakerAccounts[hash];
   return baker ? baker.name : hash;
 }

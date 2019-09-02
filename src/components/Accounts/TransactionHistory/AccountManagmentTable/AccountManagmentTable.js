@@ -1,11 +1,10 @@
 import React from 'react';
 import { Spiner } from '../../../../components/Common';
-import { Blockies, DataBox, NoDataFound } from '../../../Common';
+import { Blockies, NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { getShortHashOrBakerName, formatCurrency } from '../../../../utils';
+import { getShortHashOrBakerName, formatCurrency, formatDayTime } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Link } from 'react-router-dom';
-import { timeFormat } from 'd3-time-format';
 
 const AccountManagmentTable = ({ account }) => {
   const [data, setData] = React.useState({table:[], isLoaded: false });
@@ -31,11 +30,10 @@ const AccountManagmentTable = ({ account }) => {
       <TableHeader>
         <TableHeaderCell width={5}>No</TableHeaderCell>
         <TableHeaderCell width={15}>Account</TableHeaderCell>
-        <TableHeaderCell width={15}>Created</TableHeaderCell>
-        <TableHeaderCell width={15}>Last Seen</TableHeaderCell>
-        <TableHeaderCell width={20}>Balance</TableHeaderCell>
-        <TableHeaderCell width={20}>Delegate</TableHeaderCell>
-        <TableHeaderCell width={10}>Status</TableHeaderCell>
+        <TableHeaderCell width={20}>Created</TableHeaderCell>
+        <TableHeaderCell width={20}>Last Seen</TableHeaderCell>
+        <TableHeaderCell width={15}>Balance</TableHeaderCell>
+        <TableHeaderCell width={15}>Delegate</TableHeaderCell>
       </TableHeader>
       {data.isLoaded ? (
         <TableBody id={'account-managed'}>
@@ -48,22 +46,21 @@ const AccountManagmentTable = ({ account }) => {
                     <Blockies hash={item.account} />
                     <Link to={`/account/${item.account}`}>{getShortHashOrBakerName(item.account)}</Link>
                   </TableCell>
-                  <TableCell width={15}>
-                    <DataBox title={timeFormat('%b %d, %H:%M')(item.first_in_time)} />
+                  <TableCell width={20}>
+                    {formatDayTime(item.first_in_time,1,1)}
                   </TableCell>
-                  <TableCell width={15}>
-                    <DataBox title={timeFormat('%b %d, %H:%M')(item.last_seen_time)} />
+                  <TableCell width={20}>
+                    {formatDayTime(item.last_seen_time,1,1)}
                   </TableCell>
-                  <TableCell width={20}>{formatCurrency(item.spendable_balance)}</TableCell>
+                  <TableCell width={15}>{formatCurrency(item.spendable_balance)}</TableCell>
                   {item.delegate?(
-                    <TableCell width={20}>
+                    <TableCell width={15}>
                       <Blockies hash={item.delegate} />
                       <Link to={`/account/${item.delegate}`}>{getShortHashOrBakerName(item.delegate)}</Link>
                     </TableCell>
                   ) : (
-                    <TableCell width={20}>-</TableCell>
+                    <TableCell width={15}>-</TableCell>
                   )}
-                  <TableCell width={10}>{item.is_active ? 'Active' : 'Inactive'}</TableCell>
                 </TableRow>
               );
             })

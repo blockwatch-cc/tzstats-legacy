@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
 import { opNames } from '../../../config';
-import { timeAgo } from '../../../utils';
+import { timeAgo, getOpTags } from '../../../utils';
 import { getAccountByHash } from '../../../services/api/tz-stats';
 
 const Origination = ({ op }) => {
@@ -36,16 +36,16 @@ const Origination = ({ op }) => {
     <FlexRow>
       <OperationAccount title={'Sender'} account={data.sender}/>
       <Wrapper>
-        <Card to={`/account/${data.contract.address}`} title={`${opNames[op.type]}`}>
+        <Card to={data.contract?('/account/'+data.contract.address):null} title={`${opNames[op.type]}`} tags={getOpTags(op)}>
           <FlexRow height={80}>
             <TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
             <FlexColumnSpaceBetween flex={1}>
               <FlexRow>
                 <HashedBox
-                  hash={data.contract.address}
+                  hash={data.contract?data.contract.address:null}
                   isCopy={false}
                   short={true}
-                  typeName={`Last active ${timeAgo.format(new Date(data.contract.last_seen_time))}`}
+                  typeName={`Last active ${data.contract?timeAgo.format(new Date(data.contract.last_seen_time)):'-'}`}
                 />
               </FlexRow>
               <FlexRowSpaceBetween>

@@ -83,20 +83,21 @@ const BakingRightsTable = ({ account }) => {
         <FlexColumnSpaceBetween minHeight={170}>
           <DataBox
             valueSize="14px"
+            valueType="text"
             title={`Next Baking in ${nextTimeBakerBlock}`}
-            value={account.next_bake_height}
+            value={account.next_bake_height?(formatValue(account.next_bake_height)+' (+'+formatValue(account.next_bake_height-chain.height)+')'):'-'}
           />
           <DataBox
             valueSize="14px"
+            valueType="text"
             title={`Next Endorsing in ${nextTimeEndoresBlock}`}
-            value={account.next_endorse_height}
+            value={account.next_endorse_height?(formatValue(account.next_endorse_height)+' (+'+formatValue(account.next_endorse_height-chain.height)+')'):'-'}
           />
           <DataBox
             valueSize="14px"
             title="Grace Period"
             value={account.grace_period||0}
           />
-          <div>&nbsp;</div>
           <div>&nbsp;</div>
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween minHeight={170}>

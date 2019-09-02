@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GenericComponent from 'react-stockcharts/lib/GenericComponent';
-import { sum } from 'd3-array';
 
 import { first, last, isNotDefined, isDefined, hexToRGBA } from 'react-stockcharts/lib/utils';
 
