@@ -15,6 +15,7 @@ import PrivacyPage from './PrivacyPage/PrivacyPage';
 import TermsPage from './TermsPage/TermsPage';
 import ElectionPage from './ElectionPage/ElectionPage';
 import CyclePage from './CyclePage/CyclePage';
+import WhalePage from './WhalePage/WhalePage';
 import useRouter from '../hooks/useRouter';
 import { useTransition, animated } from 'react-spring';
 
@@ -48,6 +49,7 @@ const App = () => {
               <Route path="/cycle/:id" component={CyclePage} />
               <Route path="/not-found/:value" component={NotFoundPage} />
               <Route path="/staking" component={StakingPage} />
+              <Route path="/whale" component={WhalePage} />
             </Switch>
           </animated.div>
         ))}

@@ -2,7 +2,7 @@ import React from 'react';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { DataBox, NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { getProposaNameByHash, capitalizeFirstLetter, formatValue, getShortHash } from '../../../../utils';
+import { getProposalNameByHash, capitalizeFirstLetter, formatValue, getShortHash } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Spiner } from '../../../../components/Common';
 import { timeFormat } from 'd3-time-format';
@@ -79,7 +79,7 @@ const VotingTable = ({ account }) => {
                     <TableDetails>{i + 1}</TableDetails>
                   </TableCell>
                   <TableCell width={15}>
-                    <Link to={`/election/${item.election_id}`}>{getProposaNameByHash(item.proposal)}</Link>
+                    <Link to={`/election/${item.election_id}`}>{getProposalNameByHash(item.proposal)}</Link>
                   </TableCell>
                   <TableCell width={10}>
                     {capitalizeFirstLetter(item.voting_period_kind).replace('_vote', '')}
