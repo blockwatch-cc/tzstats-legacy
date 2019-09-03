@@ -27,10 +27,10 @@ const BakingRightsTable = ({ account }) => {
       const slashed = income.slashed_income;
       const missed = income.missed_endorsing_income + income.lost_baking_income;
       const stolen = income.stolen_baking_income;
-      const nextBakeTime = convertMinutes((new Date(cycleId===chain.cycle?nextBakeRight[6]:account.next_bake_time) - Date.now()) / 60000);
-      const nextEndorseTime = convertMinutes((new Date(cycleId===chain.cycle?nextEndorseRight[6]:account.next_endorse_time) - Date.now()) / 60000 + 1);
-      const nextBakeHeight = cycleId===chain.cycle?nextBakeRight[0]||0:account.next_bake_height;
-      const nextEndorseHeight = cycleId===chain.cycle?nextEndorseRight[0]||0:account.next_endorse_height;
+      const nextBakeTime = nextBakeRight.length?convertMinutes((new Date(cycleId===chain.cycle?nextBakeRight[6]||account.next_bake_time:account.next_bake_time) - Date.now()) / 60000):0;
+      const nextEndorseTime = nextEndorseRight.length?convertMinutes((new Date(cycleId===chain.cycle?nextEndorseRight[6]||account.next_endorse_time:account.next_endorse_time) - Date.now()) / 60000 + 1):0;
+      const nextBakeHeight = cycleId===chain.cycle?nextBakeRight[0]||account.next_bake_height:account.next_bake_height;
+      const nextEndorseHeight = cycleId===chain.cycle?nextEndorseRight[0]||account.next_endorse_height:account.next_endorse_height;
       rights = wrapData(rights, cycleStartHeight(income.cycle), chain.height);
       setData({ cycleId, income, rights, earned, slashed, stolen, missed, nextBakeTime, nextEndorseTime, nextBakeHeight, nextEndorseHeight, isLoaded: true });
     },
@@ -88,13 +88,13 @@ const BakingRightsTable = ({ account }) => {
           <DataBox
             valueSize="14px"
             valueType="text"
-            title={`Next Baking in ${data.nextBakeTime}`}
+            title={data.nextBakeTime?`Next Baking in ${data.nextBakeTime}`:`No future baking rights`}
             value={data.nextBakeHeight?(formatValue(data.nextBakeHeight)+' (+'+formatValue(data.nextBakeHeight-chain.height)+')'):'-'}
           />
           <DataBox
             valueSize="14px"
             valueType="text"
-            title={`Next Endorsing in ${data.nextEndorseTime}`}
+            title={data.nextEndorseHeight?`Next Endorsing in ${data.nextEndorseTime}`:`No future endorsing rights`}
             value={data.nextEndorseHeight?(formatValue(data.nextEndorseHeight)+' (+'+formatValue(data.nextEndorseHeight-chain.height)+')'):'-'}
           />
           <DataBox
