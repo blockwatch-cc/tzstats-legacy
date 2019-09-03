@@ -56,14 +56,12 @@ export function isValid(...args) {
 
 export function formatValue(value, prefix = ',') {
   value = value || 0;
-  return format(prefix)(value)
-    .replace('M', ' M')
-    .replace('k', ' k')
-    .replace('G', ' G');
+  return format(prefix)(value).replace(/(.*)([MkGmµ])$/, '$1 $2');
 }
+
 export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
   if (value === 0) {
-    return 0 + ' ꜩ';
+    return 0 + ' ' + symbol;
   }
   return prefix === ','
     ? `${format(prefix)(value)} ${symbol}`

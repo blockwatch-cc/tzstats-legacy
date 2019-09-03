@@ -29,36 +29,50 @@ const RightsChart = props => {
       let stolen = currentBlocks.blocks.filter(item => item.isStolen).length;
       let lost = currentBlocks.blocks.filter(item => item.isLost).length;
       let missed = currentBlocks.blocks.filter(item => item.isMissed).length;
-      return {
+      let isEmpty = !baking&&!endorsed&&!stolen&&!lost&&!missed;
+      let isFuture = currentBlocks.blocks.some(item => item.isFuture);
+      let res = {
         x: currentBlocks.interval,
-        y: [
-          {
-            label: 'Blocks Baked:',
+        y: []
+      };
+      if (!isEmpty) {
+        res.y.push({
+            label: isFuture?'Baking Rights:':'Blocks Baked:',
             stroke: 'rgba(255, 255, 255, 0.52)',
-            value: baking,
+            value: baking||'-',
           },
           {
-            label: 'Blocks Endorsed:',
+            label: isFuture?'Endorsing Rights:':'Blocks Endorsed:',
             stroke: 'rgba(255, 255, 255, 0.52)',
-            value: endorsed,
-          },
-          {
+            value: endorsed||'-',
+          }
+        );
+      } else {
+        res.y.push({
+          label: 'No rights.',
+          stroke: 'rgba(255, 255, 255, 0.52)',
+          value: ''
+        });
+      }
+      if (!isFuture&&!isEmpty) {
+        res.y.push({
             label: 'Blocks Stolen:',
             stroke: 'rgba(255, 255, 255, 0.52)',
-            value: stolen,
+            value: stolen||'-',
           },
           {
             label: 'Blocks Lost:',
             stroke: 'rgba(255, 255, 255, 0.52)',
-            value: lost,
+            value: lost||'-',
           },
           {
             label: 'Endorsements Missed:',
             stroke: 'rgba(255, 255, 255, 0.52)',
-            value: missed,
-          },
-        ],
-      };
+            value: missed||'-',
+          }
+        );
+      }
+      return res;
     };
   }
 

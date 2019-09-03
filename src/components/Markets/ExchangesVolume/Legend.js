@@ -18,7 +18,8 @@ const LegendContent = ({ settings }) => {
           key={i}
           type="horizontal-value-as-title"
           title={item.id}
-          valueType="currency-short"
+          valueType="currency"
+          valueOpts={{digits:3,dim:0}}
           valueSize="12px"
           value={item.value}
         />

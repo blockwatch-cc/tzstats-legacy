@@ -39,10 +39,10 @@ const OperationPage = ({ match }) => {
     <Wrapper>
       {data.render.map((op, index) => {
         return (
-          <div key={index}>
+          <Operation key={index}>
             <OperationDetails op={op} key={'od'+index} />
             <OperationType op={op} key={'ot'+index} />
-          </div>
+          </Operation>
         );
       })}
     </Wrapper>
@@ -52,4 +52,12 @@ const OperationPage = ({ match }) => {
 };
 
 const Wrapper = styled.div``;
+
+const Operation = styled.div`
+  &:not(:first-child) {
+    margin-top: 10px;
+    border-top: 1px solid transparent;
+  }
+`;
+
 export default OperationPage;

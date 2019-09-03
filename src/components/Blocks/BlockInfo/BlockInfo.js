@@ -24,8 +24,8 @@ const BlockInfo = ({ block, setTxType }) => {
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180}>
               <FlexRowWrap minWidth={250}>
-                <DataBox valueSize="16px" title={formatDayTime(block.time)} value={block.height} />
-                <DataBox valueSize="16px" ml={80} title="Cycle" value={block.cycle} />
+                <DataBox valueSize="16px" title={`Backed on ${formatDayTime(block.time)}`} value={block.height} />
+                <DataBox valueSize="16px" ml={30} title="Cycle" value={block.cycle} />
               </FlexRowWrap>
               <HashedBox hash={block.baker} isCopy={false} short={true} typeName={'Baker'} />
               <FlexColumn>
@@ -42,7 +42,6 @@ const BlockInfo = ({ block, setTxType }) => {
                 <DataBox title="Slots Endorsed" />
               </FlexColumn>
             </FlexColumnSpaceBetween>
-
             <FlexColumnSpaceBetween minHeight={180} minWidth={100} ml={20}>
               <DataBox valueSize="16px" title="Priority" value={block.priority} />
               <DataBox valueSize="16px" title="Gas Used" value={block.gas_used} />
@@ -50,7 +49,7 @@ const BlockInfo = ({ block, setTxType }) => {
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180} minWidth={100} ml={20}>
               <DataBox valueSize="16px" valueType="text" title="Solvetime" value={block.solvetime + ' sec'} />
-              <DataBox valueSize="16px" valueType="currency-short" title="Block Rewards" value={block.rewards} />
+              <DataBox valueSize="16px" valueType="currency" valueOpts={{digits:0}} title="Block Rewards" value={block.rewards} />
               <DataBox valueSize="16px" valueType="currency-short" title="Block Fees" value={block.fees} />
             </FlexColumnSpaceBetween>
           </FlexRowSpaceBetween>

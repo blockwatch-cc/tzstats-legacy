@@ -1,7 +1,6 @@
 import React from 'react';
 import { DataBox, HashedBox, FlexColumnSpaceBetween, FlexRowSpaceBetween } from '../../Common';
 import { Link } from 'react-router-dom';
-import { timeFormat } from 'd3-time-format';
 
 const Origination = ({ op }) => {
   return (
@@ -16,7 +15,7 @@ const Origination = ({ op }) => {
         <DataBox title="Gas Used" valueSize="14px" value={op.gas_used} />
       </FlexColumnSpaceBetween>
       <FlexColumnSpaceBetween ml={20} minHeight={80}>
-        <DataBox title="Date & Time" valueSize="14px" valueType="text" value={timeFormat('%b %d, %Y %H:%M:%S')(new Date(op.time))} />
+        <DataBox title="Date & Time" valueSize="14px" valueType="datetime" value={op.time} />
         <DataBox title="Gas Price" valueSize="14px" valueType="currency-short" value={op.gas_price/1000} />
       </FlexColumnSpaceBetween>
       <FlexColumnSpaceBetween ml={20} minHeight={80}>

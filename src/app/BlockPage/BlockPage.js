@@ -16,8 +16,11 @@ const BlockPage = ({ match, history }) => {
     const fetchData = async () => {
       let [block, lastBlock] = await Promise.all([getBlock(currentBlockHash), getBlock()]);
       //todo optimize it for blockNumber
+      const onehour = 60*60*1000;
+      const historySpan = (new Date(lastBlock.time) - new Date(block.time) + block.solvetime*1000)
+      console.log("BLOCK time diff",historySpan, lastBlock.time, block.time, block.solvetime );
       let blockHistory = [];
-      if (lastBlock.height - block.height < 59) {
+      if (historySpan < onehour) {
         blockHistory = await getBlockRange(lastBlock.height, 60, 0);
       } else {
         blockHistory = await getBlockRange(block.height, 30, 30);

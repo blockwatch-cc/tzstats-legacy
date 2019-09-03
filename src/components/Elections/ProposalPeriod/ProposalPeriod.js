@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import { Card, FlexRowSpaceBetween, DataBox, EmptyData, Blockies } from '../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell } from '../../Common';
 import { Link } from 'react-router-dom';
-import { getShortHash, getShortHashOrBakerName, getEndTime } from '../../../utils';
+import { getShortHash, getShortHashOrBakerName, getEndTime, formatValue } from '../../../utils';
 import { format } from 'd3-format';
 import { proposals } from '../../../config/proposals';
-import StartEndBlock from '../StartEndBlock';
 
 const ProposalPeriod = ({ period }) => {
   if (!period.proposals.length) {
@@ -48,11 +47,11 @@ const ProposalPeriod = ({ period }) => {
         </TableBody>
         <FlexRowSpaceBetween>
           <DataBox
+            valueType="percent"
             valueSize="14px"
-            title={`Participation Rolls ${((period.turnout_rolls / period.eligible_rolls) * 100).toFixed()}%`}
-            value={period.turnout_rolls}
+            title={`Participation (${formatValue(period.turnout_rolls)} rolls - ${formatValue(period.turnout_voters)}/${formatValue(period.eligible_voters)} voters)`}
+            value={period.turnout_rolls / period.eligible_rolls}
           />
-          <StartEndBlock period={period} />
         </FlexRowSpaceBetween>
       </Card>
     </Wrapper>

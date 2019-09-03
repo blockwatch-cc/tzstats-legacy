@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { getBlockOperations } from '../../../services/api/tz-stats';
 import { opNames } from '../../../config';
-import { Spiner, Card, Blockies } from '../../Common';
+import { Spiner, Card, Blockies, Value } from '../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../Common';
 import TxTypeIcon from '../../Common/TxTypeIcon';
-import { formatCurrency, getShortHash, getShortHashOrBakerName } from '../../../utils';
+import { getShortHash, getShortHashOrBakerName } from '../../../utils';
 
 const BlockOperations = ({ block, txType }) => {
   const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false });
@@ -89,8 +89,8 @@ const BlockOperations = ({ block, txType }) => {
                         '-'
                       )}
                     </TableCell>
-                    <TableCell width={15}>{item.volume ? formatCurrency(item.volume) : '-'}</TableCell>
-                    <TableCell width={10}>{item.fee ? formatCurrency(item.fee) : '-'}</TableCell>
+                    <TableCell width={15}><Value value={item.volume} type="currency" digits={0} zero="-"/></TableCell>
+                    <TableCell width={10}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
                     <TableCell width={10}>
                       <Link to={`/operation/${item.hash}`}>{getShortHash(item.hash)}</Link>
                     </TableCell>

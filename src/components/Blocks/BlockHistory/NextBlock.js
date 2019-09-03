@@ -15,10 +15,10 @@ const NextBlock = ({ lastTime }) => {
 export default NextBlock;
 
 const NextBlockWrapper = styled.div`
-  position: relative;
+  position: absolute;
   height: 50px;
-  margin-right: 30px;
-  margin-top: -30px;
+  right: 120px;
+  top: -70px;
 `;
 const NextBlockTitle = styled.div`
   color: rgba(255, 255, 255, 0.52);

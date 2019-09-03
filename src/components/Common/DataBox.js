@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FlexRow } from './index';
-import { formatCurrency, formatValue } from '../../utils';
+import { formatCurrency, formatValue, formatDayTime, formatDay, formatTime } from '../../utils';
 
 //Todo refactoring
 const DataBox = ({
   value,
   title,
   valueType,
+  valueOpts,
   type = '',
   valueSize = '18px',
   titleSize = '10px',
@@ -21,7 +22,7 @@ const DataBox = ({
         <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
           {title && (valueType && !value) ? (
             <Title fontSize={titleSize}>
-              <Value type={valueType} value={title} />
+              <Value type={valueType} value={title} {...valueOpts}/>
             </Title>
           ) : (
             <Title fontSize={titleSize}>{title}</Title>
@@ -35,7 +36,7 @@ const DataBox = ({
           {title}
           {value !== undefined && (
             <Title fontSize={titleSize}>
-              <Value type={valueType} value={value} />
+              <Value type={valueType} value={value} {...valueOpts}/>
             </Title>
           )}
         </Wrapper>
@@ -47,7 +48,7 @@ const DataBox = ({
             {<div style={{ paddingRight: '10px' }}>{title}</div>}
             {value !== undefined && (
               <Title fontSize={titleSize}>
-                <Value type={valueType} value={value} />
+                <Value type={valueType} value={value} {...valueOpts} />
               </Title>
             )}
           </FlexRow>
@@ -57,43 +58,79 @@ const DataBox = ({
     default:
       return (
         <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
-          {value !== undefined && <Value type={valueType} value={value} />}
+          {value !== undefined && <Value type={valueType} value={value} {...valueOpts} />}
           {title && <Title fontSize={titleSize}>{title}</Title>}
         </Wrapper>
       );
   }
 };
 
-const Value = ({ type, value }) => {
+let re = /^(.*)\.([^ ]*)( .*)?$/;
+
+export const Value = ({ type, value, prec, suffix = '', digits = 4, round = false, dim = true, zero = null }) => {
+  if (value === 0 && zero) { return zero; }
+  if (round) { value = Math.round(value); }
+  if (prec !== undefined) { value = value.toFixed(prec); }
+  let res = '';
   switch (type) {
     case 'text':
       return value;
-    case 'currency-rounded':
-      return formatCurrency(Math.round(value), ',');
+    case 'datetime':
+      res = formatDayTime(value, 1, 1);
+      break;
+    case 'date':
+      res = formatDay(value);
+      break;
+    case 'time':
+      res = formatTime(value);
+      break;
+    case 'currency':
+      if (!!digits) {
+        res = formatCurrency(value, '.'+digits+'s');
+      } else {
+        res = formatCurrency(value, ',');
+      }
+      break;
     case 'currency-short':
-      return formatCurrency(value, '.4s');
-    case 'currency-fixed':
-      return formatCurrency(value.toFixed(2), ',');
-    case 'currency-smart':
-      return formatCurrency(value, ',');
+      res = formatCurrency(value, '~s');
+      break;
     case 'currency-full':
-      return formatCurrency(value.toFixed(6), ',');
-    case 'currency-usd-full':
-      return formatValue(value, '$,');
-    case 'currency-usd-fixed':
-      return formatValue(value.toFixed(2), '$,');
-    case 'currency-usd-short':
-      return '$' + formatValue(Math.round(value), '.2s');
+      res = formatCurrency(value.toFixed(6), ',');
+      break;
+    case 'currency-usd':
+      if (!!digits) {
+        res = formatValue(value, '$.'+digits+'s');
+      } else {
+        res = formatValue(value, '$,');
+      }
+      break;
     case 'value-short':
-      return formatValue(Math.round(value), '.2s');
+      res = formatValue(Math.round(value), '.'+digits+'s');
+      break;
     case 'value-full':
-      return formatValue(value, ',');
+      res = formatValue(value, ',');
+      break;
     case 'percent':
-      return value * 100 < 1 ? '< 1%' : formatValue(value, '.0%');
+      res = value * 100 < 1 ? '< 1%' : formatValue(value, '.0%');
+      break;
     default:
-      return formatValue(Math.round(value), ',');
+      res = formatValue(Math.round(value), ',');
   }
+  if (!dim) {
+    return res;
+  }
+  let arr = re.exec(res);
+  return ( (arr && arr.length) ? (
+    <span>{`${arr[1]}`}<Dim>.{arr[2]}</Dim>{arr[3]} {suffix}</span>
+  ) : res + suffix
+  );
 };
+
+const Dim = styled.small`
+  opacity: 0.7;
+  font-size: 85%;
+  font-weight: 200;
+`
 
 const Wrapper = styled.div`
   font-size: ${props => props.fontSize};

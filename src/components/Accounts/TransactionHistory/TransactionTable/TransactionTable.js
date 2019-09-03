@@ -1,8 +1,8 @@
 import React from 'react';
 import { Spiner } from '../../../../components/Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
-import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails, Blockies, NoDataFound } from '../../../Common';
-import { formatDayTime, getShortHashOrBakerName, formatCurrency, formatValue } from '../../../../utils';
+import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails, Blockies, NoDataFound, Value } from '../../../Common';
+import { getShortHashOrBakerName, formatValue } from '../../../../utils';
 import { opNames } from '../../../../config';
 import { Link } from 'react-router-dom';
 import { getAccountOperations } from '../../../../services/api/tz-stats';
@@ -69,8 +69,8 @@ const TxTable = ({ data, account, incoming }) => {
     <>
       <TableHeader>
         <TableHeaderCell width={5}>No</TableHeaderCell>
-        <TableHeaderCell width={15}>{incoming?'From':'To'}</TableHeaderCell>
-        <TableHeaderCell width={15}>Amount</TableHeaderCell>
+        <TableHeaderCell width={20}>{incoming?'From':'To'}</TableHeaderCell>
+        <TableHeaderCell width={10}>Amount</TableHeaderCell>
         <TableHeaderCell width={10}>Fees</TableHeaderCell>
         <TableHeaderCell width={20}>Date</TableHeaderCell>
         <TableHeaderCell width={10}>Block</TableHeaderCell>
@@ -84,19 +84,19 @@ const TxTable = ({ data, account, incoming }) => {
                 <TableRow key={i}>
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   { incoming ? (
-                    <TableCell width={15}>
+                    <TableCell width={20}>
                       <Blockies hash={item.sender} />
                       <Link to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                     </TableCell>
                     ) : (
-                    <TableCell width={15}>
+                    <TableCell width={20}>
                       <Blockies hash={item.receiver} />
                       <Link to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                     </TableCell>
                   )}
-                  <TableCell width={15}>{`${formatCurrency(item.volume)}`}</TableCell>
-                  <TableCell width={10}>{`${formatCurrency(item.fee)}`}</TableCell>
-                  <TableCell width={20}>{`${formatDayTime(item.time,1,1)}`}</TableCell>
+                  <TableCell width={10}><Value value={item.volume} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={10}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={10}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
                   <TableCell width={10}>
                     <Link to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
@@ -154,9 +154,10 @@ const OtherTable = ({ data, account }) => {
                   ) : (
                     <TableCell width={12}>-</TableCell>
                   )}
-                  <TableCell width={12}>{(item.volume||item.reward)?formatCurrency(item.volume||item.reward):'-'}</TableCell>
-                  <TableCell width={11}>{item.fee?formatCurrency(item.fee):'-'}</TableCell>
-                  <TableCell width={18}>{`${formatDayTime(item.time,1,1)}`}</TableCell>
+
+                  <TableCell width={12}><Value value={item.volume||item.reward} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={11}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={18}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={8}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
                   <TableCell width={10}>
                     <Link to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>

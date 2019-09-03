@@ -15,7 +15,8 @@ const LegendContent = ({ settings }) => {
     return (
       <LegendItem key={i} {...item}>
         <DataBox
-          valueType="currency-short"
+          valueType="currency"
+          valueOpts={{digits:4,dim:0}}
           value={item.value}
           valueSize="14px"
           title={`${item.title} ${Math.round(item.percent)}%`}

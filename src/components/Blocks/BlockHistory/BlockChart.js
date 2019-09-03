@@ -22,8 +22,7 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
   return (
     <BlocksWrapper>
       {timeRange.map((ts, index) => {
-        const blocks = (blocksMap[ts]||[]).sort((a,b) => (a.is_uncle?1:0)-(b.is_uncle?1:0));
-        const isCurrent = currentBlock && blocks[0] && blocks[0].hash === currentBlock.hash;
+        const blocks = (blocksMap[ts]||[]).sort((a,b) => (a.is_uncle?0:1)-(b.is_uncle?0:1));
         return (
           <BlockColumn key={index}>
             {(index===0 || (isMidnight(ts) && index > 7)) && (
@@ -39,12 +38,13 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
               <EmptyBlockSquare/>
             ) : (
               blocks.map((block, index) => {
+                const isCurrent = currentBlock && block && block.hash === currentBlock.hash;
                 return (<BlockSquare
                   key={index}
                   height={format(',')(block.height)}
                   to={`/block/${block.hash}`}
-                  mb={12*index}
-                  opacity={block.opacity}
+                  idx={blocks.length-1}
+                  opacity={isCurrent?1:block.opacity}
                   bg={block.is_uncle?red:(isCurrent?white:blue)}
                   border={isCurrent?'1px solid #fff':'none'}
                 />);
@@ -66,6 +66,7 @@ const white = '#fff';
 const BlocksWrapper = styled(FlexRowWrap)`
   justify-content: flex-start;
   position: relative;
+  min-height: 22px;
 `;
 
 const BlockColumn = styled(FlexColumn)`
@@ -76,7 +77,7 @@ const BlockColumn = styled(FlexColumn)`
 const TimeMajor = styled.div`
   color: rgba(255, 255, 255, 0.52);
   font-size: 10px;
-  top: 12px;
+  bottom: calc(-100% + 5px);
   position: absolute;
   border-left: 1px solid #83858d;
   font-weight: 100;
@@ -89,10 +90,12 @@ const TimeMajor = styled.div`
 `;
 
 const TimeMinor = styled(TimeMajor)`
+  bottom: calc(-100% + 13px);
   height: 8px;
 `;
 
 const DayTick = styled(TimeMajor)`
+  bottom: calc(-100% - 13px);
   height: 34px;
   width: 95px;
 `;
@@ -113,13 +116,14 @@ const BlockSquare = styled(Link)`
   opacity: ${prop => prop.opacity||1};
   border: ${prop => prop.border||'none'};
   &:hover {
+    opacity: 1;
     border: 1px solid #fff;
     &:after {
       content: '${prop => prop.height}';
       position: absolute;
       color: rgba(255,255,255,0.52);
       font-size: 10px;
-      top: -28px;
+      top: -${prop => (prop.idx?prop.idx:0)*10+20}px;
       transform: translate(-50%,0);
       margin-left: 5px;
     }
@@ -130,7 +134,7 @@ const BlockSquare = styled(Link)`
       color: rgba(255, 255, 255, 0.52);
       z-index: -1;
       font-size: 14px;
-      top: -15px;
+      top: -${prop => (prop.idx?prop.idx:0)*10+9}px;
       left: 3.5px;
     }
   }

@@ -65,7 +65,8 @@ const MarketInfo = ({ history }) => {
           <DataBox
             valueSize="16px"
             title="Market Cap"
-            valueType="currency-usd-short"
+            valueOpts={{dim:0,digits:3,round:1}}
+            valueType="currency-usd"
             value={calculateMarketCap()}
           />
         </FlexRowSpaceBetween>

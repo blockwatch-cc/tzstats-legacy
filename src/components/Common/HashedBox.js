@@ -4,12 +4,12 @@ import { DataBox, Blockies, CopyButton } from './';
 import { getShortHashOrBakerName, getHashOrBakerName } from '../../utils';
 import { Link } from 'react-router-dom';
 
-const HashedBox = ({ hash, typeName, name, short = true, isCopy = true }) => {
+const HashedBox = ({ hash, typeName, name, short = true, isCopy = true, noLink = false }) => {
   const getter = short?getShortHashOrBakerName:getHashOrBakerName;
   return (
     <HashBlockWrapper>
       <Blockies hash={hash} />
-      <HashLink to={`/account/${hash}`}>{getter(hash)}</HashLink>
+      {!noLink?(<HashLink to={`/account/${hash}`}>{getter(hash)}</HashLink>):getter(hash)}
       {isCopy && <CopyButton />}
       <DataBox title={typeName} />
     </HashBlockWrapper>

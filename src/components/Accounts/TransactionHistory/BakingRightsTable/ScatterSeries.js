@@ -111,15 +111,16 @@ function drawOnCanvas(ctx, props, points) {
         point.datum.data.forEach((item, index) => {
           let newPoint = { ...point };
           newPoint.y = index * 10 + 5;
-          let invalidBlocks = item.blocks.length ? item.blocks.filter(d => d.isBad) : [];
-          let futureRights = item.blocks.length ? item.blocks.filter(d => d.isFuture) : [];
+          let invalid = item.blocks.some(d => d.isBad);
+          let future = item.blocks.some(d => d.isFuture);
           let color = !item.blocks.length
             ? '#525566'
-            : futureRights.length
-            ? '#FFFFFF'
-            : invalidBlocks.length
+            : future
+            ? '#858999'
+            : invalid
             ? '#ED6290'
             : '#418BFD';
+          color = item.isCurrent?'#FFFFFF':color;
           newPoint.marker.drawOnCanvas({ ...point.marker.defaultProps, ...markerProps, fill: color }, newPoint, ctx);
         });
       });

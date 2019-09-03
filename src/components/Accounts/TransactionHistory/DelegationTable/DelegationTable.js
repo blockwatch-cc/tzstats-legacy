@@ -1,8 +1,8 @@
 import React from 'react';
 import { Spiner } from '../../../../components/Common';
 import { Blockies, NoDataFound } from '../../../Common';
-import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { formatCurrency, getShortHash, formatDayTime } from '../../../../utils';
+import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails, Value } from '../../../Common';
+import { getShortHash } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Link } from 'react-router-dom';
 import { useGlobal } from 'reactn';
@@ -51,8 +51,8 @@ const DelegationTable = ({ account }) => {
                     <Blockies hash={item.account} />
                     <Link to={`/account/${item.account}`}>{getShortHash(item.account)}</Link>
                   </TableCell>
-                  <TableCell width={20}>{formatDayTime(item.since_time,1,1)}</TableCell>
-                  <TableCell width={20}>{formatCurrency(item.balance)}</TableCell>
+                  <TableCell width={20}><Value value={item.since_time} type="datetime"/></TableCell>
+                  <TableCell width={20}><Value value={item.balance} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}>
                     {`${((item.balance / account.delegated_balance) * 100).toFixed(3)}%`}
                   </TableCell>

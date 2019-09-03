@@ -26,7 +26,8 @@ const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
           </FlexColumnSpaceAround>
           <FlexColumnSpaceAround minHeight={150}>
             <DataBox
-              valueType="currency-usd-fixed"
+              valueType="currency-usd"
+              valueOpts={{dim:0,prec:2}}
               title="Value"
               value={account.spendable_balance * lastMarketData.price}
             />

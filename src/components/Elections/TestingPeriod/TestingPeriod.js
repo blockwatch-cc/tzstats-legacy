@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Card, FlexRowSpaceBetween, EmptyData } from '../../Common';
 import { getEndTime } from '../../../utils';
 import { proposals } from '../../../config/proposals';
-import StartEndBlock from '../StartEndBlock';
 
 const TestingPeriod = ({ period }) => {
   if (!period) {
@@ -25,9 +24,8 @@ const TestingPeriod = ({ period }) => {
           {proposalDetails.archive}
         </a>
 
-        <FlexRowSpaceBetween>
+        <FlexRowSpaceBetween mt={30}>
           <div></div>
-          <StartEndBlock period={period} />
         </FlexRowSpaceBetween>
       </Card>
     </Wrapper>

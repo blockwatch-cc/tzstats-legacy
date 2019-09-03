@@ -17,7 +17,8 @@ const VolumeChart = ({ data }) => {
             placement="top"
             content={
               <DataBox
-                valueType="currency-rounded"
+                valueType="currency"
+                valueOpts={{round:1}}
                 value={item.value}
                 title={timeFormat('%B %d, %Y')(new Date(item.time))}
               />

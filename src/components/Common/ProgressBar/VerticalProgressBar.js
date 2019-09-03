@@ -11,7 +11,9 @@ const ProgressBar = ({ settings }) => {
         <Popover
           content={
             <DataBox
-              valueType="currency-short"
+              valueType="currency"
+              valueOpts={{digits:0,round:1}}
+              valueSize="14px"
               value={item.value}
               title={`${item.id} ${item.percent < 1 ? '< 1' : item.percent}%`}
             />

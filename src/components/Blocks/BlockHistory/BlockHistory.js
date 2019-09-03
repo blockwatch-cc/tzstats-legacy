@@ -12,14 +12,14 @@ const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
   return (
     <Wrapper>
       <Card title={'Block History'}>
-        <FlexRow mt={20}>
+        <FlexRow mt={60}>
           <BlockHistoryWrapper>
             {/* <PreviousBlockButton onClick={e => console.log(-60)}>&#9664;</PreviousBlockButton> */}
             <BlockChart blockHistory={blockHistory} currentBlock={currentBlock} />
           </BlockHistoryWrapper>
           <NextBlock lastTime={chain.timestamp} />
           {/* <NextBlockButton onClick={e => console.log(60)}>&#9654;</NextBlockButton> */}
-          <Link to={`/block/${chain.block_hash}`} style={{ marginTop: -10 }}>
+          <Link to={`/block/${chain.block_hash}`} style={{ position: 'absolute', top: -50, right: 30 }}>
             <DataBox value={chain.height} title="Last Block" />
           </Link>
         </FlexRow>
@@ -36,6 +36,8 @@ const BlockHistoryWrapper = styled(FlexColumn)`
   max-width: 720px;
   margin-bottom: 30px;
   flex: 1;
+  position: absolute;
+  bottom: 0;
 `;
 
 // const PreviousBlockButton = styled.div`

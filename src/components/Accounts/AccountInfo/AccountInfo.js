@@ -59,8 +59,8 @@ const AccountInfo = ({ account }) => {
               <FlexColumnSpaceBetween width={200} minHeight={100}>
                 <FlexColumn>
                   <FlexRowSpaceBetween>
-                    <DataBox valueSize="14px" valueType="currency-rounded" value={totalStaking} />
-                    <DataBox valueSize="14px" valueType="currency-rounded" value={stakingCapacity} />
+                    <DataBox valueSize="14px" valueType="currency" valueOpts={{round:1,digits:0}} value={totalStaking} />
+                    <DataBox valueSize="14px" valueType="currency" valueOpts={{round:1,digits:0}} value={stakingCapacity} />
                   </FlexRowSpaceBetween>
                   <HorizontalProgressBar height={10} settings={settings} />
                   <FlexRowSpaceBetween>
@@ -70,7 +70,7 @@ const AccountInfo = ({ account }) => {
                 </FlexColumn>
                 <FlexRowSpaceBetween>
                   <DataBox valueSize="14px" title="Active Delegations" value={account.active_delegations} />
-                  <DataBox valueSize="14px" title="Rolls Owned" value={account.rolls} />
+                  <DataBox valueSize="14px" title="Rolls Owned" ta="right" value={account.rolls} />
                 </FlexRowSpaceBetween>
               </FlexColumnSpaceBetween>
              ) : (account.is_delegated?(

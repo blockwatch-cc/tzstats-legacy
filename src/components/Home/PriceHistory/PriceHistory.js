@@ -12,10 +12,10 @@ const PriceHistory = ({ priceHistory }) => {
         <FlexRow>
           <PriceChart type={'svg'} data={priceHistory} />
           <FlexColumnSpaceBetween minWidth={100} ml={20}>
-            <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Last Price" value={currentValue.close} />
-            <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Open Price Today" value={currentValue.open} />
-            <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Highest Price Today" value={currentValue.high} />
-            <DataBox valueSize="14px" valueType="currency-usd-fixed" title="Lowest Price Today" value={currentValue.low} />
+            <DataBox valueSize="14px" valueType="currency-usd" valueOpts={{dim:0,prec:2,digits:0}} title="Last Price" value={currentValue.close} />
+            <DataBox valueSize="14px" valueType="currency-usd" valueOpts={{dim:0,prec:2,digits:0}} title="Open Price Today" value={currentValue.open} />
+            <DataBox valueSize="14px" valueType="currency-usd" valueOpts={{dim:0,prec:2,digits:0}} title="Highest Price Today" value={currentValue.high} />
+            <DataBox valueSize="14px" valueType="currency-usd" valueOpts={{dim:0,prec:2,digits:0}} title="Lowest Price Today" value={currentValue.low} />
           </FlexColumnSpaceBetween>
         </FlexRow>
       </Card>

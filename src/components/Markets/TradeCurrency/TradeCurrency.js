@@ -34,7 +34,7 @@ const Legend = ({ data }) => {
         return (
           <FlexColumn key={i}>
             <div style={{ fontSize: 14 }}>{item.id}</div>
-            <DataBox title={formatCurrency(item.value, '.2s')} />
+            <DataBox title={formatCurrency(item.value, '.3s')} />
           </FlexColumn>
         );
       })}

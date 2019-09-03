@@ -10,8 +10,6 @@ import { Spiner } from '../../../../components/Common';
 
 const BakingRightsTable = ({ account }) => {
   const [data, setData] = React.useState({ income: null, rights: null, isLoaded: false });
-  const nextTimeBakerBlock = convertMinutes((new Date(account.next_bake_time).getTime() - Date.now()) / 60000);
-  const nextTimeEndoresBlock = convertMinutes((new Date(account.next_endorse_time).getTime() - Date.now()) / 60000);
   const [chain] = useGlobal('chain');
 
   const getAccountData = React.useCallback(
@@ -23,19 +21,25 @@ const BakingRightsTable = ({ account }) => {
         getAccountRights({ address: account.address, cycle: cycleId }),
         getAccountIncome({ address: account.address, cycle: cycleId }),
       ]);
-      rights = wrapData(rights, cycleStartHeight(income.cycle), chain.height);
+      const nextBakeRight = rights.find(r => r[0]>chain.height && r[1]==='baking' && r[2] === 0)||[];
+      const nextEndorseRight = rights.find(r => r[0]>chain.height && r[1]==='endorsing')||[];
       const earned = income.baking_income + income.endorsing_income + income.fees_income + income.seed_income;
       const slashed = income.slashed_income;
       const missed = income.missed_endorsing_income + income.lost_baking_income;
       const stolen = income.stolen_baking_income;
-      setData({ income, rights, earned, slashed, stolen, missed, isLoaded: true });
+      const nextBakeTime = convertMinutes((new Date(cycleId===chain.cycle?nextBakeRight[6]:account.next_bake_time) - Date.now()) / 60000);
+      const nextEndorseTime = convertMinutes((new Date(cycleId===chain.cycle?nextEndorseRight[6]:account.next_endorse_time) - Date.now()) / 60000 + 1);
+      const nextBakeHeight = cycleId===chain.cycle?nextBakeRight[0]||0:account.next_bake_height;
+      const nextEndorseHeight = cycleId===chain.cycle?nextEndorseRight[0]||0:account.next_endorse_height;
+      rights = wrapData(rights, cycleStartHeight(income.cycle), chain.height);
+      setData({ cycleId, income, rights, earned, slashed, stolen, missed, nextBakeTime, nextEndorseTime, nextBakeHeight, nextEndorseHeight, isLoaded: true });
     },
-    [account.address, chain.cycle, chain.height]
+    [account, chain]
   );
 
   React.useEffect(() => {
-    getAccountData(chain.cycle);
-  }, [chain.cycle, getAccountData]);
+    getAccountData(data.cycleId!==undefined?data.cycleId:chain.cycle);
+  }, [chain, account, getAccountData]);
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>
@@ -84,14 +88,14 @@ const BakingRightsTable = ({ account }) => {
           <DataBox
             valueSize="14px"
             valueType="text"
-            title={`Next Baking in ${nextTimeBakerBlock}`}
-            value={account.next_bake_height?(formatValue(account.next_bake_height)+' (+'+formatValue(account.next_bake_height-chain.height)+')'):'-'}
+            title={`Next Baking in ${data.nextBakeTime}`}
+            value={data.nextBakeHeight?(formatValue(data.nextBakeHeight)+' (+'+formatValue(data.nextBakeHeight-chain.height)+')'):'-'}
           />
           <DataBox
             valueSize="14px"
             valueType="text"
-            title={`Next Endorsing in ${nextTimeEndoresBlock}`}
-            value={account.next_endorse_height?(formatValue(account.next_endorse_height)+' (+'+formatValue(account.next_endorse_height-chain.height)+')'):'-'}
+            title={`Next Endorsing in ${data.nextEndorseTime}`}
+            value={data.nextEndorseHeight?(formatValue(data.nextEndorseHeight)+' (+'+formatValue(data.nextEndorseHeight-chain.height)+')'):'-'}
           />
           <DataBox
             valueSize="14px"
@@ -101,10 +105,10 @@ const BakingRightsTable = ({ account }) => {
           <div>&nbsp;</div>
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween minHeight={170}>
-          <DataBox valueSize="14px" title="Earned Rewards" valueType="currency-smart" value={data.earned} />
-          <DataBox valueSize="14px" title="Stolen Rewards" valueType="currency-smart" value={data.stolen} />
-          <DataBox valueSize="14px" title="Missed Rewards" valueType="currency-smart" value={data.missed} />
-          <DataBox valueSize="14px" title="Slashed Value" valueType="currency-smart" value={data.slashed} />
+          <DataBox valueSize="14px" title="Earned Rewards" valueType="currency" valueOpts={{digits:0}} value={data.earned} />
+          <DataBox valueSize="14px" title="Stolen Rewards" valueType="currency" valueOpts={{digits:0}} value={data.stolen} />
+          <DataBox valueSize="14px" title="Missed Rewards" valueType="currency" valueOpts={{digits:0}} value={data.missed} />
+          <DataBox valueSize="14px" title="Slashed Value" valueType="currency" valueOpts={{digits:0}} value={data.slashed} />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>
     </FlexRowSpaceBetween>
@@ -124,12 +128,10 @@ const wrapData = (rights, startHeight, currentHeight) => {
   let totalBlocks = 4096;
   for (let counter = 1; counter <= totalBlocks; counter++) {
     if (counter % interval === 0 && counter !== 0) {
-      let rang4blocks = data[counter] || [];
-      const blocksInterval = `From ${formatValue(startHeight + counter - interval)} to ${formatValue(
-        startHeight + counter - 1
-      )}`;
-
-      yChartItems.push({ blocks: rang4blocks, interval: blocksInterval });
+      let rang4blocks = data[counter-interval] || [];
+      let isCurrent = (currentHeight>=startHeight + counter - interval) && (currentHeight <= startHeight + counter - 1);
+      const blocksInterval = `From ${formatValue(startHeight + counter - interval)} to ${formatValue(startHeight + counter - 1)}`;
+      yChartItems.push({ blocks: rang4blocks, interval: blocksInterval, isCurrent: isCurrent });
       if (counter % (yScale * interval) === 0) {
         res.push({
           x: counter / (yScale * interval),
@@ -153,8 +155,8 @@ function prepareData(array, startHeight, currentHeight) {
         ...(obj[period] || []),
         {
           index: index,
-          isEndorsed: item[1] === 'endorsing',
-          isBaking: item[1] === 'baking',
+          isEndorsed: item[1] === 'endorsing'&&!item[4],
+          isBaking: item[1] === 'baking'&&!item[5],
           type: item[1],
           height: item[0],
           priority: item[2],
@@ -172,7 +174,7 @@ function prepareData(array, startHeight, currentHeight) {
 }
 
 const PreviousButton = styled.div`
-  color: #83858d;
+  color: #858999;
   font-size: 15px;
   margin-right: 5px;
   margin-top: -3px;
@@ -184,7 +186,7 @@ const PreviousButton = styled.div`
   }
 `;
 const NextButton = styled.div`
-  color: #83858d;
+  color: #858999;
   font-size: 15px;
   margin-left: 5px;
   margin-top: -3px;

@@ -21,6 +21,7 @@ import {
   TableDetails,
 } from './Box';
 import { LinkIcon } from './Controls';
+import { Value } from './DataBox';
 
 export { default as CurrencySelect } from './CurrencySelect';
 export { default as IntervalSelect } from './IntervalSelect';
@@ -61,4 +62,5 @@ export {
   TableRow,
   TableCell,
   TableDetails,
+  Value,
 };

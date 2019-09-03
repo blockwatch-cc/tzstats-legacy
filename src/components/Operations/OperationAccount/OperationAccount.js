@@ -12,12 +12,14 @@ const OperationAccount = ({account, title, onempty}) => {
             hash={account.address}
             isCopy={false}
             short={true}
+            noLink={true}
             typeName={`Last active ${timeAgo.format(new Date(account.last_seen_time))}`}
           />
           <FlexRowSpaceBetween>
             <DataBox
               valueSize="14px"
-              valueType="currency-rounded"
+              valueType="currency"
+              valueOpts={{round:1, digit:-1}}
               title="Current Balance"
               value={account.spendable_balance + account.frozen_deposits}
             />

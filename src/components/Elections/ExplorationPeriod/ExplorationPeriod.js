@@ -4,7 +4,6 @@ import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { proposals } from '../../../config/proposals';
 import { getEndTime, formatValue } from '../../../utils';
 import styled from 'styled-components';
-import StartEndBlock from '../StartEndBlock';
 
 const ExplorationPeriod = ({ period }) => {
   if (!period) {
@@ -14,7 +13,8 @@ const ExplorationPeriod = ({ period }) => {
   const periodSettings = getPeriodSettings(period);
   const proposalSettings = getProposalSettings(period);
   const name = proposals[period.proposals[0].hash] ? proposals[period.proposals[0].hash].name : '';
-  const undecidedRolls = period.eligible_rolls - period.pass_rolls - period.nay_rolls - period.yay_rolls;
+  const undecidedRolls = period.eligible_rolls - period.turnout_rolls;
+  const undecidedVoters = period.eligible_voters - period.turnout_voters;
 
   return (
     <Wrapper>
@@ -23,7 +23,7 @@ const ExplorationPeriod = ({ period }) => {
           <DataBox
             valueType="percent"
             valueSize="14px"
-            title={`Participation ${formatValue(period.turnout_rolls)}`}
+            title={`Participation (${formatValue(period.turnout_rolls)} rolls - ${formatValue(period.turnout_voters)}/${formatValue(period.eligible_voters)} voters)`}
             value={period.turnout_rolls / period.eligible_rolls}
           />
           <DataBox
@@ -41,7 +41,8 @@ const ExplorationPeriod = ({ period }) => {
             <DataBox
               valueType="percent"
               valueSize="14px"
-              title={`YAY Rolls ${formatValue(period.yay_rolls)}`}
+              valueOpts={{suffix:' Yes'}}
+              title={`${formatValue(period.yay_rolls)} rolls - ${formatValue(period.yay_voters)} voters`}
               value={period.yay_rolls / (period.nay_rolls + period.yay_rolls)}
             />
           ) : (
@@ -52,7 +53,8 @@ const ExplorationPeriod = ({ period }) => {
               valueType="percent"
               valueSize="14px"
               ta="right"
-              title={`NAY Rolls ${formatValue(period.nay_rolls)}`}
+              valueOpts={{suffix:' No'}}
+              title={`${formatValue(period.nay_rolls)} rolls - ${formatValue(period.nay_voters)} voters`}
               value={period.nay_rolls / (period.nay_rolls + period.yay_rolls)}
             />
           ) : (
@@ -61,16 +63,20 @@ const ExplorationPeriod = ({ period }) => {
         </FlexRowSpaceBetween>
         <FlexRowSpaceBetween mt={30}>
           <DataBox
-            title={`PASS Rolls ${((period.pass_rolls / period.eligible_rolls) * 100).toFixed()}%`}
+            valueType="percent"
             valueSize="14px"
-            value={period.pass_rolls}
+            valueOpts={{suffix:' Pass'}}
+            title={`${formatValue(period.pass_rolls)} rolls - ${formatValue(period.pass_voters)} voters`}
+            value={period.pass_rolls / period.eligible_rolls}
           />
           <DataBox
-            title={`Undecided Rolls ${((undecidedRolls / period.eligible_rolls) * 100).toFixed()}%`}
+            ta="right"
+            valueType="percent"
             valueSize="14px"
-            value={undecidedRolls}
+            valueOpts={{suffix:' Undecided'}}
+            title={`${formatValue(undecidedRolls)} rolls - ${formatValue(undecidedVoters)} voters`}
+            value={undecidedRolls / period.eligible_rolls}
           />
-          <StartEndBlock period={period} />
         </FlexRowSpaceBetween>
       </Card>
     </Wrapper>
