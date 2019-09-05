@@ -185,5 +185,6 @@ export const bakerAccounts = {
   "tz1KfEsrtDaA1sX7vdM4qmEPWuSytuqCDp5j": { name: "XTZMaster", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1eZwq8b5cvE2bPKokatLkVMzkxz24z3Don": { name: "You loaf We bake", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1L3vFD8mFzBaS8yLHFsd7qDJY1t276Dh8i": { name: "Zed Node", logo: null, link: "", fee_type: "", fee: 0 },
-  "tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE": { name: "ØCrypto Pool", logo: null, link: "", fee_type: "", fee: 0 }
+  "tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE": { name: "ØCrypto Pool", logo: null, link: "", fee_type: "", fee: 0 },
+  "tz1g8vkmcde6sWKaG2NN9WKzCkDM6Rziq194": { name: "StakeNow", logo: null, link: "", fee_type: "", fee: 0 }
 };
