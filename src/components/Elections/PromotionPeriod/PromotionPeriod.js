@@ -5,9 +5,9 @@ import { proposals } from '../../../config/proposals';
 import { getEndTime, formatValue } from '../../../utils';
 import styled from 'styled-components';
 
-const PromotionPeriod = ({ period }) => {
+const PromotionPeriod = ({ election, period }) => {
   if (!period) {
-    return (<Wrapper><EmptyData title={'4 Promotion period not started'} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'4 Promotion period not started'} text={election.is_open?`Approximately ${getEndTime(election, 'end_time')}`:''} /></Wrapper>);
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);
@@ -18,7 +18,7 @@ const PromotionPeriod = ({ period }) => {
 
   return (
     <Wrapper>
-      <Card title={`4 Promotion Vote Period for ${name} ${endTime}`}>
+      <Card title={`4 Promotion Vote Period ${endTime}`}>
         <FlexRowSpaceBetween mb={'5px'}>
           <DataBox
             valueType="percent"

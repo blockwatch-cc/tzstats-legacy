@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, FlexRowSpaceBetween, EmptyData } from '../../Common';
+import { Card, FlexRowSpaceBetween, FlexColumnSpaceAround, FlexColumnSpaceBetween, EmptyData } from '../../Common';
 import { getEndTime } from '../../../utils';
 import { proposals } from '../../../config/proposals';
 
@@ -14,17 +14,18 @@ const TestingPeriod = ({ period }) => {
     : { name: '', link: '', archive: '' };
   return (
     <Wrapper>
-      <Card title={`3 Testing period for ${proposalDetails.name} ${endTime}`}>
-        <Content>Proposed upgrade investigated by the community.</Content>
-
-        <a style={{ fontSize: 12 }} target="_blank" rel="noopener noreferrer" href={proposalDetails.link}>
-          {proposalDetails.link}
-        </a>
-        <a style={{ fontSize: 12, marginBottom: 70 }} target="_blank" rel="noopener noreferrer" href={proposalDetails.archive}>
-          {proposalDetails.archive}
-        </a>
-
-        <FlexRowSpaceBetween mt={30}>
+      <Card title={`3 Testing period ${endTime}`}>
+        <FlexColumnSpaceAround minHeight={172}>
+        <Content>{proposalDetails.name} upgrade is investigated by the community.</Content>
+        <Content>See the following links for details.</Content>
+        <Content>
+          <a style={{ fontSize: 12 }} target="_blank" rel="noopener noreferrer" href={proposalDetails.link}>
+        {proposalDetails.link}</a><br/>
+          <a style={{ fontSize: 12 }} target="_blank" rel="noopener noreferrer" href={proposalDetails.archive}>
+          {proposalDetails.archive}</a>
+        </Content>
+        </FlexColumnSpaceAround>
+        <FlexRowSpaceBetween>
           <div></div>
         </FlexRowSpaceBetween>
       </Card>
@@ -38,8 +39,10 @@ const Wrapper = styled.div`
   margin: 0 5px;
   font-size: 14px;
 `;
-const Content = styled.div`
-  margin-bottom: 22px;
+const Content = styled.p`
+  font-size: 12px;
+  line-height: 1.4;
+  flex: 1;
 `;
 
 export default TestingPeriod;

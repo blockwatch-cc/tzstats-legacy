@@ -37,7 +37,7 @@ const ElectionPage = ({ match }) => {
       </TwoElementsWrapper>
       <TwoElementsWrapper>
         <TestingPeriod period={data.election.testing} />
-        <PromotionPeriod period={data.election.promotion_vote} />
+        <PromotionPeriod period={data.election.promotion_vote} election={data.election} />
       </TwoElementsWrapper>
     </Wrapper>
   ) : (

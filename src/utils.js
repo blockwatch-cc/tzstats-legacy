@@ -16,10 +16,11 @@ export function formatDayTime(ts, fullyear, noweekday) {
   return timeFormat(noweekday?fmt:'%a '+fmt)(d);
 }
 
-export function formatDay(ts) {
+export function formatDay(ts, fullyear, noweekday) {
   const d = new Date(ts);
   const isThisYear = d.getFullYear()===(new Date()).getFullYear();
-  return timeFormat(isThisYear?'%a %b %d':'%a %b %d, %Y')(d);
+  const fmt = (!fullyear&&isThisYear)?'%b %d':'%b %d, %Y';
+  return timeFormat(noweekday?fmt:'%a '+fmt)(d);
 }
 
 export function formatTime(ts) {
@@ -36,10 +37,9 @@ export function convertMinutes(num) {
     res.push(d + 'd');
   }
   if (h > 0) {
-    res.push(h + 'h');
+    res.push(h+(d>0&&m>0?1:0) + 'h');
   }
-
-  if (m > 0 || (d === 0 && h === 0 && m === 0)) {
+  if ((d === 0 && m > 0) || (d === 0 && h === 0 && m === 0)) {
     res.push(m + 'm');
   }
   return res.join(' ');
@@ -325,10 +325,11 @@ export function getNetworkHealthStatus(value) {
     : { name: 'Excellent', value: 6 };
 }
 
-export function getEndTime(period) {
+export function getEndTime(period, field) {
+  field = field || 'period_end_time';
   return period.is_open
-    ? `ends in ${convertMinutes((new Date(period.period_end_time) - Date.now()) / 60000)}`
-    : 'has ended';
+    ? `ends on ${formatDay(period[field], 1, 1)} (+${convertMinutes((new Date(period[field]).getTime()/ 60000 - Date.now()/ 60000) )})`
+    : `has ended on ${formatDay(period[field], 1, 1)}`;
 }
 export function getProposalIdByName(value) {
   const hashes = Object.keys(proposals).filter(key => {
