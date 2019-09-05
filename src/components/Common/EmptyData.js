@@ -23,4 +23,6 @@ export default EmptyData;
 
 const Info = styled.div`
   font-size: 12px;
+  text-align: center;
+  margin-top: -15px;
 `;
