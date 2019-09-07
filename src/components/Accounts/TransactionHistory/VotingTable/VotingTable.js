@@ -2,7 +2,7 @@ import React from 'react';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { getProposaNameByHash, capitalizeFirstLetter, formatValue, formatDayTime, getShortHash } from '../../../../utils';
+import { getProposalByHash, capitalizeFirstLetter, formatValue, formatDayTime, getShortHash } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Spiner } from '../../../../components/Common';
 import { Link } from 'react-router-dom';
@@ -73,7 +73,7 @@ const VotingTable = ({ account }) => {
               return (
                 <TableRow key={i}>
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
-                  <TableCell width={15}><Link to={`/election/${item.election_id}`}>{getProposaNameByHash(item.proposal)}</Link></TableCell>
+                  <TableCell width={15}><Link to={`/election/${item.election_id}`}>{getProposalByHash(item.proposal).name}</Link></TableCell>
                   <TableCell width={10}>{capitalizeFirstLetter(item.voting_period_kind).replace('_vote', '')}</TableCell>
                   <TableCell width={10}>{item.ballot.toUpperCase() || '-'}</TableCell>
                   <TableCell width={10}>{formatValue(item.rolls)}</TableCell>

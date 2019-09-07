@@ -325,10 +325,10 @@ export function getNetworkHealthStatus(value) {
     : { name: 'Excellent', value: 6 };
 }
 
-export function getEndTime(period, field) {
+export function getEndTime(period, field, noDetail) {
   field = field || 'period_end_time';
   return period.is_open
-    ? `ends on ${formatDay(period[field], 1, 1)} (+${convertMinutes((new Date(period[field]).getTime()/ 60000 - Date.now()/ 60000) )})`
+    ? `ends on ${formatDay(period[field], 1, 1)}` + (noDetail?'':` (+${convertMinutes((new Date(period[field]).getTime()/ 60000 - Date.now()/ 60000) )})`)
     : `has ended on ${formatDay(period[field], 1, 1)}`;
 }
 export function getProposalIdByName(value) {
@@ -337,11 +337,11 @@ export function getProposalIdByName(value) {
   });
   return hashes[0] ? proposals[hashes[0]].id : null;
 }
-export function getProposaNameByHash(value) {
+export function getProposalByHash(value) {
   const hashes = Object.keys(proposals).filter(key => {
     return key.includes(value);
   });
-  return hashes[0] ? proposals[hashes[0]].name : null;
+  return hashes[0] ? proposals[hashes[0]] : null;
 }
 
 export function getBakerHashByName(value) {

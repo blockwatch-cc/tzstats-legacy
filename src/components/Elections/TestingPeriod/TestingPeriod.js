@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, FlexRowSpaceBetween, FlexColumnSpaceAround, FlexColumnSpaceBetween, EmptyData } from '../../Common';
+import { Card, FlexRowSpaceBetween, FlexColumnSpaceAround, EmptyData } from '../../Common';
 import { getEndTime } from '../../../utils';
 import { proposals } from '../../../config/proposals';
 

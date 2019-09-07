@@ -2,7 +2,7 @@ import React from 'react';
 
 const PrivacyPage = ({ match }) => {
   return (
-    <div class="result">
+    <div className="result">
       <h1>TzStats Privacy Policy</h1>
       <p>
         <em>last revised: July 28, 2019</em>

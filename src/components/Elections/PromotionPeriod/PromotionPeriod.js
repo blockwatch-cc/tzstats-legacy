@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, FlexRowSpaceBetween, DataBox, EmptyData } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
-import { proposals } from '../../../config/proposals';
+// import { proposals } from '../../../config/proposals';
 import { getEndTime, formatValue } from '../../../utils';
 import styled from 'styled-components';
 
@@ -12,7 +12,7 @@ const PromotionPeriod = ({ election, period }) => {
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);
   const proposalSettings = getProposalSettings(period);
-  const name = proposals[period.proposals[0].hash] ? proposals[period.proposals[0].hash].name : '';
+  // const name = proposals[period.proposals[0].hash] ? proposals[period.proposals[0].hash].name : '';
   const undecidedRolls = period.eligible_rolls - period.turnout_rolls;
   const undecidedVoters = period.eligible_voters - period.turnout_voters;
 

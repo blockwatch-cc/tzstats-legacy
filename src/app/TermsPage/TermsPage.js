@@ -2,7 +2,7 @@ import React from 'react';
 
 const TermsPage = ({ match }) => {
   return (
-    <div class="result">
+    <div className="result">
       <h1>TzStats Terms of Service</h1>
       <p>
         <em>last revised: July 28, 2019</em>
@@ -269,7 +269,7 @@ const TermsPage = ({ match }) => {
       </ul>
       <p>Our agent for notice of claims of copyright infringement can be reached as follows:</p>
       <pre>
-        <code class="language-null">
+        <code className="language-null">
           Copyright Agent Alexander Eichhorn KIDTSUNAMI UG Kluckstrasse 36 10785 Berlin Germany info@tzstats.com
         </code>
       </pre>

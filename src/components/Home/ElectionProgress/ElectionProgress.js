@@ -1,29 +1,80 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRowSpaceBetween } from '../../Common';
+import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceAround } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
-import { getEndTime } from '../../../utils';
+import { getEndTime, getProposalByHash } from '../../../utils';
+import { govNames } from '../../../config';
+import _ from 'lodash';
 
 const ElectionProgress = ({ election }) => {
-  let period = currentPeriod(election);
-  let settings = getPeriodSettings(period);
-  const endTime = getEndTime(period);
-
-  let title = `${period.title} Period  ${endTime}`;
+  const period = election[election.voting_period];
+  const endTime = getEndTime(period,0,1);
+  const title = `${govNames[election.num_periods]} Period  ${endTime}`;
   return (
     <Wrapper>
-      <Card title={title}>
-        <FlexRowSpaceBetween>
-          <DataBox value={period.turnout_rolls} />
-          <DataBox value={period.eligible_rolls} />
-        </FlexRowSpaceBetween>
-        <HorizontalProgressBar settings={settings} />
-        <FlexRowSpaceBetween>
-          <DataBox title={`Participation Rolls ${((100 * period.turnout_rolls) / period.eligible_rolls).toFixed(2)}% (${period.quorum_pct}%)`}  />
-          <DataBox title={`Maximum Rolls`} />
-        </FlexRowSpaceBetween>
+      <Card title={title} mh={120}>
+        <FlexColumnSpaceAround flex={1}>
+          <GovSwitcher period={period} election={election}/>
+        </FlexColumnSpaceAround>
       </Card>
     </Wrapper>
+  );
+};
+
+const GovSwitcher = ({ period, election }) => {
+  switch (period.voting_period_kind) {
+    case 'proposal':
+      return <Proposal period={period} />;
+    case 'testing_vote':
+      return <Vote period={period} />;
+    case 'testing':
+      return <Testing period={period} election={election} />;
+    case 'promotion_vote':
+      return <Vote period={period} />;
+    default:
+      return <></>;
+  }
+};
+
+const Proposal = ({ period }) => {
+  const prop = _.maxBy(period.proposals, d => d.rolls);
+  const lead = prop?getProposalByHash(prop.hash):{};
+  return (
+    <FlexRowSpaceBetween>
+      <DataBox valueSize="14px" title={`Proposals`} value={period.proposals.length} />
+      <DataBox valueSize="14px" title={`Participation`} valueType="percent" value={period.turnout_rolls / period.eligible_rolls} />
+      <DataBox valueSize="14px" title={`Leading`} valueType="text" value={lead.name||'-'} />
+    </FlexRowSpaceBetween>
+  );
+};
+
+const Testing = ({ period, election }) => {
+  const proposal = getProposalByHash(period.proposals[0].hash)
+  return (
+    <FlexRowSpaceBetween>
+      <OutLink target="_blank" rel="noopener noreferrer" href={proposal.link}>
+        <DataBox valueSize="14px" title={`Proposal`} valueType="text" value={proposal.name} />
+      </OutLink>
+      <DataBox valueSize="14px" title={`Participation`} valueType="percent" value={election["testing_vote"].turnout_rolls / election["testing_vote"].eligible_rolls} />
+      <DataBox valueSize="14px" title={`Acceptance`} valueType="percent" value={election["testing_vote"].yay_rolls / (election["testing_vote"].yay_rolls+election["testing_vote"].nay_rolls)} />
+    </FlexRowSpaceBetween>
+  );
+};
+
+const Vote = ({ period }) => {
+  let settings = getPeriodSettings(period);
+  return (
+    <>
+      <FlexRowSpaceBetween>
+        <DataBox value={period.turnout_rolls} />
+        <DataBox value={period.eligible_rolls} />
+      </FlexRowSpaceBetween>
+      <HorizontalProgressBar settings={settings} />
+      <FlexRowSpaceBetween>
+        <DataBox title={`Participating Rolls (${((100 * period.turnout_rolls) / period.eligible_rolls).toFixed(2)}% / ${period.quorum_pct}%)`}  />
+        <DataBox title={`Maximum Rolls`} />
+      </FlexRowSpaceBetween>
+    </>
   );
 };
 
@@ -33,30 +84,14 @@ const Wrapper = styled.div`
   margin: 0 5px;
 `;
 
-function currentPeriod(election) {
-  if (election.promotion_vote) {
-    election.promotion_vote['title'] = 'Promotion Vote';
-    return election.promotion_vote;
-  }
-  if (election.testing) {
-    election.testing['title'] = 'Testing';
-    return election.testing;
-  }
-  if (election.testing_vote) {
-    election.testing_vote['title'] = 'Exploration Vote';
-    return election.testing_vote;
-  }
-  if (election.proposal) {
-    election.proposal['title'] = 'Proposal';
-    return election.proposal;
-  }
-}
+const OutLink = styled.a``;
+
 function getPeriodSettings(period) {
   return [
     {
       percent: (period.turnout_rolls / period.eligible_rolls) * 100,
       color: '#19f3f9',
-      title: 'Participation Rolls',
+      title: 'Participating Rolls',
       value: period.turnout_rolls,
     },
     {

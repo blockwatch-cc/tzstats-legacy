@@ -27,12 +27,12 @@ const ProposalPeriod = ({ period }) => {
             return (
               <TableRow key={i}>
                 <TableCell width={20}>
-                  <OutLink target="_blank" href={proposals[item.hash].link}>
+                  <OutLink target="_blank" rel="noopener noreferrer" href={proposals[item.hash].link}>
                     {proposals[item.hash].name.split(" ").slice(-1)}
                   </OutLink>
                 </TableCell>
                 <TableCell width={30}>
-                  <OutLink target="_blank" href={proposals[item.hash].archive}>
+                  <OutLink target="_blank" rel="noopener noreferrer" href={proposals[item.hash].archive}>
                     {getShortHash(item.hash)}
                   </OutLink>
                 </TableCell>

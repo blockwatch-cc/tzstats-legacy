@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Tag from './Tag';
-const Card = ({ title, tags = [], right, children, to = null }) => {
+const Card = ({ title, tags = [], right, children, to = null, mh = null }) => {
   return (
-    <Wrapper isClickable={to}>
+    <Wrapper isClickable={to} mh={mh}>
       {to ? (
         <Link to={to}>
           <LinkIcon>&#x25E5;</LinkIcon>
@@ -52,6 +52,7 @@ const Wrapper = styled.div`
   border-radius: 2px;
   background-color: ${props => (props.isClickable ? '#3D404D' : '#444755')};
   cursor: ${props => (props.isClickable ? 'pointer' : 'default')};
+  min-height: ${props => (props.mh ? props.mh:0)}px;
   padding: 20px 30px;
   margin-top: 10px;
   position: relative;

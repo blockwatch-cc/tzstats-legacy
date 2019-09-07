@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, FlexRowSpaceBetween } from '../../Common';
+import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceAround } from '../../Common';
 import { useGlobal } from 'reactn';
 
 const StakingInfo = () => {
@@ -9,6 +9,7 @@ const StakingInfo = () => {
   return (
     <Wrapper>
       <Card title={`Staking Activity`}>
+        <FlexColumnSpaceAround flex={1}>
         <FlexRowSpaceBetween mb={'5px'}>
           <DataBox
             title="Staking Ratio"
@@ -34,6 +35,7 @@ const StakingInfo = () => {
             value={chain.roll_owners}
           />
         </FlexRowSpaceBetween>
+        </FlexColumnSpaceAround>
       </Card>
     </Wrapper>
   );
