@@ -88,21 +88,22 @@ const AccountInfo = ({ account }) => {
 
 function getStakingCapacity(account, chain) {
   return (
-    ((account.spendable_balance + account.frozen_deposits) / ((2560 * 4096 * 5) / chain.supply.total)) *
-    ((chain.rolls * 8000) / chain.supply.total)
+    (account.spendable_balance + account.frozen_deposits) * chain.rolls * 8000 / (2560 * 4096 * 5)
   );
 }
 function getStakingSettings(totalStaking, stakingCapacity) {
   stakingCapacity = stakingCapacity || 1;
+  let stakingPct = Math.round(10000 * totalStaking / stakingCapacity)/100;
+  stakingPct = stakingPct>100?100:stakingPct;
   return [
     {
-      percent: (100 * totalStaking) / stakingCapacity,
+      percent: stakingPct,
       color: '#418BFD',
       title: 'In Staking',
       value: `${totalStaking}`,
     },
     {
-      percent: (100 * (stakingCapacity-totalStaking)) / stakingCapacity,
+      percent: 100-stakingPct,
       color: '#858999;',
       title: 'Staking Capacity',
       value: `${stakingCapacity}`,

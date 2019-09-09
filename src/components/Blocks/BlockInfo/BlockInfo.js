@@ -25,20 +25,19 @@ const BlockInfo = ({ block, setTxType }) => {
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180}>
               <FlexRowWrap minWidth={250}>
-                <DataBox valueSize="16px" title={`Backed on ${formatDayTime(block.time)}`} value={block.height} />
+                <DataBox valueSize="16px" title={`Baked on ${formatDayTime(block.time)}`} value={block.height} />
                 <Link to={`/cycle/${block.cycle}`}><DataBox valueSize="16px" ml={30} title="Cycle" value={block.cycle} /></Link>
               </FlexRowWrap>
               <HashedBox hash={block.baker} isCopy={false} short={true} typeName={'Baker'} />
               <FlexColumn>
                 <FlexRowWrap width={192} mb={'2px'}>
-                  {slots.map((item, i) => {
+                  {block.endorsers ? slots.map((item, i) => {
                     return (
-                      <Link to={`/account/${block.endorsers[i]}`}><Slot key={i} color={item}>
-                        {item === 0 ? i+1 : ''}
-                      </Slot>
+                      <Link to={`/account/${block.endorsers[i]}`}>
+                        <Slot key={i} color={item}>{item === 0 ? i+1 : ''}</Slot>
                       </Link>
                     );
-                  })}
+                  }) : 'No Endorsers for this block' }
                 </FlexRowWrap>
                 <DataBox title="Slots Endorsed" />
               </FlexColumn>

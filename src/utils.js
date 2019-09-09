@@ -64,10 +64,8 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
     return 0 + ' ' + symbol;
   }
   return prefix === ','
-    ? `${format(prefix)(value)} ${symbol}`
-    : format(prefix)(value)
-      .replace(/(.*)([MkGmµ])$/, '$1 $2')
-      .replace(/(.*)(?:[^MkGmµ])$/, '$1 ') + symbol;
+    ? format(prefix)(value) + ' ' + symbol
+    : (format(prefix)(value)+ symbol).replace(/([0-9.]*)(.*)$/, '$1 $2');
 }
 
 export function formatCurrencyShort(value) {
@@ -167,7 +165,8 @@ export function fixPercent(settings) {
 
 export function getShortHash(hash) {
   if (hash === null) { return 'none'; }
-  return hash?`${hash.slice(0, 3)}...${hash.slice(-4)}`:'-';
+  // return hash?`${hash.slice(0, 3)}...${hash.slice(-4)}`:'-';
+  return hash?`${hash.slice(0, 7)}...`:'-';
 }
 
 export function getShortHashOrBakerName(hash) {

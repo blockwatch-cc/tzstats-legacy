@@ -23,7 +23,7 @@ const BlockTxChart = ({ block, setTxType }) => {
       </FlexRowSpaceBetween>
       <FlexRowSpaceBetween  minHeight={40} alignItems={'flex-end'} >
           <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transaction Volume" value={block.volume} />
-          <DataBox ta={"center"} valueSize="16px" valueType="value-full" title="Days destroyed" value={block.days_destroyed} />
+          <DataBox ta={"center"} valueSize="16px" valueType="value-full" title="Coin Days Destroyed" value={block.days_destroyed} />
       </FlexRowSpaceBetween>
     </Wrapper>
   );

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const PromotionPeriod = ({ election, period }) => {
   if (!period) {
-    return (<Wrapper><EmptyData title={'4 Promotion period not started'} text={election.is_open?`Approximately ${getEndTime(election, 'end_time')}`:''} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'4 Promotion period not started'} text={election.is_open?`Approximately ${getEndTime(election, 'end_time')}`:''} mh={250} /></Wrapper>);
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);
@@ -18,7 +18,7 @@ const PromotionPeriod = ({ election, period }) => {
 
   return (
     <Wrapper>
-      <Card title={`4 Promotion Vote Period ${endTime}`}>
+      <Card title={`4 Promotion Vote Period ${endTime}`} mh={250}>
         <FlexRowSpaceBetween mb={'5px'}>
           <DataBox
             valueType="percent"
@@ -61,7 +61,7 @@ const PromotionPeriod = ({ election, period }) => {
             ''
           )}
         </FlexRowSpaceBetween>
-        <FlexRowSpaceBetween mt={25}>
+        <FlexRowSpaceBetween flex={1} alignItems="flex-end" >
           <DataBox
             valueType="percent"
             valueSize="14px"

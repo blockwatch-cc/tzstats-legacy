@@ -14,7 +14,7 @@ const HorizontalProgressBar = ({ settings, delimiter, height = 15 }) => {
   );
 };
 const Delimiter = styled.span`
-  height: 25px;
+  height: 100%;
   z-index: 10;
   width: 1px;
   background: #424552;
@@ -22,16 +22,21 @@ const Delimiter = styled.span`
   left: ${props => props.delimiter}%;
 `;
 const ProgressBarWrapper = styled.div`
-  height: 25px;
+  font-size: 0;
   border-radius: 2px;
   width: 100%;
   background: inherit;
   position: relative;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  &+&{
+    margin-top: 7px;
+  }
 `;
 const ProgressBarItems = styled.div`
   background: ${prop => prop.color};
   width: calc(${prop =>
-    prop.percent < 1 && prop.percent > 0 ? 1 : prop.percent > 99 && prop.percent !== 100 ? 99 : prop.percent}% - 1px);
+    prop.percent < 1 && prop.percent > 0 ? 1 : prop.percent > 99 && prop.percent !== 100 ? 99 : prop.percent}%);
   border-right: 1px solid #424552;
   display: inline-block;
   min-height: ${props => props.height}px;

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const ExplorationPeriod = ({ period }) => {
   if (!period) {
-    return (<Wrapper><EmptyData title={'2 Exploration period not started'} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'2 Exploration period not started'} mh={250} /></Wrapper>);
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);
@@ -18,7 +18,7 @@ const ExplorationPeriod = ({ period }) => {
 
   return (
     <Wrapper>
-      <Card title={`2 Exploration Vote Period ${endTime}`}>
+      <Card title={`2 Exploration Vote Period ${endTime}`} mh={250}>
         <FlexRowSpaceBetween mb={'5px'}>
           <DataBox
             valueType="percent"
@@ -61,7 +61,7 @@ const ExplorationPeriod = ({ period }) => {
             ''
           )}
         </FlexRowSpaceBetween>
-        <FlexRowSpaceBetween mt={30}>
+        <FlexRowSpaceBetween flex={1} alignItems="flex-end">
           <DataBox
             valueType="percent"
             valueSize="14px"

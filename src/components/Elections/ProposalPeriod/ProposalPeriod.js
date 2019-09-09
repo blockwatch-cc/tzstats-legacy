@@ -9,13 +9,13 @@ import { proposals } from '../../../config/proposals';
 
 const ProposalPeriod = ({ period }) => {
   if (!period.proposals.length) {
-    return (<Wrapper><EmptyData title={'1 No proposal was submitted'} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'1 No proposal was submitted'} mh={250}/></Wrapper>);
   }
   const endTime = getEndTime(period);
 
   return (
     <Wrapper>
-      <Card title={`1 Proposal Period ${endTime}`}>
+      <Card title={`1 Proposal Period ${endTime}`} mh={250}>
         <TableHeader>
           <TableHeaderCell width={20}>Proposal</TableHeaderCell>
           <TableHeaderCell width={30}>Hash</TableHeaderCell>
@@ -45,7 +45,7 @@ const ProposalPeriod = ({ period }) => {
             );
           })}
         </TableBody>
-        <FlexRowSpaceBetween>
+        <FlexRowSpaceBetween flex={1} alignItems="flex-end">
           <DataBox
             valueType="percent"
             valueSize="14px"

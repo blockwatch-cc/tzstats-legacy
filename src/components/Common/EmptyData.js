@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import Card from './Card';
 import { FlexColumnSpaceAround } from './index';
 
-const EmptyData = ({ title = 'Something went wrong', height, text }) => {
+const EmptyData = ({ title = 'Something went wrong', height, text, mh }) => {
   return (
-      <Card title={title}>
+      <Card title={title} mh={mh}>
         <FlexColumnSpaceAround height={height}>
           <div style={{ fontSize: 18, margin: '40px auto', opacity: 0.3}}>
             <div>&nbsp;&nbsp;&nbsp;^-^</div>

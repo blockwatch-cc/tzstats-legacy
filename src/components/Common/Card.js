@@ -61,12 +61,12 @@ const CardHeader = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
 `;
 const Title = styled.div`
   font-size: 12px;
   color: #fff;
-  line-height: 1.2rem;
-  padding-bottom: 10px;
 `;
 const RightSide = styled.div`
   font-size: 12px;

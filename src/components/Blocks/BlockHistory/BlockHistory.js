@@ -12,7 +12,7 @@ const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
   return (
     <Wrapper>
       <Card title={'Block History'}>
-        <FlexRow mt={60}>
+        <FlexRow mt={70}>
           <BlockHistoryWrapper>
             {/* <PreviousBlockButton onClick={e => console.log(-60)}>&#9664;</PreviousBlockButton> */}
             <BlockChart blockHistory={blockHistory} currentBlock={currentBlock} />

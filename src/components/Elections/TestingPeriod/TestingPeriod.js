@@ -6,7 +6,7 @@ import { proposals } from '../../../config/proposals';
 
 const TestingPeriod = ({ period }) => {
   if (!period) {
-    return (<Wrapper><EmptyData title={'3 Testing period not started'} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'3 Testing period not started'}  mh={250}/></Wrapper>);
   }
   const endTime = getEndTime(period);
   const proposalDetails = proposals[period.proposals[0].hash]
@@ -14,7 +14,7 @@ const TestingPeriod = ({ period }) => {
     : { name: '', link: '', archive: '' };
   return (
     <Wrapper>
-      <Card title={`3 Testing period ${endTime}`}>
+      <Card title={`3 Testing period ${endTime}`} mh={250}>
         <FlexColumnSpaceAround minHeight={172}>
         <Content>{proposalDetails.name} upgrade is investigated by the community.</Content>
         <Content>See the following links for details.</Content>
@@ -25,7 +25,7 @@ const TestingPeriod = ({ period }) => {
           {proposalDetails.archive}</a>
         </Content>
         </FlexColumnSpaceAround>
-        <FlexRowSpaceBetween>
+        <FlexRowSpaceBetween flex={1} alignItems="flex-end">
           <div></div>
         </FlexRowSpaceBetween>
       </Card>
