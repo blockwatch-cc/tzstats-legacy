@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, FlexColumnSpaceBetween, FlexRow, FlexColumn, FlexRowWrap, Spiner } from '../../Common';
+import { Card, DataBox, FlexRow, FlexColumn, FlexRowWrap, Spiner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
@@ -36,27 +36,23 @@ const Endorsement = ({ op }) => {
       <OperationAccount title={'Sender'} account={data.sender}/>
       <Wrapper>
         <Card title={`${opNames[op.type]}`}>
-          <FlexRow height={80}>
-            <TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
-            <FlexColumnSpaceBetween flex={1}>
+          <FlexRow height={80} alignItems="center">
+            <TxTypeIcon fontSize={50} mr={30} type={op.type} isSuccess={op.is_success} />
               <FlexRow>
                 <Link to={`/block/${op.height-1}`}><DataBox title="Block Endorsed" valueSize="14px" value={op.height-1}/></Link>
-                <DataBox title="Deposit" ml={40} value={op.deposit} valueSize="14px" valueType="currency-short" />
-                <DataBox title="Reward" ml={40} value={op.reward} valueSize="14px" valueType="currency-short" />
+                <DataBox title="Deposit" ml={30} value={op.deposit} valueSize="14px" valueType="currency-short" />
+                <DataBox title="Reward" ml={30} value={op.reward} valueSize="14px" valueType="currency-short" />
               </FlexRow>
-              <FlexRow>
-				<FlexColumn>
-					<FlexRowWrap width={192} mb={'2px'}>
-					{data.allslots.map((item, i) => {
-					  return (
-					    <Slot key={i} color={data.opslots[i]?white:item?blue:grey}/>
-					  );
-					})}
-					</FlexRowWrap>
-					<DataBox title={`Slots Endorsed (${data.opslots.map((s,i)=>i).filter(s=>data.opslots[s]).reverse().map(s=>s+1).join(', ')})`} />
-				</FlexColumn>
-              </FlexRow>
-            </FlexColumnSpaceBetween>
+            <FlexColumn flex={1} ml={30}>
+    					<FlexRowWrap width={192} mb={'2px'}>
+    					{data.allslots.map((item, i) => {
+    					  return (
+    					    <Slot key={i} color={data.opslots[i]?white:item?blue:grey}/>
+    					  );
+    					})}
+    					</FlexRowWrap>
+    					<DataBox title={`Slots Endorsed (${data.opslots.map((s,i)=>i).filter(s=>data.opslots[s]).reverse().map(s=>s+1).join(', ')})`} />
+            </FlexColumn>
           </FlexRow>
         </Card>
       </Wrapper>

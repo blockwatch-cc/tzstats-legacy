@@ -120,6 +120,8 @@ const Icon = styled.span`
   font-weight: 300;
   color: ${prop => prop.color};
   margin-right: ${prop => prop.mr||3}px;
+  display: flex;
+  align-items: center;
 `;
 
 export default TxTypeIcon;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, FlexColumnSpaceAround, FlexRow, Spiner } from '../../Common';
+import { Card, DataBox, FlexRow, Spiner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
@@ -32,13 +32,9 @@ const Delegation = ({ op }) => {
       <OperationAccount title={'Sender'} account={data.sender}/>
       <Wrapper>
         <Card title={`${opNames[op.type]}`}>
-          <FlexRow height={80}>
-            <FlexColumnSpaceAround>
-              <TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
-            </FlexColumnSpaceAround>
-            <FlexColumnSpaceAround flex={1}>
-              <DataBox title="Fee" value={op.fee} valueSize="14px" valueType="currency-short" />
-            </FlexColumnSpaceAround>
+          <FlexRow height={80} alignItems="center">
+            <TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
+            <DataBox title="Fee" value={op.fee} valueSize="14px" valueType="currency-short" />
           </FlexRow>
         </Card>
       </Wrapper>
