@@ -13,7 +13,7 @@ const CycleSnapshotInfo = ({ cycle }) => {
               <Link to={`/block/${cycle.snapshot_cycle.snapshot_height}`}>
                 <DataBox title="Block" value={cycle.snapshot_cycle.snapshot_height} />
               </Link>
-              <DataBox title="Participation" valueType="percent" value={cycle.snapshot_cycle.staking_percent/100} />
+              <DataBox title="Staking Ratio" valueType="percent" value={cycle.snapshot_cycle.staking_percent/100} />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
               <Link to={`/cycle/${cycle.snapshot_cycle.cycle}`}>

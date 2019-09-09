@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
-import Colors from '../../components/Common/Colors';
 import Sidebar from '../../components/Layout/Sidebar';
 import Searchbar from '../../components/Layout/Searchbar';
 import Footer from '../../components/Layout/Footer';
@@ -23,7 +22,6 @@ function Layout({ children }) {
 const Wrapper = styled.div`
   height: 100%;
   display: flex;
-  background-color: ${Colors.MAIN_BACKGROUND};
 `;
 const Content = styled.div`
   flex: 1;
@@ -38,7 +36,6 @@ const MainPanel = styled.main`
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: scroll;
   padding 10px;
   align-items: left;
   max-width: 930px;

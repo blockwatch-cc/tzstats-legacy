@@ -47,7 +47,8 @@ const Wrrapper = styled.div`
   padding: 10px;
   max-height: 220px;
   z-index: 1000;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: absolute;
   top: 55px;
   width: ${props => props.width}px;
