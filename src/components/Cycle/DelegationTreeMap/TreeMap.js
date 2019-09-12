@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
+import history from "../../../hooks/history";
 
 class Chart extends Component {
   componentDidMount() {
@@ -108,7 +109,7 @@ class Chart extends Component {
         tooltip.style('display', 'none');
       })
       .on('click', function(d) {
-        window.location.href = '/account/' + d.data.address;
+        history.push('/account/' + d.data.address);
       });
     const accountStr = cell
       .append('text')
