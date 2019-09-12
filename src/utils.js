@@ -233,15 +233,6 @@ export function convertToTitle(str) {
     .map(r => capitalizeFirstLetter(r))
     .join(' ');
 }
-export function getSearchType(searchValue) {
-  return searchValue[0] === 'o'
-    ? 'operation'
-    : searchValue[0] === 'B' || parseInt(searchValue)
-    ? 'block'
-    : searchValue[0] === 'P'
-    ? 'election'
-    : 'account';
-}
 
 export function getBlockTags(block) {
   let tags = [];
@@ -350,18 +341,29 @@ export function getBakerHashByName(value) {
   });
   return baker[0]||null;
 }
-export function findBakerName(value) {
-  value = value.toLowerCase();
-  const bakers = Object.keys(bakerAccounts).filter(key => {
-    return bakerAccounts[key].name.toLowerCase().includes(value);
-  });
-  return bakers[0];
+
+export function searchBakers(value) {
+  let lvalue = value.toLowerCase();
+  return Object.keys(bakerAccounts).filter(key => {
+    return key.includes(value) || bakerAccounts[key].name.toLowerCase().includes(lvalue);
+  }).reduce((acc, key) => {
+    let c = bakerAccounts[key];
+    c.key = key;
+    acc.push(c);
+    return acc;
+  }, []).sort((a,b)=>a.name-b.name);
 }
-export function findProposalName(value) {
-  const hashes = Object.keys(proposals).filter(key => {
-    return proposals[key].name.toLowerCase().includes(value.toLowerCase());
-  });
-  return hashes[0] ? proposals[hashes[0]].name : null;
+
+export function searchProposals(value) {
+  let lvalue = value.toLowerCase();
+  return Object.keys(proposals).filter(key => {
+    return key.includes(value) || proposals[key].name.toLowerCase().includes(lvalue);
+  }).reduce((acc, key) => {
+    let c = proposals[key];
+    c.key = key;
+    acc.push(c);
+    return acc;
+  }, []).sort((a,b)=>a.name-b.name);
 }
 
 export function getSlots(value) {
@@ -396,4 +398,23 @@ export function cycleEndHeight(cycle) {
 export function snapshotBlock(cycle, index) {
     // no snapshot before cycle 7
     return cycle < 7 ? 0 : cycleStartHeight(cycle-7) + (index+1)*256 - 1;
+}
+
+const hashTypeMap = {
+  "tz1":  { type: "account", b58len: 36, shortMatch: true },
+  "tz2":  { type: "account", b58len: 36, shortMatch: true },
+  "tz3":  { type: "account", b58len: 36, shortMatch: true },
+  "KT1":  { type: "account", b58len: 36, shortMatch: true },
+  "btz1": { type: "account", b58len: 37, shortMatch: true },
+  "B":    { type: "block", b58len: 51 },
+  "o":    { type: "operation", b58len: 51 },
+  "P":    { type: "protocol", b58len: 51 },
+}
+
+export function getHashType(hash, strictMatch) {
+  const match = Object.keys(hashTypeMap).filter(k => {
+    return hash.startsWith(k) && (hash.length === hashTypeMap[k].b58len ||
+      (!strictMatch && hashTypeMap[k].shortMatch && hash.length < hashTypeMap[k].b58len));
+  });
+  return match.length?hashTypeMap[match[0]].type:null;
 }

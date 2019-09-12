@@ -4,12 +4,9 @@ import { withRouter } from 'react-router-dom';
 import useKeyPress from '../../../hooks/useKeyPress';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 import {
-  getSearchType,
-  capitalizeFirstLetter,
-  getBakerHashByName,
-  getProposalIdByName,
-  findBakerName,
-  findProposalName,
+  searchBakers,
+  searchProposals,
+  getHashType,
 } from '../../../utils';
 import Autocomplete from './Autocomplete';
 import { Devices } from '../../Common';
@@ -25,54 +22,87 @@ const Searchbar = ({ history }) => {
   const [enterPress, setKeyPressed] = useKeyPress(13);
   const [searchHistory, setHistory] = useLocalStorage('history', []);
 
-  function saveSearch(value, type) {
+  function saveSearch(value, type, key) {
     let newHistory = searchHistory.filter(r => r.value !== value);
-    newHistory.unshift({ type: capitalizeFirstLetter(type), value: value });
+    newHistory.unshift({ type: type, value: value, key: key });
     setHistory(newHistory);
   }
 
-  const search = (searchValue, type) => {
-    if (searchValue) {
-      setKeyPressed(false);
-      setValue('');
-      setIsMouseEnter(true);
-      setIsFocus(false);
-      const proposalId = getProposalIdByName(searchValue);
-      const bakerName = getBakerHashByName(searchValue);
+  const reset = () => {
+    setKeyPressed(false);
+    setValue('');
+    setIsMouseEnter(false);
+    setIsFocus(false);
+    setSuggestion([]);
+  };
 
-      if (type) {
-        saveSearch(searchValue, type);
-        history.push(`/${type.toLocaleLowerCase()}/${searchValue}`);
-      } else if (proposalId) {
-        saveSearch(searchValue, 'election');
-        history.push(`/election/${proposalId}`);
-      } else if (bakerName) {
-        saveSearch(searchValue, 'account');
-        history.push(`/account/${bakerName}`);
-      } else {
-        let searchType = getSearchType(searchValue);
-        saveSearch(searchValue, searchType);
-        searchValue && history.push(`/${searchType}/${searchValue}`);
-      }
+  const search = (value, type, key) => {
+    // strip comma from value
+    value = value.replace(/,/g,'');
+    if (!value) { return; }
+    type = type || getHashType(key||value, 1) || (!isNaN(parseInt(value))?'block':null);
+    if (!type) { return; }
+    saveSearch(value, type, key);
+    reset();
+
+    switch (type) {
+    case 'account':
+      history.push('/account/'+(key||value));
+      break;
+    case 'block':
+      history.push('/block/'+(key||value));
+      break;
+    case 'operation':
+      history.push('/operation/'+(key||value));
+      break;
+    case 'protocol':
+      history.push('/election/'+(key||value));
+      break;
+    case 'cycle':
+      history.push('/cycle/'+value);
+      break;
+    default:
+      return;
     }
   };
   const handleOnChange = value => {
     const number = parseInt(value);
-    if (value.length > 3 && typeof number !== 'number') {
-      const bakerName = findBakerName(value);
-      const proposal = findProposalName(value);
-      if (bakerName) {
-        setSuggestion([{ type: 'Account', value: bakerName }]);
-      } else if (proposal) {
-        setSuggestion([{ type: 'Election', value: proposal }]);
-      }
+    let res = [];
+    if (value.length > 3 && isNaN(number)) {
+      const type = getHashType(value);
+      switch (type) {
+      case 'account':
+        // account by hash
+        res.push(...searchBakers(value).map(b => { return { type: type, value: b.name, key: b.key}; }));
+        break;
+      case 'block':
+        // block by hash
+        res.push({ type: type, value: value});
+        break;
+      case 'operation':
+        // op by hash
+        res.push({ type: type, value: value });
+        break;
+      case 'protocol':
+        // proto/election by hash
+        const prop = searchProposals(value);
+        if (prop.length) {
+          res.push({ type: type, value: prop[0].name, key: prop[0].key });
+        } else {
+          res.push({ type: type, value: value });
+        }
+        break;
+      default:
+        // text may be baker or election name
+        res.push(...searchBakers(value).map(b => { return { type: 'account', value: b.name, key: b.key}; }));
+        res.push(...searchProposals(value).map(b => { return { type: 'protocol', value: b.name, key: b.key}; }));
+      };
+    } else if (number <= chain.cycle) {
+      res.push({ type: 'block', value: value }, { type: 'cycle', value });
+    } else if (number <= chain.height) {
+      res.push({ type: 'block', value: value });
     }
-    if (number <= chain.cycle) {
-      setSuggestion([{ type: 'Block', value: value }, { type: 'Cycle', value }]);
-    } else {
-      setSuggestion(suggestions.filter(item => item.type !== 'Cycle' && item.type !== 'Block'));
-    }
-
+    setSuggestion(res);
     setValue(value);
   };
 
@@ -89,11 +119,12 @@ const Searchbar = ({ history }) => {
                 onChange={e => handleOnChange(e.target.value)}
                 onFocus={e => setIsFocus(true)}
                 onBlur={e => !isMouseEnter && setIsFocus(false)}
-                placeholder="Explore blocks, operations, accounts, elections, and cycles …"
+                placeholder="Explore blocks, operations, accounts, elections, and cycles"
               />
               {value?<CleanInput onClick={e => setValue('')}>&#8855;</CleanInput>:<></>}
             </SearchWrapper>
             <Autocomplete
+              filter={value}
               width={width}
               searchHistory={searchHistory}
               isFocus={isFocus}

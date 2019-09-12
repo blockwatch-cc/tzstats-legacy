@@ -120,7 +120,6 @@ export const Value = ({ type, value, prec, suffix = '', digits = 4, round = fals
     return res;
   }
   let arr = re.exec(res);
-  console.log("fmt", value, type, res, arr);
   return ( (arr && arr.length) ? (
     <span>{`${arr[1]}`}<Dim>.{arr[2]}</Dim>{arr[3]} {suffix}</span>
   ) : res + suffix

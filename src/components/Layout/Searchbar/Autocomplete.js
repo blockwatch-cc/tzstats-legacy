@@ -11,37 +11,45 @@ const Autocomplete = ({
   handleSearch,
   cleanSearchHistory,
   width,
+  filter,
 }) => {
+  const filteredHistory = searchHistory.filter(item => {
+    return item.value.startsWith(filter) || (item.key && item.key.startsWith(filter));
+  });
   return (
-    isFocus &&
-    searchHistory.length > 0 && (
-      <Wrrapper width={width} onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
+    isFocus && (filteredHistory.length > 0 || suggestions.length > 0) && (
+      <Wrapper width={width} onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
         {suggestions.map((item, i) => {
           return (
-            <AutocompleteItem key={i} onClick={e => handleSearch(item.value, item.type)}>
+            <AutocompleteItem key={i} onClick={e => handleSearch(item.value, item.type, item.key)}>
               <TypeSearch>{item.type}</TypeSearch>
               {item.value}
+              <Dim>{item.key}</Dim>
             </AutocompleteItem>
           );
         })}
-        <FlexRowSpaceBetween>
-          <Title>Recent History</Title>
-          <CleanButton onClick={e => cleanSearchHistory()}>Clean History</CleanButton>
-        </FlexRowSpaceBetween>
-
-        {searchHistory.map((item, i) => {
-          return (
-            <AutocompleteItem key={i} onClick={e => handleSearch(item.value)}>
-              <TypeSearch>{item.type}</TypeSearch>
-              {item.value}
-            </AutocompleteItem>
-          );
-        })}
-      </Wrrapper>
+        {filteredHistory.length ? (
+          <>
+          <FlexRowSpaceBetween>
+            <Title>Recent History</Title>
+            <CleanButton onClick={e => cleanSearchHistory()}>Clean History</CleanButton>
+          </FlexRowSpaceBetween>
+          {filteredHistory.map((item, i) => {
+            return (
+              <AutocompleteItem key={i} onClick={e => handleSearch(item.value, item.type.toLowerCase(), item.key)}>
+                <TypeSearch>{item.type}</TypeSearch>
+                {item.value}
+                <Dim>{item.key}</Dim>
+              </AutocompleteItem>
+            );
+          })}
+          </>
+        ):''}
+      </Wrapper>
     )
   );
 };
-const Wrrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -64,6 +72,10 @@ const CleanButton = styled.div`
   cursor: pointer;
   background: #424552;
 `;
+const Dim = styled.div`
+  color: rgba(255, 255, 255, 0.52);
+  padding-left: 10px;
+`;
 
 const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);
@@ -74,13 +86,13 @@ const Title = styled.div`
 const AutocompleteItem = styled(FlexRow)`
   padding: 10px;
   &:hover {
-    opacity: 0.8;
     cursor: pointer;
     background: #424552;
   }
 `;
 const TypeSearch = styled.div`
   width: 150px;
+  text-transform: capitalize;
 `;
 
 export default Autocomplete;

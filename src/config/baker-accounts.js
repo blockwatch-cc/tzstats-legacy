@@ -95,7 +95,7 @@ export const bakerAccounts = {
   "tz1NXPdPC2DfyA5ohitnS6ryqrDKbFJeu5Nn": { name: "Tez Boss", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1MQJPGNMijnXnVoBENFz9rUhaPt3S7rWoz": { name: "Tez Mania", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1abTjX2tjtMdaq5VCzkDtBnMSCFPW2oRPa": { name: "TEZ Rocket", logo: null, link: "", fee_type: "", fee: 0 },
-  "tz1isXamBXpTUgbByQ6gXgZQg4GWNW7r6rKE": { name: "Tez Whale", logo: null, link: "", fee_type: "", fee: 0 },
+  "tz1isXamBXpTUgbByQ6gXgZQg4GWNW7r6rKE": { name: "TezWhale", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1LBEKXaxQbd5Gtzbc1ATCwc3pppu81aWGc": { name: "Tez-Baking", logo: null, link: "", fee_type: "", fee: 0 },
   "tz2LBtbMMvvguWQupgEmtfjtXy77cHgdr5TE": { name: "Tezcentral", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1Yc6ATtfUJyDjHwJ8WoVL22sJueDenueke": { name: "TezDele Baker A", logo: null, link: "", fee_type: "", fee: 0 },

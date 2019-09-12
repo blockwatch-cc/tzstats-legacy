@@ -103,7 +103,6 @@ const DayTick = styled(TimeMajor)`
 const EmptyBlockSquare = styled.div`
   width: 11px;
   height: 11px;
-  z-index: 1000;
   opacity: 1;
   background: #525666;
 `;
@@ -111,10 +110,10 @@ const EmptyBlockSquare = styled.div`
 const BlockSquare = styled(Link)`
   width: 11px;
   height: 11px;
-  z-index: 1000;
   margin-bottom: ${prop => (prop.mb ? prop.mb : 0)}px;
   opacity: ${prop => prop.opacity||1};
   border: ${prop => prop.border||'none'};
+  z-index: 1;
   &:hover {
     opacity: 1;
     border: 1px solid #fff;

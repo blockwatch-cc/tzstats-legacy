@@ -42,7 +42,7 @@ const CycleDots = ({ cycleNumber, lastCycle }) => {
   let numCycles = cycleNumber<0?(-cycleNumber)-1:6;
   cycleNumber = cycleNumber<0?-1:cycleNumber;
   return (
-    <FlexRowSpaceBetween zIndex={1000} flex={0.4}>
+    <FlexRowSpaceBetween zIndex={1} flex={0.4}>
       {[1, 2, 3, 4, 5, 6].slice(0,numCycles).map(item => {
         return (
           <Link key={cycleNumber + item} to={`/cycle/${cycleNumber + item}`}>
