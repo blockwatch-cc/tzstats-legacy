@@ -121,6 +121,7 @@ const CycleBorderBox = styled.div`
   top: 11px;
   left: 11px;
   cursor: pointer;
+  z-index: 100;
   &:hover {
     border: 1px solid;
   }
