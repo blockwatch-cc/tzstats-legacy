@@ -99,9 +99,9 @@ export const Value = ({ type, value, prec, suffix = '', digits = 4, round = fals
       break;
     case 'currency-usd':
       if (!!digits) {
-        res = formatValue(value, '$.'+digits+'s');
+        res = formatValue(value, '$,.'+digits+'s');
       } else {
-        res = formatValue(value, '$,');
+        res = formatValue(value, '$,.2f');
       }
       break;
     case 'value-short':

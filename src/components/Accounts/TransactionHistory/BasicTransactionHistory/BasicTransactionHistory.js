@@ -5,7 +5,7 @@ import TransactionTable from '../TransactionTable';
 import AccountManagmentTable from '../AccountManagmentTable';
 
 const BasicTransactionHistory = ({ account }) => {
-  const [data, setData] = React.useState({ tab: 'outgoing' });
+  const [data, setData] = React.useState({ tab: 'incoming' });
   const handleClick = tab => {
     setData({tab:tab});
   };
@@ -14,11 +14,11 @@ const BasicTransactionHistory = ({ account }) => {
     <Wrapper>
       <Card>
         <FlexRow mb={30}>
-          <Button active={data.tab==='outgoing'} onClick={e => handleClick('outgoing')}>
-            Outgoing Transactions
-          </Button>
           <Button active={data.tab==='incoming'} onClick={e => handleClick('incoming')}>
             Incoming Transactions
+          </Button>
+          <Button active={data.tab==='outgoing'} onClick={e => handleClick('outgoing')}>
+            Outgoing Transactions
           </Button>
           <Button active={data.tab==='other'} onClick={e => handleClick('other')}>
             Other Operations

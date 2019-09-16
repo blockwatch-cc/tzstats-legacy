@@ -57,7 +57,7 @@ class BalanceChart extends React.Component {
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}
       >
-        <Chart id={1} height={180} yExtents={[d => [max * 1.05, min * 0.95]]}>
+        <Chart id={1} height={180} yExtents={[d => [max+(max-min)/10, min?min-(max-min)/10:min]]}>
           <YAxis
             axisAt="right"
             orient="right"

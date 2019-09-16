@@ -30,11 +30,11 @@ const BakerTransactionHistory = ({ account }) => {
             Managed Accounts
           </Button>
           ):''}
-          <Button active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
-            Outgoing Transactions
-          </Button>
           <Button active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
             Incoming Transactions
+          </Button>
+          <Button active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
+            Outgoing Transactions
           </Button>
           <Button active={data.tab === 'other'} onClick={e => handleClick('other')}>
             {account.n_origination?'Other Ops':'Other Operations'}
