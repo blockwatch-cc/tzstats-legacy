@@ -17,15 +17,26 @@ const DelegationTable = ({ account }) => {
         type: 'delegation',
         address: account.address,
         cycle: chain.cycle,
-        limit: account.total_delegations,
+        limit: account.active_delegations,
       });
+      let self = ops.findIndex(i => i.account === account.address);
+      let bal = ops[self].delegated_balance;
+      ops.splice(self, 1);
+      ops.forEach(i => i.balance = i.spendable_balance+i.unclaimed_balance);
       ops = ops.sort((a, b) => b.balance - a.balance);
       setData({
         table: ops,
+        delegated: bal,
         isLoaded: true,
       });
     };
     fetchData();
+    return function cleanup() {
+      setData({
+        table: [],
+        isLoaded: false
+      });
+    };
   }, [account, chain]);
 
   return (
@@ -51,10 +62,10 @@ const DelegationTable = ({ account }) => {
                     <Blockies hash={item.account} />
                     <Link to={`/account/${item.account}`}>{getShortHash(item.account)}</Link>
                   </TableCell>
-                  <TableCell width={20}><Value value={item.since_time} type="datetime"/></TableCell>
+                  <TableCell width={20}><Value value={item.delegated_since_time} type="datetime"/></TableCell>
                   <TableCell width={20}><Value value={item.balance} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}>
-                    {`${((item.balance / account.delegated_balance) * 100).toFixed(3)}%`}
+                    {`${((item.balance / data.delegated) * 100).toFixed(3)}%`}
                   </TableCell>
                   <TableCell width={5}></TableCell>
                 </TableRow>

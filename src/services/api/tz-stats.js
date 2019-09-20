@@ -9,9 +9,10 @@ const request = async (endpoint, options) => {
   return await handleResponse(response);
 };
 const handleResponse = async response => {
-  if (response.status === 400) {
-    const { error } = await response.json();
-    console.log(error);
+  if (response.status >= 400) {
+    const {errors} = await response.json();
+    console.error(errors);
+    return [];
   }
   return await response.json();
 };
@@ -64,12 +65,12 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
     case 'managed':
       ops = await getAccountManagment({ address, cursor, limit });
       break;
-    case 'incoming':
-      ops = await getAccountOperations({ address, direction: 'receiver', type: 'transaction', cursor, limit });
-      break;
-    case 'outgoing':
-      ops = await getAccountOperations({ address, direction: 'sender', type: 'transaction', cursor, limit });
-      break;
+    // case 'incoming':
+    //   ops = await getAccountOperations({ address, direction: 'receiver', type: 'transaction', cursor, limit });
+    //   break;
+    // case 'outgoing':
+    //   ops = await getAccountOperations({ address, direction: 'sender', type: 'transaction', cursor, limit });
+    //   break;
     case 'votes':
       ops = await getAccountVoting({ address, cursor, limit });
       break;
@@ -80,12 +81,12 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
 };
 
 //https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&type=transaction&verbose=1
-export const getAccountOperations = async ({ address, type = 'transaction', cursor, direction, limit = 100 }) => {
+export const getAccountOperations = async ({ address, type = 'transaction', cursor, direction, limit = 100, order = 'asc' }) => {
   const columns = ['row_id', 'type', 'hash', 'sender', 'receiver', 'is_success', 'time', 'volume', 'fee', 'height', 'reward'];
-  const typ = 'type' + (type === 'other' ? '.ne=transaction' : '=' + type);
+  const typ = 'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals' : '=' + type);
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
-    `/tables/op?${direction}=${address}&${typ}&columns=${columns.join(',')}&limit=${limit}${cursor}`
+    `/tables/op?${direction}=${address}&${typ}&order=${order}&columns=${columns.join(',')}&limit=${limit}${cursor}`
   );
   return unpackColumns({ response, columns });
 };
@@ -132,15 +133,16 @@ export const getAccountIncome = async ({ address, cycle }) => {
 
 //api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&account.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
 export const getAccountDelegators = async ({ address, cycle, cursor, limit }) => {
-  const columns = ['row_id', 'account', 'balance', 'time', 'since_time'];
+  // const columns = ['row_id', 'account', 'balance', 'delegated', 'time', 'since_time'];
+  const columns = ['row_id', 'account', 'delegated_balance', 'spendable_balance', 'unclaimed_balance', 'delegated_since_time'];
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     // from a cycle's role snapshot
-    `/tables/snapshot?delegate=${address}&account.nin=${address}&cycle=${cycle -
-      7}&is_selected=true&columns=${columns.join(',')}&limit=${limit}${cursor}`
+    // `/tables/snapshot?delegate=${address}&cycle=${cycle -
+    // 7}&is_selected=true&columns=${columns.join(',')}&limit=${limit}${cursor}`
 
     // from most-recent state
-    // `/tables/account?delegate=${address}&account.nin=${address}&limit=10000&verbose=1`
+    `/tables/account?delegate=${address}&columns=${columns.join(',')}&limit=${limit}${cursor}`
   );
   return unpackColumns({ response, columns });
 };
@@ -301,25 +303,13 @@ export const getBlock = async id => {
 };
 
 //https://api.tzstats.com/tables/op?height=5000&verbose=1&&op_n.rg=0,3&type=endorsement
-export const getBlockOperations = async ({ height, limit, offset, type = null }) => {
+export const getBlockOperations = async ({ height, type = null, limit = 0, cursor = null }) => {
+  const columns = ['row_id','sender','receiver','type','hash','volume','fee','is_success','is_contract'];
   const response = await request(
-    `/tables/op?height=${height}&columns=sender,receiver,type,hash,volume,fee,is_success,is_contract&op_n.rg=${offset},${offset +
-      limit}${type ? '&type=' + type : ''}`
+    `/tables/op?height=${height}&is_internal=0&columns=${columns.join(',')}&is_internal=0${type ? '&type=' + type : ''}${cursor?'&cursor='+cursor:''}${limit?'&limit='+limit:''}`
   );
-  return response.map(item => {
-    return {
-      sender: item[0],
-      receiver: item[1],
-      type: item[2],
-      hash: item[3],
-      volume: item[4],
-      fee: item[5],
-      is_success: item[6],
-      is_contract: item[7],
-    };
-  });
+  return unpackColumns({ response, columns });
 };
-//sender,receiver,type,hash,volume, op_n, time
 
 //****************** OPERATIONS ****************** */
 //https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T

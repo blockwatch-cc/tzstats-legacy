@@ -33,7 +33,7 @@ const BlockInfo = ({ block, setTxType }) => {
                 <FlexRowWrap width={192} mb={'2px'}>
                   {block.endorsers ? slots.map((item, i) => {
                     return (
-                      <Link to={`/account/${block.endorsers[i]}`}>
+                      <Link key={i} to={`/account/${block.endorsers[i]}`}>
                         <Slot key={i} color={item}>{item === 0 ? i+1 : ''}</Slot>
                       </Link>
                     );

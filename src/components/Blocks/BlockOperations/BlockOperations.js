@@ -11,25 +11,24 @@ import { getShortHash, getShortHashOrBakerName } from '../../../utils';
 
 const BlockOperations = ({ block, txType }) => {
   const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false });
-  const [, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'block-operations');
+  useInfiniteScroll(fetchMoreOperations, 'block-ops');
 
   async function fetchMoreOperations() {
     if (data.eof) { return; }
     const newOps = await getBlockOperations({
       height: block.height,
-      offset: data.table.length,
       limit: 50,
       type: txType,
+      cursor: data.cursor
     });
     let eof = !newOps.length;
     setData({
       type: txType,
       table: [...data.table, ...newOps],
       isLoaded: true,
-      cursor: eof?data.cursor:newOps[0].row_id,
+      cursor: eof?data.cursor:newOps[newOps.length-1].row_id,
       eof: eof
     });
-    setIsFetching(false);
   }
 
   React.useEffect(() => {
@@ -37,15 +36,14 @@ const BlockOperations = ({ block, txType }) => {
       let ops = await getBlockOperations({
         height: block.height,
         limit: 50,
-        offset: 0,
         type: txType,
       });
       setData({
         type: txType,
         table: ops,
         isLoaded: true,
-        cursor: ops.length?ops[0].row_id:0,
-        eof: !ops.length
+        cursor: ops.length?ops[ops.length-1].row_id:0,
+        eof: !ops.length||ops.length<50
       });
     };
 
@@ -65,7 +63,7 @@ const BlockOperations = ({ block, txType }) => {
           <TableHeaderCell width={10}>Hash</TableHeaderCell>
         </TableHeader>
         {data.isLoaded ? (
-          <TableBody id={'block-operations'}>
+          <TableBody id={'block-ops'}>
             {data.table.length ? (
               data.table.map((item, i) => {
                 return (

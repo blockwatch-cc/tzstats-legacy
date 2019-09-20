@@ -1,42 +1,29 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const useInfiniteScroll = (callback, targetId) => {
-  const [isFetching, setIsFetching] = useState(false);
-  let debounce = false;
+const useInfiniteScroll = (callback, id) => {
+  const isFetching = useRef(false);
 
-  useEffect(() => {
-    function handleScroll(ev) {
+  const handleScroll = React.useCallback(async ev => {
+      if (isFetching.current) { return; }
       const e = ev.target;
-      const containerHeight = e.clientHeight||e.scrollingElement.clientHeight;
-      const contentHeight = e.scrollHeight||e.scrollingElement.scrollHeight;
-      const scrollPos = typeof(e.scrollTop!=='undefined')?e.scrollTop:e.scrollingElement.scrollTop;
-      if (debounce || isFetching || scrollPos < (contentHeight - 3 * containerHeight)) {
-        debounce = false;
-        return;
-      }
-      debounce = true;
-      setIsFetching(true);
-    }
-
-    let targetElem = targetId==='body'?window:document.getElementById(targetId);
-    if (targetElem) {
-      targetElem.addEventListener('scroll', handleScroll);
-      return () => {
-        let elem = targetId==='body'?window:document.getElementById(targetId);
-        if (elem) {
-          elem.removeEventListener('scroll', handleScroll);
-        }
-      };
-    }
-  }, [targetId]);
+      const containerHeight = id==='body'?e.scrollingElement.clientHeight:e.clientHeight;
+      const contentHeight = id==='body'?e.scrollingElement.scrollHeight:e.scrollHeight;
+      const scrollPos = id==='body'?e.scrollingElement.scrollTop:e.scrollTop;
+      if (scrollPos < (contentHeight - 2 * containerHeight)) { return; }
+      isFetching.current = true;
+      await callback();
+      setTimeout(()=>{ isFetching.current=false },500);
+  },[callback,id]);
 
   useEffect(() => {
-    if (!isFetching) return;
-    callback();
-  }, [callback, isFetching]);
+    let e = id ==='body'?window:document.getElementById(id);
+    if (e) { e.addEventListener('scroll', handleScroll); }
+    return () => {
+      let e = id ==='body'?window:document.getElementById(id);
+      if (e) { e.removeEventListener('scroll', handleScroll); }
+    };
+  },[callback, id, handleScroll]);
 
-
-  return [isFetching, setIsFetching];
 };
 
 export default useInfiniteScroll;

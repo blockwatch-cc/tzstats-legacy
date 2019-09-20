@@ -9,25 +9,28 @@ import { getAccountOperations } from '../../../../services/api/tz-stats';
 import TxTypeIcon from '../../../Common/TxTypeIcon';
 
 const TransactionTable = ({ account, incoming, type = 'transaction' }) => {
-  const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false });
-  const [, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'account-operations');
+  const direction = incoming ? 'receiver' : 'sender';
+  const id = type+'-'+direction;
+  const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false, id: id });
+  useInfiniteScroll(fetchMoreOperations, id);
 
   async function fetchMoreOperations() {
     if (data.eof) { return; }
     let newOps = await getAccountOperations({
       address: account.address,
       type: type,
-      direction: incoming ? 'receiver' : 'sender',
+      direction: direction,
+      order: 'desc',
       cursor: data.cursor
     });
     let eof = !newOps.length;
     setData({
       table: [...data.table, ...newOps],
       isLoaded: true,
-      cursor: eof?data.cursor:newOps[0].row_id,
-      eof: eof
+      cursor: eof?data.cursor:newOps[newOps.length-1].row_id,
+      eof: eof,
+      id: id
     });
-    setIsFetching(false);
   }
 
   React.useEffect(() => {
@@ -35,14 +38,16 @@ const TransactionTable = ({ account, incoming, type = 'transaction' }) => {
       let ops = await getAccountOperations({
         address: account.address,
         type: type,
-        direction: incoming ? 'receiver' : 'sender'
+        order: 'desc',
+        direction: direction
       });
-      ops = ops.reverse();
+      let eof = !ops.length;
       setData({
         table: ops,
         isLoaded: true,
-        cursor: ops.length?ops[0].row_id:0,
-        eof: !ops.length
+        cursor: !eof?ops[ops.length-1].row_id:0,
+        eof: eof,
+        id: id
       });
     };
     fetchData();
@@ -51,10 +56,11 @@ const TransactionTable = ({ account, incoming, type = 'transaction' }) => {
         table: [],
         isLoaded: false,
         cursor: 0,
-        eof: false
+        eof: false,
+        id: id
       });
     };
-  }, [account, type, incoming]);
+  }, [account, type, direction, id]);
 
   switch (type) {
     case 'transaction':
@@ -76,9 +82,9 @@ const TxTable = ({ data, account, incoming }) => {
         <TableHeaderCell width={10}>Block</TableHeaderCell>
         <TableHeaderCell width={10}>Hash</TableHeaderCell>
       </TableHeader>
-      {data.isLoaded ? (
-        <TableBody id={'account-operations'}>
-          {data.table && data.table.length ? (
+      <TableBody id={data.id}>
+        {data.isLoaded ? (
+          data.table && data.table.length ? (
             data.table.map((item, i) => {
               return (
                 <TableRow key={i}>
@@ -106,13 +112,11 @@ const TxTable = ({ data, account, incoming }) => {
             })
           ) : (
             <NoDataFound />
-          )}
-        </TableBody>
+          )
       ) : (
-        <TableBody>
           <Spiner />
-        </TableBody>
       )}
+      </TableBody>
     </>
   );
 };
@@ -131,9 +135,9 @@ const OtherTable = ({ data, account }) => {
         <TableHeaderCell width={8}>Block</TableHeaderCell>
         <TableHeaderCell width={10}>Hash</TableHeaderCell>
       </TableHeader>
-      {data.isLoaded ? (
-        <TableBody id={'account-operations'}>
-          {data.table && data.table.length ? (
+      <TableBody id={data.id}>
+        {data.isLoaded ? (
+          data.table && data.table.length ? (
             data.table.map((item, i) => {
               return (
                 <TableRow key={i}>
@@ -167,13 +171,11 @@ const OtherTable = ({ data, account }) => {
             })
           ) : (
             <NoDataFound />
-          )}
-        </TableBody>
+         )
       ) : (
-        <TableBody>
           <Spiner />
-        </TableBody>
       )}
+      </TableBody>
     </>
   );
 };

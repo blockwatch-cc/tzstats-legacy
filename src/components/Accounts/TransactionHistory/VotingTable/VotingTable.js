@@ -9,24 +9,23 @@ import { Link } from 'react-router-dom';
 
 const VotingTable = ({ account }) => {
   const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false });
-  const [, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'account-votes');
+  useInfiniteScroll(fetchMoreOperations, 'votes');
 
   async function fetchMoreOperations() {
     if (data.eof) { return; }
     let votes = await getTableDataByType({
       address: account.address,
       type: 'votes',
-      cursor: data.cursor
+      cursor: data.cursor,
+      order: 'desc'
     });
     let eof = !votes.length;
-    votes = votes.reverse();
     setData({
       table: [...data.table, ...votes],
       isLoaded: true,
       cursor: eof?data.cursor:votes[0].row_id,
       eof: eof
     });
-    setIsFetching(false);
   }
 
   React.useEffect(() => {
@@ -67,7 +66,7 @@ const VotingTable = ({ account }) => {
         <TableHeaderCell width={10}></TableHeaderCell>
       </TableHeader>
       {data.isLoaded ? (
-        <TableBody id={'account-votes'}>
+        <TableBody id={'votes'}>
           {data.table.length ? (
             data.table.map((item, i) => {
               return (

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Spiner } from '../../../../components/Common';
-import { Blockies, NoDataFound } from '../../../Common';
+import { Blockies, NoDataFound, Value } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { getShortHashOrBakerName, formatCurrency, formatDayTime } from '../../../../utils';
+import { getShortHashOrBakerName } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Link } from 'react-router-dom';
 
@@ -46,13 +46,9 @@ const AccountManagmentTable = ({ account }) => {
                     <Blockies hash={item.account} />
                     <Link to={`/account/${item.account}`}>{getShortHashOrBakerName(item.account)}</Link>
                   </TableCell>
-                  <TableCell width={20}>
-                    {formatDayTime(item.first_in_time,1,1)}
-                  </TableCell>
-                  <TableCell width={20}>
-                    {formatDayTime(item.last_seen_time,1,1)}
-                  </TableCell>
-                  <TableCell width={15}>{formatCurrency(item.spendable_balance)}</TableCell>
+                  <TableCell width={20}><Value value={item.first_in_time} type="datetime"/></TableCell>
+                  <TableCell width={20}><Value value={item.last_seen_time} type="datetime"/></TableCell>
+                  <TableCell width={15}><Value value={item.spendable_balance} type="currency" digits={0} zero="-"/></TableCell>
                   {item.delegate?(
                     <TableCell width={15}>
                       <Blockies hash={item.delegate} />

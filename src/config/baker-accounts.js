@@ -187,5 +187,6 @@ export const bakerAccounts = {
   "tz1L3vFD8mFzBaS8yLHFsd7qDJY1t276Dh8i": { name: "Zed Node", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE": { name: "ØCrypto Pool", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1g8vkmcde6sWKaG2NN9WKzCkDM6Rziq194": { name: "StakeNow", logo: null, link: "", fee_type: "", fee: 0 },
-  "tz1bRaSjKZrSrSeQHBDiCqjKXqtZYZM1t8FW": { name: "Imma Baker", logo: null, link: "", fee_type: "", fee: 0 }
+  "tz1bRaSjKZrSrSeQHBDiCqjKXqtZYZM1t8FW": { name: "Imma Baker", logo: null, link: "", fee_type: "", fee: 0 },
+  "tz1bDXD6nNSrebqmAnnKKwnX1QdePSMCj4MX": { name: "Kraken", logo: null, link: "", fee_type: "", fee: 0 }
 };

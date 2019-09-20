@@ -8,8 +8,8 @@ import { Spiner } from '../../components/Common';
 
 const OperationPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
-  const [, setIsFetching] = useInfiniteScroll(fetchMoreOperations, 'body');
   const currentOperationHash = match.params.hash;
+  useInfiniteScroll(fetchMoreOperations, 'body');
 
   async function fetchMoreOperations() {
     if (!data.ops.length) { return; }
@@ -19,7 +19,6 @@ const OperationPage = ({ match }) => {
       isLoaded: true,
       ops: ops,
     });
-    setIsFetching(false);
   }
 
   React.useEffect(() => {
