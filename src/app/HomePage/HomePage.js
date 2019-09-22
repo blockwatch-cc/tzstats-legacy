@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 import BlockHistory from '../../components/Blocks/BlockHistory';
 import { PriceHistory } from '../../components/Home/PriceHistory/';
@@ -7,21 +8,25 @@ import StakingInfo from '../../components/Home/StakingInfo';
 import ElectionProgress from '../../components/Home/ElectionProgress';
 import AccountsGrowth from '../../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../../services/api/markets';
-import { getElectionById, getTxVolume, getBlockTimeRange, unwrapBlock } from '../../services/api/tz-stats';
+import { getElectionById, getTxVolume, getBlockTimeRange, getBlockHeight, unwrapBlock } from '../../services/api/tz-stats';
 import TransactionVolume from '../../components/Home/TransactionVolume';
 import { FlexColumn, Spiner } from '../../components/Common';
 
 const Home = () => {
   const [data, setData] = React.useState({ isLoaded: false });
+  const [loadAllCounter, setLoadAllCounter] = React.useState(new Date().getTime());
+  const [config] = useGlobal('config');
+  const [chain] = useGlobal('chain');
 
   React.useEffect(() => {
-    const now = new Date().setSeconds(0,0);
+    const now = new Date().getTime();
+    const sixtyblocks = 60*config.time_between_blocks[0]*1000;
     const fetchData = async () => {
       let [priceHistory, txVolSeries, election, blocks] = await Promise.all([
         getOhlcvData({ days: 30 }),
         getTxVolume({ days: 30 }),
         getElectionById(),
-        getBlockTimeRange(now-3600000, now+60000),
+        getBlockTimeRange(now-sixtyblocks, now),
       ]);
 
       setData({
@@ -33,9 +38,48 @@ const Home = () => {
         currentBlock:unwrapBlock(blocks.slice(-1)[0])
       });
     };
+    if (config.version) {
+   		fetchData();
+   	}
+  }, [loadAllCounter, config.time_between_blocks, config.version]);
 
-    fetchData();
-  }, []);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      let newblock = await getBlockHeight(chain.height);
+      const now = new Date().getTime();
+      const sixtyblocks = 60*config.time_between_blocks[0]*1000;
+      let blocks = data.blocks.filter(b => now - (new Date(b[0]).getTime())<=sixtyblocks);
+      blocks.push(newblock[0]);
+      setData({
+        priceHistory: data.priceHistory,
+        txVolSeries: data.txVolSeries,
+        isLoaded: true,
+        election: data.election,
+      	blocks: blocks,
+        currentBlock: unwrapBlock(newblock[0])
+      });
+    };
+    if (!chain.height||!data.currentBlock||data.currentBlock.height===chain.height) {
+    	return;
+    }
+    // we reload all state when
+    // - older than 10 minutes
+    // - detecing a gap
+    // - detecting a reorg
+    let full = chain.height>data.currentBlock.height+1;
+    // if (full) { console.log("Need full reload at after gap", chain.height,data.currentBlock.height);}
+    full = full || new Date(chain.timestamp).getTime() - loadAllCounter > 10*60000;
+    // if (full) { console.log("Need full reload at reorg after 10min");}
+    full = full || data.currentBlock.parent_id!==data.blocks.slice(-2)[0][5];
+    // if (full) { console.log("Need full reload at reorg", data.currentBlock, data.blocks.slice(-2));}
+    if (full) {
+    	setLoadAllCounter(new Date().getTime());
+    } else {
+  		fetchData();
+  	}
+  }, [config.time_between_blocks, chain, loadAllCounter, data]);
+
+
   return data.isLoaded ? (
     <Wrapper>
       <BlockHistory blockHistory={data.blocks} lastBlock={data.currentBlock} />

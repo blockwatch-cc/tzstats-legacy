@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 import BlockHistory from '../../components/Blocks/BlockHistory';
 import BlockOperations from '../../components/Blocks/BlockOperations';
@@ -10,15 +11,16 @@ import { withRouter } from 'react-router-dom';
 const BlockPage = ({ match, history }) => {
   const [data, setData] = React.useState({ isLoaded: false, match });
   const [txType, setTxType] = React.useState(null);
+  const [config] = useGlobal('config');
   const currentBlockHash = match.params.hash;
 
   React.useEffect(() => {
     const fetchData = async () => {
       let [block, lastBlock] = await Promise.all([getBlock(currentBlockHash), getBlock()]);
-      const onehour = 60*60*1000;
+      const sixtyblocks = 60*config.time_between_blocks[0]*1000;
       const historySpan = (new Date(lastBlock.time) - new Date(block.time) + block.solvetime*1000)
       let blockHistory = [];
-      if (historySpan < onehour) {
+      if (historySpan < sixtyblocks) {
         blockHistory = await getBlockRange(lastBlock.height, 60, 0);
       } else {
         blockHistory = await getBlockRange(block.height, 30, 30);
@@ -33,7 +35,7 @@ const BlockPage = ({ match, history }) => {
     };
 
     fetchData();
-  }, [currentBlockHash, history, match]);
+  }, [currentBlockHash, history, match, config]);
 
   return data.isLoaded ? (
     <Wrapper>

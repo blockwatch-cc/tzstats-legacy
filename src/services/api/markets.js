@@ -1,4 +1,4 @@
-import { TZSTATS_URL } from '../../config';
+import { TZSTATS_API_URL } from '../../config';
 import fetch from 'isomorphic-fetch';
 
 export const marketNames = {
@@ -10,7 +10,7 @@ export const marketNames = {
 };
 
 const request = async (endpoint, options) => {
-  let response = await fetch(`${TZSTATS_URL}${endpoint}`, {
+  let response = await fetch(`${TZSTATS_API_URL}${endpoint}`, {
     ...options,
   });
   return await handleResponse(response);

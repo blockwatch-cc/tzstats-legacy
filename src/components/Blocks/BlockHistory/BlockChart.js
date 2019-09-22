@@ -1,19 +1,22 @@
 import React from 'react';
+import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 import { FlexRowWrap, FlexColumn } from '../../Common';
 import { formatDay, formatTime, getMinutesInterval, wrappBlockDataToObj } from '../../../utils';
 import { Link } from 'react-router-dom';
 import { format } from 'd3-format';
 
-const BlocksChart = ({ blockHistory, currentBlock }) => {
+const BlocksChart = ({ blockHistory, currentBlock, chartwidth = 60 }) => {
+  const [config] = useGlobal('config');
+  const chartduration = chartwidth*config.time_between_blocks[0]*1000; // in msec for 60 blocks
   let lastBlock = blockHistory.slice(-1)[0];
   let firstTime = new Date(blockHistory[0][0]).setSeconds(0, 0);
   let lastTime = new Date(lastBlock[0]).setSeconds(0, 0);
-  if (firstTime < lastTime-3600000) {
-    firstTime = lastTime-3600000;
+  if (firstTime < lastTime-chartduration) {
+    firstTime = lastTime-chartduration;
   }
-  let timeRange = getMinutesInterval(firstTime+3600000, 60);
-  let blocksMap = wrappBlockDataToObj(blockHistory);
+  let timeRange = getMinutesInterval(firstTime, chartwidth, config.time_between_blocks[0]);
+  let blocksMap = wrappBlockDataToObj(blockHistory, timeRange);
   function isMidnight(ts) {
     const d = new Date(ts);
     return d.getHours()===0&&d.getMinutes()===0;
@@ -26,12 +29,12 @@ const BlocksChart = ({ blockHistory, currentBlock }) => {
         return (
           <BlockColumn key={index}>
             {(index===0 || (isMidnight(ts) && index > 7)) && (
-              <DayTick>{index < 51?formatDay(ts):''}</DayTick>
+              <DayTick>{index < (chartwidth*0.85)?formatDay(ts):''}</DayTick>
             )}
             {(ts%600000===0) && (
-              <TimeMajor>{index < 58?formatTime(ts):''}</TimeMajor>
+              <TimeMajor>{index < (chartwidth-2)?formatTime(ts):''}</TimeMajor>
             )}
-            {(ts%600000!==0 && ts%300000===0 && index < 59) && (
+            {(ts%600000!==0 && ts%300000===0 && index < (chartwidth-1)) && (
               <TimeMinor></TimeMinor>
             )}
             {!blocks.length ? (

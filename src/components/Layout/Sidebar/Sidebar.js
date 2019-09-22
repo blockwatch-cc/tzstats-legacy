@@ -8,43 +8,95 @@ import MarketInfo from './MarketInfo';
 import { Callout } from '@blueprintjs/core';
 import { Devices } from '../../Common';
 import Logo from './Logo';
-import { getChainData } from '../../../services/api/tz-stats';
-import { setGlobal } from 'reactn';
+import { getChainData, getChainConfig } from '../../../services/api/tz-stats';
+import { useGlobal } from 'reactn';
+import useOnline from '../../../hooks/useOnline';
 
 const Sidebar = () => {
   const [countInTimeout, setCountInTimeout] = React.useState(0);
-
-  //After update chain data after 1 minute
-  React.useEffect(() => {
-    setTimeout(() => {
-      setCountInTimeout(countInTimeout + 1);
-    }, 60000);
-  }, [countInTimeout]);
+  const [, setConfig] = useGlobal('config');
+  const [chain, setChain] = useGlobal('chain');
+  const isOnline = useOnline();
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const chainData = await getChainData();
-
-      setGlobal({ chain: chainData });
+      function diffTime(last, offset) {
+        let diff = offset - (new Date().getTime() - new Date(last).getTime());
+        return diff<0?0:diff;
+      }
+      let timer = null;
+      if (!isOnline) {
+        if (countInTimeout>0) {
+          setCountInTimeout(0);
+        }
+        return;
+      }
+      if (!countInTimeout) {
+        // on init
+        try {
+          const [c, d] = await Promise.all([
+            getChainConfig(),
+            getChainData()
+          ]);
+          timer = setTimeout(() => {
+            setCountInTimeout(c => c + 1);
+          }, diffTime(d.timestamp, 75000));
+          setConfig(c);
+          setChain(d);
+        } catch(e) {
+          // console.error(e);
+          timer = setTimeout(() => {
+            setCountInTimeout(c => c + 1);
+          }, 75000);
+        }
+      } else {
+        // on update
+        try {
+          const d = await getChainData();
+          if (d.height>chain.height) {
+            timer = setTimeout(() => {
+              setCountInTimeout(c => c + 1);
+            }, diffTime(d.timestamp, 75000));
+          } else {
+            timer = setTimeout(() => {
+              setCountInTimeout(c => c + 1);
+            }, diffTime(new Date(), 15000));
+          }
+          setChain(d); // status may have changed
+        } catch(e) {
+          // console.error(e);
+          timer = setTimeout(() => {
+            setCountInTimeout(c => c + 1);
+          }, diffTime(new Date(), 15000));
+        }
+      }
+      return () => clearTimeout(timer);
     };
     fetchData();
-  }, [countInTimeout]);
+  }, [countInTimeout, isOnline]);
 
   return (
-    <Wrraper hideOnMobile>
+    <Wrapper hideOnMobile>
       <Logo />
       <NetworkCircle />
       <LastBlock />
       <MarketInfo />
       <Election />
       <NetworkHealth />
-      <Callout intent="danger">
-        You are viewing an early version of this application. The data presented may be inaccurate.
-      </Callout>
-    </Wrraper>
+      {chain&&chain.status.status !== 'synced'&&
+        <Callout intent="danger">
+          Tezos indexer {chain.status.status}. The data presented may be stale.
+        </Callout>
+      }
+      {!isOnline&&
+        <Callout intent="danger">
+          TzStats is offline. Please check your network connection.
+        </Callout>
+      }
+    </Wrapper>
   );
 };
-const Wrraper = styled.div`
+const Wrapper = styled.div`
   width: 220px;
   min-height: 100vh;
   display: flex;

@@ -2,7 +2,22 @@ import React from 'react';
 import styled from 'styled-components';
 
 const NextBlock = ({ lastTime }) => {
-  let ago = Math.floor((Date.now() - new Date(lastTime).getTime()) / 60000) || '<1';
+  const [countInTimeout, setCountInTimeout] = React.useState(0);
+  const [ago, setAgo] = React.useState(calcAgo(lastTime));
+
+  function calcAgo(last) {
+    return Math.floor((Date.now() - new Date(last).getTime()) / 60000) || '<1';
+  }
+
+  React.useEffect(() => {
+    const diff = 60 - new Date().getSeconds();
+    let timer = setTimeout(() => {
+      setCountInTimeout(c => c + 1);
+    }, diff*1000);
+    setAgo(calcAgo(lastTime));
+    return () => clearTimeout(timer);
+  }, [countInTimeout, lastTime, setAgo]);
+
   return (
     <NextBlockWrapper>
       <NextBlockLine>|</NextBlockLine>

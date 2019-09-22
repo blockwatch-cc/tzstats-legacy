@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 import {
   Card,
@@ -16,11 +17,12 @@ import BlockTxChart from '../BlockTxChart';
 import { Link } from 'react-router-dom';
 
 const BlockInfo = ({ block, setTxType }) => {
+  const [config] = useGlobal('config');
   const slots = getSlots(block.endorsed_slots).reverse();
 
   return (
     <Wrapper>
-      <Card title="Block Info" tags={getBlockTags(block)} right={<CopyHashButton value={block.hash} type="block" />}>
+      <Card title="Block Info" tags={getBlockTags(block, config)} right={<CopyHashButton value={block.hash} type="block" />}>
         <FlexRow>
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180}>

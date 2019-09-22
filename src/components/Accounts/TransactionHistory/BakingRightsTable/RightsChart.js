@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGlobal } from 'reactn';
 import { ChartCanvas, Chart } from 'react-stockcharts';
 import { SquareMarker } from 'react-stockcharts/lib/series';
 import { CrossHairCursor } from 'react-stockcharts/lib/coordinates';
@@ -9,8 +10,11 @@ import ScatterSeries from './ScatterSeries';
 import HoverTooltip from './HoverTooltip';
 
 const RightsChart = props => {
+  const [config] = useGlobal('config');
   const { type, data: initialData, ratio, width } = props;
-
+  const xScale = config.blocks_per_cycle>128?64:32;
+  const yScale = config.blocks_per_cycle>128?16:4;
+  const size = config.blocks_per_cycle>128?10:20;
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.x));
   let { data } = xScaleProvider(initialData);
 
@@ -78,7 +82,7 @@ const RightsChart = props => {
 
   return (
     <ChartCanvas
-      height={160}
+      height={yScale*size}
       width={width}
       seriesName={''}
       margin={{
@@ -94,17 +98,17 @@ const RightsChart = props => {
       zoomEvent={zoomEvent}
       clamp={clamp}
       zoomAnchor={zoomAnchor}
-      xScale={scaleLinear([0, 64])}
+      xScale={scaleLinear([0, xScale])}
       xAccessor={d => d.x}
-      xExtents={[0, 64]}
+      xExtents={[0, xScale]}
     >
-      <Chart id={1} height={160} yExtents={[d => [0, 16]]}>
+      <Chart id={1} height={yScale*size} yExtents={[d => [0, yScale]]}>
         <ScatterSeries
           clip={false}
           yAccessor={d => 1}
           color={d => d.color}
           marker={SquareMarker}
-          markerProps={{ width: 10, opacity: 1, stroke: '#444754' }}
+          markerProps={{ width: size, height: size, opacity: 1, stroke: '#444754' }}
         />
         <HoverTooltip
           yAccessor={d => d}

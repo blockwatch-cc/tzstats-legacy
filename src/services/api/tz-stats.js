@@ -1,9 +1,9 @@
-import { TZSTATS_URL } from '../../config';
+import { TZSTATS_API_URL } from '../../config';
 
 import fetch from 'isomorphic-fetch';
 
 const request = async (endpoint, options) => {
-  let response = await fetch(`${TZSTATS_URL}${endpoint}`, {
+  let response = await fetch(`${TZSTATS_API_URL}${endpoint}`, {
     ...options,
   });
   return await handleResponse(response);
@@ -20,15 +20,19 @@ const handleResponse = async response => {
 //******************COMMON****************** */
 export const getChainData = async options => {
   const response = await request('/explorer/chain');
-
   return response;
 };
 
 export const getStatus = async options => {
   const response = await request('/explorer/status');
-
   return response;
 };
+
+export const getChainConfig = async options => {
+  const response = await request('/explorer/config');
+  return response;
+};
+
 //******************SUPPLY****************** */
 
 //https://api.tzstats.com/tables/supply?height=523549&verbose=1
@@ -278,9 +282,17 @@ export const getBlockRange = async (height, leftDepth, rightDepth) => {
   return response;
 };
 
+export const getBlockHeight = async (height) => {
+  const response = await request(
+    `/tables/block?columns=time,hash,height,priority,is_uncle,row_id,parent_id&height=${height}`
+  );
+
+  return response;
+};
+
 export const getBlockTimeRange = async (from, to) => {
   to = to || new Date().getTime();
-  const response = await request(`/tables/block?columns=time,hash,height,priority,is_uncle&time.rg=${from},${to}`);
+  const response = await request(`/tables/block?columns=time,hash,height,priority,is_uncle,row_id,parent_id&time.rg=${from},${to}`);
 
   return response;
 };
@@ -292,6 +304,8 @@ export const unwrapBlock = b => {
     height: b[2],
     priority: b[3],
     is_uncle: b[4],
+    row_id: b[5],
+    parent_id: b[6],
   };
 };
 

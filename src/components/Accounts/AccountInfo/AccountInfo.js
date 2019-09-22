@@ -19,7 +19,8 @@ const AccountInfo = ({ account }) => {
   const accountType = getAccountType(account);
 
   const [chain] = useGlobal('chain');
-  const stakingCapacity = getStakingCapacity(account, chain);
+  const [config] = useGlobal('config');
+  const stakingCapacity = getStakingCapacity(account, chain, config);
   const totalStaking =
     account.delegated_balance + account.spendable_balance + account.frozen_deposits + account.frozen_fees;
 
@@ -86,9 +87,11 @@ const AccountInfo = ({ account }) => {
 };
 
 
-function getStakingCapacity(account, chain) {
+function getStakingCapacity(account, chain, config) {
+  const oneroll = config.tokens_per_roll;
+  const deposits = config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
   return (
-    (account.spendable_balance + account.frozen_deposits) * chain.rolls * 8000 / (2560 * 4096 * 5)
+    (account.spendable_balance + account.frozen_deposits) * chain.rolls * oneroll / (deposits * config.blocks_per_cycle * config.preserved_cycles)
   );
 }
 function getStakingSettings(totalStaking, stakingCapacity) {

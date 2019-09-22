@@ -11,6 +11,7 @@ import { Spiner } from '../../../../components/Common';
 const BakingRightsTable = ({ account }) => {
   const [data, setData] = React.useState({ income: null, rights: null, isLoaded: false });
   const [chain] = useGlobal('chain');
+  const [config] = useGlobal('config');
 
   const getAccountData = React.useCallback(
     async cycleId => {
@@ -27,14 +28,14 @@ const BakingRightsTable = ({ account }) => {
       const slashed = income.slashed_income;
       const missed = income.missed_endorsing_income + income.lost_baking_income;
       const stolen = income.stolen_baking_income;
-      const nextBakeTime = nextBakeRight.length?convertMinutes((new Date(cycleId===chain.cycle?nextBakeRight[6]||account.next_bake_time:account.next_bake_time) - Date.now()) / 60000):0;
-      const nextEndorseTime = nextEndorseRight.length?convertMinutes((new Date(cycleId===chain.cycle?nextEndorseRight[6]||account.next_endorse_time:account.next_endorse_time) - Date.now()) / 60000 + 1):0;
+      const nextBakeTime = nextBakeRight.length?convertMinutes((new Date(cycleId===chain.cycle?nextBakeRight[6]||account.next_bake_time:account.next_bake_time) - Date.now()) / (config.time_between_blocks[0]*1000)):0;
+      const nextEndorseTime = nextEndorseRight.length?convertMinutes((new Date(cycleId===chain.cycle?nextEndorseRight[6]||account.next_endorse_time:account.next_endorse_time) - Date.now()) / (config.time_between_blocks[0]*10000) + 1):0;
       const nextBakeHeight = cycleId===chain.cycle?nextBakeRight[0]||account.next_bake_height:account.next_bake_height;
       const nextEndorseHeight = cycleId===chain.cycle?nextEndorseRight[0]||account.next_endorse_height:account.next_endorse_height;
-      rights = wrapData(rights, cycleStartHeight(income.cycle), chain.height);
+      rights = wrapData(rights, cycleStartHeight(income.cycle, config), chain.height, config);
       setData({ cycleId, income, rights, earned, slashed, stolen, missed, nextBakeTime, nextEndorseTime, nextBakeHeight, nextEndorseHeight, isLoaded: true });
     },
-    [account, chain]
+    [account, chain, config]
   );
 
   React.useEffect(() => {
@@ -75,7 +76,7 @@ const BakingRightsTable = ({ account }) => {
           />
         </FlexRowSpaceBetween>
         <div style={{ width: 570 }}>
-          <RightsChart data={data.rights} startHeight={cycleStartHeight(data.income.cycle)} />
+          <RightsChart data={data.rights} startHeight={cycleStartHeight(data.income.cycle,config)} />
         </div>
         <FlexRowSpaceBetween>
           <DataBox title="Past Efficiency" />
@@ -119,13 +120,13 @@ const BakingRightsTable = ({ account }) => {
   );
 };
 
-const wrapData = (rights, startHeight, currentHeight) => {
-  let data = prepareData(rights, startHeight, currentHeight);
+const wrapData = (rights, startHeight, currentHeight, config) => {
   let res = [];
   let yChartItems = [];
-  let yScale = 16;
-  let interval = 4;
-  let totalBlocks = 4096;
+  let totalBlocks = config.blocks_per_cycle;
+  let interval = (totalBlocks/1024)||1;
+  let yScale = totalBlocks>128?16:4;
+  let data = prepareData(rights, startHeight, currentHeight, interval);
   for (let counter = 1; counter <= totalBlocks; counter++) {
     if (counter % interval === 0 && counter !== 0) {
       let rang4blocks = data[counter-interval] || [];
@@ -146,11 +147,11 @@ const wrapData = (rights, startHeight, currentHeight) => {
 
 export default BakingRightsTable;
 
-function prepareData(array, startHeight, currentHeight) {
+function prepareData(array, startHeight, currentHeight, interval) {
   return array.reduce((obj, item, index) => {
     if (item[2] === 0 || item[1] === 'endorsing') {
       let diff = item[0] - startHeight;
-      let period = diff - (diff % 4);
+      let period = diff - (diff % interval);
       obj[period] = [
         ...(obj[period] || []),
         {

@@ -11,7 +11,7 @@ import { last } from 'react-stockcharts/lib/utils';
 import { format } from 'd3-format';
 import { CurrentCoordinate } from '../../Common';
 
-const PriceChart = props => {
+const PriceChart = React.forwardRef((props, ref) => {
   const { type, data: initialData, ratio, width } = props;
 
   const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
@@ -28,6 +28,7 @@ const PriceChart = props => {
 
   return (
     <ChartCanvas
+      ref={ref}
       height={180}
       width={width - 120}
       seriesName={''}
@@ -90,6 +91,6 @@ const PriceChart = props => {
       <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
     </ChartCanvas>
   );
-};
+});
 
 export default fitWidth(PriceChart);

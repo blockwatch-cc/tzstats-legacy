@@ -42,6 +42,7 @@ class AreaChart extends React.Component {
         zoomEvent={zoomEvent}
         clamp={clamp}
         xAccessor={d => d && d.time}
+        displayXAccessor={d => d && d.time}
         xScale={scaleTime()}
       >
         <Chart id={0} opacity={1} height={180} yExtents={[d => [max * 1.1, 0]]}>

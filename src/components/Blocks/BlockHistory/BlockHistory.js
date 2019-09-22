@@ -1,21 +1,27 @@
 import React from 'react';
+import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 import { Card, DataBox, FlexRow, FlexColumn } from '../../Common';
 import BlockChart from './BlockChart';
 import NextBlock from './NextBlock';
 import { Link } from 'react-router-dom';
-import { useGlobal } from 'reactn';
 
 const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
   const [chain] = useGlobal('chain');
+  const [chartWidth, setChartWidth] = React.useState(60);
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const width = ref.current ? ref.current.offsetWidth : 720;
+    setChartWidth(width/12);
+  }, [setChartWidth]);
 
   return (
     <Wrapper>
       <Card title={'Block History'}>
         <FlexRow mt={70}>
-          <BlockHistoryWrapper>
+          <BlockHistoryWrapper ref={ref}>
             {/* <PreviousBlockButton onClick={e => console.log(-60)}>&#9664;</PreviousBlockButton> */}
-            <BlockChart blockHistory={blockHistory} currentBlock={currentBlock} />
+            <BlockChart blockHistory={blockHistory} currentBlock={currentBlock} chartwidth={chartWidth} />
           </BlockHistoryWrapper>
           <NextBlock lastTime={chain.timestamp} />
           {/* <NextBlockButton onClick={e => console.log(60)}>&#9654;</NextBlockButton> */}
