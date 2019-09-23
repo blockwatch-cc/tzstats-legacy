@@ -49,8 +49,17 @@ const ProposalPeriod = ({ period }) => {
           <DataBox
             valueType="percent"
             valueSize="14px"
+            valueOpts={{digits:2,zero:'0%'}}
             title={`Participation (${formatValue(period.turnout_rolls)} rolls - ${formatValue(period.turnout_voters)}/${formatValue(period.eligible_voters)} voters)`}
             value={period.turnout_rolls / period.eligible_rolls}
+          />
+          <DataBox
+            valueType="percent"
+            valueSize="14px"
+            ta="right"
+            valueOpts={{digits:2,zero:'-'}}
+            title={`Quorum (${formatValue(period.quorum_rolls)} rolls)`}
+            value={period.quorum_pct/10000}
           />
         </FlexRowSpaceBetween>
       </Card>

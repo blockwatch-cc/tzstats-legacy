@@ -23,6 +23,7 @@ const ExplorationPeriod = ({ period }) => {
           <DataBox
             valueType="percent"
             valueSize="14px"
+            valueOpts={{digits:2,zero:'0%'}}
             title={`Participation (${formatValue(period.turnout_rolls)} rolls - ${formatValue(period.turnout_voters)}/${formatValue(period.eligible_voters)} voters)`}
             value={period.turnout_rolls / period.eligible_rolls}
           />
@@ -30,42 +31,35 @@ const ExplorationPeriod = ({ period }) => {
             ta="right"
             title={`Quorum`}
             valueSize="14px"
-            valueType="text"
-            value={`${period.quorum_pct.toFixed()} %`}
+            valueType="percent"
+            valueOpts={{digits:2}}
+            value={period.quorum_pct/10000}
           />
         </FlexRowSpaceBetween>
-        <HorizontalProgressBar delimiter={period.quorum_pct} settings={periodSettings} />
+        <HorizontalProgressBar delimiter={period.quorum_pct/100} settings={periodSettings} />
         <HorizontalProgressBar delimiter={80} settings={proposalSettings} />
         <FlexRowSpaceBetween>
-          {period.yay_rolls ? (
-            <DataBox
-              valueType="percent"
-              valueSize="14px"
-              valueOpts={{suffix:' Yes'}}
-              title={`${formatValue(period.yay_rolls)} rolls - ${formatValue(period.yay_voters)} voters`}
-              value={period.yay_rolls / (period.nay_rolls + period.yay_rolls)}
-            />
-          ) : (
-            ''
-          )}
-          {period.nay_rolls ? (
-            <DataBox
-              valueType="percent"
-              valueSize="14px"
-              ta="right"
-              valueOpts={{suffix:' No'}}
-              title={`${formatValue(period.nay_rolls)} rolls - ${formatValue(period.nay_voters)} voters`}
-              value={period.nay_rolls / (period.nay_rolls + period.yay_rolls)}
-            />
-          ) : (
-            ''
-          )}
+          <DataBox
+            valueType="percent"
+            valueSize="14px"
+            valueOpts={{suffix:' Yes',digits:2,zero:'0%'}}
+            title={`${formatValue(period.yay_rolls)} rolls - ${formatValue(period.yay_voters)} voters`}
+            value={period.yay_rolls / (period.nay_rolls + period.yay_rolls)}
+          />
+          <DataBox
+            valueType="percent"
+            valueSize="14px"
+            ta="right"
+            valueOpts={{suffix:' No',digits:2,zero:'0%'}}
+            title={`${formatValue(period.nay_rolls)} rolls - ${formatValue(period.nay_voters)} voters`}
+            value={period.nay_rolls / (period.nay_rolls + period.yay_rolls)}
+          />
         </FlexRowSpaceBetween>
         <FlexRowSpaceBetween flex={1} alignItems="flex-end">
           <DataBox
             valueType="percent"
             valueSize="14px"
-            valueOpts={{suffix:' Pass'}}
+            valueOpts={{suffix:' Pass',digits:2,zero:'0%'}}
             title={`${formatValue(period.pass_rolls)} rolls - ${formatValue(period.pass_voters)} voters`}
             value={period.pass_rolls / period.eligible_rolls}
           />
@@ -73,7 +67,7 @@ const ExplorationPeriod = ({ period }) => {
             ta="right"
             valueType="percent"
             valueSize="14px"
-            valueOpts={{suffix:' Undecided'}}
+            valueOpts={{suffix:' Undecided',digits:2,zero:'0%'}}
             title={`${formatValue(undecidedRolls)} rolls - ${formatValue(undecidedVoters)} voters`}
             value={undecidedRolls / period.eligible_rolls}
           />

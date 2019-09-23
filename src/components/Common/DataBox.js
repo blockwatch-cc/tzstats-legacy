@@ -111,7 +111,16 @@ export const Value = ({ type, value, prec, suffix = '', digits = 4, round = fals
       res = formatValue(value, ',');
       break;
     case 'percent':
-      res = value * 100 < 1 ? '< 1%' : formatValue(value, '.0%');
+      switch (true) {
+      case value === 0 && zero:
+        res = zero;
+        break;
+      case value * 100 < 1:
+        res = '< 1%';
+        break;
+      default:
+        res = formatValue(value, '.'+digits+'%');
+      }
       break;
     default:
       res = formatValue(Math.round(value), ',');

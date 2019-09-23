@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ProgressBar = ({ settings, height }) => {
-  return settings.map((item, i) => <ProgressBarItems height={height} key={i} {...item}></ProgressBarItems>);
+  return settings.map((item, i) => (item.percent>0&&<ProgressBarItems height={height} key={i} {...item}></ProgressBarItems>));
 };
 
 const HorizontalProgressBar = ({ settings, delimiter, height = 15 }) => {

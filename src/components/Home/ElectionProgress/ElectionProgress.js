@@ -42,7 +42,7 @@ const Proposal = ({ period }) => {
   return (
     <FlexRowSpaceBetween>
       <DataBox valueSize="14px" title={`Proposals`} value={period.proposals.length} />
-      <DataBox valueSize="14px" title={`Participation`} valueType="percent" value={period.turnout_rolls / period.eligible_rolls} />
+      <DataBox valueSize="14px" title={`Participation`} valueType="percent" value={period.turnout_pct/10000} />
       <DataBox valueSize="14px" title={`Leading`} valueType="text" value={lead.name||'-'} />
     </FlexRowSpaceBetween>
   );
@@ -55,8 +55,8 @@ const Testing = ({ period, election }) => {
       <OutLink target="_blank" rel="noopener noreferrer" href={proposal.link}>
         <DataBox valueSize="14px" title={`Proposal`} valueType="text" value={proposal.name} />
       </OutLink>
-      <DataBox valueSize="14px" title={`Participation`} valueType="percent" value={election["testing_vote"].turnout_rolls / election["testing_vote"].eligible_rolls} />
-      <DataBox valueSize="14px" title={`Acceptance`} valueType="percent" value={election["testing_vote"].yay_rolls / (election["testing_vote"].yay_rolls+election["testing_vote"].nay_rolls)} />
+      <DataBox valueSize="14px" title={`Participation`} valueType="percent" valueOpts={{digits:2,zero:'0%'}} value={election["testing_vote"].turnout_pct/10000} />
+      <DataBox valueSize="14px" title={`Acceptance`} valueType="percent" valueOpts={{digits:2,zero:'0%'}} value={election["testing_vote"].yay_rolls / (election["testing_vote"].yay_rolls+election["testing_vote"].nay_rolls)} />
     </FlexRowSpaceBetween>
   );
 };
@@ -71,7 +71,7 @@ const Vote = ({ period }) => {
       </FlexRowSpaceBetween>
       <HorizontalProgressBar settings={settings} />
       <FlexRowSpaceBetween>
-        <DataBox title={`Participating Rolls (${((100 * period.turnout_rolls) / period.eligible_rolls).toFixed(2)}% / ${period.quorum_pct}%)`}  />
+        <DataBox title={`Participating Rolls (${period.turnout_pct/100}% / ${period.quorum_pct/100}%)`}  />
         <DataBox title={`Maximum Rolls`} />
       </FlexRowSpaceBetween>
     </>
@@ -89,13 +89,13 @@ const OutLink = styled.a``;
 function getPeriodSettings(period) {
   return [
     {
-      percent: (period.turnout_rolls / period.eligible_rolls) * 100,
+      percent: period.turnout_pct/100,
       color: '#19f3f9',
       title: 'Participating Rolls',
       value: period.turnout_rolls,
     },
     {
-      percent: ((period.eligible_rolls - period.turnout_rolls) / period.eligible_rolls) * 100,
+      percent: 100-period.turnout_pct/100,
       color: '#858999;',
       title: 'Maximum Rolls',
       value: period.eligible_rolls - period.turnout_rolls,
