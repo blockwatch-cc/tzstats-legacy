@@ -11,8 +11,10 @@ import Logo from './Logo';
 import { getChainData, getChainConfig } from '../../../services/api/tz-stats';
 import { useGlobal } from 'reactn';
 import useOnline from '../../../hooks/useOnline';
+import {isMainnet} from "../../../utils";
 
 const Sidebar = () => {
+  const delay = React.useRef(60000);
   const [countInTimeout, setCountInTimeout] = React.useState(0);
   const [, setConfig] = useGlobal('config');
   const [chain, setChain] = useGlobal('chain');
@@ -38,16 +40,17 @@ const Sidebar = () => {
             getChainConfig(),
             getChainData()
           ]);
+          delay.current = c.time_between_blocks[0]*1000||60000;
           timer = setTimeout(() => {
             setCountInTimeout(c => c + 1);
-          }, diffTime(d.timestamp, 75000));
+          }, diffTime(d.timestamp, delay.current*1.25));
           setConfig(c);
           setChain(d);
         } catch(e) {
           // console.error(e);
           timer = setTimeout(() => {
             setCountInTimeout(c => c + 1);
-          }, 75000);
+          }, delay.current*1.25);
         }
       } else {
         // on update
@@ -56,18 +59,18 @@ const Sidebar = () => {
           if (d.height>chain.height) {
             timer = setTimeout(() => {
               setCountInTimeout(c => c + 1);
-            }, diffTime(d.timestamp, 75000));
+            }, diffTime(d.timestamp, delay.current*1.25));
           } else {
             timer = setTimeout(() => {
               setCountInTimeout(c => c + 1);
-            }, diffTime(new Date(), 15000));
+            }, diffTime(new Date(), delay.current/4));
           }
           setChain(d); // status may have changed
         } catch(e) {
           // console.error(e);
           timer = setTimeout(() => {
             setCountInTimeout(c => c + 1);
-          }, diffTime(new Date(), 15000));
+          }, diffTime(new Date(), delay.current/4));
         }
       }
       return () => clearTimeout(timer);
@@ -80,7 +83,7 @@ const Sidebar = () => {
       <Logo />
       <NetworkCircle />
       <LastBlock />
-      <MarketInfo />
+      {isMainnet(chain)&&<MarketInfo />}
       <Election />
       <NetworkHealth />
       {chain&&chain.status.status !== 'synced'&&

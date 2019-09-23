@@ -15,7 +15,7 @@ const BakingRightsTable = ({ account }) => {
 
   const getAccountData = React.useCallback(
     async cycleId => {
-      if (cycleId > chain.cycle + 5 || cycleId < 0) {
+      if (cycleId > chain.cycle + config.preserved_cycles || cycleId < 0) {
         return;
       }
       let [rights, income] = await Promise.all([
@@ -48,9 +48,10 @@ const BakingRightsTable = ({ account }) => {
         <FlexRowSpaceBetween>
           <DataBox
             valueSize="14px"
-            valueType="text"
+            valueType="percent"
+            valueOpts={{digits:2,zero:'-'}}
             title={`Efficiency ${formatCurrency(data.income.total_income)}`}
-            value={`${data.income.efficiency_percent}%`}
+            value={data.income.efficiency_percent/100}
           />
           <CycleSwitcher>
             <PreviousButton
@@ -70,9 +71,10 @@ const BakingRightsTable = ({ account }) => {
           <DataBox
             ta={'right'}
             valueSize="14px"
-            valueType="text"
+            valueType="percent"
+            valueOpts={{digits:2,zero:'-'}}
             title={`Luck ${formatCurrency(data.income.expected_income)}`}
-            value={`${data.income.luck_percent}%`}
+            value={data.income.luck_percent/100}
           />
         </FlexRowSpaceBetween>
         <div style={{ width: 570 }}>
@@ -124,15 +126,15 @@ const wrapData = (rights, startHeight, currentHeight, config) => {
   let res = [];
   let yChartItems = [];
   let totalBlocks = config.blocks_per_cycle;
-  let interval = (totalBlocks/1024)||1;
+  let interval = totalBlocks>1024?totalBlocks/1024:1;
   let yScale = totalBlocks>128?16:4;
   let data = prepareData(rights, startHeight, currentHeight, interval);
   for (let counter = 1; counter <= totalBlocks; counter++) {
     if (counter % interval === 0 && counter !== 0) {
-      let rang4blocks = data[counter-interval] || [];
+      let blocks = data[counter-interval] || [];
       let isCurrent = (currentHeight>=startHeight + counter - interval) && (currentHeight <= startHeight + counter - 1);
-      const blocksInterval = `From ${formatValue(startHeight + counter - interval)} to ${formatValue(startHeight + counter - 1)}`;
-      yChartItems.push({ blocks: rang4blocks, interval: blocksInterval, isCurrent: isCurrent });
+      const title = interval>1?`From ${formatValue(startHeight + counter - interval)} to ${formatValue(startHeight + counter - 1)}`:`Block ${formatValue(startHeight + counter - 1)}`;
+      yChartItems.push({ blocks: blocks, title: title, isCurrent: isCurrent, n: interval });
       if (counter % (yScale * interval) === 0) {
         res.push({
           x: counter / (yScale * interval),

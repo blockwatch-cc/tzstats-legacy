@@ -9,7 +9,7 @@ import { scaleLinear } from 'd3-scale';
 import ScatterSeries from './ScatterSeries';
 import HoverTooltip from './HoverTooltip';
 
-const RightsChart = props => {
+const RightsChart = React.forwardRef((props, ref) => {
   const [config] = useGlobal('config');
   const { type, data: initialData, ratio, width } = props;
   const xScale = config.blocks_per_cycle>128?64:32;
@@ -36,17 +36,17 @@ const RightsChart = props => {
       let isEmpty = !baking&&!endorsed&&!stolen&&!lost&&!missed;
       let isFuture = currentBlocks.blocks.some(item => item.isFuture);
       let res = {
-        x: currentBlocks.interval,
+        x: currentBlocks.title,
         y: []
       };
       if (!isEmpty) {
         res.y.push({
-            label: isFuture?'Baking Rights:':'Blocks Baked:',
+            label: isFuture?'Baking Rights:':'Baked:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: baking||'-',
           },
           {
-            label: isFuture?'Endorsing Rights:':'Blocks Endorsed:',
+            label: isFuture?'Endorsing Rights:':'Endorsed:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: endorsed||'-',
           }
@@ -60,12 +60,12 @@ const RightsChart = props => {
       }
       if (!isFuture&&!isEmpty) {
         res.y.push({
-            label: 'Blocks Stolen:',
+            label: 'Stolen:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: stolen||'-',
           },
           {
-            label: 'Blocks Lost:',
+            label: 'Lost:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: lost||'-',
           },
@@ -80,14 +80,20 @@ const RightsChart = props => {
     };
   }
 
+  function customX(props, moreProps) {
+    const { xScale, xAccessor, currentItem } = moreProps;
+    return Math.round(xScale(xAccessor(currentItem)))-1-size/2;
+  }
+
   return (
     <ChartCanvas
+      ref={ref}
       height={yScale*size}
       width={width}
       seriesName={''}
       margin={{
-        left: -5,
-        right: 5,
+        left: 0,
+        right: 0,
         top: 0,
         bottom: 0,
       }}
@@ -98,8 +104,9 @@ const RightsChart = props => {
       zoomEvent={zoomEvent}
       clamp={clamp}
       zoomAnchor={zoomAnchor}
-      xScale={scaleLinear([0, xScale])}
+      xScale={scaleLinear([1, xScale])}
       xAccessor={d => d.x}
+      displayXAccessor={d => d.x}
       xExtents={[0, xScale]}
     >
       <Chart id={1} height={yScale*size} yExtents={[d => [0, yScale]]}>
@@ -116,11 +123,13 @@ const RightsChart = props => {
           bgOpacity={0}
           fontSize={12}
           fontFamily={'sans-serif'}
+          elwidth={size}
+          elheight={size}
         />
-        <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
+        <CrossHairCursor ratio={ratio} stroke="#FFFFFF" customX={customX} />
       </Chart>
     </ChartCanvas>
   );
-};
+});
 
 export default fitWidth(RightsChart);

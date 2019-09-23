@@ -17,7 +17,7 @@ const ElectionHistory = ({ electionHistory, currentElection }) => {
                   to={`/election/${item.row_id}`}
                   iscurrent={`${item.row_id === currentElection.election_id}`}
                 >
-                  {new Array(periodMap[item.is_empty&&!item.is_open?'empty':item.last_voting_period]).fill(0).map((item, i) => (
+                  {new Array(periodMap[item.is_empty?'empty':item.last_voting_period]).fill(0).map((item, i) => (
                     <PeriodBox key={i} />
                   ))}
                 </ElectionBox>

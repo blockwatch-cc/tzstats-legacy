@@ -12,7 +12,7 @@ const ElectionProgress = ({ election }) => {
   const title = `${govNames[election.num_periods]} Period  ${endTime}`;
   return (
     <Wrapper>
-      <Card title={title} mh={120}>
+      <Card title={title} mh={115}>
         <FlexColumnSpaceAround flex={1}>
           <GovSwitcher period={period} election={election}/>
         </FlexColumnSpaceAround>
@@ -43,7 +43,7 @@ const Proposal = ({ period }) => {
     <FlexRowSpaceBetween>
       <DataBox valueSize="14px" title={`Proposals`} value={period.proposals.length} />
       <DataBox valueSize="14px" title={`Participation`} valueType="percent" value={period.turnout_pct/10000} />
-      <DataBox valueSize="14px" title={`Leading`} valueType="text" value={lead.name||'-'} />
+      <DataBox valueSize="14px" title={`Lead Proposal`} valueType="text" value={lead.name||'-'} />
     </FlexRowSpaceBetween>
   );
 };

@@ -112,10 +112,10 @@ export const Value = ({ type, value, prec, suffix = '', digits = 4, round = fals
       break;
     case 'percent':
       switch (true) {
-      case value === 0 && zero:
+      case value === 0.0 && zero:
         res = zero;
         break;
-      case value * 100 < 1:
+      case value * 100 < 1 && !prec:
         res = '< 1%';
         break;
       default:

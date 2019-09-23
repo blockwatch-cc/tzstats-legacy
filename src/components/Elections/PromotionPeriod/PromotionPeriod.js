@@ -7,7 +7,15 @@ import styled from 'styled-components';
 
 const PromotionPeriod = ({ election, period }) => {
   if (!period) {
-    return (<Wrapper><EmptyData title={'4 Promotion period not started'} text={election.is_open?`Approximately ${getEndTime(election, 'end_time')}`:''} mh={250} /></Wrapper>);
+    return (
+      <EmptyWrapper>
+        <EmptyData
+          title={'4 Promotion period not started'}
+          text={election.is_open&&election.num_periods>2&&`Approximately ${getEndTime(election, 'end_time')}`}
+          mh={250}
+        />
+      </EmptyWrapper>
+    );
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);
@@ -117,6 +125,14 @@ const Wrapper = styled.div`
   min-width: 340px;
   margin: 0 5px;
   font-size: 14px;
+`;
+
+const EmptyWrapper = styled.div`
+  flex: 1;
+  min-width: 340px;
+  margin: 0 5px;
+  font-size: 14px;
+  opacity: 0.5;
 `;
 
 export default PromotionPeriod;

@@ -8,7 +8,7 @@ import { proposals } from '../../../../config/proposals';
 
 const Election = ({ history }) => {
   const [election, setElection] = React.useState({});
-  const periodNumber = election.num_periods;
+  const periodNumber = election.is_empty?0:election.num_periods;
   React.useEffect(() => {
     const fetchData = async () => {
       let election = await getElectionById();
@@ -19,7 +19,7 @@ const Election = ({ history }) => {
   const proposalDetails =
     election.testing_vote && proposals[election.testing_vote.proposals[0].hash]
       ? proposals[election.testing_vote.proposals[0].hash]
-      : { name: 'New', link: '', archive: '' };
+      : { name: '–', link: '', archive: '' };
   return (
     <Wrapper>
       <Link to={`/election/${election.election_id}`}>

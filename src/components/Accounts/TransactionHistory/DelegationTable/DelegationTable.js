@@ -65,7 +65,7 @@ const DelegationTable = ({ account }) => {
                   <TableCell width={20}><Value value={item.delegated_since_time} type="datetime"/></TableCell>
                   <TableCell width={20}><Value value={item.balance} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}>
-                    {`${((item.balance / data.delegated) * 100).toFixed(3)}%`}
+                    <Value type="percent" prec={6} digits={3} zero='-' value={item.balance / data.delegated}/>
                   </TableCell>
                   <TableCell width={5}></TableCell>
                 </TableRow>

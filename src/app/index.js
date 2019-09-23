@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGlobal } from 'reactn';
 import { Route, Redirect, Switch, Router } from 'react-router-dom';
 import Layout from './Layout/Layout';
 import HomePage from './HomePage/HomePage';
@@ -16,18 +17,20 @@ import TermsPage from './TermsPage/TermsPage';
 import ElectionPage from './ElectionPage/ElectionPage';
 import CyclePage from './CyclePage/CyclePage';
 import history from "../hooks/history";
+import {isMainnet} from "../utils";
 
 ReactGA.initialize(GOOGLE_ANALYTICS_API_KEY);
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const App = () => {
+  const [config] = useGlobal('config');
   return (
     <Router history={history}>
       <Layout>
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/account/:hash" component={AccountPage} />
-          <Route path="/market" component={MarketPage} />
+          {isMainnet(config)&&<Route path="/market" component={MarketPage} />}
           <Redirect exact from="/block" to="/block/head" />
           <Route path="/block/:hash" component={BlockPage} />
           <Route path="/operation/:hash" component={OperationPage} />
@@ -38,7 +41,8 @@ const App = () => {
           <Route path="/election/:id" component={ElectionPage} />
           <Redirect exact from="/cycle" to="/cycle/head" />
           <Route path="/cycle/:id" component={CyclePage} />
-          <Route path="/not-found/:value" component={NotFoundPage} />
+          <Route path="/404/:value" component={NotFoundPage} />
+          <Route component={NotFoundPage} status={404} />
         </Switch>
       </Layout>
     </Router>

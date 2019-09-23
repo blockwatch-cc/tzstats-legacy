@@ -7,7 +7,7 @@ const EmptyData = ({ title = 'Something went wrong', height, text, mh }) => {
   return (
       <Card title={title} mh={mh}>
         <FlexColumnSpaceAround height={height}>
-          <div style={{ fontSize: 18, margin: '40px auto', opacity: 0.3}}>
+          <div style={{ fontSize: 18, margin: '40px auto', color: 'rgba(255,255,255,0.3)'}}>
             <div>&nbsp;&nbsp;&nbsp;^-^</div>
             <div>(◉∀◉)</div>
             <div>( )____)</div>

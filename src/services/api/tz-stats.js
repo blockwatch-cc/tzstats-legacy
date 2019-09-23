@@ -11,8 +11,8 @@ const request = async (endpoint, options) => {
 const handleResponse = async response => {
   if (response.status >= 400) {
     const {errors} = await response.json();
-    console.error(errors);
-    return [];
+    console.error(errors[0]);
+    throw errors[0];
   }
   return await response.json();
 };

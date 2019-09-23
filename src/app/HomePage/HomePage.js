@@ -8,6 +8,7 @@ import StakingInfo from '../../components/Home/StakingInfo';
 import ElectionProgress from '../../components/Home/ElectionProgress';
 import AccountsGrowth from '../../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../../services/api/markets';
+import { isMainnet } from '../../utils';
 import { getElectionById, getTxVolume, getBlockTimeRange, getBlockHeight, unwrapBlock } from '../../services/api/tz-stats';
 import TransactionVolume from '../../components/Home/TransactionVolume';
 import { FlexColumn, Spiner } from '../../components/Common';
@@ -23,7 +24,7 @@ const Home = () => {
     const sixtyblocks = 60*config.time_between_blocks[0]*1000;
     const fetchData = async () => {
       let [priceHistory, txVolSeries, election, blocks] = await Promise.all([
-        getOhlcvData({ days: 30 }),
+        isMainnet(config)?getOhlcvData({ days: 30 }):null,
         getTxVolume({ days: 30 }),
         getElectionById(),
         getBlockTimeRange(now-sixtyblocks, now),
@@ -39,9 +40,10 @@ const Home = () => {
       });
     };
     if (config.version) {
+      console.log("Running full reload",loadAllCounter, config.time_between_blocks, config.version);
    		fetchData();
    	}
-  }, [loadAllCounter, config.time_between_blocks, config.version]);
+  }, [config, loadAllCounter]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -67,11 +69,11 @@ const Home = () => {
     // - detecing a gap
     // - detecting a reorg
     let full = chain.height>data.currentBlock.height+1;
-    // if (full) { console.log("Need full reload at after gap", chain.height,data.currentBlock.height);}
+    if (chain.height>data.currentBlock.height+1) { console.log("Need full reload after gap", chain.height,data.currentBlock.height);}
     full = full || new Date(chain.timestamp).getTime() - loadAllCounter > 10*60000;
-    // if (full) { console.log("Need full reload at reorg after 10min");}
+    if (new Date(chain.timestamp).getTime() - loadAllCounter > 10*60000) { console.log("Need full reload at reorg after 10min");}
     full = full || data.currentBlock.parent_id!==data.blocks.slice(-2)[0][5];
-    // if (full) { console.log("Need full reload at reorg", data.currentBlock, data.blocks.slice(-2));}
+    if (data.currentBlock.parent_id!==data.blocks.slice(-2)[0][5]) { console.log("Need full reload at reorg", data.currentBlock, data.blocks.slice(-2));}
     if (full) {
     	setLoadAllCounter(new Date().getTime());
     } else {
@@ -83,13 +85,20 @@ const Home = () => {
   return data.isLoaded ? (
     <Wrapper>
       <BlockHistory blockHistory={data.blocks} lastBlock={data.currentBlock} />
-      <TwoElementsWrapper>
-        <PriceHistory priceHistory={data.priceHistory} />
-        <FlexColumn>
+      {isMainnet(config) ? (
+        <TwoElementsWrapper>
+          <PriceHistory priceHistory={data.priceHistory} />
+          <FlexColumn>
+            <StakingInfo />
+            <ElectionProgress election={data.election} />
+          </FlexColumn>
+        </TwoElementsWrapper>
+      ) : (
+        <TwoElementsWrapper>
           <StakingInfo />
           <ElectionProgress election={data.election} />
-        </FlexColumn>
-      </TwoElementsWrapper>
+        </TwoElementsWrapper>
+      )}
       <TwoElementsWrapper>
         <TransactionVolume txSeries={data.txVolSeries} />
       </TwoElementsWrapper>

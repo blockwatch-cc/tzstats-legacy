@@ -32,7 +32,7 @@ const ElectionPage = ({ match }) => {
     <Wrapper>
       <ElectionHistory electionHistory={data.electionHistory} currentElection={data.election} />
       <TwoElementsWrapper>
-        <ProposalPeriod period={data.election.proposal} />
+        <ProposalPeriod period={data.election.proposal} election={data.election} />
         <ExplorationPeriod period={data.election.testing_vote} />
       </TwoElementsWrapper>
       <TwoElementsWrapper>

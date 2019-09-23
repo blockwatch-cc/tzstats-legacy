@@ -6,7 +6,7 @@ import { proposals } from '../../../config/proposals';
 
 const TestingPeriod = ({ period }) => {
   if (!period) {
-    return (<Wrapper><EmptyData title={'3 Testing period not started'}  mh={250}/></Wrapper>);
+    return (<EmptyWrapper><EmptyData title={'3 Testing period not started'}  mh={250}/></EmptyWrapper>);
   }
   const endTime = getEndTime(period);
   const proposalDetails = proposals[period.proposals[0].hash]
@@ -39,6 +39,15 @@ const Wrapper = styled.div`
   margin: 0 5px;
   font-size: 14px;
 `;
+
+const EmptyWrapper = styled.div`
+  flex: 1;
+  min-width: 340px;
+  margin: 0 5px;
+  font-size: 14px;
+  opacity: 0.5;
+`;
+
 const Content = styled.p`
   font-size: 12px;
   line-height: 1.4;

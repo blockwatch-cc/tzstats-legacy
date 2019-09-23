@@ -5,33 +5,38 @@ import AccountInfo from '../../components/Accounts/AccountInfo';
 import { getAccountByHash, getFlowData, getStakingData } from '../../services/api/tz-stats';
 import { Spiner } from '../../components/Common';
 import { wrapStakingData, wrapToBalance } from '../../utils';
+import history from "../../hooks/history";
 
 const AccountPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
-  const currentUserHash = match.params.hash;
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let [account, flowData, stakingData] = await Promise.all([
-        getAccountByHash(currentUserHash),
-        getFlowData({ hash: currentUserHash, days: 30 }),
-        getStakingData({ hash: currentUserHash, days: 30 }),
-      ]);
+      const addr = match.params.hash;
+      try {
+        let [account, flowData, stakingData] = await Promise.all([
+          getAccountByHash(addr),
+          getFlowData({ hash: addr, days: 30 }),
+          getStakingData({ hash: addr, days: 30 }),
+        ]);
 
-      let staking = wrapStakingData({ ...stakingData, account });
-
-      let balanceHistory = wrapToBalance(flowData, account);
-
-      setData({
-        account,
-        isLoaded: true,
-        balanceHistory,
-        staking,
-      });
+        let staking = wrapStakingData({ ...stakingData, account });
+        let balanceHistory = wrapToBalance(flowData, account);
+        setData({
+          account,
+          isLoaded: true,
+          balanceHistory,
+          staking,
+        });
+      } catch(e) {
+        if (e.status === 404) {
+          history.push('/404/'+addr)
+        }
+      }
     };
 
     fetchData();
-  }, [currentUserHash, match]);
+  }, [match.params.hash]);
 
   return data.isLoaded ? (
     <>

@@ -8,7 +8,7 @@ const StakingInfo = () => {
 
   return (
     <Wrapper>
-      <Card title={`Staking Activity`}>
+      <Card title={`Staking Activity`} mh={115}>
         <FlexColumnSpaceAround flex={1}>
         <FlexRowSpaceBetween mb={'5px'}>
           <DataBox

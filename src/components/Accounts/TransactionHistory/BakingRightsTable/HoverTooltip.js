@@ -58,6 +58,8 @@ HoverTooltip.propTypes = {
   backgroundShapeSVG: PropTypes.func,
   bgwidth: PropTypes.number,
   bgheight: PropTypes.number,
+  elwidth: PropTypes.number,
+  elheight: PropTypes.number,
   bgFill: PropTypes.string.isRequired,
   bgOpacity: PropTypes.number.isRequired,
   tooltipContent: PropTypes.func.isRequired,
@@ -74,6 +76,8 @@ HoverTooltip.contextTypes = {
 HoverTooltip.defaultProps = {
   // bgwidth: 150,
   // bgheight: 50,
+  elwidth: 10,
+  elheight: 10,
   tooltipSVG: tooltipSVG,
   tooltipCanvas: tooltipCanvas,
   origin: origin,
@@ -186,11 +190,14 @@ function drawOnCanvas(ctx, props, context, pointer, height) {
 
 function normalizeX(x, bgSize, pointWidth, width) {
   // return x - bgSize.width - pointWidth / 2 - PADDING * 2 < 0
-  return x < width / 2 ? x + pointWidth / 2 + PADDING : x - bgSize.width - pointWidth / 2 - PADDING;
+  return x < width / 2 ? x + pointWidth / 2 - 2*PADDING : x - bgSize.width - pointWidth / 2 - 2*PADDING;
 }
 
-function normalizeY(y, bgSize) {
-  return y - bgSize.height <= 0 ? y + PADDING : y - bgSize.height - PADDING;
+function normalizeY(y, bgSize, moreProps) {
+  if (moreProps.chartConfig.height<=bgSize.height) {
+    return (moreProps.chartConfig.height-bgSize.height)/2;
+  }
+  return y - bgSize.height <= -Y ? y + PADDING : y - bgSize.height - PADDING;
 }
 
 function origin(props, moreProps, bgSize, pointWidth) {
@@ -209,7 +216,7 @@ function origin(props, moreProps, bgSize, pointWidth) {
   }
 
   x = normalizeX(x, bgSize, pointWidth, width);
-  y = normalizeY(y, bgSize);
+  y = normalizeY(y, bgSize, moreProps);
 
   return [x, y];
 }
@@ -230,7 +237,7 @@ function helper(props, moreProps, ctx) {
   const bgSize = { width: 200, height: 90 };
 
   const [x, y] = origin(props, moreProps, bgSize, pointWidth);
-  const currentBlocks = currentItem.data[Math.floor(moreProps.mouseXY[1] / 10)] || null;
+  const currentBlocks = currentItem.data[Math.floor(moreProps.mouseXY[1] / props.elheight)] || null;
   const content = tooltipContent({ currentBlocks, xAccessor: displayXAccessor });
   const centerX = xScale(xValue);
 

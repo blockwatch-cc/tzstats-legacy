@@ -423,3 +423,8 @@ export function getHashType(hash, strictMatch) {
   });
   return match.length?hashTypeMap[match[0]].type:null;
 }
+
+// works with /explorer/config and /explorer/chain objects
+export function isMainnet(o) {
+  return o && o.chain_id === 'NetXdQprcVkpaWU';
+}

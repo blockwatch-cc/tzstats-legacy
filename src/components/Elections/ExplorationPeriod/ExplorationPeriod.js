@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const ExplorationPeriod = ({ period }) => {
   if (!period) {
-    return (<Wrapper><EmptyData title={'2 Exploration period not started'} mh={250} /></Wrapper>);
+    return (<EmptyWrapper><EmptyData title={'2 Exploration period not started'} mh={250} /></EmptyWrapper>);
   }
   const endTime = getEndTime(period);
   const periodSettings = getPeriodSettings(period);
@@ -117,6 +117,14 @@ const Wrapper = styled.div`
   min-width: 340px;
   margin: 0 5px;
   font-size: 14px;
+`;
+
+const EmptyWrapper = styled.div`
+  flex: 1;
+  min-width: 340px;
+  margin: 0 5px;
+  font-size: 14px;
+  opacity: 0.5;
 `;
 
 export default ExplorationPeriod;
