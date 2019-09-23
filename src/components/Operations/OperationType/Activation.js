@@ -30,11 +30,16 @@ const Activation = ({ op }) => {
       <OperationAccount title={'Sender'} account={data.sender}/>
       <Wrapper>
         <Card title={`${opNames[op.type]}`}>
-          <FlexRow height={80} alignItems="center">
+          <FlexRow height={80}>
             <TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
             <FlexColumnSpaceBetween flex={1}>
-                <DataBox title="Claimed Amount" valueSize="14px" value={op.volume} valueType="currency-full" />
-                <DataBox title="Secret" valueSize="14px" valueType="text" value={`0x${op.data}`} />
+                <FlexRow>
+                  <DataBox title="Claimed Amount" valueSize="14px" value={op.volume} valueType="currency-full" />
+                  <DataBox ml={40} title="Blinded Adddress" valueSize="14px" valueType="text" value={`${op.data.split(',')[1]}`} />
+                </FlexRow>
+                <FlexRow>
+                  <DataBox title="Secret" valueSize="12px" valueType="text" value={`0x${op.data.split(',')[0]}`} />
+                </FlexRow>
             </FlexColumnSpaceBetween>
           </FlexRow>
         </Card>

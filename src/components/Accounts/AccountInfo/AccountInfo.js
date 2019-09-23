@@ -21,10 +21,7 @@ const AccountInfo = ({ account }) => {
   const [chain] = useGlobal('chain');
   const [config] = useGlobal('config');
   const stakingCapacity = getStakingCapacity(account, chain, config);
-  const totalStaking =
-    account.delegated_balance + account.spendable_balance + account.frozen_deposits + account.frozen_fees;
-
-  let settings = getStakingSettings(totalStaking, stakingCapacity);
+  let settings = getStakingSettings(account.staking_balance, stakingCapacity);
 
   return (
     <Wrapper>
@@ -45,7 +42,7 @@ const AccountInfo = ({ account }) => {
               />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
-            <DataBox valueSize="14px" valueType="currency-full" title="Total Balance" value={account.total_balance} />
+            <DataBox valueSize="14px" valueType="currency-full" title="Total Balance" value={account.total_balance+account.unclaimed_balance} />
             <DataBox valueSize="14px" valueType="currency-full" title="Spendable Balance" value={account.spendable_balance} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween minHeight={100}>
@@ -60,7 +57,7 @@ const AccountInfo = ({ account }) => {
               <FlexColumnSpaceBetween width={200} minHeight={100}>
                 <FlexColumn>
                   <FlexRowSpaceBetween>
-                    <DataBox valueSize="14px" valueType="currency" valueOpts={{round:1,digits:0}} value={totalStaking} />
+                    <DataBox valueSize="14px" valueType="currency" valueOpts={{round:1,digits:0}} value={account.staking_balance} />
                     <DataBox valueSize="14px" valueType="currency" valueOpts={{round:1,digits:0}} value={stakingCapacity} />
                   </FlexRowSpaceBetween>
                   <HorizontalProgressBar height={10} settings={settings} />
@@ -94,16 +91,16 @@ function getStakingCapacity(account, chain, config) {
     (account.spendable_balance + account.frozen_deposits) * chain.rolls * oneroll / (deposits * config.blocks_per_cycle * config.preserved_cycles)
   );
 }
-function getStakingSettings(totalStaking, stakingCapacity) {
+function getStakingSettings(stakingBalance, stakingCapacity) {
   stakingCapacity = stakingCapacity || 1;
-  let stakingPct = Math.round(10000 * totalStaking / stakingCapacity)/100;
+  let stakingPct = Math.round(10000 * stakingBalance / stakingCapacity)/100;
   stakingPct = stakingPct>100?100:stakingPct;
   return [
     {
       percent: stakingPct,
       color: '#418BFD',
       title: 'In Staking',
-      value: `${totalStaking}`,
+      value: `${stakingBalance}`,
     },
     {
       percent: 100-stakingPct,

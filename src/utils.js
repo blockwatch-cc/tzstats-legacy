@@ -277,6 +277,9 @@ export function getAccountTags(account) {
   if (account.is_vesting) {
     tags.push('Vesting');
   }
+  if (account.account_type === 'blinded') {
+    tags.push('Fundraiser', 'Not Activated');
+  }
   // if (account.is_delegated) {
   //   tags.push('Delegating');
   // }
