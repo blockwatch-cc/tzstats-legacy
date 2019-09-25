@@ -122,10 +122,10 @@ const MarketSelector = ({ tickers, current, setMarket }) => {
 const PriceLegend = ({ lastPrice, quote }) => {
   return (
     <FlexColumn height={170} borderBottom="1px solid #787c8b" justifyContent="space-evenly">
-      <DataBox valueSize="14px" valueType="currency-full" valueOpts={{dim:0,digits:4,sym:quote}} title="Last Price" value={lastPrice.close} />
-      <DataBox valueSize="14px" valueType="currency-full" valueOpts={{dim:0,digits:4,sym:quote}} title="Open Price Today" value={lastPrice.open} />
-      <DataBox valueSize="14px" valueType="currency-full" valueOpts={{dim:0,digits:4,sym:quote}} title="Highest Price Today" value={lastPrice.high} />
-      <DataBox valueSize="14px" valueType="currency-full" valueOpts={{dim:0,digits:4,sym:quote}} title="Lowest Price Today" value={lastPrice.low} />
+      <DataBox valueSize="14px" valueType="currency-flex" valueOpts={{dim:0,digits:4,sym:quote}} title="Last Price" value={lastPrice.close} />
+      <DataBox valueSize="14px" valueType="currency-flex" valueOpts={{dim:0,digits:4,sym:quote}} title="Open Price Today" value={lastPrice.open} />
+      <DataBox valueSize="14px" valueType="currency-flex" valueOpts={{dim:0,digits:4,sym:quote}} title="Highest Price Today" value={lastPrice.high} />
+      <DataBox valueSize="14px" valueType="currency-flex" valueOpts={{dim:0,digits:4,sym:quote}} title="Lowest Price Today" value={lastPrice.low} />
     </FlexColumn>
   );
 };

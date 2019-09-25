@@ -94,8 +94,11 @@ export const Value = ({ type, value, prec, sym, prefix='', suffix = '', digits =
     case 'currency-short':
       res = formatCurrency(value, '~s', sym);
       break;
-    case 'currency-full':
+    case 'currency-flex':
       res = formatCurrency(value, ',.'+digits+'r', sym);
+      break;
+    case 'currency-full':
+      res = formatCurrency(value.toFixed(6), ',');
       break;
     case 'currency-usd':
       if (!!digits) {
