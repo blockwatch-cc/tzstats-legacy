@@ -12,6 +12,7 @@ import _ from 'lodash';
 import { format } from 'd3-format';
 import { formatCurrencyShort } from '../../../../utils';
 import CurrentCoordinate from '../../../Common/CurrentCoordinate';
+import { defaultFont } from '../../../../config';
 
 class BalanceChart extends React.Component {
   render() {
@@ -71,7 +72,7 @@ class BalanceChart extends React.Component {
             fontSize={11}
             {...yGrid}
             strokeWidth={0}
-            fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+            fontFamily={defaultFont}
           />
           <MouseCoordinateX
             opacity={1}
@@ -82,7 +83,7 @@ class BalanceChart extends React.Component {
             textFill="rgba(255, 255, 255, 0.52)"
             displayFormat={timeFormat('%a, %b %d')}
             fontSize={11}
-            fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+            fontFamily={defaultFont}
           />
 
           <AreaSeries

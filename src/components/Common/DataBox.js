@@ -67,14 +67,14 @@ const DataBox = ({
 
 let re = /^(.*)\.([^ ]*)( .*)?$/;
 
-export const Value = ({ type, value, prec, suffix = '', digits = 4, round = false, dim = true, zero = null }) => {
+export const Value = ({ type, value, prec, sym, prefix='', suffix = '', digits = 4, round = false, dim = true, zero = null }) => {
   if (value === 0 && zero) { return zero; }
   if (round) { value = Math.round(value); }
   if (prec !== undefined) { value = value.toFixed(prec); }
   let res = '';
   switch (type) {
     case 'text':
-      return value;
+      return [prefix, value, suffix].join('');
     case 'datetime':
       res = formatDayTime(value, 1, 1);
       break;
@@ -86,16 +86,16 @@ export const Value = ({ type, value, prec, suffix = '', digits = 4, round = fals
       break;
     case 'currency':
       if (!!digits) {
-        res = formatCurrency(value, '.'+digits+'s');
+        res = formatCurrency(value, '.'+digits+'s', sym);
       } else {
-        res = formatCurrency(value, ',');
+        res = formatCurrency(value, ',', sym);
       }
       break;
     case 'currency-short':
-      res = formatCurrency(value, '~s');
+      res = formatCurrency(value, '~s', sym);
       break;
     case 'currency-full':
-      res = formatCurrency(value.toFixed(6), ',');
+      res = formatCurrency(value, ',.'+digits+'r', sym);
       break;
     case 'currency-usd':
       if (!!digits) {
@@ -126,11 +126,11 @@ export const Value = ({ type, value, prec, suffix = '', digits = 4, round = fals
       res = formatValue(Math.round(value), ',');
   }
   if (!dim) {
-    return res;
+    return [prefix, res, suffix].join('');
   }
   let arr = re.exec(res);
   return ( (arr && arr.length) ? (
-    <span>{`${arr[1]}`}<Dim>.{arr[2]}</Dim>{arr[3]} {suffix}</span>
+    <Wrapper>{`${prefix}${arr[1]}`}<Dim>.{arr[2]}</Dim>{arr[3]} {suffix}</Wrapper>
   ) : res + suffix
   );
 };

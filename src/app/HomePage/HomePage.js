@@ -40,7 +40,7 @@ const Home = () => {
       });
     };
     if (config.version) {
-      console.log("Running full reload",loadAllCounter, config.time_between_blocks, config.version);
+      // console.log("Running full reload",loadAllCounter, config.time_between_blocks, config.version);
    		fetchData();
    	}
   }, [config, loadAllCounter]);
@@ -69,11 +69,11 @@ const Home = () => {
     // - detecing a gap
     // - detecting a reorg
     let full = chain.height>data.currentBlock.height+1;
-    if (chain.height>data.currentBlock.height+1) { console.log("Need full reload after gap", chain.height,data.currentBlock.height);}
+    // if (chain.height>data.currentBlock.height+1) { console.log("Need full reload after gap", chain.height,data.currentBlock.height);}
     full = full || new Date(chain.timestamp).getTime() - loadAllCounter > 10*60000;
-    if (new Date(chain.timestamp).getTime() - loadAllCounter > 10*60000) { console.log("Need full reload at reorg after 10min");}
+    // if (new Date(chain.timestamp).getTime() - loadAllCounter > 10*60000) { console.log("Need full reload at reorg after 10min");}
     full = full || data.currentBlock.parent_id!==data.blocks.slice(-2)[0][5];
-    if (data.currentBlock.parent_id!==data.blocks.slice(-2)[0][5]) { console.log("Need full reload at reorg", data.currentBlock, data.blocks.slice(-2));}
+    // if (data.currentBlock.parent_id!==data.blocks.slice(-2)[0][5]) { console.log("Need full reload at reorg", data.currentBlock, data.blocks.slice(-2));}
     if (full) {
     	setLoadAllCounter(new Date().getTime());
     } else {

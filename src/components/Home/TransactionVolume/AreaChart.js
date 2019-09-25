@@ -14,6 +14,8 @@ import _ from 'lodash';
 import { format } from 'd3-format';
 import { CurrentCoordinate } from '../../Common';
 import { formatCurrencyShort } from '../../../utils';
+import { defaultFont } from '../../../config';
+
 class AreaChart extends React.Component {
   render() {
     const { data, width } = this.props;
@@ -59,7 +61,7 @@ class AreaChart extends React.Component {
             fontWeight={300}
             fontSize={11}
             strokeWidth={0}
-            fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+            fontFamily={defaultFont}
           />
 
           <MouseCoordinateX
@@ -71,7 +73,7 @@ class AreaChart extends React.Component {
             textFill="rgba(255, 255, 255, 0.52)"
             displayFormat={timeFormat('%a, %b %d')}
             fontSize={11}
-            fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+            fontFamily={defaultFont}
           />
 
           <AreaSeries

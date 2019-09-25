@@ -225,10 +225,6 @@ export function getPeakVolumeTime(data, hours = 1) {
   return a.substr(a.length - 5) + ' - ' + b.substr(b.length - 5) + ' UTC';
 }
 
-export function getDailyVolume(data) {
-  return _.sumBy(data, o => o.vol_base) / data.length;
-}
-
 export function convertToTitle(str) {
   return str
     .split('_')

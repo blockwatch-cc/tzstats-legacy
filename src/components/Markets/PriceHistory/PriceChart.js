@@ -14,8 +14,9 @@ import { fitWidth } from 'react-stockcharts/lib/helper';
 import { last } from 'react-stockcharts/lib/utils';
 import _ from 'lodash';
 import VolumeAnnotation from './VolumeAnnotation';
+import { defaultFont } from '../../../config';
 
-const PriceChart = props => {
+const PriceChart = React.forwardRef((props, ref) => {
   const { type, data: initialData, ratio, width, volumeMax, setCurrentValue } = props;
   const yaxis = ['04:00', '12:00', '20:00'];
 
@@ -41,12 +42,13 @@ const PriceChart = props => {
 
   return (
     <ChartCanvas
+      ref={ref}
       height={340}
       width={width}
       seriesName={''}
       margin={{
         left: 0,
-        right: 55,
+        right: 75,
         top: 0,
         bottom: 0,
       }}
@@ -68,17 +70,17 @@ const PriceChart = props => {
           textFill="rgba(255, 255, 255, 0.52)"
           opacity={0}
           orient="right"
-          displayFormat={format('$.2f')}
+          displayFormat={format('.4r')}
           fontSize={11}
           fontWeight={300}
-          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+          fontFamily={defaultFont}
         />
         <YAxis
           axisAt="right"
           orient="right"
-          ticks={2}
-          tickFormat={format('$.2f')}
-          innerTickSize={-width + 45}
+          ticks={3}
+          tickFormat={format('.4r')}
+          innerTickSize={-width + 65}
           tickPadding={15}
           tickStrokeDasharray={'Solid'}
           tickStrokeOpacity={0.3}
@@ -87,7 +89,7 @@ const PriceChart = props => {
           fontWeight={300}
           fontSize={11}
           strokeWidth={0}
-          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+          fontFamily={defaultFont}
         />
 
         <CandlestickSeries
@@ -105,10 +107,10 @@ const PriceChart = props => {
           textFill="rgba(255, 255, 255, 0.52)"
           opacity={0}
           lineStroke={'#858999'}
-          displayFormat={format('$.4s')}
+          displayFormat={format('.4s')}
           fontSize={11}
           fontWeight={300}
-          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+          fontFamily={defaultFont}
         />
         <BarSeries
           clip={false}
@@ -129,7 +131,7 @@ const PriceChart = props => {
           displayFormat={timeFormat('%a, %b %d')}
           fontSize={11}
           fontWeight={300}
-          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+          fontFamily={defaultFont}
         />
         <YAxis
           axisAt="right"
@@ -146,13 +148,13 @@ const PriceChart = props => {
           tickStroke={'rgba(255, 255, 255, 0.52)'}
           fontSize={11}
           fontWeight={300}
-          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+          fontFamily={defaultFont}
         />
         <VolumeAnnotation maxValue={volumeMax} setCurrentValue={setCurrentValue} clip={false} />
       </Chart>
       <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
     </ChartCanvas>
   );
-};
+});
 
 export default fitWidth(PriceChart);

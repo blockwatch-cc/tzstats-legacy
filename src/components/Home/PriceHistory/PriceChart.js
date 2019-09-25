@@ -10,6 +10,7 @@ import { fitWidth } from 'react-stockcharts/lib/helper';
 import { last } from 'react-stockcharts/lib/utils';
 import { format } from 'd3-format';
 import { CurrentCoordinate } from '../../Common';
+import { defaultFont } from '../../../config';
 
 const PriceChart = React.forwardRef((props, ref) => {
   const { type, data: initialData, ratio, width } = props;
@@ -64,7 +65,7 @@ const PriceChart = React.forwardRef((props, ref) => {
           fontWeight={300}
           fontSize={11}
           strokeWidth={0}
-          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+          fontFamily={defaultFont}
         />
         <MouseCoordinateX
           opacity={1}
@@ -75,7 +76,7 @@ const PriceChart = React.forwardRef((props, ref) => {
           textFill="rgba(255, 255, 255, 0.52)"
           displayFormat={timeFormat('%a, %b %d')}
           fontSize={11}
-          fontFamily={"-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif"}
+          fontFamily={defaultFont}
         />
 
         <AreaSeries

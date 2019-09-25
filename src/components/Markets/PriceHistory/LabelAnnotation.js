@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { defaultFont } from '../../../config';
 
 function functor(v) {
   return typeof v === 'function'
@@ -95,7 +96,7 @@ LabelAnnotation.propTypes = {
 
 export const defaultProps = {
   textAnchor: 'middle',
-  fontFamily: '-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif',
+  fontFamily: defaultFont,
   fontSize: 12,
   fill: '#000000',
   opacity: 1,

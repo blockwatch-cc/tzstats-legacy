@@ -8,7 +8,6 @@ import { DataBox, FlexRow, FlexRowSpaceBetween, FlexColumn, LinkIcon } from '../
 
 const MarketInfo = ({ history }) => {
   const [chain] = useGlobal('chain');
-
   const [lastMarketData] = useGlobal('lastMarketData');
 
   React.useEffect(() => {
@@ -16,18 +15,19 @@ const MarketInfo = ({ history }) => {
       let tickers = await getMarketTickers();
       let now = new Date();
       // filter fresh tickers in USD only (age < 2min)
-      tickers = tickers.filter(e => e.quote === 'USD' && now - e.timestamp < 2 * 60000);
+      let usdtickers = tickers.filter(e => e.quote === 'USD' && now - e.timestamp < 2 * 60000);
       // price index: use all USD ticker last prices with equal weight
       setGlobal({
+        tickers: tickers,
         lastMarketData: {
-          date: tickers.length?tickers[0].timestamp:new Date(),
+          date: usdtickers.length?usdtickers[0].timestamp:new Date(),
           price:
-            tickers.reduce((s, t) => {
-              return s + t.last / tickers.length;
+            usdtickers.reduce((s, t) => {
+              return s + t.last / usdtickers.length;
             }, 0) || 0,
           change:
-            tickers.reduce((s, t) => {
-              return s + t.change / tickers.length;
+            usdtickers.reduce((s, t) => {
+              return s + t.change / usdtickers.length;
             }, 0) || 0,
         },
       });

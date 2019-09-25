@@ -54,11 +54,12 @@ const chain = {
   supply: supply,
   status: {status:'init'}
 };
+const tickers = [];
 const cycle = { cycle: 0, start_height: 0 };
 const config = { blocks_per_cycle: 4096, time_between_blocks: [60], version: 0 };
 const lastMarketData = { date: new Date(), price: 0.0, change: 0.0 };
 const setDefaultGlobalState = () => {
-  setGlobal({ chain, lastMarketData, cycle, config });
+  setGlobal({ chain, lastMarketData, cycle, config, tickers });
 };
 
 export default setDefaultGlobalState;

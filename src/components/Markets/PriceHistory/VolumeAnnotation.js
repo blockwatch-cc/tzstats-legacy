@@ -19,14 +19,14 @@ const VolumeAnnotation = ({ maxValue, setCurrentValue }) => {
             usingProps={{
               fontSize: 25,
               fill: d => {
-                let ratio = d.hourVolumes[i] ? (d.hourVolumes[i][1] / maxValue) * 100 : 0;
+                let ratio = d.hourVolumes&&d.hourVolumes[i] ? (d.hourVolumes[i][1] / maxValue) * 100 : 0;
                 return 'rgba(24,236,242,' + opacities[cutoff.findIndex(n => n > ratio)] + ')';
               },
               text: '\u25FC',
               y: ({ yScale }) => yScale.range()[0] - item * 20,
-              tooltip: d => (d.hourVolumes[i] ? formatCurrencyShort(d.hourVolumes[i][1]) : ''),
+              tooltip: d => (d.hourVolumes&&d.hourVolumes[i] ? formatCurrencyShort(d.hourVolumes[i][1]) : ''),
               onMouseEnter: d =>
-                d.datum.hourVolumes[i] &&
+                d.datum.hourVolumes && d.datum.hourVolumes[i] &&
                 setCurrentValue({ volume: d.datum.hourVolumes[i][1], data: d.datum, period: periods[i] }),
             }}
           />

@@ -31,9 +31,7 @@ const Sidebar = () => {
         if (countInTimeout>0) {
           setCountInTimeout(0);
         }
-        return;
-      }
-      if (!countInTimeout) {
+      } else if (!countInTimeout) {
         // on init
         try {
           const [c, d] = await Promise.all([

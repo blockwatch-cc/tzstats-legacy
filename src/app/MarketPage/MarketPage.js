@@ -1,47 +1,24 @@
 import React from 'react';
+import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 import { PriceWithVolume } from '../../components/Markets/PriceHistory';
 import TradeCurrency from '../../components/Markets/TradeCurrency';
 import ExchangesVolume from '../../components/Markets/ExchangesVolume';
-import { getMarketTickers, getOhlcvData, getSeriesData } from '../../services/api/markets';
+import PriceList from '../../components/Markets/PriceList';
 import { Spiner } from '../../components/Common';
 
 const MarketPage = () => {
-  const [data, setData] = React.useState({ isLoaded: false });
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      let [marketData, volSeries, tickers] = await Promise.all([
-        getOhlcvData({ days: 30 }),
-        getSeriesData({
-          dataset: 'kraken/XTZ_USD/ohlcv',
-          days: 30,
-          collapse: '4h',
-          limit: 180,
-          columns: ['time', 'vol_base'],
-        }),
-        getMarketTickers(),
-      ]);
-
-      setData({
-        isLoaded: true,
-        marketData,
-        volSeries,
-        tickers,
-      });
-    };
-
-    fetchData();
-  }, []);
-  return data.isLoaded ? (
+  const [tickers] = useGlobal('tickers');
+  return tickers.length?(
     <Wrapper>
-      <PriceWithVolume marketData={data.marketData} volSeries={data.volSeries} />
+      <PriceList />
+      <PriceWithVolume />
       <JoinContainer>
-        <TradeCurrency tickers={data.tickers} />
-        <ExchangesVolume tickers={data.tickers} />
+        <TradeCurrency tickers={tickers} />
+        <ExchangesVolume tickers={tickers} />
       </JoinContainer>
     </Wrapper>
-  ) : (
+  ):(
     <Spiner />
   );
 };
