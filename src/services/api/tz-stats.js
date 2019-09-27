@@ -19,7 +19,7 @@ const handleResponse = async response => {
 
 //******************COMMON****************** */
 export const getChainData = async options => {
-  const response = await request('/explorer/chain');
+  const response = await request('/explorer/tip');
   return response;
 };
 
@@ -29,7 +29,7 @@ export const getStatus = async options => {
 };
 
 export const getChainConfig = async options => {
-  const response = await request('/explorer/config');
+  const response = await request('/explorer/config/head');
   return response;
 };
 
