@@ -24,7 +24,7 @@ export const bakerAccounts = {
   "tz1LmaFsWRkjr7QMCx5PtV6xTUz3AmEpKQiF": { name: "Blockpower Staking", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1d2EwsrmoCPmhNUjt7unCQ8a9RwVsVXEmd": { name: "BTFD", logo: null, link: "", fee_type: "", fee: 0 },
   "tz3bEQoFCZEEfZMskefZ8q8e4eiHH1pssRax": { name: "Ceibo XTZ", logo: null, link: "", fee_type: "", fee: 0 },
-  "tz1irJKkXS2DBWkU1NnmFQx1c1L7pbGg4yhk": { name: "Coinbase", logo: null, link: "", fee_type: "", fee: 0 },
+  "tz1irJKkXS2DBWkU1NnmFQx1c1L7pbGg4yhk": { name: "Coinbase Custody", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1SYq214SCBy9naR6cvycQsYcUGpBqQAE8d": { name: "Coinone", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1eEnQhbwf6trb8Q8mPb2RaPkNk2rN7BKi8": { name: "Cryptium Labs", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1Tnjaxk6tbAeC2TmMApPh8UsrEVQvhHvx5": { name: "Crypto Delegate", logo: null, link: "", fee_type: "", fee: 0 },
