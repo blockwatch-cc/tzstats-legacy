@@ -89,13 +89,13 @@ const OutLink = styled.a``;
 function getPeriodSettings(period) {
   return [
     {
-      percent: period.turnout_pct/100,
+      percent: period.turnout_pct/100.0,
       color: '#19f3f9',
       title: 'Participating Rolls',
       value: period.turnout_rolls,
     },
     {
-      percent: 100-period.turnout_pct/100,
+      percent: 100.0-period.turnout_pct/100.0,
       color: '#858999;',
       title: 'Maximum Rolls',
       value: period.eligible_rolls - period.turnout_rolls,

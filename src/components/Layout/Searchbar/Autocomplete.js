@@ -32,7 +32,7 @@ const Autocomplete = ({
           <>
           <FlexRowSpaceBetween>
             <Title>Recent History</Title>
-            <CleanButton onClick={e => cleanSearchHistory()}>Clean History</CleanButton>
+            <CleanButton onClick={e => cleanSearchHistory()}>Clear History</CleanButton>
           </FlexRowSpaceBetween>
           {filteredHistory.map((item, i) => {
             return (
