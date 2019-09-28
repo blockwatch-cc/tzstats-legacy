@@ -15,6 +15,7 @@ import {isMainnet} from "../../../utils";
 
 const Sidebar = () => {
   const delay = React.useRef(60000);
+  const waiting = React.useRef(false);
   const [countInTimeout, setCountInTimeout] = React.useState(0);
   const [, setConfig] = useGlobal('config');
   const [chain, setChain] = useGlobal('chain');
@@ -27,12 +28,19 @@ const Sidebar = () => {
         diff = diff + Math.random() * offset/10 - offset/20; // +/-10% offset random
         return diff<0?0:diff;
       }
+      function setTimer(d) {
+        waiting.current = true;
+        return setTimeout(() => {
+           waiting.current = false;
+           setCountInTimeout(c => c + 1);
+        }, d);
+      }
       let timer = null;
       if (!isOnline) {
         if (countInTimeout>0) {
           setCountInTimeout(0);
         }
-      } else if (!countInTimeout) {
+      } else if (!waiting.current && !countInTimeout) {
         // on init
         try {
           const [c, d] = await Promise.all([
@@ -40,42 +48,30 @@ const Sidebar = () => {
             getChainData()
           ]);
           delay.current = c.time_between_blocks[0]*1000||60000;
-          timer = setTimeout(() => {
-            setCountInTimeout(c => c + 1);
-          }, diffTime(d.timestamp, delay.current*1.25));
+          timer = setTimer(diffTime(d.timestamp, delay.current*1.25));
           setConfig(c);
           setChain(d);
         } catch(e) {
-          // console.error(e);
-          timer = setTimeout(() => {
-            setCountInTimeout(c => c + 1);
-          }, delay.current*1.25);
+          timer = setTimer(delay.current*1.25);
         }
-      } else {
+      } else if (!waiting.current) {
         // on update
         try {
           const d = await getChainData();
           if (d.height>chain.height) {
-            timer = setTimeout(() => {
-              setCountInTimeout(c => c + 1);
-            }, diffTime(d.timestamp, delay.current*1.25));
+            timer = setTimer(diffTime(d.timestamp, delay.current*1.25));
           } else {
-            timer = setTimeout(() => {
-              setCountInTimeout(c => c + 1);
-            }, diffTime(new Date(), delay.current/4));
+            timer = setTimer(diffTime(new Date(), delay.current/4));
           }
           setChain(d); // status may have changed
         } catch(e) {
-          // console.error(e);
-          timer = setTimeout(() => {
-            setCountInTimeout(c => c + 1);
-          }, diffTime(new Date(), delay.current/4));
+          timer = setTimer(diffTime(new Date(), delay.current/4));
         }
       }
       return () => clearTimeout(timer);
     };
     fetchData();
-  }, [countInTimeout, isOnline]);
+  }, [countInTimeout, isOnline, waiting]);
 
   return (
     <Wrapper hideOnMobile>
