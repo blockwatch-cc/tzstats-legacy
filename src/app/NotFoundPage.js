@@ -1,11 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Centered } from '../../components/Common';
+import { Centered } from '../components/Common';
 
 const NotFoundPage = ({ match }) => {
   const hash = match.params.value;
 
-  return <Centered><H1>404</H1>{`We tried hard find ${hash?hash:'this page'}, but there is nothing here.`}</Centered>;
+  return (
+    <Centered>
+      <H1>404</H1>
+      {`We tried hard find ${hash ? hash : 'this page'}, but there is nothing here.`}
+    </Centered>
+  );
 };
 
 const H1 = styled.div`

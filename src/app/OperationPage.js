@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import useInfiniteScroll from '../../hooks/useInfiniteScroll';
-import { getOperations } from '../../services/api/tz-stats';
-import OperationDetails from '../../components/Operations/OperationDetails';
-import OperationType from '../../components/Operations/OperationType';
-import { Spiner } from '../../components/Common';
+import useInfiniteScroll from '../hooks/useInfiniteScroll';
+import { getOperations } from '../services/api/tz-stats';
+import OperationDetails from '../components/Operations/OperationDetails';
+import OperationType from '../components/Operations/OperationType';
+import { Spiner } from '../components/Common';
 
 const OperationPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
@@ -12,7 +12,9 @@ const OperationPage = ({ match }) => {
   useInfiniteScroll(fetchMoreOperations, 'body');
 
   async function fetchMoreOperations() {
-    if (!data.ops.length) { return; }
+    if (!data.ops.length) {
+      return;
+    }
     let ops = data.ops;
     setData({
       render: [...data.render, ...ops.splice(0, 20)],
@@ -39,8 +41,8 @@ const OperationPage = ({ match }) => {
       {data.render.map((op, index) => {
         return (
           <Operation key={index}>
-            <OperationDetails op={op} key={'od'+index} />
-            <OperationType op={op} key={'ot'+index} />
+            <OperationDetails op={op} key={'od' + index} />
+            <OperationType op={op} key={'ot' + index} />
           </Operation>
         );
       })}

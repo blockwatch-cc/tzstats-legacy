@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PrivacyPage = ({ match }) => {
+const PrivacyPage = () => {
   return (
     <div className="result">
       <h1>TzStats Privacy Policy</h1>

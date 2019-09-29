@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getElectionById, getElectionHistory } from '../../services/api/tz-stats';
-import { Spiner } from '../../components/Common';
+import { getElectionById, getElectionHistory } from '../services/api/tz-stats';
+import { Spiner } from '../components/Common';
 import {
   ProposalPeriod,
   ExplorationPeriod,
   TestingPeriod,
   PromotionPeriod,
   ElectionHistory,
-} from '../../components/Elections';
+} from '../components/Elections';
 
 const ElectionPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });

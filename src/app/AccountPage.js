@@ -1,11 +1,11 @@
 import React from 'react';
-import BalanceHistory from '../../components/Accounts/BalanceHistory';
-import TransactionHistory from '../../components/Accounts/TransactionHistory';
-import AccountInfo from '../../components/Accounts/AccountInfo';
-import { getAccountByHash, getFlowData, getStakingData } from '../../services/api/tz-stats';
-import { Spiner } from '../../components/Common';
-import { wrapStakingData, wrapToBalance } from '../../utils';
-import history from "../../hooks/history";
+import BalanceHistory from '../components/Accounts/BalanceHistory';
+import TransactionHistory from '../components/Accounts/TransactionHistory';
+import AccountInfo from '../components/Accounts/AccountInfo';
+import { getAccountByHash, getFlowData, getStakingData } from '../services/api/tz-stats';
+import { Spiner } from '../components/Common';
+import { wrapStakingData, wrapToBalance } from '../utils';
+import history from '../hooks/history';
 
 const AccountPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
@@ -28,9 +28,9 @@ const AccountPage = ({ match }) => {
           balanceHistory,
           staking,
         });
-      } catch(e) {
+      } catch (e) {
         if (e.status === 404) {
-          history.push('/404/'+addr)
+          history.push('/404/' + addr);
         }
       }
     };

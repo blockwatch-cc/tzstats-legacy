@@ -1,11 +1,11 @@
 import React from 'react';
 import { useGlobal } from 'reactn';
 import styled from 'styled-components';
-import BlockHistory from '../../components/Blocks/BlockHistory';
-import BlockOperations from '../../components/Blocks/BlockOperations';
-import BlockInfo from '../../components/Blocks/BlockInfo';
-import { getBlock, getBlockRange } from '../../services/api/tz-stats';
-import { Spiner } from '../../components/Common';
+import BlockHistory from '../components/Blocks/BlockHistory';
+import BlockOperations from '../components/Blocks/BlockOperations';
+import BlockInfo from '../components/Blocks/BlockInfo';
+import { getBlock, getBlockRange } from '../services/api/tz-stats';
+import { Spiner } from '../components/Common';
 import { withRouter } from 'react-router-dom';
 
 const BlockPage = ({ match, history }) => {
@@ -17,8 +17,8 @@ const BlockPage = ({ match, history }) => {
   React.useEffect(() => {
     const fetchData = async () => {
       let [block, lastBlock] = await Promise.all([getBlock(currentBlockHash), getBlock()]);
-      const sixtyblocks = 60*config.time_between_blocks[0]*1000;
-      const historySpan = (new Date(lastBlock.time) - new Date(block.time) + block.solvetime*1000)
+      const sixtyblocks = 60 * config.time_between_blocks[0] * 1000;
+      const historySpan = new Date(lastBlock.time) - new Date(block.time) + block.solvetime * 1000;
       let blockHistory = [];
       if (historySpan < sixtyblocks) {
         blockHistory = await getBlockRange(lastBlock.height, 60, 0);

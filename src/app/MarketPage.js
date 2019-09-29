@@ -1,15 +1,15 @@
 import React from 'react';
 import { useGlobal } from 'reactn';
 import styled from 'styled-components';
-import { PriceWithVolume } from '../../components/Markets/PriceHistory';
-import TradeCurrency from '../../components/Markets/TradeCurrency';
-import ExchangesVolume from '../../components/Markets/ExchangesVolume';
-import PriceList from '../../components/Markets/PriceList';
-import { Spiner } from '../../components/Common';
+import { PriceWithVolume } from '../components/Markets/PriceHistory';
+import TradeCurrency from '../components/Markets/TradeCurrency';
+import ExchangesVolume from '../components/Markets/ExchangesVolume';
+import PriceList from '../components/Markets/PriceList';
+import { Spiner } from '../components/Common';
 
 const MarketPage = () => {
   const [tickers] = useGlobal('tickers');
-  return tickers.length?(
+  return tickers.length ? (
     <Wrapper>
       <PriceList />
       <PriceWithVolume />
@@ -18,7 +18,7 @@ const MarketPage = () => {
         <ExchangesVolume tickers={tickers} />
       </JoinContainer>
     </Wrapper>
-  ):(
+  ) : (
     <Spiner />
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TermsPage = ({ match }) => {
+const TermsPage = () => {
   return (
     <div className="result">
       <h1>TzStats Terms of Service</h1>
