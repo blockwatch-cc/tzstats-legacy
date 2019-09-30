@@ -1,0 +1,4032 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta name="generator" content="Hugo 0.58.3" />
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>TzStats API Reference</title>
+    
+
+
+
+
+
+
+
+
+
+
+
+<link href='/docs/api/styles/screen.min.d62f2837f4d60879e8b3268b3e4b7d29fd8f1706bb9c9821e42bbfb531b142e3.css' rel="stylesheet" media="screen" integrity="sha256-1i8oN/TWCHnosyaLPkt9Kf2PFwa7nJgh5Cu/tTGxQuM=" />
+<link href='/docs/api/styles/extra.min.8d157adf42e69d209c922a5327e4444f98adb795e0d90c0415ac8630c084b928.css' rel="stylesheet" media="screen" integrity="sha256-jRV630LmnSCckipTJ&#43;RET5itt5Xg2QwEFayGMMCEuSg=" />
+<link href='/docs/api/styles/print.min.f22104d757702682bc2fa788a318eae049fdfeaf5a05527f373420b37be47a7d.css' rel="stylesheet" media="print" integrity="sha256-8iEE11dwJoK8L6eIoxjq4En9/q9aBVJ/NzQgs3vken0=" />
+
+
+    
+</head>
+<body class="index" data-languages="[ &#34;shell&#34; ]">
+    <a href="#" id="nav-button">
+        <span>
+        NAV
+        <img src='/docs/api/images/navbar.png'/>
+      </span>
+    </a>
+    <div class="toc-wrapper">
+        
+         <img src='/docs/api/images/logo.png' class="logo" />
+        
+        <div class="lang-selector">
+            
+            <a href="#" data-language-name="shell">Shell</a>
+            
+        </div>
+        
+        
+        <div class="search">
+            <input type="search" class="search" id="input-search" placeholder='Search'>
+        </div>
+        <ul class="search-results"></ul>
+        
+        
+    <ul id="toc" class="toc-list-h1">
+        
+        
+            <li>
+                <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+                
+                    <ul class="toc-list-h2">
+                        
+                            <li><a href="#calling-the-api" class="toc-h2 toc-link" data-title="Calling the API">Calling the API</a></li>
+                        
+                            <li><a href="#data-formats" class="toc-h2 toc-link" data-title="Data Formats">Data Formats</a></li>
+                        
+                            <li><a href="#status-codes" class="toc-h2 toc-link" data-title="Status Codes">Status Codes</a></li>
+                        
+                    </ul>
+                
+            </li>
+        
+            <li>
+                <a href="#explorer-endpoints" class="toc-h1 toc-link" data-title="Explorer Endpoints">Explorer Endpoints</a>
+                
+                    <ul class="toc-list-h2">
+                        
+                            <li><a href="#indexer-status" class="toc-h2 toc-link" data-title="Indexer Status">Indexer Status</a></li>
+                        
+                            <li><a href="#chain-tip" class="toc-h2 toc-link" data-title="Chain Tip">Chain Tip</a></li>
+                        
+                            <li><a href="#chain-config" class="toc-h2 toc-link" data-title="Chain Config">Chain Config</a></li>
+                        
+                            <li><a href="#block" class="toc-h2 toc-link" data-title="Block">Block</a></li>
+                        
+                            <li><a href="#operation" class="toc-h2 toc-link" data-title="Operation">Operation</a></li>
+                        
+                            <li><a href="#list-operations" class="toc-h2 toc-link" data-title="List Operations">List Operations</a></li>
+                        
+                            <li><a href="#account" class="toc-h2 toc-link" data-title="Account">Account</a></li>
+                        
+                            <li><a href="#contract" class="toc-h2 toc-link" data-title="Contract">Contract</a></li>
+                        
+                            <li><a href="#cycle" class="toc-h2 toc-link" data-title="Cycle">Cycle</a></li>
+                        
+                            <li><a href="#election" class="toc-h2 toc-link" data-title="Election">Election</a></li>
+                        
+                            <li><a href="#market-tickers" class="toc-h2 toc-link" data-title="Market Tickers">Market Tickers</a></li>
+                        
+                    </ul>
+                
+            </li>
+        
+            <li>
+                <a href="#table-endpoints" class="toc-h1 toc-link" data-title="Table Endpoints">Table Endpoints</a>
+                
+                    <ul class="toc-list-h2">
+                        
+                            <li><a href="#query-arguments" class="toc-h2 toc-link" data-title="Query Arguments">Query Arguments</a></li>
+                        
+                            <li><a href="#query-filters" class="toc-h2 toc-link" data-title="Query Filters">Query Filters</a></li>
+                        
+                            <li><a href="#chain" class="toc-h2 toc-link" data-title="Chain">Chain</a></li>
+                        
+                            <li><a href="#supply" class="toc-h2 toc-link" data-title="Supply">Supply</a></li>
+                        
+                            <li><a href="#block" class="toc-h2 toc-link" data-title="Block">Block</a></li>
+                        
+                            <li><a href="#op" class="toc-h2 toc-link" data-title="Op">Op</a></li>
+                        
+                            <li><a href="#account" class="toc-h2 toc-link" data-title="Account">Account</a></li>
+                        
+                            <li><a href="#contract" class="toc-h2 toc-link" data-title="Contract">Contract</a></li>
+                        
+                            <li><a href="#flow" class="toc-h2 toc-link" data-title="Flow">Flow</a></li>
+                        
+                            <li><a href="#rights" class="toc-h2 toc-link" data-title="Rights">Rights</a></li>
+                        
+                            <li><a href="#snapshot" class="toc-h2 toc-link" data-title="Snapshot">Snapshot</a></li>
+                        
+                            <li><a href="#income" class="toc-h2 toc-link" data-title="Income">Income</a></li>
+                        
+                            <li><a href="#election" class="toc-h2 toc-link" data-title="Election">Election</a></li>
+                        
+                            <li><a href="#proposal" class="toc-h2 toc-link" data-title="Proposal">Proposal</a></li>
+                        
+                            <li><a href="#vote" class="toc-h2 toc-link" data-title="Vote">Vote</a></li>
+                        
+                            <li><a href="#ballot" class="toc-h2 toc-link" data-title="Ballot">Ballot</a></li>
+                        
+                    </ul>
+                
+            </li>
+        
+            <li>
+                <a href="#time-series-endpoints" class="toc-h1 toc-link" data-title="Time-Series Endpoints">Time-Series Endpoints</a>
+                
+                    <ul class="toc-list-h2">
+                        
+                            <li><a href="#query-arguments" class="toc-h2 toc-link" data-title="Query Arguments">Query Arguments</a></li>
+                        
+                            <li><a href="#query-filters" class="toc-h2 toc-link" data-title="Query Filters">Query Filters</a></li>
+                        
+                            <li><a href="#blocks" class="toc-h2 toc-link" data-title="Blocks">Blocks</a></li>
+                        
+                            <li><a href="#operations" class="toc-h2 toc-link" data-title="Operations">Operations</a></li>
+                        
+                            <li><a href="#flows" class="toc-h2 toc-link" data-title="Flows">Flows</a></li>
+                        
+                            <li><a href="#ohlcv" class="toc-h2 toc-link" data-title="OHLCV">OHLCV</a></li>
+                        
+                    </ul>
+                
+            </li>
+        
+            <li>
+                <a href="#changelog" class="toc-h1 toc-link" data-title="Changelog">Changelog</a>
+                
+            </li>
+        
+    </ul>
+
+        
+        
+        <ul class="toc-footer">
+            
+            <li>API v005-2019-09-29</li>
+            
+        </ul>
+        
+        <div style="margin-left: 20px; margin-top: 20px">
+<a href="https://github.com/blockwatch-cc/tzindex">
+  <img width="20px" src="images/gh.png"/>
+</a>
+</div>
+
+    </div>
+    <div class="page-wrapper">
+        <div class="dark-box"></div>
+        <div class="content">
+            
+    
+        
+
+<h1 id="introduction">Introduction</h1>
+
+<blockquote>
+<p><strong>API Endpoints</strong></p>
+</blockquote>
+
+<pre><code>Mainnet: https://api.tzstats.com
+Zeronet: https://api.zeronet.tzstats.com
+Babylonnet: https://api.babylonnet.tzstats.com
+</code></pre>
+
+<p>TzStats provides a powerful API to access fully indexed raw data and statistics collected from the Tezos blockchain. You may use this API free of charge and without limits for non-commercial projects. To inquire about commerial use send an email to info@tzstats.com.</p>
+
+<p>This API reference provides information on all public API endpoints and the different schemes of calling them. Access to the API does not require authentication and we do not enforce daily rate limits right now, but we monitor usage and may apply limits later to guarantee fair usage for everybody.</p>
+
+<p>The API supports three different endpoint flavors to access the same underlying data in different ways:</p>
+
+<ul>
+<li><strong>explorer</strong> endpoints for accessing individual objects</li>
+<li><strong>table</strong> endpoints for accessing large collections of objects</li>
+<li><strong>time-series</strong> endpoints for aggregate counters and statistics over specific fields</li>
+</ul>
+
+<h2 id="calling-the-api">Calling the API</h2>
+
+<p>TzStats Data API is read-only, i.e. the only supported HTTP methods are <code>GET</code> and <code>HEAD</code>. Query parameters must properly URL encoded and appended as query arguments.</p>
+
+<p>Table and time-series endpoints stream data, that is, they immediately return response headers after accepting and validating a request and then stream rows or aggregated data points as they are fetched from the underlying database.</p>
+
+<h3 id="security">Security</h3>
+
+<blockquote>
+<p>All our certificates are signed by <a href="https://letsencrypt.org/certificates/" target="_blank">LetsEncrypt Authority X3 certificate</a>.</p>
+
+<p><strong>Available ciphers are</strong></p>
+</blockquote>
+
+<pre><code>ECDHE-ECDSA-AES256-GCM-SHA384
+ECDHE-ECDSA-CHACHA20-POLY1305
+ECDHE-ECDSA-AES128-GCM-SHA256
+ECDHE-ECDSA-AES256-SHA384
+ECDHE-ECDSA-AES128-SHA256
+ECDHE-RSA-AES256-GCM-SHA384
+ECDHE-RSA-CHACHA20-POLY1305
+ECDHE-RSA-AES128-GCM-SHA256
+ECDHE-RSA-AES256-SHA384
+ECDHE-RSA-AES128-SHA256
+</code></pre>
+
+<p>The API supports secure connections via <strong>TLS v1.3</strong>, <strong>v1.2</strong> and <strong>v1.1</strong> with Perfect Forward Secrecy based on Eliptic Curves and Diffie Helman key exchange. Insecure HTTP requests to port 80 are automatically redirected to HTTPS on port 443.</p>
+
+<h3 id="cors">CORS</h3>
+
+<p>TzStats Data API supports cross-origin HTTP requests, commonly referred as <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS" target="_blank">CORS</a>. This means that you can call the API using Javascript from any browser. Right now CORS support is limited to localhost and the tzstats.com domain. Send a request to info@tzstats.com if you have an interesting use case and like to get whitelisted.</p>
+
+<h3 id="rate-limits">Rate Limits</h3>
+
+<p>We do not enforce limits on the number of calls or the amount of data you can query from the API. We do, however, use SPAM protection measures that limit the number of connection attempts and HTTP calls over short time-frames. Try to slow down your call rate if you start seeing 429 status codes.</p>
+
+<h2 id="data-formats">Data Formats</h2>
+
+<blockquote>
+<p><strong>Regular JSON Objects</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLPUNqkikFAbNDekUhiqJrCaao86o6sPNq5YrcGobHMzSPi4XWr&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;predecessor&#34;</span><span class="p">:</span> <span class="s2">&#34;BM6xrDirVQLYf5KkU7ZFbTdhzxe8Hn9k2K1rR7bmByfcv75dzcu&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;baker&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1XfAjZyaLdceHnZxbMYop7g7kWKPut4PR7&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">626158</span><span class="p">,</span>
+  <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">152</span>
+<span class="p">}</span></code></pre></div>
+<blockquote>
+<p><strong>JSON Bulk Arrays</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">[</span>
+    <span class="s2">&#34;BMRdcMqU63QiXmU8vLE7a2qBES1kRX46mTDEGYEUsFV8uL4PDkd&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1isXamBXpTUgbByQ6gXgZQg4GWNW7r6rKE&#34;</span><span class="p">,</span>
+    <span class="mi">626160</span><span class="p">,</span>
+    <span class="mi">152</span>
+  <span class="p">],[</span>
+    <span class="s2">&#34;BLhhgCSR8Avhbc7hrqQ9uSsB9Adfts2NwqZbzrGS5VCjxQdLX5N&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1coHzgoQYRu1Ezn5QChfFEjwTrBzGNQT6U&#34;</span><span class="p">,</span>
+    <span class="mi">626159</span><span class="p">,</span>
+    <span class="mi">152</span>
+  <span class="p">],[</span>
+    <span class="s2">&#34;BLPUNqkikFAbNDekUhiqJrCaao86o6sPNq5YrcGobHMzSPi4XWr&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1XfAjZyaLdceHnZxbMYop7g7kWKPut4PR7&#34;</span><span class="p">,</span>
+    <span class="mi">626158</span><span class="p">,</span>
+    <span class="mi">152</span>
+  <span class="p">]</span>
+<span class="p">]</span></code></pre></div>
+<p>Results are returned as <code>Content-Type</code> JSON (<a href="https://tools.ietf.org/html/rfc7159" target="_blank">RFC 7159</a>) or CSV (<a href="https://tools.ietf.org/html/rfc4180" target="_blank">RFC 4180</a>). Select either format by appending <code>.json</code> or <code>.csv</code> to the query path.</p>
+
+<p>CSV files always include a header containing the requested column names in the requested order. Columns are separated by comma (ASCII 44, UTF-8 0x2C).</p>
+
+<h3 id="json-bulk-arrays">JSON Bulk Arrays</h3>
+
+<p>Large JSON results such as lists and time-series use a more optimized (less verbose) formatting. Instead of regular JSON objects with named key/value pairs we use <strong>bulk arrays</strong>, i.e. two levels of nested JSON arrays without keys. An outer array contains result rows or datapoints. The inner arrays contain lists of requested columns in requested order when using the <code>columns</code> query parameter or a fixed pre-defined order.</p>
+
+<h3 id="json-data-types">JSON Data Types</h3>
+
+<p>We use the following data types and encoding conventions throughout the API:</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><strong>string</strong></td>
+<td>unstructured ASCII/UTF-8 text</td>
+</tr>
+
+<tr>
+<td><strong>bytes</strong></td>
+<td>binary data encoded</td>
+</tr>
+
+<tr>
+<td><strong>datetime</strong></td>
+<td>UTC timestamps as UNIX milliseconds, e.g. <code>1536246000000</code> or ISO 8601/RFC3339 strings <code>2018-09-06T15:00:00Z</code></td>
+</tr>
+
+<tr>
+<td><strong>duration</strong></td>
+<td>signed 64bit integers with second precision</td>
+</tr>
+
+<tr>
+<td><strong>boolean</strong></td>
+<td>a binary value, either as string or number <code>true</code> (1) or <code>false</code> (0)</td>
+</tr>
+
+<tr>
+<td><strong>float64</strong></td>
+<td>an IEEE-754 64-bit floating-point number</td>
+</tr>
+
+<tr>
+<td><strong>int64</strong></td>
+<td>a signed 64-bit integer (Range: -9,223,372,036,854,775,807 through 9,223,372,036,854,775,807)</td>
+</tr>
+
+<tr>
+<td><strong>uint64</strong></td>
+<td>an unsigned 64-bit integer (Range: 0 through 18,446,744,073,709,551,615)</td>
+</tr>
+
+<tr>
+<td><strong>enum</strong></td>
+<td>enumerable values expressed as strings, usually used for types</td>
+</tr>
+
+<tr>
+<td><strong>hash</strong></td>
+<td>on-chain hashes encoded as base58-check strings</td>
+</tr>
+
+<tr>
+<td><strong>money</strong></td>
+<td>monetary quantities are expressed as <code>float64</code> with 6 decimal points (the Tezos coin unit precision); market endpoints use 5 or more decimal points depending of the fiat or crypto pairs</td>
+</tr>
+</tbody>
+</table>
+
+<p>For efficiency reasons, timestamps in JSON bulk arrays are encoded as UNIX time at millisecond resolution. That is, value <code>0</code> represents <code>Jan 1, 1970 00:00:00 UTC</code>. Timestamps in explorer responses are encoded according to <a href="https://tools.ietf.org/html/rfc3339" target="_blank">RFC 3339</a> (<code>2018-09-06T08:07:38Z</code>) for convenience and human readability.</p>
+
+<p>Timestamps in queries can be expressed in multiple ways:</p>
+
+<ul>
+<li>as RFC3339 string with any timezone</li>
+<li>as UNIX timestamp in seconds or milliseconds, so <code>1536246000</code> and <code>1536246000000</code> are equal</li>
+<li>as date without time, i.e. <code>2018</code>, <code>2018-09</code>, <code>2018-09-06</code> represents midnight at the first day of month and/or month of year</li>
+<li>as static string such as <code>now</code>, <code>today</code>, or <code>yesterday</code> to reference a relative point in time</li>
+<li>as static string expression to truncated and offset timepoints against now, eg. <code>now/d</code> for start of today or <code>now/d-30d</code> for start of day 30 days ago (expressions support <code>s</code>.<code>m</code>,<code>h</code>,<code>d</code> )</li>
+</ul>
+
+<h2 id="status-codes">Status Codes</h2>
+
+<p>The TzStats Data API responds with regular HTTP status codes in the <code>2xx</code> range to indicate success, in the <code>4xx</code> range to indicate client-side errors and in the <code>5xx</code> range to indicate backend errors. The response body contains additional information encoded as JSON object.</p>
+
+<ul>
+<li><code>200 OK</code> Success</li>
+<li><code>400 Bad Request</code> Missing required fields of malformed request data</li>
+<li><code>404 Not Found</code> No such object</li>
+<li><code>405 Method Not Allowed</code> Unsupported request method</li>
+<li><code>429 Too Many Requests</code> Request limit exceeded</li>
+<li><code>500 Internal Server</code> Something went wrong</li>
+<li><code>502 Bad Gateway</code> Your connection is beeing throttled or the service is under maintenance</li>
+</ul>
+
+<h3 id="error-responses">Error Responses</h3>
+
+<blockquote>
+<p><strong>API Error Response</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;errors&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;code&#34;</span><span class="p">:</span> <span class="mi">1007</span><span class="p">,</span>
+      <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+      <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="s2">&#34;incorrect request syntax&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;scope&#34;</span><span class="p">:</span> <span class="s2">&#34;StreamTable&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;detail&#34;</span><span class="p">:</span> <span class="s2">&#34;unknown column &#39;cycles&#39;&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;request_id&#34;</span><span class="p">:</span> <span class="s2">&#34;BW-a935b7fedf6beefcedc94e539cfe320cc551c5b3&#34;</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span></code></pre></div>
+<p>All error messages are JSON encoded. They contain fields numeric and human readable fields to help developers easily debug and map errors.</p>
+
+<table>
+<thead>
+<tr>
+<th>Fields</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>status</code> <em>int</em></td>
+<td>The HTTP status code, duplicated for convenience.</td>
+</tr>
+
+<tr>
+<td><code>message</code> <em>string</em></td>
+<td>A textual representation of the error status.</td>
+</tr>
+
+<tr>
+<td><code>scope</code> <em>string</em></td>
+<td>The name of the API call that has failed.</td>
+</tr>
+
+<tr>
+<td><code>detail</code> <em>string</em></td>
+<td>A detailed text description of the error.</td>
+</tr>
+
+<tr>
+<td><code>code</code> <em>int</em></td>
+<td>An internal error code.</td>
+</tr>
+
+<tr>
+<td><code>request_id</code> <em>string</em></td>
+<td>Unique call id that helps us trace failed requests.</td>
+</tr>
+</tbody>
+</table>
+
+    
+        
+
+<h1 id="explorer-endpoints">Explorer Endpoints</h1>
+
+<p>Most explorer endpoints take different kinds of path arguments to define the object to return:</p>
+
+<ul>
+<li>a regular <code>hash</code> for blocks, operations or accounts</li>
+<li>the string <code>head</code> for the most recent object on the blockchain (e.g. the recent block or cycle)</li>
+<li>a block <code>height</code> (a.k.a level in Tezos)</li>
+<li>a sequence <code>number</code> for cycles and elections</li>
+</ul>
+
+<p>Some endpoints support a simple pagination scheme to walk lists of result (i.e. for related operations or accounts). To paginate append <code>limit</code> and <code>offset</code> (both positive integers). Limit defaults to 20 and is capped to a maximum value of 100. Results are always sorted by <code>row_id</code> of the underlying table.</p>
+
+<h3 id="list-of-supported-endpoints">List of supported endpoints</h3>
+
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Is Paged</th>
+<th>Filter</th>
+<th>Comment</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>GET /explorer/status</code></td>
+<td></td>
+<td></td>
+<td>indexer status</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/config/{head,height}</code></td>
+<td></td>
+<td></td>
+<td>blockchain config at head or height</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/tip</code></td>
+<td></td>
+<td></td>
+<td>blockchain tip info</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/block/{head,hash,height}</code></td>
+<td></td>
+<td></td>
+<td>block info</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/block/{head,hash,height}/op</code></td>
+<td>x</td>
+<td><code>type</code></td>
+<td>list block operations</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/op/{hash}</code></td>
+<td></td>
+<td></td>
+<td>operation info</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/account/{hash}</code></td>
+<td></td>
+<td></td>
+<td>account info</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/account/{hash}/managed</code></td>
+<td>x</td>
+<td></td>
+<td>list of contracts managed by this account</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/account/{hash}/op</code></td>
+<td>x</td>
+<td><code>type</code></td>
+<td>list account operations</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/account/{hash}/ballots</code></td>
+<td>x</td>
+<td></td>
+<td>list proposals and ballots</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/contract/{hash}</code></td>
+<td></td>
+<td></td>
+<td>contract info</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/contract/{hash}/op</code></td>
+<td>x</td>
+<td><code>type</code></td>
+<td>list contract operations</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/cycle/{head,num}</code></td>
+<td></td>
+<td></td>
+<td>active cycle or cycle N info</td>
+</tr>
+
+<tr>
+<td><code>GET /explorer/election/{head,num,height}</code></td>
+<td></td>
+<td></td>
+<td>election info (num ::= [1,1024]</td>
+</tr>
+
+<tr>
+<td><code>GET /markets</code></td>
+<td></td>
+<td></td>
+<td>list of known exchanges and markets</td>
+</tr>
+
+<tr>
+<td><code>GET /markets/tickers</code></td>
+<td></td>
+<td></td>
+<td>list of 24h market tickers</td>
+</tr>
+
+<tr>
+<td><code>GET /markets/{exchange}</code></td>
+<td></td>
+<td></td>
+<td>exchange status</td>
+</tr>
+
+<tr>
+<td><code>GET /markets/{exchange}/{market}</code></td>
+<td></td>
+<td></td>
+<td>market status</td>
+</tr>
+
+<tr>
+<td><code>GET /markets/{exchange}/{market}/ticker</code></td>
+<td></td>
+<td></td>
+<td>single market ticker</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="list-of-supported-operation-types">List of supported operation types</h3>
+
+<ul>
+<li><code>activate_account</code></li>
+<li><code>double_baking_evidence</code></li>
+<li><code>double_endorsement_evidence</code></li>
+<li><code>seed_nonce_revelation</code></li>
+<li><code>transaction</code></li>
+<li><code>origination</code></li>
+<li><code>delegation</code></li>
+<li><code>reveal</code></li>
+<li><code>endorsement</code></li>
+<li><code>proposals</code></li>
+<li><code>ballot</code></li>
+</ul>
+
+<h2 id="indexer-status">Indexer Status</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/status</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;synced&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;blocks&#34;</span><span class="p">:</span> <span class="mi">626399</span><span class="p">,</span>
+  <span class="nt">&#34;indexed&#34;</span><span class="p">:</span> <span class="mi">626399</span><span class="p">,</span>
+  <span class="nt">&#34;progress&#34;</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span></code></pre></div>
+<p>Check if the indexer is in sync with the blockchain.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/status</code></p>
+
+<h3 id="http-response">HTTP Response</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>status</code> <em>enum</em></td>
+<td>Indexer status (<code>connecting</code>, <code>syncing</code>, <code>synced</code>, <code>failed</code>).</td>
+</tr>
+
+<tr>
+<td><code>blocks</code> <em>int</em></td>
+<td>Most recent block height seen by the connected Tezos node.</td>
+</tr>
+
+<tr>
+<td><code>indexed</code> <em>int</em></td>
+<td>Most recent block height indexed.</td>
+</tr>
+
+<tr>
+<td><code>progress</code> <em>float</em></td>
+<td>Percentage of blocks indexed.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="chain-tip">Chain Tip</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/tip</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Tezos&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;symbol&#34;</span><span class="p">:</span> <span class="s2">&#34;XTZ&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;network&#34;</span><span class="p">:</span> <span class="s2">&#34;Mainnet&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;chain_id&#34;</span><span class="p">:</span> <span class="s2">&#34;NetXdQprcVkpaWU&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;genesis_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T16:07:32Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;block_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BL326wcsdVU2Gp1PqnEgbP26dzM1crnevoTJXDQnPPJ1LAqVwv3&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-27T21:23:47Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">626408</span><span class="p">,</span>
+  <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">152</span><span class="p">,</span>
+  <span class="nt">&#34;total_accounts&#34;</span><span class="p">:</span> <span class="mi">333538</span><span class="p">,</span>
+  <span class="nt">&#34;funded_accounts&#34;</span><span class="p">:</span> <span class="mi">298038</span><span class="p">,</span>
+  <span class="nt">&#34;total_ops&#34;</span><span class="p">:</span> <span class="mi">15059205</span><span class="p">,</span>
+  <span class="nt">&#34;delegators&#34;</span><span class="p">:</span> <span class="mi">17007</span><span class="p">,</span>
+  <span class="nt">&#34;delegates&#34;</span><span class="p">:</span> <span class="mi">481</span><span class="p">,</span>
+  <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">71897</span><span class="p">,</span>
+  <span class="nt">&#34;roll_owners&#34;</span><span class="p">:</span> <span class="mi">459</span><span class="p">,</span>
+  <span class="nt">&#34;new_accounts_30d&#34;</span><span class="p">:</span> <span class="mi">9848</span><span class="p">,</span>
+  <span class="nt">&#34;cleared_accounts_30d&#34;</span><span class="p">:</span> <span class="mi">2195</span><span class="p">,</span>
+  <span class="nt">&#34;funded_accounts_30d&#34;</span><span class="p">:</span> <span class="mi">9326</span><span class="p">,</span>
+  <span class="nt">&#34;inflation_1y&#34;</span><span class="p">:</span> <span class="mf">39223088.146111</span><span class="p">,</span>
+  <span class="nt">&#34;inflation_rate_1y&#34;</span><span class="p">:</span> <span class="mf">5.098069887192244</span><span class="p">,</span>
+  <span class="nt">&#34;health&#34;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+  <span class="nt">&#34;supply&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">626408</span><span class="p">,</span>
+    <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">152</span><span class="p">,</span>
+    <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-27T21:23:47Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;total&#34;</span><span class="p">:</span> <span class="mf">810708076.643151</span><span class="p">,</span>
+    <span class="nt">&#34;activated&#34;</span><span class="p">:</span> <span class="mf">526825268.109869</span><span class="p">,</span>
+    <span class="nt">&#34;unclaimed&#34;</span><span class="p">:</span> <span class="mf">84629610.300311</span><span class="p">,</span>
+    <span class="nt">&#34;vested&#34;</span><span class="p">:</span> <span class="mf">27582743.42817</span><span class="p">,</span>
+    <span class="nt">&#34;unvested&#34;</span><span class="p">:</span> <span class="mf">125280976.17435</span><span class="p">,</span>
+    <span class="nt">&#34;circulating&#34;</span><span class="p">:</span> <span class="mf">536764651.120734</span><span class="p">,</span>
+    <span class="nt">&#34;delegated&#34;</span><span class="p">:</span> <span class="mf">457179960.469034</span><span class="p">,</span>
+    <span class="nt">&#34;staking&#34;</span><span class="p">:</span> <span class="mf">580619999.307627</span><span class="p">,</span>
+    <span class="nt">&#34;active_delegated&#34;</span><span class="p">:</span> <span class="mf">455871344.805448</span><span class="p">,</span>
+    <span class="nt">&#34;active_staking&#34;</span><span class="p">:</span> <span class="mf">576682219.775331</span><span class="p">,</span>
+    <span class="nt">&#34;inactive_delegated&#34;</span><span class="p">:</span> <span class="mf">1308615.663586</span><span class="p">,</span>
+    <span class="nt">&#34;inactive_staking&#34;</span><span class="p">:</span> <span class="mf">3937779.532296</span><span class="p">,</span>
+    <span class="nt">&#34;mined&#34;</span><span class="p">:</span> <span class="mf">46545468.745557</span><span class="p">,</span>
+    <span class="nt">&#34;mined_baking&#34;</span><span class="p">:</span> <span class="mf">9685699.106655</span><span class="p">,</span>
+    <span class="nt">&#34;mined_endorsing&#34;</span><span class="p">:</span> <span class="mf">36857356.263902</span><span class="p">,</span>
+    <span class="nt">&#34;mined_seeding&#34;</span><span class="p">:</span> <span class="mf">2413.375</span><span class="p">,</span>
+    <span class="nt">&#34;burned&#34;</span><span class="p">:</span> <span class="mf">155990.115106</span><span class="p">,</span>
+    <span class="nt">&#34;burned_double_baking&#34;</span><span class="p">:</span> <span class="mf">103509.825621</span><span class="p">,</span>
+    <span class="nt">&#34;burned_double_endorse&#34;</span><span class="p">:</span> <span class="mf">31838.219485</span><span class="p">,</span>
+    <span class="nt">&#34;burned_origination&#34;</span><span class="p">:</span> <span class="mf">6574.002</span><span class="p">,</span>
+    <span class="nt">&#34;burned_implicit&#34;</span><span class="p">:</span> <span class="mf">14068.068</span><span class="p">,</span>
+    <span class="nt">&#34;frozen&#34;</span><span class="p">:</span> <span class="mf">64032839.047756</span><span class="p">,</span>
+    <span class="nt">&#34;frozen_deposits&#34;</span><span class="p">:</span> <span class="mi">62097662</span><span class="p">,</span>
+    <span class="nt">&#34;frozen_rewards&#34;</span><span class="p">:</span> <span class="mf">1934957.146609</span><span class="p">,</span>
+    <span class="nt">&#34;frozen_fees&#34;</span><span class="p">:</span> <span class="mf">219.901147</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;synced&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;blocks&#34;</span><span class="p">:</span> <span class="mi">626408</span><span class="p">,</span>
+    <span class="nt">&#34;indexed&#34;</span><span class="p">:</span> <span class="mi">626408</span><span class="p">,</span>
+    <span class="nt">&#34;progress&#34;</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>Get info about the most recent block as well as some on-chain and supply statistics.</p>
+
+<h3 id="http-request-1">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/tip</code></p>
+
+<h3 id="http-response-1">HTTP Response</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>name</code> <em>string</em></td>
+<td>Blockchain name (<code>Tezos</code>).</td>
+</tr>
+
+<tr>
+<td><code>symbol</code> <em>string</em></td>
+<td>Ticker symbol (<code>XTZ</code>).</td>
+</tr>
+
+<tr>
+<td><code>network</code> <em>string</em></td>
+<td>Network name (e.g. <code>Mainnet</code>, <code>Zeronet</code>, <code>Sandbox</code>).</td>
+</tr>
+
+<tr>
+<td><code>chain_id</code> <em>hash</em></td>
+<td>Chain hash.</td>
+</tr>
+
+<tr>
+<td><code>genesis_time</code> <em>datetime</em></td>
+<td>Genesis block timestamp.</td>
+</tr>
+
+<tr>
+<td><code>block_hash</code> <em>hash</em></td>
+<td>Current block hash.</td>
+</tr>
+
+<tr>
+<td><code>timestamp</code> <em>datetime</em></td>
+<td>Current block timestamp.</td>
+</tr>
+
+<tr>
+<td><code>height</code> <em>int</em></td>
+<td>Current block height (level).</td>
+</tr>
+
+<tr>
+<td><code>cycle</code> <em>int</em></td>
+<td>Current cycle.</td>
+</tr>
+
+<tr>
+<td><code>total_accounts</code> <em>int</em></td>
+<td>Total number of on-chain accounts in existence.</td>
+</tr>
+
+<tr>
+<td><code>funded_accounts</code> <em>int</em></td>
+<td>Total number on funded (non-zero) accounts.</td>
+</tr>
+
+<tr>
+<td><code>total_ops</code> <em>int</em></td>
+<td>Total number of on-chain operations.</td>
+</tr>
+
+<tr>
+<td><code>delegators</code> <em>int</em></td>
+<td>Current number of delegators (updated each block).</td>
+</tr>
+
+<tr>
+<td><code>delegates</code> <em>int</em></td>
+<td>Current number of active delegates (updated each block).</td>
+</tr>
+
+<tr>
+<td><code>rolls</code> <em>int</em></td>
+<td>Current number of network-wide rolls (updated each block).</td>
+</tr>
+
+<tr>
+<td><code>roll_owners</code> <em>int</em></td>
+<td>Current number of network-wide roll owners (updated each block).</td>
+</tr>
+
+<tr>
+<td><code>new_accounts_30d</code> <em>int</em></td>
+<td>Accounts created during the past 30 days.</td>
+</tr>
+
+<tr>
+<td><code>cleared_accounts_30d</code> <em>int</em></td>
+<td>Accounts emptied during the past 30 days.</td>
+</tr>
+
+<tr>
+<td><code>funded_accounts_30d</code> <em>int</em></td>
+<td>Accounts (re)funded (new and previously empty) during the past 30 days.</td>
+</tr>
+
+<tr>
+<td><code>inflation_1y</code> <em>float</em></td>
+<td>Absolute inflation in tz.</td>
+</tr>
+
+<tr>
+<td><code>inflation_rate_1y</code> <em>float</em></td>
+<td>Relative annualized inflation in percent.</td>
+</tr>
+
+<tr>
+<td><code>health</code> <em>int</em></td>
+<td>Blockchain and consensus health indicator with range [0..100].</td>
+</tr>
+
+<tr>
+<td><code>supply</code> <em>object</em></td>
+<td>Coin supply statistics at current block height.</td>
+</tr>
+
+<tr>
+<td><code>status</code> <em>object</em></td>
+<td>Indexer status, embedded for efficiency.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="chain-config">Chain Config</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/config/head</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Tezos&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;symbol&#34;</span><span class="p">:</span> <span class="s2">&#34;XTZ&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;network&#34;</span><span class="p">:</span> <span class="s2">&#34;Mainnet&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;chain_id&#34;</span><span class="p">:</span> <span class="s2">&#34;NetXdQprcVkpaWU&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="nt">&#34;protocol&#34;</span><span class="p">:</span> <span class="s2">&#34;Pt24m4xiPbLDhVgVfABUjirbmda3yohdN82Sp9FeuAXJ4eV9otd&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;start_height&#34;</span><span class="p">:</span> <span class="mi">458753</span><span class="p">,</span>
+  <span class="nt">&#34;end_height&#34;</span><span class="p">:</span> <span class="mi">655360</span><span class="p">,</span>
+  <span class="nt">&#34;no_reward_cycles&#34;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+  <span class="nt">&#34;security_deposit_ramp_up_cycles&#34;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+  <span class="nt">&#34;decimals&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+  <span class="nt">&#34;units&#34;</span><span class="p">:</span> <span class="mi">1000000</span><span class="p">,</span>
+  <span class="nt">&#34;block_reward&#34;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+  <span class="nt">&#34;block_security_deposit&#34;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_per_commitment&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_per_cycle&#34;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_per_roll_snapshot&#34;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_per_voting_period&#34;</span><span class="p">:</span> <span class="mi">32768</span><span class="p">,</span>
+  <span class="nt">&#34;cost_per_byte&#34;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+  <span class="nt">&#34;endorsement_reward&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nt">&#34;endorsement_security_deposit&#34;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+  <span class="nt">&#34;endorsers_per_block&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+  <span class="nt">&#34;hard_gas_limit_per_block&#34;</span><span class="p">:</span> <span class="mi">8000000</span><span class="p">,</span>
+  <span class="nt">&#34;hard_gas_limit_per_operation&#34;</span><span class="p">:</span> <span class="mi">800000</span><span class="p">,</span>
+  <span class="nt">&#34;hard_storage_limit_per_operation&#34;</span><span class="p">:</span> <span class="mi">60000</span><span class="p">,</span>
+  <span class="nt">&#34;max_operation_data_length&#34;</span><span class="p">:</span> <span class="mi">16384</span><span class="p">,</span>
+  <span class="nt">&#34;max_proposals_per_delegate&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="nt">&#34;max_revelations_per_block&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+  <span class="nt">&#34;michelson_maximum_type_size&#34;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+  <span class="nt">&#34;nonce_length&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+  <span class="nt">&#34;origination_burn&#34;</span><span class="p">:</span> <span class="mf">0.257</span><span class="p">,</span>
+  <span class="nt">&#34;origination_size&#34;</span><span class="p">:</span> <span class="mi">257</span><span class="p">,</span>
+  <span class="nt">&#34;preserved_cycles&#34;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="nt">&#34;proof_of_work_nonce_size&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="nt">&#34;proof_of_work_threshold&#34;</span><span class="p">:</span> <span class="mi">70368744177663</span><span class="p">,</span>
+  <span class="nt">&#34;seed_nonce_revelation_tip&#34;</span><span class="p">:</span> <span class="mi">125000</span><span class="p">,</span>
+  <span class="nt">&#34;time_between_blocks&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="mi">60</span><span class="p">,</span>
+    <span class="mi">75</span>
+  <span class="p">],</span>
+  <span class="nt">&#34;tokens_per_roll&#34;</span><span class="p">:</span> <span class="mi">8000</span><span class="p">,</span>
+  <span class="nt">&#34;test_chain_duration&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;min_proposal_quorum&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;quorum_min&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;quorum_max&#34;</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">}</span></code></pre></div>
+<p>Fetch blockchain configuration parameters. This endpoint accepts <code>head</code> and a block <code>height</code> as path parameters, so you can access configurations of past protocols as well.</p>
+
+<h3 id="http-request-2">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/config/head</code></p>
+
+<h3 id="http-response-2">HTTP Response</h3>
+
+<p>The response contains most of the configuration fields of a regular Tezos blockchain node, enriched with some additional contextual data.</p>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>name</code> <em>string</em></td>
+<td>Blockchain name (<code>Tezos</code>).</td>
+</tr>
+
+<tr>
+<td><code>symbol</code> <em>string</em></td>
+<td>Ticker symbol (<code>XTZ</code>).</td>
+</tr>
+
+<tr>
+<td><code>network</code> <em>string</em></td>
+<td>Network name (e.g. <code>Mainnet</code>, <code>Zeronet</code>, <code>Sandbox</code>).</td>
+</tr>
+
+<tr>
+<td><code>chain_id</code> <em>hash</em></td>
+<td>Chain hash.</td>
+</tr>
+
+<tr>
+<td><code>version</code> <em>int</em></td>
+<td>Protocol version.</td>
+</tr>
+
+<tr>
+<td><code>protocol</code> <em>hash</em></td>
+<td>Protool hash.</td>
+</tr>
+
+<tr>
+<td><code>start_height</code> <em>int</em></td>
+<td>Activation height of the protocol.</td>
+</tr>
+
+<tr>
+<td><code>end_height</code> <em>int</em></td>
+<td>Deactivation height of the protocol (0 if undefined).</td>
+</tr>
+
+<tr>
+<td><code>no_reward_cycles</code> <em>int</em></td>
+<td>Number of initial cycles that pay no block rewards.</td>
+</tr>
+
+<tr>
+<td><code>security_deposit_ramp_up_cycles</code> <em>int</em></td>
+<td>Number of initial cycles before full deposits are required.</td>
+</tr>
+
+<tr>
+<td><code>decimals</code> <em>int</em></td>
+<td>Decimal points of one coin unit.</td>
+</tr>
+
+<tr>
+<td><code>units</code> <em>int</em></td>
+<td>Number of atomic units in one coin (i.e. mutez).</td>
+</tr>
+
+<tr>
+<td><code>block_reward</code> <em>float</em></td>
+<td>Block baking reward in tz.</td>
+</tr>
+
+<tr>
+<td><code>block_security_deposit</code> <em>float</em></td>
+<td>Baker security deposit in tz.</td>
+</tr>
+
+<tr>
+<td><code>blocks_per_commitment</code> <em>int</em></td>
+<td>Number of blocks between seed nonce commitments.</td>
+</tr>
+
+<tr>
+<td><code>blocks_per_cycle</code> <em>int</em></td>
+<td>Number of blocks per consensus cycle.</td>
+</tr>
+
+<tr>
+<td><code>blocks_per_roll_snapshot</code> <em>int</em></td>
+<td>Number of blocks between roll snapshots.</td>
+</tr>
+
+<tr>
+<td><code>blocks_per_voting_period</code> <em>int</em></td>
+<td>Number of blocks per voting period.</td>
+</tr>
+
+<tr>
+<td><code>cost_per_byte</code> <em>int</em></td>
+<td>Gas costs per data byte.</td>
+</tr>
+
+<tr>
+<td><code>endorsement_reward</code> <em>int</em></td>
+<td>Block endorsing reward per slot in tz.</td>
+</tr>
+
+<tr>
+<td><code>endorsement_security_deposit</code> <em>int</em></td>
+<td>Endorser security deposit per slot in tz.</td>
+</tr>
+
+<tr>
+<td><code>endorsers_per_block</code> <em>int</em></td>
+<td>Max number of endorsing slots.</td>
+</tr>
+
+<tr>
+<td><code>hard_gas_limit_per_block</code> <em>int</em></td>
+<td>Max gas limit per block.</td>
+</tr>
+
+<tr>
+<td><code>hard_gas_limit_per_operation</code> <em>int</em></td>
+<td>Max gas limit per single operation.</td>
+</tr>
+
+<tr>
+<td><code>hard_storage_limit_per_operation</code> <em>int</em></td>
+<td>Max gas limit for storage spent be an operation.</td>
+</tr>
+
+<tr>
+<td><code>max_operation_data_length</code> <em>int</em></td>
+<td>Max data bytes per operation.</td>
+</tr>
+
+<tr>
+<td><code>max_proposals_per_delegate</code> <em>int</em></td>
+<td>Max proposals per single delegate and proposals operation.</td>
+</tr>
+
+<tr>
+<td><code>max_revelations_per_block</code> <em>int</em></td>
+<td>Maximum number of seed nonce revelation operations per block.</td>
+</tr>
+
+<tr>
+<td><code>michelson_maximum_type_size</code> <em>int</em></td>
+<td>Maximum type size michelson type definition.</td>
+</tr>
+
+<tr>
+<td><code>nonce_length</code> <em>int</em></td>
+<td>Nonce length</td>
+</tr>
+
+<tr>
+<td><code>origination_burn</code> <em>float</em></td>
+<td>Amount of Tezos burned per origination.</td>
+</tr>
+
+<tr>
+<td><code>origination_size</code> <em>int</em></td>
+<td>Origination storage requirement in bytes.</td>
+</tr>
+
+<tr>
+<td><code>preserved_cycles</code> <em>int</em></td>
+<td>Number of cycles for freezing security deposits and rewards.</td>
+</tr>
+
+<tr>
+<td><code>proof_of_work_nonce_size</code> <em>int</em></td>
+<td>Nonce size for P2P messages.</td>
+</tr>
+
+<tr>
+<td><code>proof_of_work_threshold</code> <em>int</em></td>
+<td>Threshold for message nonce complexity.</td>
+</tr>
+
+<tr>
+<td><code>seed_nonce_revelation_tip</code> <em>float</em></td>
+<td>Rewards for publishing a seed nonce.</td>
+</tr>
+
+<tr>
+<td><code>time_between_blocks</code> <em>array[int]</em></td>
+<td>Target time between blocks in seconds.</td>
+</tr>
+
+<tr>
+<td><code>tokens_per_roll</code> <em>int</em></td>
+<td>Amount of Tezos per roll.</td>
+</tr>
+
+<tr>
+<td><code>test_chain_duration</code> <em>int</em></td>
+<td>Test chain lifetime in seconds.</td>
+</tr>
+
+<tr>
+<td><code>min_proposal_quorum</code> <em>int</em></td>
+<td>Minimum quorum to accept proposals in centile (i.e. 5% = 500).</td>
+</tr>
+
+<tr>
+<td><code>quorum_min</code> <em>int</em></td>
+<td>Minimum threshold for voting period quorum in centile.</td>
+</tr>
+
+<tr>
+<td><code>quorum_max</code> <em>int</em></td>
+<td>Maximum threshold for voting period quorum in centile.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="block">Block</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/block/627341</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLWT4x43zqzbtRzWNShkuU1DaTjU9fX34Qs4V3Hku2ZgYxiEpPW&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;predecessor&#34;</span><span class="p">:</span> <span class="s2">&#34;BKqv8SBNabXEMXV9fsy21yx9BNsqWBKVVp9ca4KTMpGsF2Wi8Uj&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;baker&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1cZfFQpcYhwDp7y1njZXDsZqCrn2NqmVof&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627342</span><span class="p">,</span>
+  <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
+  <span class="nt">&#34;is_cycle_snapshot&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T13:11:51Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;solvetime&#34;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+  <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="nt">&#34;validation_pass&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="nt">&#34;fitness&#34;</span><span class="p">:</span> <span class="mi">19846458</span><span class="p">,</span>
+  <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;nonce&#34;</span><span class="p">:</span> <span class="mi">11996642917503807005</span><span class="p">,</span>
+  <span class="nt">&#34;voting_period_kind&#34;</span><span class="p">:</span> <span class="s2">&#34;promotion_vote&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;endorsed_slots&#34;</span><span class="p">:</span> <span class="mi">4294965247</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops&#34;</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops_failed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops_contract&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_tx&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;n_activation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_seed_nonce&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_double_baking&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_double_endorsement&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_endorsement&#34;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
+  <span class="nt">&#34;n_delegation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_reveal&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_origination&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_proposal&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_ballot&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;volume&#34;</span><span class="p">:</span> <span class="mf">2.434174</span><span class="p">,</span>
+  <span class="nt">&#34;fees&#34;</span><span class="p">:</span> <span class="mf">0.00142</span><span class="p">,</span>
+  <span class="nt">&#34;rewards&#34;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+  <span class="nt">&#34;deposits&#34;</span><span class="p">:</span> <span class="mi">2560</span><span class="p">,</span>
+  <span class="nt">&#34;unfrozen_fees&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;unfrozen_rewards&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;unfrozen_deposits&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;activated_supply&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;burned_supply&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_accounts&#34;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>
+  <span class="nt">&#34;n_new_accounts&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_new_implicit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_new_managed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_new_contracts&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_cleared_accounts&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_funded_accounts&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;gas_limit&#34;</span><span class="p">:</span> <span class="mi">10300</span><span class="p">,</span>
+  <span class="nt">&#34;gas_used&#34;</span><span class="p">:</span> <span class="mi">10200</span><span class="p">,</span>
+  <span class="nt">&#34;gas_price&#34;</span><span class="p">:</span> <span class="mf">0.13922</span><span class="p">,</span>
+  <span class="nt">&#34;storage_size&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;days_destroyed&#34;</span><span class="p">:</span> <span class="mf">0.003381</span><span class="p">,</span>
+  <span class="nt">&#34;endorsers&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&#34;tz1LLNkQK4UQV6QcFShiXJ2vT2ELw449MzAA&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1isXamBXpTUgbByQ6gXgZQg4GWNW7r6rKE&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1gk3TDbU7cJuiBRMhwQXVvgDnjsxuWhcEA&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1MXFrtZoaXckE41bjUCSjAjAap3AFDSr3N&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1dZhK4HMbGTPUucpKy1rNG1WfYLqdRMs6Z&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3bvNMQ95vfAYtG8193ymshqjSvmxiCUuR5&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1TaLYBeGZD3yKVHQGBM857CcNnFFNceLYh&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3RB4aoyjov4KEVRbuhvQ1CKJgBJMWhaeB8&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3bTdwZinP8U1JmSweNzVKhmwafqWmFWRfk&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1Ukm38BsGU58drCoJ31u3w6kgPo4oda4gL&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1TzaNn7wSQSP5gYPXCnNzBCpyMiidCq1PX&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1UHxJUMWHY4FxK3RxgbSdwMXAhEzmoLVWA&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3bTdwZinP8U1JmSweNzVKhmwafqWmFWRfk&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1NPbgLoqoct15RfrGu29DhUw41sVvTmqjP&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1VQnqCCqX4K5sP3FNkVSNKTdCAMJDd3E1n&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1T7duV5gZWSTq4YpBGbXNLTfznCLDrFxvs&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3RB4aoyjov4KEVRbuhvQ1CKJgBJMWhaeB8&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3NExpXn9aPNZPorRE4SdjJ2RGrfbJgMAaV&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3bTdwZinP8U1JmSweNzVKhmwafqWmFWRfk&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3VEZ4k6a4Wx42iyev6i2aVAptTRLEAivNN&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3VEZ4k6a4Wx42iyev6i2aVAptTRLEAivNN&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1LmaFsWRkjr7QMCx5PtV6xTUz3AmEpKQiF&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1VmiY38m3y95HqQLjMwqnMS7sdMfGomzKi&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1ajgycuHmd2z2JbTSJxKv7x6cok2KuNSk1&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1bHzftcTKZMTZgLLtnrXydCm6UEqf4ivca&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3bTdwZinP8U1JmSweNzVKhmwafqWmFWRfk&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1irJKkXS2DBWkU1NnmFQx1c1L7pbGg4yhk&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1cmvE9SbB63z9GB1h64P3YawsMqiBmQpCG&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3VEZ4k6a4Wx42iyev6i2aVAptTRLEAivNN&#34;</span>
+  <span class="p">]</span>
+<span class="p">}</span></code></pre></div>
+<p>Fetch information about the specified block. Takes either a block <code>hash</code>, a block <code>height</code> or the string <code>head</code> as argument.</p>
+
+<h3 id="http-request-3">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/block/{hash,height,head}</code></p>
+
+<h3 id="http-response-3">HTTP Response</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>hash</code> <em>hash</em></td>
+<td>Block hash.</td>
+</tr>
+
+<tr>
+<td><code>predecessor</code> <em>hash</em></td>
+<td>Parent block.</td>
+</tr>
+
+<tr>
+<td><code>baker</code> <em>hash</em></td>
+<td>Baker address.</td>
+</tr>
+
+<tr>
+<td><code>height</code> <em>int</em></td>
+<td>Block height (a.k.a level).</td>
+</tr>
+
+<tr>
+<td><code>cycle</code> <em>int</em></td>
+<td>Cycle</td>
+</tr>
+
+<tr>
+<td><code>is_cycle_snapshot</code> <em>bool</em></td>
+<td>True if this block has been selected as snapshot.</td>
+</tr>
+
+<tr>
+<td><code>time</code> <em>datetime</em></td>
+<td>Block creation time.</td>
+</tr>
+
+<tr>
+<td><code>solvetime</code> <em>duration</em></td>
+<td>Time since last block in seconds.</td>
+</tr>
+
+<tr>
+<td><code>version</code> <em>int</em></td>
+<td>Protocol version.</td>
+</tr>
+
+<tr>
+<td><code>validation_pass</code> <em>int</em></td>
+<td>Block validation pass.</td>
+</tr>
+
+<tr>
+<td><code>fitness</code> <em>int</em></td>
+<td>Block fitness.</td>
+</tr>
+
+<tr>
+<td><code>priority</code> <em>int</em></td>
+<td>Baking priority.</td>
+</tr>
+
+<tr>
+<td><code>nonce</code> <em>uint</em></td>
+<td>Block nonce</td>
+</tr>
+
+<tr>
+<td><code>voting_period_kind</code> <em>enum</em></td>
+<td>Current voting period.</td>
+</tr>
+
+<tr>
+<td><code>endorsed_slots</code> <em>uint</em></td>
+<td>32bit big-endian bitmask indicating populated endorser slots. (Note this field will be set from endorsements published in the subsequent block.)</td>
+</tr>
+
+<tr>
+<td><code>n_ops</code> <em>int</em></td>
+<td>Count of operations contained in this block.</td>
+</tr>
+
+<tr>
+<td><code>n_ops_failed</code> <em>int</em></td>
+<td>Count of failed operations.</td>
+</tr>
+
+<tr>
+<td><code>n_ops_contract</code> <em>int</em></td>
+<td>Count of smart contract operations (transactions sent to contracts and internal operations sent by contracts).</td>
+</tr>
+
+<tr>
+<td><code>n_tx</code> <em>int</em></td>
+<td>Count of <code>transaction</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_activation</code> <em>int</em></td>
+<td>Count of <code>activate_account</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_seed_nonce</code> <em>int</em></td>
+<td>Count of <code>seed_nonce_revelation</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_double_baking</code> <em>int</em></td>
+<td>Count of <code>double_baking_evidence</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_double_endorsement</code> <em>int</em></td>
+<td>Count of <code>double_endorsement_evidence</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_endorsement</code> <em>int</em></td>
+<td>Count of <code>endorsement</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_delegation</code> <em>int</em></td>
+<td>Count of <code>delegation</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_reveal</code> <em>int</em></td>
+<td>Count of <code>reveal</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_origination</code> <em>int</em></td>
+<td>Count of <code>origination</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_proposal</code> <em>int</em></td>
+<td>Count of <code>proposals</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_ballot</code> <em>int</em></td>
+<td>Count of <code>ballot</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>volume</code> <em>float</em></td>
+<td>Total amount of tokens moved between accounts.</td>
+</tr>
+
+<tr>
+<td><code>fees</code> <em>float</em></td>
+<td>Total fees paid (and frozen) by all operations.</td>
+</tr>
+
+<tr>
+<td><code>rewards</code> <em>float</em></td>
+<td>Total rewards earned (and frozen) by baker and endorsers.</td>
+</tr>
+
+<tr>
+<td><code>deposits</code> <em>float</em></td>
+<td>Total deposits frozen by baker and endorsers.</td>
+</tr>
+
+<tr>
+<td><code>unfrozen_fees</code> <em>float</em></td>
+<td>Total unfrozen fees (at end of a cycle).</td>
+</tr>
+
+<tr>
+<td><code>unfrozen_rewards</code> <em>float</em></td>
+<td>Total unfrozen rewards (at end of a cycle).</td>
+</tr>
+
+<tr>
+<td><code>unfrozen_deposits</code> <em>float</em></td>
+<td>Total unfrozen deposits (at end of a cycle).</td>
+</tr>
+
+<tr>
+<td><code>activated_supply</code> <em>float</em></td>
+<td>Total amount of commitments activated in tz.</td>
+</tr>
+
+<tr>
+<td><code>burned_supply</code> <em>float</em></td>
+<td>Total amount of tokens burned by operations in tz.</td>
+</tr>
+
+<tr>
+<td><code>n_accounts</code> <em>int</em></td>
+<td>Count of accounts seen in this block (i.e. this includes all operation senders, receivers, delegates and the block&rsquo;s baker).</td>
+</tr>
+
+<tr>
+<td><code>n_new_accounts</code> <em>int</em></td>
+<td>Count of new accounts created regardless of type.</td>
+</tr>
+
+<tr>
+<td><code>n_new_implicit</code> <em>int</em></td>
+<td>Count of created implicit accounts (tz1/2/3).</td>
+</tr>
+
+<tr>
+<td><code>n_new_managed</code> <em>int</em></td>
+<td>Count of created managed accounts (KT1 without code or manager.tz script).</td>
+</tr>
+
+<tr>
+<td><code>n_new_contracts</code> <em>int</em></td>
+<td>Count of created smart contracts (KT1 with code).</td>
+</tr>
+
+<tr>
+<td><code>n_cleared_accounts</code> <em>int</em></td>
+<td>Count of accounts that were emptied (final balance = 0).</td>
+</tr>
+
+<tr>
+<td><code>n_funded_accounts</code> <em>int</em></td>
+<td>Count of accounts that were funded by operations (this includes all new accounts plus previously cleared accounts that were funded again).</td>
+</tr>
+
+<tr>
+<td><code>gas_limit</code> <em>int</em></td>
+<td>Total gas limit defined by operations.</td>
+</tr>
+
+<tr>
+<td><code>gas_used</code> <em>int</em></td>
+<td>Total gas consumed by operations.</td>
+</tr>
+
+<tr>
+<td><code>gas_price</code> <em>float</em></td>
+<td>Avergae price of one gas unit in mutez.</td>
+</tr>
+
+<tr>
+<td><code>storage_size</code> <em>int</em></td>
+<td>Total sum of new storage allocated by operations.</td>
+</tr>
+
+<tr>
+<td><code>days_destroyed</code> <em>float</em></td>
+<td>Token days destroyed (<code>tokens transfered * token idle time</code>).</td>
+</tr>
+
+<tr>
+<td><code>endorsers</code> <em>array[hash]</em></td>
+<td>List of delegates with rights to endorse this block in slot order.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="operation">Operation</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/op/ooxRwXAEM76NyMGyn4hHjS9D2Q8UkWVV6W2Esk2LZaq2tzFBH3p</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;ooxRwXAEM76NyMGyn4hHjS9D2Q8UkWVV6W2Esk2LZaq2tzFBH3p&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;transaction&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="s2">&#34;BKqv8SBNabXEMXV9fsy21yx9BNsqWBKVVp9ca4KTMpGsF2Wi8Uj&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T13:10:51Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627341</span><span class="p">,</span>
+    <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
+    <span class="nt">&#34;counter&#34;</span><span class="p">:</span> <span class="mi">1946527</span><span class="p">,</span>
+    <span class="nt">&#34;op_n&#34;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>
+    <span class="nt">&#34;op_c&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;op_i&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;applied&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;is_success&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&#34;is_contract&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;gas_limit&#34;</span><span class="p">:</span> <span class="mi">10300</span><span class="p">,</span>
+    <span class="nt">&#34;gas_used&#34;</span><span class="p">:</span> <span class="mi">10200</span><span class="p">,</span>
+    <span class="nt">&#34;gas_price&#34;</span><span class="p">:</span> <span class="mf">0.98039</span><span class="p">,</span>
+    <span class="nt">&#34;storage_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;storage_size&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;storage_paid&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;volume&#34;</span><span class="p">:</span> <span class="mf">2047.9</span><span class="p">,</span>
+    <span class="nt">&#34;fee&#34;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="nt">&#34;reward&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;deposit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;burned&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;is_internal&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;has_data&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;days_destroyed&#34;</span><span class="p">:</span> <span class="mf">203.367847</span><span class="p">,</span>
+    <span class="nt">&#34;sender&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1bnaCyDdJNjD8TcZPLNc2kBfJsYhNe86Lm&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;receiver&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1a6WGHRq16ENkxbJVHbtGX4D6mUkCGo5sA&#34;</span>
+  <span class="p">}</span>
+<span class="p">]</span></code></pre></div>
+<p>Get info about a single operation or a list of related operations. Because Tezos supports batch operations (multiple ops listed under the same hash) and internal operations (created by smart contract calls in response to a transaction) this endpoint always returns an array of operation objects.</p>
+
+<h3 id="http-request-4">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/op/{hash}</code></p>
+
+<h3 id="http-response-4">HTTP Response</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>hash</code> <em>hash</em></td>
+<td>Operation hash.</td>
+</tr>
+
+<tr>
+<td><code>type</code> <em>enum</em></td>
+<td>Operation type.</td>
+</tr>
+
+<tr>
+<td><code>block</code> <em>hash</em></td>
+<td>Block hash at which the operation was included on-chain.</td>
+</tr>
+
+<tr>
+<td><code>time</code> <em>datetime</em></td>
+<td>Block time at which the operation was included on-chain.</td>
+</tr>
+
+<tr>
+<td><code>height</code> <em>int</em></td>
+<td>Block height at which the operation was included on-chain.</td>
+</tr>
+
+<tr>
+<td><code>cycle</code> <em>int</em></td>
+<td>Cycle in which the operation was included on-chain.</td>
+</tr>
+
+<tr>
+<td><code>counter</code> <em>int</em></td>
+<td>Unique sender account &lsquo;nonce&rsquo; value.</td>
+</tr>
+
+<tr>
+<td><code>op_n</code> <em>int</em></td>
+<td>Operation position in block. (Tezos defines 4 arrays used for the different op verification steps. The <code>op_n</code> value represents the global operation position across all these arrays.)</td>
+</tr>
+
+<tr>
+<td><code>op_c</code> <em>int</em></td>
+<td>Bulk operation list position.</td>
+</tr>
+
+<tr>
+<td><code>op_i</code> <em>int</em></td>
+<td>Internal operation list position.</td>
+</tr>
+
+<tr>
+<td><code>status</code> <em>enum</em></td>
+<td>Operation status <code>applied</code>, <code>failed</code>, <code>backtracked</code>, <code>skipped</code></td>
+</tr>
+
+<tr>
+<td><code>is_success</code> <em>bool</em></td>
+<td>Flag indicating operation was successfully applied.</td>
+</tr>
+
+<tr>
+<td><code>is_contract</code> <em>bool</em></td>
+<td>Flag indicating smart-contract calls.</td>
+</tr>
+
+<tr>
+<td><code>gas_limit</code> <em>int</em></td>
+<td>Caller-defined gas limit.</td>
+</tr>
+
+<tr>
+<td><code>gas_used</code> <em>int</em></td>
+<td>Gas used by the operation.</td>
+</tr>
+
+<tr>
+<td><code>gas_price</code> <em>float</em></td>
+<td>Effective price per gas unit in mutez.</td>
+</tr>
+
+<tr>
+<td><code>storage_limit</code> <em>int</em></td>
+<td>Caller-defined storage limit.</td>
+</tr>
+
+<tr>
+<td><code>storage_size</code> <em>int</em></td>
+<td>Actual storage size allocated.</td>
+</tr>
+
+<tr>
+<td><code>storage_paid</code> <em>int</em></td>
+<td>Part of the storage the operation paid for.</td>
+</tr>
+
+<tr>
+<td><code>volume</code> <em>float</em></td>
+<td>Amount of tokens transferred in tz.</td>
+</tr>
+
+<tr>
+<td><code>fee</code> <em>float</em></td>
+<td>Fees paid in tz.</td>
+</tr>
+
+<tr>
+<td><code>reward</code> <em>float</em></td>
+<td>Rewards earned in tz.</td>
+</tr>
+
+<tr>
+<td><code>deposit</code> <em>float</em></td>
+<td>Amount of deposited tokens in tz.</td>
+</tr>
+
+<tr>
+<td><code>burned</code> <em>float</em></td>
+<td>Amount of burned tokens in tz.</td>
+</tr>
+
+<tr>
+<td><code>is_internal</code> <em>bool</em></td>
+<td>Flag indicating if this operation was sent be a smart contract.</td>
+</tr>
+
+<tr>
+<td><code>has_data</code> <em>bool</em></td>
+<td>Flag indicating if extra data or parameters are present.</td>
+</tr>
+
+<tr>
+<td><code>data</code> <em>polymorph</em></td>
+<td>Extra type-dependent operation data. See below.</td>
+</tr>
+
+<tr>
+<td><code>parameters</code> <em>object</em></td>
+<td>Call parameters, contract-only.</td>
+</tr>
+
+<tr>
+<td><code>storage</code> <em>object</em></td>
+<td>Updated contract storage, contract-only.</td>
+</tr>
+
+<tr>
+<td><code>big_map_diff</code> <em>object</em></td>
+<td>Inserted, updated or deleted bigmap entries, contract-only.</td>
+</tr>
+
+<tr>
+<td><code>errors</code> <em>object</em></td>
+<td>When failed, contains details about the reason.</td>
+</tr>
+
+<tr>
+<td><code>days_destroyed</code> <em>float</em></td>
+<td>Token days destroyed by this operation (<code>tokens transfered * token idle time</code>).</td>
+</tr>
+
+<tr>
+<td><code>sender</code> <em>hash</em></td>
+<td>Operation sender, always set.</td>
+</tr>
+
+<tr>
+<td><code>receiver</code> <em>hash</em></td>
+<td>Transaction receiver, may be empty.</td>
+</tr>
+
+<tr>
+<td><code>delegate</code> <em>hash</em></td>
+<td>New Delegate, only used by <code>origination</code> and <code>delegation</code>. When empty for a <code>delegation</code> the operation was a delegate withdrawal.</td>
+</tr>
+
+<tr>
+<td><code>manager</code> <em>hash</em></td>
+<td>Contract manager, <code>origination</code> only.</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="decoding-operation-data">Decoding Operation Data</h3>
+
+<p>Some operations contain extra data in the polymorphic <code>data</code> field. This field exists when the <code>has_data</code> flag is true. Decoding the data depends on the operation <code>type</code>.</p>
+
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Data Type</th>
+<th>Specification</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>activate_account</code></td>
+<td>string</td>
+<td><code>hex(secret),blinded-address</code></td>
+</tr>
+
+<tr>
+<td><code>endorsement</code></td>
+<td>uint</td>
+<td>32bit big-endian bitmask identifying endorsed slots</td>
+</tr>
+
+<tr>
+<td><code>ballot</code></td>
+<td>string</td>
+<td><code>proposal-hash,ballot</code> (yay, nay, pass)</td>
+</tr>
+
+<tr>
+<td><code>proposals</code></td>
+<td>string</td>
+<td>comma-separated list or proposal hashes</td>
+</tr>
+
+<tr>
+<td><code>reveal</code></td>
+<td>string</td>
+<td>public key hash</td>
+</tr>
+
+<tr>
+<td><code>seed_nonce_revelation</code></td>
+<td>string</td>
+<td><code>level,hex(nonce)</code></td>
+</tr>
+
+<tr>
+<td><code>double_baking_evidence</code></td>
+<td>object</td>
+<td>array of double signed block headers</td>
+</tr>
+
+<tr>
+<td><code>double_endorsemnt_evidence</code></td>
+<td>object</td>
+<td>array of double signed endorsements</td>
+</tr>
+
+<tr>
+<td><code>transaction</code></td>
+<td>-</td>
+<td>unused, see <code>parameters</code>, <code>storage</code> and <code>big_map_diff</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="list-operations">List Operations</h2>
+
+<blockquote>
+<p>Example request to list block operations.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/block/head/op</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLFjwCUTebnhw6ZWpQNxa9VjZgGLgnp1Zazb21T1356VFEnxPrZ&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;predecessor&#34;</span><span class="p">:</span> <span class="s2">&#34;BLWT4x43zqzbtRzWNShkuU1DaTjU9fX34Qs4V3Hku2ZgYxiEpPW&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;baker&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627343</span><span class="p">,</span>
+  <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
+  <span class="err">//</span> <span class="err">...</span>
+  <span class="nt">&#34;ops&#34;</span><span class="p">:</span> <span class="p">[{</span>
+      <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;oozRTWSPr2M2rr1EQKaU4uVgu4kP28UnTu1tMS24DoTAZiC3kx3&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;endorsement&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLFjwCUTebnhw6ZWpQNxa9VjZgGLgnp1Zazb21T1356VFEnxPrZ&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T13:12:51Z&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627343</span><span class="p">,</span>
+      <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
+      <span class="nt">&#34;counter&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;op_n&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;op_c&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;op_i&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;applied&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;is_success&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&#34;is_contract&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nt">&#34;gas_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;gas_used&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;gas_price&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;storage_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;storage_size&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;storage_paid&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;volume&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;fee&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;reward&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&#34;deposit&#34;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+      <span class="nt">&#34;burned&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;is_internal&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nt">&#34;has_data&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&#34;days_destroyed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="s2">&#34;524288&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;sender&#34;</span><span class="p">:</span> <span class="s2">&#34;tz3NExpXn9aPNZPorRE4SdjJ2RGrfbJgMAaV&#34;</span>
+    <span class="p">},</span>
+    <span class="err">//</span> <span class="err">...</span>
+  <span class="p">]</span>
+<span class="p">}</span></code></pre></div>
+<p>Block, account and contract info can be extended with an embeded list of operations. This endpoint is an optimization to fetch both the operation list and the related resource in one call. Use <code>limit</code> and <code>offset</code> to page through operation list. Operations are sorted by row_id in ascending order.</p>
+
+<h3 id="http-request-5">HTTP Request</h3>
+
+<h4 id="list-block-operations">List Block Operations</h4>
+
+<p><code>GET https://api.tzstats.com/explorer/block/{hash,height,head}/op?limit={limit}&amp;offset={offset}</code></p>
+
+<h4 id="list-account-operations">List Account Operations</h4>
+
+<p><code>GET https://api.tzstats.com/explorer/account/{hash}/op?limit={limit}&amp;offset={offset}</code></p>
+
+<h4 id="list-contract-operations">List Contract Operations</h4>
+
+<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/op?limit={limit}&amp;offset={offset}</code></p>
+
+<h2 id="account">Account</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/account/tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;address&#34;</span><span class="p">:</span> <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;account_type&#34;</span><span class="p">:</span> <span class="s2">&#34;secp256k1&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;delegate&#34;</span><span class="p">:</span> <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;manager&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;pubkey&#34;</span><span class="p">:</span> <span class="s2">&#34;sppk7bn9MKAWDUFwqowcxA1zJgp12yn2kEnMQJP3WmqSZ4W8WQhLqJN&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;first_in&#34;</span><span class="p">:</span> <span class="mi">360996</span><span class="p">,</span>
+  <span class="nt">&#34;first_out&#34;</span><span class="p">:</span> <span class="mi">360997</span><span class="p">,</span>
+  <span class="nt">&#34;last_in&#34;</span><span class="p">:</span> <span class="mi">627433</span><span class="p">,</span>
+  <span class="nt">&#34;last_out&#34;</span><span class="p">:</span> <span class="mi">627433</span><span class="p">,</span>
+  <span class="nt">&#34;first_seen&#34;</span><span class="p">:</span> <span class="mi">360996</span><span class="p">,</span>
+  <span class="nt">&#34;last_seen&#34;</span><span class="p">:</span> <span class="mi">627433</span><span class="p">,</span>
+  <span class="nt">&#34;delegated_since&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;delegate_since&#34;</span><span class="p">:</span> <span class="mi">361000</span><span class="p">,</span>
+  <span class="nt">&#34;first_in_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-03-20T23:10:52Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;first_out_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-03-20T23:11:52Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_in_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:43:06Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_out_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:43:06Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;first_seen_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-03-20T23:10:52Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_seen_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:43:06Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;delegated_since_time&#34;</span><span class="p">:</span> <span class="s2">&#34;0001-01-01T00:00:00Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;delegate_since_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-03-20T23:14:52Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;total_received&#34;</span><span class="p">:</span> <span class="mf">4129917.992</span><span class="p">,</span>
+  <span class="nt">&#34;total_sent&#34;</span><span class="p">:</span> <span class="mf">1241985.094354</span><span class="p">,</span>
+  <span class="nt">&#34;total_burned&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;total_fees_paid&#34;</span><span class="p">:</span> <span class="mf">0.041097</span><span class="p">,</span>
+  <span class="nt">&#34;total_rewards_earned&#34;</span><span class="p">:</span> <span class="mf">463712.421526</span><span class="p">,</span>
+  <span class="nt">&#34;total_fees_earned&#34;</span><span class="p">:</span> <span class="mf">51.817584</span><span class="p">,</span>
+  <span class="nt">&#34;total_lost&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;frozen_deposits&#34;</span><span class="p">:</span> <span class="mi">2777472</span><span class="p">,</span>
+  <span class="nt">&#34;frozen_rewards&#34;</span><span class="p">:</span> <span class="mf">86384.999996</span><span class="p">,</span>
+  <span class="nt">&#34;frozen_fees&#34;</span><span class="p">:</span> <span class="mf">10.252118</span><span class="p">,</span>
+  <span class="nt">&#34;unclaimed_balance&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;spendable_balance&#34;</span><span class="p">:</span> <span class="mf">487829.843545</span><span class="p">,</span>
+  <span class="nt">&#34;total_balance&#34;</span><span class="p">:</span> <span class="mf">3265312.095663</span><span class="p">,</span>
+  <span class="nt">&#34;delegated_balance&#34;</span><span class="p">:</span> <span class="mf">28092992.436557</span><span class="p">,</span>
+  <span class="nt">&#34;total_delegations&#34;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+  <span class="nt">&#34;active_delegations&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="nt">&#34;is_funded&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;is_activated&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;is_vesting&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;is_spendable&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;is_delegatable&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;is_delegated&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;is_revealed&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;is_delegate&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;is_active_delegate&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;is_contract&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_baked&#34;</span><span class="p">:</span> <span class="mi">5867</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_missed&#34;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_stolen&#34;</span><span class="p">:</span> <span class="mi">127</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_endorsed&#34;</span><span class="p">:</span> <span class="mi">97968</span><span class="p">,</span>
+  <span class="nt">&#34;slots_endorsed&#34;</span><span class="p">:</span> <span class="mi">185547</span><span class="p">,</span>
+  <span class="nt">&#34;slots_missed&#34;</span><span class="p">:</span> <span class="mi">332</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops&#34;</span><span class="p">:</span> <span class="mi">98177</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops_failed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_tx&#34;</span><span class="p">:</span> <span class="mi">38</span><span class="p">,</span>
+  <span class="nt">&#34;n_delegation&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;n_origination&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_proposal&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;n_ballot&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;token_gen_min&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nt">&#34;token_gen_max&#34;</span><span class="p">:</span> <span class="mi">4875</span><span class="p">,</span>
+  <span class="nt">&#34;grace_period&#34;</span><span class="p">:</span> <span class="mi">159</span><span class="p">,</span>
+  <span class="nt">&#34;staking_balance&#34;</span><span class="p">:</span> <span class="mf">31358304.53222</span><span class="p">,</span>
+  <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">3919</span><span class="p">,</span>
+  <span class="nt">&#34;rich_rank&#34;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="nt">&#34;traffic_rank&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;flow_rank&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;last_bake_height&#34;</span><span class="p">:</span> <span class="mi">627422</span><span class="p">,</span>
+  <span class="nt">&#34;last_bake_block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLeU7pnXhFRKsjvc3XYQ2gByCqwAALpKc7vZSoTeVNeUgHWDZ3V&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_bake_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:32:01Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_endorse_height&#34;</span><span class="p">:</span> <span class="mi">627433</span><span class="p">,</span>
+  <span class="nt">&#34;last_endorse_block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLapVsFS7DB9H76njHSoFyGTTSfMn7ZJvUzB1KekUvtUk8KeXMy&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_endorse_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:43:06Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;next_bake_height&#34;</span><span class="p">:</span> <span class="mi">627464</span><span class="p">,</span>
+  <span class="nt">&#34;next_bake_priority&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;next_bake_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T15:14:06Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;next_endorse_height&#34;</span><span class="p">:</span> <span class="mi">627434</span><span class="p">,</span>
+  <span class="nt">&#34;next_endorse_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:44:06Z&#34;</span>
+<span class="p">}</span></code></pre></div>
+<p>Provides extensive information about the most recent state of implicit and smart contract accounts.</p>
+
+<h3 id="http-request-6">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/account/{hash}</code></p>
+
+<h3 id="http-response-5">HTTP Response</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>address</code> <em>hash</em></td>
+<td>Account address as base58-check encoded string.</td>
+</tr>
+
+<tr>
+<td><code>account_type</code> <em>enum</em></td>
+<td>Account address type <code>ed25519</code> (tz1), <code>secp256k1</code> (tz2), <code>p256</code> (tz3), <code>contract</code> (KT1) or <code>blinded</code> (btz1)</td>
+</tr>
+
+<tr>
+<td><code>delegate</code> <em>hash</em></td>
+<td>Current delegate (may be self when registered as delegate).</td>
+</tr>
+
+<tr>
+<td><code>manager</code> <em>hash</em></td>
+<td>Contract manager account.</td>
+</tr>
+
+<tr>
+<td><code>pubkey</code> <em>hash</em></td>
+<td>Revealed public key.</td>
+</tr>
+
+<tr>
+<td><code>first_in</code> <em>int</em></td>
+<td>Block height of first incoming transaction.</td>
+</tr>
+
+<tr>
+<td><code>first_out</code> <em>int</em></td>
+<td>Block height of first outgoing transaction.</td>
+</tr>
+
+<tr>
+<td><code>last_in</code> <em>int</em></td>
+<td>Block height of latest incoming transaction.</td>
+</tr>
+
+<tr>
+<td><code>last_out</code> <em>int</em></td>
+<td>Block height of latest outgoing transaction.</td>
+</tr>
+
+<tr>
+<td><code>first_seen</code> <em>int</em></td>
+<td>Block height of account creation.</td>
+</tr>
+
+<tr>
+<td><code>last_seen</code> <em>int</em></td>
+<td>Block height of last activity.</td>
+</tr>
+
+<tr>
+<td><code>delegated_since</code> <em>int</em></td>
+<td>Block height of most recent delegation.</td>
+</tr>
+
+<tr>
+<td><code>delegate_since</code> <em>int</em></td>
+<td>Block height of registration as delegate.</td>
+</tr>
+
+<tr>
+<td><code>first_in_time</code> <em>datetime</em></td>
+<td>Block time of first incoming transaction.</td>
+</tr>
+
+<tr>
+<td><code>first_out_time</code> <em>datetime</em></td>
+<td>Block time of first outgoing transaction.</td>
+</tr>
+
+<tr>
+<td><code>last_in_time</code> <em>datetime</em></td>
+<td>Block time of latest incoming transaction.</td>
+</tr>
+
+<tr>
+<td><code>last_out_time</code> <em>datetime</em></td>
+<td>Block time of latest outgoing transaction.</td>
+</tr>
+
+<tr>
+<td><code>first_seen_time</code> <em>datetime</em></td>
+<td>Block time of account creation.</td>
+</tr>
+
+<tr>
+<td><code>last_seen_time</code> <em>datetime</em></td>
+<td>Block time of last activity.</td>
+</tr>
+
+<tr>
+<td><code>delegated_since_time</code> <em>datetime</em></td>
+<td>Block time of most recent delegation.</td>
+</tr>
+
+<tr>
+<td><code>delegate_since_time</code> <em>datetime</em></td>
+<td>Block time of registration as delegate.</td>
+</tr>
+
+<tr>
+<td><code>total_received</code> <em>float</em></td>
+<td>Lifetime total tokens received in transactions.</td>
+</tr>
+
+<tr>
+<td><code>total_sent</code> <em>float</em></td>
+<td>Lifetime total tokens sent in transactions.</td>
+</tr>
+
+<tr>
+<td><code>total_burned</code> <em>float</em></td>
+<td>Lifetime total tokens burned in tz.</td>
+</tr>
+
+<tr>
+<td><code>total_fees_paid</code> <em>float</em></td>
+<td>Lifetime fees paid in tz.</td>
+</tr>
+
+<tr>
+<td><code>total_rewards_earned</code> <em>float</em></td>
+<td>Lifetime rewards earned in tz.</td>
+</tr>
+
+<tr>
+<td><code>total_fees_earned</code> <em>float</em></td>
+<td>Lifetime fees earned in tz.</td>
+</tr>
+
+<tr>
+<td><code>total_lost</code> <em>float</em></td>
+<td>Lifetime total tokens lost in tz.</td>
+</tr>
+
+<tr>
+<td><code>frozen_deposits</code> <em>float</em></td>
+<td>Currently frozen deposits</td>
+</tr>
+
+<tr>
+<td><code>frozen_rewards</code> <em>float</em></td>
+<td>Currently frozen rewards.</td>
+</tr>
+
+<tr>
+<td><code>frozen_fees</code> <em>float</em></td>
+<td>Currently frozen fees.</td>
+</tr>
+
+<tr>
+<td><code>unclaimed_balance</code> <em>float</em></td>
+<td>Currently unclaimed balance (for vesting contracts and commitments)</td>
+</tr>
+
+<tr>
+<td><code>spendable_balance</code> <em>float</em></td>
+<td>Currently spendable balance.</td>
+</tr>
+
+<tr>
+<td><code>total_balance</code> <em>float</em></td>
+<td>Currently spendable and frozen balances (except frozen rewards).</td>
+</tr>
+
+<tr>
+<td><code>delegated_balance</code> <em>float</em></td>
+<td>(delegate only) Current incoming delegations.</td>
+</tr>
+
+<tr>
+<td><code>staking_balance</code> <em>float</em></td>
+<td>(delegate only) Current delegated and own total balance.</td>
+</tr>
+
+<tr>
+<td><code>total_delegations</code> <em>int</em></td>
+<td>(delegate only) Lifetime count of delegations.</td>
+</tr>
+
+<tr>
+<td><code>active_delegations</code> <em>int</em></td>
+<td>(delegate only) Currently active and non-zero delegations.</td>
+</tr>
+
+<tr>
+<td><code>is_funded</code> <em>bool</em></td>
+<td>Flag indicating the account is funded.</td>
+</tr>
+
+<tr>
+<td><code>is_activated</code> <em>bool</em></td>
+<td>Flag indicating the account was activated from a commitment.</td>
+</tr>
+
+<tr>
+<td><code>is_vesting</code> <em>bool</em></td>
+<td>Flag indicating the account is a vesting contract.</td>
+</tr>
+
+<tr>
+<td><code>is_spendable</code> <em>bool</em></td>
+<td>Flag indicating the account balance is spendable.</td>
+</tr>
+
+<tr>
+<td><code>is_delegatable</code> <em>bool</em></td>
+<td>Flag indicating the account is delegatable.</td>
+</tr>
+
+<tr>
+<td><code>is_delegated</code> <em>bool</em></td>
+<td>Flag indicating the account is currently delegated.</td>
+</tr>
+
+<tr>
+<td><code>is_revealed</code> <em>bool</em></td>
+<td>Flag indicating the account has a revealed public key .</td>
+</tr>
+
+<tr>
+<td><code>is_delegate</code> <em>bool</em></td>
+<td>Flag indicating the account is a registered delegate.</td>
+</tr>
+
+<tr>
+<td><code>is_active_delegate</code> <em>bool</em></td>
+<td>Flag indicating the account is a registered and active delegate.</td>
+</tr>
+
+<tr>
+<td><code>is_contract</code> <em>bool</em></td>
+<td>Flag indicating the account is a smart contract.</td>
+</tr>
+
+<tr>
+<td><code>blocks_baked</code> <em>int</em></td>
+<td>Lifetime total blocks baked.</td>
+</tr>
+
+<tr>
+<td><code>blocks_missed</code> <em>int</em></td>
+<td>Lifetime total block baking missed.</td>
+</tr>
+
+<tr>
+<td><code>blocks_stolen</code> <em>int</em></td>
+<td>Lifetime total block baked at priority &gt; 0.</td>
+</tr>
+
+<tr>
+<td><code>blocks_endorsed</code> <em>int</em></td>
+<td>Lifetime total blocks endorsed.</td>
+</tr>
+
+<tr>
+<td><code>slots_endorsed</code> <em>int</em></td>
+<td>Lifetime total endorsemnt slots endorsed.</td>
+</tr>
+
+<tr>
+<td><code>slots_missed</code> <em>int</em></td>
+<td>Lifetime total endorsemnt slots missed.</td>
+</tr>
+
+<tr>
+<td><code>n_ops</code> <em>int</em></td>
+<td>Lifetime total number of operations sent and received.</td>
+</tr>
+
+<tr>
+<td><code>n_ops_failed</code> <em>int</em></td>
+<td>Lifetime total number of operations sent that failed.</td>
+</tr>
+
+<tr>
+<td><code>n_tx</code> <em>int</em></td>
+<td>Lifetime total number of transactions sent and received.</td>
+</tr>
+
+<tr>
+<td><code>n_delegation</code> <em>int</em></td>
+<td>Lifetime total number of delegations sent.</td>
+</tr>
+
+<tr>
+<td><code>n_origination</code> <em>int</em></td>
+<td>Lifetime total number of originations sent.</td>
+</tr>
+
+<tr>
+<td><code>n_proposal</code> <em>int</em></td>
+<td>Lifetime total number of proposals (operations) sent.</td>
+</tr>
+
+<tr>
+<td><code>n_ballot</code> <em>int</em></td>
+<td>Lifetime total number of ballots sent.</td>
+</tr>
+
+<tr>
+<td><code>token_gen_min</code> <em>int</em></td>
+<td>Minimum generation number of all tokens owned.</td>
+</tr>
+
+<tr>
+<td><code>token_gen_max</code> <em>int</em></td>
+<td>Maximum generation number of all tokens owned.</td>
+</tr>
+
+<tr>
+<td><code>grace_period</code> <em>int</em></td>
+<td>(delegate only) Current grace period before deactivation.</td>
+</tr>
+
+<tr>
+<td><code>rolls</code> <em>int</em></td>
+<td>(delegate only) Currently owned rolls.</td>
+</tr>
+
+<tr>
+<td><code>rich_rank</code> <em>int</em></td>
+<td>Global rank on rich list by total balance.</td>
+</tr>
+
+<tr>
+<td><code>traffic_rank</code> <em>int</em></td>
+<td>Global rank on 24h most active accounts by transactions sent/received.</td>
+</tr>
+
+<tr>
+<td><code>flow_rank</code> <em>int</em></td>
+<td>Global rank on 24h most active accounts by volume sent/received.</td>
+</tr>
+
+<tr>
+<td><code>last_bake_height</code> <em>int</em></td>
+<td>Height of most recent block baked.</td>
+</tr>
+
+<tr>
+<td><code>last_bake_block</code> <em>hash</em></td>
+<td>Hash of most recent block baked.</td>
+</tr>
+
+<tr>
+<td><code>last_bake_time</code> <em>datetime</em></td>
+<td>Timestamp of most recent block baked.</td>
+</tr>
+
+<tr>
+<td><code>last_endorse_height</code> <em>int</em></td>
+<td>Height of most recent block endorsed.</td>
+</tr>
+
+<tr>
+<td><code>last_endorse_block</code> <em>hash</em></td>
+<td>Hash of most recent block endorsed.</td>
+</tr>
+
+<tr>
+<td><code>last_endorse_time</code> <em>datetime</em></td>
+<td>Timestamp of most recent block endorsed.</td>
+</tr>
+
+<tr>
+<td><code>next_bake_height</code> <em>int</em></td>
+<td>Height of next block baking right.</td>
+</tr>
+
+<tr>
+<td><code>next_bake_priority</code> <em>int</em></td>
+<td>Priority of next baking right (fixed at zero currently).</td>
+</tr>
+
+<tr>
+<td><code>next_bake_time</code> <em>datetime</em></td>
+<td>Approximate time of next block baking right.</td>
+</tr>
+
+<tr>
+<td><code>next_endorse_height</code> <em>int</em></td>
+<td>Height of next block endorsing right.</td>
+</tr>
+
+<tr>
+<td><code>next_endorse_time</code> <em>datetime</em></td>
+<td>Approximate time of next block endorsing right.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="contract">Contract</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/contract/KT1QuofAgnsWffHzLA7D78rxytJruGHDe7XG</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;address&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1QuofAgnsWffHzLA7D78rxytJruGHDe7XG&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;manager&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;delegate&#34;</span><span class="p">:</span> <span class="s2">&#34;tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;fee&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;gas_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;gas_used&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;gas_price&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;storage_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;storage_size&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;storage_paid&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;script&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;code&#34;</span><span class="p">:</span> <span class="p">[],</span> <span class="err">//</span> <span class="err">...</span>
+    <span class="nt">&#34;storage&#34;</span><span class="p">:</span> <span class="p">{},</span> <span class="err">//</span> <span class="err">...</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;is_funded&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;is_vesting&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;is_spendable&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;is_delegatable&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;is_delegated&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;first_in&#34;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="nt">&#34;first_out&#34;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="nt">&#34;last_in&#34;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="nt">&#34;last_out&#34;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="nt">&#34;first_seen&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;last_seen&#34;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="nt">&#34;first_in_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;first_out_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_in_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_out_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;first_seen_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T17:39:57Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_seen_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops_failed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_tx&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="nt">&#34;n_delegation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_origination&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_proposal&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_ballot&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;token_gen_min&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;token_gen_max&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;manager_account&#34;</span><span class="p">:</span> <span class="p">{</span>
+  	<span class="err">//</span> <span class="err">...</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;delegate_account&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="err">//</span> <span class="err">...</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>Provides information about a smart contract at creation time such as code, initial storage.</p>
+
+<h3 id="http-request-7">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/contract/{hash}</code></p>
+
+<h3 id="http-response-6">HTTP Response</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>address</code> <em>hash</em></td>
+<td>&ldquo;: &ldquo;KT1QuofAgnsWffHzLA7D78rxytJruGHDe7XG&rdquo;,</td>
+</tr>
+
+<tr>
+<td><code>manager</code></td>
+<td>&ldquo;: &ldquo;&rdquo;,</td>
+</tr>
+
+<tr>
+<td><code>delegate</code></td>
+<td>&ldquo;: &ldquo;tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9&rdquo;,</td>
+</tr>
+
+<tr>
+<td><code>height</code></td>
+<td>&ldquo;: 1,</td>
+</tr>
+
+<tr>
+<td><code>fee</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>gas_limit</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>gas_used</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>gas_price</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>storage_limit</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>storage_size</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>storage_paid</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>script</code></td>
+<td>&ldquo;: {</td>
+</tr>
+
+<tr>
+<td><code>code</code> <em>object</em></td>
+<td>&ldquo;: [], // &hellip;</td>
+</tr>
+
+<tr>
+<td><code>storage</code> <em>object</em></td>
+<td>&ldquo;: {}, // &hellip;</td>
+</tr>
+
+<tr>
+<td><code>is_funded</code></td>
+<td>&ldquo;: true,</td>
+</tr>
+
+<tr>
+<td><code>is_vesting</code></td>
+<td>&ldquo;: true,</td>
+</tr>
+
+<tr>
+<td><code>is_spendable</code></td>
+<td>&ldquo;: false,</td>
+</tr>
+
+<tr>
+<td><code>is_delegatable</code></td>
+<td>&ldquo;: false,</td>
+</tr>
+
+<tr>
+<td><code>is_delegated</code></td>
+<td>&ldquo;: true,</td>
+</tr>
+
+<tr>
+<td><code>first_in</code></td>
+<td>&ldquo;: 30,</td>
+</tr>
+
+<tr>
+<td><code>first_out</code></td>
+<td>&ldquo;: 30,</td>
+</tr>
+
+<tr>
+<td><code>last_in</code></td>
+<td>&ldquo;: 30,</td>
+</tr>
+
+<tr>
+<td><code>last_out</code></td>
+<td>&ldquo;: 30,</td>
+</tr>
+
+<tr>
+<td><code>first_seen</code></td>
+<td>&ldquo;: 1,</td>
+</tr>
+
+<tr>
+<td><code>last_seen</code></td>
+<td>&ldquo;: 30,</td>
+</tr>
+
+<tr>
+<td><code>first_in_time</code></td>
+<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+</tr>
+
+<tr>
+<td><code>first_out_time</code></td>
+<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+</tr>
+
+<tr>
+<td><code>last_in_time</code></td>
+<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+</tr>
+
+<tr>
+<td><code>last_out_time</code></td>
+<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+</tr>
+
+<tr>
+<td><code>first_seen_time</code></td>
+<td>&ldquo;: &ldquo;2018-06-30T17:39:57Z&rdquo;,</td>
+</tr>
+
+<tr>
+<td><code>last_seen_time</code></td>
+<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+</tr>
+
+<tr>
+<td><code>n_ops</code></td>
+<td>&ldquo;: 3,</td>
+</tr>
+
+<tr>
+<td><code>n_ops_failed</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>n_tx</code></td>
+<td>&ldquo;: 3,</td>
+</tr>
+
+<tr>
+<td><code>n_delegation</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>n_origination</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>n_proposal</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>n_ballot</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>token_gen_min</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>token_gen_max</code></td>
+<td>&ldquo;: 0,</td>
+</tr>
+
+<tr>
+<td><code>manager_account</code> <em>object</em></td>
+<td>&ldquo;: {</td>
+</tr>
+
+<tr>
+<td><code>delegate_account</code> <em>object</em></td>
+<td>&ldquo;: {</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="cycle">Cycle</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/cycle/head</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
+  <span class="nt">&#34;start_height&#34;</span><span class="p">:</span> <span class="mi">626689</span><span class="p">,</span>
+  <span class="nt">&#34;end_height&#34;</span><span class="p">:</span> <span class="mi">630784</span><span class="p">,</span>
+  <span class="nt">&#34;start_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T02:13:20Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;end_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-30T22:53:57Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;progress&#34;</span><span class="p">:</span> <span class="mf">58.935546875</span><span class="p">,</span>
+  <span class="nt">&#34;is_complete&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;is_snapshot&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;is_active&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;snapshot_height&#34;</span><span class="p">:</span> <span class="mi">-1</span><span class="p">,</span>
+  <span class="nt">&#34;snapshot_index&#34;</span><span class="p">:</span> <span class="mi">-1</span><span class="p">,</span>
+  <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">71965</span><span class="p">,</span>
+  <span class="nt">&#34;roll_owners&#34;</span><span class="p">:</span> <span class="mi">458</span><span class="p">,</span>
+  <span class="nt">&#34;staking_supply&#34;</span><span class="p">:</span> <span class="mf">581115775.293209</span><span class="p">,</span>
+  <span class="nt">&#34;staking_percent&#34;</span><span class="p">:</span> <span class="mf">71.66191388216313</span><span class="p">,</span>
+  <span class="nt">&#34;active_bakers&#34;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="nt">&#34;active_endorsers&#34;</span><span class="p">:</span> <span class="mi">421</span><span class="p">,</span>
+  <span class="nt">&#34;missed_priorities&#34;</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span>
+  <span class="nt">&#34;missed_endorsements&#34;</span><span class="p">:</span> <span class="mi">459</span><span class="p">,</span>
+  <span class="nt">&#34;n_double_baking&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_double_endorsement&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_orphans&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;solvetime_min&#34;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+  <span class="nt">&#34;solvetime_max&#34;</span><span class="p">:</span> <span class="mi">285</span><span class="p">,</span>
+  <span class="nt">&#34;solvetime_mean&#34;</span><span class="p">:</span> <span class="mf">60.72990886495457</span><span class="p">,</span>
+  <span class="nt">&#34;priority_min&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;priority_max&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="nt">&#34;priority_mean&#34;</span><span class="p">:</span> <span class="mf">0.009113504556752305</span><span class="p">,</span>
+  <span class="nt">&#34;endorsement_rate&#34;</span><span class="p">:</span> <span class="mf">99.4055636137588</span><span class="p">,</span>
+  <span class="nt">&#34;endorsements_min&#34;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="nt">&#34;endorsements_max&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+  <span class="nt">&#34;endorsements_mean&#34;</span><span class="p">:</span> <span class="mf">31.80978035640282</span><span class="p">,</span>
+  <span class="nt">&#34;seed_rate&#34;</span><span class="p">:</span> <span class="mi">168</span><span class="p">,</span>
+  <span class="nt">&#34;worst_baked_block&#34;</span><span class="p">:</span> <span class="mi">626689</span><span class="p">,</span>
+  <span class="nt">&#34;worst_endorsed_block&#34;</span><span class="p">:</span> <span class="mi">626689</span><span class="p">,</span>
+  <span class="nt">&#34;snapshot_cycle&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="err">//</span> <span class="err">...</span> <span class="err">same</span> <span class="err">data</span> <span class="err">as</span> <span class="err">cycle</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;follower_cycle&#34;</span><span class="p">:</span> <span class="p">{</span>
+  	<span class="err">//</span> <span class="err">...</span> <span class="err">same</span> <span class="err">data</span> <span class="err">as</span> <span class="err">cycle</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>Provides information about a consensus cycle, the past roll snapshot cycle and the future cycle who&rsquo;s rights are deterined by the current cycle. This endpoint accepts <code>head</code> and a cycle <code>number</code> as path parameters.</p>
+
+<h3 id="http-request-8">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/cycle/{head,number}</code></p>
+
+<h3 id="http-response-7">HTTP Response</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>cycle</code> <em>int</em></td>
+<td>The cycle number.</td>
+</tr>
+
+<tr>
+<td><code>start_height</code> <em>int</em></td>
+<td>First block height (level) in this cycle.</td>
+</tr>
+
+<tr>
+<td><code>end_height</code> <em>int</em></td>
+<td>Last block height (level) in this cycle.</td>
+</tr>
+
+<tr>
+<td><code>start_time</code> <em>datetime</em></td>
+<td>Start time (estimate for future cycles).</td>
+</tr>
+
+<tr>
+<td><code>end_time</code> <em>datetime</em></td>
+<td>End time (estimate for open and future cycles).</td>
+</tr>
+
+<tr>
+<td><code>progress</code> <em>float</em></td>
+<td>Cycle completion in percent.</td>
+</tr>
+
+<tr>
+<td><code>is_complete</code> <em>bool</em></td>
+<td>Flag indicating the cycle is complete.</td>
+</tr>
+
+<tr>
+<td><code>is_snapshot</code> <em>bool</em></td>
+<td>Flag indicating a roll snapshot has been selected.</td>
+</tr>
+
+<tr>
+<td><code>is_active</code> <em>bool</em></td>
+<td>Flag indicating the cycle is currently active.</td>
+</tr>
+
+<tr>
+<td><code>snapshot_height</code> <em>int</em></td>
+<td>Height of the snapshot block.</td>
+</tr>
+
+<tr>
+<td><code>snapshot_index</code> <em>int</em></td>
+<td>Index of the snapshot block.</td>
+</tr>
+
+<tr>
+<td><code>rolls</code> <em>int</em></td>
+<td>Number of rolls at selected snapshot block or most recent snapshot block.</td>
+</tr>
+
+<tr>
+<td><code>roll_owners</code> <em>int</em></td>
+<td>Number of unique roll owners (delegates) at selected snapshot block or most recent snapshot block.</td>
+</tr>
+
+<tr>
+<td><code>staking_supply</code> <em>float</em></td>
+<td>Total staked supply at selected snapshot block or most recent snapshot block.</td>
+</tr>
+
+<tr>
+<td><code>staking_percent</code> <em>float</em></td>
+<td>Percent of total supply staked at selected snapshot block or most recent snapshot block.</td>
+</tr>
+
+<tr>
+<td><code>active_bakers</code> <em>int</em></td>
+<td>Number of unique bakers seen.</td>
+</tr>
+
+<tr>
+<td><code>active_endorsers</code> <em>int</em></td>
+<td>Number of unique endorsers seen.</td>
+</tr>
+
+<tr>
+<td><code>missed_priorities</code> <em>int</em></td>
+<td>Total count of missed block priorities.</td>
+</tr>
+
+<tr>
+<td><code>missed_endorsements</code> <em>int</em></td>
+<td>Total count of missed endorsement slots.</td>
+</tr>
+
+<tr>
+<td><code>n_double_baking</code> <em>int</em></td>
+<td>Count of <code>double_baking_evidence</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_double_endorsement</code> <em>int</em></td>
+<td>Count of <code>double_endorsement_evidence</code> operations.</td>
+</tr>
+
+<tr>
+<td><code>n_orphans</code> <em>int</em></td>
+<td>Number of orphan blocks in this cycle.</td>
+</tr>
+
+<tr>
+<td><code>solvetime_min</code> <em>int</em></td>
+<td>Minimum time between blocks.</td>
+</tr>
+
+<tr>
+<td><code>solvetime_max</code> <em>int</em></td>
+<td>Maximum time between blocks.</td>
+</tr>
+
+<tr>
+<td><code>solvetime_mean</code> <em>float</em></td>
+<td>Mean time between blocks.</td>
+</tr>
+
+<tr>
+<td><code>priority_min</code> <em>int</em></td>
+<td>Minimum block priority.</td>
+</tr>
+
+<tr>
+<td><code>priority_max</code> <em>int</em></td>
+<td>Maximum block priority.</td>
+</tr>
+
+<tr>
+<td><code>priority_mean</code> <em>float</em></td>
+<td>Mean block priority.</td>
+</tr>
+
+<tr>
+<td><code>endorsement_rate</code> <em>float</em></td>
+<td>Percentage of seen endorsements vs expected endorsements.</td>
+</tr>
+
+<tr>
+<td><code>endorsements_min</code> <em>int</em></td>
+<td>Minimum count of endorsements across all blocks.</td>
+</tr>
+
+<tr>
+<td><code>endorsements_max</code> <em>int</em></td>
+<td>Maximum count of endorsements across all blocks.</td>
+</tr>
+
+<tr>
+<td><code>endorsements_mean</code> <em>float</em></td>
+<td>Mean count of endorsements across all blocks.</td>
+</tr>
+
+<tr>
+<td><code>seed_rate</code> <em>int</em></td>
+<td>Percentage of published vs expectd <code>seed_nonce_revelations</code>.</td>
+</tr>
+
+<tr>
+<td><code>worst_baked_block</code> <em>int</em></td>
+<td>Height of the block with lowest priority.</td>
+</tr>
+
+<tr>
+<td><code>worst_endorsed_block</code> <em>int</em></td>
+<td>Height of the block with least endorsed slots.</td>
+</tr>
+
+<tr>
+<td><code>snapshot_cycle</code> <em>object</em></td>
+<td>Embedded cycle data for the cycle that provided the roll snapshot for the current cycle.</td>
+</tr>
+
+<tr>
+<td><code>follower_cycle</code> <em>object</em></td>
+<td>Embedded cycle data for the future cycle that will get its rights assigned from a snapshot in the current cycle.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="election">Election</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/explorer/election/head</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;election_id&#34;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+  <span class="nt">&#34;num_periods&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="nt">&#34;num_proposals&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nt">&#34;start_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-07-16T19:02:34Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;end_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-10-18T00:29:57Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;start_height&#34;</span><span class="p">:</span> <span class="mi">524288</span><span class="p">,</span>
+  <span class="nt">&#34;end_height&#34;</span><span class="p">:</span> <span class="mi">655359</span><span class="p">,</span>
+  <span class="nt">&#34;is_empty&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;is_open&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&#34;is_failed&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;no_quorum&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;no_majority&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;no_proposal&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;voting_period&#34;</span><span class="p">:</span> <span class="s2">&#34;promotion_vote&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;proposal&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;voting_period&#34;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="nt">&#34;voting_period_kind&#34;</span><span class="p">:</span> <span class="s2">&#34;proposal&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_start_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-07-16T19:02:34Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_end_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-08-09T06:46:57Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_start_block&#34;</span><span class="p">:</span> <span class="mi">524288</span><span class="p">,</span>
+    <span class="nt">&#34;period_end_block&#34;</span><span class="p">:</span> <span class="mi">557055</span><span class="p">,</span>
+    <span class="nt">&#34;eligible_rolls&#34;</span><span class="p">:</span> <span class="mi">70159</span><span class="p">,</span>
+    <span class="nt">&#34;eligible_voters&#34;</span><span class="p">:</span> <span class="mi">461</span><span class="p">,</span>
+    <span class="nt">&#34;quorum_pct&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;quorum_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_rolls&#34;</span><span class="p">:</span> <span class="mi">43133</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_voters&#34;</span><span class="p">:</span> <span class="mi">225</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_pct&#34;</span><span class="p">:</span> <span class="mi">6147</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_ema&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;yay_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;yay_voters&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;nay_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;nay_voters&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;pass_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;pass_voters&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;is_open&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;is_failed&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;is_draw&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_proposal&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_quorum&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_majority&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;proposals&#34;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;PsBABY5nk4JhdEv1N1pZbt6m6ccB9BfNqa23iKZcHBh23jmRS9f&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1eEnQhbwf6trb8Q8mPb2RaPkNk2rN7BKi8&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;block_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLkbt55K5YZMPtjrSfo3ericxRaeXcwEwawfE5BkT9H5ZbZnLQV&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;op4mZHRe1xTmYG34xYRwpGaGMAfTp6S82eeebgNZmdtNW6szeeX&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">537802</span><span class="p">,</span>
+        <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-07-26T13:20:04Z&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">19964</span><span class="p">,</span>
+        <span class="nt">&#34;voters&#34;</span><span class="p">:</span> <span class="mi">146</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;PsBABY5HQTSkA4297zNHfsZNKtxULfL18y95qb3m53QJiXGmrbU&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1eEnQhbwf6trb8Q8mPb2RaPkNk2rN7BKi8&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;block_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLzSKKWp9NyrNrZrZgWin3m2zjPVUJfxNn1QkCzt9aZy7ZLWgJJ&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;ooDAtGzFBeRUJcEK3QRBHU3kzk31CAp2RARYE3kmU3qsrvgs8JN&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">547386</span><span class="p">,</span>
+        <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-08-02T09:42:56Z&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">66302</span><span class="p">,</span>
+        <span class="nt">&#34;voters&#34;</span><span class="p">:</span> <span class="mi">304</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;testing_vote&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;voting_period&#34;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="nt">&#34;voting_period_kind&#34;</span><span class="p">:</span> <span class="s2">&#34;testing_vote&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_start_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-08-09T06:48:02Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_end_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-01T17:52:51Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_start_block&#34;</span><span class="p">:</span> <span class="mi">557056</span><span class="p">,</span>
+    <span class="nt">&#34;period_end_block&#34;</span><span class="p">:</span> <span class="mi">589823</span><span class="p">,</span>
+    <span class="nt">&#34;eligible_rolls&#34;</span><span class="p">:</span> <span class="mi">70585</span><span class="p">,</span>
+    <span class="nt">&#34;eligible_voters&#34;</span><span class="p">:</span> <span class="mi">464</span><span class="p">,</span>
+    <span class="nt">&#34;quorum_pct&#34;</span><span class="p">:</span> <span class="mi">7291</span><span class="p">,</span>
+    <span class="nt">&#34;quorum_rolls&#34;</span><span class="p">:</span> <span class="mi">51463</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_rolls&#34;</span><span class="p">:</span> <span class="mi">57818</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_voters&#34;</span><span class="p">:</span> <span class="mi">179</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_pct&#34;</span><span class="p">:</span> <span class="mi">8191</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_ema&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;yay_rolls&#34;</span><span class="p">:</span> <span class="mi">37144</span><span class="p">,</span>
+    <span class="nt">&#34;yay_voters&#34;</span><span class="p">:</span> <span class="mi">171</span><span class="p">,</span>
+    <span class="nt">&#34;nay_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;nay_voters&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;pass_rolls&#34;</span><span class="p">:</span> <span class="mi">20674</span><span class="p">,</span>
+    <span class="nt">&#34;pass_voters&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="nt">&#34;is_open&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;is_failed&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;is_draw&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_proposal&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_quorum&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_majority&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;proposals&#34;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;PsBABY5HQTSkA4297zNHfsZNKtxULfL18y95qb3m53QJiXGmrbU&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1eEnQhbwf6trb8Q8mPb2RaPkNk2rN7BKi8&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;block_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLzSKKWp9NyrNrZrZgWin3m2zjPVUJfxNn1QkCzt9aZy7ZLWgJJ&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;ooDAtGzFBeRUJcEK3QRBHU3kzk31CAp2RARYE3kmU3qsrvgs8JN&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">547386</span><span class="p">,</span>
+        <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-08-02T09:42:56Z&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&#34;voters&#34;</span><span class="p">:</span> <span class="mi">0</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;testing&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;voting_period&#34;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+    <span class="nt">&#34;voting_period_kind&#34;</span><span class="p">:</span> <span class="s2">&#34;testing&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_start_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-01T17:53:51Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_end_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-25T04:30:36Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_start_block&#34;</span><span class="p">:</span> <span class="mi">589824</span><span class="p">,</span>
+    <span class="nt">&#34;period_end_block&#34;</span><span class="p">:</span> <span class="mi">622591</span><span class="p">,</span>
+    <span class="nt">&#34;eligible_rolls&#34;</span><span class="p">:</span> <span class="mi">71053</span><span class="p">,</span>
+    <span class="nt">&#34;eligible_voters&#34;</span><span class="p">:</span> <span class="mi">469</span><span class="p">,</span>
+    <span class="nt">&#34;quorum_pct&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;quorum_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_voters&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_pct&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_ema&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;yay_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;yay_voters&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;nay_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;nay_voters&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;pass_rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;pass_voters&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;is_open&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;is_failed&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;is_draw&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_proposal&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_quorum&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_majority&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;proposals&#34;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;PsBABY5HQTSkA4297zNHfsZNKtxULfL18y95qb3m53QJiXGmrbU&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1eEnQhbwf6trb8Q8mPb2RaPkNk2rN7BKi8&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;block_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLzSKKWp9NyrNrZrZgWin3m2zjPVUJfxNn1QkCzt9aZy7ZLWgJJ&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;ooDAtGzFBeRUJcEK3QRBHU3kzk31CAp2RARYE3kmU3qsrvgs8JN&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">547386</span><span class="p">,</span>
+        <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-08-02T09:42:56Z&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&#34;voters&#34;</span><span class="p">:</span> <span class="mi">0</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;promotion_vote&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;voting_period&#34;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+    <span class="nt">&#34;voting_period_kind&#34;</span><span class="p">:</span> <span class="s2">&#34;promotion_vote&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_start_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-25T04:32:51Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_end_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-10-18T00:28:57Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;period_start_block&#34;</span><span class="p">:</span> <span class="mi">622592</span><span class="p">,</span>
+    <span class="nt">&#34;period_end_block&#34;</span><span class="p">:</span> <span class="mi">655359</span><span class="p">,</span>
+    <span class="nt">&#34;eligible_rolls&#34;</span><span class="p">:</span> <span class="mi">71840</span><span class="p">,</span>
+    <span class="nt">&#34;eligible_voters&#34;</span><span class="p">:</span> <span class="mi">463</span><span class="p">,</span>
+    <span class="nt">&#34;quorum_pct&#34;</span><span class="p">:</span> <span class="mi">7471</span><span class="p">,</span>
+    <span class="nt">&#34;quorum_rolls&#34;</span><span class="p">:</span> <span class="mi">53671</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_rolls&#34;</span><span class="p">:</span> <span class="mi">11895</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_voters&#34;</span><span class="p">:</span> <span class="mi">79</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_pct&#34;</span><span class="p">:</span> <span class="mi">1655</span><span class="p">,</span>
+    <span class="nt">&#34;turnout_ema&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;yay_rolls&#34;</span><span class="p">:</span> <span class="mi">11044</span><span class="p">,</span>
+    <span class="nt">&#34;yay_voters&#34;</span><span class="p">:</span> <span class="mi">71</span><span class="p">,</span>
+    <span class="nt">&#34;nay_rolls&#34;</span><span class="p">:</span> <span class="mi">844</span><span class="p">,</span>
+    <span class="nt">&#34;nay_voters&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="nt">&#34;pass_rolls&#34;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="nt">&#34;pass_voters&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&#34;is_open&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&#34;is_failed&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;is_draw&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_proposal&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_quorum&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;no_majority&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;proposals&#34;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;PsBABY5HQTSkA4297zNHfsZNKtxULfL18y95qb3m53QJiXGmrbU&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1eEnQhbwf6trb8Q8mPb2RaPkNk2rN7BKi8&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;block_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLzSKKWp9NyrNrZrZgWin3m2zjPVUJfxNn1QkCzt9aZy7ZLWgJJ&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;op_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;ooDAtGzFBeRUJcEK3QRBHU3kzk31CAp2RARYE3kmU3qsrvgs8JN&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">547386</span><span class="p">,</span>
+        <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-08-02T09:42:56Z&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&#34;voters&#34;</span><span class="p">:</span> <span class="mi">0</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>Shows full detail about a past or current election including up to four voting periods and detailed results.</p>
+
+<h3 id="http-request-9">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/election/{head,number}</code></p>
+
+<h3 id="http-response-8">HTTP Response</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>election_id</code> <em>int</em></td>
+<td>Sequence number of the election.</td>
+</tr>
+
+<tr>
+<td><code>num_periods</code> <em>int</em></td>
+<td>Number of voting periods activated durin this election (min 1, max 4)</td>
+</tr>
+
+<tr>
+<td><code>num_proposals</code> <em>int</em></td>
+<td>Total number of submitted proposals.</td>
+</tr>
+
+<tr>
+<td><code>start_time</code> <em>int</em></td>
+<td>Time of the first block in the election.</td>
+</tr>
+
+<tr>
+<td><code>end_time</code> <em>int</em></td>
+<td>Time of the last block in the election (when open this is an approximation of the latest possible end assuming all voting periods are used and all remaining blocks are produced at priority zero).</td>
+</tr>
+
+<tr>
+<td><code>start_height</code> <em>int</em></td>
+<td>First block of the election period.</td>
+</tr>
+
+<tr>
+<td><code>end_height</code> <em>bool</em></td>
+<td>Last block of the election (when open this is an approximation of the full duration assuming all voting periods are used).</td>
+</tr>
+
+<tr>
+<td><code>is_empty</code> <em>bool</em></td>
+<td>Flag indicating the election has not seen and proposal beeing submitted.</td>
+</tr>
+
+<tr>
+<td><code>is_open</code> <em>bool</em></td>
+<td>Flag indicating the election is onging.</td>
+</tr>
+
+<tr>
+<td><code>is_failed</code> <em>bool</em></td>
+<td>Flag indicating the election has failed to select or activate a new protocol.</td>
+</tr>
+
+<tr>
+<td><code>no_quorum</code> <em>bool</em></td>
+<td>Flag indicating the election has failed because no quorum could be reached.</td>
+</tr>
+
+<tr>
+<td><code>no_majority</code> <em>bool</em></td>
+<td>Flag indicating the election has failed because no majority could be reached.</td>
+</tr>
+
+<tr>
+<td><code>no_proposal</code> <em>bool</em></td>
+<td>Flag indicating the election has failed because no proposal has been submitted.</td>
+</tr>
+
+<tr>
+<td><code>voting_period</code> <em>enum</em></td>
+<td>Period kind <code>proposal</code>, <code>testing_vote</code>, <code>testing</code>, <code>promotion_vote</code>.</td>
+</tr>
+
+<tr>
+<td><code>proposal</code> <em>object</em></td>
+<td>Vote object for the proposal period 1 (see below).</td>
+</tr>
+
+<tr>
+<td><code>testing_vote</code> <em>object</em></td>
+<td>Vote object for the testing vote period 2 (see below).</td>
+</tr>
+
+<tr>
+<td><code>testing</code> <em>object</em></td>
+<td>Vote object for the testing period 3 (see below).</td>
+</tr>
+
+<tr>
+<td><code>promotion_vote</code> <em>object</em></td>
+<td>Vote object for the promotion vote period 4 (see below).</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="voting-period-object">Voting Period Object</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>voting_period</code> <em>int</em></td>
+<td>Protocol-level voting period counter.</td>
+</tr>
+
+<tr>
+<td><code>voting_period_kind</code> <em>enum</em></td>
+<td>Period kind <code>proposal</code>, <code>testing_vote</code>, <code>testing</code>, <code>promotion_vote</code>.</td>
+</tr>
+
+<tr>
+<td><code>period_start_time</code> <em>datetime</em></td>
+<td>Time of the first block in the voting period.</td>
+</tr>
+
+<tr>
+<td><code>period_end_time</code> <em>datetime</em></td>
+<td>Time of the last block in the voting period (when open this is an approximation of the latest possible end assuming all remaining blocks are produced at priority zero).</td>
+</tr>
+
+<tr>
+<td><code>period_start_block</code> <em>int</em></td>
+<td>First block of the voting period.</td>
+</tr>
+
+<tr>
+<td><code>period_end_block</code> <em>int</em></td>
+<td>Last block of the voting period.</td>
+</tr>
+
+<tr>
+<td><code>eligible_rolls</code> <em>int</em></td>
+<td>Number of rolls eligible to vote snapshot at start of the voting period.</td>
+</tr>
+
+<tr>
+<td><code>eligible_voters</code> <em>int</em></td>
+<td>Number of eligible voters (delegates) snapshot at start of the voting period.</td>
+</tr>
+
+<tr>
+<td><code>quorum_pct</code> <em>float</em></td>
+<td>Required quorum in percent.</td>
+</tr>
+
+<tr>
+<td><code>quorum_rolls</code> <em>int</em></td>
+<td>Required rolls to reach quorum.</td>
+</tr>
+
+<tr>
+<td><code>turnout_rolls</code> <em>int</em></td>
+<td>Actual rolls who voted.</td>
+</tr>
+
+<tr>
+<td><code>turnout_voters</code> <em>int</em></td>
+<td>Actual voters who voted.</td>
+</tr>
+
+<tr>
+<td><code>turnout_pct</code> <em>float</em></td>
+<td>Actual participation in percent.</td>
+</tr>
+
+<tr>
+<td><code>turnout_ema</code> <em>float</em></td>
+<td>Moving average for Babylon v005 quorum algorithm.</td>
+</tr>
+
+<tr>
+<td><code>yay_rolls</code> <em>int</em></td>
+<td>Number of Yay rolls.</td>
+</tr>
+
+<tr>
+<td><code>yay_voters</code> <em>int</em></td>
+<td>Number of Yay voters.</td>
+</tr>
+
+<tr>
+<td><code>nay_rolls</code> <em>int</em></td>
+<td>Number of Nay rolls.</td>
+</tr>
+
+<tr>
+<td><code>nay_voters</code> <em>int</em></td>
+<td>Number of Nay voters.</td>
+</tr>
+
+<tr>
+<td><code>pass_rolls</code> <em>int</em></td>
+<td>Number of Pass rolls.</td>
+</tr>
+
+<tr>
+<td><code>pass_voters</code> <em>int</em></td>
+<td>Number of Pass voters.</td>
+</tr>
+
+<tr>
+<td><code>is_open</code> <em>bool</em></td>
+<td>Flag indicating the voting period is currently open.</td>
+</tr>
+
+<tr>
+<td><code>is_failed</code> <em>bool</em></td>
+<td>Flag indicating the voting period has failed to select or activate a new protocol.</td>
+</tr>
+
+<tr>
+<td><code>is_draw</code> <em>bool</em></td>
+<td>Flag indication the reason for failure was a draw between two proposals in the proposal period.</td>
+</tr>
+
+<tr>
+<td><code>no_proposal</code> <em>bool</em></td>
+<td>Flag indication the reason for failure was no submotted proposal in the proposal period.</td>
+</tr>
+
+<tr>
+<td><code>no_quorum</code> <em>bool</em></td>
+<td>Flag indication the reason for failure was participation below the required quorum.</td>
+</tr>
+
+<tr>
+<td><code>no_majority</code> <em>bool</em></td>
+<td>Flag indication the reason for failure was acceptance below the required supermajority.</td>
+</tr>
+
+<tr>
+<td><code>proposals</code> <em>array</em></td>
+<td>List of submitted proposals (in proposal period) or the selected proposal.</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="proposal-object">Proposal Object</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>hash</code> <em>hash</em></td>
+<td>Protocol hash.</td>
+</tr>
+
+<tr>
+<td><code>source</code> <em>hash</em></td>
+<td>Sender account.</td>
+</tr>
+
+<tr>
+<td><code>block_hash</code> <em>hash</em></td>
+<td>Proposal operation block hash.</td>
+</tr>
+
+<tr>
+<td><code>op_hash</code> <em>hash</em></td>
+<td>Proposal operation hash.</td>
+</tr>
+
+<tr>
+<td><code>height</code> <em>int</em></td>
+<td>Proposal operation submission height.</td>
+</tr>
+
+<tr>
+<td><code>time</code> <em>datetime</em></td>
+<td>Proposal operation submission time.</td>
+</tr>
+
+<tr>
+<td><code>rolls</code> <em>int</em></td>
+<td>Count of rolls voting for this proposal during the proposal period.</td>
+</tr>
+
+<tr>
+<td><code>voters</code> <em>int</em></td>
+<td>Count of voters voting for this proposal during the proposal period.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="market-tickers">Market Tickers</h2>
+
+<blockquote>
+<p>Example request.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-curl" data-lang="curl">curl https://api.tzstats.com/markets/tickers</code></pre></div>
+<blockquote>
+<p>Example response.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&#34;pair&#34;</span><span class="p">:</span> <span class="s2">&#34;XTZ_BNB&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;base&#34;</span><span class="p">:</span> <span class="s2">&#34;XTZ&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;quote&#34;</span><span class="p">:</span> <span class="s2">&#34;BNB&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;exchange&#34;</span><span class="p">:</span> <span class="s2">&#34;binance&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;open&#34;</span><span class="p">:</span> <span class="mf">0.05813000</span><span class="p">,</span>
+    <span class="nt">&#34;high&#34;</span><span class="p">:</span> <span class="mf">0.06058000</span><span class="p">,</span>
+    <span class="nt">&#34;low&#34;</span><span class="p">:</span> <span class="mf">0.05583000</span><span class="p">,</span>
+    <span class="nt">&#34;last&#34;</span><span class="p">:</span> <span class="mf">0.05741000</span><span class="p">,</span>
+    <span class="nt">&#34;change&#34;</span><span class="p">:</span> <span class="mf">-1.23860313</span><span class="p">,</span>
+    <span class="nt">&#34;vwap&#34;</span><span class="p">:</span> <span class="mf">0.05787292</span><span class="p">,</span>
+    <span class="nt">&#34;n_trades&#34;</span><span class="p">:</span> <span class="mi">176</span><span class="p">,</span>
+    <span class="nt">&#34;volume_base&#34;</span><span class="p">:</span> <span class="mf">17373.80000000</span><span class="p">,</span>
+    <span class="nt">&#34;volume_quote&#34;</span><span class="p">:</span> <span class="mf">1005.47257300</span><span class="p">,</span>
+    <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-29T20:14:00.001014458Z&#34;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&#34;pair&#34;</span><span class="p">:</span> <span class="s2">&#34;XTZ_BTC&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;base&#34;</span><span class="p">:</span> <span class="s2">&#34;XTZ&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;quote&#34;</span><span class="p">:</span> <span class="s2">&#34;BTC&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;exchange&#34;</span><span class="p">:</span> <span class="s2">&#34;kraken&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;open&#34;</span><span class="p">:</span> <span class="mf">0.00011090</span><span class="p">,</span>
+    <span class="nt">&#34;high&#34;</span><span class="p">:</span> <span class="mf">0.00011300</span><span class="p">,</span>
+    <span class="nt">&#34;low&#34;</span><span class="p">:</span> <span class="mf">0.00010710</span><span class="p">,</span>
+    <span class="nt">&#34;last&#34;</span><span class="p">:</span> <span class="mf">0.00010970</span><span class="p">,</span>
+    <span class="nt">&#34;change&#34;</span><span class="p">:</span> <span class="mf">-1.08205591</span><span class="p">,</span>
+    <span class="nt">&#34;vwap&#34;</span><span class="p">:</span> <span class="mf">0.00011036</span><span class="p">,</span>
+    <span class="nt">&#34;n_trades&#34;</span><span class="p">:</span> <span class="mi">808</span><span class="p">,</span>
+    <span class="nt">&#34;volume_base&#34;</span><span class="p">:</span> <span class="mf">219356.80514484</span><span class="p">,</span>
+    <span class="nt">&#34;volume_quote&#34;</span><span class="p">:</span> <span class="mf">24.20907256</span><span class="p">,</span>
+    <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-29T20:14:00.000755843Z&#34;</span>
+  <span class="p">}</span>
+<span class="p">]</span></code></pre></div>
+<p>Fetches a list of market price tickers with 24h OHLCV data.</p>
+
+<h3 id="http-request-10">HTTP Request</h3>
+
+<p><code>GET https://api.tzstats.com/markets/tickers</code></p>
+
+<h3 id="http-response-9">HTTP Response</h3>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>pair</code> <em>string</em></td>
+<td>Trading pair in format <code>{base}_{quote}</code>.</td>
+</tr>
+
+<tr>
+<td><code>base</code> <em>string</em></td>
+<td>Base currency (always <code>XTZ</code>).</td>
+</tr>
+
+<tr>
+<td><code>quote</code> <em>string</em></td>
+<td>Quote currency.</td>
+</tr>
+
+<tr>
+<td><code>exchange</code> <em>float</em></td>
+<td>Exchange code.</td>
+</tr>
+
+<tr>
+<td><code>open</code> <em>float</em></td>
+<td>24h open price in quote currency.</td>
+</tr>
+
+<tr>
+<td><code>high</code> <em>float</em></td>
+<td>24h highest price in quote currency.</td>
+</tr>
+
+<tr>
+<td><code>low</code> <em>float</em></td>
+<td>24h lowest price in quote currency.</td>
+</tr>
+
+<tr>
+<td><code>last</code> <em>float</em></td>
+<td>Last price in quote curreny.</td>
+</tr>
+
+<tr>
+<td><code>change</code> <em>float</em></td>
+<td>24h price change in percent.</td>
+</tr>
+
+<tr>
+<td><code>vwap</code> <em>float</em></td>
+<td>24h volume weighted average price in quote currency.</td>
+</tr>
+
+<tr>
+<td><code>n_trades</code> <em>float</em></td>
+<td>24h number of trades.</td>
+</tr>
+
+<tr>
+<td><code>volume_base</code> <em>float</em></td>
+<td>24h traded volume in base currency.</td>
+</tr>
+
+<tr>
+<td><code>volume_quote</code> <em>float</em></td>
+<td>24h traded volume in quote currency.</td>
+</tr>
+
+<tr>
+<td><code>timestamp</code> <em>float</em></td>
+<td>Timestamp of the ticker result.</td>
+</tr>
+</tbody>
+</table>
+
+    
+        
+
+<h1 id="table-endpoints">Table Endpoints</h1>
+
+<blockquote>
+<p><strong>Generic Table Query</strong></p>
+</blockquote>
+
+<pre><code>https://api.tzstats.com/tables/{table_code}.{format}?{args}
+</code></pre>
+
+<p>Tables store data in tabular form as a set of columns. Each column has a specified type and each row has a unique uint64 <code>row_id</code>. Empty values are represented as JSON <code>null</code> or empty strings.  Tables can grow extremely large, so its good practice to use filters and the <code>columns</code> query argument to limit the result size. Table responses are automatically sorted by <code>row_id</code>. Use client-side sorting if a different sorting order is required.</p>
+
+<h3 id="list-of-supported-tables">List of supported tables</h3>
+
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Table Content</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>GET /tables/chain</code></td>
+<td>running blockchain totals</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/supply</code></td>
+<td>running supply totals</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/block</code></td>
+<td>blocks (including orphans)</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/op</code></td>
+<td>operations (only final)</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/account</code></td>
+<td>most recent account balances and state</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/contract</code></td>
+<td>smart contracts state at creation</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/flow</code></td>
+<td>balance, freezer and delegation flows</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/rights</code></td>
+<td>baking and endorsing rights</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/snapshot</code></td>
+<td>balances of active delegates &amp; delegators at all snapshot blocks</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/income</code></td>
+<td>per-cycle statistics on baker income, efficiency, etc</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/election</code></td>
+<td>election metadata (i.e. entire governance cycles)</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/proposal</code></td>
+<td>individual proposals</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/vote</code></td>
+<td>voting period metadata</td>
+</tr>
+
+<tr>
+<td><code>GET /tables/ballot</code></td>
+<td>ballots and proposal operations</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="query-arguments">Query Arguments</h2>
+
+<p>Tables support the following general query parameters.</p>
+
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>columns</code> <em>optional</em></td>
+<td>Comma separated list of column names to return. Bulk array results will be ordered accordingly. Default is all defined columns for a table.</td>
+</tr>
+
+<tr>
+<td><code>limit</code> <em>optional</em></td>
+<td>Maximum number of rows to return. Limited to 50,000, default 500.</td>
+</tr>
+
+<tr>
+<td><code>cursor</code> <em>optional</em></td>
+<td>Id (<code>row_id</code>) of the latest result row returned by a previous call.</td>
+</tr>
+
+<tr>
+<td><code>order</code> <em>optional</em></td>
+<td>Result order either <code>asc</code> (default) or <code>desc</code>, sorted by <code>row_id</code>.</td>
+</tr>
+</tbody>
+</table>
+
+<p>To paginate result sets larger than the maximum limit, include <code>row_id</code> into the list of columns and use the last value of row_id as cursor in your next call. This will automatically apply an extra filter <code>row_id.gt=cursor</code> for ascending and <code>row_id.lt=cursor</code> for descending order. You can of course also apply the relevant row_id filter directly, without using cursor.</p>
+
+<h2 id="query-filters">Query Filters</h2>
+
+<p>To filter tables use filter expressions of the form <code>&lt;column&gt;.&lt;operator&gt;=&lt;arg&gt;</code>. Filters work on any combination of columns regardless of type. For arguments, type encoding rules of the column type apply. Filtering by multiple columns is similar to a logical AND between expressions. For simplicity and performance there are currently no OR expressions or more complex operators available. Comparison order for strings and binary is the lexicographical order over UTF8 (string) or ASCII (binary) alphabets.</p>
+
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Semantics</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>=</code>, <code>.eq=</code></td>
+<td><strong>Equal.</strong> Matches rows where column values match exactly the filter value.</td>
+</tr>
+
+<tr>
+<td><code>.ne=</code></td>
+<td><strong>Not equal.</strong> Matches rows where column values do not match the filter value.</td>
+</tr>
+
+<tr>
+<td><code>.gt=</code></td>
+<td><strong>Greater than.</strong> matches columns who&rsquo;s value is strictly greater than the filter value.</td>
+</tr>
+
+<tr>
+<td><code>.gte=</code></td>
+<td><strong>Greater than or equal.</strong> matches columns who&rsquo;s value is greater than or equal to the filter value.</td>
+</tr>
+
+<tr>
+<td><code>.lt=</code></td>
+<td><strong>Less than.</strong> matches columns who&rsquo;s value is strictly smaller than the filter value.</td>
+</tr>
+
+<tr>
+<td><code>.lte=</code></td>
+<td><strong>Less than or equal.</strong> matches columns who&rsquo;s value is strictly smaller than or equal to the filter value.</td>
+</tr>
+
+<tr>
+<td><code>.in=</code></td>
+<td><strong>Inclusion in list.</strong> matches columns who&rsquo;s value is equal to one of the filter values. Multiple values must be separated by comma.</td>
+</tr>
+
+<tr>
+<td><code>.nin=</code></td>
+<td><strong>Not included in list.</strong> matches columns who&rsquo;s value is not equal to one of the filter values. Multiple values may be separated by comma.</td>
+</tr>
+
+<tr>
+<td><code>.rg=</code></td>
+<td><strong>Range.</strong> matches columns who&rsquo;s value is between the provided filter values, boundary inclusive. Requires exactly two values separated by comma. (This is similar to, but faster than using <code>.gte=</code> and <code>.lte=</code> in combination.)</td>
+</tr>
+
+<tr>
+<td><code>.re=</code></td>
+<td><strong>Regexp.</strong> matches columns who&rsquo;s value matches the regular expression. Can only be used on string-type columns (not enum or hash). Non-URL-safe characters must be properly escaped.</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p><strong>Filter Example</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/block.json?columns=row_id,time,height&amp;time.gte=2018-08-01&amp;time.lte=2018-08-31&amp;limit=50000&#34;</span></code></pre></div>
+<blockquote>
+<p><strong>JSON result</strong></p>
+</blockquote>
+
+<pre><code>[[42673,1533081657000,42672]
+,[42674,1533081717000,42673]
+,[42675,1533081777000,42674]
+,[42676,1533081837000,42675]
+,[42677,1533081897000,42676]
+,[42678,1533081957000,42677]
+,[42679,1533082017000,42678]
+,[42680,1533082152000,42679]
+,[42681,1533082287000,42680]
+,[42682,1533082347000,42681]
+,[42683,1533082407000,42682]
+...
+]
+</code></pre>
+
+<p>For example, to filter blocks by time range starting at <code>time.gte=2018-08-01</code> (inclusive) until <code>time.lte=2018-08-31</code> (inclusive) and return columns <code>row_id</code>, <code>time</code> and <code>height</code>. The same effect can be achieved with the range operator <code>time.rg=2018-08-01,2018-08-31</code>.</p>
+
+<h2 id="chain">Chain</h2>
+
+<h2 id="supply">Supply</h2>
+
+<h2 id="block">Block</h2>
+
+<h2 id="op">Op</h2>
+
+<h2 id="account">Account</h2>
+
+<h2 id="contract">Contract</h2>
+
+<h2 id="flow">Flow</h2>
+
+<h2 id="rights">Rights</h2>
+
+<h2 id="snapshot">Snapshot</h2>
+
+<h2 id="income">Income</h2>
+
+<h2 id="election">Election</h2>
+
+<h2 id="proposal">Proposal</h2>
+
+<h2 id="vote">Vote</h2>
+
+<h2 id="ballot">Ballot</h2>
+
+    
+        
+
+<h1 id="time-series-endpoints">Time-Series Endpoints</h1>
+
+<blockquote>
+<p><strong>Generic Time-Series Query</strong></p>
+</blockquote>
+
+<pre><code>https://api.tzstats.com/series/{table_code}.{format}?{args}
+</code></pre>
+
+<p>A time-series is a collection of measurements or aggregate data taken over time and is naturally ordered by timestamps. Time-series are meant to be displayed as graphs with time on the x-axis and an aggregate of some value on the y-axis. Intervals between timestamps are equally spaced, but there is no guarantee that every interval is populated with data, i.e. there may be gaps which need to be filled by the client if necessary.</p>
+
+<p>Interval steps are controlled by the <code>collapse</code> query parameter, i.e. <code>1d</code> means each interval contains 24 hours of aggregated data. Time-series data can contain fields of all supported numeric data types (e.g. no strings or binary data). The aggregation function is fixed by the semantics of the data type. This may either be a sum, a count, first, last, min, max or mean value.</p>
+
+<h3 id="list-of-supported-time-series">List of supported time-series</h3>
+
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Time-Series Content</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>GET /series/block</code></td>
+<td>aggregated block data</td>
+</tr>
+
+<tr>
+<td><code>GET /series/op</code></td>
+<td>aggregated operations data</td>
+</tr>
+
+<tr>
+<td><code>GET /series/flow</code></td>
+<td>aggregated balances, freezer and delegation flows</td>
+</tr>
+
+<tr>
+<td><code>GET /series/{exchange}/{market}/ohlcv</code></td>
+<td>OHLCV candles</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="query-arguments">Query Arguments</h2>
+
+<p>Time-series datasets support the following query parameters.</p>
+
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>columns</code> <em>optional</em></td>
+<td>Comma separated list of columns you like to fetch. Bulk array results will be ordered accordingly. Default is all defined columns for a series.</td>
+</tr>
+
+<tr>
+<td><code>collapse</code> <em>optional</em></td>
+<td>Aggregate numeric data over different sampling intervals. Supported values are <code>1m</code>, <code>5m</code>, <code>15m</code>, <code>30m</code>, <code>1h</code>, <code>2h</code>, <code>3h</code>, <code>4h</code>, <code>6h</code>, <code>12h</code>, <code>1d</code>, <code>1w</code>, <code>1M</code>, <code>3M</code>, <code>1y</code> and <code>none</code> (default). Default is the original sampling frequency of the dataset.</td>
+</tr>
+
+<tr>
+<td><code>order</code> <em>optional</em></td>
+<td>Return data in <code>asc</code> (ascending) or <code>desc</code> (descending) order. Default is <code>asc</code>.</td>
+</tr>
+
+<tr>
+<td><code>limit</code> <em>optional</em></td>
+<td>Maximum number of aggregated results returned. Limited to 50,000, default 500.</td>
+</tr>
+
+<tr>
+<td><code>start_date</code> <em>optional</em></td>
+<td>Start of the time range to query. See timestamps for syntax.</td>
+</tr>
+
+<tr>
+<td><code>end_date</code> <em>optional</em></td>
+<td>End of the time range to query. See timestamps for syntax.</td>
+</tr>
+</tbody>
+</table>
+
+<p>When only start or end date are provided, the other is deducted from collapse and limit. Without any optional parameters a query defaults to the most recent 500 minutes (<code>limit=500</code> and <code>collapse=1m</code>).</p>
+
+<h2 id="query-filters">Query Filters</h2>
+
+<p>Time-series support the same filters <a href="#filters">used on tables</a> with the same filter expressions of form <code>&lt;column&gt;.&lt;operator&gt;=&lt;arg&gt;</code>. Filters can be used on all fields, including fields that are not part of the aggregated result such as addresses and type enums.</p>
+
+<blockquote>
+<p><strong>Daily Aggregated On-Chain Operations and Volume</strong></p>
+</blockquote>
+
+<pre><code>curl &quot;https://api.tzstats.com/series/block.json?columns=n_ops,n_contract_ops,volume&amp;start_date=2019-09-01&amp;end_date=2019-09-30&amp;collapse=1d&quot;
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[[</span><span class="mi">1567296000000</span><span class="p">,</span><span class="mi">38280</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">1434181.675192</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1567382400000</span><span class="p">,</span><span class="mi">36141</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1820530.693190</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1567468800000</span><span class="p">,</span><span class="mi">33471</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">2598887.766455</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1567555200000</span><span class="p">,</span><span class="mi">40024</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1624968.538532</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1567641600000</span><span class="p">,</span><span class="mi">39168</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">4074279.039197</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1567728000000</span><span class="p">,</span><span class="mi">35517</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">7011971.429979</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1567814400000</span><span class="p">,</span><span class="mi">42233</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mf">4834788.035595</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1567900800000</span><span class="p">,</span><span class="mi">37267</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">2096522.625252</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1567987200000</span><span class="p">,</span><span class="mi">34749</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mf">6607992.965035</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568073600000</span><span class="p">,</span><span class="mi">40857</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">2191147.371284</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568160000000</span><span class="p">,</span><span class="mi">38499</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">3952771.881005</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568246400000</span><span class="p">,</span><span class="mi">34885</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">3956372.042544</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568332800000</span><span class="p">,</span><span class="mi">42283</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mf">9008142.479234</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568419200000</span><span class="p">,</span><span class="mi">38439</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1996517.546659</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568505600000</span><span class="p">,</span><span class="mi">34921</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1802685.961786</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568592000000</span><span class="p">,</span><span class="mi">44033</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mf">1771517.062497</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568678400000</span><span class="p">,</span><span class="mi">37136</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">3558820.780758</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568764800000</span><span class="p">,</span><span class="mi">35485</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">5038704.548600</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568851200000</span><span class="p">,</span><span class="mi">44215</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mf">4810790.938274</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1568937600000</span><span class="p">,</span><span class="mi">36941</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1820138.016142</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1569024000000</span><span class="p">,</span><span class="mi">34945</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">829855.042048</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1569110400000</span><span class="p">,</span><span class="mi">44210</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">2939657.404254</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1569196800000</span><span class="p">,</span><span class="mi">39130</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mf">9193271.064483</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1569283200000</span><span class="p">,</span><span class="mi">38832</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">14616259.859847</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1569369600000</span><span class="p">,</span><span class="mi">48025</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">6440242.191519</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1569456000000</span><span class="p">,</span><span class="mi">35029</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">4186033.189666</span><span class="p">]</span>
+<span class="p">,[</span><span class="mi">1569542400000</span><span class="p">,</span><span class="mi">31765</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1720994.979148</span><span class="p">]</span>
+<span class="p">]</span></code></pre></div>
+<h2 id="blocks">Blocks</h2>
+
+<h2 id="operations">Operations</h2>
+
+<h2 id="flows">Flows</h2>
+
+<h2 id="ohlcv">OHLCV</h2>
+
+    
+        
+
+<h1 id="changelog">Changelog</h1>
+
+<p>Recent changes and additions to TzStats Data API.</p>
+
+    
+
+        </div>
+        <div class="dark-box">
+            
+            <div class="lang-selector">
+                
+                <a href="#" data-language-name="shell">Shell</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+    
+
+
+
+
+
+
+<script src='/docs/api/js/all.js'></script>
+
+</body>
+</html>

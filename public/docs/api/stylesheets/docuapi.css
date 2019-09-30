@@ -1,0 +1,239 @@
+.content table em {
+    display: block;
+}
+
+.content table tr:nth-child(2n+1) > td,
+.content table tr:nth-child(2n+1) > td {
+    background-color: transparent;
+}
+
+/*body {
+	font-size: 11px;
+	background-color: #fff;
+	color: #4c555a;
+}
+
+html, .page-wrapper {
+	background-color: #fff;
+}
+
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+    font-weight: normal;
+	background-image: none;
+}
+
+.content h2 {
+	font-size: 24px;
+}
+
+
+.content h3 {
+	color: #999;
+	text-transform: uppercase;
+	font-size: 13px;
+}
+
+.content blockquote h3 {
+	text-transform: none;
+	font-size: 14px;
+	color: #dedede;
+}
+
+.page-wrapper .dark-box,
+.tocify-wrapper {
+	background-color: #2d3134;
+}
+
+.page-wrapper .lang-selector {
+	border-bottom-width: 2px;
+}
+
+.tocify-wrapper > .search input {
+    background: #393b3d;
+    padding-left: 22px;
+}
+
+.tocify-wrapper > .search::before {
+    left: 20px;
+}
+
+.content .search-highlight {
+	text-shadow: none;
+}
+
+.content a, .content blockquote a {
+    color: #0099e5;
+    text-decoration: none;
+    border: none;
+}
+
+.content a:hover {
+    color: #292e31;
+    text-decoration: none;
+}
+
+.content blockquote a:hover {
+    color: #5db8ed;
+}
+
+.content pre, .content blockquote {
+	background-color: transparent;
+	color: #dedede;
+	text-shadow: none;
+	padding-bottom: 0;
+}
+
+.content blockquote ~ .content pre {
+	border-top: 0;
+}
+
+.content h1 + blockquote,
+.content h2 + blockquote,
+.content h3 + blockquote {
+	padding-top: 0;
+}
+
+.content h2 + blockquote {
+	margin-top: -48px;
+}
+
+.content h3 + blockquote {
+	margin-top: -24px;
+}
+
+.content h1 + blockquote > h3,
+.content h2 + blockquote > h3 {
+	margin-top: 0;
+}
+
+.content blockquote > p {
+	padding: 13px 0;
+	border-top: none;
+	border-bottom: none;
+	color: inherit;
+	background-color: inherit;
+}
+
+.content blockquote + pre,
+.content pre + blockquote,
+.content blockquote + blockquote,
+.content pre + pre,
+.content blockquote + div.highlight > pre {
+    padding-top: 0;
+    /*margin-top: -2em;*/
+}
+
+.content pre > code {
+	background-color: #272b2d;
+	color: #ccc;
+	border-top: 1px solid #222;
+	border-bottom: 1px solid #404040;
+	padding: 13px;
+    display: block;
+    overflow: auto;
+    word-wrap: break-word;
+}
+
+.highlight, .highlight pre {
+	background-color: transparent;
+}
+
+.content table {
+	table-layout: fixed;
+	width: 50%;
+}
+
+.content blockquote table {
+	background: #33373a;
+	border-radius: 5px;
+	border: 1px solid #373b3e;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.content table tr {
+    border-top: 1px solid #eee;
+}
+
+.content table tr:last-child {
+    border-bottom: 1px solid #eee;
+}
+
+.content table tr td:first-child,
+.content blockquote table tr th {
+	vertical-align: top;
+	line-height: 1.6;
+	text-align: right;
+	width: 140px;
+	font-weight: 400;
+	padding: 10px;
+	border: none;
+}
+
+.content table tr td:first-child em {
+    display: block;
+    font-size: 13px;
+    color: #aaa;
+    font-style: normal;
+}
+
+.content table tr td:first-child strong {
+    display: block;
+    font-size: 13px;
+    color: #ffae54;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.content blockquote table tr th {
+	font-weight: 600;
+}
+
+.content table tr:nth-child(2n+1) > td,
+.content table tr:nth-child(2n+1) > th,
+.content table tr:nth-child(2n) > td,
+.content table tr:nth-child(2n) > th {
+    background-color: transparent;
+}
+
+.content table tr td:first-child,
+.content table tr th {
+	min-width: 30%;
+}
+
+.content table td > ul {
+	margin: 0;
+}
+
+.content table tr td:first-child,
+.content table th {
+	color: #222;
+}
+
+.content blockquote table th,
+.content blockquote table tr td:first-child {
+	color: #fff;
+}
+
+.content blockquote table tr:nth-child(2n+1) > td,
+.content blockquote table tr:nth-child(2n+1) > th {
+    background-color: transparent;
+}
+
+.content blockquote table tr:nth-child(2n) > td,
+.content blockquote table tr:nth-child(2n) > th {
+    background-color: #2d3134;
+}
+
+.content blockquote table tr {
+	border: none;
+}
+
+.content blockquote table tr:last-child {
+    border-bottom: none;
+}
+
+thead {
+	display: none;
+}
+*/
