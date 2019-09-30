@@ -2460,19 +2460,19 @@ ECDHE-RSA-AES128-SHA256
   <span class="nt">&#34;last_out&#34;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
   <span class="nt">&#34;first_seen&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
   <span class="nt">&#34;last_seen&#34;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="nt">&#34;delegated_since&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
   <span class="nt">&#34;first_in_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;first_out_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;last_in_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;last_out_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;first_seen_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T17:39:57Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;last_seen_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T18:11:27Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;delegated_since_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-06-30T17:39:57Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;n_ops&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
   <span class="nt">&#34;n_ops_failed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_tx&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
   <span class="nt">&#34;n_delegation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_origination&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_proposal&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_ballot&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;token_gen_min&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;token_gen_max&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;manager_account&#34;</span><span class="p">:</span> <span class="p">{</span>
@@ -2482,7 +2482,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="err">//</span> <span class="err">...</span>
   <span class="p">}</span>
 <span class="p">}</span></code></pre></div>
-<p>Provides information about a smart contract at creation time such as code, initial storage.</p>
+<p>Provides information about a smart contract with embedded code and initial storage.</p>
 
 <h3 id="http-request-7">HTTP Request</h3>
 
@@ -2501,212 +2501,202 @@ ECDHE-RSA-AES128-SHA256
 <tbody>
 <tr>
 <td><code>address</code> <em>hash</em></td>
-<td>&ldquo;: &ldquo;KT1QuofAgnsWffHzLA7D78rxytJruGHDe7XG&rdquo;,</td>
+<td>Contract address.</td>
 </tr>
 
 <tr>
-<td><code>manager</code></td>
-<td>&ldquo;: &ldquo;&rdquo;,</td>
+<td><code>manager</code> <em>hash</em></td>
+<td>Manager account (deprecated in v005 Babylon).</td>
 </tr>
 
 <tr>
-<td><code>delegate</code></td>
-<td>&ldquo;: &ldquo;tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9&rdquo;,</td>
+<td><code>delegate</code> <em>hash</em></td>
+<td>Delegate (may be empty).</td>
 </tr>
 
 <tr>
-<td><code>height</code></td>
-<td>&ldquo;: 1,</td>
+<td><code>height</code> <em>int</em></td>
+<td>Origination block height.</td>
 </tr>
 
 <tr>
-<td><code>fee</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>fee</code> <em>float</em></td>
+<td>Fee paid on contract origination.</td>
 </tr>
 
 <tr>
-<td><code>gas_limit</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>gas_limit</code> <em>int</em></td>
+<td>Gas limit on contract origination.</td>
 </tr>
 
 <tr>
-<td><code>gas_used</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>gas_used</code> <em>int</em></td>
+<td>Gas used on contract origination.</td>
 </tr>
 
 <tr>
-<td><code>gas_price</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>gas_price</code> <em>float</em></td>
+<td>Gas price on contract origination.</td>
 </tr>
 
 <tr>
-<td><code>storage_limit</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>storage_limit</code> <em>int</em></td>
+<td>Storage limit defined on contract origination op.</td>
 </tr>
 
 <tr>
-<td><code>storage_size</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>storage_size</code> <em>int</em></td>
+<td>Storage size allocated in bytes.</td>
 </tr>
 
 <tr>
-<td><code>storage_paid</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>storage_paid</code> <em>int</em></td>
+<td>Storage bytes paid for in bytes.</td>
 </tr>
 
 <tr>
-<td><code>script</code></td>
-<td>&ldquo;: {</td>
+<td><code>script</code> <em>object</em></td>
+<td>JSON encoded Michelson script and initial contract storage.</td>
 </tr>
 
 <tr>
-<td><code>code</code> <em>object</em></td>
-<td>&ldquo;: [], // &hellip;</td>
+<td><code>is_funded</code> <em>bool</em></td>
+<td>Flag indicating the contract is funded.</td>
 </tr>
 
 <tr>
-<td><code>storage</code> <em>object</em></td>
-<td>&ldquo;: {}, // &hellip;</td>
+<td><code>is_vesting</code> <em>bool</em></td>
+<td>Flag indicating the contract is a vesting contract.</td>
 </tr>
 
 <tr>
-<td><code>is_funded</code></td>
-<td>&ldquo;: true,</td>
+<td><code>is_spendable</code> <em>bool</em></td>
+<td>Flag indicating the contract balance is spendable.</td>
 </tr>
 
 <tr>
-<td><code>is_vesting</code></td>
-<td>&ldquo;: true,</td>
+<td><code>is_delegatable</code> <em>bool</em></td>
+<td>Flag indicating the contract is delegatable.</td>
 </tr>
 
 <tr>
-<td><code>is_spendable</code></td>
-<td>&ldquo;: false,</td>
+<td><code>is_delegated</code> <em>bool</em></td>
+<td>Flag indicating the contract is currently delegated.</td>
 </tr>
 
 <tr>
-<td><code>is_delegatable</code></td>
-<td>&ldquo;: false,</td>
+<td><code>first_in</code> <em>int</em></td>
+<td>Block height of first incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>is_delegated</code></td>
-<td>&ldquo;: true,</td>
+<td><code>first_out</code> <em>int</em></td>
+<td>Block height of first outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_in</code></td>
-<td>&ldquo;: 30,</td>
+<td><code>last_in</code> <em>int</em></td>
+<td>Block height of latest incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_out</code></td>
-<td>&ldquo;: 30,</td>
+<td><code>last_out</code> <em>int</em></td>
+<td>Block height of latest outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>last_in</code></td>
-<td>&ldquo;: 30,</td>
+<td><code>first_seen</code> <em>int</em></td>
+<td>Block height of account creation.</td>
 </tr>
 
 <tr>
-<td><code>last_out</code></td>
-<td>&ldquo;: 30,</td>
+<td><code>last_seen</code> <em>int</em></td>
+<td>Block height of last activity.</td>
 </tr>
 
 <tr>
-<td><code>first_seen</code></td>
-<td>&ldquo;: 1,</td>
+<td><code>delegated_since</code> <em>int</em></td>
+<td>Block height of most recent delegation.</td>
 </tr>
 
 <tr>
-<td><code>last_seen</code></td>
-<td>&ldquo;: 30,</td>
+<td><code>first_in_time</code> <em>datetime</em></td>
+<td>Block time of first incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_in_time</code></td>
-<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+<td><code>first_out_time</code> <em>datetime</em></td>
+<td>Block time of first outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_out_time</code></td>
-<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+<td><code>last_in_time</code> <em>datetime</em></td>
+<td>Block time of latest incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>last_in_time</code></td>
-<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+<td><code>last_out_time</code> <em>datetime</em></td>
+<td>Block time of latest outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>last_out_time</code></td>
-<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+<td><code>first_seen_time</code> <em>datetime</em></td>
+<td>Block time of account creation.</td>
 </tr>
 
 <tr>
-<td><code>first_seen_time</code></td>
-<td>&ldquo;: &ldquo;2018-06-30T17:39:57Z&rdquo;,</td>
+<td><code>last_seen_time</code> <em>datetime</em></td>
+<td>Block time of last activity.</td>
 </tr>
 
 <tr>
-<td><code>last_seen_time</code></td>
-<td>&ldquo;: &ldquo;2018-06-30T18:11:27Z&rdquo;,</td>
+<td><code>delegated_since_time</code> <em>datetime</em></td>
+<td>Block time of most recent delegation.</td>
 </tr>
 
 <tr>
-<td><code>n_ops</code></td>
-<td>&ldquo;: 3,</td>
+<td><code>n_ops</code> <em>int</em></td>
+<td>Lifetime total number of operations sent and received.</td>
 </tr>
 
 <tr>
-<td><code>n_ops_failed</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>n_ops_failed</code> <em>int</em></td>
+<td>Lifetime total number of operations sent that failed.</td>
 </tr>
 
 <tr>
-<td><code>n_tx</code></td>
-<td>&ldquo;: 3,</td>
+<td><code>n_tx</code> <em>int</em></td>
+<td>Lifetime total number of transactions sent and received.</td>
 </tr>
 
 <tr>
-<td><code>n_delegation</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>n_delegation</code> <em>int</em></td>
+<td>Lifetime total number of delegations sent.</td>
 </tr>
 
 <tr>
-<td><code>n_origination</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>n_origination</code> <em>int</em></td>
+<td>Lifetime total number of originations sent.</td>
 </tr>
 
 <tr>
-<td><code>n_proposal</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>token_gen_min</code> <em>int</em></td>
+<td>Minimum generation number of all tokens owned.</td>
 </tr>
 
 <tr>
-<td><code>n_ballot</code></td>
-<td>&ldquo;: 0,</td>
-</tr>
-
-<tr>
-<td><code>token_gen_min</code></td>
-<td>&ldquo;: 0,</td>
-</tr>
-
-<tr>
-<td><code>token_gen_max</code></td>
-<td>&ldquo;: 0,</td>
+<td><code>token_gen_max</code> <em>int</em></td>
+<td>Maximum generation number of all tokens owned.</td>
 </tr>
 
 <tr>
 <td><code>manager_account</code> <em>object</em></td>
-<td>&ldquo;: {</td>
+<td>Embedded manager account object if set.</td>
 </tr>
 
 <tr>
 <td><code>delegate_account</code> <em>object</em></td>
-<td>&ldquo;: {</td>
+<td>Embedded delegate account object if set.</td>
 </tr>
 </tbody>
 </table>
