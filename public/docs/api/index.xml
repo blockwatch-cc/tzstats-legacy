@@ -27,8 +27,9 @@ This API reference provides information on all public API endpoints and the diff
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tzstats.com/docs/api/explorer/</guid>
-      <description>Explorer Endpoints Most explorer endpoints take different kinds of path arguments to define the object to return:
- a regular hash for blocks, operations or accounts the string head for the most recent object on the blockchain (e.g. the recent block or cycle) a block height (a.k.a level in Tezos) a sequence number for cycles and elections  Some endpoints support a simple pagination scheme to walk lists of result (i.</description>
+      <description>Explorer Endpoints Explorer endpoints serve individual large JSON objects and a few related lists. JSON objects use the typical JSON key/value structure and you cannot limit the contents objects (i.e. they are always sent in full). CSV format is not supported here.
+Most explorer endpoints take different kinds of path arguments to define the object to return. This can be:
+ a regular hash for blocks, operations or accounts the string head for the most recent object on the blockchain (e.</description>
     </item>
     
     <item>

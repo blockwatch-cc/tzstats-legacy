@@ -450,7 +450,9 @@ ECDHE-RSA-AES128-SHA256
 
 <h1 id="explorer-endpoints">Explorer Endpoints</h1>
 
-<p>Most explorer endpoints take different kinds of path arguments to define the object to return:</p>
+<p>Explorer endpoints serve individual large JSON objects and a few related lists. JSON objects use the typical JSON key/value structure and you cannot limit the contents objects (i.e. they are always sent in full). CSV format is not supported here.</p>
+
+<p>Most explorer endpoints take different kinds of path arguments to define the object to return. This can be:</p>
 
 <ul>
 <li>a regular <code>hash</code> for blocks, operations or accounts</li>
@@ -459,7 +461,7 @@ ECDHE-RSA-AES128-SHA256
 <li>a sequence <code>number</code> for cycles and elections</li>
 </ul>
 
-<p>Some endpoints support a simple pagination scheme to walk lists of result (i.e. for related operations or accounts). To paginate append <code>limit</code> and <code>offset</code> (both positive integers). Limit defaults to 20 and is capped to a maximum value of 100. Results are always sorted by <code>row_id</code> of the underlying table.</p>
+<p>Some endpoints support a simple pagination scheme to walk lists of result (i.e. for related operations or accounts). To paginate append <code>limit</code> and <code>offset</code>, both are positive integers. Limit defaults to 20 and is capped to a maximum value of 100. Results are always sorted by <code>row_id</code> of the underlying table. If you require a different sort order, you have to do this client-side.</p>
 
 <h3 id="list-of-supported-endpoints">List of supported endpoints</h3>
 
