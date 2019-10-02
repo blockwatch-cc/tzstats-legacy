@@ -39,12 +39,17 @@ const GovSwitcher = ({ period, election }) => {
 const Proposal = ({ period }) => {
   const prop = _.maxBy(period.proposals, d => d.rolls);
   const lead = prop?getProposalByHash(prop.hash):{};
-  return (
+  const empty = !period.proposals.length;
+  return !empty ? (
     <FlexRowSpaceBetween>
       <DataBox valueSize="14px" title={`Proposals`} value={period.proposals.length} />
-      <DataBox valueSize="14px" title={`Participation`} valueType="percent" value={period.turnout_pct/10000} />
+      <DataBox valueSize="14px" title={`Participation`} valueType="percent" valueOpts={{zero:'-'}} value={period.turnout_pct/10000} />
       <DataBox valueSize="14px" title={`Lead Proposal`} valueType="text" value={lead.name||'-'} />
     </FlexRowSpaceBetween>
+  ): (
+    <Empty>
+      No Proposal was submitted so far.
+    </Empty>
   );
 };
 
@@ -82,6 +87,10 @@ const Wrapper = styled.div`
   flex: 1;
   min-width: 340px;
   margin: 0 5px;
+`;
+
+const Empty = styled(FlexRowSpaceBetween)`
+  color: rgba(255, 255, 255, 0.52);
 `;
 
 const OutLink = styled.a``;
