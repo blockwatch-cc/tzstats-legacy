@@ -35,7 +35,7 @@ const ProgressBarWrapper = styled.div`
 `;
 const ProgressBarItems = styled.div`
   background: ${prop => prop.color};
-  width: calc(${prop => prop.percent.toFixed(2)}%);
+  width: calc(${prop => prop.percent.toFixed(2)}% - 1px);
   border-right: 1px solid #424552;
   display: inline-block;
   min-height: ${props => props.height}px;
@@ -43,6 +43,3 @@ const ProgressBarItems = styled.div`
 `;
 
 export default HorizontalProgressBar;
-
-  // width: calc(${prop =>
-    // prop.percent < 1 && prop.percent > 0 ? 1 : prop.percent > 99 && prop.percent !== 100 ? 99 : prop.percent.toFixed(1)}%);
