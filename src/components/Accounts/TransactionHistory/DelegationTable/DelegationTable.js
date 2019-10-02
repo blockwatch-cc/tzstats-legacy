@@ -17,7 +17,7 @@ const DelegationTable = ({ account }) => {
         type: 'delegation',
         address: account.address,
         cycle: chain.cycle,
-        limit: account.active_delegations,
+        limit: account.active_delegations+1, // include self
       });
       let self = ops.findIndex(i => i.account === account.address);
       let bal = ops[self].delegated_balance;
@@ -37,7 +37,7 @@ const DelegationTable = ({ account }) => {
         isLoaded: false
       });
     };
-  }, [account, chain]);
+  }, [account, chain.cycle]);
 
   return (
     <>

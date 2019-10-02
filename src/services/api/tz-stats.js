@@ -145,7 +145,7 @@ export const getAccountDelegators = async ({ address, cycle, cursor, limit }) =>
     // `/tables/snapshot?delegate=${address}&cycle=${cycle -
     // 7}&is_selected=true&columns=${columns.join(',')}&limit=${limit}${cursor}`
 
-    // from most-recent state
+    // from most-recent state (including self)
     `/tables/account?delegate=${address}&columns=${columns.join(',')}&limit=${limit}${cursor}`
   );
   return unpackColumns({ response, columns });
