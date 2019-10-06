@@ -19,7 +19,7 @@ const DelegationTable = ({ account }) => {
         cycle: chain.cycle,
         limit: account.active_delegations+1, // include self
       });
-      let self = ops.findIndex(i => i.account === account.address);
+      let self = ops.findIndex(i => i.address === account.address);
       let bal = ops[self].delegated_balance;
       ops.splice(self, 1);
       ops.forEach(i => i.balance = i.spendable_balance+i.unclaimed_balance);
