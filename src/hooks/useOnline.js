@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { TZSTATS_API_URL } from '../config';
 
 const useOnline = () => {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const isLocal = React.useRef(TZSTATS_API_URL.indexOf('localhost')>-1);
+  const [isOnline, setIsOnline] = useState(isLocal.current||navigator.onLine);
 
   const handleEvent = React.useCallback(async ev => {
-  	setIsOnline(navigator.onLine);
+    setIsOnline(isLocal.current||navigator.onLine);
   },[setIsOnline]);
 
   useEffect(() => {

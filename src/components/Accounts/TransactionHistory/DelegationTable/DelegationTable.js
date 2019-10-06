@@ -59,8 +59,8 @@ const DelegationTable = ({ account }) => {
                     <TableDetails>{i + 1}</TableDetails>
                   </TableCell>
                   <TableCell width={15}>
-                    <Blockies hash={item.account} />
-                    <Link to={`/account/${item.account}`}>{getShortHash(item.account)}</Link>
+                    <Blockies hash={item.address} />
+                    <Link to={`/account/${item.address}`}>{getShortHash(item.address)}</Link>
                   </TableCell>
                   <TableCell width={20}><Value value={item.delegated_since_time} type="datetime"/></TableCell>
                   <TableCell width={20}><Value value={item.balance} type="currency" digits={0} zero="-"/></TableCell>

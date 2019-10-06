@@ -13,6 +13,8 @@ import { getElectionById, getTxVolume, getBlockTimeRange, getBlockHeight, unwrap
 import TransactionVolume from '../../components/Home/TransactionVolume';
 import { FlexColumn, Spiner } from '../../components/Common';
 
+// @echa: FIXME dynamic data loading using timeouts and data watchers in react is a clusterfuck!
+// I have no idea how to fix this.
 const Home = () => {
   const [data, setData] = React.useState({ isLoaded: false });
   const [loadAllCounter, setLoadAllCounter] = React.useState(new Date().getTime());
@@ -20,12 +22,16 @@ const Home = () => {
   const [chain] = useGlobal('chain');
 
   React.useEffect(() => {
-    const now = new Date().getTime();
-    const sixtyblocks = 60*config.time_between_blocks[0]*1000;
     const fetchData = async () => {
+      let now = new Date().getTime();
+      const last = new Date(chain.timestamp).getTime();
+      const sixtyblocks = 60*config.time_between_blocks[0]*1000;
+      if (now - last > sixtyblocks) {
+        now = last;
+      }
       let [priceHistory, txVolSeries, election, blocks] = await Promise.all([
         isMainnet(config)?getOhlcvData({ days: 30 }):null,
-        getTxVolume({ days: 30 }),
+        getTxVolume({ start:now===last?last-30*86400*1000:null, days: 30 }),
         getElectionById(),
         getBlockTimeRange(now-sixtyblocks, now),
       ]);
@@ -39,17 +45,21 @@ const Home = () => {
         currentBlock:unwrapBlock(blocks.slice(-1)[0])
       });
     };
-    if (config.version) {
+    if (config.version && chain.timestamp) {
       // console.log("Running full reload",loadAllCounter, config.time_between_blocks, config.version);
    		fetchData();
    	}
-  }, [config, loadAllCounter]);
+  }, [config, chain, loadAllCounter]);
 
   React.useEffect(() => {
     const fetchData = async () => {
       let newblock = await getBlockHeight(chain.height);
-      const now = new Date().getTime();
+      let now = new Date().getTime();
+      const last = new Date(chain.timestamp).getTime();
       const sixtyblocks = 60*config.time_between_blocks[0]*1000;
+      if (now - last > sixtyblocks) {
+        now = last;
+      }
       let blocks = data.blocks.filter(b => now - (new Date(b[0]).getTime())<=sixtyblocks);
       blocks.push(newblock[0]);
       setData({
@@ -74,11 +84,18 @@ const Home = () => {
     // if (new Date(chain.timestamp).getTime() - loadAllCounter > 10*60000) { console.log("Need full reload at reorg after 10min");}
     full = full || data.currentBlock.parent_id!==data.blocks.slice(-2)[0][5];
     // if (data.currentBlock.parent_id!==data.blocks.slice(-2)[0][5]) { console.log("Need full reload at reorg", data.currentBlock, data.blocks.slice(-2));}
-    if (full) {
-    	setLoadAllCounter(new Date().getTime());
-    } else {
-  		fetchData();
-  	}
+    switch (chain.status.status) {
+    case "synced":
+      if (full) {
+        setLoadAllCounter(new Date().getTime());
+      } else {
+        fetchData();
+      }
+      break;
+    default:
+      // skip on init and when syncing (will be triggered by sidebar)
+      break;
+    }
   }, [config.time_between_blocks, chain, loadAllCounter, data]);
 
 

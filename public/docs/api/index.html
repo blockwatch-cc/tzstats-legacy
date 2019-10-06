@@ -1206,9 +1206,9 @@ ECDHE-RSA-AES128-SHA256
   <span class="nt">&#34;n_ops_contract&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_tx&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
   <span class="nt">&#34;n_activation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_seed_nonce&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_double_baking&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_double_endorsement&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_seed_nonce_revelation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_double_baking_evidence&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_double_endorsement_evidence&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_endorsement&#34;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
   <span class="nt">&#34;n_delegation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_reveal&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -1390,17 +1390,17 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>n_seed_nonce</code> <em>int</em></td>
+<td><code>n_seed_nonce_revelation</code> <em>int</em></td>
 <td>Count of <code>seed_nonce_revelation</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_baking</code> <em>int</em></td>
+<td><code>n_double_baking_evidence</code> <em>int</em></td>
 <td>Count of <code>double_baking_evidence</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_endorsement</code> <em>int</em></td>
+<td><code>n_double_endorsement_evidence</code> <em>int</em></td>
 <td>Count of <code>double_endorsement_evidence</code> operations.</td>
 </tr>
 
@@ -1939,7 +1939,7 @@ ECDHE-RSA-AES128-SHA256
 </blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&#34;address&#34;</span><span class="p">:</span> <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;account_type&#34;</span><span class="p">:</span> <span class="s2">&#34;secp256k1&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;address_type&#34;</span><span class="p">:</span> <span class="s2">&#34;secp256k1&#34;</span><span class="p">,</span>
   <span class="nt">&#34;delegate&#34;</span><span class="p">:</span> <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span>
   <span class="nt">&#34;manager&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
   <span class="nt">&#34;pubkey&#34;</span><span class="p">:</span> <span class="s2">&#34;sppk7bn9MKAWDUFwqowcxA1zJgp12yn2kEnMQJP3WmqSZ4W8WQhLqJN&#34;</span><span class="p">,</span>
@@ -2041,7 +2041,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>account_type</code> <em>enum</em></td>
+<td><code>address_type</code> <em>enum</em></td>
 <td>Account address type <code>ed25519</code> (tz1), <code>secp256k1</code> (tz2), <code>p256</code> (tz3), <code>contract</code> (KT1) or <code>blinded</code> (btz1).</td>
 </tr>
 
@@ -3848,8 +3848,8 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">20774</span><span class="p">,</span>          <span class="err">//</span> <span class="err">total_activations</span>
     <span class="mi">19559</span><span class="p">,</span>          <span class="err">//</span> <span class="err">total_seed_nonces</span>
     <span class="mi">13113009</span><span class="p">,</span>       <span class="err">//</span> <span class="err">total_endorsements</span>
-    <span class="mi">127</span><span class="p">,</span>            <span class="err">//</span> <span class="err">total_double_bake</span>
-    <span class="mi">24</span><span class="p">,</span>             <span class="err">//</span> <span class="err">total_double_endorse</span>
+    <span class="mi">127</span><span class="p">,</span>            <span class="err">//</span> <span class="err">total_double_baking_evidences</span>
+    <span class="mi">24</span><span class="p">,</span>             <span class="err">//</span> <span class="err">total_double_endorsement_evidences</span>
     <span class="mi">29354</span><span class="p">,</span>          <span class="err">//</span> <span class="err">total_delegations</span>
     <span class="mi">223262</span><span class="p">,</span>         <span class="err">//</span> <span class="err">total_reveals</span>
     <span class="mi">26863</span><span class="p">,</span>          <span class="err">//</span> <span class="err">total_originations</span>
@@ -3859,7 +3859,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">8747841</span><span class="p">,</span>        <span class="err">//</span> <span class="err">total_storage_bytes</span>
     <span class="mi">167308</span><span class="p">,</span>         <span class="err">//</span> <span class="err">total_paid_bytes</span>
     <span class="mi">0</span><span class="p">,</span>              <span class="err">//</span> <span class="err">total_used_bytes</span>
-    <span class="mi">0</span><span class="p">,</span>              <span class="err">//</span> <span class="err">total_uncles</span>
+    <span class="mi">0</span><span class="p">,</span>              <span class="err">//</span> <span class="err">total_orphans</span>
     <span class="mi">298796</span><span class="p">,</span>         <span class="err">//</span> <span class="err">funded_accounts</span>
     <span class="mi">10751</span><span class="p">,</span>          <span class="err">//</span> <span class="err">unclaimed_accounts</span>
     <span class="mi">17567</span><span class="p">,</span>          <span class="err">//</span> <span class="err">total_delegators</span>
@@ -3954,12 +3954,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>total_endorsements</code> <em>int</em></td>
+<td><code>total_double_endorsement_evidences</code> <em>int</em></td>
 <td>Total count of <code>endorsement</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_double_bake</code> <em>int</em></td>
+<td><code>total_double_baking_evidences</code> <em>int</em></td>
 <td>Total count of <code>double_baking_evidence</code> operations.</td>
 </tr>
 
@@ -4014,7 +4014,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>total_uncles</code> <em>int</em></td>
+<td><code>total_orphans</code> <em>int</em></td>
 <td>Total count of orphaned blocks.</td>
 </tr>
 
@@ -4329,9 +4329,9 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_ops_contract</span>
     <span class="mi">2</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_tx</span>
     <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_activation</span>
-    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_seed_nonce</span>
-    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_double_baking</span>
-    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_double_endorsement</span>
+    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_seed_nonce_revelation</span>
+    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_double_baking_evidence</span>
+    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_double_endorsement_evidence</span>
     <span class="mi">27</span><span class="p">,</span>                 <span class="err">//</span> <span class="err">n_endorsement</span>
     <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_delegation</span>
     <span class="mi">1</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_reveal</span>
@@ -4491,17 +4491,17 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>n_seed_nonce</code> <em>int</em></td>
+<td><code>n_seed_nonce_revelation</code> <em>int</em></td>
 <td>Count of <code>seed_nonce_revelation</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_baking</code> <em>int</em></td>
+<td><code>n_double_baking_evidence</code> <em>int</em></td>
 <td>Count of <code>double_baking_evidence</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_endorsement</code> <em>int</em></td>
+<td><code>n_double_endorsement_evidence</code> <em>int</em></td>
 <td>Count of <code>double_endorsement_evidence</code> operations.</td>
 </tr>
 
@@ -4938,7 +4938,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">278469</span><span class="p">,</span>             <span class="err">//</span> <span class="err">row_id</span>
     <span class="mi">278469</span><span class="p">,</span>             <span class="err">//</span> <span class="err">delegate_id</span>
     <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">manager_id</span>
-    <span class="s2">&#34;secp256k1&#34;</span><span class="p">,</span>        <span class="err">//</span> <span class="err">account_type</span>
+    <span class="s2">&#34;secp256k1&#34;</span><span class="p">,</span>        <span class="err">//</span> <span class="err">address_type</span>
     <span class="mi">360996</span><span class="p">,</span>             <span class="err">//</span> <span class="err">first_in</span>
     <span class="mi">360997</span><span class="p">,</span>             <span class="err">//</span> <span class="err">first_out</span>
     <span class="mi">633203</span><span class="p">,</span>             <span class="err">//</span> <span class="err">last_in</span>
@@ -5037,7 +5037,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>account_type</code> <em>enum</em></td>
+<td><code>address_type</code> <em>enum</em></td>
 <td>Account address type <code>ed25519</code> (tz1), <code>secp256k1</code> (tz2), <code>p256</code> (tz3), <code>contract</code> (KT1) or <code>blinded</code> (btz1)</td>
 </tr>
 
@@ -5508,7 +5508,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">1553123452000</span><span class="p">,</span> <span class="err">//</span> <span class="err">time</span>
     <span class="mi">278469</span><span class="p">,</span>        <span class="err">//</span> <span class="err">account_id</span>
     <span class="mi">31922</span><span class="p">,</span>         <span class="err">//</span> <span class="err">origin_id</span>
-    <span class="s2">&#34;secp256k1&#34;</span><span class="p">,</span>   <span class="err">//</span> <span class="err">account_type</span>
+    <span class="s2">&#34;secp256k1&#34;</span><span class="p">,</span>   <span class="err">//</span> <span class="err">address_type</span>
     <span class="s2">&#34;balance&#34;</span><span class="p">,</span>     <span class="err">//</span> <span class="err">category</span>
     <span class="s2">&#34;transaction&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">operation</span>
     <span class="mf">2.000000</span><span class="p">,</span>      <span class="err">//</span> <span class="err">amount_in</span>
@@ -5520,7 +5520,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">1</span><span class="p">,</span>             <span class="err">//</span> <span class="err">token_gen_min</span>
     <span class="mi">1194</span><span class="p">,</span>          <span class="err">//</span> <span class="err">token_gen_max</span>
     <span class="mi">60</span><span class="p">,</span>            <span class="err">//</span> <span class="err">token_age</span>
-    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">account</span>
+    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">address</span>
     <span class="s2">&#34;tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&#34;</span>  <span class="err">//</span> <span class="err">origin</span>
   <span class="p">]</span>
 <span class="p">]</span></code></pre></div>
@@ -5572,7 +5572,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>account_type</code> <em>enum</em></td>
+<td><code>address_type</code> <em>enum</em></td>
 <td>Account address type <code>ed25519</code> (tz1), <code>secp256k1</code> (tz2), <code>p256</code> (tz3), <code>contract</code> (KT1) or <code>blinded</code> (btz1).</td>
 </tr>
 
@@ -5632,7 +5632,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>account</code> <em>hash</em></td>
+<td><code>address</code> <em>hash</em></td>
 <td>Address of the related account.</td>
 </tr>
 
@@ -5659,13 +5659,13 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">630785</span><span class="p">,</span>       <span class="err">//</span> <span class="err">height</span>
     <span class="mi">154</span><span class="p">,</span>          <span class="err">//</span> <span class="err">cycle</span>
     <span class="mi">3</span><span class="p">,</span>            <span class="err">//</span> <span class="err">priority</span>
-    <span class="mi">278469</span><span class="p">,</span>       <span class="err">//</span> <span class="err">delegate_id</span>
+    <span class="mi">278469</span><span class="p">,</span>       <span class="err">//</span> <span class="err">account_id</span>
     <span class="mi">0</span><span class="p">,</span>            <span class="err">//</span> <span class="err">is_lost</span>
     <span class="mi">0</span><span class="p">,</span>            <span class="err">//</span> <span class="err">is_stolen</span>
     <span class="mi">0</span><span class="p">,</span>            <span class="err">//</span> <span class="err">is_missed</span>
     <span class="mi">0</span><span class="p">,</span>            <span class="err">//</span> <span class="err">is_seed_required</span>
     <span class="mi">0</span><span class="p">,</span>            <span class="err">//</span> <span class="err">is_seed_revealed</span>
-    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">delegate</span>
+    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">address</span>
     <span class="mi">1569885537000</span> <span class="err">//</span> <span class="err">time</span>
   <span class="p">]</span>
 <span class="p">]</span></code></pre></div>
@@ -5712,7 +5712,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>delegate_id</code> <em>uint</em></td>
+<td><code>account_id</code> <em>uint</em></td>
 <td>Unique row_id of the baker who owns this right.</td>
 </tr>
 
@@ -5742,7 +5742,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>delegate</code> <em>hash</em></td>
+<td><code>address</code> <em>hash</em></td>
 <td>Address of the baker who owns this right.</td>
 </tr>
 
@@ -5779,7 +5779,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mf">28104896.167331</span><span class="p">,</span>  <span class="err">//</span> <span class="err">delegated</span>
     <span class="mi">7</span><span class="p">,</span>                <span class="err">//</span> <span class="err">n_delegations</span>
     <span class="mi">361000</span><span class="p">,</span>           <span class="err">//</span> <span class="err">since</span>
-    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">account</span>
+    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">address</span>
     <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">delegate</span>
     <span class="mi">1553123692000</span>     <span class="err">//</span> <span class="err">since_time</span>
   <span class="p">]</span>
@@ -5877,7 +5877,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>account</code> <em>hash</em></td>
+<td><code>address</code> <em>hash</em></td>
 <td>Account address.</td>
 </tr>
 
@@ -5936,7 +5936,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mf">32.000000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">stolen_baking_income</span>
     <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">slashed_income</span>
     <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">missed_endorsing_income</span>
-    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span>  <span class="err">//</span> <span class="err">account</span>
+    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span>  <span class="err">//</span> <span class="err">address</span>
   <span class="p">]</span>
 <span class="p">]</span></code></pre></div>
 <p>List detailed baker income and income statistics. This table is extended for all active bakers at each cycle and updated at every block until a cycle is complete. That way, rows for open cycles will always contain live data up to the most recent block in the chain.</p>
@@ -6117,7 +6117,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>account</code> <em>hash</em></td>
+<td><code>address</code> <em>hash</em></td>
 <td>Account address base58check encoded.</td>
 </tr>
 </tbody>
@@ -6802,9 +6802,9 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">2</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_ops_contract</span>
     <span class="mi">674</span><span class="p">,</span>                <span class="err">//</span> <span class="err">n_tx</span>
     <span class="mi">2</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_activation</span>
-    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_seed_nonce</span>
-    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_double_baking</span>
-    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_double_endorsement</span>
+    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_seed_nonce_revelation</span>
+    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_double_baking_evidence</span>
+    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_double_endorsement_evidence</span>
     <span class="mi">24188</span><span class="p">,</span>              <span class="err">//</span> <span class="err">n_endorsement</span>
     <span class="mi">19</span><span class="p">,</span>                 <span class="err">//</span> <span class="err">n_delegation</span>
     <span class="mi">95</span><span class="p">,</span>                 <span class="err">//</span> <span class="err">n_reveal</span>
@@ -6879,17 +6879,17 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>n_seed_nonce</code> <em>int</em></td>
+<td><code>n_seed_nonce_revelation</code> <em>int</em></td>
 <td>Count of <code>seed_nonce_revelation</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_baking</code> <em>int</em></td>
+<td><code>n_double_baking_evidence</code> <em>int</em></td>
 <td>Count of <code>double_baking_evidence</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_endorsement</code> <em>int</em></td>
+<td><code>n_double_endorsement_evidence</code> <em>int</em></td>
 <td>Count of <code>double_endorsement_evidence</code> operations.</td>
 </tr>
 

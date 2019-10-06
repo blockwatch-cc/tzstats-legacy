@@ -49,7 +49,7 @@ const chain = {
   cycle: 0.0,
   new_accounts_30d: 0.0,
   cleared_accounts_30d: 0.0,
-  time: new Date(),
+  timestamp: null,
   inflation_rate_1y: 0.0,
   supply: supply,
   status: {status:'init'}

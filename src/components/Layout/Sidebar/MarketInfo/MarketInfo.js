@@ -12,25 +12,27 @@ const MarketInfo = ({ history }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let tickers = await getMarketTickers();
-      let now = new Date();
-      // filter fresh tickers in USD only (age < 2min)
-      let usdtickers = tickers.filter(e => e.quote === 'USD' && now - e.timestamp < 2 * 60000);
-      // price index: use all USD ticker last prices with equal weight
-      setGlobal({
-        tickers: tickers,
-        lastMarketData: {
-          date: usdtickers.length?usdtickers[0].timestamp:new Date(),
-          price:
-            usdtickers.reduce((s, t) => {
-              return s + t.last / usdtickers.length;
-            }, 0) || 0,
-          change:
-            usdtickers.reduce((s, t) => {
-              return s + t.change / usdtickers.length;
-            }, 0) || 0,
-        },
-      });
+      try {
+        let tickers = await getMarketTickers();
+        let now = new Date();
+        // filter fresh tickers in USD only (age < 2min)
+        let usdtickers = tickers.filter(e => e.quote === 'USD' && now - e.timestamp < 2 * 60000);
+        // price index: use all USD ticker last prices with equal weight
+        setGlobal({
+          tickers: tickers,
+          lastMarketData: {
+            date: usdtickers.length?usdtickers[0].timestamp:new Date(),
+            price:
+              usdtickers.reduce((s, t) => {
+                return s + t.last / usdtickers.length;
+              }, 0) || 0,
+            change:
+              usdtickers.reduce((s, t) => {
+                return s + t.change / usdtickers.length;
+              }, 0) || 0,
+          },
+        });
+      } catch(e) {}
     };
     chain.height && fetchData();
   }, [chain]);
