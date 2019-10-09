@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>TzStats API Reference</title>
+    <link>https://tzstats.com/docs/api/</link>
+    <description>Recent content on TzStats API Reference</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://tzstats.com/docs/api/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>General | TzStats Data API</title>
+      <link>https://tzstats.com/docs/api/api/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tzstats.com/docs/api/api/</guid>
+      <description>Introduction  API Endpoints
+ Mainnet: https://api.tzstats.com Zeronet: https://api.zeronet.tzstats.com Babylonnet: https://api.babylonnet.tzstats.com  TzStats provides a powerful API to access fully indexed raw data and statistics collected from the Tezos blockchain. You may use this API free of charge and without limits for non-commercial projects. To inquire about commerial use send an email to info@tzstats.com.
+This API reference provides information on all public API endpoints and the different schemes of calling them.</description>
+    </item>
+    
+    <item>
+      <title>Explorer | TzStats Data API</title>
+      <link>https://tzstats.com/docs/api/explorer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tzstats.com/docs/api/explorer/</guid>
+      <description>Explorer Endpoints Most explorer endpoints take different kinds of path arguments to define the object to return:
+ a regular hash for blocks, operations or accounts the string head for the most recent object on the blockchain (e.g. the recent block or cycle) a block height (a.k.a level in Tezos) a sequence number for cycles and elections  Some endpoints support a simple pagination scheme to walk lists of result (i.</description>
+    </item>
+    
+    <item>
+      <title>Tables | TzStats Data API</title>
+      <link>https://tzstats.com/docs/api/tables/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tzstats.com/docs/api/tables/</guid>
+      <description>Table Endpoints  Generic Table Query
+ https://api.tzstats.com/tables/{table_code}.{format}?{args}  Tables store data in tabular form as a set of columns. Each column has a specified type and each row has a unique uint64 row_id. Empty values are represented as JSON null or empty strings. Tables can grow extremely large, so its good practice to use filters and the columns query argument to limit the result size. Table responses are automatically sorted by row_id.</description>
+    </item>
+    
+    <item>
+      <title>Time-Series | TzStats Data API</title>
+      <link>https://tzstats.com/docs/api/timeseries/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tzstats.com/docs/api/timeseries/</guid>
+      <description>Time-Series Endpoints  Generic Time-Series Query
+ https://api.tzstats.com/series/{table_code}.{format}?{args}  A time-series is a collection of measurements or aggregate data taken over time and is naturally ordered by timestamps. Time-series are meant to be displayed as graphs with time on the x-axis and an aggregate of some value on the y-axis. Intervals between timestamps are equally spaced, but there is no guarantee that every interval is populated with data, i.e. there may be gaps which need to be filled by the client if necessary.</description>
+    </item>
+    
+    <item>
+      <title>Changelog | TzStats Data API</title>
+      <link>https://tzstats.com/docs/api/changelog/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tzstats.com/docs/api/changelog/</guid>
+      <description>Changelog Recent changes and additions to TzStats Data API.</description>
+    </item>
+    
+  </channel>
+</rss>
