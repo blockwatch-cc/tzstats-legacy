@@ -1,23 +1,17 @@
 import React from 'react';
 import { useGlobal } from 'reactn';
 import styled from 'styled-components';
-import BlockHistory from '../../components/Blocks/BlockHistory';
-import { PriceHistory } from '../../components/Home/PriceHistory/';
-import CirculatingSupply from '../../components/Home/CirculatingSupply';
-import StakingInfo from '../../components/Home/StakingInfo';
-import ElectionProgress from '../../components/Home/ElectionProgress';
-import AccountsGrowth from '../../components/Home/AccountsGrowth';
-import { getOhlcvData } from '../../services/api/markets';
-import { isMainnet } from '../../utils';
-import {
-  getElectionById,
-  getTxVolume,
-  getBlockTimeRange,
-  getBlockHeight,
-  unwrapBlock,
-} from '../../services/api/tz-stats';
-import TransactionVolume from '../../components/Home/TransactionVolume';
-import { FlexColumn, Spiner } from '../../components/Common';
+import BlockHistory from '../components/Blocks/BlockHistory';
+import { PriceHistory } from '../components/Home/PriceHistory/';
+import CirculatingSupply from '../components/Home/CirculatingSupply';
+import StakingInfo from '../components/Home/StakingInfo';
+import ElectionProgress from '../components/Home/ElectionProgress';
+import AccountsGrowth from '../components/Home/AccountsGrowth';
+import { getOhlcvData } from '../services/api/markets';
+import { isMainnet } from '../utils';
+import { getElectionById, getTxVolume, getBlockTimeRange, getBlockHeight, unwrapBlock } from '../services/api/tz-stats';
+import TransactionVolume from '../components/Home/TransactionVolume';
+import { FlexColumn, Spiner } from '../components/Common';
 
 // @echa: FIXME dynamic data loading using timeouts and data watchers in react is a clusterfuck!
 // I have no idea how to fix this.
