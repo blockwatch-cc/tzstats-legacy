@@ -10,7 +10,11 @@ import { marketNames } from '../../../services/api/markets';
 
 const VolumesExchanges = ({ tickers }) => {
   if (!isValid(tickers)) {
-    return (<Wrapper><EmptyData /></Wrapper>);
+    return (
+      <Wrapper>
+        <EmptyData />
+      </Wrapper>
+    );
   }
   let byExchange = tickers.reduce((s, t) => {
     s[t.exchange] = (s[t.exchange] || 0) + t.volume_base;

@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+import { Devices } from './Variables';
 import {
   Box,
   InlineBox,
@@ -19,16 +21,18 @@ import {
   TableRow,
   TableCell,
   TableDetails,
+  TwoCardInline,
 } from './Box';
 import { LinkIcon } from './Controls';
 import { Value } from './DataBox';
 
 export { default as CurrencySelect } from './CurrencySelect';
 export { default as IntervalSelect } from './IntervalSelect';
-export { Devices } from './Variables';
+
 export { default as Card } from './Card';
 export { default as ClickableCard } from './ClickableCard';
-export { default as Legend } from './Legend';
+export { default as BarLegend } from './Legend/BarLegend';
+export { default as ChartLegend } from './Legend/ChartLegend';
 export { default as DataBox } from './DataBox';
 export { default as Spiner } from './CenteredSpinner';
 export { default as Blockies } from './Blockies';
@@ -63,4 +67,33 @@ export {
   TableCell,
   TableDetails,
   Value,
+  TwoCardInline,
+  Devices,
 };
+
+export const TabRow = styled(FlexRow)`
+  text-overflow: ellipsis;
+  word-break: break-word;
+  white-space: nowrap;
+  margin-bottom: 20px;
+`;
+
+export const TabButton = styled.div`
+  height: 24px;
+  font-size: 12px;
+  padding: 4px 14px;
+  border: 1px solid #6f727f;
+  background-color: ${props => (props.active ? '#525566' : '#424553')};
+  cursor: pointer;
+`;
+
+export const Title = styled.div`
+  height: 20px;
+`;
+
+export const EmptyBlock = styled.div`
+  width: ${prop => prop.width || 100}%;
+  @media ${Devices.mobileL} {
+    ${props => props.hideOnMobile && 'display: none;'}
+  }
+`;

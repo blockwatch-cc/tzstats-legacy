@@ -22,7 +22,7 @@ const DataBox = ({
         <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
           {title && (valueType && !value) ? (
             <Title fontSize={titleSize}>
-              <Value type={valueType} value={title} {...valueOpts}/>
+              <Value type={valueType} value={title} {...valueOpts} />
             </Title>
           ) : (
             <Title fontSize={titleSize}>{title}</Title>
@@ -36,7 +36,7 @@ const DataBox = ({
           {title}
           {value !== undefined && (
             <Title fontSize={titleSize}>
-              <Value type={valueType} value={value} {...valueOpts}/>
+              <Value type={valueType} value={value} {...valueOpts} />
             </Title>
           )}
         </Wrapper>
@@ -67,10 +67,27 @@ const DataBox = ({
 
 let re = /^(.*)\.([^ ]*)( .*)?$/;
 
-export const Value = ({ type, value, prec, sym, prefix='', suffix = '', digits = 4, round = false, dim = true, zero = null }) => {
-  if (value === 0 && zero) { return zero; }
-  if (round) { value = Math.round(value); }
-  if (prec !== undefined) { value = value.toFixed(prec); }
+export const Value = ({
+  type,
+  value,
+  prec,
+  sym,
+  prefix = '',
+  suffix = '',
+  digits = 4,
+  round = false,
+  dim = true,
+  zero = null,
+}) => {
+  if (value === 0 && zero) {
+    return zero;
+  }
+  if (round) {
+    value = Math.round(value);
+  }
+  if (prec !== undefined) {
+    value = value.toFixed(prec);
+  }
   let res = '';
   switch (type) {
     case 'text':
@@ -86,7 +103,7 @@ export const Value = ({ type, value, prec, sym, prefix='', suffix = '', digits =
       break;
     case 'currency':
       if (!!digits) {
-        res = formatCurrency(value, '.'+digits+'s', sym);
+        res = formatCurrency(value, '.' + digits + 's', sym);
       } else {
         res = formatCurrency(value, ',', sym);
       }
@@ -95,34 +112,34 @@ export const Value = ({ type, value, prec, sym, prefix='', suffix = '', digits =
       res = formatCurrency(value, '~s', sym);
       break;
     case 'currency-flex':
-      res = formatCurrency(value, ',.'+digits+'r', sym);
+      res = formatCurrency(value, ',.' + digits + 'r', sym);
       break;
     case 'currency-full':
       res = formatCurrency(value.toFixed(6), ',');
       break;
     case 'currency-usd':
       if (!!digits) {
-        res = formatValue(value, '$,.'+digits+'s');
+        res = formatValue(value, '$,.' + digits + 's');
       } else {
         res = formatValue(value, '$,.2f');
       }
       break;
     case 'value-short':
-      res = formatValue(Math.round(value), '.'+digits+'s');
+      res = formatValue(Math.round(value), '.' + digits + 's');
       break;
     case 'value-full':
       res = formatValue(value, ',');
       break;
     case 'percent':
       switch (true) {
-      case value === 0.0 && zero:
-        res = zero;
-        break;
-      case value * 100 < 1 && !prec:
-        res = '< 1%';
-        break;
-      default:
-        res = formatValue(value, '.'+digits+'%');
+        case value === 0.0 && zero:
+          res = zero;
+          break;
+        case value * 100 < 1 && !prec:
+          res = '< 1%';
+          break;
+        default:
+          res = formatValue(value, '.' + digits + '%');
       }
       break;
     default:
@@ -132,9 +149,14 @@ export const Value = ({ type, value, prec, sym, prefix='', suffix = '', digits =
     return [prefix, res, suffix].join('');
   }
   let arr = re.exec(res);
-  return ( (arr && arr.length) ? (
-    <Wrapper>{`${prefix}${arr[1]}`}<Dim>.{arr[2]}</Dim>{arr[3]} {suffix}</Wrapper>
-  ) : res + suffix
+  return arr && arr.length ? (
+    <Wrapper>
+      {`${prefix}${arr[1]}`}
+      <Dim>.{arr[2]}</Dim>
+      {arr[3]} {suffix}
+    </Wrapper>
+  ) : (
+    res + suffix
   );
 };
 
@@ -142,7 +164,7 @@ const Dim = styled.small`
   opacity: 0.7;
   font-size: 85%;
   font-weight: 200;
-`
+`;
 
 const Wrapper = styled.div`
   font-size: ${props => props.fontSize};

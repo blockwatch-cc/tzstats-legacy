@@ -10,7 +10,7 @@ const request = async (endpoint, options) => {
 };
 const handleResponse = async response => {
   if (response.status >= 400) {
-    const {errors} = await response.json();
+    const { errors } = await response.json();
     console.error(errors[0]);
     throw errors[0];
   }
@@ -85,8 +85,27 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
 };
 
 //https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&type=transaction&verbose=1
-export const getAccountOperations = async ({ address, type = 'transaction', cursor, direction, limit = 100, order = 'asc' }) => {
-  const columns = ['row_id', 'type', 'hash', 'sender', 'receiver', 'is_success', 'time', 'volume', 'fee', 'height', 'reward'];
+export const getAccountOperations = async ({
+  address,
+  type = 'transaction',
+  cursor,
+  direction,
+  limit = 100,
+  order = 'asc',
+}) => {
+  const columns = [
+    'row_id',
+    'type',
+    'hash',
+    'sender',
+    'receiver',
+    'is_success',
+    'time',
+    'volume',
+    'fee',
+    'height',
+    'reward',
+  ];
   const typ = 'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals' : '=' + type);
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
@@ -138,7 +157,14 @@ export const getAccountIncome = async ({ address, cycle }) => {
 //api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&account.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
 export const getAccountDelegators = async ({ address, cycle, cursor, limit }) => {
   // const columns = ['row_id', 'account', 'balance', 'delegated', 'time', 'since_time'];
-  const columns = ['row_id', 'account', 'delegated_balance', 'spendable_balance', 'unclaimed_balance', 'delegated_since_time'];
+  const columns = [
+    'row_id',
+    'account',
+    'delegated_balance',
+    'spendable_balance',
+    'unclaimed_balance',
+    'delegated_since_time',
+  ];
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     // from a cycle's role snapshot
@@ -282,7 +308,7 @@ export const getBlockRange = async (height, leftDepth, rightDepth) => {
   return response;
 };
 
-export const getBlockHeight = async (height) => {
+export const getBlockHeight = async height => {
   const response = await request(
     `/tables/block?columns=time,hash,height,priority,is_uncle,row_id,parent_id&height=${height}`
   );
@@ -292,7 +318,9 @@ export const getBlockHeight = async (height) => {
 
 export const getBlockTimeRange = async (from, to) => {
   to = to || new Date().getTime();
-  const response = await request(`/tables/block?columns=time,hash,height,priority,is_uncle,row_id,parent_id&time.rg=${from},${to}`);
+  const response = await request(
+    `/tables/block?columns=time,hash,height,priority,is_uncle,row_id,parent_id&time.rg=${from},${to}`
+  );
 
   return response;
 };
@@ -318,9 +346,11 @@ export const getBlock = async id => {
 
 //https://api.tzstats.com/tables/op?height=5000&verbose=1&&op_n.rg=0,3&type=endorsement
 export const getBlockOperations = async ({ height, type = null, limit = 0, cursor = null }) => {
-  const columns = ['row_id','sender','receiver','type','hash','volume','fee','is_success','is_contract'];
+  const columns = ['row_id', 'sender', 'receiver', 'type', 'hash', 'volume', 'fee', 'is_success', 'is_contract'];
   const response = await request(
-    `/tables/op?height=${height}&is_internal=0&columns=${columns.join(',')}&is_internal=0${type ? '&type=' + type : ''}${cursor?'&cursor='+cursor:''}${limit?'&limit='+limit:''}`
+    `/tables/op?height=${height}&is_internal=0&columns=${columns.join(',')}&is_internal=0${
+      type ? '&type=' + type : ''
+    }${cursor ? '&cursor=' + cursor : ''}${limit ? '&limit=' + limit : ''}`
   );
   return unpackColumns({ response, columns });
 };

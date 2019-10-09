@@ -11,16 +11,16 @@ export const timeAgo = new TimeAgo('en-US');
 
 export function formatDayTime(ts, fullyear, noweekday) {
   const d = new Date(ts);
-  const isThisYear = d.getFullYear()===(new Date()).getFullYear();
-  const fmt = (!fullyear&&isThisYear)?'%b %d - %H:%M:%S':'%b %d, %Y - %H:%M:%S';
-  return timeFormat(noweekday?fmt:'%a '+fmt)(d);
+  const isThisYear = d.getFullYear() === new Date().getFullYear();
+  const fmt = !fullyear && isThisYear ? '%b %d - %H:%M:%S' : '%b %d, %Y - %H:%M:%S';
+  return timeFormat(noweekday ? fmt : '%a ' + fmt)(d);
 }
 
 export function formatDay(ts, fullyear, noweekday) {
   const d = new Date(ts);
-  const isThisYear = d.getFullYear()===(new Date()).getFullYear();
-  const fmt = (!fullyear&&isThisYear)?'%b %d':'%b %d, %Y';
-  return timeFormat(noweekday?fmt:'%a '+fmt)(d);
+  const isThisYear = d.getFullYear() === new Date().getFullYear();
+  const fmt = !fullyear && isThisYear ? '%b %d' : '%b %d, %Y';
+  return timeFormat(noweekday ? fmt : '%a ' + fmt)(d);
 }
 
 export function formatTime(ts) {
@@ -28,7 +28,7 @@ export function formatTime(ts) {
 }
 
 export function convertMinutes(num) {
-  num = num<0?0:num;
+  num = num < 0 ? 0 : num;
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
   const m = Math.floor(num % 60);
@@ -37,7 +37,7 @@ export function convertMinutes(num) {
     res.push(d + 'd');
   }
   if (h > 0) {
-    res.push(h+(d>0&&m>0?1:0) + 'h');
+    res.push(h + (d > 0 && m > 0 ? 1 : 0) + 'h');
   }
   if ((d === 0 && m > 0) || (d === 0 && h === 0 && m === 0)) {
     res.push(m + 'm');
@@ -65,7 +65,7 @@ export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
   }
   return prefix === ','
     ? format(prefix)(value) + ' ' + symbol
-    : (format(prefix)(value)+ symbol).replace(/([0-9.]*)(.*)$/, '$1 $2');
+    : (format(prefix)(value) + symbol).replace(/([0-9.]*)(.*)$/, '$1 $2');
 }
 
 export function formatCurrencyShort(value) {
@@ -164,21 +164,31 @@ export function fixPercent(settings) {
 }
 
 export function getShortHash(hash) {
-  if (hash === null) { return 'none'; }
+  if (hash === null) {
+    return 'none';
+  }
   // return hash?`${hash.slice(0, 3)}...${hash.slice(-4)}`:'-';
-  return hash?`${hash.slice(0, 7)}...`:'-';
+  return hash ? `${hash.slice(0, 7)}...` : '-';
 }
 
 export function getShortHashOrBakerName(hash) {
-  if (hash === null) { return 'none'; }
-  if (!hash) { return 'God'; }
+  if (hash === null) {
+    return 'none';
+  }
+  if (!hash) {
+    return 'God';
+  }
   const baker = bakerAccounts[hash];
   return baker ? baker.name : getShortHash(hash);
 }
 
 export function getHashOrBakerName(hash) {
-  if (hash === null) { return 'none'; }
-  if (!hash) { return 'God'; }
+  if (hash === null) {
+    return 'none';
+  }
+  if (!hash) {
+    return 'God';
+  }
   const baker = bakerAccounts[hash];
   return baker ? baker.name : hash;
 }
@@ -190,25 +200,29 @@ export function capitalizeFirstLetter(str) {
 export function getMinutesInterval(start, n, slot = 60) {
   let timeArray = [];
   for (let i = 1; i <= n; i++) {
-    timeArray.push(start+slot*1000*i);
+    timeArray.push(start + slot * 1000 * i);
   }
   return timeArray;
 }
 
 export function wrappBlockDataToObj(array, range) {
   return array.reduce((obj, item, index) => {
-    let timeIdx = range.findIndex(i => i > new Date(item[0]) );
-    let time = timeIdx>0?range[timeIdx-1]:new Date(item[0]).setSeconds(0, 0);
-    obj[time] = [...obj[time]||[], {
-      time: new Date(item[0]),
-      hash: item[1],
-      height: item[2],
-      priority: item[3],
-      opacity: item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.7 : item[3] < 8 ? 0.6 : item[3] < 16 ? 0.5 : 0.4,
-      is_uncle: item[4] || 0,
-      row_id: item[5],
-      parent_id: item[6]
-    }];
+    let timeIdx = range.findIndex(i => i > new Date(item[0]));
+    let time = timeIdx > 0 ? range[timeIdx - 1] : new Date(item[0]).setSeconds(0, 0);
+    obj[time] = [
+      ...(obj[time] || []),
+      {
+        time: new Date(item[0]),
+        hash: item[1],
+        height: item[2],
+        priority: item[3],
+        opacity:
+          item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.7 : item[3] < 8 ? 0.6 : item[3] < 16 ? 0.5 : 0.4,
+        is_uncle: item[4] || 0,
+        row_id: item[5],
+        parent_id: item[6],
+      },
+    ];
     return obj;
   }, {});
 }
@@ -239,7 +253,7 @@ export function getBlockTags(block, config) {
   }
   if (block.is_cycle_snapshot) {
     tags.push('Snapshot');
-  } else if (block>0&&block.height%config.blocks_per_roll_snapshot) {
+  } else if (block > 0 && block.height % config.blocks_per_roll_snapshot) {
     tags.push('Snapshot Candidate');
   }
   return tags;
@@ -319,7 +333,8 @@ export function getNetworkHealthStatus(value) {
 export function getEndTime(period, field, noDetail) {
   field = field || 'period_end_time';
   return period.is_open
-    ? `ends on ${formatDay(period[field], 1, 1)}` + (noDetail?'':` (+${convertMinutes((new Date(period[field]).getTime()/ 60000 - Date.now()/ 60000) )})`)
+    ? `ends on ${formatDay(period[field], 1, 1)}` +
+        (noDetail ? '' : ` (+${convertMinutes(new Date(period[field]).getTime() / 60000 - Date.now() / 60000)})`)
     : `has ended on ${formatDay(period[field], 1, 1)}`;
 }
 export function getProposalIdByName(value) {
@@ -340,84 +355,96 @@ export function getBakerHashByName(value) {
   const baker = Object.keys(bakerAccounts).filter(key => {
     return bakerAccounts[key].name.toLowerCase().includes(value);
   });
-  return baker[0]||null;
+  return baker[0] || null;
 }
 
 export function searchBakers(value) {
   let lvalue = value.toLowerCase();
-  return Object.keys(bakerAccounts).filter(key => {
-    return key.includes(value) || bakerAccounts[key].name.toLowerCase().includes(lvalue);
-  }).reduce((acc, key) => {
-    let c = bakerAccounts[key];
-    c.key = key;
-    acc.push(c);
-    return acc;
-  }, []).sort((a,b)=>a.name-b.name);
+  return Object.keys(bakerAccounts)
+    .filter(key => {
+      return key.includes(value) || bakerAccounts[key].name.toLowerCase().includes(lvalue);
+    })
+    .reduce((acc, key) => {
+      let c = bakerAccounts[key];
+      c.key = key;
+      acc.push(c);
+      return acc;
+    }, [])
+    .sort((a, b) => a.name - b.name);
 }
 
 export function searchProposals(value) {
   let lvalue = value.toLowerCase();
-  return Object.keys(proposals).filter(key => {
-    return key.includes(value) || proposals[key].name.toLowerCase().includes(lvalue);
-  }).reduce((acc, key) => {
-    let c = proposals[key];
-    c.key = key;
-    acc.push(c);
-    return acc;
-  }, []).sort((a,b)=>a.name-b.name);
+  return Object.keys(proposals)
+    .filter(key => {
+      return key.includes(value) || proposals[key].name.toLowerCase().includes(lvalue);
+    })
+    .reduce((acc, key) => {
+      let c = proposals[key];
+      c.key = key;
+      acc.push(c);
+      return acc;
+    }, [])
+    .sort((a, b) => a.name - b.name);
 }
 
 export function getSlots(value) {
   if (!value) {
     return [...new Array(32).fill(0)];
   }
-  const bits = value.toString(2).split('').map(b=>parseInt(b));
+  const bits = value
+    .toString(2)
+    .split('')
+    .map(b => parseInt(b));
   const zeroBits = 32 - bits.length;
   return [...new Array(zeroBits).fill(0), ...bits];
 }
 
 export function isCycleStart(height, config) {
-    return height > 0 && ((height-1)%config.blocks_per_cycle === 0);
+  return height > 0 && (height - 1) % config.blocks_per_cycle === 0;
 }
 
 export function isCycleEnd(height, config) {
-    return height > 0 && (height%config.blocks_per_cycle === 0)
+  return height > 0 && height % config.blocks_per_cycle === 0;
 }
 
 export function cycleFromHeight(height, config) {
-    return !height ? 0 : (height - 1) / config.blocks_per_cycle;
+  return !height ? 0 : (height - 1) / config.blocks_per_cycle;
 }
 
 export function cycleStartHeight(cycle, config) {
-    return cycle*config.blocks_per_cycle + 1;
+  return cycle * config.blocks_per_cycle + 1;
 }
 
 export function cycleEndHeight(cycle, config) {
-    return (cycle + 1) * config.blocks_per_cycle
+  return (cycle + 1) * config.blocks_per_cycle;
 }
 
 export function snapshotBlock(cycle, index, config) {
-    // no snapshot before cycle 7
-    return cycle < 7 ? 0 : cycleStartHeight(cycle-7, config) + (index+1)*config.blocks_per_roll_snapshot - 1;
+  // no snapshot before cycle 7
+  return cycle < 7 ? 0 : cycleStartHeight(cycle - 7, config) + (index + 1) * config.blocks_per_roll_snapshot - 1;
 }
 
 const hashTypeMap = {
-  "tz1":  { type: "account", b58len: 36, shortMatch: true },
-  "tz2":  { type: "account", b58len: 36, shortMatch: true },
-  "tz3":  { type: "account", b58len: 36, shortMatch: true },
-  "KT1":  { type: "account", b58len: 36, shortMatch: true },
-  "btz1": { type: "account", b58len: 37, shortMatch: true },
-  "B":    { type: "block", b58len: 51 },
-  "o":    { type: "operation", b58len: 51 },
-  "P":    { type: "protocol", b58len: 51 },
-}
+  tz1: { type: 'account', b58len: 36, shortMatch: true },
+  tz2: { type: 'account', b58len: 36, shortMatch: true },
+  tz3: { type: 'account', b58len: 36, shortMatch: true },
+  KT1: { type: 'account', b58len: 36, shortMatch: true },
+  btz1: { type: 'account', b58len: 37, shortMatch: true },
+  B: { type: 'block', b58len: 51 },
+  o: { type: 'operation', b58len: 51 },
+  P: { type: 'protocol', b58len: 51 },
+};
 
 export function getHashType(hash, strictMatch) {
   const match = Object.keys(hashTypeMap).filter(k => {
-    return hash.startsWith(k) && (hash.length === hashTypeMap[k].b58len ||
-      (!strictMatch && hashTypeMap[k].shortMatch && hash.length < hashTypeMap[k].b58len));
+    return (
+      hash.startsWith(k) &&
+      (hash.length === hashTypeMap[k].b58len ||
+        (!strictMatch && hashTypeMap[k].shortMatch && hash.length < hashTypeMap[k].b58len))
+    );
   });
-  return match.length?hashTypeMap[match[0]].type:null;
+  return match.length ? hashTypeMap[match[0]].type : null;
 }
 
 // works with /explorer/config and /explorer/chain objects

@@ -7,27 +7,29 @@ import AccountManagmentTable from '../AccountManagmentTable';
 const BasicTransactionHistory = ({ account }) => {
   const [data, setData] = React.useState({ tab: 'incoming' });
   const handleClick = tab => {
-    setData({tab:tab});
+    setData({ tab: tab });
   };
 
   return (
     <Wrapper>
       <Card>
         <FlexRow mb={30}>
-          <Button active={data.tab==='incoming'} onClick={e => handleClick('incoming')}>
+          <Button active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
             Incoming Transactions
           </Button>
-          <Button active={data.tab==='outgoing'} onClick={e => handleClick('outgoing')}>
+          <Button active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
             Outgoing Transactions
           </Button>
-          <Button active={data.tab==='other'} onClick={e => handleClick('other')}>
+          <Button active={data.tab === 'other'} onClick={e => handleClick('other')}>
             Other Operations
           </Button>
           {account.n_origination ? (
-          <Button active={data.tab === 'managed'} onClick={e => handleClick('managed')}>
-            Managed Accounts
-          </Button>
-          ):''}
+            <Button active={data.tab === 'managed'} onClick={e => handleClick('managed')}>
+              Managed Accounts
+            </Button>
+          ) : (
+            ''
+          )}
         </FlexRow>
         <OperationsTable account={account} type={data.tab} />
       </Card>
@@ -40,9 +42,9 @@ const OperationsTable = ({ type, account }) => {
     case 'managed':
       return <AccountManagmentTable account={account} />;
     case 'incoming':
-      return <TransactionTable account={account} incoming={true} type={"transaction"} />;
+      return <TransactionTable account={account} incoming={true} type={'transaction'} />;
     case 'outgoing':
-      return <TransactionTable account={account} incoming={false} type={"transaction"} />;
+      return <TransactionTable account={account} incoming={false} type={'transaction'} />;
     case 'other':
       return <TransactionTable account={account} incoming={false} type={type} />;
     default:

@@ -29,6 +29,7 @@ const AccountPage = ({ match }) => {
           staking,
         });
       } catch (e) {
+        console.log(e, 'errror');
         if (e.status === 404) {
           history.push('/404/' + addr);
         }

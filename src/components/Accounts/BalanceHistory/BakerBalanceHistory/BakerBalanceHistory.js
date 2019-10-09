@@ -11,27 +11,27 @@ const BakerBalanceHistory = ({ account, balanceHistory, stakingData }) => {
 
   return (
     <Wrapper>
-    <Card title={'Balance History (30d)'}>
-      <FlexColumn>
-        <FlexRow flex={1} mb={20}>
-          <BalanceChart type={'svg'} data={stakingData} />
-        </FlexRow>
-        <FlexRow>
-          <LegendItem color={'#858999'}>
-            <DataBox title="Total" />
-          </LegendItem>
-          <LegendItem color={'#17eef4'}>
-            <DataBox title="Spendable" />
-          </LegendItem>
-          <LegendItem color={'#22BAF8'}>
-            <DataBox title="Deposits" />
-          </LegendItem>
-          <LegendItem color={'#626977'}>
-            <DataBox title="Pending Rewards" />
-          </LegendItem>
-        </FlexRow>
-      </FlexColumn>
-    </Card>
+      <Card title={'Balance History (30d)'}>
+        <FlexColumn>
+          <FlexRow flex={1} mb={20}>
+            <BalanceChart type={'svg'} data={stakingData} />
+          </FlexRow>
+          <FlexRow>
+            <LegendItem color={'#858999'}>
+              <DataBox title="Total" />
+            </LegendItem>
+            <LegendItem color={'#17eef4'}>
+              <DataBox title="Spendable" />
+            </LegendItem>
+            <LegendItem color={'#22BAF8'}>
+              <DataBox title="Deposits" />
+            </LegendItem>
+            <LegendItem color={'#626977'}>
+              <DataBox title="Pending Rewards" />
+            </LegendItem>
+          </FlexRow>
+        </FlexColumn>
+      </Card>
     </Wrapper>
   );
 };

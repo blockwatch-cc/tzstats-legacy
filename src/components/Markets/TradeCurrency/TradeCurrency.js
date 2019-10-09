@@ -12,7 +12,11 @@ const TradeCurrency = ({ tickers }) => {
     s._sum = (s._sum || 0) + t.volume_base;
     return s;
   }, {});
-  byCurrency._max = _.max(_.keys(byCurrency).filter(k=>k[0]!=='_').map(k=>byCurrency[k]));
+  byCurrency._max = _.max(
+    _.keys(byCurrency)
+      .filter(k => k[0] !== '_')
+      .map(k => byCurrency[k])
+  );
   let settings = getTradeCurrencySettings(byCurrency);
 
   return (

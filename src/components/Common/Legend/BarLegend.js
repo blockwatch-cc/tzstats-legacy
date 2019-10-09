@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DataBox } from '.';
+import { DataBox } from '..';
 
-const Legend = ({ settings }) => {
+const BarLegend = ({ settings }) => {
   return (
     <LegendWrapper>
       <LegendContent settings={settings} />
@@ -16,7 +16,7 @@ const LegendContent = ({ settings }) => {
       <LegendItem key={i} {...item}>
         <DataBox
           valueType="currency"
-          valueOpts={{digits:4,dim:0}}
+          valueOpts={{ digits: 4, dim: 0 }}
           value={item.value}
           valueSize="14px"
           title={`${item.title} ${Math.round(item.percent)}%`}
@@ -45,22 +45,9 @@ const LegendItem = styled.div`
     font-size: 25px;
     line-height: 0;
     top: 7px;
+    opacity: ${prop => (prop.opacity ? prop.opacity : 1)};
     color: ${prop => prop.color};
   }
 `;
 
-// const LegendTitle = styled.div`
-//   position: relative;
-//   margin-left: 0;
-//   &:after {
-//     content: '•';
-//     position: absolute;
-//     right: -15px;
-//     font-size: 25px;
-//     line-height: 0;
-//     top: 4px;
-//     color: ${prop => prop.color};
-//   }
-// `;
-
-export default Legend;
+export default BarLegend;

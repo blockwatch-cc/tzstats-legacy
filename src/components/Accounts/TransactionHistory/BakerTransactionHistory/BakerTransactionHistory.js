@@ -10,9 +10,7 @@ import VotingTable from '../VotingTable';
 const BakerTransactionHistory = ({ account }) => {
   const [data, setData] = React.useState({ tab: 'rights' });
   const handleClick = async tab => {
-    setData({
-      tab: tab,
-    });
+    setData({ tab: tab });
   };
 
   return (
@@ -20,16 +18,18 @@ const BakerTransactionHistory = ({ account }) => {
       <Card>
         <ButtonRow>
           <Button active={data.tab === 'rights'} onClick={e => handleClick('rights')}>
-            {account.n_origination?'Baking & Rights':'Baking History & Rights'}
+            {account.n_origination ? 'Baking & Rights' : 'Baking History & Rights'}
           </Button>
           <Button active={data.tab === 'delegation'} onClick={e => handleClick('delegation')}>
             Delegators
           </Button>
           {account.n_origination ? (
-          <Button active={data.tab === 'managed'} onClick={e => handleClick('managed')}>
-            Managed Accounts
-          </Button>
-          ):''}
+            <Button active={data.tab === 'managed'} onClick={e => handleClick('managed')}>
+              Managed Accounts
+            </Button>
+          ) : (
+            ''
+          )}
           <Button active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
             Incoming Transactions
           </Button>
@@ -37,10 +37,10 @@ const BakerTransactionHistory = ({ account }) => {
             Outgoing Transactions
           </Button>
           <Button active={data.tab === 'other'} onClick={e => handleClick('other')}>
-            {account.n_origination?'Other Ops':'Other Operations'}
+            {account.n_origination ? 'Other Ops' : 'Other Operations'}
           </Button>
           <Button active={data.tab === 'votes'} onClick={e => handleClick('votes')}>
-            {account.n_origination?'Voting':'Voting History'}
+            {account.n_origination ? 'Voting' : 'Voting History'}
           </Button>
         </ButtonRow>
         <OperationsTable type={data.tab} account={account} />
@@ -56,9 +56,9 @@ const OperationsTable = ({ type, account }) => {
     case 'managed':
       return <AccountManagmentTable account={account} />;
     case 'incoming':
-      return <TransactionTable account={account} incoming={true} type={"transaction"} />;
+      return <TransactionTable account={account} incoming={true} type={'transaction'} />;
     case 'outgoing':
-      return <TransactionTable account={account} incoming={false} type={"transaction"} />;
+      return <TransactionTable account={account} incoming={false} type={'transaction'} />;
     case 'other':
       return <TransactionTable account={account} incoming={false} type={type} />;
     case 'votes':

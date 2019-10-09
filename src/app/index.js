@@ -14,6 +14,7 @@ import PrivacyPage from './PrivacyPage';
 import TermsPage from './TermsPage';
 import ElectionPage from './ElectionPage';
 import CyclePage from './CyclePage';
+import AnalyticPage from './AnalyticPage';
 
 import history from '../hooks/history';
 import { isMainnet } from '../utils';
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/block/:hash" component={BlockPage} />
           <Route path="/operation/:hash" component={OperationPage} />
           <Route path="/terms" component={TermsPage} />
+          <Route path="/analytics" component={AnalyticPage} />
           <Route path="/privacy" component={PrivacyPage} />
           <Redirect exact from="/election" to="/election/head" />
           <Route path="/election/:id" component={ElectionPage} />

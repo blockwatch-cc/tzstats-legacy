@@ -18,7 +18,7 @@ const VolumeChart = ({ data }) => {
             content={
               <DataBox
                 valueType="currency"
-                valueOpts={{round:1}}
+                valueOpts={{ round: 1 }}
                 value={item.value}
                 title={timeFormat('%B %d, %Y')(new Date(item.time))}
               />
@@ -33,7 +33,6 @@ const VolumeChart = ({ data }) => {
 };
 
 const Wrapper = styled(FlexColumnWrap)`
-  /* ... */
   min-width: 600px;
   max-height: 120px;
 `;
