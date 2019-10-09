@@ -27,8 +27,9 @@ This API reference provides information on all public API endpoints and the diff
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tzstats.com/docs/api/explorer/</guid>
-      <description>Explorer Endpoints Most explorer endpoints take different kinds of path arguments to define the object to return:
- a regular hash for blocks, operations or accounts the string head for the most recent object on the blockchain (e.g. the recent block or cycle) a block height (a.k.a level in Tezos) a sequence number for cycles and elections  Some endpoints support a simple pagination scheme to walk lists of result (i.</description>
+      <description>Explorer Endpoints Explorer endpoints serve individual large JSON objects and a few related lists. JSON objects use the typical JSON key/value structure and you cannot limit the contents of objects (i.e. they are always sent in full). CSV format is not supported here.
+Most explorer endpoints take different kinds of path arguments to define the object to return. This can be:
+ a regular hash for blocks, operations or accounts the string head for the most recent object on the blockchain (e.</description>
     </item>
     
     <item>
@@ -48,7 +49,8 @@ This API reference provides information on all public API endpoints and the diff
       
       <guid>https://tzstats.com/docs/api/timeseries/</guid>
       <description>Time-Series Endpoints  Generic Time-Series Query
- https://api.tzstats.com/series/{table_code}.{format}?{args}  A time-series is a collection of measurements or aggregate data taken over time and is naturally ordered by timestamps. Time-series are meant to be displayed as graphs with time on the x-axis and an aggregate of some value on the y-axis. Intervals between timestamps are equally spaced, but there is no guarantee that every interval is populated with data, i.e. there may be gaps which need to be filled by the client if necessary.</description>
+ https://api.tzstats.com/series/{table_code}.{format}?{args}  The time-series API is an abstraction over tables which allows for server-side aggregation of multiple result rows over time. Time-series are meant to be displayed as graphs with time on the x-axis and some aggregate value on the y-axis. Since the underlying data is still in tabular form all table filters work on time-series as well.
+Note that this time-series API does not fill gaps.</description>
     </item>
     
     <item>
@@ -57,7 +59,7 @@ This API reference provides information on all public API endpoints and the diff
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tzstats.com/docs/api/changelog/</guid>
-      <description>Changelog Recent changes and additions to TzStats Data API.</description>
+      <description>Changelog Recent changes and additions to the TzStats Data API.</description>
     </item>
     
   </channel>

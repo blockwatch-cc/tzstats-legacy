@@ -25,7 +25,7 @@ const BlocksChart = ({ blockHistory, currentBlock, chartwidth = 60 }) => {
   return (
     <BlocksWrapper>
       {timeRange.map((ts, index) => {
-        const blocks = (blocksMap[ts]||[]).sort((a,b) => (a.is_uncle?0:1)-(b.is_uncle?0:1));
+        const blocks = (blocksMap[ts]||[]).sort((a,b) => (a.is_orphan?0:1)-(b.is_orphan?0:1));
         return (
           <BlockColumn key={index}>
             {(index===0 || (isMidnight(ts) && index > 7)) && (
@@ -48,7 +48,7 @@ const BlocksChart = ({ blockHistory, currentBlock, chartwidth = 60 }) => {
                   to={`/block/${block.hash}`}
                   idx={blocks.length-1}
                   opacity={isCurrent?1:block.opacity}
-                  bg={block.is_uncle?red:(isCurrent?white:blue)}
+                  bg={block.is_orphan?red:(isCurrent?white:blue)}
                   border={isCurrent?'1px solid #fff':'none'}
                 />);
                })

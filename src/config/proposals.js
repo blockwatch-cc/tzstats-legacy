@@ -4,6 +4,7 @@ export const proposals = {
     name: 'Athens A',
     by: 'Nomadic Labs',
     link: 'https://blog.nomadic-labs.com/athens-proposals-injected.html',
+    docu: 'http://tezos.gitlab.io/master/protocols/004_Pt24m4xi.html',
     archive: 'https://blog.nomadic-labs.com/files/Athens_proposal_A.tar',
   },
   Psd1ynUBhMZAeajwcZJAeq5NrxorM6UCU4GJqxZ7Bx2e9vUWB6z: {
@@ -11,6 +12,7 @@ export const proposals = {
     id: 11,
     by: 'Nomadic Labs',
     link: 'https://blog.nomadic-labs.com/athens-proposals-injected.html',
+    docu: 'http://tezos.gitlab.io/master/protocols/004_Pt24m4xi.html',
     archive: 'https://blog.nomadic-labs.com/files/Athens_proposal_B.tar',
   },
   PtdRxBHvc91c2ea2evV6wkoqnzW7TadTg9aqS9jAn2GbcPGtumD: {
@@ -25,6 +27,7 @@ export const proposals = {
     name: 'Babylon 1.0',
     by: 'Nomadic Labs',
     link: 'https://blog.nomadic-labs.com/babylon-proposal-injected.html',
+    docu: 'tezos.gitlab.io/master/protocols/005_babylon.html',
     archive: 'https://blog.nomadic-labs.com/files/babylon_005_PsBABY5n.tar',
   },
   PsBABY5HQTSkA4297zNHfsZNKtxULfL18y95qb3m53QJiXGmrbU: {
@@ -32,6 +35,15 @@ export const proposals = {
     name: 'Babylon 2.0',
     by: 'Nomadic Labs',
     link: 'https://blog.nomadic-labs.com/babylon-proposal-injected.html',
+    docu: 'tezos.gitlab.io/master/protocols/005_babylon.html',
     archive: 'https://blog.nomadic-labs.com/files/babylon_005_PsBABY5H.tar',
+  },
+  PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS: {
+    id: 13,
+    name: 'Babylon 2.0.1',
+    by: 'Nomadic Labs',
+    link: 'https://blog.nomadic-labs.com/mainnet-release-to-patch-babylon.html',
+    docu: 'http://tezos.gitlab.io/master/protocols/005_babylon.html#bug-affecting-bigmaps-in-005-psbaby5h',
+    archive: 'https://blog.nomadic-labs.com/files/babylon_005_PsBabyM1.tar',
   },
 };

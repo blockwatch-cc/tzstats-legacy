@@ -44,7 +44,7 @@ const AccountManagmentTable = ({ account }) => {
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   <TableCell width={15}>
                     <Blockies hash={item.account} />
-                    <Link to={`/account/${item.account}`}>{getShortHashOrBakerName(item.account)}</Link>
+                    <Link to={`/account/${item.address}`}>{getShortHashOrBakerName(item.address)}</Link>
                   </TableCell>
                   <TableCell width={20}><Value value={item.first_in_time} type="datetime"/></TableCell>
                   <TableCell width={20}><Value value={item.last_seen_time} type="datetime"/></TableCell>

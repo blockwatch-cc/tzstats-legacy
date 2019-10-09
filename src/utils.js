@@ -4,6 +4,7 @@ import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import { bakerAccounts } from './config/baker-accounts';
 import { proposals } from './config/proposals';
+import { TZSTATS_API_URL } from './config';
 import _ from 'lodash';
 
 TimeAgo.addLocale(en);
@@ -218,7 +219,7 @@ export function wrappBlockDataToObj(array, range) {
         priority: item[3],
         opacity:
           item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.7 : item[3] < 8 ? 0.6 : item[3] < 16 ? 0.5 : 0.4,
-        is_uncle: item[4] || 0,
+        is_orphan: item[4] || 0,
         row_id: item[5],
         parent_id: item[6],
       },
@@ -248,7 +249,7 @@ export function convertToTitle(str) {
 
 export function getBlockTags(block, config) {
   let tags = [];
-  if (block.is_uncle) {
+  if (block.is_orphan) {
     tags.push('Orphan');
   }
   if (block.is_cycle_snapshot) {
@@ -287,7 +288,7 @@ export function getAccountTags(account) {
   if (account.is_vesting) {
     tags.push('Vesting');
   }
-  if (account.account_type === 'blinded') {
+  if (account.address_type === 'blinded') {
     tags.push('Fundraiser', 'Not Activated');
   }
   // if (account.is_delegated) {
@@ -449,5 +450,5 @@ export function getHashType(hash, strictMatch) {
 
 // works with /explorer/config and /explorer/chain objects
 export function isMainnet(o) {
-  return o && o.chain_id === 'NetXdQprcVkpaWU';
+  return o && o.chain_id === 'NetXdQprcVkpaWU' && TZSTATS_API_URL === 'https://api.tzstats.com';
 }

@@ -17,9 +17,9 @@ const DelegationTable = ({ account }) => {
         type: 'delegation',
         address: account.address,
         cycle: chain.cycle,
-        limit: account.active_delegations,
+        limit: account.active_delegations+1, // include self
       });
-      let self = ops.findIndex(i => i.account === account.address);
+      let self = ops.findIndex(i => i.address === account.address);
       let bal = ops[self].delegated_balance;
       ops.splice(self, 1);
       ops.forEach(i => i.balance = i.spendable_balance+i.unclaimed_balance);
@@ -37,7 +37,7 @@ const DelegationTable = ({ account }) => {
         isLoaded: false
       });
     };
-  }, [account, chain]);
+  }, [account, chain.cycle]);
 
   return (
     <>
@@ -59,8 +59,8 @@ const DelegationTable = ({ account }) => {
                     <TableDetails>{i + 1}</TableDetails>
                   </TableCell>
                   <TableCell width={15}>
-                    <Blockies hash={item.account} />
-                    <Link to={`/account/${item.account}`}>{getShortHash(item.account)}</Link>
+                    <Blockies hash={item.address} />
+                    <Link to={`/account/${item.address}`}>{getShortHash(item.address)}</Link>
                   </TableCell>
                   <TableCell width={20}><Value value={item.delegated_since_time} type="datetime"/></TableCell>
                   <TableCell width={20}><Value value={item.balance} type="currency" digits={0} zero="-"/></TableCell>

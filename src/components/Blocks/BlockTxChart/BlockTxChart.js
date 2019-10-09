@@ -109,20 +109,20 @@ function getOperationsSettings(block) {
     },
     {
       color: 'rgb(158, 202, 225)',
-      value: block.n_seed_nonce,
-      id: `${formatValue(block.n_seed_nonce)} Seed Nonces`,
+      value: block.n_seed_nonce_revelations,
+      id: `${formatValue(block.n_seed_nonce_revelation)} Seed Nonces`,
       type: 'seed_nonce_revelation',
     },
     {
       color: 'rgb(107, 174, 214)',
-      value: block.n_double_baking,
-      id: `${formatValue(block.n_double_baking)} Double Bakings`,
+      value: block.n_double_baking_evidences,
+      id: `${formatValue(block.n_double_baking_evidence)} Double Bakings`,
       type: 'double_baking_evidence',
     },
     {
       color: 'rgb(66, 146, 198)',
-      value: block.n_double_endorsement,
-      id: `${formatValue(block.n_double_endorsement)} Double Endorsements`,
+      value: block.n_double_endorsement_evidences,
+      id: `${formatValue(block.n_double_endorsement_evidence)} Double Endorsements`,
       type: 'double_endorsement_evidence',
     },
     {

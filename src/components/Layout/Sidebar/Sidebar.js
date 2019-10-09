@@ -26,7 +26,7 @@ const Sidebar = () => {
       function diffTime(last, offset) {
         let diff = offset - (new Date().getTime() - new Date(last).getTime());
         diff = diff + (Math.random() * offset) / 10 - offset / 20; // +/-10% offset random
-        return diff < 0 ? 0 : diff;
+        return diff < 0 ? 15000 : diff;
       }
       function setTimer(d) {
         waiting.current = true;

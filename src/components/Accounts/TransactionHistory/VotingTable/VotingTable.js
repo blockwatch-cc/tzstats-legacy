@@ -78,7 +78,7 @@ const VotingTable = ({ account }) => {
                   <TableCell width={10}>{formatValue(item.rolls)}</TableCell>
                   <TableCell width={20}>{formatDayTime(item.time,1,1)}</TableCell>
                   <TableCell width={10}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
-                  <TableCell width={10}><Link to={`/op/${item.op}`}>{getShortHash(item.op)}</Link></TableCell>
+                  <TableCell width={10}><Link to={`/operation/${item.op}`}>{getShortHash(item.op)}</Link></TableCell>
                   <TableCell width={10}></TableCell>
                 </TableRow>
               );
