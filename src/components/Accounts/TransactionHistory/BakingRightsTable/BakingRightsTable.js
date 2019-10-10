@@ -29,7 +29,7 @@ const BakingRightsTable = ({ account }) => {
       const missed = income.missed_endorsing_income + income.lost_baking_income;
       const stolen = income.stolen_baking_income;
       const nextBakeTime = nextBakeRight.length?convertMinutes((new Date(cycleId===chain.cycle?nextBakeRight[6]||account.next_bake_time:account.next_bake_time) - Date.now()) / (config.time_between_blocks[0]*1000)):0;
-      const nextEndorseTime = nextEndorseRight.length?convertMinutes((new Date(cycleId===chain.cycle?nextEndorseRight[6]||account.next_endorse_time:account.next_endorse_time) - Date.now()) / (config.time_between_blocks[0]*10000) + 1):0;
+      const nextEndorseTime = nextEndorseRight.length?convertMinutes((new Date(cycleId===chain.cycle?nextEndorseRight[6]||account.next_endorse_time:account.next_endorse_time) - Date.now()) / (config.time_between_blocks[0]*1000) + 1):0;
       const nextBakeHeight = cycleId===chain.cycle?nextBakeRight[0]||account.next_bake_height:account.next_bake_height;
       const nextEndorseHeight = cycleId===chain.cycle?nextEndorseRight[0]||account.next_endorse_height:account.next_endorse_height;
       rights = wrapData(rights, cycleStartHeight(income.cycle, config), chain.height, config);
