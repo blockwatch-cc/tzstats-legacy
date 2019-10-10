@@ -40,7 +40,7 @@ const BakingRightsTable = ({ account }) => {
 
   React.useEffect(() => {
     getAccountData(data.cycleId!==undefined?data.cycleId:chain.cycle);
-  }, [chain, account, getAccountData]);
+  }, [chain.cycle, account.last_seen, getAccountData]);
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>

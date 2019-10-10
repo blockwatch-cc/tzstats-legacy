@@ -86,7 +86,7 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
 
 //https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&type=transaction&verbose=1
 export const getAccountOperations = async ({ address, type = 'transaction', cursor, direction, limit = 100, order = 'asc' }) => {
-  const columns = ['row_id', 'type', 'hash', 'sender', 'receiver', 'is_success', 'time', 'volume', 'fee', 'height', 'reward'];
+  const columns = ['row_id', 'type', 'hash', 'sender', 'receiver', 'delegate', 'is_success', 'time', 'volume', 'fee', 'height', 'reward'];
   const typ = 'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals' : '=' + type);
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
