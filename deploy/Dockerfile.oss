@@ -1,0 +1,8 @@
+# Tzstats build container
+#
+FROM          blockwatch/serve:latest
+MAINTAINER    Alexander Eichhorn <alex@kidtsunami.com>
+ARG           BUILD_VERSION
+ARG           BUILD_DATE
+ARG           BUILD_ID
+COPY          ./build/ /var/www/
