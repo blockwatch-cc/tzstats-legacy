@@ -8,7 +8,7 @@ import FeesTab from './FeesTab';
 import GrowthTab from './GrowthTab';
 
 const AnalyticsPanel = () => {
-  const [data, setData] = React.useState({ tab: 'supply' });
+  const [data, setData] = React.useState({ tab: 'fees' });
   const handleClick = async tab => {
     setData({ tab: tab });
   };

@@ -121,6 +121,8 @@ export const FlexColumn = styled(Box)`
   ${flexBasis}
   ${flex}
   ${border}
+  ${width}
+  ${height}
   ${minWidth}
   ${minHeight}
 `;

@@ -1,17 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  DataBox,
-  FlexRowWrap,
-  FlexColumn,
-  Title,
-  BarLegend,
-  EmptyBlock,
-  Devices,
-  FlexRowSpaceBetween,
-} from '../../Common';
+import { DataBox, FlexRowWrap, FlexColumn, Title, BarLegend, FlexRowSpaceBetween } from '../../Common';
 import HorizontalProgressBar from '../../Common/ProgressBar/HorizontalProgressBar';
-import CircularProgressbar from 'react-circular-progressbar';
+import { PieChart } from '../../Charts';
 
 const SupplyTab = () => {
   const settings = getSupplySettings();
@@ -34,11 +25,8 @@ const SupplyTab = () => {
           );
         })}
       </FlexRowWrap>
-      <FlexRowWrap mt={30} minWidth={Devices.mobileL}>
+      <FlexRowWrap justifyContent="space-between">
         <Distribution />
-        <EmptyBlock width={20} hideOnMobile>
-          &nbsp;
-        </EmptyBlock>
         <Circulating />
       </FlexRowWrap>
     </>
@@ -68,7 +56,7 @@ const Distribution = () => {
     },
   ];
   return (
-    <FlexColumn flex={1}>
+    <FlexColumn mt={30} minWidth={350}>
       <Title>Distribution</Title>
       <HorizontalProgressBar settings={settings} />
       <BarLegend settings={settings} />
@@ -92,7 +80,7 @@ const Circulating = () => {
     },
   ];
   return (
-    <FlexColumn flex={1}>
+    <FlexColumn mt={30} minWidth={350}>
       <FlexRowSpaceBetween>
         <DataBox valueSize="16px" value={1144} valueType="currency-full" />
         <DataBox valueSize="16px" value={511544} valueType="currency-full" />
@@ -103,25 +91,6 @@ const Circulating = () => {
         <DataBox title={`Frozen ${35}%`} valueType="currency-full" />
       </FlexRowSpaceBetween>
     </FlexColumn>
-  );
-};
-
-const PieChart = ({ percent, color }) => {
-  return (
-    <CircularProgressbar
-      percentage={percent}
-      strokeWidth={50}
-      styles={{
-        path: {
-          stroke: color,
-          strokeLinecap: 'butt',
-        },
-        trail: {
-          stroke: '#525566',
-        },
-      }}
-      textForPercentage={null}
-    />
   );
 };
 
@@ -179,5 +148,6 @@ function getSupplySettings() {
 }
 const ChartWrapper = styled.div`
   width: 50px;
+  margin-top: 20px;
 `;
 export default SupplyTab;

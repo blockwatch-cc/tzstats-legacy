@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Devices } from './Variables';
+import { Devices, Sizes } from './Variables';
 import {
   Box,
   InlineBox,
@@ -33,6 +33,7 @@ export { default as Card } from './Card';
 export { default as ClickableCard } from './ClickableCard';
 export { default as BarLegend } from './Legend/BarLegend';
 export { default as ChartLegend } from './Legend/ChartLegend';
+export { default as PieLegend } from './Legend/PieLegend';
 export { default as DataBox } from './DataBox';
 export { default as Spiner } from './CenteredSpinner';
 export { default as Blockies } from './Blockies';
@@ -69,6 +70,7 @@ export {
   Value,
   TwoCardInline,
   Devices,
+  Sizes,
 };
 
 export const TabRow = styled(FlexRow)`
@@ -92,7 +94,7 @@ export const Title = styled.div`
 `;
 
 export const EmptyBlock = styled.div`
-  width: ${prop => prop.width || 100}%;
+  width: ${prop => prop.width || '100%'};
   @media ${Devices.mobileL} {
     ${props => props.hideOnMobile && 'display: none;'}
   }

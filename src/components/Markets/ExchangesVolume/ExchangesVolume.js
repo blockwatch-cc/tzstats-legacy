@@ -22,6 +22,7 @@ const VolumesExchanges = ({ tickers }) => {
     return s;
   }, {});
   let settings = getVolumeSettings(byExchange);
+  console.log(settings, 'set');
 
   return (
     <Wrapper>

@@ -75,7 +75,6 @@ export function formatCurrencyShort(value) {
 
 export const addCommas = format(',');
 
-//todo reafactoring
 export function wrapToBalance(flowData, account) {
   let spendableBalance = account.spendable_balance;
   let today = new Date().setHours(0, 0, 0, 0);
@@ -154,7 +153,6 @@ export function wrapStakingData({ balance, deposits, rewards, fees, account, del
   return data;
 }
 
-//Todo replace it with clean function
 export function fixPercent(settings) {
   let totalPercent = settings.reduce(function(sum, value) {
     return sum + value.percent;
