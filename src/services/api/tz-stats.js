@@ -265,7 +265,7 @@ export const getTxVolume24h = async () => {
 
 //https://api.tzstats.com/series/block?collapse=1d&start_date=now-30d&columns=volume
 export const getTxVolume = async ({ start, days }) => {
-  start = start || 'now-'+days+'d';
+  start = start || 'now-'+(days-1)+'d';
   const response = await request(`/series/block?start_date=${start}&limit=${days}&collapse=1d&columns=volume,n_tx`);
 
   return response.map(item => {

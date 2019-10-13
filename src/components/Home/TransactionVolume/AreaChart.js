@@ -1,5 +1,5 @@
 import React from 'react';
-import { timeFormat } from 'd3-time-format';
+import { utcFormat } from 'd3-time-format';
 import { scaleTime } from 'd3-scale';
 import { curveLinear } from 'd3-shape';
 import {
@@ -71,7 +71,7 @@ class AreaChart extends React.Component {
             dx={180}
             fill="rgba(0,0,0,0)"
             textFill="rgba(255, 255, 255, 0.52)"
-            displayFormat={timeFormat('%a, %b %d')}
+            displayFormat={utcFormat('%a, %b %d')}
             fontSize={11}
             fontFamily={defaultFont}
           />
