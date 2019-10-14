@@ -12,6 +12,7 @@ import { getChainData, getChainConfig } from '../../../services/api/tz-stats';
 import { useGlobal } from 'reactn';
 import useOnline from '../../../hooks/useOnline';
 import {isMainnet} from "../../../utils";
+import Footer from '../Footer';
 
 const Sidebar = () => {
   const delay = React.useRef(60000);
@@ -91,6 +92,7 @@ const Sidebar = () => {
           TzStats is offline. Please check your network connection.
         </Callout>
       }
+    <Footer/>
     </Wrapper>
   );
 };
