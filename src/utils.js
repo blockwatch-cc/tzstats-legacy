@@ -10,6 +10,10 @@ import _ from 'lodash';
 TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
 
+export function isUndefined(x) {
+  return typeof x === 'undefined';
+}
+
 export function formatDayTime(ts, fullyear, noweekday) {
   const d = new Date(ts);
   const isThisYear = d.getFullYear()===(new Date()).getFullYear();

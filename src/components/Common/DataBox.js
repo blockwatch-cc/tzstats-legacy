@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FlexRow } from './index';
-import { formatCurrency, formatValue, formatDayTime, formatDay, formatTime } from '../../utils';
+import { formatCurrency, formatValue, formatDayTime, formatDay, formatTime, isUndefined } from '../../utils';
 
 //Todo refactoring
 const DataBox = ({
@@ -98,7 +98,7 @@ export const Value = ({ type, value, prec, sym, prefix='', suffix = '', digits =
       res = formatCurrency(value, ',.'+digits+'r', sym);
       break;
     case 'currency-full':
-      res = formatCurrency(value.toFixed(6), ',');
+      res = formatCurrency(value.toFixed(6), ',', isUndefined(sym)?'ꜩ':sym);
       break;
     case 'currency-usd':
       if (!!digits) {
