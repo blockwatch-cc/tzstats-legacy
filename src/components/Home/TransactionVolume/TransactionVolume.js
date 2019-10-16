@@ -5,7 +5,7 @@ import AreaChart from './AreaChart';
 import _ from 'lodash';
 
 const TransactionVolume = ({ txSeries }) => {
-  const [currentValue] = React.useState(txSeries[txSeries.length - 1]);
+  const [currentValue] = React.useState(txSeries.slice(-1)[0]);
   const avrVolume = _.sumBy(txSeries, o => o.value) / txSeries.length;
   const avrTxn = _.sumBy(txSeries, o => o.n_tx) / txSeries.length;
   return (

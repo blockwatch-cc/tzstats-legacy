@@ -6,9 +6,11 @@ import { getAccountByHash, getFlowData, getStakingData } from '../services/api/t
 import { Spiner } from '../components/Common';
 import { wrapStakingData, wrapToBalance } from '../utils';
 import history from '../hooks/history';
+import { useGlobal } from 'reactn';
 
 const AccountPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
+  const [chain] = useGlobal('chain');
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -35,9 +37,10 @@ const AccountPage = ({ match }) => {
         }
       }
     };
-
-    fetchData();
-  }, [match.params.hash]);
+    if (chain.height) {
+      fetchData();
+    }
+  }, [match.params.hash, chain.height]);
 
   return data.isLoaded ? (
     <>

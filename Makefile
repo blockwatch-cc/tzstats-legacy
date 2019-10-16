@@ -14,12 +14,15 @@ endif
 BUILD_VERSION ?= $(shell git describe --always --dirty)
 BUILD_DATE := $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
 
+DOCKERFILE ?= Dockerfile
+
 ifndef DOCKER_REGISTRY_ADDR
 $(error DOCKER_REGISTRY_ADDR is not set)
 endif
 
 TARGET_IMAGE := $(DOCKER_REGISTRY_ADDR)/$(ARTIFACT):$(BUILD_VERSION)
-export ARTIFACT TARGET_IMAGE BUILD_ID BUILD_VERSION BUILD_DATE DOCKER_REGISTRY_ADDR
+TARGET_LATEST := $(DOCKER_REGISTRY_ADDR)/$(ARTIFACT):latest
+export ARTIFACT DOCKERFILE TARGET_IMAGE BUILD_ID BUILD_VERSION BUILD_DATE DOCKER_REGISTRY_ADDR
 
 default: build
 
@@ -29,10 +32,10 @@ build:
 	@echo $@
 	@yarn build
 
-container: build
+image: build
 	@echo $@
 	@echo "Building $(TARGET_IMAGE)"
-	@docker build --pull --rm --no-cache -f ./deploy/Dockerfile --build-arg BUILD_DATE=$(BUILD_DATE) --build-arg BUILD_VERSION=$(BUILD_VERSION) --build-arg BUILD_ID=$(BUILD_ID) -t $(TARGET_IMAGE) .
+	@docker build --pull --rm --no-cache -f ./deploy/$(DOCKERFILE) --build-arg BUILD_DATE=$(BUILD_DATE) --build-arg BUILD_VERSION=$(BUILD_VERSION) --build-arg BUILD_ID=$(BUILD_ID) -t $(TARGET_IMAGE) -t $(TARGET_LATEST) .
 	@echo
 	@echo "Container image complete. Continue with "
 	@echo " List:         docker images"

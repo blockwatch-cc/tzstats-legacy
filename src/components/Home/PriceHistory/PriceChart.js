@@ -1,5 +1,5 @@
 import React from 'react';
-import { timeFormat } from 'd3-time-format';
+import { utcFormat } from 'd3-time-format';
 import { curveLinear } from 'd3-shape';
 import { CrossHairCursor, MouseCoordinateX } from 'react-stockcharts/lib/coordinates';
 import { ChartCanvas, Chart } from 'react-stockcharts';
@@ -74,7 +74,7 @@ const PriceChart = React.forwardRef((props, ref) => {
           dx={180}
           fill="rgba(0,0,0,0)"
           textFill="rgba(255, 255, 255, 0.52)"
-          displayFormat={timeFormat('%a, %b %d')}
+          displayFormat={utcFormat('%a, %b %d')}
           fontSize={11}
           fontFamily={defaultFont}
         />

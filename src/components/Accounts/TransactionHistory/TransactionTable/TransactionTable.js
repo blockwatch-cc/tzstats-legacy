@@ -75,11 +75,11 @@ const TxTable = ({ data, account, incoming }) => {
     <>
       <TableHeader>
         <TableHeaderCell width={5}>No</TableHeaderCell>
-        <TableHeaderCell width={20}>{incoming?'From':'To'}</TableHeaderCell>
-        <TableHeaderCell width={10}>Amount</TableHeaderCell>
-        <TableHeaderCell width={10}>Fees</TableHeaderCell>
-        <TableHeaderCell width={20}>Date</TableHeaderCell>
-        <TableHeaderCell width={10}>Block</TableHeaderCell>
+        <TableHeaderCell width={18}>{incoming?'From':'To'}</TableHeaderCell>
+        <TableHeaderCell width={12}>Amount</TableHeaderCell>
+        <TableHeaderCell width={12}>Fees</TableHeaderCell>
+        <TableHeaderCell width={18}>Date</TableHeaderCell>
+        <TableHeaderCell width={8}>Block</TableHeaderCell>
         <TableHeaderCell width={10}>Hash</TableHeaderCell>
       </TableHeader>
       <TableBody id={data.id}>
@@ -90,20 +90,20 @@ const TxTable = ({ data, account, incoming }) => {
                 <TableRow key={i}>
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   { incoming ? (
-                    <TableCell width={20}>
+                    <TableCell width={18}>
                       <Blockies hash={item.sender} />
                       <Link to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                     </TableCell>
                     ) : (
-                    <TableCell width={20}>
-                      <Blockies hash={item.receiver} />
+                    <TableCell width={18}>
+                      <Blockies hash={item.receiver||item.delegate} />
                       <Link to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                     </TableCell>
                   )}
-                  <TableCell width={10}><Value value={item.volume} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={10}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
-                  <TableCell width={10}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
+                  <TableCell width={12}><Value value={item.volume} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={12}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={18}><Value value={item.time} type="datetime"/></TableCell>
+                  <TableCell width={8}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
                   <TableCell width={10}>
                     <Link to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>
@@ -125,12 +125,11 @@ const OtherTable = ({ data, account }) => {
   return (
     <>
       <TableHeader>
-        <TableHeaderCell width={5}>No</TableHeaderCell>
-        <TableHeaderCell width={12}>Type</TableHeaderCell>
-        <TableHeaderCell width={12}>From</TableHeaderCell>
-        <TableHeaderCell width={12}>To</TableHeaderCell>
+        <TableHeaderCell width={4}>No</TableHeaderCell>
+        <TableHeaderCell width={15}>Type</TableHeaderCell>
+        <TableHeaderCell width={19}>To</TableHeaderCell>
         <TableHeaderCell width={12}>Amount</TableHeaderCell>
-        <TableHeaderCell width={11}>Fees</TableHeaderCell>
+        <TableHeaderCell width={12}>Fees</TableHeaderCell>
         <TableHeaderCell width={18}>Date</TableHeaderCell>
         <TableHeaderCell width={8}>Block</TableHeaderCell>
         <TableHeaderCell width={10}>Hash</TableHeaderCell>
@@ -141,26 +140,22 @@ const OtherTable = ({ data, account }) => {
             data.table.map((item, i) => {
               return (
                 <TableRow key={i}>
-                  <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
-                  <TableCell width={12}>
+                  <TableCell width={4}><TableDetails>{i+1}</TableDetails></TableCell>
+                  <TableCell width={15}>
                     <TxTypeIcon isSuccess={item.is_success} type={item.type} />
                     <TableDetails>{`${opNames[item.type]}`}</TableDetails>
                   </TableCell>
-                  <TableCell width={12}>
-                    <Blockies hash={item.sender} />
-                    <Link to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
-                  </TableCell>
-                  {item.receiver ? (
-                    <TableCell width={12}>
-                      <Blockies hash={item.receiver} />
-                      <Link to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
+                  {item.receiver||item.delegate ? (
+                    <TableCell width={19}>
+                      <Blockies hash={item.receiver||item.delegate} />
+                      <Link to={`/account/${item.receiver||item.delegate}`}>{getShortHashOrBakerName(item.receiver||item.delegate)}</Link>
                     </TableCell>
                   ) : (
-                    <TableCell width={12}>-</TableCell>
+                    <TableCell width={19}>-</TableCell>
                   )}
 
                   <TableCell width={12}><Value value={item.volume||item.reward} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={11}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={12}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={18}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={8}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
                   <TableCell width={10}>

@@ -1,6 +1,6 @@
 # Tzstats build container
 #
-FROM          idx.trimmer.io/spang:1.1-alpine
+FROM          idx.trimmer.io/serve:1.1-alpine
 MAINTAINER    Alexander Eichhorn <alex@kidtsunami.com>
 
 ARG           BUILD_VERSION

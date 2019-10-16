@@ -85,27 +85,8 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
 };
 
 //https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&type=transaction&verbose=1
-export const getAccountOperations = async ({
-  address,
-  type = 'transaction',
-  cursor,
-  direction,
-  limit = 100,
-  order = 'asc',
-}) => {
-  const columns = [
-    'row_id',
-    'type',
-    'hash',
-    'sender',
-    'receiver',
-    'is_success',
-    'time',
-    'volume',
-    'fee',
-    'height',
-    'reward',
-  ];
+export const getAccountOperations = async ({ address, type = 'transaction', cursor, direction, limit = 100, order = 'asc' }) => {
+  const columns = ['row_id', 'type', 'hash', 'sender', 'receiver', 'delegate', 'is_success', 'time', 'volume', 'fee', 'height', 'reward'];
   const typ = 'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals' : '=' + type);
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
@@ -291,7 +272,11 @@ export const getTxVolume24h = async () => {
 
 //https://api.tzstats.com/series/block?collapse=1d&start_date=now-30d&columns=volume
 export const getTxVolume = async ({ start, days }) => {
+<<<<<<< HEAD
   start = start || 'now-' + days + 'd';
+=======
+  start = start || 'now-'+(days-1)+'d';
+>>>>>>> master
   const response = await request(`/series/block?start_date=${start}&limit=${days}&collapse=1d&columns=volume,n_tx`);
 
   return response.map(item => {

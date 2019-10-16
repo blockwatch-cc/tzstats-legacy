@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/Layout/Sidebar';
 import Searchbar from '../components/Layout/Searchbar';
-import Footer from '../components/Layout/Footer';
 import { Devices } from '../components/Common';
 
 function Layout({ children }) {
@@ -13,7 +12,6 @@ function Layout({ children }) {
       <MainPanel id="main-panel">
         <Searchbar />
         <Content>{children}</Content>
-        <Footer />
       </MainPanel>
     </Wrapper>
   );

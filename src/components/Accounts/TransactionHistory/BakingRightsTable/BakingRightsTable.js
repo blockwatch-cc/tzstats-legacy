@@ -41,7 +41,7 @@ const BakingRightsTable = ({ account }) => {
               cycleId === chain.cycle ? nextEndorseRight[6] || account.next_endorse_time : account.next_endorse_time
             ) -
               Date.now()) /
-              (config.time_between_blocks[0] * 10000) +
+              (config.time_between_blocks[0] * 1000) +
               1
           )
         : 0;
@@ -70,7 +70,7 @@ const BakingRightsTable = ({ account }) => {
 
   React.useEffect(() => {
     getAccountData(data.cycleId !== undefined ? data.cycleId : chain.cycle);
-  }, [chain, account, getAccountData, data.cycleId]);
+  }, [chain.cycle, account.last_seen, getAccountData]);
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>
