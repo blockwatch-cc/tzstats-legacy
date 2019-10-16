@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DataBox, FlexRowWrap, FlexColumn, Title, BarLegend, FlexRowSpaceBetween } from '../../Common';
+import { DataBox, FlexRowWrap, FlexColumn, Title, FlexRowSpaceBetween } from '../../Common';
 import HorizontalProgressBar from '../../Common/ProgressBar/HorizontalProgressBar';
-import { PieChart } from '../../Charts';
+import { PieChart, BarLegend } from '../../Charts';
 
 const SupplyTab = () => {
   const settings = getSupplySettings();
@@ -11,7 +11,7 @@ const SupplyTab = () => {
       <FlexRowWrap justifyContent="space-between">
         {settings.map((item, index) => {
           return (
-            <FlexColumn>
+            <FlexColumn key={index}>
               <ChartWrapper>
                 <PieChart key={index} {...item} />
               </ChartWrapper>

@@ -31,9 +31,6 @@ export { default as IntervalSelect } from './IntervalSelect';
 
 export { default as Card } from './Card';
 export { default as ClickableCard } from './ClickableCard';
-export { default as BarLegend } from './Legend/BarLegend';
-export { default as ChartLegend } from './Legend/ChartLegend';
-export { default as PieLegend } from './Legend/PieLegend';
 export { default as DataBox } from './DataBox';
 export { default as Spiner } from './CenteredSpinner';
 export { default as Blockies } from './Blockies';
@@ -73,6 +70,7 @@ export {
   Sizes,
 };
 
+//Todo replace it
 export const TabRow = styled(FlexRow)`
   text-overflow: ellipsis;
   word-break: break-word;

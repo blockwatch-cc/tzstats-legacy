@@ -1,7 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import { DataBox, FlexRowWrap, FlexColumn, PieLegend, FlexRow, ChartLegend } from '../../Common';
-import { StackedBarChart, BigPieChart } from '../../Charts';
+import { FlexRowWrap, FlexColumn, FlexRow } from '../../Common';
+import { StackedBarChart, BigPieChart, ChartLegend, PieLegend } from '../../Charts';
 
 const OperationsTab = () => {
   const data = getOperationData();

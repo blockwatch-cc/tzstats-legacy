@@ -12,9 +12,9 @@ import _ from 'lodash';
 import { format } from 'd3-format';
 import CurrentCoordinate from '../Common/CurrentCoordinate';
 import { defaultFont } from '../../config';
-import { formatValue } from '../../utils';
+import { formatValue, makeid } from '../../utils';
 
-class ActivityChart extends React.Component {
+class AreaChart extends React.Component {
   render() {
     const { data: initialData, width, ratio, settings } = this.props;
 
@@ -32,10 +32,11 @@ class ActivityChart extends React.Component {
     const panEvent = false;
     const clamp = false;
     const zoomAnchor = function(e) {};
+    const id = makeid(8);
 
     return (
       <ChartCanvas
-        height={180}
+        height={settings.height || 180}
         width={width}
         seriesName={''}
         margin={{
@@ -56,7 +57,7 @@ class ActivityChart extends React.Component {
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}
       >
-        <Chart id={1} height={180} yExtents={[d => [max * 1.05, min * 0.95]]}>
+        <Chart id={id} height={settings.height || 180} yExtents={[d => [max * 1.05, min * 0.95]]}>
           <YAxis
             axisAt="right"
             orient="right"
@@ -85,16 +86,19 @@ class ActivityChart extends React.Component {
           />
           {settings.series.map((item, key) => {
             return (
-              <>
-                <AreaSeries
-                  yAccessor={item.value}
-                  stroke={item.color}
-                  fill={item.fillColor}
-                  strokeWidth={2}
-                  interpolation={curveLinear}
-                />
-                <CurrentCoordinate displayFormat={formatValue} r={3} yAccessor={item.value} fill={'#FFF'} />;
-              </>
+              <AreaSeries
+                key={key}
+                yAccessor={item.value}
+                stroke={item.color}
+                fill={item.fillColor}
+                strokeWidth={2}
+                interpolation={curveLinear}
+              />
+            );
+          })}
+          {settings.series.map((item, key) => {
+            return (
+              <CurrentCoordinate key={key} displayFormat={formatValue} r={3} yAccessor={item.value} fill={'#FFF'} />
             );
           })}
         </Chart>
@@ -119,4 +123,4 @@ function getMaxMin(data, series) {
   return res;
 }
 
-export default fitWidth(ActivityChart);
+export default fitWidth(AreaChart);

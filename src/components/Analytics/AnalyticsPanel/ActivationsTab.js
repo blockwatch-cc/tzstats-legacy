@@ -49,9 +49,9 @@ const ActivationsTab = () => {
       <FlexRowWrap justifyContent="space-between">
         {settings.map((item, index) => {
           return (
-            <FlexRow>
+            <FlexRow key={index}>
               <ChartWrapper>
-                <PieChart key={index} {...item} />
+                <PieChart {...item} />
               </ChartWrapper>
               <DataBox
                 valueSize="16px"
@@ -72,7 +72,10 @@ const ActivationsTab = () => {
           />
         </FlexColumn>
         <FlexColumn flex={0.3}>
-          <AreaChart data={data} />
+          <AreaChart
+            data={data}
+            settings={{ series: [{ value: d => d.value, color: '#17eef4', fillColor: 'rgba(23, 238, 244, 0.2)' }] }}
+          />
         </FlexColumn>
         <FlexColumn flex={0.3}>
           <BarChart data={testData} />

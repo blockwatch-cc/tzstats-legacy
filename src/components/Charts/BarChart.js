@@ -10,7 +10,7 @@ import { BarSeries } from 'react-stockcharts/lib/series';
 import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { defaultFont } from '../../config';
-import { formatValue } from '../../utils';
+import { formatValue, makeid } from '../../utils';
 import { timeFormat } from 'd3-time-format';
 import { format } from 'd3-format';
 import _ from 'lodash';
@@ -35,6 +35,7 @@ class BarChart extends React.Component {
     const zoomEvent = false;
     const panEvent = false;
     const clamp = false;
+    const id = makeid(8);
 
     return (
       <ChartCanvas
@@ -59,7 +60,7 @@ class BarChart extends React.Component {
         xExtents={xExtents}
         data={data}
       >
-        <Chart id={1} yExtents={[d => [max * 1.05, min * 0.95]]}>
+        <Chart id={id} yExtents={[d => [max * 1.05, min * 0.95]]}>
           <YAxis
             axisAt="right"
             orient="right"
@@ -86,7 +87,7 @@ class BarChart extends React.Component {
             fontSize={11}
             fontFamily={defaultFont}
           />
-          <BarSeries yAccessor={d => d.value} fill={'#858999'} />
+          <BarSeries clip={false} yAccessor={d => d.value} fill={'#858999'} />
           <CurrentCoordinate displayFormat={formatValue} r={3} yAccessor={d => d.value} fill={'#FFF'} />
         </Chart>
         <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />

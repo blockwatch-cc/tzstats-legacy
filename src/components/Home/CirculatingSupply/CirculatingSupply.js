@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, BarLegend, FlexColumnSpaceBetween } from '../../Common';
+import { Card, FlexColumnSpaceBetween } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { useGlobal } from 'reactn';
 import { formatCurrency } from '../../../utils';
+import { BarLegend } from '../../Charts';
+
 const CirculatingSupply = () => {
   const [chain] = useGlobal('chain');
 

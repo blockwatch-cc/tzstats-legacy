@@ -10,7 +10,7 @@ import { StackedBarSeries, BarSeries } from 'react-stockcharts/lib/series';
 import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { defaultFont } from '../../config';
-import { formatValue } from '../../utils';
+import { formatValue, makeid } from '../../utils';
 import { timeFormat } from 'd3-time-format';
 import { format } from 'd3-format';
 import _ from 'lodash';
@@ -32,6 +32,7 @@ class StackedBarChart extends React.Component {
     const zoomEvent = false;
     const panEvent = false;
     const clamp = false;
+    const id = makeid(8);
 
     return (
       <ChartCanvas
@@ -56,7 +57,7 @@ class StackedBarChart extends React.Component {
         xExtents={xExtents}
         data={data}
       >
-        <Chart id={1} yExtents={[d => [d.value1, 0]]}>
+        <Chart id={id} yExtents={[0, d => d.value1 + d.value2 + d.value3]}>
           <YAxis
             axisAt="right"
             orient="right"
@@ -83,7 +84,12 @@ class StackedBarChart extends React.Component {
             fontSize={11}
             fontFamily={defaultFont}
           />
-          <StackedBarSeries yAccessor={[d => d.value1, d => d.value2, d => d.value3]} fill={fill} />
+          <StackedBarSeries
+            height={180}
+            clip={false}
+            yAccessor={[d => d.value1, d => d.value2, d => d.value3]}
+            fill={fill}
+          />
           <CurrentCoordinate displayFormat={formatValue} r={3} yAccessor={d => d.value1} fill={'#FFF'} />
           <CurrentCoordinate displayFormat={formatValue} r={3} yAccessor={d => d.value2} fill={'#FFF'} />
           <CurrentCoordinate displayFormat={formatValue} r={3} yAccessor={d => d.value3} fill={'#FFF'} />

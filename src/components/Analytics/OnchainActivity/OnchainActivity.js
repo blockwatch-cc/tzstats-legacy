@@ -1,9 +1,8 @@
 import React from 'react';
-import { Card, FlexRowSpaceBetween, DataBox, EmptyData, ChartLegend } from '../../Common';
+import { Card } from '../../Common';
 import ActivityChart from './ActivityChart';
-import { HorizontalProgressBar } from '../../Common/ProgressBar';
-import { getEndTime, formatValue } from '../../../utils';
 import styled from 'styled-components';
+import { ChartLegend } from '../../Charts';
 
 const OnchainActivity = () => {
   const data = [
