@@ -4988,7 +4988,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">2</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">token_gen_min</span>
     <span class="mi">4875</span><span class="p">,</span>               <span class="err">//</span> <span class="err">token_gen_max</span>
     <span class="mi">160</span><span class="p">,</span>                <span class="err">//</span> <span class="err">grace_period</span>
-    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">account</span>
+    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">address</span>
     <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">delegate</span>
     <span class="kc">null</span><span class="p">,</span>               <span class="err">//</span> <span class="err">manager</span>
     <span class="s2">&#34;sppk7bn9MKAWDUFwqowcxA1zJgp12yn2kEnMQJP3WmqSZ4W8WQhLqJN&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">pubkey</span>
@@ -5287,7 +5287,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>account</code> <em>hash</em></td>
+<td><code>address</code> <em>hash</em></td>
 <td>Account address base58check encoded.</td>
 </tr>
 
@@ -5368,7 +5368,7 @@ ECDHE-RSA-AES128-SHA256
 <blockquote>
 <p><strong>Example | request.</strong></p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/contract?account=KT1REHQ183LzfoVoqiDR87mCrt7CLUH1MbcV&#34;</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/contract?address=KT1REHQ183LzfoVoqiDR87mCrt7CLUH1MbcV&#34;</span></code></pre></div>
 <blockquote>
 <p><strong>Example response (comments added for explanation).</strong></p>
 </blockquote>
@@ -5388,7 +5388,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="s2">&#34;000008b002000008...&#34;</span><span class="p">,</span>  <span class="err">//</span> <span class="err">script</span>
     <span class="mi">0</span><span class="p">,</span>           <span class="err">//</span> <span class="err">is_spendable</span>
     <span class="mi">0</span><span class="p">,</span>           <span class="err">//</span> <span class="err">is_delegatable</span>
-    <span class="s2">&#34;KT1REHQ183LzfoVoqiDR87mCrt7CLUH1MbcV&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">account</span>
+    <span class="s2">&#34;KT1REHQ183LzfoVoqiDR87mCrt7CLUH1MbcV&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">address</span>
     <span class="s2">&#34;tz1N74dH3VSeRTeKobbXUbyU82G8pqT2YYEM&#34;</span>  <span class="err">//</span> <span class="err">delegate</span>
   <span class="p">]</span>
 <span class="p">]</span></code></pre></div>
@@ -5480,7 +5480,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>account</code> <em>hash</em></td>
+<td><code>address</code> <em>hash</em></td>
 <td>Contract address base58check encoded.</td>
 </tr>
 
@@ -5496,7 +5496,7 @@ ECDHE-RSA-AES128-SHA256
 <blockquote>
 <p><strong>Example request.</strong></p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/flow?account=tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&amp;limit=1&#34;</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/flow?address=tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&amp;limit=1&#34;</span></code></pre></div>
 <blockquote>
 <p><strong>Example response (comments added for explanation).</strong></p>
 </blockquote>
@@ -5648,7 +5648,7 @@ ECDHE-RSA-AES128-SHA256
 <blockquote>
 <p><strong>Example request.</strong></p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/rights?delegate=tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&amp;cycle=154&amp;limit=1&#34;</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/rights?address=tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&amp;cycle=154&amp;limit=1&#34;</span></code></pre></div>
 <blockquote>
 <p><strong>Example response (comments added for explanation).</strong></p>
 </blockquote>
@@ -5758,7 +5758,7 @@ ECDHE-RSA-AES128-SHA256
 <blockquote>
 <p><strong>Example request.</strong></p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/snapshot?delegate=tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&amp;cycle=150&amp;is_selected=1&amp;limit=1&#34;</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/snapshot?address=tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&amp;cycle=150&amp;is_selected=1&amp;limit=1&#34;</span></code></pre></div>
 <blockquote>
 <p><strong>Example response (comments added for explanation).</strong></p>
 </blockquote>
@@ -5898,7 +5898,7 @@ ECDHE-RSA-AES128-SHA256
 <blockquote>
 <p><strong>Example request.</strong></p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/income?account=tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&amp;cycle=150&#34;</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/tables/income?address=tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&amp;cycle=150&#34;</span></code></pre></div>
 <blockquote>
 <p><strong>Example response (comments added for explanation).</strong></p>
 </blockquote>
