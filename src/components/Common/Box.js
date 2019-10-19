@@ -106,6 +106,7 @@ export const FlexRow = styled(Box)`
   ${flexBasis}
   ${flex}
   ${width}
+  ${height}
 `;
 
 export const FlexColumn = styled(Box)`
@@ -120,6 +121,8 @@ export const FlexColumn = styled(Box)`
   ${flexBasis}
   ${flex}
   ${border}
+  ${width}
+  ${height}
   ${minWidth}
   ${minHeight}
 `;
@@ -170,6 +173,7 @@ export const FlexRowWrap = styled(Box)`
   ${minWidth}
   ${width}
   ${minHeight}
+  ${height}
 `;
 
 export const FlexColumnWrap = styled(Box)`
@@ -221,7 +225,7 @@ export const FlexItem = styled.div`
 `;
 
 export const TableBody = styled.div`
-  height: ${props => props.height||200}px;
+  height: ${props => props.height || 200}px;
   overflow-y: auto;
   overflow-x: hidden;
 `;
@@ -263,4 +267,12 @@ export const TableDetails = styled.span`
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+
+export const TwoCardInline = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin-left: -5px;
+  margin-right: -5px;
 `;

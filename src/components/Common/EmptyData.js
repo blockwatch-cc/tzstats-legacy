@@ -5,17 +5,17 @@ import { FlexColumnSpaceAround } from './index';
 
 const EmptyData = ({ title = 'Something went wrong', height, text, mh }) => {
   return (
-      <Card title={title} mh={mh}>
-        <FlexColumnSpaceAround height={height}>
-          <div style={{ fontSize: 18, margin: '40px auto', color: 'rgba(255,255,255,0.3)'}}>
-            <div>&nbsp;&nbsp;&nbsp;^-^</div>
-            <div>(◉∀◉)</div>
-            <div>( )____)</div>
-            <div>&nbsp;¯”¯”¯</div>
-          </div>
-          {text?(<Info>{text}</Info>):''}
-        </FlexColumnSpaceAround>
-      </Card>
+    <Card title={title} mh={mh}>
+      <FlexColumnSpaceAround height={height}>
+        <div style={{ fontSize: 18, margin: '40px auto', color: 'rgba(255,255,255,0.3)' }}>
+          <div>&nbsp;&nbsp;&nbsp;^-^</div>
+          <div>(◉∀◉)</div>
+          <div>( )____)</div>
+          <div>&nbsp;¯”¯”¯</div>
+        </div>
+        {text ? <Info>{text}</Info> : ''}
+      </FlexColumnSpaceAround>
+    </Card>
   );
 };
 

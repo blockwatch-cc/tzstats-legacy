@@ -15,7 +15,13 @@ const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
         <JoinContainer>
           <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
           <Wrapper>
-            <EmptyData title={'How to delegate?'} height={212} text={'The account is not participating in staking right now. To start earning rewards on all funds you can securely delegate rights to a staking service or register as a delegate.'}/>
+            <EmptyData
+              title={'How to delegate?'}
+              height={212}
+              text={
+                'The account is not participating in staking right now. To start earning rewards on all funds you can securely delegate rights to a staking service or register as a delegate.'
+              }
+            />
           </Wrapper>
         </JoinContainer>
       );
@@ -24,7 +30,7 @@ const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
         <JoinContainer>
           <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
           <Wrapper>
-            <EmptyData title={'Payout History'} height={212} text={'Work in progress...'}/>
+            <EmptyData title={'Payout History'} height={212} text={'Work in progress...'} />
           </Wrapper>
         </JoinContainer>
       );

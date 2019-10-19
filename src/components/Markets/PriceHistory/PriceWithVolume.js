@@ -11,23 +11,23 @@ import useOnline from '../../../hooks/useOnline';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 
 const PriceWithVolume = () => {
-
   const [countInTimeout, setCountInTimeout] = React.useState(0);
   const [data, setData] = React.useState({ isLoaded: false, priceHistory: [], lastPrice: {}, max: 0, peak: 0 });
   const [selected, setSelected] = React.useState({
-          data: { time: new Date() },
-          period: '',
-          volume: 0,
-        });
-  const [market, setMarket]= useLocalStorage('market', {exchange:'kraken',market:'XTZ_USD'});
+    data: { time: new Date() },
+    period: '',
+    volume: 0,
+  });
+  const [market, setMarket] = useLocalStorage('market', { exchange: 'kraken', market: 'XTZ_USD' });
   const [tickers] = useGlobal('tickers');
   const isOnline = useOnline();
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let timer = null, timeout = 600000;
+      let timer = null,
+        timeout = 600000;
       if (!isOnline) {
-        if (countInTimeout>0) {
+        if (countInTimeout > 0) {
           setCountInTimeout(0);
         }
         return;
@@ -37,13 +37,13 @@ const PriceWithVolume = () => {
           getOhlcvData({
             exchange: market.exchange,
             market: market.market,
-            days: 30
+            days: 30,
           }),
           getVolumeData({
             exchange: market.exchange,
             market: market.market,
             days: 30,
-            collapse: 4
+            collapse: 4,
           }),
         ]);
         const volume = wrapToVolume(volSeries);
@@ -59,30 +59,40 @@ const PriceWithVolume = () => {
           priceHistory,
           lastPrice: priceHistory.slice(-1)[0],
         });
-      } catch(e) {
-          setData({ isLoaded: false, priceHistory: [], lastPrice: {}, max: 0, peak: 0 });
-          timeout = 60000 // 1 min
+      } catch (e) {
+        setData({ isLoaded: false, priceHistory: [], lastPrice: {}, max: 0, peak: 0 });
+        timeout = 60000; // 1 min
       }
-      timer = setTimeout(() => { setCountInTimeout(c => c + 1); }, timeout);
+      timer = setTimeout(() => {
+        setCountInTimeout(c => c + 1);
+      }, timeout);
       return () => clearTimeout(timer);
     };
     fetchData();
   }, [countInTimeout, isOnline, market]);
 
-
-  return data.isLoaded&&isValid(data.priceHistory) ? (
+  return data.isLoaded && isValid(data.priceHistory) ? (
     <Wrapper>
-      <Card title={'30d Price History'} right={<MarketSelector tickers={tickers} current={market} setMarket={setMarket} />}>
+      <Card
+        title={'30d Price History'}
+        right={<MarketSelector tickers={tickers} current={market} setMarket={setMarket} />}
+      >
         <FlexRowWrap height={350} mt={20}>
-          <div style={{ flex: 1.1, marginLeft: 10, marginRight: 20 }}>
-            <PriceChart type={'svg'} data={data.priceHistory} quote={getQuote(market.market)} volumeMax={data.max} setCurrentValue={setSelected} />
+          <div style={{ flex: 1, marginLeft: 10, marginRight: 20 }}>
+            <PriceChart
+              type={'svg'}
+              data={data.priceHistory}
+              quote={getQuote(market.market)}
+              volumeMax={data.max}
+              setCurrentValue={setSelected}
+            />
           </div>
           <FlexColumn justifyContent="space-between" width={120} borderTop="1px solid #787c8b">
             <PriceLegend lastPrice={data.lastPrice} quote={getQuote(market.market)} />
             <DataBox
               valueSize="14px"
               valueType="currency"
-              valueOpts={{digits:3}}
+              valueOpts={{ digits: 3 }}
               title="Average Daily Volume"
               value={data.avgvol}
             />
@@ -96,36 +106,80 @@ const PriceWithVolume = () => {
   );
 };
 
-const getQuote = (m) => m.split('_')[1];
+const getQuote = m => m.split('_')[1];
 
 const MarketSelector = ({ tickers, current, setMarket }) => {
-  const markets = _(tickers).groupBy('exchange').value();
-  const pairs = markets[current.exchange].map(i=>i.pair).sort();
+  const markets = _(tickers)
+    .groupBy('exchange')
+    .value();
+  const pairs = markets[current.exchange].map(i => i.pair).sort();
   const exchanges = Object.keys(markets).sort();
   return (
     <FlexRow>
       <FlexRow>
-        {pairs.map((p,i) => {
-          return <Button key={i} text={p} active={current.market===p} onClick={(ev) => setMarket({exchange:current.exchange, market:p})}>{p.replace('_','/')}</Button>;
+        {pairs.map((p, i) => {
+          return (
+            <Button
+              key={i}
+              text={p}
+              active={current.market === p}
+              onClick={ev => setMarket({ exchange: current.exchange, market: p })}
+            >
+              {p.replace('_', '/')}
+            </Button>
+          );
         })}
       </FlexRow>
-      <Divider/>
+      <Divider />
       <FlexRow>
-        {exchanges.map((e,i) => {
-          return <Button key={i} text={e} active={current.exchange===e} onClick={(ev) => setMarket({exchange:e, market:markets[e][0].pair})}>{marketNames[e]||e}</Button>;
+        {exchanges.map((e, i) => {
+          return (
+            <Button
+              key={i}
+              text={e}
+              active={current.exchange === e}
+              onClick={ev => setMarket({ exchange: e, market: markets[e][0].pair })}
+            >
+              {marketNames[e] || e}
+            </Button>
+          );
         })}
       </FlexRow>
     </FlexRow>
   );
-}
+};
 
 const PriceLegend = ({ lastPrice, quote }) => {
   return (
     <FlexColumn height={170} borderBottom="1px solid #787c8b" justifyContent="space-evenly">
-      <DataBox valueSize="14px" valueType="currency-flex" valueOpts={{dim:0,digits:4,sym:quote}} title="Last Price" value={lastPrice.close} />
-      <DataBox valueSize="14px" valueType="currency-flex" valueOpts={{dim:0,digits:4,sym:quote}} title="Open Price Today" value={lastPrice.open} />
-      <DataBox valueSize="14px" valueType="currency-flex" valueOpts={{dim:0,digits:4,sym:quote}} title="Highest Price Today" value={lastPrice.high} />
-      <DataBox valueSize="14px" valueType="currency-flex" valueOpts={{dim:0,digits:4,sym:quote}} title="Lowest Price Today" value={lastPrice.low} />
+      <DataBox
+        valueSize="14px"
+        valueType="currency-flex"
+        valueOpts={{ dim: 0, digits: 4, sym: quote }}
+        title="Last Price"
+        value={lastPrice.close}
+      />
+      <DataBox
+        valueSize="14px"
+        valueType="currency-flex"
+        valueOpts={{ dim: 0, digits: 4, sym: quote }}
+        title="Open Price Today"
+        value={lastPrice.open}
+      />
+      <DataBox
+        valueSize="14px"
+        valueType="currency-flex"
+        valueOpts={{ dim: 0, digits: 4, sym: quote }}
+        title="Highest Price Today"
+        value={lastPrice.high}
+      />
+      <DataBox
+        valueSize="14px"
+        valueType="currency-flex"
+        valueOpts={{ dim: 0, digits: 4, sym: quote }}
+        title="Lowest Price Today"
+        value={lastPrice.low}
+      />
     </FlexColumn>
   );
 };
@@ -150,7 +204,7 @@ const Button = styled.button`
   cursor: pointer;
   border: 0 none;
   color: #eee;
-  background-color: ${props => props.active?'#6f7482':'#525662'};
+  background-color: ${props => (props.active ? '#6f7482' : '#525662')};
   padding: 4px 8px;
   border-radius: 3px;
   font-size: 10px;
@@ -158,9 +212,9 @@ const Button = styled.button`
   width: fit-content;
   height: fit-content;
   margin-left: 5px;
-  &:hover{
+  &:hover {
     background-color: #747988;
-    color: #fff
+    color: #fff;
   }
   &:first-child {
     margin-left: 0;

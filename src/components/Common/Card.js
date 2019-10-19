@@ -11,7 +11,7 @@ const Card = ({ title, tags = [], right, children, to = null, mh = null }) => {
           <LinkIcon>&#x25E5;</LinkIcon>
           <CardContent title={title} tags={tags} right={right} children={children} />
         </Link>
-      ):(
+      ) : (
         <CardContent title={title} tags={tags} right={right} children={children} />
       )}
     </Wrapper>
@@ -21,7 +21,7 @@ const Card = ({ title, tags = [], right, children, to = null, mh = null }) => {
 const CardContent = ({ title, tags = [], right, children }) => {
   return (
     <>
-      {title?(
+      {title ? (
         <CardHeader>
           <Title>{title}</Title>
           <Tags>
@@ -30,13 +30,14 @@ const CardContent = ({ title, tags = [], right, children }) => {
             })}
           </Tags>
           <RightSide>{right}</RightSide>
-         </CardHeader>
-      ) : '' }
+        </CardHeader>
+      ) : (
+        ''
+      )}
       {children}
     </>
   );
 };
-
 
 const LinkIcon = styled.div`
   font-size: 8px;
@@ -52,7 +53,7 @@ const Wrapper = styled.div`
   border-radius: 2px;
   background-color: ${props => (props.isClickable ? '#3D404D' : '#444755')};
   cursor: ${props => (props.isClickable ? 'pointer' : 'default')};
-  min-height: ${props => (props.mh ? props.mh:0)}px;
+  min-height: ${props => (props.mh ? props.mh : 0)}px;
   padding: 20px 30px;
   margin-top: 10px;
   position: relative;
