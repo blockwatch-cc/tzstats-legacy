@@ -163,6 +163,12 @@
             <li>
                 <a href="#changelog" class="toc-h1 toc-link" data-title="Changelog">Changelog</a>
                 
+                    <ul class="toc-list-h2">
+                        
+                            <li><a href="#2019-10-20" class="toc-h2 toc-link" data-title="2019-10-20">2019-10-20</a></li>
+                        
+                    </ul>
+                
             </li>
         
     </ul>
@@ -171,7 +177,7 @@
         
         <ul class="toc-footer">
             
-            <li>API v005-2019-10-04</li>
+            <li>API v005-2019-10-20</li>
             
         </ul>
         
@@ -729,10 +735,11 @@ ECDHE-RSA-AES128-SHA256
     <span class="nt">&#34;active_staking&#34;</span><span class="p">:</span> <span class="mf">576682219.775331</span><span class="p">,</span>
     <span class="nt">&#34;inactive_delegated&#34;</span><span class="p">:</span> <span class="mf">1308615.663586</span><span class="p">,</span>
     <span class="nt">&#34;inactive_staking&#34;</span><span class="p">:</span> <span class="mf">3937779.532296</span><span class="p">,</span>
-    <span class="nt">&#34;mined&#34;</span><span class="p">:</span> <span class="mf">46545468.745557</span><span class="p">,</span>
-    <span class="nt">&#34;mined_baking&#34;</span><span class="p">:</span> <span class="mf">9685699.106655</span><span class="p">,</span>
-    <span class="nt">&#34;mined_endorsing&#34;</span><span class="p">:</span> <span class="mf">36857356.263902</span><span class="p">,</span>
-    <span class="nt">&#34;mined_seeding&#34;</span><span class="p">:</span> <span class="mf">2413.375</span><span class="p">,</span>
+    <span class="nt">&#34;minted&#34;</span><span class="p">:</span> <span class="mf">46545468.745557</span><span class="p">,</span>
+    <span class="nt">&#34;minted_baking&#34;</span><span class="p">:</span> <span class="mf">9685699.106655</span><span class="p">,</span>
+    <span class="nt">&#34;minted_endorsing&#34;</span><span class="p">:</span> <span class="mf">36857356.263902</span><span class="p">,</span>
+    <span class="nt">&#34;minted_seeding&#34;</span><span class="p">:</span> <span class="mf">2413.375</span><span class="p">,</span>
+    <span class="nt">&#34;minted_airdrop&#34;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
     <span class="nt">&#34;burned&#34;</span><span class="p">:</span> <span class="mf">155990.115106</span><span class="p">,</span>
     <span class="nt">&#34;burned_double_baking&#34;</span><span class="p">:</span> <span class="mf">103509.825621</span><span class="p">,</span>
     <span class="nt">&#34;burned_double_endorse&#34;</span><span class="p">:</span> <span class="mf">31838.219485</span><span class="p">,</span>
@@ -4117,10 +4124,11 @@ ECDHE-RSA-AES128-SHA256
     <span class="mf">578069662.395001</span><span class="p">,</span>   <span class="err">//</span> <span class="err">active_staking</span>
     <span class="mf">1071964.198253</span><span class="p">,</span>     <span class="err">//</span> <span class="err">inactive_delegated</span>
     <span class="mf">3367362.641544</span><span class="p">,</span>     <span class="err">//</span> <span class="err">inactive_staking</span>
-    <span class="mf">47009247.412181</span><span class="p">,</span>    <span class="err">//</span> <span class="err">mined</span>
-    <span class="mf">9779155.106655</span><span class="p">,</span>     <span class="err">//</span> <span class="err">mined_baking</span>
-    <span class="mf">37227647.430526</span><span class="p">,</span>    <span class="err">//</span> <span class="err">mined_endorsing</span>
-    <span class="mf">2444.875000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">mined_seeding</span>
+    <span class="mf">47009247.412181</span><span class="p">,</span>    <span class="err">//</span> <span class="err">minted</span>
+    <span class="mf">9779155.106655</span><span class="p">,</span>     <span class="err">//</span> <span class="err">minted_baking</span>
+    <span class="mf">37227647.430526</span><span class="p">,</span>    <span class="err">//</span> <span class="err">minted_endorsing</span>
+    <span class="mf">2444.875000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">minted_seeding</span>
+    <span class="mi">100</span><span class="p">,</span>                <span class="err">//</span> <span class="err">minted_airdrop</span>
     <span class="mf">156231.095106</span><span class="p">,</span>      <span class="err">//</span> <span class="err">burned</span>
     <span class="mf">103509.825621</span><span class="p">,</span>      <span class="err">//</span> <span class="err">burned_double_baking</span>
     <span class="mf">31838.219485</span><span class="p">,</span>       <span class="err">//</span> <span class="err">burned_double_endorse</span>
@@ -4230,23 +4238,28 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>mined</code> <em>int</em></td>
+<td><code>minted</code> <em>int</em></td>
 <td>Total issued supply in the form of block rewards.</td>
 </tr>
 
 <tr>
-<td><code>mined_baking</code> <em>int</em></td>
+<td><code>minted_baking</code> <em>int</em></td>
 <td>Issued supply as rewards for block baking.</td>
 </tr>
 
 <tr>
-<td><code>mined_endorsing</code> <em>int</em></td>
+<td><code>minted_endorsing</code> <em>int</em></td>
 <td>Issued supply as rewards for block endorsement.</td>
 </tr>
 
 <tr>
-<td><code>mined_seeding</code> <em>int</em></td>
+<td><code>minted_seeding</code> <em>int</em></td>
 <td>Issued supply as rewards for seed nonce revelations.</td>
+</tr>
+
+<tr>
+<td><code>minted_airdrop</code> <em>int</em></td>
+<td>Issued supply as rewards for developers and protocol-upgrade airdrops (i.e. in Babylon).</td>
 </tr>
 
 <tr>
@@ -4310,7 +4323,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">632250</span><span class="p">,</span>             <span class="err">//</span> <span class="err">row_id</span>
     <span class="mi">632249</span><span class="p">,</span>             <span class="err">//</span> <span class="err">parent_id</span>
     <span class="s2">&#34;BMapnMicyiqFsWU9NdqXvfQJQcpFfzWHMicRRjALEMNngkefd7B&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">hash</span>
-    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">is_uncle</span>
+    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">is_orphan</span>
     <span class="mi">632249</span><span class="p">,</span>             <span class="err">//</span> <span class="err">height</span>
     <span class="mi">154</span><span class="p">,</span>                <span class="err">//</span> <span class="err">cycle</span>
     <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">is_cycle_snapshot</span>
@@ -4396,7 +4409,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>is_uncle</code> <em>int</em></td>
+<td><code>is_orphan</code> <em>bool</em></td>
 <td>Flag indicating the block is an orphan, i.e. not on main chain.</td>
 </tr>
 
@@ -7288,6 +7301,14 @@ ECDHE-RSA-AES128-SHA256
 <h1 id="changelog">Changelog</h1>
 
 <p>Recent changes and additions to the TzStats Data API.</p>
+
+<h2 id="2019-10-20">2019-10-20</h2>
+
+<ul>
+<li>changed some supply fields from <code>mined_*</code> to <code>minted_*</code></li>
+<li>add new supply field <code>minted_airdrop</code> for invoices and protocol upgrade airdrops</li>
+<li>support Babylon airdrop of 1 mutez to manager accounts</li>
+</ul>
 
     
 

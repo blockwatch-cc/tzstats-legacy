@@ -59,7 +59,8 @@ Note that this time-series API does not fill gaps.</description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tzstats.com/docs/api/changelog/</guid>
-      <description>Changelog Recent changes and additions to the TzStats Data API.</description>
+      <description> Changelog Recent changes and additions to the TzStats Data API.
+2019-10-20  changed some supply fields from mined_* to minted_* add new supply field minted_airdrop for invoices and protocol upgrade airdrops support Babylon airdrop of 1 mutez to manager accounts  </description>
     </item>
     
   </channel>
