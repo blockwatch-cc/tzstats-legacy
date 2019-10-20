@@ -88,6 +88,7 @@ export const TextBox = styled(Box)`
 export const Flex = styled(Box)`
   display: flex;
   ${alignItems}
+  ${alignSelf}
   ${justifyContent}
   ${alignContent}
   ${flexWrap}
@@ -101,6 +102,7 @@ export const FlexRow = styled(Box)`
   position: relative;
   ${alignItems}
   ${alignContent}
+  ${alignSelf}
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
@@ -116,6 +118,7 @@ export const FlexColumn = styled(Box)`
   ${textAlign}
   ${alignItems}
   ${alignContent}
+  ${alignSelf}
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
@@ -135,6 +138,7 @@ export const FlexColumnSpaceBetween = styled(Box)`
   ${textAlign}
   ${alignItems}
   ${alignContent}
+  ${alignSelf}
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
@@ -152,6 +156,7 @@ export const FlexColumnSpaceAround = styled(Box)`
   ${textAlign}
   ${alignItems}
   ${alignContent}
+  ${alignSelf}
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
@@ -167,6 +172,7 @@ export const FlexRowWrap = styled(Box)`
   flex-wrap: wrap;
   ${alignItems}
   ${alignContent}
+  ${alignSelf}
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
@@ -182,6 +188,7 @@ export const FlexColumnWrap = styled(Box)`
   flex-wrap: wrap;
   ${alignItems}
   ${alignContent}
+  ${alignSelf}
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
@@ -195,6 +202,7 @@ export const FlexRowSpaceBetween = styled(Box)`
   position: relative;
   ${alignItems}
   ${alignContent}
+  ${alignSelf}
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
@@ -213,6 +221,7 @@ export const FlexRowSpaceAround = styled(Box)`
   position: relative;
   ${alignItems}
   ${alignContent}
+  ${alignSelf}
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}

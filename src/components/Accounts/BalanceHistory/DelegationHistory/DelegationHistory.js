@@ -22,7 +22,7 @@ const DelegationHistory = ({ account, stakingData }) => {
           </FlexRow>
           <FlexRow>
             <LegendItem color={'#418BFD'}>
-              <DataBox title={`Delegated Balance ${formatCurrency(account.delegated_balance)}`} />
+              <DataBox title={`Delegated Balance ${formatCurrency(account.delegated_balance)} tz`} />
             </LegendItem>
           </FlexRow>
         </FlexColumn>

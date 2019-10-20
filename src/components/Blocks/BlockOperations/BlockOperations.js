@@ -55,9 +55,9 @@ const BlockOperations = ({ block, txType }) => {
       <Card title={'Block Operations' + (data.type?' ('+opNames[data.type]+'s)':'')}>
         <TableHeader>
           <TableHeaderCell width={5}>No</TableHeaderCell>
-          <TableHeaderCell width={20}>From</TableHeaderCell>
+          <TableHeaderCell width={20}>Sender</TableHeaderCell>
           <TableHeaderCell width={15}>Type</TableHeaderCell>
-          <TableHeaderCell width={20}>To</TableHeaderCell>
+          <TableHeaderCell width={20}>Receiver</TableHeaderCell>
           <TableHeaderCell width={15}>Amount</TableHeaderCell>
           <TableHeaderCell width={10}>Fee</TableHeaderCell>
           <TableHeaderCell width={10}>Hash</TableHeaderCell>
@@ -67,11 +67,11 @@ const BlockOperations = ({ block, txType }) => {
             {data.table.length ? (
               data.table.map((item, i) => {
                 return (
-                  <TableRow key={i}>
+                  <TableRow key={i} color={item.is_success?'inherit':'#ED6290'}>
                     <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                     <TableCell width={20}>
                       <Blockies hash={item.sender} />
-                      <Link to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                     </TableCell>
                     <TableCell width={15}>
                       <TxTypeIcon isSuccess={item.is_success} type={item.is_contract ? 'contract' : item.type} />
@@ -81,16 +81,16 @@ const BlockOperations = ({ block, txType }) => {
                       {item.receiver ? (
                         <>
                           <Blockies hash={item.receiver} />
-                          <Link to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
+                          <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                         </>
                       ) : (
                         '-'
                       )}
                     </TableCell>
-                    <TableCell width={15}><Value value={item.volume} type="currency" digits={0} zero="-"/></TableCell>
+                    <TableCell width={15}><Value value={item.volume||item.reward} type="currency" digits={0} zero="-"/></TableCell>
                     <TableCell width={10}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
                     <TableCell width={10}>
-                      <Link to={`/operation/${item.hash}`}>{getShortHash(item.hash)}</Link>
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/operation/${item.hash}`}>{getShortHash(item.hash)}</Link>
                     </TableCell>
                   </TableRow>
                 );

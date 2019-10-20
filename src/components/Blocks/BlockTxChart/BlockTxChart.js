@@ -110,19 +110,19 @@ function getOperationsSettings(block) {
     {
       color: 'rgb(158, 202, 225)',
       value: block.n_seed_nonce_revelations,
-      id: `${formatValue(block.n_seed_nonce_revelation)} Seed Nonces`,
+      id: `${formatValue(block.n_seed_nonce_revelations)} Seed Nonces`,
       type: 'seed_nonce_revelation',
     },
     {
       color: 'rgb(107, 174, 214)',
       value: block.n_double_baking_evidences,
-      id: `${formatValue(block.n_double_baking_evidence)} Double Bakings`,
+      id: `${formatValue(block.n_double_baking_evidences)} Double Bakings`,
       type: 'double_baking_evidence',
     },
     {
       color: 'rgb(66, 146, 198)',
       value: block.n_double_endorsement_evidences,
-      id: `${formatValue(block.n_double_endorsement_evidence)} Double Endorsements`,
+      id: `${formatValue(block.n_double_endorsement_evidences)} Double Endorsements`,
       type: 'double_endorsement_evidence',
     },
     {

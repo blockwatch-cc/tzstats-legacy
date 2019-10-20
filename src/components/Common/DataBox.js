@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FlexRow } from './index';
+import { Tz } from './Tz';
 import { formatCurrency, formatValue, formatDayTime, formatDay, formatTime, isUndefined } from '../../utils';
 
 //Todo refactoring
@@ -27,7 +28,7 @@ const DataBox = ({
           ) : (
             <Title fontSize={titleSize}>{title}</Title>
           )}
-          {value !== undefined && <Value type={valueType} value={value} />}
+          {value !== undefined && <Value type={valueType} value={value} fontSize={valueSize} />}
         </Wrapper>
       );
     case 'value-as-title':
@@ -36,7 +37,7 @@ const DataBox = ({
           {title}
           {value !== undefined && (
             <Title fontSize={titleSize}>
-              <Value type={valueType} value={value} {...valueOpts} />
+              <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />
             </Title>
           )}
         </Wrapper>
@@ -48,7 +49,7 @@ const DataBox = ({
             {<div style={{ paddingRight: '10px' }}>{title}</div>}
             {value !== undefined && (
               <Title fontSize={titleSize}>
-                <Value type={valueType} value={value} {...valueOpts} />
+                <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />
               </Title>
             )}
           </FlexRow>
@@ -58,7 +59,7 @@ const DataBox = ({
     default:
       return (
         <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
-          {value !== undefined && <Value type={valueType} value={value} {...valueOpts} />}
+          {value !== undefined && <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />}
           {title && <Title fontSize={titleSize}>{title}</Title>}
         </Wrapper>
       );
@@ -78,6 +79,7 @@ export const Value = ({
   round = false,
   dim = true,
   zero = null,
+  fontSize = 12
 }) => {
   if (value === 0 && zero) {
     return zero;
@@ -102,20 +104,24 @@ export const Value = ({
       res = formatTime(value);
       break;
     case 'currency':
+      sym = isUndefined(sym)?'ꜩ':sym;
       if (!!digits) {
-        res = formatCurrency(value, '.' + digits + 's', sym);
+        res = formatCurrency(value, '.' + digits + 's');
       } else {
-        res = formatCurrency(value, ',', sym);
+        res = formatCurrency(value, ',');
       }
       break;
     case 'currency-short':
-      res = formatCurrency(value, '~s', sym);
+      sym = isUndefined(sym)?'ꜩ':sym;
+      res = formatCurrency(value, '~s');
       break;
     case 'currency-flex':
-      res = formatCurrency(value, ',.' + digits + 'r', sym);
+      sym = isUndefined(sym)?'ꜩ':sym;
+      res = formatCurrency(value, ',.' + digits + 'r');
       break;
     case 'currency-full':
-      res = formatCurrency(value.toFixed(6), ',', isUndefined(sym)?'ꜩ':sym);
+      sym = isUndefined(sym)?'ꜩ':sym;
+      res = formatCurrency(value.toFixed(6), ',');
       break;
     case 'currency-usd':
       if (!!digits) {
@@ -128,7 +134,11 @@ export const Value = ({
       res = formatValue(Math.round(value), '.' + digits + 's');
       break;
     case 'value-full':
-      res = formatValue(value, ',');
+      if (!value && zero) {
+        res = zero;
+      } else {
+        res = formatValue(value, ',');
+      }
       break;
     case 'percent':
       switch (true) {
@@ -143,20 +153,23 @@ export const Value = ({
       }
       break;
     default:
-      res = formatValue(Math.round(value), ',');
-  }
-  if (!dim) {
-    return [prefix, res, suffix].join('');
+      if (!value && zero) {
+        res = zero;
+      } else {
+        res = formatValue(Math.round(value), ',');
+      }
   }
   let arr = re.exec(res);
   return arr && arr.length ? (
     <Wrapper>
       {`${prefix}${arr[1]}`}
-      <Dim>.{arr[2]}</Dim>
-      {arr[3]} {suffix}
+      {dim?(<Dim>.{arr[2]}</Dim>):'.'+arr[2]}
+      {arr[3]}{arr[3]?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
     </Wrapper>
   ) : (
-    res + suffix
+    <Wrapper>
+      {res}{res.match(/.*[MkGmµ]$/)?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
+    </Wrapper>
   );
 };
 
@@ -169,8 +182,8 @@ const Dim = styled.small`
 const Wrapper = styled.div`
   font-size: ${props => props.fontSize};
   text-align: ${props => props.ta};
-  margin-left: ${props => props.ml + 'px'};
-  margin-right: ${props => props.mr + 'px'};
+  margin-left: ${props => (props.ml||0) + 'px'};
+  margin-right: ${props => (props.mr||0) + 'px'};
   white-space: nowrap;
 `;
 const Title = styled.div`
