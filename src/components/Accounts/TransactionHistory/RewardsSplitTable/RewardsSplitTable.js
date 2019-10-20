@@ -7,9 +7,8 @@ import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Link } from 'react-router-dom';
 import { useGlobal } from 'reactn';
 
-const DelegationTable = ({ account }) => {
+const RewardsSplitTable = ({ account }) => {
   const [chain] = useGlobal('chain');
-  const [config] = useGlobal('config');
   const [data, setData] = React.useState({ table: [], isLoaded: false });
 
   React.useEffect(() => {
@@ -38,14 +37,13 @@ const DelegationTable = ({ account }) => {
         isLoaded: false
       });
     };
-  }, [account.address, account.active_delegations, account.n_delegations, chain.cycle]);
+  }, [account, chain.cycle]);
 
   return (
     <>
       <TableHeader>
         <TableHeaderCell width={5}>No</TableHeaderCell>
-        <TableHeaderCell width={15}>Address</TableHeaderCell>
-        <TableHeaderCell width={10}>Cycle</TableHeaderCell>
+        <TableHeaderCell width={15}>Account</TableHeaderCell>
         <TableHeaderCell width={20}>Since</TableHeaderCell>
         <TableHeaderCell width={20}>Balance</TableHeaderCell>
         <TableHeaderCell width={20}>Share</TableHeaderCell>
@@ -64,7 +62,6 @@ const DelegationTable = ({ account }) => {
                     <Blockies hash={item.address} />
                     <Link to={`/account/${item.address}`}>{getShortHash(item.address)}</Link>
                   </TableCell>
-                  <TableCell width={10}><Value value={item.delegated_since/config.blocks_per_cycle} type="value-full" round={true}/></TableCell>
                   <TableCell width={20}><Value value={item.delegated_since_time} type="datetime"/></TableCell>
                   <TableCell width={20}><Value value={item.balance} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}>
@@ -87,4 +84,4 @@ const DelegationTable = ({ account }) => {
   );
 };
 
-export default DelegationTable;
+export default RewardsSplitTable;

@@ -17,6 +17,10 @@ const handleResponse = async response => {
   return await response.json();
 };
 
+function isDefined(x) {
+  return typeof x !== 'undefined';
+}
+
 //******************COMMON****************** */
 export const getChainData = async options => {
   const response = await request('/explorer/tip');
@@ -67,7 +71,7 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
       ops = await getAccountDelegators({ address, cycle, cursor, limit });
       break;
     case 'managed':
-      ops = await getAccountManagment({ address, cursor, limit });
+      ops = await getAccountContracts({ address, cursor, limit });
       break;
     // case 'incoming':
     //   ops = await getAccountOperations({ address, direction: 'receiver', type: 'transaction', cursor, limit });
@@ -88,12 +92,13 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
 export const getAccountOperations = async ({
   address,
   type = 'transaction',
+  direction = 'sender',
   cursor,
-  direction,
+  columns,
   limit = 100,
   order = 'asc',
 }) => {
-  const columns = [
+  columns = columns || [
     'row_id',
     'type',
     'hash',
@@ -107,7 +112,7 @@ export const getAccountOperations = async ({
     'height',
     'reward',
   ];
-  const typ = 'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals' : '=' + type);
+  const typ = 'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals,seed_nonce_revelation' : '=' + type);
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     `/tables/op?${direction}=${address}&${typ}&order=${order}&columns=${columns.join(',')}&limit=${limit}${cursor}`
@@ -124,8 +129,8 @@ export const getAccountVoting = async ({ address, op, cursor, limit = 50 }) => {
 };
 
 //api.tzstats.com/tables/account?manager=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt
-export const getAccountManagment = async ({ address, cursor, limit = 50 }) => {
-  const columns = ['row_id', 'address', 'first_in_time', 'last_seen_time', 'spendable_balance', 'delegate'];
+export const getAccountContracts = async ({ address, cursor, limit = 50 }) => {
+  const columns = ['row_id', 'address', 'first_seen_time', 'last_seen_time', 'spendable_balance', 'delegate', 'n_ops'];
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     `/tables/account?manager=${address}&limit=${limit}${cursor}&columns=${columns.join(',')}`
@@ -134,25 +139,36 @@ export const getAccountManagment = async ({ address, cursor, limit = 50 }) => {
 };
 
 //https://api.tzstats.com/tables/income?cycle=137&verbose=1&address=tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9
-export const getAccountIncome = async ({ address, cycle }) => {
-  const response = await request(`/tables/income?address=${address}&cycle=${cycle}&limit=1&verbose=1`);
-  return (
-    response[0] || {
-      cycle: cycle,
-      luck_percent: 0,
-      efficiency_percent: 0,
-      expected_income: 0,
-      total_income: 0,
-      baking_income: 0,
-      endorsing_income: 0,
-      fees_income: 0,
-      seed_income: 0,
-      slashed_income: 0,
-      missed_endorsing_income: 0,
-      lost_baking_income: 0,
-      stolen_baking_income: 0,
-    }
-  );
+export const getAccountIncome = async ({ address, columns, cycle, cursor, limit, order }) => {
+  columns = columns || [
+    'cycle',
+    'luck_percent',
+    'efficiency_percent',
+    'expected_income',
+    'total_income',
+    'baking_income',
+    'endorsing_income',
+    'fees_income',
+    'seed_income',
+    'slashed_income',
+    'missed_endorsing_income',
+    'lost_baking_income',
+    'stolen_baking_income',
+    'double_baking_income',
+    'double_endorsing_income',
+    'n_blocks_baked',
+    'n_blocks_lost',
+    'n_blocks_stolen',
+    'n_slots_endorsed',
+    'n_slots_missed',
+    'total_bonds'
+  ];
+  cycle = isDefined(cycle) ? '&cycle=' + cycle : '';
+  cursor = cursor ? '&cursor=' + cursor : '';
+  limit = limit ? '&limit=' + limit : '';
+  order = order ? '&order=' + order : '';
+  const response = await request(`/tables/income?address=${address}${cycle}${limit}${order}${cursor}&columns=${columns.join(',')}`);
+  return unpackColumns({response, columns});
 };
 
 //api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&address.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
@@ -165,6 +181,7 @@ export const getAccountDelegators = async ({ address, cycle, cursor, limit }) =>
     'spendable_balance',
     'unclaimed_balance',
     'delegated_since_time',
+    'delegated_since',
   ];
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
@@ -179,12 +196,16 @@ export const getAccountDelegators = async ({ address, cycle, cursor, limit }) =>
 };
 
 //api.tzstats.com/tables/rights?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=50000&verbose=1
-export const getAccountRights = async ({ address, cycle }) => {
-  const columns = ['height', 'type', 'priority', 'is_stolen', 'is_missed', 'is_lost', 'time'];
+export const getAccountRights = async ({ address, cycle, columns, order, limit = 50000, cursor }) => {
+  columns = columns || ['height', 'type', 'priority', 'is_stolen', 'is_missed', 'is_lost', 'time'];
+  cursor = cursor ? '&cursor=' + cursor : '';
+  limit = limit ? '&limit=' + limit : '';
+  order = order ? '&order=' + order : '';
+  cycle = isDefined(cycle) ? '&cycle=' + cycle : '';
   const response = await request(
-    `/tables/rights?address=${address}&cycle=${cycle}&columns=${columns.join(',')}&limit=50000`
+    `/tables/rights?address=${address}${cycle}&columns=${columns.join(',')}${order}${cursor}${limit}`
   );
-  return response;
+  return unpackColumns({ response, columns });;
 };
 
 //******************ELECTIONS****************** */
@@ -347,13 +368,34 @@ export const getBlock = async id => {
   return response;
 };
 
+export const getBakedBlocks = async ({ baker, columns, limit, cursor, order }) => {
+  cursor = cursor ? '&cursor=' + cursor : '';
+  limit = limit ? '&limit=' + limit : '';
+  order = order ? '&order=' + order : '';
+  const response = await request(
+    `/tables/block?baker=${baker}&columns=${columns.join(',')}${cursor}${limit}${order}`
+  );
+  return unpackColumns({ response, columns });
+};
+
+export const getBakedFlows = async ({ baker, columns, limit, cursor, order }) => {
+  cursor = cursor ? '&cursor=' + cursor : '';
+  limit = limit ? '&limit=' + limit : '';
+  order = order ? '&order=' + order : '';
+  const response = await request(
+    `/tables/flow?address=${baker}&operation=baking&category.in=rewards,deposits&columns=${columns.join(',')}${cursor}${limit}${order}`
+  );
+  return unpackColumns({ response, columns });
+};
+
 //https://api.tzstats.com/tables/op?height=5000&verbose=1&&op_n.rg=0,3&type=endorsement
 export const getBlockOperations = async ({ height, type = null, limit = 0, cursor = null }) => {
-  const columns = ['row_id', 'sender', 'receiver', 'type', 'hash', 'volume', 'fee', 'is_success', 'is_contract'];
+  const columns = ['row_id', 'sender', 'receiver', 'type', 'hash', 'volume', 'fee', 'reward', 'is_success', 'is_contract'];
+  type = type ? '&type=' + type : '';
+  cursor = cursor ? '&cursor=' + cursor : '';
+  limit = limit ? '&limit=' + limit : ''
   const response = await request(
-    `/tables/op?height=${height}&is_internal=0&columns=${columns.join(',')}&is_internal=0${
-      type ? '&type=' + type : ''
-    }${cursor ? '&cursor=' + cursor : ''}${limit ? '&limit=' + limit : ''}`
+    `/tables/op?height=${height}&columns=${columns.join(',')}&is_internal=0${type}${cursor}${limit}`
   );
   return unpackColumns({ response, columns });
 };

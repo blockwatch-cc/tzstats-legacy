@@ -9,6 +9,7 @@ import history from '../hooks/history';
 import { useGlobal } from 'reactn';
 
 const AccountPage = ({ match }) => {
+  const last = React.useRef(0);
   const [data, setData] = React.useState({ isLoaded: false });
   const [chain] = useGlobal('chain');
 
@@ -16,22 +17,50 @@ const AccountPage = ({ match }) => {
     const fetchData = async () => {
       const addr = match.params.hash;
       try {
-        let [account, flowData, stakingData] = await Promise.all([
-          getAccountByHash(addr),
-          getFlowData({ hash: addr, days: 30 }),
-          getStakingData({ hash: addr, days: 30 }),
-        ]);
-
-        let staking = wrapStakingData({ ...stakingData, account });
-        let balanceHistory = wrapToBalance(flowData, account);
-        setData({
-          account,
-          isLoaded: true,
-          balanceHistory,
-          staking,
-        });
+        if (!last.current) {
+          // full load
+          let [account, flowData, stakingData] = await Promise.all([
+            getAccountByHash(addr),
+            getFlowData({ hash: addr, days: 30 }),
+            getStakingData({ hash: addr, days: 30 }),
+          ]);
+          let staking = wrapStakingData({ ...stakingData, account });
+          let balanceHistory = wrapToBalance(flowData, account);
+          setData({
+            account,
+            isLoaded: true,
+            balanceHistory,
+            staking,
+          });
+          last.current = account.last_seen;
+        } else {
+          let account = await getAccountByHash(addr);
+          if (last.current < account.last_seen) {
+            let [flowData, stakingData] = await Promise.all([
+              getFlowData({ hash: addr, days: 30 }),
+              getStakingData({ hash: addr, days: 30 }),
+            ]);
+            let staking = wrapStakingData({ ...stakingData, account });
+            let balanceHistory = wrapToBalance(flowData, account);
+            setData({
+              account,
+              isLoaded: true,
+              balanceHistory,
+              staking,
+            });
+          } else {
+            setData(data => {
+              return {
+                isLoaded: true,
+                balanceHistory: data.balanceHistory,
+                staking: data.staking,
+                account: account,
+              };
+            });
+          }
+          last.current = account.last_seen;
+        }
       } catch (e) {
-        console.log(e, 'errror');
         if (e.status === 404) {
           history.push('/404/' + addr);
         }

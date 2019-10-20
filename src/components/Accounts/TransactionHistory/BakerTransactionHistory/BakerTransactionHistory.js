@@ -2,13 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, FlexRow } from '../../../Common';
 import DelegationTable from '../DelegationTable';
-import AccountManagmentTable from '../AccountManagmentTable';
-import BakingRightsTable from '../BakingRightsTable';
+import ContractsTable from '../ContractsTable';
+import PerformanceTable from '../PerformanceTable';
 import TransactionTable from '../TransactionTable';
+import RightsTable from '../RightsTable';
+import RewardsTable from '../RewardsTable';
+import BondsTable from '../BondsTable';
+import BakingTable from '../BakingTable';
+import EndorsingTable from '../EndorsingTable';
 import VotingTable from '../VotingTable';
 
 const BakerTransactionHistory = ({ account }) => {
-  const [data, setData] = React.useState({ tab: 'rights' });
+  const [data, setData] = React.useState({ tab: 'perf' });
   const handleClick = async tab => {
     setData({ tab: tab });
   };
@@ -17,30 +22,42 @@ const BakerTransactionHistory = ({ account }) => {
     <Wrapper>
       <Card>
         <ButtonRow>
-          <Button active={data.tab === 'rights'} onClick={e => handleClick('rights')}>
-            {account.n_origination ? 'Baking & Rights' : 'Baking History & Rights'}
+          <Button active={data.tab === 'perf'} onClick={e => handleClick('perf')}>
+            Performance
+          </Button>
+          <Button active={data.tab === 'rewards'} onClick={e => handleClick('rewards')}>
+            Rewards
+          </Button>
+          <Button active={data.tab === 'bonds'} onClick={e => handleClick('bonds')}>
+            Bonds
+          </Button>
+          <Button active={data.tab === 'baking'} onClick={e => handleClick('baking')}>
+            Baking
+          </Button>
+          <Button active={data.tab === 'endorsing'} onClick={e => handleClick('endorsing')}>
+            Endorsing
+          </Button>
+          <Button active={data.tab === 'votes'} onClick={e => handleClick('votes')}>
+            Votes
           </Button>
           <Button active={data.tab === 'delegation'} onClick={e => handleClick('delegation')}>
             Delegators
           </Button>
           {account.n_origination ? (
-            <Button active={data.tab === 'managed'} onClick={e => handleClick('managed')}>
-              Managed Accounts
+            <Button active={data.tab === 'contracts'} onClick={e => handleClick('contracts')}>
+              Contracts
             </Button>
           ) : (
             ''
           )}
-          <Button active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
-            Incoming Transactions
-          </Button>
           <Button active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
-            Outgoing Transactions
+            Sent
+          </Button>
+          <Button active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
+            Received
           </Button>
           <Button active={data.tab === 'other'} onClick={e => handleClick('other')}>
-            {account.n_origination ? 'Other Ops' : 'Other Operations'}
-          </Button>
-          <Button active={data.tab === 'votes'} onClick={e => handleClick('votes')}>
-            {account.n_origination ? 'Voting' : 'Voting History'}
+            Other
           </Button>
         </ButtonRow>
         <OperationsTable type={data.tab} account={account} />
@@ -49,22 +66,36 @@ const BakerTransactionHistory = ({ account }) => {
   );
 };
 
+// <Button active={data.tab === 'rights'} onClick={e => handleClick('rights')}>
+//   Rights
+// </Button>
+
 const OperationsTable = ({ type, account }) => {
   switch (type) {
+    case 'perf':
+      return <PerformanceTable account={account} />;
+    case 'rewards':
+      return <RewardsTable account={account} />;
+    case 'bonds':
+      return <BondsTable account={account} />;
+    case 'baking':
+      return <BakingTable account={account} />;
+    case 'endorsing':
+      return <EndorsingTable account={account} />;
+    case 'rights':
+      return <RightsTable account={account} />;
     case 'delegation':
       return <DelegationTable account={account} />;
-    case 'managed':
-      return <AccountManagmentTable account={account} />;
+    case 'votes':
+      return <VotingTable account={account} />;
+    case 'contracts':
+      return <ContractsTable account={account} />;
     case 'incoming':
       return <TransactionTable account={account} incoming={true} type={'transaction'} />;
     case 'outgoing':
       return <TransactionTable account={account} incoming={false} type={'transaction'} />;
     case 'other':
       return <TransactionTable account={account} incoming={false} type={type} />;
-    case 'votes':
-      return <VotingTable account={account} />;
-    case 'rights':
-      return <BakingRightsTable account={account} />;
     default:
       return <></>;
   }

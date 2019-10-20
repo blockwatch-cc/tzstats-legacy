@@ -1,14 +1,13 @@
 import React from 'react';
-import { FlexRowSpaceBetween, FlexColumnSpaceBetween, DataBox, FlexColumn } from '../../../Common';
-import { convertMinutes, formatCurrency, cycleStartHeight, formatValue } from '../../../../utils';
 import styled from 'styled-components';
+import { FlexRowSpaceBetween, FlexColumnSpaceBetween, DataBox, FlexColumn } from '../../../Common';
+import { convertMinutes, formatCurrency, formatDayTime, cycleStartHeight, formatValue } from '../../../../utils';
 import { useGlobal } from 'reactn';
 import { getAccountRights, getAccountIncome } from '../../../../services/api/tz-stats';
-import RightsChart from './RightsChart';
-import { timeFormat } from 'd3-time-format';
+import PerformanceChart from './PerformanceChart';
 import { Spiner } from '../../../../components/Common';
 
-const BakingRightsTable = ({ account }) => {
+const PerformanceTable = ({ account }) => {
   const [data, setData] = React.useState({ income: null, rights: null, isLoaded: false });
   const [chain] = useGlobal('chain');
   const [config] = useGlobal('config');
@@ -20,41 +19,25 @@ const BakingRightsTable = ({ account }) => {
       }
       let [rights, income] = await Promise.all([
         getAccountRights({ address: account.address, cycle: cycleId }),
-        getAccountIncome({ address: account.address, cycle: cycleId }),
+        getAccountIncome({ address: account.address, cycle: cycleId, limit: 1 }),
       ]);
-      const nextBakeRight = rights.find(r => r[0] > chain.height && r[1] === 'baking' && r[2] === 0) || [];
-      const nextEndorseRight = rights.find(r => r[0] > chain.height && r[1] === 'endorsing') || [];
-      const earned = income.baking_income + income.endorsing_income + income.fees_income + income.seed_income;
+      income = income[0];
+      const total = income.total_income;
       const slashed = income.slashed_income;
       const missed = income.missed_endorsing_income + income.lost_baking_income;
       const stolen = income.stolen_baking_income;
-      const nextBakeTime = nextBakeRight.length
-        ? convertMinutes(
-            (new Date(cycleId === chain.cycle ? nextBakeRight[6] || account.next_bake_time : account.next_bake_time) -
-              Date.now()) /
-              (config.time_between_blocks[0] * 1000)
-          )
-        : 0;
-      const nextEndorseTime = nextEndorseRight.length
-        ? convertMinutes(
-            (new Date(
-              cycleId === chain.cycle ? nextEndorseRight[6] || account.next_endorse_time : account.next_endorse_time
-            ) -
-              Date.now()) /
-              (config.time_between_blocks[0] * 1000) +
-              1
-          )
-        : 0;
-      const nextBakeHeight =
-        cycleId === chain.cycle ? nextBakeRight[0] || account.next_bake_height : account.next_bake_height;
-      const nextEndorseHeight =
-        cycleId === chain.cycle ? nextEndorseRight[0] || account.next_endorse_height : account.next_endorse_height;
+      const extra = income.double_baking_income + income.double_endorsing_income + income.seed_income;
+      const nextBakeTime = convertMinutes(account.next_bake_time, 1, 'in');
+      const nextEndorseTime = convertMinutes(account.next_endorse_time, 1, 'in');
+      const nextBakeHeight = account.next_bake_height;
+      const nextEndorseHeight = account.next_endorse_height;
       rights = wrapData(rights, cycleStartHeight(income.cycle, config), chain.height, config);
       setData({
         cycleId,
         income,
         rights,
-        earned,
+        total,
+        extra,
         slashed,
         stolen,
         missed,
@@ -65,22 +48,29 @@ const BakingRightsTable = ({ account }) => {
         isLoaded: true,
       });
     },
-    [account, chain, config]
+    [
+      account.address,
+      account.next_bake_height,
+      account.next_bake_time,
+      account.next_endorse_height,
+      account.next_endorse_time,
+      chain,
+      config]
   );
 
   React.useEffect(() => {
     getAccountData(data.cycleId !== undefined ? data.cycleId : chain.cycle);
-  }, [chain.cycle, account.last_seen, getAccountData]);
+  }, [chain.cycle, account.address, account.last_seen, getAccountData]);
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>
-      <FlexColumn>
+      <FlexColumn alignSelf='flex-start'>
         <FlexRowSpaceBetween>
           <DataBox
             valueSize="14px"
             valueType="percent"
             valueOpts={{ digits: 2, zero: '-' }}
-            title={`Efficiency ${formatCurrency(data.income.total_income)}`}
+            title={`Efficiency ${formatCurrency(data.total)} tz`}
             value={data.income.efficiency_percent / 100}
           />
           <CycleSwitcher>
@@ -103,51 +93,98 @@ const BakingRightsTable = ({ account }) => {
             valueSize="14px"
             valueType="percent"
             valueOpts={{ digits: 2, zero: '-' }}
-            title={`Luck ${formatCurrency(data.income.expected_income)}`}
+            title={`Luck ${formatCurrency(data.income.expected_income)} tz`}
             value={data.income.luck_percent / 100}
           />
         </FlexRowSpaceBetween>
         <div style={{ width: 570 }}>
-          <RightsChart data={data.rights} startHeight={cycleStartHeight(data.income.cycle, config)} />
+          <PerformanceChart data={data.rights} startHeight={cycleStartHeight(data.income.cycle, config)} />
         </div>
         <FlexRowSpaceBetween>
           <DataBox title="Past Efficiency" />
           <DataBox ta={'right'} title="Future Rights" />
         </FlexRowSpaceBetween>
-      </FlexColumn>
-
-      <FlexRowSpaceBetween minHeight={170} minWidth={230} mt={10}>
-        <FlexColumnSpaceBetween minHeight={170}>
+        <FlexRowSpaceBetween mt={10}>
           <DataBox
             valueSize="14px"
             valueType="text"
-            title={data.nextBakeTime ? `Next Baking in ${data.nextBakeTime}` : `No future baking rights`}
+            title={data.nextBakeHeight ? `Next Baking ${data.nextBakeTime}` : `No future baking rights`}
             value={
               data.nextBakeHeight
-                ? formatValue(data.nextBakeHeight) + ' (+' + formatValue(data.nextBakeHeight - chain.height) + ')'
+                ? formatValue(data.nextBakeHeight) + ' (+' + formatValue(data.nextBakeHeight - chain.height) + ' blocks)'
                 : '-'
             }
           />
           <DataBox
             valueSize="14px"
             valueType="text"
-            title={data.nextEndorseHeight ? `Next Endorsing in ${data.nextEndorseTime}` : `No future endorsing rights`}
+            title={data.nextEndorseHeight ? `Next Endorsing ${data.nextEndorseTime}` : `No future endorsing rights`}
             value={
               data.nextEndorseHeight
-                ? formatValue(data.nextEndorseHeight) + ' (+' + formatValue(data.nextEndorseHeight - chain.height) + ')'
+                ? formatValue(data.nextEndorseHeight) + ' (+' + formatValue(data.nextEndorseHeight - chain.height) + ' blocks)'
                 : '-'
             }
           />
-          <DataBox valueSize="14px" title="Grace Period" value={account.grace_period || 0} />
-          <div>&nbsp;</div>
-        </FlexColumnSpaceBetween>
-        <FlexColumnSpaceBetween minHeight={170}>
           <DataBox
             valueSize="14px"
-            title="Earned Rewards"
+            title="Blocks Baked / Lost / Stolen"
+            valueType="text"
+            value={`${data.income.n_blocks_baked||'-'} / ${data.income.n_blocks_lost||'-'} / ${data.income.n_blocks_stolen||'-'}`}
+          />
+          <DataBox
+            valueSize="14px"
+            title="Slots Endorsed / Missed"
+            valueType="text"
+            value={`${data.income.n_slots_endorsed||'-'} / ${data.income.n_slots_missed||'-'}`}
+          />
+        </FlexRowSpaceBetween>
+      </FlexColumn>
+
+      <FlexRowSpaceBetween minHeight={205} minWidth={230} alignSelf='flex-start'>
+        <FlexColumnSpaceBetween minHeight={205}>
+          <DataBox
+            valueSize="14px"
+            title="Total Income"
             valueType="currency"
             valueOpts={{ digits: 0 }}
-            value={data.earned}
+            value={data.total}
+          />
+          <DataBox
+            valueSize="14px"
+            title="Baking Rewards"
+            valueType="currency"
+            valueOpts={{ digits: 0 }}
+            value={data.income.baking_income}
+          />
+          <DataBox
+            valueSize="14px"
+            title="Endorsing Rewards"
+            valueType="currency"
+            valueOpts={{ digits: 0 }}
+            value={data.income.endorsing_income}
+          />
+          <DataBox
+            valueSize="14px"
+            title="Fees"
+            valueType="currency"
+            valueOpts={{ digits: 0 }}
+            value={data.income.fees_income}
+          />
+          <DataBox
+            valueSize="14px"
+            title="Extra"
+            valueType="currency"
+            valueOpts={{ digits: 0 }}
+            value={data.extra}
+          />
+        </FlexColumnSpaceBetween>
+        <FlexColumnSpaceBetween minHeight={205}>
+          <DataBox
+            valueSize="14px"
+            title="Total Bonds"
+            valueType="currency"
+            valueOpts={{ digits: 0 }}
+            value={data.income.total_bonds}
           />
           <DataBox
             valueSize="14px"
@@ -169,6 +206,11 @@ const BakingRightsTable = ({ account }) => {
             valueType="currency"
             valueOpts={{ digits: 0 }}
             value={data.slashed}
+          />
+          <DataBox
+            valueSize="14px"
+            title="Grace Period"
+            value={account.grace_period || 0}
           />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>
@@ -193,7 +235,7 @@ const wrapData = (rights, startHeight, currentHeight, config) => {
       let isCurrent = currentHeight >= startHeight + counter - interval && currentHeight <= startHeight + counter - 1;
       const title =
         interval > 1
-          ? `From ${formatValue(startHeight + counter - interval)} to ${formatValue(startHeight + counter - 1)}`
+          ? `Blocks ${formatValue(startHeight + counter - interval)} - ${formatValue(startHeight + counter - 1)}`
           : `Block ${formatValue(startHeight + counter - 1)}`;
       yChartItems.push({ blocks: blocks, title: title, isCurrent: isCurrent, n: interval });
       if (counter % (yScale * interval) === 0) {
@@ -208,28 +250,28 @@ const wrapData = (rights, startHeight, currentHeight, config) => {
   return res;
 };
 
-export default BakingRightsTable;
+export default PerformanceTable;
 
 function prepareData(array, startHeight, currentHeight, interval) {
   return array.reduce((obj, item, index) => {
-    if (item[2] === 0 || item[1] === 'endorsing') {
-      let diff = item[0] - startHeight;
+    if (item.priority === 0 || item.type === 'endorsing') {
+      let diff = item.height - startHeight;
       let period = diff - (diff % interval);
       obj[period] = [
         ...(obj[period] || []),
         {
           index: index,
-          isEndorsed: item[1] === 'endorsing' && !item[4],
-          isBaking: item[1] === 'baking' && !item[5],
-          type: item[1],
-          height: item[0],
-          priority: item[2],
-          isStolen: item[3],
-          isMissed: item[4],
-          isLost: item[5],
-          isBad: item[4] || item[5],
-          isFuture: item[0] > currentHeight,
-          time: timeFormat('%b %d, %H:%M')(item[6]),
+          isEndorsed: item.type === 'endorsing' && !item.is_missed,
+          isBaking: item.type === 'baking' && !item.is_lost,
+          type: item.type,
+          height: item.height,
+          priority: item.priority,
+          isStolen: item.is_stolen,
+          isMissed: item.is_missed,
+          isLost: item.is_lost,
+          isBad: item.is_missed || item.is_lost,
+          isFuture: item.height > currentHeight,
+          time: formatDayTime(item.time, 1, 1),
         },
       ];
     }

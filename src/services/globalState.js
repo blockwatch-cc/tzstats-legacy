@@ -52,7 +52,7 @@ const chain = {
   timestamp: null,
   inflation_rate_1y: 0.0,
   supply: supply,
-  status: {status:'init'}
+  status: {status:'offline'}
 };
 const tickers = [];
 const cycle = { cycle: 0, start_height: 0 };

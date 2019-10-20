@@ -14,6 +14,10 @@ export function isUndefined(x) {
   return typeof x === 'undefined';
 }
 
+export function isDefined(x) {
+  return typeof x !== 'undefined';
+}
+
 export function formatDayTime(ts, fullyear, noweekday) {
   const d = new Date(ts);
   const isThisYear = d.getFullYear() === new Date().getFullYear();
@@ -32,7 +36,12 @@ export function formatTime(ts) {
   return timeFormat('%H:%M')(new Date(ts));
 }
 
-export function convertMinutes(num) {
+export function convertMinutes(num, zero, prefix) {
+  if (typeof num === 'string') {
+    num = (new Date(num) - new Date()) / 60000;
+  } else if (num instanceof Date) {
+    num = (num - new Date()) / 60000;
+  }
   num = num < 0 ? 0 : num;
   const d = Math.floor(num / 1440);
   const h = Math.floor((num - d * 1440) / 60);
@@ -44,8 +53,13 @@ export function convertMinutes(num) {
   if (h > 0) {
     res.push(h + (d > 0 && m > 0 ? 1 : 0) + 'h');
   }
-  if ((d === 0 && m > 0) || (d === 0 && h === 0 && m === 0)) {
+  if ((d === 0 && m > 0) || (!zero && d === 0 && h === 0 && m === 0)) {
     res.push(m + 'm');
+  }
+  if (zero && d === 0 && h === 0 && m === 0) {
+    res.push('now');
+  } else if (prefix) {
+    res.unshift(prefix);
   }
   return res.join(' ');
 }
@@ -64,17 +78,18 @@ export function formatValue(value, prefix = ',') {
   return format(prefix)(value).replace(/(.*)([MkGmµ])$/, '$1 $2');
 }
 
-export function formatCurrency(value, prefix = ',', symbol = 'ꜩ') {
+export function formatCurrency(value, prefix = ',', symbol = '') { // ꜩ
+  // symbol = symbol?' ' + symbol:'';
   if (value === 0) {
-    return 0 + ' ' + symbol;
+    return 0 + symbol;
   }
   return prefix === ','
-    ? format(prefix)(value) + ' ' + symbol
+    ? format(prefix)(value) + symbol
     : (format(prefix)(value) + symbol).replace(/([0-9.]*)(.*)$/, '$1 $2');
 }
 
-export function formatCurrencyShort(value) {
-  return formatCurrency(value, '.2s');
+export function formatCurrencyShort(value, symbol = 'tz') {
+  return formatCurrency(value, '.2s', symbol);
 }
 
 export const addCommas = format(',');

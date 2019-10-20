@@ -9,7 +9,7 @@ import { scaleLinear } from 'd3-scale';
 import ScatterSeries from './ScatterSeries';
 import HoverTooltip from './HoverTooltip';
 
-const RightsChart = React.forwardRef((props, ref) => {
+const PerformanceChart = React.forwardRef((props, ref) => {
   const [config] = useGlobal('config');
   const { type, data: initialData, ratio, width } = props;
   const xScale = config.blocks_per_cycle>128?64:32;
@@ -37,42 +37,36 @@ const RightsChart = React.forwardRef((props, ref) => {
       let isFuture = currentBlocks.blocks.some(item => item.isFuture);
       let res = {
         x: currentBlocks.title,
-        y: []
+        y: [{label: '', value: ''}]
       };
-      if (!isEmpty) {
+      if (isEmpty) {
         res.y.push({
-            label: isFuture?'Baking Rights:':'Baked:',
+          label: 'No rights.',
+          stroke: 'rgba(255, 255, 255, 0.52)',
+          value: ''
+        });
+      } else if (isFuture) {
+        res.y.push({
+            label: 'Baking Rights:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: baking||'-',
           },
           {
-            label: isFuture?'Endorsing Rights:':'Endorsed:',
+            label: 'Endorsing Rights:',
             stroke: 'rgba(255, 255, 255, 0.52)',
             value: endorsed||'-',
           }
         );
       } else {
         res.y.push({
-          label: 'No rights.',
-          stroke: 'rgba(255, 255, 255, 0.52)',
-          value: ''
-        });
-      }
-      if (!isFuture&&!isEmpty) {
-        res.y.push({
-            label: 'Stolen:',
+            label: 'Baked / Lost / Stolen:',
             stroke: 'rgba(255, 255, 255, 0.52)',
-            value: stolen||'-',
+            value: (baking||'-') + ' / ' + (lost||'-') + ' / ' + (stolen||'-'),
           },
           {
-            label: 'Lost:',
+            label: 'Endorsed / Missed:',
             stroke: 'rgba(255, 255, 255, 0.52)',
-            value: lost||'-',
-          },
-          {
-            label: 'Endorsements Missed:',
-            stroke: 'rgba(255, 255, 255, 0.52)',
-            value: missed||'-',
+            value: (endorsed||'-') + ' / ' + (missed||'-'),
           }
         );
       }
@@ -132,4 +126,4 @@ const RightsChart = React.forwardRef((props, ref) => {
   );
 });
 
-export default fitWidth(RightsChart);
+export default fitWidth(PerformanceChart);

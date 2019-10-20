@@ -60,7 +60,7 @@ const TransactionTable = ({ account, incoming, type = 'transaction' }) => {
         id: id
       });
     };
-  }, [account, type, direction, id]);
+  }, [account.address, account.last_seen, type, direction, id]);
 
   switch (type) {
     case 'transaction':
@@ -75,11 +75,11 @@ const TxTable = ({ data, account, incoming }) => {
     <>
       <TableHeader>
         <TableHeaderCell width={5}>No</TableHeaderCell>
-        <TableHeaderCell width={18}>{incoming?'From':'To'}</TableHeaderCell>
-        <TableHeaderCell width={12}>Amount</TableHeaderCell>
-        <TableHeaderCell width={12}>Fees</TableHeaderCell>
-        <TableHeaderCell width={18}>Date</TableHeaderCell>
-        <TableHeaderCell width={8}>Block</TableHeaderCell>
+        <TableHeaderCell width={20}>{incoming?'Sender':'Receiver'}</TableHeaderCell>
+        <TableHeaderCell width={15}>Amount</TableHeaderCell>
+        <TableHeaderCell width={15}>Fee</TableHeaderCell>
+        <TableHeaderCell width={20}>Date</TableHeaderCell>
+        <TableHeaderCell width={10}>Block</TableHeaderCell>
         <TableHeaderCell width={10}>Hash</TableHeaderCell>
       </TableHeader>
       <TableBody id={data.id}>
@@ -87,25 +87,27 @@ const TxTable = ({ data, account, incoming }) => {
           data.table && data.table.length ? (
             data.table.map((item, i) => {
               return (
-                <TableRow key={i}>
+                <TableRow key={i} color={item.is_success?'inherit':'#ED6290'}>
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   { incoming ? (
-                    <TableCell width={18}>
+                    <TableCell width={20}>
                       <Blockies hash={item.sender} />
-                      <Link to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                     </TableCell>
                     ) : (
-                    <TableCell width={18}>
+                    <TableCell width={20}>
                       <Blockies hash={item.receiver||item.delegate} />
-                      <Link to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                     </TableCell>
                   )}
-                  <TableCell width={12}><Value value={item.volume} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={12}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={18}><Value value={item.time} type="datetime"/></TableCell>
-                  <TableCell width={8}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
+                  <TableCell width={15}><Value value={item.volume} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={15}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={10}>
-                    <Link to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/block/${item.height}`}>{formatValue(item.height)}</Link>
+                  </TableCell>
+                  <TableCell width={10}>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
               );
@@ -125,13 +127,13 @@ const OtherTable = ({ data, account }) => {
   return (
     <>
       <TableHeader>
-        <TableHeaderCell width={4}>No</TableHeaderCell>
+        <TableHeaderCell width={5}>No</TableHeaderCell>
         <TableHeaderCell width={15}>Type</TableHeaderCell>
-        <TableHeaderCell width={19}>To</TableHeaderCell>
-        <TableHeaderCell width={12}>Amount</TableHeaderCell>
-        <TableHeaderCell width={12}>Fees</TableHeaderCell>
-        <TableHeaderCell width={18}>Date</TableHeaderCell>
-        <TableHeaderCell width={8}>Block</TableHeaderCell>
+        <TableHeaderCell width={20}>Receiver</TableHeaderCell>
+        <TableHeaderCell width={10}>Amount</TableHeaderCell>
+        <TableHeaderCell width={10}>Fee</TableHeaderCell>
+        <TableHeaderCell width={20}>Date</TableHeaderCell>
+        <TableHeaderCell width={10}>Block</TableHeaderCell>
         <TableHeaderCell width={10}>Hash</TableHeaderCell>
       </TableHeader>
       <TableBody id={data.id}>
@@ -139,27 +141,29 @@ const OtherTable = ({ data, account }) => {
           data.table && data.table.length ? (
             data.table.map((item, i) => {
               return (
-                <TableRow key={i}>
-                  <TableCell width={4}><TableDetails>{i+1}</TableDetails></TableCell>
+                <TableRow key={i} color={item.is_success?'inherit':'#ED6290'}>
+                  <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   <TableCell width={15}>
                     <TxTypeIcon isSuccess={item.is_success} type={item.type} />
                     <TableDetails>{`${opNames[item.type]}`}</TableDetails>
                   </TableCell>
                   {item.receiver||item.delegate ? (
-                    <TableCell width={19}>
+                    <TableCell width={20}>
                       <Blockies hash={item.receiver||item.delegate} />
-                      <Link to={`/account/${item.receiver||item.delegate}`}>{getShortHashOrBakerName(item.receiver||item.delegate)}</Link>
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/account/${item.receiver||item.delegate}`}>{getShortHashOrBakerName(item.receiver||item.delegate)}</Link>
                     </TableCell>
                   ) : (
-                    <TableCell width={19}>-</TableCell>
+                    <TableCell width={20}>-</TableCell>
                   )}
 
-                  <TableCell width={12}><Value value={item.volume||item.reward} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={12}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={18}><Value value={item.time} type="datetime"/></TableCell>
-                  <TableCell width={8}><Link to={`/block/${item.height}`}>{formatValue(item.height)}</Link></TableCell>
+                  <TableCell width={10}><Value value={item.volume||item.reward} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={10}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={10}>
-                    <Link to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/block/${item.height}`}>{formatValue(item.height)}</Link>
+                  </TableCell>
+                  <TableCell width={10}>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
               );

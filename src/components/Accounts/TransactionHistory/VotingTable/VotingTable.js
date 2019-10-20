@@ -51,7 +51,7 @@ const VotingTable = ({ account }) => {
         eof: false
       });
     };
-  }, [account]);
+  }, [account.address, account.last_seen]);
   return (
     <>
       <TableHeader>

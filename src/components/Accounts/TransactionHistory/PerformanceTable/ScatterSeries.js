@@ -75,7 +75,6 @@ function helper(props, moreProps, xAccessor) {
 
     const mProps = { ...Marker.defaultProps, ...markerProps };
 
-    // const fill = functor(mProps.fill);
     const stroke = functor(mProps.stroke);
 
     return {
@@ -112,15 +111,16 @@ function drawOnCanvas(ctx, props, points) {
           let newPoint = { ...point };
           newPoint.y = index * markerProps.height + markerProps.height/2;
           newPoint.x = newPoint.x - markerProps.width/2;
-          let invalid = item.blocks.some(d => d.isBad);
-          let future = item.blocks.some(d => d.isFuture);
+          const loss = item.blocks.some(d => d.isBad);
+          const future = item.blocks.some(d => d.isFuture);
+          const bake = item.blocks.some(d => d.isBaking||d.isLost);
           let color = !item.blocks.length
-            ? '#525566'
+            ? '#525566'                   // empty
             : future
-            ? '#858999'
-            : invalid
-            ? '#ED6290'
-            : '#418BFD';
+            ? (bake?'#858999':'#646876')  // future bake/endorse
+            : loss
+            ? (bake?'#ED6290':'#b0486a')  // past loss/miss
+            : (bake?'#418BFD':'#2f67bd'); // past bake/endorse
           color = item.isCurrent?'#FFFFFF':color;
           newPoint.marker.drawOnCanvas({ ...point.marker.defaultProps, ...markerProps, fill: color }, newPoint, ctx);
         });

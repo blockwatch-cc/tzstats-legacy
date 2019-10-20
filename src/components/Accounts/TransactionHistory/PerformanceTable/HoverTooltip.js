@@ -197,7 +197,7 @@ function normalizeY(y, bgSize, moreProps) {
   if (moreProps.chartConfig.height<=bgSize.height) {
     return (moreProps.chartConfig.height-bgSize.height)/2;
   }
-  return y - bgSize.height <= -Y ? y + PADDING : y - bgSize.height - PADDING;
+  return y - bgSize.height <= 0 ? y + PADDING : y - bgSize.height - PADDING;
 }
 
 function origin(props, moreProps, bgSize, pointWidth) {
@@ -234,7 +234,7 @@ function helper(props, moreProps, ctx) {
   const pointWidth =
     Math.abs(xScale(xAccessor(last(plotData))) - xScale(xAccessor(first(plotData)))) / (plotData.length - 1);
 
-  const bgSize = { width: 200, height: 90 };
+  const bgSize = { width: 200, height: 70 };
 
   const [x, y] = origin(props, moreProps, bgSize, pointWidth);
   const currentBlocks = currentItem.data[Math.floor(moreProps.mouseXY[1] / props.elheight)] || null;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, FlexRow } from '../../../Common';
 import TransactionTable from '../TransactionTable';
-import AccountManagmentTable from '../AccountManagmentTable';
+import ContractsTable from '../ContractsTable';
 
 const BasicTransactionHistory = ({ account }) => {
   const [data, setData] = React.useState({ tab: 'incoming' });
@@ -15,17 +15,17 @@ const BasicTransactionHistory = ({ account }) => {
       <Card>
         <FlexRow mb={30}>
           <Button active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
-            Incoming Transactions
+            Received
           </Button>
           <Button active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
-            Outgoing Transactions
+            Sent
           </Button>
           <Button active={data.tab === 'other'} onClick={e => handleClick('other')}>
-            Other Operations
+            Other
           </Button>
           {account.n_origination ? (
             <Button active={data.tab === 'managed'} onClick={e => handleClick('managed')}>
-              Managed Accounts
+              Contracts
             </Button>
           ) : (
             ''
@@ -40,7 +40,7 @@ const BasicTransactionHistory = ({ account }) => {
 const OperationsTable = ({ type, account }) => {
   switch (type) {
     case 'managed':
-      return <AccountManagmentTable account={account} />;
+      return <ContractsTable account={account} />;
     case 'incoming':
       return <TransactionTable account={account} incoming={true} type={'transaction'} />;
     case 'outgoing':
