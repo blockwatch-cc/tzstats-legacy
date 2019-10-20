@@ -63,7 +63,7 @@ class BalanceChart extends React.Component {
             axisAt="right"
             orient="right"
             ticks={3}
-            tickFormat={x => format('~s')(x) + 'ꜩ'}
+            tickFormat={x => format('~s')(x) + 'tz'}
             tickStrokeDasharray={'Solid'}
             tickStrokeOpacity={0.3}
             tickStrokeWidth={1}

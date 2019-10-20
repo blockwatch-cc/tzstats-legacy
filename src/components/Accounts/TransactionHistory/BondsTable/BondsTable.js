@@ -6,9 +6,6 @@ import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, Value } f
 import { getAccountIncome } from '../../../../services/api/tz-stats';
 import { useGlobal } from 'reactn';
 
-// status
-// projected_balance
-// overdelegated  (display lines in red if overdelegated)
 function updateStatus(income, cycle, config, balance) {
   let j = 0;
   for (var i = income.length-1; i>=0; j++ && i--) {
