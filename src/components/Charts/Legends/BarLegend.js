@@ -35,7 +35,7 @@ const LegendWrapper = styled.div`
 `;
 
 const LegendItem = styled.div`
-  margin-right: 10px;
+  margin-right: 7px;
   margin-left: 15px;
   position: relative;
   &:after {
