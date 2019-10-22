@@ -39,7 +39,7 @@ const MarketInfo = ({ history }) => {
 
   const calculateMarketCap = () => {
     return (
-      lastMarketData.price * (chain.supply.activated + chain.supply.mined + chain.supply.vested - chain.supply.burned)
+      lastMarketData.price * (chain.supply.activated + chain.supply.minted + chain.supply.vested - chain.supply.burned)
     );
   };
 
