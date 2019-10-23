@@ -8,14 +8,23 @@ import { format } from 'd3-format';
 
 const BlocksChart = ({ blockHistory, currentBlock, chartwidth = 60 }) => {
   const [config] = useGlobal('config');
-  const chartduration = chartwidth*config.time_between_blocks[0]*1000; // in msec for 60 blocks
+  const timeslice = config.time_between_blocks[0]*1000;
+  const chartduration = chartwidth*timeslice; // in msec for 60 blocks
+  const now = parseInt(new Date().getTime()/timeslice)*timeslice
   let lastBlock = blockHistory.slice(-1)[0];
   let firstTime = new Date(blockHistory[0][0]).setSeconds(0, 0);
   let lastTime = new Date(lastBlock[0]).setSeconds(0, 0);
   if (firstTime < lastTime-chartduration) {
     firstTime = lastTime-chartduration;
   }
+  if (firstTime + chartduration > now) {
+    firstTime = now - chartduration;
+  }
   let timeRange = getMinutesInterval(firstTime, chartwidth, config.time_between_blocks[0]);
+  // console.log("Range from", firstTime, "to", lastTime, "width", chartwidth,
+  //   "step", config.time_between_blocks[0],
+  //   "range", timeRange.length, timeRange[0], timeRange.slice(-1)[0]
+  // );
   let blocksMap = wrappBlockDataToObj(blockHistory, timeRange);
   function isMidnight(ts) {
     const d = new Date(ts);

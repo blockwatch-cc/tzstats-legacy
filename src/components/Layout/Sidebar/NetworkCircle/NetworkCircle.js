@@ -21,7 +21,7 @@ const NetworkCircle = ({ history }) => {
       <Card  interactive={true} elevation={Elevation.ZERO}>
         <LinkIcon>&#x25E5;</LinkIcon>
         <SegmentWrapper>
-          <Title>{`${chain.name} ${chain.network}`}</Title>
+          <Title>{`${chain.name||'Network'} ${chain.network||'Unknown'}`}</Title>
           <Container style={{ marginLeft: 15, marginTop: -20, width: '170px', height: '170px' }}>
             <SegmentedProgressbar percentage={((chain.height % config.blocks_per_cycle) / config.blocks_per_cycle) * 100 || 0} circleNumber={chain.cycle} />
           </Container>
