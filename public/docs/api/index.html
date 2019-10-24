@@ -167,6 +167,8 @@
                         
                             <li><a href="#2019-10-20" class="toc-h2 toc-link" data-title="2019-10-20">2019-10-20</a></li>
                         
+                            <li><a href="#2019-10-24" class="toc-h2 toc-link" data-title="2019-10-24">2019-10-24</a></li>
+                        
                     </ul>
                 
             </li>
@@ -1208,6 +1210,7 @@ ECDHE-RSA-AES128-SHA256
   <span class="nt">&#34;nonce&#34;</span><span class="p">:</span> <span class="mi">11996642917503807005</span><span class="p">,</span>
   <span class="nt">&#34;voting_period_kind&#34;</span><span class="p">:</span> <span class="s2">&#34;promotion_vote&#34;</span><span class="p">,</span>
   <span class="nt">&#34;endorsed_slots&#34;</span><span class="p">:</span> <span class="mi">4294965247</span><span class="p">,</span>
+  <span class="nt">&#34;n_endorsed_slots&#34;</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span>
   <span class="nt">&#34;n_ops&#34;</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
   <span class="nt">&#34;n_ops_failed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_ops_contract&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -1369,6 +1372,11 @@ ECDHE-RSA-AES128-SHA256
 <tr>
 <td><code>endorsed_slots</code> <em>uint</em></td>
 <td>32bit big-endian bitmask indicating which slots have been endorsed. (Note this field will be set from endorsements published in the subsequent block.)</td>
+</tr>
+
+<tr>
+<td><code>n_endorsed_slots</code> <em>int</em></td>
+<td>Count of endorsed slots. (Note this field will be set from endorsements published in the subsequent block.)</td>
 </tr>
 
 <tr>
@@ -4337,6 +4345,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="s2">&#34;promotion_vote&#34;</span><span class="p">,</span>   <span class="err">//</span> <span class="err">voting_period_kind</span>
     <span class="mi">35034</span><span class="p">,</span>              <span class="err">//</span> <span class="err">baker_id</span>
     <span class="mi">4294967295</span><span class="p">,</span>         <span class="err">//</span> <span class="err">endorsed_slots</span>
+    <span class="mi">32</span><span class="p">,</span>                 <span class="err">//</span> <span class="err">n_endorsed_slots</span>
     <span class="mi">30</span><span class="p">,</span>                 <span class="err">//</span> <span class="err">n_ops</span>
     <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_ops_failed</span>
     <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">n_ops_contract</span>
@@ -4476,6 +4485,11 @@ ECDHE-RSA-AES128-SHA256
 <tr>
 <td><code>endorsed_slots</code> <em>uint</em></td>
 <td>32bit big-endian bitmask indicating which slots have been endorsed. (Note this field will be set from endorsements published in the subsequent block.)</td>
+</tr>
+
+<tr>
+<td><code>n_endorsed_slots</code> <em>int</em></td>
+<td>Count of endorsed slots. (Note this field will be set from endorsements published in the subsequent block.)</td>
 </tr>
 
 <tr>
@@ -7308,6 +7322,13 @@ ECDHE-RSA-AES128-SHA256
 <li>changed some supply fields from <code>mined_*</code> to <code>minted_*</code></li>
 <li>add new supply field <code>minted_airdrop</code> for invoices and protocol upgrade airdrops</li>
 <li>support Babylon airdrop of 1 mutez to manager accounts</li>
+</ul>
+
+<h2 id="2019-10-24">2019-10-24</h2>
+
+<ul>
+<li>add <code>n_endorsed_slots</code> to block table, series and explorer endpoint</li>
+<li>support bigint in smart contract params, code, bigmaps and storage</li>
 </ul>
 
     
