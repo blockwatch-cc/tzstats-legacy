@@ -190,7 +190,7 @@ export const getAccountDelegators = async ({ address, cycle, cursor, limit }) =>
     // 7}&is_selected=true&columns=${columns.join(',')}&limit=${limit}${cursor}`
 
     // from most-recent state (including self)
-    `/tables/account?delegate=${address}&columns=${columns.join(',')}&limit=${limit}${cursor}`
+    `/tables/account?delegate=${address}&is_funded=1&columns=${columns.join(',')}&limit=${limit}${cursor}`
   );
   return unpackColumns({ response, columns });
 };
