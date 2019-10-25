@@ -54,7 +54,7 @@ const BlocksChart = ({ blockHistory, currentBlock, chartwidth = 60 }) => {
                 return (<BlockSquare
                   key={index}
                   height={format(',')(block.height)}
-                  to={`/block/${block.hash}`}
+                  to={`/${block.hash}`}
                   idx={blocks.length-1}
                   opacity={isCurrent?1:block.opacity}
                   bg={block.is_orphan?red:(isCurrent?white:blue)}

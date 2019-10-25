@@ -121,7 +121,7 @@ const RightsTable = ({ account }) => {
                 <TableRow key={i}>
                   <TableCell width={5}><Value value={item.cycle} type="value-full"/></TableCell>
                   <TableCell width={10}>
-                    <Link to={`/block/${item.height}`}><Value value={item.height} type="value-full"/></Link>
+                    <Link to={`/${item.height}`}><Value value={item.height} type="value-full"/></Link>
                   </TableCell>
                   <TableCell width={10}>{item.type}</TableCell>
                   <TableCell width={10}>{item.status}</TableCell>

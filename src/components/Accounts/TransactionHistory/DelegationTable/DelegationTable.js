@@ -62,7 +62,7 @@ const DelegationTable = ({ account }) => {
                   </TableCell>
                   <TableCell width={15}>
                     <Blockies hash={item.address} />
-                    <Link to={`/account/${item.address}`}>{getShortHash(item.address)}</Link>
+                    <Link to={`/${item.address}`}>{getShortHash(item.address)}</Link>
                   </TableCell>
                   <TableCell width={10}><Value value={item.delegated_since/config.blocks_per_cycle} type="value-full" round={true}/></TableCell>
                   <TableCell width={20}><Value value={item.delegated_since_time} type="datetime"/></TableCell>

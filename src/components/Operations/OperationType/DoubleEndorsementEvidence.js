@@ -37,7 +37,7 @@ const DoubleEndorsementEvidence = ({ op }) => {
 			<TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
 			<FlexColumnSpaceBetween flex={1}>
 				<FlexRow>
-					<Link to={`/block/${op.data[0].operations.level}`}><DataBox title="Block" valueSize="14px" value={op.data[0].operations.level} /></Link>
+					<Link to={`/${op.data[0].operations.level}`}><DataBox title="Block" valueSize="14px" value={op.data[0].operations.level} /></Link>
 				</FlexRow>
 				<FlexRow>
 					<DataBox title="Burned" value={op.burned} valueSize="14px" valueType="currency-short" />

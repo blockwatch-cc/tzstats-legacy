@@ -92,22 +92,22 @@ const TxTable = ({ data, account, incoming }) => {
                   { incoming ? (
                     <TableCell width={20}>
                       <Blockies hash={item.sender} />
-                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/account/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                     </TableCell>
                     ) : (
                     <TableCell width={20}>
                       <Blockies hash={item.receiver||item.delegate} />
-                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/account/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                     </TableCell>
                   )}
                   <TableCell width={15}><Value value={item.volume} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={15}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={10}>
-                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/block/${item.height}`}>{formatValue(item.height)}</Link>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.height}`}>{formatValue(item.height)}</Link>
                   </TableCell>
                   <TableCell width={10}>
-                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
               );
@@ -150,7 +150,7 @@ const OtherTable = ({ data, account }) => {
                   {item.receiver||item.delegate ? (
                     <TableCell width={20}>
                       <Blockies hash={item.receiver||item.delegate} />
-                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/account/${item.receiver||item.delegate}`}>{getShortHashOrBakerName(item.receiver||item.delegate)}</Link>
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.receiver||item.delegate}`}>{getShortHashOrBakerName(item.receiver||item.delegate)}</Link>
                     </TableCell>
                   ) : (
                     <TableCell width={20}>-</TableCell>
@@ -160,10 +160,10 @@ const OtherTable = ({ data, account }) => {
                   <TableCell width={10}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={10}>
-                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/block/${item.height}`}>{formatValue(item.height)}</Link>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.height}`}>{formatValue(item.height)}</Link>
                   </TableCell>
                   <TableCell width={10}>
-                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/operation/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
               );

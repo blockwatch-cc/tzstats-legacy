@@ -11,7 +11,7 @@ const LastBlock = ({ history }) => {
   const [chain] = useGlobal('chain');
   return (
     <Wrapper>
-      <Link to={`/block/${chain.block_hash}`}>
+      <Link to={`/${chain.block_hash}`}>
       <LinkIcon>&#x25E5;</LinkIcon>
       <Card interactive={true} elevation={Elevation.ZERO}>
         <FlexRowSpaceBetween>

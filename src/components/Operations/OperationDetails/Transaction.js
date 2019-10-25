@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Transaction = ({ op }) => {
   return (
     <FlexRowSpaceBetween>
-      <Link to={`/block/${op.block}`}><DataBox title="Block" valueSize="14px" value={op.height} /></Link>
+      <Link to={`/${op.block}`}><DataBox title="Block" valueSize="14px" value={op.height} /></Link>
       <Link to={`/cycle/${op.cycle}`}><DataBox title="Cycle" valueSize="14px" value={op.cycle} /></Link>
       <DataBox title="Date & Time" valueSize="14px" valueType="datetime" value={op.time} />
       <DataBox title="Days destroyed" valueSize="14px" valueType="value-full" value={op.days_destroyed} />

@@ -9,7 +9,7 @@ const HashedBox = ({ hash, typeName, name, short = true, isCopy = true, noLink =
   return (
     <HashBlockWrapper>
       <Blockies hash={hash} />
-      {!noLink?(<HashLink to={`/account/${hash}`}>{getter(hash)}</HashLink>):getter(hash)}
+      {!noLink?(<HashLink to={`/${hash}`}>{getter(hash)}</HashLink>):getter(hash)}
       {isCopy && <CopyButton />}
       <DataBox title={typeName} />
     </HashBlockWrapper>

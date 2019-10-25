@@ -4,14 +4,14 @@ import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import { getOperations } from '../services/api/tz-stats';
 import OperationDetails from '../components/Operations/OperationDetails';
 import OperationType from '../components/Operations/OperationType';
-import { Spiner } from '../components/Common';
+import { Spiner, NotFound, Error } from '../components/Common';
 
 const OperationPage = ({ match }) => {
-  const [data, setData] = React.useState({ isLoaded: false });
-  const currentOperationHash = match.params.hash;
-  useInfiniteScroll(fetchMoreOperations, 'body');
+  const [data, setData] = React.useState({ isLoaded: false, wait: false });
+  const hash = match.params.hash;
+  useInfiniteScroll(fetchMore, 'body');
 
-  async function fetchMoreOperations() {
+  async function fetchMore() {
     if (!data.ops.length) {
       return;
     }
@@ -23,33 +23,61 @@ const OperationPage = ({ match }) => {
     });
   }
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      let ops = await getOperations(currentOperationHash);
-      setData({
-        isLoaded: true,
-        render: ops.splice(0, 20),
-        ops: ops,
-      });
-    };
-
-    fetchData();
-  }, [currentOperationHash, match]);
-
-  return data.isLoaded ? (
-    <Wrapper>
-      {data.render.map((op, index) => {
-        return (
-          <Operation key={index}>
-            <OperationDetails op={op} key={'od' + index} />
-            <OperationType op={op} key={'ot' + index} />
-          </Operation>
-        );
-      })}
-    </Wrapper>
-  ) : (
-    <Spiner />
+  const load = React.useCallback(
+    async () => {
+      try {
+        let ops = await getOperations(hash);
+        setData({
+          isLoaded: true,
+          render: ops.splice(0, 20),
+          ops: ops,
+        });
+      } catch (e) {
+        switch (e.status) {
+        case 404:
+          setData({
+            isLoaded: true,
+            wait: true
+          });
+          break;
+        default:
+          setData({
+            isLoaded: true,
+            error: e
+          });
+        }
+      }
+    },
+    [hash]
   );
+
+  React.useEffect(() => {
+    setData({ isLoaded: false, wait: false });
+    load();
+    return () => { setData({ isLoaded: false, wait: false }); }
+  }, [hash, load]);
+
+  switch (true) {
+  case !data.isLoaded:
+    return <Spiner />;
+  case !!data.error:
+    return <Error err={data.error} />;
+  case data.wait:
+    return <NotFound reloadFunc={load} type="transaction" hash={hash} />
+  default:
+    return (
+      <Wrapper>
+        {data.render.map((op, index) => {
+          return (
+            <Operation key={index}>
+              <OperationDetails op={op} key={'od' + index} />
+              <OperationType op={op} key={'ot' + index} />
+            </Operation>
+          );
+        })}
+      </Wrapper>
+    );
+  }
 };
 
 const Wrapper = styled.div``;

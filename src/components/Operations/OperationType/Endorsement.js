@@ -39,7 +39,7 @@ const Endorsement = ({ op }) => {
           <FlexRow height={80} alignItems="center">
             <TxTypeIcon fontSize={50} mr={30} type={op.type} isSuccess={op.is_success} />
               <FlexRow>
-                <Link to={`/block/${op.height-1}`}><DataBox title="Block Endorsed" valueSize="14px" value={op.height-1}/></Link>
+                <Link to={`/${op.height-1}`}><DataBox title="Block Endorsed" valueSize="14px" value={op.height-1}/></Link>
                 <DataBox title="Deposit" ml={30} value={op.deposit} valueSize="14px" valueType="currency-short" />
                 <DataBox title="Reward" ml={30} value={op.reward} valueSize="14px" valueType="currency-short" />
               </FlexRow>

@@ -36,7 +36,7 @@ const Origination = ({ op }) => {
     <FlexRow>
       <OperationAccount title={'Sender'} account={data.sender}/>
       <Wrapper>
-        <Card to={data.contract?('/account/'+data.contract.address):null} title={`${opNames[op.type]}`} tags={getOpTags(op)}>
+        <Card to={data.contract?('/'+data.contract.address):null} title={`${opNames[op.type]}`} tags={getOpTags(op)}>
           <FlexRow height={80}>
             <TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
             <FlexColumnSpaceBetween flex={1}>

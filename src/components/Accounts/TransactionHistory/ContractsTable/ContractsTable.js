@@ -45,7 +45,7 @@ const ContractsTable = ({ account }) => {
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   <TableCell width={15}>
                     <Blockies hash={item.account} />
-                    <Link to={`/account/${item.address}`}>{getShortHashOrBakerName(item.address)}</Link>
+                    <Link to={`/${item.address}`}>{getShortHashOrBakerName(item.address)}</Link>
                   </TableCell>
                   <TableCell width={20}><Value value={item.first_seen_time} type="datetime"/></TableCell>
                   <TableCell width={20}><Value value={item.last_seen_time} type="datetime"/></TableCell>
@@ -54,7 +54,7 @@ const ContractsTable = ({ account }) => {
                   {item.delegate?(
                     <TableCell width={15}>
                       <Blockies hash={item.delegate} />
-                      <Link to={`/account/${item.delegate}`}>{getShortHashOrBakerName(item.delegate)}</Link>
+                      <Link to={`/${item.delegate}`}>{getShortHashOrBakerName(item.delegate)}</Link>
                     </TableCell>
                   ) : (
                     <TableCell width={15}>-</TableCell>

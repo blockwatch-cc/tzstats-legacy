@@ -103,17 +103,17 @@ const EndorsingTable = ({ account }) => {
                 <TableRow key={i}>
                   <TableCell width={5}><Value value={item.cycle} type="value-full"/></TableCell>
                   <TableCell width={10}>
-                    <Link to={`/block/${item.height-1}`}><Value value={item.height-1} type="value-full"/></Link>
+                    <Link to={`/${item.height-1}`}><Value value={item.height-1} type="value-full"/></Link>
                   </TableCell>
                   <TableCell width={10}>
-                    <Link to={`/block/${item.height}`}><Value value={item.height} type="value-full"/></Link>
+                    <Link to={`/${item.height}`}><Value value={item.height} type="value-full"/></Link>
                   </TableCell>
                   <TableCell width={20}>{item.slots.join(', ')}</TableCell>
                   <TableCell width={10}><Value value={item.reward||0} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={10}><Value value={item.deposit||0} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={10}>
-                      <Link style={{color:item.is_orphan?'#ED6290':'inherit'}} to={`/operation/${item.hash}`}>{getShortHash(item.hash)}</Link>
+                      <Link style={{color:item.is_orphan?'#ED6290':'inherit'}} to={`/${item.hash}`}>{getShortHash(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
               );

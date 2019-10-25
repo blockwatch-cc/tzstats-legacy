@@ -42,6 +42,8 @@ export { default as CurrentCoordinate } from './CurrentCoordinate';
 export { default as Tag } from './Tag';
 export { default as CopyButton } from './CopyButton';
 export { default as NoDataFound } from './NoDataFound';
+export { default as NotFound } from './NotFound';
+export { default as Error } from './Error';
 export {
   Box,
   InlineBox,

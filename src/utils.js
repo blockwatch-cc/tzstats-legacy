@@ -459,9 +459,9 @@ const hashTypeMap = {
   tz3: { type: 'account', b58len: 36, shortMatch: true },
   KT1: { type: 'account', b58len: 36, shortMatch: true },
   btz1: { type: 'account', b58len: 37, shortMatch: true },
-  B: { type: 'block', b58len: 51 },
-  o: { type: 'operation', b58len: 51 },
-  P: { type: 'protocol', b58len: 51 },
+  B: { type: 'block', b58len: 51, shortMatch: true },
+  o: { type: 'operation', b58len: 51, shortMatch: true },
+  P: { type: 'protocol', b58len: 51, shortMatch: true },
 };
 
 export function getHashType(hash, strictMatch) {

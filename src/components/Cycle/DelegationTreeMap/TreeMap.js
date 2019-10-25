@@ -109,7 +109,7 @@ class Chart extends Component {
         tooltip.style('display', 'none');
       })
       .on('click', function(d) {
-        history.push('/account/' + d.data.address);
+        history.push('/' + d.data.address);
       });
     const accountStr = cell
       .append('text')

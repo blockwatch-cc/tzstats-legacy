@@ -6,7 +6,7 @@ import { formatValue, timeAgo } from '../../../utils';
 const OperationAccount = ({account, title, onempty}) => {
   return ( account ? (
     <Wrapper>
-      <Card to={`/account/${account.address}`} title={title}>
+      <Card to={`/${account.address}`} title={title}>
         <ChartPanel>
           <HashedBox
             hash={account.address}

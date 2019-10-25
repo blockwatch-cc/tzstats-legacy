@@ -38,7 +38,7 @@ const ProposalPeriod = ({ election, period }) => {
                 </TableCell>
                 <TableCell width={35}>
                   <Blockies hash={item.source} />
-                  <Link to={`/account/${item.source}`}>{getShortHashOrBakerName(item.source)}</Link>
+                  <Link to={`/${item.source}`}>{getShortHashOrBakerName(item.source)}</Link>
                 </TableCell>
                 <TableCell width={15}>{format(',')(item.rolls)}</TableCell>
               </TableRow>

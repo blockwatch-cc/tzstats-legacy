@@ -7,7 +7,7 @@ const Origination = ({ op }) => {
     <>
     <FlexRowSpaceBetween mt={10} >
       <FlexColumnSpaceBetween minHeight={80}>
-        <Link to={`/block/${op.block}`}><DataBox title="Block" valueSize="14px" value={op.height} /></Link>
+        <Link to={`/${op.block}`}><DataBox title="Block" valueSize="14px" value={op.height} /></Link>
         <DataBox title="Gas Limit" valueSize="14px" value={op.gas_limit} />
       </FlexColumnSpaceBetween>
       <FlexColumnSpaceBetween ml={20} minHeight={80}>

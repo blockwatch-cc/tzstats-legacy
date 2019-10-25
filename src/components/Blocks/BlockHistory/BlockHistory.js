@@ -42,7 +42,7 @@ const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
             <NextBlockLine>|</NextBlockLine>
             <SmallBlock />
           </NextBlockWrapper>
-          <Link to={`/block/${chain.block_hash}`}>
+          <Link to={`/${chain.block_hash}`}>
             <DataBox value={chain.height} title="Latest Block" />
             <DataBox title={`seen ${ago}`} />
           </Link>

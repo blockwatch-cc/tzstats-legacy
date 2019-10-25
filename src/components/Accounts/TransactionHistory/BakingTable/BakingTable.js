@@ -147,7 +147,7 @@ const BakingTable = ({ account }) => {
                   <TableCell width={10}><Value value={item.deposit||0} type="currency" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={10}>
-                      <Link style={{color:item.is_orphan?'#ED6290':'inherit'}} to={`/block/${item.hash}`}>{getShortHash(item.hash)}</Link>
+                      <Link style={{color:item.is_orphan?'#ED6290':'inherit'}} to={`/${item.hash}`}>{getShortHash(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
               );
