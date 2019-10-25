@@ -12,7 +12,6 @@ function updateStatus(income, cycle, config, balance) {
     let item = income[i];
     let iplus5 = j > 5 ? income[i+5] : {projected_balance:0};
     let share = j > 5 ? iplus5.balance / (iplus5.balance + iplus5.delegated) : 0;
-    // let share = 1;
     switch (true) {
     case item.cycle < cycle - config.preserved_cycles:
       item.status = 'Unfrozen';
@@ -58,7 +57,13 @@ function updateStatus(income, cycle, config, balance) {
         item.overdelegated = true;
         item.color = '#ED6290';
       }
-      item.projected_balance += iplus5.total_bonds + iplus5.total_income * share;
+      if (income[i+5].cycle === cycle) {
+        // current cycle is not finished yet, so our best guess is use max(total, expected)
+        item.projected_balance += Math.max(iplus5.total_bonds, iplus5.expected_bonds);
+        item.projected_balance += Math.max(iplus5.total_income, iplus5.expected_income) * share;
+      } else {
+        item.projected_balance += iplus5.total_bonds + iplus5.total_income * share;
+      }
     }
   };
 }
