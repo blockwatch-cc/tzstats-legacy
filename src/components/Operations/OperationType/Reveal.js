@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, FlexColumnSpaceBetween, FlexRow, Spiner } from '../../Common';
+import { Card, DataBox, FlexColumnSpaceBetween, FlexRow, Spinner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
@@ -41,7 +41,7 @@ const Reveal = ({ op }) => {
       </Wrapper>
     </FlexRow>
   ) : (
-    <Spiner />
+    <Spinner />
   ));
 };
 

@@ -32,7 +32,7 @@ export { default as IntervalSelect } from './IntervalSelect';
 export { default as Card } from './Card';
 export { default as ClickableCard } from './ClickableCard';
 export { default as DataBox } from './DataBox';
-export { default as Spiner } from './CenteredSpinner';
+export { default as Spinner } from './CenteredSpinner';
 export { default as Blockies } from './Blockies';
 export { default as CopyHashButton } from './CopyHashButton';
 export { default as HashedBox } from './HashedBox';

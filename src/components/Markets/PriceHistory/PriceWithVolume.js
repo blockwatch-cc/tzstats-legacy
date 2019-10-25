@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { isValid, getPeakVolumeTime, wrapToVolume } from '../../../utils';
 import { useGlobal } from 'reactn';
 import { getOhlcvData, getVolumeData, marketNames } from '../../../services/api/markets';
-import { Spiner } from '../../../components/Common';
+import { Spinner } from '../../../components/Common';
 import useOnline from '../../../hooks/useOnline';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 
@@ -102,7 +102,7 @@ const PriceWithVolume = () => {
       </Card>
     </Wrapper>
   ) : (
-    <Spiner />
+    <Spinner />
   );
 };
 

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { getBlockOperations } from '../../../services/api/tz-stats';
 import { opNames } from '../../../config';
-import { Spiner, Card, Blockies, Value } from '../../Common';
+import { Spinner, Card, Blockies, Value } from '../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../Common';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import { getShortHash, getShortHashOrBakerName } from '../../../utils';
@@ -101,7 +101,7 @@ const BlockOperations = ({ block, txType }) => {
           </TableBody>
         ) : (
           <TableBody>
-            <Spiner />
+            <Spinner />
           </TableBody>
         )}
       </Card>

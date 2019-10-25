@@ -5,7 +5,7 @@ import BlockHistory from '../components/Blocks/BlockHistory';
 import BlockOperations from '../components/Blocks/BlockOperations';
 import BlockInfo from '../components/Blocks/BlockInfo';
 import { getBlock, getBlockRange } from '../services/api/tz-stats';
-import { Spiner, NotFound, Error } from '../components/Common';
+import { Spinner, NotFound, Error } from '../components/Common';
 import { withRouter } from 'react-router-dom';
 
 const BlockPage = ({ match, history }) => {
@@ -66,7 +66,7 @@ const BlockPage = ({ match, history }) => {
 
   switch (true) {
   case !data.isLoaded:
-    return <Spiner />;
+    return <Spinner />;
   case !!data.error:
     return <Error err={data.error} />;
   case data.wait:

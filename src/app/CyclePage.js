@@ -5,7 +5,7 @@ import CycleSnapshotInfo from '../components/Cycle/CycleSnapshotInfo';
 import CycleHealth from '../components/Cycle/CycleHealth';
 import DelegationTreeMap from '../components/Cycle/DelegationTreeMap';
 import { getChainData, getCycleById, getDelegationHistory } from '../services/api/tz-stats';
-import { Spiner } from '../components/Common';
+import { Spinner } from '../components/Common';
 import { withRouter } from 'react-router-dom';
 
 const CyclePage = ({ match, history }) => {
@@ -43,7 +43,7 @@ const CyclePage = ({ match, history }) => {
       <DelegationTreeMap data={data.delegationHistory} cycle={data.cycle} />
     </Wrapper>
   ) : (
-    <Spiner />
+    <Spinner />
   );
 };
 

@@ -5,7 +5,7 @@ import { PriceWithVolume } from '../components/Markets/PriceHistory';
 import TradeCurrency from '../components/Markets/TradeCurrency';
 import ExchangesVolume from '../components/Markets/ExchangesVolume';
 import PriceList from '../components/Markets/PriceList';
-import { Spiner } from '../components/Common';
+import { Spinner } from '../components/Common';
 
 const MarketPage = () => {
   const [tickers] = useGlobal('tickers');
@@ -19,7 +19,7 @@ const MarketPage = () => {
       </JoinContainer>
     </Wrapper>
   ) : (
-    <Spiner />
+    <Spinner />
   );
 };
 const Wrapper = styled.div``;

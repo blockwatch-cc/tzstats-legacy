@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, FlexRow, FlexColumn, FlexRowWrap, Spiner } from '../../Common';
+import { Card, DataBox, FlexRow, FlexColumn, FlexRowWrap, Spinner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
@@ -58,7 +58,7 @@ const Endorsement = ({ op }) => {
       </Wrapper>
     </FlexRow>
   ) : (
-    <Spiner />
+    <Spinner />
   ));
 };
 

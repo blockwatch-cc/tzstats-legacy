@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { getElectionById, getElectionHistory } from '../services/api/tz-stats';
-import { Spiner } from '../components/Common';
+import { Spinner } from '../components/Common';
 import {
   ProposalPeriod,
   ExplorationPeriod,
@@ -41,7 +41,7 @@ const ElectionPage = ({ match }) => {
       </TwoElementsWrapper>
     </Wrapper>
   ) : (
-    <Spiner />
+    <Spinner />
   );
 };
 const Wrapper = styled.div``;

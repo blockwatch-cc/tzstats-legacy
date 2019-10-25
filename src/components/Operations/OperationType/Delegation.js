@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, FlexRow, Spiner } from '../../Common';
+import { Card, DataBox, FlexRow, Spinner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
@@ -41,7 +41,7 @@ const Delegation = ({ op }) => {
       <OperationAccount title={'Delegate'} account={data.delegate} onempty={'No delegate set'}/>
     </FlexRow>
   ) : (
-    <Spiner />
+    <Spinner />
   ));
 };
 

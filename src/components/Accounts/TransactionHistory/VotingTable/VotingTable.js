@@ -4,7 +4,7 @@ import { NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
 import { getProposalByHash, capitalizeFirstLetter, formatValue, formatDayTime, getShortHash } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
-import { Spiner } from '../../../../components/Common';
+import { Spinner } from '../../../../components/Common';
 import { Link } from 'react-router-dom';
 
 const VotingTable = ({ account }) => {
@@ -89,7 +89,7 @@ const VotingTable = ({ account }) => {
         </TableBody>
       ) : (
         <TableBody>
-          <Spiner />
+          <Spinner />
         </TableBody>
       )}
     </>

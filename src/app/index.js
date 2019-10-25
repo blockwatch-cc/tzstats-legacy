@@ -31,7 +31,7 @@ const App = () => {
         <Layout>
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route path="/account/:hash" component={AccountPage} />
+            <Redirect from="/account/:hash" to="/:hash" />
             {isMainnet(config) && <Redirect path="/markets" to="/market" />}
             {isMainnet(config) && <Route path="/market" component={MarketPage} />}
             <Redirect exact from="/block" to="/block/head" />

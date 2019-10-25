@@ -11,7 +11,7 @@ import { getOhlcvData } from '../services/api/markets';
 import { isMainnet } from '../utils';
 import { getElectionById, getTxVolume, getBlockTimeRange, getBlockHeight, unwrapBlock } from '../services/api/tz-stats';
 import TransactionVolume from '../components/Home/TransactionVolume';
-import { FlexColumn, Spiner } from '../components/Common';
+import { FlexColumn, Spinner } from '../components/Common';
 
 // @echa: FIXME dynamic data loading using timeouts and data watchers in react is a clusterfuck!
 // I have no idea how to fix this.
@@ -135,7 +135,7 @@ const Home = () => {
       </TwoElementsWrapper>
     </Wrapper>
   ) : (
-    <Spiner />
+    <Spinner />
   );
 };
 

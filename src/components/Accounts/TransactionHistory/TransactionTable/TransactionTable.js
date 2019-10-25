@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spiner } from '../../../../components/Common';
+import { Spinner } from '../../../../components/Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails, Blockies, NoDataFound, Value } from '../../../Common';
 import { getShortHashOrBakerName, formatValue } from '../../../../utils';
@@ -116,7 +116,7 @@ const TxTable = ({ data, account, incoming }) => {
             <NoDataFound />
           )
       ) : (
-          <Spiner />
+          <Spinner />
       )}
       </TableBody>
     </>
@@ -172,7 +172,7 @@ const OtherTable = ({ data, account }) => {
             <NoDataFound />
          )
       ) : (
-          <Spiner />
+          <Spinner />
       )}
       </TableBody>
     </>

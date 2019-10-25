@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spiner } from '../../../../components/Common';
+import { Spinner } from '../../../../components/Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, Value } from '../../../Common';
@@ -158,7 +158,7 @@ const BakingTable = ({ account }) => {
         </TableBody>
       ) : (
         <TableBody>
-          <Spiner />
+          <Spinner />
         </TableBody>
       )}
     </>

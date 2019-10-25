@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceBetween, FlexRow, Spiner } from '../../Common';
+import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceBetween, FlexRow, Spinner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
@@ -49,7 +49,7 @@ const Transaction = ({ op }) => {
       <OperationAccount title={'Receiver'} account={data.receiver}/>
     </FlexRow>
   ) : (
-    <Spiner />
+    <Spinner />
   ));
 };
 

@@ -4,7 +4,7 @@ import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import { getOperations } from '../services/api/tz-stats';
 import OperationDetails from '../components/Operations/OperationDetails';
 import OperationType from '../components/Operations/OperationType';
-import { Spiner, NotFound, Error } from '../components/Common';
+import { Spinner, NotFound, Error } from '../components/Common';
 
 const OperationPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false, wait: false });
@@ -59,7 +59,7 @@ const OperationPage = ({ match }) => {
 
   switch (true) {
   case !data.isLoaded:
-    return <Spiner />;
+    return <Spinner />;
   case !!data.error:
     return <Error err={data.error} />;
   case data.wait:

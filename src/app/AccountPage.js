@@ -3,7 +3,7 @@ import BalanceHistory from '../components/Accounts/BalanceHistory';
 import TransactionHistory from '../components/Accounts/TransactionHistory';
 import AccountInfo from '../components/Accounts/AccountInfo';
 import { getAccountByHash, getFlowData, getStakingData } from '../services/api/tz-stats';
-import { Spiner, NotFound, Error } from '../components/Common';
+import { Spinner, NotFound, Error } from '../components/Common';
 import { wrapStakingData, wrapToBalance } from '../utils';
 import { useGlobal } from 'reactn';
 
@@ -72,7 +72,7 @@ const AccountPage = ({ match }) => {
 
   switch (true) {
   case !data.isLoaded:
-    return <Spiner />;
+    return <Spinner />;
   case !!data.error:
     return <Error err={data.error} />;
   case data.wait:

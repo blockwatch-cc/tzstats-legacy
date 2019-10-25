@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spiner } from '../../../../components/Common';
+import { Spinner } from '../../../../components/Common';
 import { Blockies, NoDataFound, Value } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
 import { getShortHashOrBakerName } from '../../../../utils';
@@ -68,7 +68,7 @@ const ContractsTable = ({ account }) => {
         </TableBody>
       ) : (
         <TableBody>
-          <Spiner />
+          <Spinner />
         </TableBody>
       )}
     </>

@@ -5,7 +5,7 @@ import AnalyticsPanel from '../components/Analytics/AnalyticsPanel';
 import OnchainActivity from '../components/Analytics/OnchainActivity';
 import TransactionActivity from '../components/Analytics/TransactionActivity';
 import OverallAccountsGrowth from '../components/Analytics/OverallAccountsGrowth';
-import { Spiner, TwoCardInline, FlexColumn } from '../components/Common';
+import { Spinner, TwoCardInline, FlexColumn } from '../components/Common';
 import { withRouter } from 'react-router-dom';
 
 const AnalyticPage = () => {
@@ -33,7 +33,7 @@ const AnalyticPage = () => {
       <AnalyticsPanel />
     </>
   ) : (
-    <Spiner />
+    <Spinner />
   );
 };
 

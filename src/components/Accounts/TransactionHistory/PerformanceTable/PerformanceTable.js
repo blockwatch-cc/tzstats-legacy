@@ -5,7 +5,7 @@ import { convertMinutes, formatCurrency, formatDayTime, cycleStartHeight, format
 import { useGlobal } from 'reactn';
 import { getAccountRights, getAccountIncome } from '../../../../services/api/tz-stats';
 import PerformanceChart from './PerformanceChart';
-import { Spiner } from '../../../../components/Common';
+import { Spinner } from '../../../../components/Common';
 
 const PerformanceTable = ({ account }) => {
   const [data, setData] = React.useState({ income: null, rights: null, isLoaded: false });
@@ -217,7 +217,7 @@ const PerformanceTable = ({ account }) => {
     </FlexRowSpaceBetween>
   ) : (
     <FlexColumn height={170}>
-      <Spiner />
+      <Spinner />
     </FlexColumn>
   );
 };
