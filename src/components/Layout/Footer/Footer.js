@@ -48,8 +48,6 @@ export default Footer;
 const Wrapper = styled.div`
   color: ${Colors.LIGHT_GRAY5};
   font-size: 11px;
-  position: absolute;
-  bottom: 0;
 `;
 
 const LinkedText = styled.span`

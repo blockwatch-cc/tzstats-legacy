@@ -31,10 +31,8 @@ const App = () => {
         <Layout>
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Redirect from="/account/:hash" to="/:hash" />
             {isMainnet(config) && <Redirect path="/markets" to="/market" />}
             {isMainnet(config) && <Route path="/market" component={MarketPage} />}
-            <Redirect exact from="/block" to="/block/head" />
             <Route path="/terms" component={TermsPage} />
             <Route path="/analytics" component={AnalyticPage} />
             <Route path="/privacy" component={PrivacyPage} />
@@ -42,8 +40,9 @@ const App = () => {
             <Route path="/election/:id" component={ElectionPage} />
             <Redirect exact from="/cycle" to="/cycle/head" />
             <Route path="/cycle/:id" component={CyclePage} />
-            <Route path="/block/:hash" component={BlockPage} />
-            <Route path="/operation/:hash" component={OperationPage} />
+            <Redirect from="/account/:hash" to="/:hash" />
+            <Redirect from="/block/:hash" to="/:hash" />
+            <Redirect from="/operation/:hash" to="/:hash" />
             <Route path="/:hash" render={({ match }) => {
               const height = parseInt(match.params.hash);
               const type = getHashType(match.params.hash, 0) || (!isNaN(height)?'block':null);

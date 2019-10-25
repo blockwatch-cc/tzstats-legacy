@@ -43,20 +43,19 @@ const AccountPage = ({ match }) => {
         last.current = account.last_seen;
       } catch (e) {
         switch (e.status) {
+        case 502:
+        case 504:
+          return;
         case 404:
-          setData(data => {
-            return {
-              isLoaded: true,
-              wait: true
-            };
+          setData({
+            isLoaded: true,
+            wait: true
           });
           break;
         default:
-          setData(data => {
-            return {
-              isLoaded: true,
-              error: e
-            };
+          setData({
+            isLoaded: true,
+            error: e
           });
         }
       }

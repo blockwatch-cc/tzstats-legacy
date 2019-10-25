@@ -34,6 +34,9 @@ const OperationPage = ({ match }) => {
         });
       } catch (e) {
         switch (e.status) {
+        case 502:
+        case 504:
+          return;
         case 404:
           setData({
             isLoaded: true,
