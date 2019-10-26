@@ -195,6 +195,17 @@ export const getAccountDelegators = async ({ address, cycle, cursor, limit }) =>
   return unpackColumns({ response, columns });
 };
 
+// from a cycle's role snapshot
+export const getSnapshotDelegators = async ({ address, cycle, cursor, limit }) => {
+  const columns = ['row_id', 'address', 'balance', 'delegated', 'time', 'since_time'];
+  cycle = cycle < 0 ? 0 : cycle;
+  cursor = cursor ? '&cursor=' + cursor : '';
+  const response = await request(
+    `/tables/snapshot?delegate=${address}&cycle=${cycle}&is_selected=1&columns=${columns.join(',')}&limit=${limit}${cursor}`
+  );
+  return unpackColumns({ response, columns });
+};
+
 //api.tzstats.com/tables/rights?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=50000&verbose=1
 export const getAccountRights = async ({ address, cycle, columns, order, limit = 50000, cursor }) => {
   columns = columns || ['height', 'type', 'priority', 'is_stolen', 'is_missed', 'is_lost', 'time'];

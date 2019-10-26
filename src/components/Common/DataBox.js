@@ -179,7 +179,7 @@ const Dim = styled.small`
   font-weight: 200;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.span`
   font-size: ${props => props.fontSize};
   text-align: ${props => props.ta};
   margin-left: ${props => (props.ml||0) + 'px'};

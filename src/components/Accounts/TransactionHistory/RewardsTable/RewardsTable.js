@@ -2,8 +2,9 @@ import React from 'react';
 import { Spinner } from '../../../../components/Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { NoDataFound } from '../../../Common';
-import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, Value } from '../../../Common';
+import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, Value, Error} from '../../../Common';
 import { getAccountIncome } from '../../../../services/api/tz-stats';
+import RewardsSplitTable  from '../RewardsSplitTable';
 import { useGlobal } from 'reactn';
 
 function setStatus(income, cycle, config) {
@@ -39,6 +40,8 @@ const columns = [
   'double_baking_income',
   'double_endorsing_income',
   'slashed_income',
+  'total_income',
+  'expected_income',
   'luck_percent',
   'efficiency_percent',
 ];
@@ -47,9 +50,35 @@ const RewardsTable = ({ account }) => {
   const [chain] = useGlobal('chain');
   const [config] = useGlobal('config');
   const [data, setData] = React.useState({ table: [], isLoaded: false, cursor: 0, eof: false });
-  useInfiniteScroll(fetchMoreOperations, 'income');
+  useInfiniteScroll(fetchMore, 'income');
 
-  async function fetchMoreOperations() {
+  function showSplit(item) {
+    setData(data => {
+      return {
+        showSplit: true,
+        selected: item,
+        table: data.table,
+        isLoaded: data.isLoaded,
+        cursor: data.cursor,
+        eof: data.eof,
+      };
+    })
+  }
+
+  function hideSplit() {
+    setData(data => {
+      return {
+        showSplit: false,
+        selected: null,
+        table: data.table,
+        isLoaded: data.isLoaded,
+        cursor: data.cursor,
+        eof: data.eof,
+      };
+    })
+  }
+
+  async function fetchMore() {
     if (data.eof) { return; }
     let more = await getAccountIncome({
       address: account.address,
@@ -69,19 +98,32 @@ const RewardsTable = ({ account }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let income = await getAccountIncome({
-        address: account.address,
-        columns: columns,
-        order: 'desc'
-      });
-      let eof = !income.length;
-      setStatus(income, chain.cycle, config);
-      setData({
-        table: income,
-        isLoaded: true,
-        cursor: !eof?income.slice(-1)[0].row_id:0,
-        eof: eof,
-      });
+      try {
+        let income = await getAccountIncome({
+          address: account.address,
+          columns: columns,
+          order: 'desc'
+        });
+        let eof = !income.length;
+        setStatus(income, chain.cycle, config);
+        setData({
+          table: income,
+          isLoaded: true,
+          cursor: !eof?income.slice(-1)[0].row_id:0,
+          eof: eof,
+        });
+      } catch (e) {
+        switch (e.status) {
+        case 502:
+        case 504:
+          return;
+        default:
+          setData({
+            isLoaded: true,
+            error: e
+          });
+        }
+      }
     };
     fetchData();
     return function cleanup() {
@@ -94,54 +136,57 @@ const RewardsTable = ({ account }) => {
     };
   }, [account.address, account.last_seen, chain.cycle, config]);
 
-  return (
-    <>
+  switch (true) {
+  case !data.isLoaded:
+    return <><TableHeader/><TableBody><Spinner /></TableBody></>;
+  case !!data.error:
+    return <Error err={data.error} />;
+  case data.showSplit:
+    return <RewardsSplitTable account={account} income={data.selected} back={hideSplit}/>;
+  default:
+    return (
+      <>
       <TableHeader>
         <TableHeaderCell width={5}>Cycle</TableHeaderCell>
         <TableHeaderCell width={8}>Status</TableHeaderCell>
-        <TableHeaderCell width={8}>Baking</TableHeaderCell>
+        <TableHeaderCell width={11}>Baking</TableHeaderCell>
         <TableHeaderCell width={11}>Endorsing</TableHeaderCell>
         <TableHeaderCell width={10}>Extra</TableHeaderCell>
         <TableHeaderCell width={10}>Fees</TableHeaderCell>
         <TableHeaderCell width={10}>Slashed</TableHeaderCell>
-        <TableHeaderCell width={13}>Luck/Efficiency</TableHeaderCell>
-        <TableHeaderCell width={10}>Delegators</TableHeaderCell>
+        <TableHeaderCell width={15}>Luck/Efficiency</TableHeaderCell>
+        <TableHeaderCell width={9}>Delegators</TableHeaderCell>
         <TableHeaderCell width={5}>Split</TableHeaderCell>
       </TableHeader>
-      {data.isLoaded ? (
-        <TableBody id={'income'}>
-          {data.table.length ? (
-            data.table.map((item, i) => {
-              return (
-                <TableRow key={i} color={item.color}>
-                  <TableCell width={5}><Value value={item.cycle} type="value-full"/></TableCell>
-                  <TableCell width={8}>{item.status}</TableCell>
-                  <TableCell width={8}><Value value={item.baking_income} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={11}><Value value={item.endorsing_income} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={10}><Value value={item.seed_income + item.double_baking_income + item.double_endorsing_income} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={10}><Value value={item.fees_income} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={10}><Value value={item.slashed_income} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={13}>
-                    <Value value={item.luck_percent/100} type="percent" digits={2} zero="-"/>
-                    /
-                    <Value value={item.efficiency_percent/100} type="percent" digits={2} zero="-"/>
-                  </TableCell>
-                  <TableCell width={10}><Value value={item.n_delegations} type="value-full" zero="-"/></TableCell>
-                  <TableCell width={5}>&raquo;</TableCell>
-                </TableRow>
-              );
-            })
-          ) : (
-            <NoDataFound />
-          )}
-        </TableBody>
+      <TableBody id={'income'}>
+      {data.table.length ? (
+        data.table.map((item, i) => {
+          return (
+            <TableRow key={i} color={item.color}>
+              <TableCell width={5}><Value value={item.cycle} type="value-full"/></TableCell>
+              <TableCell width={8}>{item.status}</TableCell>
+              <TableCell width={11}><Value value={item.baking_income} type="currency" digits={0} zero="-"/></TableCell>
+              <TableCell width={11}><Value value={item.endorsing_income} type="currency" digits={0} zero="-"/></TableCell>
+              <TableCell width={10}><Value value={item.seed_income + item.double_baking_income + item.double_endorsing_income} type="currency" digits={0} zero="-"/></TableCell>
+              <TableCell width={10}><Value value={item.fees_income} type="currency" digits={0} zero="-"/></TableCell>
+              <TableCell width={10}><Value value={item.slashed_income} type="currency" digits={0} zero="-"/></TableCell>
+              <TableCell width={15}>
+                <Value value={item.luck_percent/100} type="percent" digits={2} zero="-"/>
+                &nbsp;/&nbsp;
+                <Value value={item.efficiency_percent/100} type="percent" digits={2} zero="-"/>
+              </TableCell>
+              <TableCell width={9}><Value value={item.n_delegations} type="value-full" zero="-"/></TableCell>
+              <TableCell style={{cursor:'pointer'}} width={5} onClick={(e) => { showSplit(item); }} >&raquo;</TableCell>
+            </TableRow>
+          );
+        })
       ) : (
-        <TableBody>
-          <Spinner />
-        </TableBody>
+        <NoDataFound />
       )}
-    </>
-  );
+      </TableBody>
+      </>
+    );
+  }
 };
 
 export default RewardsTable;
