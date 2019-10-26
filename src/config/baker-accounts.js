@@ -189,5 +189,8 @@ export const bakerAccounts = {
   "tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE": { name: "ØCrypto Pool", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1g8vkmcde6sWKaG2NN9WKzCkDM6Rziq194": { name: "StakeNow", logo: null, link: "", fee_type: "", fee: 0 },
   "tz1bRaSjKZrSrSeQHBDiCqjKXqtZYZM1t8FW": { name: "Imma Baker", logo: null, link: "", fee_type: "", fee: 0 },
-  "tz1bDXD6nNSrebqmAnnKKwnX1QdePSMCj4MX": { name: "Kraken", logo: null, link: "", fee_type: "", fee: 0 }
+  "tz1bDXD6nNSrebqmAnnKKwnX1QdePSMCj4MX": { name: "Kraken", logo: null, link: "", fee_type: "", fee: 0 },
+  "tz1gg5bjopPcr9agjamyu9BbXKLibNc2rbAq": { name: "Hodl.farm", logo: null, link: "", fee_type: "", fee: 0 },
+  "tz1hodLFy8YDHtf1qJ3XH1gCyeXfwWEitkj9": { name: "Hodl.farm Payouts", logo: null, link: "", fee_type: "", fee: 0 },
+  "tz1V3yg82mcrPJbegqVCPn6bC8w1CSTRp3f8": { name: "TezoShop", logo: null, link: "", fee_type: "", fee: 0 },
 };
