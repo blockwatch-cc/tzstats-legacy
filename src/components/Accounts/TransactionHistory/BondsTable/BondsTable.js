@@ -17,11 +17,13 @@ function updateStatus(income, cycle, config, balance) {
       item.status = 'Unfrozen';
       item.color = 'inherit';
       item.projected_balance = 0;
+      item.available_balance = 0;
       break;
     case item.cycle < cycle:
       item.status = 'Frozen';
       item.color = '#26B2EE';
       item.projected_balance = 0;
+      item.available_balance = 0;
       break;
     case item.cycle === cycle:
       item.status = 'Active';
@@ -34,6 +36,7 @@ function updateStatus(income, cycle, config, balance) {
       //   "unfreeze_income_after_share=", iplus5.total_income * share
       // );
       item.projected_balance = balance - (item.expected_bonds - item.total_bonds);
+      item.available_balance = item.projected_balance;
       if (item.projected_balance < 0) {
         item.projected_balance = 0;
         item.overdelegated = true;
@@ -52,6 +55,7 @@ function updateStatus(income, cycle, config, balance) {
       //   "unfreeze_income_after_share=", iplus5.total_income * share
       // );
       item.projected_balance = income[i+1].projected_balance - item.expected_bonds;
+      item.available_balance = item.projected_balance;
       if (item.projected_balance < 0) {
         item.projected_balance = 0;
         item.overdelegated = true;
@@ -85,9 +89,9 @@ const BondsTable = ({ account }) => {
   const [chain] = useGlobal('chain');
   const [config] = useGlobal('config');
   const [data, setData] = React.useState({ table: [], isLoaded: false, cursor: 0, eof: false });
-  useInfiniteScroll(fetchMoreOperations, 'bonds');
+  useInfiniteScroll(fetchMore, 'bonds');
 
-  async function fetchMoreOperations() {
+  async function fetchMore() {
     if (data.eof) { return; }
     let more = await getAccountIncome({
       address: account.address,
@@ -146,6 +150,7 @@ const BondsTable = ({ account }) => {
         <TableHeaderCell width={10}>Expected Bonds</TableHeaderCell>
         <TableHeaderCell width={10}>Actual Bonds</TableHeaderCell>
         <TableHeaderCell width={10}>Projected Balance</TableHeaderCell>
+        <TableHeaderCell width={10}>Available Balance</TableHeaderCell>
       </TableHeader>
       {data.isLoaded ? (
         <TableBody id={'bonds'}>
@@ -163,6 +168,7 @@ const BondsTable = ({ account }) => {
                   <TableCell width={10}><Value value={item.expected_bonds} type="currency-short" digits={0} zero="-"/></TableCell>
                   <TableCell width={10}><Value value={item.total_bonds} type="currency-short" digits={0} zero="-"/></TableCell>
                   <TableCell width={10}><Value value={item.projected_balance} type="currency-short" zero="-"/></TableCell>
+                  <TableCell width={10}><Value value={item.available_balance} type="currency-short" zero="-"/></TableCell>
                 </TableRow>
               );
             })
