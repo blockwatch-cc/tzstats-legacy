@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FlexRowSpaceBetween, FlexColumnSpaceBetween, DataBox, FlexColumn } from '../../../Common';
 import { convertMinutes, formatCurrency, formatDayTime, cycleStartHeight, formatValue } from '../../../../utils';
 import { useGlobal } from 'reactn';
-import { getAccountRights, getAccountIncome } from '../../../../services/api/tz-stats';
+import { getAccountRights, getAccountIncome, zeroIncome } from '../../../../services/api/tz-stats';
 import PerformanceChart from './PerformanceChart';
 import { Spinner } from '../../../../components/Common';
 
@@ -21,7 +21,7 @@ const PerformanceTable = ({ account }) => {
         getAccountRights({ address: account.address, cycle: cycleId }),
         getAccountIncome({ address: account.address, cycle: cycleId, limit: 1 }),
       ]);
-      income = income[0];
+      income = income[0]||zeroIncome();
       const total = income.total_income;
       const slashed = income.slashed_income;
       const missed = income.missed_endorsing_income + income.lost_baking_income;

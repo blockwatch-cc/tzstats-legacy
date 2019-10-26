@@ -138,31 +138,40 @@ export const getAccountContracts = async ({ address, cursor, limit = 50 }) => {
   return unpackColumns({ response, columns });
 };
 
+const defaultIncomeColumns = [
+  'cycle',
+  'luck_percent',
+  'efficiency_percent',
+  'expected_income',
+  'total_income',
+  'baking_income',
+  'endorsing_income',
+  'fees_income',
+  'seed_income',
+  'slashed_income',
+  'missed_endorsing_income',
+  'lost_baking_income',
+  'stolen_baking_income',
+  'double_baking_income',
+  'double_endorsing_income',
+  'n_blocks_baked',
+  'n_blocks_lost',
+  'n_blocks_stolen',
+  'n_slots_endorsed',
+  'n_slots_missed',
+  'total_bonds'
+];
+
+export const zeroIncome = () => {
+  return defaultIncomeColumns.reduce((o, col) => {
+    o[col] = 0;
+    return o;
+  }, {});
+}
+
 //https://api.tzstats.com/tables/income?cycle=137&verbose=1&address=tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9
 export const getAccountIncome = async ({ address, columns, cycle, cursor, limit, order }) => {
-  columns = columns || [
-    'cycle',
-    'luck_percent',
-    'efficiency_percent',
-    'expected_income',
-    'total_income',
-    'baking_income',
-    'endorsing_income',
-    'fees_income',
-    'seed_income',
-    'slashed_income',
-    'missed_endorsing_income',
-    'lost_baking_income',
-    'stolen_baking_income',
-    'double_baking_income',
-    'double_endorsing_income',
-    'n_blocks_baked',
-    'n_blocks_lost',
-    'n_blocks_stolen',
-    'n_slots_endorsed',
-    'n_slots_missed',
-    'total_bonds'
-  ];
+  columns = columns || defaultIncomeColumns;
   cycle = isDefined(cycle) ? '&cycle=' + cycle : '';
   cursor = cursor ? '&cursor=' + cursor : '';
   limit = limit ? '&limit=' + limit : '';

@@ -14,15 +14,11 @@ const ContractsTable = ({ account }) => {
       let acc = await getTableDataByType({
         address: account.address,
         type: 'managed',
-        limit: account.n_origination
+        limit: 50000
       });
       setData({table: acc, isLoaded: true});
     };
-    if (account.n_origination) {
-      fetchData();
-    } else {
-      setData({isLoaded: true});
-    }
+    fetchData();
   }, [account.address, account.n_origination]);
 
   return (
@@ -37,7 +33,7 @@ const ContractsTable = ({ account }) => {
         <TableHeaderCell width={15}>Delegate</TableHeaderCell>
       </TableHeader>
       {data.isLoaded ? (
-        <TableBody id={'account-managed'}>
+        <TableBody id={'contracts'}>
           {data.table && data.table.length ? (
             data.table.map((item, i) => {
               return (

@@ -23,13 +23,9 @@ const BasicTransactionHistory = ({ account }) => {
           <Button active={data.tab === 'other'} onClick={e => handleClick('other')}>
             Other
           </Button>
-          {account.n_origination ? (
-            <Button active={data.tab === 'managed'} onClick={e => handleClick('managed')}>
-              Contracts
-            </Button>
-          ) : (
-            ''
-          )}
+          <Button active={data.tab === 'contracts'} onClick={e => handleClick('contracts')}>
+            Contracts
+          </Button>
         </FlexRow>
         <OperationsTable account={account} type={data.tab} />
       </Card>
@@ -39,7 +35,7 @@ const BasicTransactionHistory = ({ account }) => {
 
 const OperationsTable = ({ type, account }) => {
   switch (type) {
-    case 'managed':
+    case 'contracts':
       return <ContractsTable account={account} />;
     case 'incoming':
       return <TransactionTable account={account} incoming={true} type={'transaction'} />;
