@@ -127,7 +127,7 @@ const PerformanceTable = ({ account }) => {
           />
           <DataBox
             valueSize="14px"
-            title="Blocks Baked / Lost / Stolen"
+            title="Blocks Baked / Missed / Stolen"
             valueType="text"
             value={`${data.income.n_blocks_baked||'-'} / ${data.income.n_blocks_lost||'-'} / ${data.income.n_blocks_stolen||'-'}`}
           />
@@ -202,7 +202,7 @@ const PerformanceTable = ({ account }) => {
           />
           <DataBox
             valueSize="14px"
-            title="Total Lost"
+            title="Total Slashed"
             valueType="currency"
             valueOpts={{ digits: 0 }}
             value={data.lost}

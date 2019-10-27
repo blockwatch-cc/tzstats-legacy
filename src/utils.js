@@ -311,7 +311,7 @@ export function getAccountTags(account) {
   // if (account.is_delegated) {
   //   tags.push('Delegating');
   // }
-  if (!account.is_active_delegate && account.is_delegate) {
+  if (!account.is_active_delegate && account.is_delegate && !account.is_delegated) {
     tags.push('Inactive');
   }
   return tags;
@@ -330,6 +330,7 @@ export function getAccountType(account) {
   if (account.is_contract) {
     return { name: 'Smart Contract', type: 'contract' };
   }
+  return { name: 'Basic Account', type: 'basic' };
 }
 
 export function getNetworkHealthStatus(value) {
