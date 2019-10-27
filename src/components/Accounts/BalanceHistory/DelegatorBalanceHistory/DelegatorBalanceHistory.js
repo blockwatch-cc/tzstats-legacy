@@ -9,7 +9,7 @@ const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
 
   return (
     <Wrapper>
-    <Card title={'Balance History (30d)'}>
+    <Card title={'Balance Last 30d'}>
       <FlexRowWrap>
         <FlexRow flex={1} mb={10}>
           <BalanceChart type={'svg'} data={balanceHistory} />

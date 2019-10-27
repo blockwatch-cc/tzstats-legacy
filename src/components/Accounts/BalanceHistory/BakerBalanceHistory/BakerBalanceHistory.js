@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const BakerBalanceHistory = ({ account, balanceHistory, stakingData }) => {
   return (
     <Wrapper>
-      <Card title={'Balance History (30d)'}>
+      <Card title={'Balances Last 30d'}>
         <FlexColumn>
           <FlexRow flex={1} mb={20}>
             <BalanceChart type={'svg'} data={stakingData} />

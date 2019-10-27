@@ -89,7 +89,8 @@ export function formatCurrency(value, prefix = ',', symbol = '') { // ꜩ
 }
 
 export function formatCurrencyShort(value, symbol = 'tz') {
-  return formatCurrency(value, '~s', symbol);
+  return formatCurrency(value, ',.3s', symbol);
+  // return format(',.2s')(value) + ' ' + symbol;
 }
 
 export const addCommas = format(',');

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, FlexColumnSpaceBetween, FlexRow, DataBox } from '../../Common';
-import AreaChart from './AreaChart';
+import BarChart from './BarChart';
 import _ from 'lodash';
 
 const TransactionVolume = ({ txSeries }) => {
@@ -10,9 +10,9 @@ const TransactionVolume = ({ txSeries }) => {
   const avrTxn = _.sumBy(txSeries, o => o.n_tx) / txSeries.length;
   return (
     <Wrapper>
-      <Card title={'Tezos On-Chain Volume (30d)'}>
+      <Card title={'Tezos On-Chain Volume Last 30d'}>
         <FlexRow>
-          <AreaChart data={txSeries} />
+          <BarChart data={txSeries} />
 
           <FlexColumnSpaceBetween minWidth={100} ml={20}>
             <DataBox valueSize="14px" title="24h Transactions" value={currentValue.n_tx} />

@@ -15,7 +15,7 @@ const DelegationHistory = ({ account, stakingData }) => {
 
   return (
     <Wrapper>
-      <Card title={'Delegation History (30d)'}>
+      <Card title={'Delegated Last 30d'}>
         <FlexColumn>
           <FlexRow flex={1} mb={20}>
             <BalanceChart type={'svg'} data={stakingData} />

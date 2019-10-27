@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import GenericChartComponent from 'react-stockcharts/lib/GenericChartComponent';
 import { isNotDefined } from 'react-stockcharts/lib/utils';
 import { getMouseCanvas } from 'react-stockcharts/lib/GenericComponent';
+import { defaultFont } from '../../config';
 
 class CurrentCoordinate extends Component {
   constructor(props) {
@@ -27,8 +28,9 @@ class CurrentCoordinate extends Component {
     if (!circle) return null;
 
     const fillColor = circle.fill instanceof Function ? circle.fill(moreProps.currentItem) : circle.fill;
-    const dy = circle.y < 20 ? 20 : circle.y - 10;
-    const dx = circle.x < 50 ? circle.x + 40 : circle.x - 30;
+    const dy = circle.y < 20 ? circle.y + 20 : circle.y - 10;
+    const dx = circle.x;// < 20 ? circle.x + 25 : circle.x > moreProps.width - 20 ? circle.x - 25 : circle.x;
+    const anchor = circle.x < 50 ? 'left' : circle.x > moreProps.width - 50 ? 'end' : 'middle';
     return (
       <>
         <circle
@@ -43,12 +45,12 @@ class CurrentCoordinate extends Component {
         />
         <text
           x={dx}
-          textAnchor="middle"
-          fontFamily="Helvetica Neue, Helvetica, Arial, sans-serif"
+          textAnchor={anchor}
+          fontFamily={defaultFont}
           fontSize="12px"
           dy={dy}
           opacity={1}
-          fill="rgba(255, 255, 255, 0.52)"
+          fill="rgba(255, 255, 255, 0.82)"
         >
           {displayFormat(circle.yValue)}
         </text>

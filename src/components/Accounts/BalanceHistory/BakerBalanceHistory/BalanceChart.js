@@ -1,15 +1,13 @@
 import React from 'react';
 import { timeFormat } from 'd3-time-format';
 import { curveLinear } from 'd3-shape';
-import { CrossHairCursor, MouseCoordinateX } from 'react-stockcharts/lib/coordinates';
+import { MouseCoordinateX } from 'react-stockcharts/lib/coordinates';
 import { ChartCanvas, Chart } from 'react-stockcharts';
 import { AreaSeries } from 'react-stockcharts/lib/series';
-import { YAxis } from 'react-stockcharts/lib/axes';
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import _ from 'lodash';
 import { format } from 'd3-format';
-import { formatCurrencyShort } from '../../../../utils';
 import CurrentCoordinate from '../../../Common/CurrentCoordinate';
 import { defaultFont } from '../../../../config';
 
@@ -18,9 +16,6 @@ class BalanceChart extends React.Component {
     const { data: initialData, width, ratio } = this.props;
 
     const max = _.maxBy(initialData, d => d.total).total;
-    // const min = _.minBy(initialData, d => d.total).total;
-
-    const yGrid = { innerTickSize: -width + 40 };
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
     let { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
 
@@ -29,6 +24,10 @@ class BalanceChart extends React.Component {
     const clamp = false;
     const zoomAnchor = function(e) {};
 
+    function formatC(x) {
+      return format(',.2f')(x)+'tz';
+    }
+
     return (
       <ChartCanvas
         height={180}
@@ -36,7 +35,7 @@ class BalanceChart extends React.Component {
         seriesName={''}
         margin={{
           left: 0,
-          right: 40,
+          right: 0,
           top: 0,
           bottom: 0,
         }}
@@ -52,28 +51,13 @@ class BalanceChart extends React.Component {
         displayXAccessor={displayXAccessor}
       >
         <Chart id={1} height={180} yExtents={[d => [max * 1.1, 0]]}>
-          <YAxis
-            axisAt="right"
-            orient="right"
-            ticks={4}
-            tickFormat={x => format('~s')(x) + 'tz'}
-            tickStrokeDasharray={'Solid'}
-            tickStrokeOpacity={0.3}
-            tickStrokeWidth={1}
-            tickStroke={'rgba(255, 255, 255, 0.52)'}
-            fontWeight={300}
-            fontSize={11}
-            {...yGrid}
-            strokeWidth={0}
-            fontFamily={defaultFont}
-          />
           <MouseCoordinateX
             opacity={1}
             at="bottom"
             orient="bottom"
             dx={180}
             fill="rgba(0,0,0,0)"
-            textFill="rgba(255, 255, 255, 0.52)"
+            textFill="rgba(255, 255, 255, 0.82)"
             displayFormat={timeFormat('%a, %b %d')}
             fontSize={11}
             fontFamily={defaultFont}
@@ -107,13 +91,11 @@ class BalanceChart extends React.Component {
             interpolation={curveLinear}
           />
 
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.total} fill={'#FFF'} />
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.balance} fill={'#FFF'} />
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.deposit} fill={'#FFF'} />
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.reward} fill={'#FFF'} />
+          <CurrentCoordinate displayFormat={formatC} r={3} yAccessor={d => d.total} fill={'#FFF'} />
+          <CurrentCoordinate displayFormat={formatC} r={3} yAccessor={d => d.balance} fill={'#FFF'} />
+          <CurrentCoordinate displayFormat={formatC} r={3} yAccessor={d => d.deposit} fill={'#FFF'} />
+          <CurrentCoordinate displayFormat={formatC} r={3} yAccessor={d => d.reward} fill={'#FFF'} />
         </Chart>
-
-        <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
       </ChartCanvas>
     );
   }

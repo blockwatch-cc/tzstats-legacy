@@ -1,10 +1,9 @@
 import React from 'react';
 import { utcFormat } from 'd3-time-format';
 import { curveLinear } from 'd3-shape';
-import { CrossHairCursor, MouseCoordinateX } from 'react-stockcharts/lib/coordinates';
+import { MouseCoordinateX } from 'react-stockcharts/lib/coordinates';
 import { ChartCanvas, Chart } from 'react-stockcharts';
 import { AreaSeries } from 'react-stockcharts/lib/series';
-import { YAxis } from 'react-stockcharts/lib/axes';
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { last } from 'react-stockcharts/lib/utils';
@@ -31,11 +30,11 @@ const PriceChart = React.forwardRef((props, ref) => {
     <ChartCanvas
       ref={ref}
       height={180}
-      width={width - 120}
+      width={width}
       seriesName={''}
       margin={{
         left: 0,
-        right: 40,
+        right: 0,
         top: 0,
         bottom: 0,
       }}
@@ -52,28 +51,13 @@ const PriceChart = React.forwardRef((props, ref) => {
       xExtents={xExtents}
     >
       <Chart id={1} height={180} yExtents={[d => [d.high, d.low]]}>
-        <YAxis
-          axisAt="right"
-          orient="right"
-          ticks={2}
-          tickFormat={format('$.2f')}
-          innerTickSize={-width + 160}
-          tickStrokeDasharray={'Solid'}
-          tickStrokeOpacity={0.3}
-          tickStrokeWidth={1}
-          tickStroke={'rgba(255, 255, 255, 0.52)'}
-          fontWeight={300}
-          fontSize={11}
-          strokeWidth={0}
-          fontFamily={defaultFont}
-        />
         <MouseCoordinateX
           opacity={1}
           at="bottom"
           orient="bottom"
           dx={180}
           fill="rgba(0,0,0,0)"
-          textFill="rgba(255, 255, 255, 0.52)"
+          textFill="rgba(255, 255, 255, 0.82)"
           displayFormat={utcFormat('%a, %b %d')}
           fontSize={11}
           fontFamily={defaultFont}
@@ -82,14 +66,13 @@ const PriceChart = React.forwardRef((props, ref) => {
         <AreaSeries
           yAccessor={d => d.close}
           stroke="#17eef4"
-          fill="rgba(23, 238, 244, 0.2)"
+          fill="rgba(23, 238, 244, 0.15)"
           strokeWidth={2}
           interpolation={curveLinear}
         />
         <CurrentCoordinate displayFormat={format('$.2f')} r={3} yAccessor={d => d.close} fill={'#FFF'} />
       </Chart>
 
-      <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
     </ChartCanvas>
   );
 });

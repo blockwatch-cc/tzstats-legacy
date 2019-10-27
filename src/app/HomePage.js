@@ -32,7 +32,7 @@ const Home = () => {
         now = last;
       }
       let [priceHistory, txVolSeries, election, blocks] = await Promise.all([
-        isMainnet(config) ? getOhlcvData({ days: 30 }) : null,
+        isMainnet(config) ? getOhlcvData({ days: 30, collapse: '6h', limit: 30*4 }) : null,
         getTxVolume({ start: now === last ? last - 30 * 86400 * 1000 : null, days: 30 }),
         getElectionById(),
         getBlockTimeRange(last - sixtyblocks, now),

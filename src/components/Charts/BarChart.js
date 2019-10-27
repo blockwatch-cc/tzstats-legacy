@@ -65,11 +65,11 @@ class BarChart extends React.Component {
             axisAt="right"
             orient="right"
             ticks={4}
-            tickFormat={x => format('~s')(x) + 'ꜩ'}
+            tickFormat={x => format('~s')(x) + 'tz'} // ꜩ
             tickStrokeDasharray={'Solid'}
             tickStrokeOpacity={0.3}
             tickStrokeWidth={1}
-            tickStroke={'rgba(255, 255, 255, 0.52)'}
+            tickStroke={'rgba(255, 255, 255, 0.82)'}
             fontWeight={300}
             fontSize={11}
             {...yGrid}
@@ -82,7 +82,7 @@ class BarChart extends React.Component {
             orient="bottom"
             dx={180}
             fill="rgba(0,0,0,0)"
-            textFill="rgba(255, 255, 255, 0.52)"
+            textFill="rgba(255, 255, 255, 0.82)"
             displayFormat={timeFormat('%a, %b %d')}
             fontSize={11}
             fontFamily={defaultFont}
@@ -90,7 +90,6 @@ class BarChart extends React.Component {
           <BarSeries clip={false} yAccessor={d => d.value} fill={'#858999'} />
           <CurrentCoordinate displayFormat={formatValue} r={3} yAccessor={d => d.value} fill={'#FFF'} />
         </Chart>
-        <CrossHairCursor ratio={ratio} stroke="#FFFFFF" />
       </ChartCanvas>
     );
   }

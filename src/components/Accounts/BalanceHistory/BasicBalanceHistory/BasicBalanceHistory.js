@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const BasicBalanceHistory = ({ account, balanceHistory }) => {
   return (
     <Wrapper>
-      <Card title={'Balance History (30d)'}>
+      <Card title={'Balance Last 30d'}>
         <FlexColumn>
           <FlexRow flex={1} mb={20}>
             <BalanceChart type={'svg'} data={balanceHistory} />

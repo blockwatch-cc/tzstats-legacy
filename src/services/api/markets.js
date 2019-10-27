@@ -10,8 +10,6 @@ export const marketNames = {
   binance: 'Binance',
 };
 
-const oneday = 1000 * 60 * 60 * 24;
-
 const request = async (endpoint, options) => {
   let response = await fetch(`${TZSTATS_API_URL}${endpoint}`, {
     ...options,
@@ -71,7 +69,7 @@ export const getVolumeData = async options => {
     method: 'GET',
   });
 
-  return fill(response, limit, collapse * 60 * 60 * 1000, oneday, t => [t, 0]);
+  return fill(response, limit, collapse * 60 * 60 * 1000, steps[urlOptions.collapse], t => [t, 0]);
   // return response;
 };
 
@@ -88,7 +86,7 @@ export const getOhlcvData = async options => {
   });
 
   return formatMarketData(
-    fill(response, options.limit || options.days, oneday, 0, (t, filler, fillStart) => {
+    fill(response, options.limit || options.days, steps[urlOptions.collapse], 0, (t, filler, fillStart) => {
       if (fillStart) {
         // fill from first known open price
         return [
@@ -113,6 +111,19 @@ export const getOhlcvData = async options => {
     })
   );
 };
+
+const onehour = 1000 * 60 * 60;
+
+const steps = {
+  '1h': onehour,
+  '2h': onehour * 2,
+  '4h': onehour * 4,
+  '6h': onehour * 6,
+  '12h': onehour * 12,
+  '24h': onehour * 24,
+  '1d': onehour * 24,
+}
+
 
 let fill = (data, n, step, offset, fillerFunc) => {
   if (data.length === n) {

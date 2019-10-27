@@ -1,19 +1,16 @@
 import React from 'react';
 import { utcFormat } from 'd3-time-format';
 import { scaleTime } from 'd3-scale';
-import { curveLinear } from 'd3-shape';
-import {  MouseCoordinateX } from 'react-stockcharts/lib/coordinates';
+import { MouseCoordinateX } from 'react-stockcharts/lib/coordinates';
 import { ChartCanvas, Chart } from 'react-stockcharts';
-import { AreaSeries } from 'react-stockcharts/lib/series';
-import { YAxis } from 'react-stockcharts/lib/axes';
+import { BarSeries } from 'react-stockcharts/lib/series';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import _ from 'lodash';
-import { format } from 'd3-format';
 import { CurrentCoordinate } from '../../Common';
 import { formatCurrencyShort } from '../../../utils';
 import { defaultFont } from '../../../config';
 
-class AreaChart extends React.Component {
+class BarChart extends React.Component {
   render() {
     const { data, width } = this.props;
     const max = _.maxBy(data, function(o) {
@@ -31,10 +28,11 @@ class AreaChart extends React.Component {
         ratio={2}
         margin={{
           left: 0,
-          right: 40,
+          right: 0,
           top: 0,
           bottom: 0,
         }}
+        clip={false}
         data={data}
         type={'svg'}
         panEvent={panEvent}
@@ -45,22 +43,6 @@ class AreaChart extends React.Component {
         xScale={scaleTime()}
       >
         <Chart id={0} opacity={1} height={180} yExtents={[d => [max * 1.1, 0]]}>
-          <YAxis
-            axisAt="right"
-            orient="right"
-            ticks={0}
-            tickFormat={x => format('~s')(x) + 'tz'} //ꜩ
-            innerTickSize={-width + 160}
-            tickStrokeDasharray={'Solid'}
-            tickStrokeOpacity={0.3}
-            tickStrokeWidth={1}
-            tickStroke={'rgba(255, 255, 255, 0.82)'}
-            fontWeight={300}
-            fontSize={11}
-            strokeWidth={0}
-            fontFamily={defaultFont}
-          />
-
           <MouseCoordinateX
             opacity={1}
             at="bottom"
@@ -73,14 +55,13 @@ class AreaChart extends React.Component {
             fontFamily={defaultFont}
           />
 
-          <AreaSeries
+          <BarSeries
+            clip={false}
+            width={20}
             yAccessor={d => d.value}
-            stroke="#29C0FF"
-            fill="rgba(41, 192, 255, 0.2)"
-            strokeWidth={2}
-            interpolation={curveLinear}
-          />
-          <CurrentCoordinate displayFormat={formatCurrencyShort} r={3} yAccessor={d => d.value} fill={'#FFF'} />
+            fill={'#29C0FF'} />
+
+          <CurrentCoordinate displayFormat={formatCurrencyShort} r={0} yAccessor={d => d.value} fill={'#FFF'} />
         </Chart>
       </ChartCanvas>
     );
@@ -91,4 +72,4 @@ const zoomEvent = false;
 const panEvent = false;
 const clamp = false;
 
-export default fitWidth(AreaChart);
+export default fitWidth(BarChart);
