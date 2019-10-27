@@ -27,8 +27,8 @@ class BarChart extends React.Component {
         seriesName={''}
         ratio={2}
         margin={{
-          left: 0,
-          right: 0,
+          left: 10,
+          right: 10,
           top: 0,
           bottom: 0,
         }}
@@ -57,7 +57,7 @@ class BarChart extends React.Component {
 
           <BarSeries
             clip={false}
-            width={20}
+            width={19}
             yAccessor={d => d.value}
             fill={'#29C0FF'} />
 

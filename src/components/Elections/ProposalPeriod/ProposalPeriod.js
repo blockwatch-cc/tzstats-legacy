@@ -9,7 +9,7 @@ import { proposals } from '../../../config/proposals';
 
 const ProposalPeriod = ({ election, period }) => {
   if (!period.proposals.length) {
-    return (<Wrapper><EmptyData title={'1 No proposal was submitted'} text={election.is_open&&`Approximately ${getEndTime(election, 'end_time')}`} mh={250} /></Wrapper>);
+    return (<Wrapper><EmptyData title={'1 No proposal was submitted'} text={election.is_open&&`Approximately ${getEndTime(period, 'period_end_time')}`} mh={250} /></Wrapper>);
   }
   const endTime = getEndTime(period);
 

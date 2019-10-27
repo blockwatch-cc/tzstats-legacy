@@ -9,7 +9,7 @@ import _ from 'lodash';
 const ElectionProgress = ({ election }) => {
   const period = election[election.voting_period];
   const endTime = getEndTime(period,0,1);
-  const title = `${govNames[election.num_periods]} Period  ${endTime}`;
+  const title = `${govNames[election.num_periods]} Period ${endTime}`;
   return (
     <Wrapper>
       <Card title={title} mh={115}>
@@ -90,6 +90,7 @@ const Wrapper = styled.div`
 `;
 
 const Empty = styled(FlexRowSpaceBetween)`
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.52);
 `;
 
