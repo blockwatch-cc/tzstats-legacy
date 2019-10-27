@@ -109,6 +109,7 @@ export const getAccountOperations = async ({
     'time',
     'volume',
     'fee',
+    'burned',
     'height',
     'reward',
   ];
@@ -144,13 +145,14 @@ const defaultIncomeColumns = [
   'efficiency_percent',
   'expected_income',
   'total_income',
+  'total_bonds',
+  'total_lost',
   'baking_income',
   'endorsing_income',
   'fees_income',
   'seed_income',
-  'slashed_income',
   'missed_endorsing_income',
-  'lost_baking_income',
+  'missed_baking_income',
   'stolen_baking_income',
   'double_baking_income',
   'double_endorsing_income',
@@ -159,7 +161,6 @@ const defaultIncomeColumns = [
   'n_blocks_stolen',
   'n_slots_endorsed',
   'n_slots_missed',
-  'total_bonds'
 ];
 
 export const zeroIncome = () => {

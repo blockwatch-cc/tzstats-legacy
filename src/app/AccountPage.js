@@ -8,7 +8,7 @@ import { wrapStakingData, wrapToBalance } from '../utils';
 import { useGlobal } from 'reactn';
 
 const AccountPage = ({ match }) => {
-  const last = React.useRef(0);
+  const last = React.useRef({last_seen:0,address:null});
   const [data, setData] = React.useState({ isLoaded: false, wait: false });
   const [chain] = useGlobal('chain');
   const addr = match.params.hash;
@@ -17,7 +17,7 @@ const AccountPage = ({ match }) => {
     async () => {
       try {
         let account = await getAccountByHash(addr);
-        if (last.current < account.last_seen) {
+        if (last.current.address !== account.address || last.current.last_seen < account.last_seen) {
           let [flowData, stakingData] = await Promise.all([
             getFlowData({ hash: addr, days: 30 }),
             getStakingData({ hash: addr, days: 30 }),
@@ -40,7 +40,8 @@ const AccountPage = ({ match }) => {
             };
           });
         }
-        last.current = account.last_seen;
+        last.current.last_seen = account.last_seen;
+        last.current.address = account.address;
       } catch (e) {
         switch (e.status) {
         case 502:

@@ -29,7 +29,7 @@ const RewardsSplitTable = ({ account, income, back }) => {
           table: dlgs,
           staking: staking,
           own: own,
-          income: income.cycle < chain.cycle ? income.total_income : Math.max(income.total_income, income.expected_income),
+          income: (income.cycle < chain.cycle ? income.total_income : Math.max(income.total_income, income.expected_income)) - income.total_lost,
           isLoaded: true,
         });
       } catch (e) {

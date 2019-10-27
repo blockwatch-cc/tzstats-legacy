@@ -12,7 +12,7 @@ const PerformanceTable = ({ account }) => {
   const [chain] = useGlobal('chain');
   const [config] = useGlobal('config');
 
-  const getAccountData = React.useCallback(
+  const loadCycle = React.useCallback(
     async cycleId => {
       if (cycleId > chain.cycle + config.preserved_cycles || cycleId < 0) {
         return;
@@ -23,8 +23,8 @@ const PerformanceTable = ({ account }) => {
       ]);
       income = income[0]||zeroIncome();
       const total = income.total_income;
-      const slashed = income.slashed_income;
-      const missed = income.missed_endorsing_income + income.lost_baking_income;
+      const lost = income.total_lost;
+      const missed = income.missed_endorsing_income + income.missed_baking_income;
       const stolen = income.stolen_baking_income;
       const extra = income.double_baking_income + income.double_endorsing_income + income.seed_income;
       const nextBakeTime = convertMinutes(account.next_bake_time, 1, 'in');
@@ -38,7 +38,7 @@ const PerformanceTable = ({ account }) => {
         rights,
         total,
         extra,
-        slashed,
+        lost,
         stolen,
         missed,
         nextBakeTime,
@@ -59,8 +59,8 @@ const PerformanceTable = ({ account }) => {
   );
 
   React.useEffect(() => {
-    getAccountData(data.cycleId !== undefined ? data.cycleId : chain.cycle);
-  }, [chain.cycle, account.address, account.last_seen, getAccountData]);
+    loadCycle(data.cycleId !== undefined ? data.cycleId : chain.cycle);
+  }, [chain.cycle, account.address, account.last_seen, loadCycle]);
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>
@@ -76,14 +76,14 @@ const PerformanceTable = ({ account }) => {
           <CycleSwitcher>
             <PreviousButton
               show={data.income.cycle > 0}
-              onClick={e => getAccountData(data.income.cycle ? data.income.cycle - 1 : 0)}
+              onClick={e => loadCycle(data.income.cycle ? data.income.cycle - 1 : 0)}
             >
               &#9664;
             </PreviousButton>
             <DataBox valueSize="14px" title={`Cycle ${data.income.cycle}`} />
             <NextButton
               show={data.income.cycle + 1 <= chain.cycle + 5}
-              onClick={e => getAccountData(data.income.cycle + 1)}
+              onClick={e => loadCycle(data.income.cycle + 1)}
             >
               &#9654;
             </NextButton>
@@ -202,10 +202,10 @@ const PerformanceTable = ({ account }) => {
           />
           <DataBox
             valueSize="14px"
-            title="Slashed Value"
+            title="Total Lost"
             valueType="currency"
             valueOpts={{ digits: 0 }}
-            value={data.slashed}
+            value={data.lost}
           />
           <DataBox
             valueSize="14px"

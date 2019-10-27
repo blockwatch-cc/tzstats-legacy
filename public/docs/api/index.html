@@ -165,9 +165,11 @@
                 
                     <ul class="toc-list-h2">
                         
-                            <li><a href="#2019-10-20" class="toc-h2 toc-link" data-title="2019-10-20">2019-10-20</a></li>
+                            <li><a href="#2019-10-26" class="toc-h2 toc-link" data-title="2019-10-26">2019-10-26</a></li>
                         
                             <li><a href="#2019-10-24" class="toc-h2 toc-link" data-title="2019-10-24">2019-10-24</a></li>
+                        
+                            <li><a href="#2019-10-20" class="toc-h2 toc-link" data-title="2019-10-20">2019-10-20</a></li>
                         
                     </ul>
                 
@@ -747,6 +749,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="nt">&#34;burned_double_endorse&#34;</span><span class="p">:</span> <span class="mf">31838.219485</span><span class="p">,</span>
     <span class="nt">&#34;burned_origination&#34;</span><span class="p">:</span> <span class="mf">6574.002</span><span class="p">,</span>
     <span class="nt">&#34;burned_implicit&#34;</span><span class="p">:</span> <span class="mf">14068.068</span><span class="p">,</span>
+    <span class="nt">&#34;burned_seed_miss&#34;</span><span class="p">:</span> <span class="mf">2576.671187</span><span class="p">,</span>
     <span class="nt">&#34;frozen&#34;</span><span class="p">:</span> <span class="mf">64032839.047756</span><span class="p">,</span>
     <span class="nt">&#34;frozen_deposits&#34;</span><span class="p">:</span> <span class="mi">62097662</span><span class="p">,</span>
     <span class="nt">&#34;frozen_rewards&#34;</span><span class="p">:</span> <span class="mf">1934957.146609</span><span class="p">,</span>
@@ -4142,6 +4145,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mf">31838.219485</span><span class="p">,</span>       <span class="err">//</span> <span class="err">burned_double_endorse</span>
     <span class="mf">6599.299000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">burned_origination</span>
     <span class="mf">14283.751000</span><span class="p">,</span>       <span class="err">//</span> <span class="err">burned_implicit</span>
+    <span class="mi">0</span><span class="p">,</span>                  <span class="err">//</span> <span class="err">burned_seed_miss</span>
     <span class="mf">57902196.296935</span><span class="p">,</span>    <span class="err">//</span> <span class="err">frozen</span>
     <span class="mf">56149246.000000</span><span class="p">,</span>    <span class="err">//</span> <span class="err">frozen_deposits</span>
     <span class="mf">1752733.604963</span><span class="p">,</span>     <span class="err">//</span> <span class="err">frozen_rewards</span>
@@ -4186,132 +4190,137 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>total</code> <em>int</em></td>
+<td><code>total</code> <em>float64</em></td>
 <td>Total supply, i.e. all coins in existence.</td>
 </tr>
 
 <tr>
-<td><code>activated</code> <em>int</em></td>
+<td><code>activated</code> <em>float64</em></td>
 <td>Acitivated fundraiser supply.</td>
 </tr>
 
 <tr>
-<td><code>unclaimed</code> <em>int</em></td>
+<td><code>unclaimed</code> <em>float64</em></td>
 <td>Unclaimed fundraiser supply.</td>
 </tr>
 
 <tr>
-<td><code>vested</code> <em>int</em></td>
+<td><code>vested</code> <em>float64</em></td>
 <td>Vested genesis supply, i.e. spendable supply owned by vesting contracts.</td>
 </tr>
 
 <tr>
-<td><code>unvested</code> <em>int</em></td>
+<td><code>unvested</code> <em>float64</em></td>
 <td>Unvested genesis supply, i.e. supply that is still locked in vesting contracts.</td>
 </tr>
 
 <tr>
-<td><code>circulating</code> <em>int</em></td>
+<td><code>circulating</code> <em>float64</em></td>
 <td>Circulating supply, i.e. all immediatly spendable supply.</td>
 </tr>
 
 <tr>
-<td><code>delegated</code> <em>int</em></td>
+<td><code>delegated</code> <em>float64</em></td>
 <td>Delegated supply, i.e. all spendable supply owned by delegators.</td>
 </tr>
 
 <tr>
-<td><code>staking</code> <em>int</em></td>
+<td><code>staking</code> <em>float64</em></td>
 <td>Staking supply, i.e. delegated supply and supply owned by bakers in form of spendable balances, frozen deposits and frozen fees. Frozen rewards are explicitly excluded because they can be slashed.</td>
 </tr>
 
 <tr>
-<td><code>active_delegated</code> <em>int</em></td>
+<td><code>active_delegated</code> <em>float64</em></td>
 <td>Portion of delegated supply that is delegated to active delegates.</td>
 </tr>
 
 <tr>
-<td><code>active_staking</code> <em>int</em></td>
+<td><code>active_staking</code> <em>float64</em></td>
 <td>Portion of staking supply available to active delegates and used for securing consensus.</td>
 </tr>
 
 <tr>
-<td><code>inactive_delegated</code> <em>int</em></td>
+<td><code>inactive_delegated</code> <em>float64</em></td>
 <td>Portion of delegated supply that is delegated to inactive delegates.</td>
 </tr>
 
 <tr>
-<td><code>inactive_staking</code> <em>int</em></td>
+<td><code>inactive_staking</code> <em>float64</em></td>
 <td>Portion of staking supply on inactive delegates that is not used for securing consensus.</td>
 </tr>
 
 <tr>
-<td><code>minted</code> <em>int</em></td>
+<td><code>minted</code> <em>float64</em></td>
 <td>Total issued supply in the form of block rewards.</td>
 </tr>
 
 <tr>
-<td><code>minted_baking</code> <em>int</em></td>
+<td><code>minted_baking</code> <em>float64</em></td>
 <td>Issued supply as rewards for block baking.</td>
 </tr>
 
 <tr>
-<td><code>minted_endorsing</code> <em>int</em></td>
+<td><code>minted_endorsing</code> <em>float64</em></td>
 <td>Issued supply as rewards for block endorsement.</td>
 </tr>
 
 <tr>
-<td><code>minted_seeding</code> <em>int</em></td>
+<td><code>minted_seeding</code> <em>float64</em></td>
 <td>Issued supply as rewards for seed nonce revelations.</td>
 </tr>
 
 <tr>
-<td><code>minted_airdrop</code> <em>int</em></td>
+<td><code>minted_airdrop</code> <em>float64</em></td>
 <td>Issued supply as rewards for developers and protocol-upgrade airdrops (i.e. in Babylon).</td>
 </tr>
 
 <tr>
-<td><code>burned</code> <em>int</em></td>
+<td><code>burned</code> <em>float64</em></td>
 <td>Total burned supply.</td>
 </tr>
 
 <tr>
-<td><code>burned_double_baking</code> <em>int</em></td>
+<td><code>burned_double_baking</code> <em>float64</em></td>
 <td>Total supply burned due to double baking.</td>
 </tr>
 
 <tr>
-<td><code>burned_double_endorse</code> <em>int</em></td>
+<td><code>burned_double_endorse</code> <em>float64</em></td>
 <td>Total supply burned due to double endorsement.</td>
 </tr>
 
 <tr>
-<td><code>burned_origination</code> <em>int</em></td>
+<td><code>burned_origination</code> <em>float64</em></td>
 <td>Total supply burned due to contract originations.</td>
 </tr>
 
 <tr>
-<td><code>burned_implicit</code> <em>int</em></td>
+<td><code>burned_implicit</code> <em>float64</em></td>
 <td>Total supply burned due to implicit account creation.</td>
 </tr>
 
 <tr>
-<td><code>frozen</code> <em>int</em></td>
+<td><code>burned_seed_miss</code> <em>float64</em></td>
+<td>Total supply burned due to implicit account creation.</td>
+</tr>
+
+<tr>
+<td><code>frozen</code> <em>float64</em></td>
 <td>Currently frozen supply.</td>
 </tr>
 
 <tr>
-<td><code>frozen_deposits</code> <em>int</em></td>
+<td><code>frozen_deposits</code> <em>float64</em></td>
 <td>Currently frozen bonds.</td>
 </tr>
 
 <tr>
-<td><code>frozen_rewards</code> <em>int</em></td>
+<td><code>frozen_rewards</code> <em>float64</em></td>
 <td>Currently frozen rewards.</td>
 </tr>
 
 <tr>
-<td><code>frozen_fees</code> <em>int</em></td>
+<td><code>frozen_fees</code> <em>float64</em></td>
 <td>Currently frozen fees.</td>
 </tr>
 </tbody>
@@ -5959,10 +5968,15 @@ ECDHE-RSA-AES128-SHA256
     <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">double_endorsing_income</span>
     <span class="mf">1.875000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">seed_income</span>
     <span class="mf">1.680381</span><span class="p">,</span>         <span class="err">//</span> <span class="err">fees_income</span>
-    <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">lost_baking_income</span>
-    <span class="mf">32.000000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">stolen_baking_income</span>
-    <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">slashed_income</span>
+    <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">missed_baking_income</span>
     <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">missed_endorsing_income</span>
+    <span class="mf">32.000000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">stolen_baking_income</span>
+    <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">total_lost</span>
+    <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">lost_accusation_fees</span>
+    <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">lost_accusation_rewards</span>
+    <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">lost_accusation_deposits</span>
+    <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">lost_revelation_fees</span>
+    <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">//</span> <span class="err">lost_revelation_rewards</span>
     <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span>  <span class="err">//</span> <span class="err">address</span>
   <span class="p">]</span>
 <span class="p">]</span></code></pre></div>
@@ -6085,47 +6099,52 @@ ECDHE-RSA-AES128-SHA256
 
 <tr>
 <td><code>total_income</code> <em>float</em></td>
-<td>Actual total income.</td>
+<td>Total sum of all income (note: due to losses, the actual income may be smaller).</td>
 </tr>
 
 <tr>
 <td><code>total_bonds</code> <em>float</em></td>
-<td>Actual deposits.</td>
+<td>Actual deposits (note: due to losses, the actual unfrozen bonds may be smaller).</td>
 </tr>
 
 <tr>
 <td><code>baking_income</code> <em>float</em></td>
-<td>Actual income from baking blocks.</td>
+<td>Total income from baking blocks.</td>
 </tr>
 
 <tr>
 <td><code>endorsing_income</code> <em>float</em></td>
-<td>Actual income from endorsing blocks.</td>
+<td>Total income from endorsing blocks.</td>
 </tr>
 
 <tr>
 <td><code>double_baking_income</code> <em>float</em></td>
-<td>Actual income from denouncing double baking.</td>
+<td>Total income from denouncing double baking.</td>
 </tr>
 
 <tr>
 <td><code>double_endorsing_income</code> <em>float</em></td>
-<td>Actual income from denouncing double endorsing.</td>
+<td>Total income from denouncing double endorsing.</td>
 </tr>
 
 <tr>
 <td><code>seed_income</code> <em>float</em></td>
-<td>Actual income from publishing seed nonces.</td>
+<td>Total income from publishing seed nonces.</td>
 </tr>
 
 <tr>
 <td><code>fees_income</code> <em>float</em></td>
-<td>Actual income from fees.</td>
+<td>Total income from fees.</td>
 </tr>
 
 <tr>
-<td><code>lost_baking_income</code> <em>float</em></td>
-<td>Lost income from lost blocks.</td>
+<td><code>missed_baking_income</code> <em>float</em></td>
+<td>Missed income from lost blocks.</td>
+</tr>
+
+<tr>
+<td><code>missed_endorsing_income</code> <em>float</em></td>
+<td>Missed income due to missed endorsements.</td>
 </tr>
 
 <tr>
@@ -6134,13 +6153,33 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>slashed_income</code> <em>float</em></td>
-<td>Lost income due to denounciations.</td>
+<td><code>total_lost</code> <em>float</em></td>
+<td>Total lost income due to denounciations or unpublished seed nonces. This will reduce <code>total_income</code> above.</td>
 </tr>
 
 <tr>
-<td><code>missed_endorsing_income</code> <em>float</em></td>
-<td>Lost income due to missed endoresements.</td>
+<td><code>lost_accusation_fees</code> <em>float</em></td>
+<td>Lost fees due to a denounciation.</td>
+</tr>
+
+<tr>
+<td><code>lost_accusation_rewards</code> <em>float</em></td>
+<td>Lost rewards due to a denounciation.</td>
+</tr>
+
+<tr>
+<td><code>lost_accusation_deposits</code> <em>float</em></td>
+<td>Lost income due to a denounciation.</td>
+</tr>
+
+<tr>
+<td><code>lost_revelation_fees</code> <em>float</em></td>
+<td>Lost fees due to an unpublished seed nonce.</td>
+</tr>
+
+<tr>
+<td><code>lost_revelation_rewards</code> <em>float</em></td>
+<td>Lost block rewards due to an unpublished seed nonce.</td>
 </tr>
 
 <tr>
@@ -7316,12 +7355,13 @@ ECDHE-RSA-AES128-SHA256
 
 <p>Recent changes and additions to the TzStats Data API.</p>
 
-<h2 id="2019-10-20">2019-10-20</h2>
+<h2 id="2019-10-26">2019-10-26</h2>
 
 <ul>
-<li>changed some supply fields from <code>mined_*</code> to <code>minted_*</code></li>
-<li>add new supply field <code>minted_airdrop</code> for invoices and protocol upgrade airdrops</li>
-<li>support Babylon airdrop of 1 mutez to manager accounts</li>
+<li>renamed income table field <code>lost_baking_income</code> into <code>missed_baking_income</code> to align its name with <code>missed_endorsing_income</code></li>
+<li>renamed income table field <code>slashed_income</code> into <code>total_lost</code> because it includes not only income but also deposits that may be slashed</li>
+<li>added new income fields <code>lost_accusation_fees</code>, <code>lost_accusation_rewards</code>, <code>lost_accusation_deposits</code>, <code>lost_revelation_fees</code>, <code>lost_revelation_rewards</code> to differentiate losses</li>
+<li>added new supply field <code>burned_seed_miss</code> to capture supply burned by missed seed nonce revelations</li>
 </ul>
 
 <h2 id="2019-10-24">2019-10-24</h2>
@@ -7329,6 +7369,14 @@ ECDHE-RSA-AES128-SHA256
 <ul>
 <li>add <code>n_endorsed_slots</code> to block table, series and explorer endpoint</li>
 <li>support bigint in smart contract params, code, bigmaps and storage</li>
+</ul>
+
+<h2 id="2019-10-20">2019-10-20</h2>
+
+<ul>
+<li>changed some supply fields from <code>mined_*</code> to <code>minted_*</code></li>
+<li>add new supply field <code>minted_airdrop</code> for invoices and protocol upgrade airdrops</li>
+<li>support Babylon airdrop of 1 mutez to manager accounts</li>
 </ul>
 
     

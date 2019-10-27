@@ -6,6 +6,13 @@ import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, Value } f
 import { getAccountIncome } from '../../../../services/api/tz-stats';
 import { useGlobal } from 'reactn';
 
+const losses = [
+  'lost_accusation_fees',
+  'lost_accusation_rewards',
+  'lost_revelation_fees',
+  'lost_revelation_rewards'
+];
+
 function updateStatus(income, cycle, config, balance) {
   let j = 0;
   for (var i = income.length-1; i>=0; j++ && i--) {
@@ -42,7 +49,10 @@ function updateStatus(income, cycle, config, balance) {
         item.overdelegated = true;
         item.color = '#ED6290';
       }
-      item.projected_balance += iplus5.total_bonds + iplus5.total_income * share;
+      const unfreeze_bonds = iplus5.total_bonds - iplus5.lost_accusation_deposits;
+      let unfreeze_rewards = iplus5.total_income;
+      losses.forEach(n => { unfreeze_rewards -= iplus5[n]; });
+      item.projected_balance += unfreeze_bonds + unfreeze_rewards * share;
       break;
     default:
       item.status = 'Pending';
@@ -63,10 +73,15 @@ function updateStatus(income, cycle, config, balance) {
       }
       if (income[i+5].cycle === cycle) {
         // current cycle is not finished yet, so our best guess is use max(total, expected)
-        item.projected_balance += Math.max(iplus5.total_bonds, iplus5.expected_bonds);
-        item.projected_balance += Math.max(iplus5.total_income, iplus5.expected_income) * share;
+        const unfreeze_bonds = Math.max(iplus5.total_bonds, iplus5.expected_bonds) - iplus5.lost_accusation_deposits;
+        let unfreeze_rewards = Math.max(iplus5.total_income, iplus5.expected_income);
+        losses.forEach(n => { unfreeze_rewards -= iplus5[n]; });
+        item.projected_balance += unfreeze_bonds + unfreeze_rewards * share;
       } else {
-        item.projected_balance += iplus5.total_bonds + iplus5.total_income * share;
+        const unfreeze_bonds = iplus5.total_bonds - iplus5.lost_accusation_deposits;
+        let unfreeze_rewards = iplus5.total_income;
+        losses.forEach(n => { unfreeze_rewards -= iplus5[n]; });
+        item.projected_balance += unfreeze_bonds + unfreeze_rewards * share;
       }
     }
   };
@@ -83,6 +98,11 @@ const columns = [
   'total_income',
   'n_baking_rights',
   'n_endorsing_rights',
+  'lost_accusation_deposits',
+  'lost_accusation_fees',
+  'lost_accusation_rewards',
+  'lost_revelation_fees',
+  'lost_revelation_rewards'
 ];
 
 const BondsTable = ({ account }) => {

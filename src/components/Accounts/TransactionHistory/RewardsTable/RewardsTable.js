@@ -39,9 +39,14 @@ const columns = [
   'seed_income',
   'double_baking_income',
   'double_endorsing_income',
-  'slashed_income',
   'total_income',
   'expected_income',
+  'total_lost',
+  'lost_accusation_fees',
+  'lost_accusation_rewards',
+  'lost_accusation_deposits',
+  'lost_revelation_fees',
+  'lost_revelation_rewards',
   'luck_percent',
   'efficiency_percent',
 ];
@@ -169,7 +174,7 @@ const RewardsTable = ({ account }) => {
               <TableCell width={11}><Value value={item.endorsing_income} type="currency" digits={0} zero="-"/></TableCell>
               <TableCell width={10}><Value value={item.seed_income + item.double_baking_income + item.double_endorsing_income} type="currency" digits={0} zero="-"/></TableCell>
               <TableCell width={10}><Value value={item.fees_income} type="currency" digits={0} zero="-"/></TableCell>
-              <TableCell width={10}><Value value={item.slashed_income} type="currency" digits={0} zero="-"/></TableCell>
+              <TableCell width={10}><Value value={item.total_lost} type="currency" digits={0} zero="-"/></TableCell>
               <TableCell width={15}>
                 <Value value={item.luck_percent/100} type="percent" digits={2} zero="-"/>
                 &nbsp;/&nbsp;
