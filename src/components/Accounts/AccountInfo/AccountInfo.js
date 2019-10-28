@@ -106,12 +106,12 @@ const AccountInfo = ({ account }) => {
                 <DataBox valueSize="14px" title="Rolls Owned" ta="right" value={account.rolls} />
               </FlexRowSpaceBetween>
             </FlexColumnSpaceBetween>
-          ) : account.is_delegated ? (
+          ) : (account.is_delegated || account.is_contract) ? (
             <FlexColumnSpaceBetween minHeight={100}>
               {account.delegate && !account.is_delegate ? (
                 <HashedBox hash={account.delegate} isCopy={false} typeName={`Current Delegate`} />
               ) : (
-                <div>&nbsp;</div>
+                <DataBox title="Current Delegate" valueType="text" value="-"/>
               )}
               {account.manager ? (
                 <HashedBox hash={account.manager} isCopy={false} typeName={`Manager`} />
