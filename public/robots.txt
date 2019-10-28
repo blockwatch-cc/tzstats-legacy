@@ -9,7 +9,3 @@ Allow: /
 # Ahrefs Bot
 user-agent: AhrefsBot
 disallow: /
-
-User-agent: Googlebot
-# disallow all files ending with these extensions
-Disallow: /*.js$
