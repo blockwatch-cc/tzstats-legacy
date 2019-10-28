@@ -105,7 +105,7 @@ export const Value = ({
       res = formatTime(value);
       break;
     case 'currency':
-      sym = isUndefined(sym)?'ꜩ':sym;
+      sym = isUndefined(sym) ? 'ꜩ' : sym;
       if (!!digits) {
         res = formatCurrency(value, '.' + digits + 's');
       } else {
@@ -113,15 +113,15 @@ export const Value = ({
       }
       break;
     case 'currency-short':
-      sym = isUndefined(sym)?'ꜩ':sym;
+      sym = isUndefined(sym) ? 'ꜩ' : sym;
       res = formatCurrency(value, '~s');
       break;
     case 'currency-flex':
-      sym = isUndefined(sym)?'ꜩ':sym;
+      sym = isUndefined(sym) ? 'ꜩ' : sym;
       res = formatCurrency(value, ',.' + digits + 'r');
       break;
     case 'currency-full':
-      sym = isUndefined(sym)?'ꜩ':sym;
+      sym = isUndefined(sym) ? 'ꜩ' : sym;
       res = formatCurrency(value.toFixed(6), ',');
       break;
     case 'currency-usd':
@@ -162,15 +162,21 @@ export const Value = ({
   }
   let arr = re.exec(res);
   return arr && arr.length ? (
-    <Wrapper {...props}>
+    <ValueWrapper {...props}>
       {`${prefix}${arr[1]}`}
-      {dim?(<Dim>.{arr[2]}</Dim>):'.'+arr[2]}
-      {arr[3]}{arr[3]?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
-    </Wrapper>
+      {dim ? <Dim>.{arr[2]}</Dim> : '.' + arr[2]}
+      {arr[3]}
+      {arr[3] ? '' : ' '}
+      {sym === 'ꜩ' ? <Tz fontSize={fontSize} /> : sym}
+      {suffix}
+    </ValueWrapper>
   ) : (
-    <Wrapper {...props}>
-      {res}{res.match(/.*[MkGmµ]$/)?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
-    </Wrapper>
+    <ValueWrapper {...props}>
+      {res}
+      {res.match(/.*[MkGmµ]$/) ? '' : ' '}
+      {sym === 'ꜩ' ? <Tz fontSize={fontSize} /> : sym}
+      {suffix}
+    </ValueWrapper>
   );
 };
 
@@ -183,12 +189,21 @@ export const Dim = styled.small`
 const Wrapper = styled.span`
   font-size: ${props => props.size + 'rem'};
   text-align: ${props => props.ta};
-  margin-left: ${props => (props.ml||0) + 'rem'};
-  margin-right: ${props => (props.mr||0) + 'rem'};
-  padding: ${props => (props.pad||0) + 'rem'};
-  opacity: ${props => props.opacity||1};
+  margin-left: ${props => (props.ml || 0) + 'rem'};
+  margin-right: ${props => (props.mr || 0) + 'rem'};
+  padding: ${props => (props.pad || 0) + 'rem'};
+  opacity: ${props => props.opacity || 1};
   white-space: nowrap;
 `;
+
+const ValueWrapper = styled.span`
+  font-size: ${props => props.fontSize};
+  text-align: ${props => props.ta};
+  margin-left: ${props => (props.ml || 0) + 'px'};
+  margin-right: ${props => (props.mr || 0) + 'px'};
+  white-space: nowrap;
+`;
+
 const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);
   font-size: ${props => props.size + 'rem'};

@@ -12,7 +12,7 @@ const BarLegend = ({ settings }) => {
 
 const LegendContent = ({ settings }) => {
   return settings.map((item, i) => {
-    return (
+    return item.percent > 0 ? (
       <LegendItem key={i} {...item}>
         <DataBox
           valueType="currency"
@@ -22,7 +22,7 @@ const LegendContent = ({ settings }) => {
           title={`${item.title} ${Math.round(item.percent)}%`}
         />
       </LegendItem>
-    );
+    ) : '';
   });
 };
 
