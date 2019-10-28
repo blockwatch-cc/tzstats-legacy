@@ -3,7 +3,7 @@ import { Spinner } from '../../../../components/Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, Value } from '../../../Common';
-import { getAccountIncome } from '../../../../services/api/tz-stats';
+import { getAccountIncome, zeroIncome } from '../../../../services/api/tz-stats';
 import { useGlobal } from 'reactn';
 
 const losses = [
@@ -17,7 +17,7 @@ function updateStatus(income, cycle, config, balance) {
   let j = 0;
   for (var i = income.length-1; i>=0; j++ && i--) {
     let item = income[i];
-    let iplus5 = j > 5 ? income[i+5] : {projected_balance:0};
+    let iplus5 = j > 5 ? income[i+5] : zeroIncome(i+5, columns);
     let share = j > 5 ? iplus5.balance / (iplus5.balance + iplus5.delegated) : 0;
     switch (true) {
     case item.cycle < cycle - config.preserved_cycles:
@@ -64,14 +64,16 @@ function updateStatus(income, cycle, config, balance) {
       //   "unfreeze_income_share=", share,
       //   "unfreeze_income_after_share=", iplus5.total_income * share
       // );
-      item.projected_balance = income[i+1].projected_balance - item.expected_bonds;
+      // for new bakers during their vesting period, the income table is not filled
+      const last_balance = income.length > i+1 ? income[i+1].projected_balance : balance;
+      item.projected_balance = last_balance - item.expected_bonds;
       item.available_balance = item.projected_balance;
       if (item.projected_balance < 0) {
         item.projected_balance = 0;
         item.overdelegated = true;
         item.color = '#ED6290';
       }
-      if (income[i+5].cycle === cycle) {
+      if (income.length > i+5 && income[i+5].cycle === cycle) {
         // current cycle is not finished yet, so our best guess is use max(total, expected)
         const unfreeze_bonds = Math.max(iplus5.total_bonds, iplus5.expected_bonds) - iplus5.lost_accusation_deposits;
         let unfreeze_rewards = Math.max(iplus5.total_income, iplus5.expected_income);

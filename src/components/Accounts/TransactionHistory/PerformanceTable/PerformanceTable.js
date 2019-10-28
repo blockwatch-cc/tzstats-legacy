@@ -21,7 +21,7 @@ const PerformanceTable = ({ account }) => {
         getAccountRights({ address: account.address, cycle: cycleId }),
         getAccountIncome({ address: account.address, cycle: cycleId, limit: 1 }),
       ]);
-      income = income[0]||zeroIncome();
+      income = income[0]||zeroIncome(cycleId);
       const total = income.total_income;
       const lost = income.total_lost;
       const missed = income.missed_endorsing_income + income.missed_baking_income;
