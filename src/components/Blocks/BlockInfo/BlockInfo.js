@@ -27,8 +27,8 @@ const BlockInfo = ({ block, setTxType }) => {
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180}>
               <FlexRowWrap minWidth={250}>
-                <DataBox valueSize="16px" title={`Baked on ${formatDayTime(block.time)}`} value={block.height} />
-                <Link to={`/cycle/${block.cycle}`}><DataBox valueSize="16px" ml={30} title="Cycle" value={block.cycle} /></Link>
+                <DataBox title={`Baked on ${formatDayTime(block.time)}`} value={block.height} />
+                <Link to={`/cycle/${block.cycle}`}><DataBox ml={1} title="Cycle" value={block.cycle} /></Link>
               </FlexRowWrap>
               <HashedBox hash={block.baker} isCopy={false} short={true} typeName={'Baker'} />
               <FlexColumn>
@@ -45,14 +45,14 @@ const BlockInfo = ({ block, setTxType }) => {
               </FlexColumn>
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180} minWidth={100} ml={20}>
-              <DataBox valueSize="16px" title="Priority" value={block.priority} />
-              <DataBox valueSize="16px" title="Gas Used" value={block.gas_used} />
-              <DataBox valueSize="16px" valueType="currency-short" title="Gas Price" value={block.gas_price / 1000} />
+              <DataBox title="Priority" value={block.priority} />
+              <DataBox title="Gas Used" value={block.gas_used} />
+              <DataBox valueType="currency-short" title="Gas Price" value={block.gas_price / 1000} />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={180} minWidth={100} ml={20}>
-              <DataBox valueSize="16px" valueType="text" title="Solvetime" value={block.solvetime + ' sec'} />
-              <DataBox valueSize="16px" valueType="currency" valueOpts={{digits:0}} title="Block Rewards" value={block.rewards} />
-              <DataBox valueSize="16px" valueType="currency-short" title="Block Fees" value={block.fees} />
+              <DataBox valueType="text" title="Solvetime" value={block.solvetime + ' sec'} />
+              <DataBox valueType="currency" valueOpts={{digits:0}} title="Block Rewards" value={block.rewards} />
+              <DataBox valueType="currency-short" title="Block Fees" value={block.fees} />
             </FlexColumnSpaceBetween>
           </FlexRowSpaceBetween>
           <BlockTxChart block={block} setTxType={setTxType} />

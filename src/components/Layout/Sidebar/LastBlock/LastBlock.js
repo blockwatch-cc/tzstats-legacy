@@ -17,7 +17,6 @@ const LastBlock = ({ history }) => {
         <FlexRowSpaceBetween>
           <FlexColumn>
             <DataBox
-              valueSize="16px"
               title={`Latest Block seen ${timeAgo.format(new Date(chain.timestamp))}`}
               value={chain.height}
             />

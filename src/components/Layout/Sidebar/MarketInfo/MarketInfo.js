@@ -55,7 +55,7 @@ const MarketInfo = ({ history }) => {
         <FlexRowSpaceBetween>
           <FlexColumn>
             <FlexRow>
-              <div style={{ fontSize: 16 }}>${lastMarketData.price.toFixed(2)}</div>
+              <div style={{ fontSize: '1.25rem' }}>${lastMarketData.price.toFixed(2)}</div>
               <PriceChanges style={{color:(lastMarketData.change < 0 ?'#FC6483':'#1af9ff')}}>
                 {getPriceIndicator()}
                 &nbsp;
@@ -65,7 +65,6 @@ const MarketInfo = ({ history }) => {
             <DataBox title="Tezos Price" />
           </FlexColumn>
           <DataBox
-            valueSize="16px"
             title="Market Cap"
             valueOpts={{dim:0,digits:3,round:1}}
             valueType="currency-usd"

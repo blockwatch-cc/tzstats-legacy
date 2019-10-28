@@ -11,8 +11,8 @@ const DataBox = ({
   valueType,
   valueOpts,
   type = '',
-  valueSize = '18px',
-  titleSize = '10px',
+  valueSize = 1.25,
+  titleSize = 0.75,
   ta = 'left',
   ml = '0',
   mr = '0',
@@ -20,36 +20,36 @@ const DataBox = ({
   switch (type) {
     case 'title-bottom':
       return (
-        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
+        <Wrapper ta={ta} ml={ml} mr={mr} size={valueSize}>
           {title && (valueType && !value) ? (
-            <Title fontSize={titleSize}>
+            <Title size={titleSize}>
               <Value type={valueType} value={title} {...valueOpts} />
             </Title>
           ) : (
-            <Title fontSize={titleSize}>{title}</Title>
+            <Title size={titleSize}>{title}</Title>
           )}
-          {value !== undefined && <Value type={valueType} value={value} fontSize={valueSize} />}
+          {value !== undefined && <Value type={valueType} value={value} size={valueSize} />}
         </Wrapper>
       );
     case 'value-as-title':
       return (
-        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
+        <Wrapper ta={ta} ml={ml} mr={mr} size={valueSize}>
           {title}
           {value !== undefined && (
-            <Title fontSize={titleSize}>
-              <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />
+            <Title size={titleSize}>
+              <Value type={valueType} value={value} {...valueOpts} size={valueSize} />
             </Title>
           )}
         </Wrapper>
       );
     case 'horizontal-value-as-title':
       return (
-        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
+        <Wrapper ta={ta} ml={ml} mr={mr} size={valueSize}>
           <FlexRow justifyContent="space-between" alignItems="center">
             {<div style={{ paddingRight: '10px' }}>{title}</div>}
             {value !== undefined && (
-              <Title fontSize={titleSize}>
-                <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />
+              <Title size={titleSize}>
+                <Value type={valueType} value={value} {...valueOpts} size={valueSize} />
               </Title>
             )}
           </FlexRow>
@@ -58,9 +58,9 @@ const DataBox = ({
 
     default:
       return (
-        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
-          {value !== undefined && <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />}
-          {title && <Title fontSize={titleSize}>{title}</Title>}
+        <Wrapper ta={ta} ml={ml} mr={mr} size={valueSize}>
+          {value !== undefined && <Value type={valueType} value={value} {...valueOpts} size={valueSize} />}
+          {title && <Title size={titleSize}>{title}</Title>}
         </Wrapper>
       );
   }
@@ -79,7 +79,8 @@ export const Value = ({
   round = false,
   dim = true,
   zero = null,
-  fontSize = 12
+  fontSize = 12,
+  ...props
 }) => {
   if (value === 0 && zero) {
     return zero;
@@ -161,13 +162,13 @@ export const Value = ({
   }
   let arr = re.exec(res);
   return arr && arr.length ? (
-    <Wrapper>
+    <Wrapper {...props}>
       {`${prefix}${arr[1]}`}
       {dim?(<Dim>.{arr[2]}</Dim>):'.'+arr[2]}
       {arr[3]}{arr[3]?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
     </Wrapper>
   ) : (
-    <Wrapper>
+    <Wrapper {...props}>
       {res}{res.match(/.*[MkGmµ]$/)?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
     </Wrapper>
   );
@@ -180,15 +181,17 @@ const Dim = styled.small`
 `;
 
 const Wrapper = styled.span`
-  font-size: ${props => props.fontSize};
+  font-size: ${props => props.size + 'rem'};
   text-align: ${props => props.ta};
-  margin-left: ${props => (props.ml||0) + 'px'};
-  margin-right: ${props => (props.mr||0) + 'px'};
+  margin-left: ${props => (props.ml||0) + 'rem'};
+  margin-right: ${props => (props.mr||0) + 'rem'};
+  padding: ${props => (props.pad||0) + 'rem'};
+  opacity: ${props => props.opacity||1};
   white-space: nowrap;
 `;
 const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);
-  font-size: ${props => props.fontSize};
+  font-size: ${props => props.size + 'rem'};
 `;
 
 export default DataBox;

@@ -40,7 +40,7 @@ const CardContent = ({ title, tags = [], right, children }) => {
 };
 
 const LinkIcon = styled.div`
-  font-size: 8px;
+  font-size: 0.7rem;
   color: #646876;
   position: absolute;
   right: 3px;
@@ -48,13 +48,14 @@ const LinkIcon = styled.div`
 `;
 const Wrapper = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   flex-wrap: wrap;
   border-radius: 2px;
   background-color: ${props => (props.isClickable ? '#3D404D' : '#444755')};
   cursor: ${props => (props.isClickable ? 'pointer' : 'default')};
   min-height: ${props => (props.mh ? props.mh : 0)}px;
-  padding: 20px 30px;
+  padding: 15px 15px;
   margin-top: 10px;
   position: relative;
 `;
@@ -66,13 +67,13 @@ const CardHeader = styled.div`
   margin-bottom: 10px;
 `;
 const Title = styled.div`
-  font-size: 12px;
-  color: #fff;
+  font-size: 1rem;
+  color: #999;
 `;
 const RightSide = styled.div`
-  font-size: 12px;
-  color: #fff;
-  right: -10px;
+  font-size: 1rem;
+  color: #999;
+  right: 0px;
   position: absolute;
 `;
 const Tags = styled.div`
