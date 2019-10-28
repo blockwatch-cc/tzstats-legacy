@@ -37,7 +37,6 @@ const AccountsGrowth = props => {
             <Value pad={0.25} ml={1} type="percent" value={chain.funded_accounts_30d/chain.funded_accounts} digits={2} dim={0} opacity={0.7} zero="-"/>
           </div>
         </AlignedForm>
-
       </Card>
     </Wrapper>
   );
@@ -47,7 +46,6 @@ const Wrapper = styled.div`
   display: flex;
   flex: 1;
   align-items: strech;
-  min-width: 340px;
   margin: 0 5px;
 `;
 const Details = styled.div`

@@ -140,11 +140,6 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 10px;
-  max-width: 900px;
-  min-width: 900px;
-  @media ${Devices.mobileL} {
-    min-width: 380px;
-  }
 `;
 const SearchWrapper = styled.div`
   display: flex;

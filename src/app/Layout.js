@@ -24,11 +24,6 @@ const Wrapper = styled.div`
 const Content = styled.div`
   flex: 1;
   padding: 10px 0;
-  max-width: 900px;
-  min-width: 900px;
-  @media ${Devices.mobileL} {
-    min-width: 380px;
-  }
 `;
 const MainPanel = styled.main`
   display: flex;
@@ -36,11 +31,7 @@ const MainPanel = styled.main`
   flex: 1;
   padding 10px;
   align-items: left;
-  max-width: 930px;
   margin: 0 auto;
-  @media ${Devices.mobileL} {
-    min-width: 380px;
-  }
 `;
 
 export default Layout;

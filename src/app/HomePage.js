@@ -120,7 +120,7 @@ const Home = () => {
       {isMainnet(config) ? (
         <TwoElementsWrapper>
           <PriceHistory priceHistory={data.priceHistory} />
-          <FlexColumn>
+          <FlexColumn flex={1}>
             <StakingInfo />
             <ElectionProgress election={data.election} />
           </FlexColumn>

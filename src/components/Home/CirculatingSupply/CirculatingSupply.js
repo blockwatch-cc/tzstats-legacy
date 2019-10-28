@@ -10,8 +10,8 @@ const CirculatingSupply = () => {
   let bar = getBarSettings(chain);
   let all = [{
       percent: 100,
-      color: '#fff',
-      title: 'Total',
+      color: '#ccc',
+      title: 'Total Supply',
       value: chain.supply.total,
     }, ...bar
   ];
@@ -45,8 +45,8 @@ const CirculatingSupply = () => {
 };
 
 const Wrapper = styled.div`
+  display: flex;
   flex: 1;
-  min-width: 340px;
   margin: 0 5px;
 `;
 export default CirculatingSupply;

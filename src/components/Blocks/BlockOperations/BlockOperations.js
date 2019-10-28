@@ -114,7 +114,7 @@ const NoOperations = styled.div`
   color: #858999;
 `;
 const Wrapper = styled.div`
-  min-width: 340px;
-  flex: 1.8;
+  display: flex;
+  flex: 1;
 `;
 export default BlockOperations;

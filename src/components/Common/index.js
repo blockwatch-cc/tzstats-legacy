@@ -24,7 +24,7 @@ import {
   TwoCardInline,
 } from './Box';
 import { LinkIcon } from './Controls';
-import { Value } from './DataBox';
+import { Value, Dim } from './DataBox';
 
 import {
   AlignedForm,
@@ -73,6 +73,7 @@ export {
   TableCell,
   TableDetails,
   Value,
+  Dim,
   TwoCardInline,
   Devices,
   Sizes,

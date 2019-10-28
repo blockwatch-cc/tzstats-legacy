@@ -23,7 +23,7 @@ class BarChart extends React.Component {
     return (
       <ChartCanvas
         height={180}
-        width={width - 120}
+        width={width}
         seriesName={''}
         ratio={2}
         margin={{
@@ -57,7 +57,7 @@ class BarChart extends React.Component {
 
           <BarSeries
             clip={false}
-            width={19}
+            width={width/50}
             yAccessor={d => d.value}
             fill={'#29C0FF'} />
 

@@ -15,8 +15,8 @@ const PriceHistory = ({ priceHistory }) => {
   );
 };
 const Wrapper = styled.div`
-  min-width: 340px;
-  flex: 2;
+  display: flex;
+  flex: 1;
   margin: 0 5px;
 `;
 export default PriceHistory;

@@ -21,8 +21,6 @@ const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
               title="Spendable"
               value={parseFloat(account.spendable_balance.toFixed(2))}
             />
-
-            {/* <DataBox valueType="text" title="Stacking Earnings" value="N/A" /> */}
           </FlexColumnSpaceAround>
           <FlexColumnSpaceAround minHeight={150}>
             <DataBox
@@ -31,7 +29,6 @@ const DelegatorBalanceHistory = ({ account, balanceHistory }) => {
               title="Value"
               value={account.spendable_balance * lastMarketData.price}
             />
-            {/* <DataBox valueType="text" title="Pending Earnings" value="N/A" /> */}
           </FlexColumnSpaceAround>
         </FlexRowSpaceBetween>
       </FlexRowWrap>

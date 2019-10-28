@@ -74,6 +74,7 @@ const Slot = styled.div`
 `;
 
 const Wrapper = styled.div`
-  min-width: 340px;
+  display: flex;
+  flex: 1;
 `;
 export default BlockInfo;

@@ -84,8 +84,8 @@ const Vote = ({ period }) => {
 };
 
 const Wrapper = styled.div`
+  display: flex;
   flex: 1;
-  min-width: 340px;
   margin: 0 5px;
 `;
 

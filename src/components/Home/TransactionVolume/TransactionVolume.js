@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, FlexColumnSpaceBetween, FlexRow, DataBox } from '../../Common';
+import { Card, AlignedForm, Label, Value, FlexRow, Dim } from '../../Common';
 import BarChart from './BarChart';
 import _ from 'lodash';
 
@@ -12,22 +12,29 @@ const TransactionVolume = ({ txSeries, txVol24h }) => {
       <Card title={'Transaction Volume Last 30d'}>
         <FlexRow>
           <BarChart data={txSeries} />
-
-          <FlexColumnSpaceBetween minWidth={100} ml={20}>
-            <DataBox valueSize="14px" title="24h Transactions" value={txVol24h[1]} />
-            <DataBox valueSize="14px" valueType="currency" title="24h Volume" valueOpts={{digits:3,dim:0}} value={txVol24h[0]} />
-            <DataBox valueSize="14px" title="30d Avg Transactions" value={avgTxn} />
-            <DataBox valueSize="14px" valueType="currency" valueOpts={{digits:3,dim:0}} title="30d Avg Volume" value={avgVolume} />
-          </FlexColumnSpaceBetween>
         </FlexRow>
+        <AlignedForm>
+          <div>
+            <Label>Transactions <Dim>(24h / 30d avg)</Dim></Label>
+            <Label>Volume <Dim>(24h / 30d avg)</Dim></Label>
+          </div>
+          <div>
+            <Value pad={0.25} ml={1} type="value-short" dim={0} value={txVol24h[1]} />
+            <Value pad={0.25} ml={1} type="currency" dim={0} digits={3} value={txVol24h[0]} />
+          </div>
+          <div>
+            <Value pad={0.25} ml={1} type="value-short" dim={0} value={avgTxn} />
+            <Value pad={0.25} ml={1} type="currency" dim={0} digits={3} value={avgVolume} />
+          </div>
+        </AlignedForm>
       </Card>
     </Wrapper>
   );
 };
 const Wrapper = styled.div`
-  min-width: 340px;
+  display: flex;
+  flex: 1;
   margin: 0 5px;
-  flex: 2;
 `;
 
 export default TransactionVolume;

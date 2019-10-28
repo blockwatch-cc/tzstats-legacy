@@ -68,7 +68,9 @@ const CardHeader = styled.div`
 `;
 const Title = styled.div`
   font-size: 1rem;
-  color: #999;
+  font-weight: 500;
+  color: #99a;
+  text-transform: uppercase;
 `;
 const RightSide = styled.div`
   font-size: 1rem;

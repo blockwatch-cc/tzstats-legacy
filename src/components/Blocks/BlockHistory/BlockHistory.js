@@ -53,11 +53,11 @@ const BlockHistory = ({ blockHistory, currentBlock, lastBlock }) => {
 };
 
 const Wrapper = styled.div`
-  min-width: 340px;
+  display: flex;
+  flex: 1;
 `;
+
 const BlockHistoryWrapper = styled(FlexColumn)`
-  min-width: 340px;
-  max-width: 720px;
   margin-bottom: 30px;
   flex: 1;
   bottom: 0;

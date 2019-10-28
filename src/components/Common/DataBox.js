@@ -174,7 +174,7 @@ export const Value = ({
   );
 };
 
-const Dim = styled.small`
+export const Dim = styled.small`
   opacity: 0.7;
   font-size: 85%;
   font-weight: 200;

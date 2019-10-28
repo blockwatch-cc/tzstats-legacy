@@ -99,7 +99,6 @@ const Wrapper = styled.div`
   width: 220px;
   min-height: 100vh;
   display: flex;
-  display: flex;
   flex-direction: column;
   background-color: #444755;
   padding: 0px 10px;

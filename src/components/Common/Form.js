@@ -25,7 +25,7 @@ export const AlignedForm = styled.div`
 export const Label = styled.label`
   padding: 0.25em;
   box-sizing: border-box;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.52);
 `;
 
 export const LabelDotLeft = styled.div`
@@ -33,7 +33,7 @@ export const LabelDotLeft = styled.div`
   box-sizing: border-box;
   margin-left: 1.2em;
   position: relative;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.52);
   &:after {
     content: '•';
     position: absolute;
