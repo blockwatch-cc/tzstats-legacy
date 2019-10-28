@@ -42,8 +42,11 @@ const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
         </JoinContainer>
       );
     case 'contract':
-      return <DelegatorBalanceHistory account={account} balanceHistory={balanceHistory} />;
-
+      return (
+      <JoinContainer>
+        <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+      </JoinContainer>
+      );
     default:
       break;
   }
