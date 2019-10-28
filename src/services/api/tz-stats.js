@@ -319,9 +319,7 @@ export const getFlowData = async ({ hash, days }) => {
 
 //https://api.tzstats.com/series/block?columns=volume,n_tx&start_date=now-24h&collapse=30m
 export const getTxVolume24h = async () => {
-  const statTime = `now-${24}h`;
-  const response = await request(`/series/block?start_date=${statTime}&collapse=30m&columns=volume,n_tx`);
-
+  const response = await request(`/series/block?start_date=now-24h&collapse=1h&columns=volume,n_tx`);
   return response.reduce(
     (agg, item) => {
       agg[0] += item[1];

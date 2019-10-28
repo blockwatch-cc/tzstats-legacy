@@ -307,11 +307,12 @@ export function getAccountTags(account) {
     tags.push('Vesting');
   }
   if (account.address_type === 'blinded') {
-    tags.push('Fundraiser', 'Not Activated');
+    if (!account.is_activated) {
+      tags.push('Fundraiser', 'Not Activated');
+    } else {
+      tags.push('Activated');
+    }
   }
-  // if (account.is_delegated) {
-  //   tags.push('Delegating');
-  // }
   if (!account.is_active_delegate && account.is_delegate && !account.is_delegated) {
     tags.push('Inactive');
   }

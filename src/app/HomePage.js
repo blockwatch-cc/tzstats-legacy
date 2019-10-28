@@ -9,7 +9,7 @@ import ElectionProgress from '../components/Home/ElectionProgress';
 import AccountsGrowth from '../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../services/api/markets';
 import { isMainnet } from '../utils';
-import { getElectionById, getTxVolume, getBlockTimeRange, getBlockHeight, unwrapBlock } from '../services/api/tz-stats';
+import { getElectionById, getTxVolume, getTxVolume24h, getBlockTimeRange, getBlockHeight, unwrapBlock } from '../services/api/tz-stats';
 import TransactionVolume from '../components/Home/TransactionVolume';
 import { FlexColumn, Spinner } from '../components/Common';
 
@@ -31,17 +31,19 @@ const Home = () => {
       if (now - last > sixtyblocks) {
         now = last;
       }
-      let [priceHistory, txVolSeries, election, blocks] = await Promise.all([
+      let [priceHistory, txVolSeries, txVol24h, election, blocks] = await Promise.all([
         isMainnet(config) ? getOhlcvData({ days: 30, collapse: '6h', limit: 30*4 }) : null,
         getTxVolume({ start: now === last ? last - 30 * 86400 * 1000 : null, days: 30 }),
+        getTxVolume24h(),
         getElectionById(),
         getBlockTimeRange(last - sixtyblocks, now),
       ]);
 
       setData({
-        priceHistory,
-        txVolSeries: txVolSeries,
         isLoaded: true,
+        priceHistory,
+        txVolSeries,
+        txVol24h,
         election,
         blocks,
         currentBlock: unwrapBlock(blocks.slice(-1)[0]),
@@ -66,13 +68,16 @@ const Home = () => {
       }
       let blocks = data.blocks.filter(b => now - new Date(b[0]).getTime() <= sixtyblocks);
       blocks.push(newblock[0]);
-      setData({
-        priceHistory: data.priceHistory,
-        txVolSeries: data.txVolSeries,
-        isLoaded: true,
-        election: data.election,
-        blocks: blocks,
-        currentBlock: unwrapBlock(newblock[0]),
+      setData(d => {
+        return {
+          isLoaded: true,
+          priceHistory: d.priceHistory,
+          txVolSeries: d.txVolSeries,
+          txVol24h: d.txVol24h,
+          election: d.election,
+          blocks: blocks,
+          currentBlock: unwrapBlock(newblock[0]),
+        };
       });
     };
     // nothing to do without a new block
@@ -127,7 +132,7 @@ const Home = () => {
         </TwoElementsWrapper>
       )}
       <TwoElementsWrapper>
-        <TransactionVolume txSeries={data.txVolSeries} />
+        <TransactionVolume txSeries={data.txVolSeries} txVol24h={data.txVol24h}/>
       </TwoElementsWrapper>
       <TwoElementsWrapper>
         <CirculatingSupply />
