@@ -186,7 +186,7 @@ export const Dim = styled.small`
   font-weight: 200;
 `;
 
-const Wrapper = styled.span`
+const Wrapper = styled.div`
   font-size: ${props => props.size + 'rem'};
   text-align: ${props => props.ta};
   margin-left: ${props => (props.ml || 0) + 'rem'};

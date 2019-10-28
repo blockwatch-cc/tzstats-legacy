@@ -32,6 +32,12 @@ import {
   LabelDotLeft
 } from './Form';
 
+import {
+  AlignedForm,
+  Label,
+  LabelDotLeft
+} from './Form';
+
 export { default as CurrencySelect } from './CurrencySelect';
 export { default as IntervalSelect } from './IntervalSelect';
 

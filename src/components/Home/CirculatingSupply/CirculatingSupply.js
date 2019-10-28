@@ -8,12 +8,14 @@ const CirculatingSupply = () => {
   const [chain] = useGlobal('chain');
 
   let bar = getBarSettings(chain);
-  let all = [{
+  let all = [
+    {
       percent: 100,
       color: '#ccc',
       title: 'Total Supply',
       value: chain.supply.total,
-    }, ...bar
+    },
+    ...bar,
   ];
 
   return (
@@ -24,7 +26,11 @@ const CirculatingSupply = () => {
           <AlignedForm>
             <div>
               {all.map((item, i) => {
-                return <LabelDotLeft key={i} color={item.color}>{item.title}</LabelDotLeft>;
+                return (
+                  <LabelDotLeft key={i} color={item.color}>
+                    {item.title}
+                  </LabelDotLeft>
+                );
               })}
             </div>
             <div>
@@ -33,9 +39,20 @@ const CirculatingSupply = () => {
               })}
             </div>
             <div>
-            {all.map((item, i) => {
-              return <Value pad={0.25} ml={1} type="percent" value={item.percent/100} digits={2} dim={0} opacity={0.7} zero="-"/>;
-            })}
+              {all.map((item, i) => {
+                return (
+                  <Value
+                    pad={0.25}
+                    ml={1}
+                    type="percent"
+                    value={item.percent / 100}
+                    digits={2}
+                    dim={0}
+                    opacity={0.7}
+                    zero="-"
+                  />
+                );
+              })}
             </div>
           </AlignedForm>
         </FlexColumnSpaceBetween>
@@ -50,7 +67,6 @@ const Wrapper = styled.div`
   margin: 0 5px;
 `;
 export default CirculatingSupply;
-
 
 function getBarSettings(chain) {
   return [

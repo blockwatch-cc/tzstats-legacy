@@ -31,10 +31,37 @@ const AccountsGrowth = props => {
             <Value pad={0.25} ml={1} type="value-full" dim={0} value={chain.funded_accounts_30d} />
           </div>
           <div>
-            <Value pad={0.25} ml={1} type="percent" value={1} digits={2} dim={0} opacity={0.7} zero="-"/>
-            <Value pad={0.25} ml={1} type="percent" value={chain.new_accounts_30d/chain.funded_accounts} digits={2} dim={0} opacity={0.7} zero="-"/>
-            <Value pad={0.25} ml={1} type="percent" value={chain.cleared_accounts_30d/chain.funded_accounts} digits={2} dim={0} opacity={0.7} zero="-"/>
-            <Value pad={0.25} ml={1} type="percent" value={chain.funded_accounts_30d/chain.funded_accounts} digits={2} dim={0} opacity={0.7} zero="-"/>
+            <Value pad={0.25} ml={1} type="percent" value={1} digits={2} dim={0} opacity={0.7} zero="-" />
+            <Value
+              pad={0.25}
+              ml={1}
+              type="percent"
+              value={chain.new_accounts_30d / chain.funded_accounts}
+              digits={2}
+              dim={0}
+              opacity={0.7}
+              zero="-"
+            />
+            <Value
+              pad={0.25}
+              ml={1}
+              type="percent"
+              value={chain.cleared_accounts_30d / chain.funded_accounts}
+              digits={2}
+              dim={0}
+              opacity={0.7}
+              zero="-"
+            />
+            <Value
+              pad={0.25}
+              ml={1}
+              type="percent"
+              value={chain.funded_accounts_30d / chain.funded_accounts}
+              digits={2}
+              dim={0}
+              opacity={0.7}
+              zero="-"
+            />
           </div>
         </AlignedForm>
       </Card>
