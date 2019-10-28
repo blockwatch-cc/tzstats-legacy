@@ -161,15 +161,15 @@ export const Value = ({
   }
   let arr = re.exec(res);
   return arr && arr.length ? (
-    <Wrapper>
+    <ValueWrapper>
       {`${prefix}${arr[1]}`}
       {dim?(<Dim>.{arr[2]}</Dim>):'.'+arr[2]}
       {arr[3]}{arr[3]?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
-    </Wrapper>
+    </ValueWrapper>
   ) : (
-    <Wrapper>
+    <ValueWrapper>
       {res}{res.match(/.*[MkGmµ]$/)?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
-    </Wrapper>
+    </ValueWrapper>
   );
 };
 
@@ -179,13 +179,22 @@ const Dim = styled.small`
   font-weight: 200;
 `;
 
-const Wrapper = styled.span`
+const Wrapper = styled.div`
   font-size: ${props => props.fontSize};
   text-align: ${props => props.ta};
   margin-left: ${props => (props.ml||0) + 'px'};
   margin-right: ${props => (props.mr||0) + 'px'};
   white-space: nowrap;
 `;
+
+const ValueWrapper = styled.span`
+  font-size: ${props => props.fontSize};
+  text-align: ${props => props.ta};
+  margin-left: ${props => (props.ml||0) + 'px'};
+  margin-right: ${props => (props.mr||0) + 'px'};
+  white-space: nowrap;
+`;
+
 const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);
   font-size: ${props => props.fontSize};
