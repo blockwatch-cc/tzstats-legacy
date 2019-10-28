@@ -163,9 +163,9 @@ const defaultIncomeColumns = [
   'n_slots_missed',
 ];
 
-export const zeroIncome = () => {
-  return defaultIncomeColumns.reduce((o, col) => {
-    o[col] = 0;
+export const zeroIncome = (cycle, columns = defaultIncomeColumns) => {
+  return columns.reduce((o, col) => {
+    o[col] = col==='cycle'?cycle||0:0;
     return o;
   }, {});
 }
