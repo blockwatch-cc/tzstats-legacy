@@ -181,9 +181,8 @@ export const Value = ({
 };
 
 export const Dim = styled.small`
-  opacity: 0.7;
+  opacity: 0.5;
   font-size: 85%;
-  font-weight: 200;
 `;
 
 const Wrapper = styled.div`
@@ -197,10 +196,12 @@ const Wrapper = styled.div`
 `;
 
 const ValueWrapper = styled.span`
-  font-size: ${props => props.fontSize};
+  font-size: ${props => props.size};
   text-align: ${props => props.ta};
-  margin-left: ${props => (props.ml || 0) + 'px'};
-  margin-right: ${props => (props.mr || 0) + 'px'};
+  margin-left: ${props => (props.ml || 0) + 'rem'};
+  margin-right: ${props => (props.mr || 0) + 'rem'};
+  padding: ${props => (props.pad || 0) + 'rem'};
+  opacity: ${props => props.opacity || 1};
   white-space: nowrap;
 `;
 
