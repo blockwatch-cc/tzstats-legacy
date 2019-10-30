@@ -6,10 +6,16 @@ import OnchainActivity from '../components/Analytics/OnchainActivity';
 import TransactionActivity from '../components/Analytics/TransactionActivity';
 import OverallAccountsGrowth from '../components/Analytics/OverallAccountsGrowth';
 import { Spinner, TwoCardInline, FlexColumn } from '../components/Common';
+import { buildTitle } from '../utils';
 import { withRouter } from 'react-router-dom';
 
 const AnalyticPage = () => {
   const [data, setData] = React.useState({ isLoaded: false });
+  const [config] = useGlobal('config');
+
+  React.useEffect(() => {
+    document.title = buildTitle(config, 'Analytics');
+  }, [config]);
 
   React.useEffect(() => {
     const fetchData = async () => {

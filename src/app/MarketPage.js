@@ -9,6 +9,11 @@ import { Spinner } from '../components/Common';
 
 const MarketPage = () => {
   const [tickers] = useGlobal('tickers');
+
+  React.useEffect(() => {
+    document.title = 'Tezos Markets';
+  }, []);
+
   return tickers.length ? (
     <Wrapper>
       <PriceList />

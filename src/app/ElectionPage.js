@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useGlobal } from 'reactn';
 import { getElectionById, getElectionHistory } from '../services/api/tz-stats';
 import { Spinner } from '../components/Common';
 import {
@@ -9,12 +10,15 @@ import {
   PromotionPeriod,
   ElectionHistory,
 } from '../components/Elections';
+import { buildTitle } from '../utils';
 
 const ElectionPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
+  const [config] = useGlobal('config');
   const currentElectionId = match.params.id;
 
   React.useEffect(() => {
+    document.title = buildTitle(config, 'Governance');
     const fetchData = async () => {
       let [election, electionHistory] = await Promise.all([getElectionById(currentElectionId), getElectionHistory()]);
 
@@ -26,7 +30,7 @@ const ElectionPage = ({ match }) => {
     };
 
     fetchData();
-  }, [currentElectionId, match]);
+  }, [currentElectionId, match, config]);
 
   return data.isLoaded ? (
     <Wrapper>

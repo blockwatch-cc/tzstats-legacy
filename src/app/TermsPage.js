@@ -1,6 +1,9 @@
 import React from 'react';
 
 const TermsPage = () => {
+  React.useEffect(() => {
+    document.title = 'Terms of Service';
+  }, []);
   return (
     <div className="result">
       <h1>TzStats Terms of Service</h1>
