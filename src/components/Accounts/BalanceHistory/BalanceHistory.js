@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import BasicBalanceHistory from './BasicBalanceHistory';
-import DelegatorBalanceHistory from './DelegatorBalanceHistory';
 import BakerBalanceHistory from './BakerBalanceHistory';
 import DelegationHistory from './DelegationHistory';
 import { EmptyData } from '../../Common';
@@ -43,9 +42,9 @@ const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
       );
     case 'contract':
       return (
-      <JoinContainer>
-        <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
-      </JoinContainer>
+        <JoinContainer>
+          <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+        </JoinContainer>
       );
     default:
       break;

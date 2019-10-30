@@ -78,7 +78,8 @@ export function formatValue(value, prefix = ',') {
   return format(prefix)(value).replace(/(.*)([MkGmµ])$/, '$1 $2');
 }
 
-export function formatCurrency(value, prefix = ',', symbol = '') { // ꜩ
+export function formatCurrency(value, prefix = ',', symbol = '') {
+  // ꜩ
   // symbol = symbol?' ' + symbol:'';
   if (value === 0) {
     return 0 + symbol;
@@ -199,6 +200,13 @@ export function getShortHashOrBakerName(hash) {
   }
   const baker = bakerAccounts[hash];
   return baker ? baker.name : getShortHash(hash);
+}
+
+export function buildTitle(config, page, name) {
+  let title = [isMainnet(config) ? 'Tezos ' : 'TESTNET Tezos ' + config.network];
+  page && title.push(page);
+  name && title.push(name);
+  return title.join(' ');
 }
 
 export function getHashOrBakerName(hash) {

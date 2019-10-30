@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>TzStats API Reference</title>
+    <title>API Reference | TzStats</title>
     <link>https://tzstats.com/docs/api/</link>
-    <description>Recent content on TzStats API Reference</description>
+    <description>Recent content on API Reference | TzStats</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     

@@ -8,8 +8,15 @@ import StakingInfo from '../components/Home/StakingInfo';
 import ElectionProgress from '../components/Home/ElectionProgress';
 import AccountsGrowth from '../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../services/api/markets';
-import { isMainnet } from '../utils';
-import { getElectionById, getTxVolume, getTxVolume24h, getBlockTimeRange, getBlockHeight, unwrapBlock } from '../services/api/tz-stats';
+import { isMainnet, buildTitle } from '../utils';
+import {
+  getElectionById,
+  getTxVolume,
+  getTxVolume24h,
+  getBlockTimeRange,
+  getBlockHeight,
+  unwrapBlock,
+} from '../services/api/tz-stats';
 import TransactionVolume from '../components/Home/TransactionVolume';
 import { FlexColumn, Spinner } from '../components/Common';
 
@@ -22,9 +29,10 @@ const Home = () => {
   const [chain] = useGlobal('chain');
 
   React.useEffect(() => {
+    document.title = buildTitle(config, 'Block Explorer');
     const fetchData = async () => {
-      let now = parseInt(new Date().getTime()/1000)*1000; // round to seconds
-      now += now%60000;// round up now to the next full minute
+      let now = parseInt(new Date().getTime() / 1000) * 1000; // round to seconds
+      now += now % 60000; // round up now to the next full minute
       const last = lastBlockTime;
       // const last = new Date(chain.timestamp).getTime();
       const sixtyblocks = 60 * config.time_between_blocks[0] * 1000;
@@ -32,7 +40,7 @@ const Home = () => {
         now = last;
       }
       let [priceHistory, txVolSeries, txVol24h, election, blocks] = await Promise.all([
-        isMainnet(config) ? getOhlcvData({ days: 30, collapse: '6h', limit: 30*4 }) : null,
+        isMainnet(config) ? getOhlcvData({ days: 30, collapse: '6h', limit: 30 * 4 }) : null,
         getTxVolume({ start: now === last ? last - 30 * 86400 * 1000 : null, days: 30 }),
         getTxVolume24h(),
         getElectionById(),
@@ -49,7 +57,7 @@ const Home = () => {
         currentBlock: unwrapBlock(blocks.slice(-1)[0]),
       });
     };
-    if (config.version&&lastBlockTime) {
+    if (config.version && lastBlockTime) {
       // console.log("Running full reload",lastBlockTime, config.time_between_blocks, config.version);
       fetchData();
     }
@@ -59,8 +67,8 @@ const Home = () => {
     const fetchData = async () => {
       // console.log("Single block load",chain.height);
       let newblock = await getBlockHeight(chain.height);
-      let now = parseInt(new Date().getTime()/1000)*1000;
-      now += now%60000;// round up now to the next full minute
+      let now = parseInt(new Date().getTime() / 1000) * 1000;
+      now += now % 60000; // round up now to the next full minute
       const last = new Date(chain.timestamp).getTime();
       const sixtyblocks = 60 * config.time_between_blocks[0] * 1000;
       if (now - last > sixtyblocks) {
@@ -132,7 +140,7 @@ const Home = () => {
         </TwoElementsWrapper>
       )}
       <TwoElementsWrapper>
-        <TransactionVolume txSeries={data.txVolSeries} txVol24h={data.txVol24h}/>
+        <TransactionVolume txSeries={data.txVolSeries} txVol24h={data.txVol24h} />
       </TwoElementsWrapper>
       <TwoElementsWrapper>
         <CirculatingSupply />

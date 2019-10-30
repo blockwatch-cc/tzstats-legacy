@@ -1,6 +1,10 @@
 import React from 'react';
 
 const PrivacyPage = () => {
+  React.useEffect(() => {
+    document.title = 'Privacy Policy';
+  }, []);
+
   return (
     <div className="result">
       <h1>TzStats Privacy Policy</h1>
