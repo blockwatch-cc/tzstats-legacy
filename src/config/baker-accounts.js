@@ -194,4 +194,5 @@ export const bakerAccounts = {
   tz1gg5bjopPcr9agjamyu9BbXKLibNc2rbAq: { name: 'Hodl.farm', logo: null, link: '', fee_type: '', fee: 0 },
   tz1hodLFy8YDHtf1qJ3XH1gCyeXfwWEitkj9: { name: 'Hodl.farm Payouts', logo: null, link: '', fee_type: '', fee: 0 },
   tz1V3yg82mcrPJbegqVCPn6bC8w1CSTRp3f8: { name: 'TezoShop', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1cb8xcmJWcdVU7cNAd93MfEReorvP52P8x: { name: 'Mint Capital', logo: null, link: '', fee_type: '', fee: 0 },
 };
