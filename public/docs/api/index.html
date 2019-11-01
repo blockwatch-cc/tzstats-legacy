@@ -165,6 +165,8 @@
                 
                     <ul class="toc-list-h2">
                         
+                            <li><a href="#2019-11-01" class="toc-h2 toc-link" data-title="2019-11-01">2019-11-01</a></li>
+                        
                             <li><a href="#2019-10-26" class="toc-h2 toc-link" data-title="2019-10-26">2019-10-26</a></li>
                         
                             <li><a href="#2019-10-24" class="toc-h2 toc-link" data-title="2019-10-24">2019-10-24</a></li>
@@ -181,7 +183,7 @@
         
         <ul class="toc-footer">
             
-            <li>API v005-2019-10-26</li>
+            <li>API v005-2019-11-01</li>
             
         </ul>
         
@@ -2893,12 +2895,12 @@ ECDHE-RSA-AES128-SHA256
 
 <tr>
 <td><code>n_double_baking</code> <em>int</em></td>
-<td>Count of <code>double_baking_evidence</code> operations.</td>
+<td>Count of <code>double_baking_evidence</code> events.</td>
 </tr>
 
 <tr>
 <td><code>n_double_endorsement</code> <em>int</em></td>
-<td>Count of <code>double_endorsement_evidence</code> operations.</td>
+<td>Count of <code>double_endorsement_evidence</code> events.</td>
 </tr>
 
 <tr>
@@ -5951,7 +5953,8 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">6507</span><span class="p">,</span>             <span class="err">//</span> <span class="err">n_endorsing_rights</span>
     <span class="mf">-292.000000</span><span class="p">,</span>      <span class="err">//</span> <span class="err">luck</span>
     <span class="mf">98.230000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">luck_percent</span>
-    <span class="mf">99.870000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">efficiency_percent</span>
+    <span class="mf">99.87</span><span class="p">,</span>            <span class="err">//</span> <span class="err">performance_percent</span>
+    <span class="mf">100.00</span><span class="p">,</span>           <span class="err">//</span> <span class="err">contribution_percent</span>
     <span class="mi">201</span><span class="p">,</span>              <span class="err">//</span> <span class="err">n_blocks_baked</span>
     <span class="mi">0</span><span class="p">,</span>                <span class="err">//</span> <span class="err">n_blocks_lost</span>
     <span class="mi">2</span><span class="p">,</span>                <span class="err">//</span> <span class="err">n_blocks_stolen</span>
@@ -6053,8 +6056,13 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>efficiency_percent</code> <em>float</em></td>
-<td>Effectiveness of a baker to generate all rewards for which rights were assigned. Optimal efficiency is 100%. The value is lower when blocks or endorsements are missed and higher when extra income was generated from stolen blocks or denounciations.</td>
+<td><code>performance_percent</code> <em>float</em></td>
+<td>Effectiveness of a baker to generate expected rewards. Optimal performance is 100%. The value is lower when blocks or endorsements are missed, low value blocks/endorsements are published or the baker is slashed and higher when extra income was generated from stolen blocks or denounciations. NOTE: This value is not ratio scale nor interval scale. CANNOT be used as benchmark between bakers.</td>
+</tr>
+
+<tr>
+<td><code>contribution_percent</code> <em>float</em></td>
+<td>Effectiveness of a baker to utilize all rights assigned and contribute to consensus. Optimal contribution is 100%. The value is lower when blocks or endorsements are missed and higher when blocks are stolen. NOTE: This value is ratio scale. It can be used as benchmark for baker availability or participation in consensus. It is strongly correlated to generated income, but does not capture low priority blocks, endorsements or slashing.</td>
 </tr>
 
 <tr>
@@ -7354,6 +7362,15 @@ ECDHE-RSA-AES128-SHA256
 <h1 id="changelog">Changelog</h1>
 
 <p>Recent changes and additions to the TzStats Data API.</p>
+
+<h2 id="2019-11-01">2019-11-01</h2>
+
+<ul>
+<li>DEPRECATION NOTICE: income field <code>efficiency_percent</code> will be removed with the next release</li>
+<li>replaced income field <code>efficiency_percent</code> with <code>performance_percent</code> (value range <code>[-Inf,+Inf]</code>) to avoid confusion with existing benchmarking metrics that define baker efficiency as percentage or rights utilized</li>
+<li>added new income field <code>contribution_percent</code> to measure a baker&rsquo;s contribution to consensus in terms of baking/endorsing rights utilized (value range <code>[0,100]</code>, baking/endorsing misses will lower contribution, steals will increase it)</li>
+<li>cycle <code>n_double_baking</code> and <code>n_double_endorsement</code> count events instead of accusation operations now</li>
+</ul>
 
 <h2 id="2019-10-26">2019-10-26</h2>
 

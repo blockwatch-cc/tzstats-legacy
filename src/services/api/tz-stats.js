@@ -113,7 +113,8 @@ export const getAccountOperations = async ({
     'height',
     'reward',
   ];
-  const typ = 'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals,seed_nonce_revelation' : '=' + type);
+  const typ =
+    'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals,seed_nonce_revelation' : '=' + type);
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     `/tables/op?${direction}=${address}&${typ}&order=${order}&columns=${columns.join(',')}&limit=${limit}${cursor}`
@@ -142,7 +143,8 @@ export const getAccountContracts = async ({ address, cursor, limit = 50 }) => {
 const defaultIncomeColumns = [
   'cycle',
   'luck_percent',
-  'efficiency_percent',
+  'performance_percent',
+  'contribution_percent',
   'expected_income',
   'total_income',
   'total_bonds',
@@ -165,10 +167,10 @@ const defaultIncomeColumns = [
 
 export const zeroIncome = (cycle, columns = defaultIncomeColumns) => {
   return columns.reduce((o, col) => {
-    o[col] = col==='cycle'?cycle||0:0;
+    o[col] = col === 'cycle' ? cycle || 0 : 0;
     return o;
   }, {});
-}
+};
 
 //https://api.tzstats.com/tables/income?cycle=137&verbose=1&address=tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9
 export const getAccountIncome = async ({ address, columns, cycle, cursor, limit, order }) => {
@@ -177,8 +179,10 @@ export const getAccountIncome = async ({ address, columns, cycle, cursor, limit,
   cursor = cursor ? '&cursor=' + cursor : '';
   limit = limit ? '&limit=' + limit : '';
   order = order ? '&order=' + order : '';
-  const response = await request(`/tables/income?address=${address}${cycle}${limit}${order}${cursor}&columns=${columns.join(',')}`);
-  return unpackColumns({response, columns});
+  const response = await request(
+    `/tables/income?address=${address}${cycle}${limit}${order}${cursor}&columns=${columns.join(',')}`
+  );
+  return unpackColumns({ response, columns });
 };
 
 //api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&address.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
@@ -211,7 +215,9 @@ export const getSnapshotDelegators = async ({ address, cycle, cursor, limit }) =
   cycle = cycle < 0 ? 0 : cycle;
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
-    `/tables/snapshot?delegate=${address}&cycle=${cycle}&is_selected=1&columns=${columns.join(',')}&limit=${limit}${cursor}`
+    `/tables/snapshot?delegate=${address}&cycle=${cycle}&is_selected=1&columns=${columns.join(
+      ','
+    )}&limit=${limit}${cursor}`
   );
   return unpackColumns({ response, columns });
 };
@@ -226,7 +232,7 @@ export const getAccountRights = async ({ address, cycle, columns, order, limit =
   const response = await request(
     `/tables/rights?address=${address}${cycle}&columns=${columns.join(',')}${order}${cursor}${limit}`
   );
-  return unpackColumns({ response, columns });;
+  return unpackColumns({ response, columns });
 };
 
 //******************ELECTIONS****************** */
@@ -391,9 +397,7 @@ export const getBakedBlocks = async ({ baker, columns, limit, cursor, order }) =
   cursor = cursor ? '&cursor=' + cursor : '';
   limit = limit ? '&limit=' + limit : '';
   order = order ? '&order=' + order : '';
-  const response = await request(
-    `/tables/block?baker=${baker}&columns=${columns.join(',')}${cursor}${limit}${order}`
-  );
+  const response = await request(`/tables/block?baker=${baker}&columns=${columns.join(',')}${cursor}${limit}${order}`);
   return unpackColumns({ response, columns });
 };
 
@@ -402,17 +406,30 @@ export const getBakedFlows = async ({ baker, columns, limit, cursor, order }) =>
   limit = limit ? '&limit=' + limit : '';
   order = order ? '&order=' + order : '';
   const response = await request(
-    `/tables/flow?address=${baker}&operation=baking&category.in=rewards,deposits&columns=${columns.join(',')}${cursor}${limit}${order}`
+    `/tables/flow?address=${baker}&operation=baking&category.in=rewards,deposits&columns=${columns.join(
+      ','
+    )}${cursor}${limit}${order}`
   );
   return unpackColumns({ response, columns });
 };
 
 //https://api.tzstats.com/tables/op?height=5000&verbose=1&&op_n.rg=0,3&type=endorsement
 export const getBlockOperations = async ({ height, type = null, limit = 0, cursor = null }) => {
-  const columns = ['row_id', 'sender', 'receiver', 'type', 'hash', 'volume', 'fee', 'reward', 'is_success', 'is_contract'];
+  const columns = [
+    'row_id',
+    'sender',
+    'receiver',
+    'type',
+    'hash',
+    'volume',
+    'fee',
+    'reward',
+    'is_success',
+    'is_contract',
+  ];
   type = type ? '&type=' + type : '';
   cursor = cursor ? '&cursor=' + cursor : '';
-  limit = limit ? '&limit=' + limit : ''
+  limit = limit ? '&limit=' + limit : '';
   const response = await request(
     `/tables/op?height=${height}&columns=${columns.join(',')}&is_internal=0${type}${cursor}${limit}`
   );

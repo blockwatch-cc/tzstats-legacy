@@ -21,7 +21,7 @@ const PerformanceTable = ({ account }) => {
         getAccountRights({ address: account.address, cycle: cycleId }),
         getAccountIncome({ address: account.address, cycle: cycleId, limit: 1 }),
       ]);
-      income = income[0]||zeroIncome(cycleId);
+      income = income[0] || zeroIncome(cycleId);
       const total = income.total_income;
       const lost = income.total_lost;
       const missed = income.missed_endorsing_income + income.missed_baking_income;
@@ -55,7 +55,8 @@ const PerformanceTable = ({ account }) => {
       account.next_endorse_height,
       account.next_endorse_time,
       chain,
-      config]
+      config,
+    ]
   );
 
   React.useEffect(() => {
@@ -64,14 +65,14 @@ const PerformanceTable = ({ account }) => {
 
   return data.isLoaded ? (
     <FlexRowSpaceBetween>
-      <FlexColumn alignSelf='flex-start'>
+      <FlexColumn alignSelf="flex-start">
         <FlexRowSpaceBetween>
           <DataBox
             valueSize="14px"
             valueType="percent"
             valueOpts={{ digits: 2, zero: '-' }}
-            title={`Efficiency ${formatCurrency(data.total)} tz`}
-            value={data.income.efficiency_percent / 100}
+            title={`Performance ${formatCurrency(data.total)} tz`}
+            value={data.income.performance_percent / 100}
           />
           <CycleSwitcher>
             <PreviousButton
@@ -81,10 +82,7 @@ const PerformanceTable = ({ account }) => {
               &#9664;
             </PreviousButton>
             <DataBox valueSize="14px" title={`Cycle ${data.income.cycle}`} />
-            <NextButton
-              show={data.income.cycle + 1 <= chain.cycle + 5}
-              onClick={e => loadCycle(data.income.cycle + 1)}
-            >
+            <NextButton show={data.income.cycle + 1 <= chain.cycle + 5} onClick={e => loadCycle(data.income.cycle + 1)}>
               &#9654;
             </NextButton>
           </CycleSwitcher>
@@ -101,7 +99,7 @@ const PerformanceTable = ({ account }) => {
           <PerformanceChart data={data.rights} startHeight={cycleStartHeight(data.income.cycle, config)} />
         </div>
         <FlexRowSpaceBetween>
-          <DataBox title="Past Efficiency" />
+          <DataBox title="Past Performance" />
           <DataBox ta={'right'} title="Future Rights" />
         </FlexRowSpaceBetween>
         <FlexRowSpaceBetween mt={10}>
@@ -111,7 +109,10 @@ const PerformanceTable = ({ account }) => {
             title={data.nextBakeHeight ? `Next Baking ${data.nextBakeTime}` : `No future baking rights`}
             value={
               data.nextBakeHeight
-                ? formatValue(data.nextBakeHeight) + ' (+' + formatValue(data.nextBakeHeight - chain.height) + ' blocks)'
+                ? formatValue(data.nextBakeHeight) +
+                  ' (+' +
+                  formatValue(data.nextBakeHeight - chain.height) +
+                  ' blocks)'
                 : '-'
             }
           />
@@ -121,7 +122,10 @@ const PerformanceTable = ({ account }) => {
             title={data.nextEndorseHeight ? `Next Endorsing ${data.nextEndorseTime}` : `No future endorsing rights`}
             value={
               data.nextEndorseHeight
-                ? formatValue(data.nextEndorseHeight) + ' (+' + formatValue(data.nextEndorseHeight - chain.height) + ' blocks)'
+                ? formatValue(data.nextEndorseHeight) +
+                  ' (+' +
+                  formatValue(data.nextEndorseHeight - chain.height) +
+                  ' blocks)'
                 : '-'
             }
           />
@@ -129,18 +133,19 @@ const PerformanceTable = ({ account }) => {
             valueSize="14px"
             title="Blocks Baked / Missed / Stolen"
             valueType="text"
-            value={`${data.income.n_blocks_baked||'-'} / ${data.income.n_blocks_lost||'-'} / ${data.income.n_blocks_stolen||'-'}`}
+            value={`${data.income.n_blocks_baked || '-'} / ${data.income.n_blocks_lost || '-'} / ${data.income
+              .n_blocks_stolen || '-'}`}
           />
           <DataBox
             valueSize="14px"
             title="Slots Endorsed / Missed"
             valueType="text"
-            value={`${data.income.n_slots_endorsed||'-'} / ${data.income.n_slots_missed||'-'}`}
+            value={`${data.income.n_slots_endorsed || '-'} / ${data.income.n_slots_missed || '-'}`}
           />
         </FlexRowSpaceBetween>
       </FlexColumn>
 
-      <FlexRowSpaceBetween minHeight={205} minWidth={230} alignSelf='flex-start'>
+      <FlexRowSpaceBetween minHeight={205} minWidth={230} alignSelf="flex-start">
         <FlexColumnSpaceBetween minHeight={205}>
           <DataBox
             valueSize="14px"
@@ -170,12 +175,13 @@ const PerformanceTable = ({ account }) => {
             valueOpts={{ digits: 0 }}
             value={data.income.fees_income}
           />
+          <DataBox valueSize="14px" title="Extra" valueType="currency" valueOpts={{ digits: 0 }} value={data.extra} />
           <DataBox
             valueSize="14px"
-            title="Extra"
-            valueType="currency"
-            valueOpts={{ digits: 0 }}
-            value={data.extra}
+            title="Rights Utilized"
+            valueType="percent"
+            valueOpts={{ digits: 2, zero: '-' }}
+            value={data.income.contribution_percent / 100}
           />
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween minHeight={205}>
@@ -207,11 +213,7 @@ const PerformanceTable = ({ account }) => {
             valueOpts={{ digits: 0 }}
             value={data.lost}
           />
-          <DataBox
-            valueSize="14px"
-            title="Grace Period"
-            value={account.grace_period || 0}
-          />
+          <DataBox valueSize="14px" title="Grace Period" value={account.grace_period || 0} />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>
     </FlexRowSpaceBetween>
