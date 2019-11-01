@@ -26,17 +26,7 @@ import {
 import { LinkIcon } from './Controls';
 import { Value, Dim } from './DataBox';
 
-import {
-  AlignedForm,
-  Label,
-  LabelDotLeft
-} from './Form';
-
-import {
-  AlignedForm,
-  Label,
-  LabelDotLeft
-} from './Form';
+import { AlignedForm, Label, LabelDotLeft } from './Form';
 
 export { default as CurrencySelect } from './CurrencySelect';
 export { default as IntervalSelect } from './IntervalSelect';
@@ -85,7 +75,7 @@ export {
   Sizes,
   AlignedForm,
   Label,
-  LabelDotLeft
+  LabelDotLeft,
 };
 
 //Todo replace it
