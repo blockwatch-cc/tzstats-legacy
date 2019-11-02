@@ -71,7 +71,7 @@ const PerformanceTable = ({ account }) => {
             valueSize="14px"
             valueType="percent"
             valueOpts={{ digits: 2, zero: '-' }}
-            title={`Performance ${formatCurrency(data.total)} tz`}
+            title={`Performance ${formatCurrency(data.total - data.lost)} tz`}
             value={data.income.performance_percent / 100}
           />
           <CycleSwitcher>
@@ -145,8 +145,8 @@ const PerformanceTable = ({ account }) => {
         </FlexRowSpaceBetween>
       </FlexColumn>
 
-      <FlexRowSpaceBetween minHeight={205} minWidth={230} alignSelf="flex-start">
-        <FlexColumnSpaceBetween minHeight={205}>
+      <FlexRowSpaceBetween height={'100%'} minHeight={205} minWidth={230} alignSelf="flex-start">
+        <FlexColumnSpaceBetween minHeight={205} height={'100%'}>
           <DataBox
             valueSize="14px"
             title="Total Income"
@@ -184,7 +184,7 @@ const PerformanceTable = ({ account }) => {
             value={data.income.contribution_percent / 100}
           />
         </FlexColumnSpaceBetween>
-        <FlexColumnSpaceBetween minHeight={205}>
+        <FlexColumnSpaceBetween height={'100%'} minHeight={205}>
           <DataBox
             valueSize="14px"
             title="Total Bonds"
@@ -214,6 +214,7 @@ const PerformanceTable = ({ account }) => {
             value={data.lost}
           />
           <DataBox valueSize="14px" title="Grace Period" value={account.grace_period || 0} />
+          <DataBox valueSize="14px" title="&nbsp;" value="&nbsp;" valueType="text" />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>
     </FlexRowSpaceBetween>
