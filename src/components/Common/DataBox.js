@@ -93,6 +93,8 @@ export const Value = ({
   }
   let res = '';
   switch (type) {
+    case 'plain':
+      return value;
     case 'text':
       return [prefix, value, suffix].join('');
     case 'datetime':

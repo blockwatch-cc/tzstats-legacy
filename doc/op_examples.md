@@ -178,7 +178,7 @@ Relevant fields
 Notes:
 - does not cost fees or gas
 - is always successful
-- data is a list of submitted proposalsn (bug: always ends with ',' // fixed soon)
+- data is a list of submitted proposals
 
 ### Ballot
 

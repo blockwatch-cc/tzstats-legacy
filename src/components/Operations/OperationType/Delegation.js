@@ -5,6 +5,7 @@ import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
 import { opNames } from '../../../config';
 import { getAccountByHash } from '../../../services/api/tz-stats';
+import { getOpTags } from '../../../utils';
 
 const Delegation = ({ op }) => {
   const [data, setData] = React.useState({ isLoaded: false });
@@ -27,22 +28,19 @@ const Delegation = ({ op }) => {
     fetchData();
   }, [op]);
 
-  return ( data.isLoaded ? (
+  return data.isLoaded ? (
     <FlexRow>
-      <OperationAccount title={'Sender'} account={data.sender}/>
+      <OperationAccount title={'Sender'} account={data.sender} />
       <Wrapper>
-        <Card title={`${opNames[op.type]}`}>
-          <FlexRow height={80} alignItems="center">
-            <TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
-            <DataBox title="Fee" value={op.fee} valueSize="14px" valueType="currency-short" />
-          </FlexRow>
+        <Card title={`${op.is_internal ? 'Internal ' : ''}${opNames[op.type]}`} tags={getOpTags(op)}>
+          <TxTypeIcon fontSize={30} alignSelf={'center'} type={op.type} isSuccess={op.is_success} />
         </Card>
       </Wrapper>
-      <OperationAccount title={'Delegate'} account={data.delegate} onempty={'No delegate set'}/>
+      <OperationAccount title={'Delegate'} account={data.delegate} onempty={'No delegate set'} />
     </FlexRow>
   ) : (
     <Spinner />
-  ));
+  );
 };
 
 const Wrapper = styled.div`

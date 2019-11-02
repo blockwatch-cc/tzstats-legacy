@@ -6,7 +6,7 @@
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>API Reference | TzStats</title>
-    
+
 
 
 
@@ -23,7 +23,7 @@
 <link href='/docs/api/styles/print.min.f22104d757702682bc2fa788a318eae049fdfeaf5a05527f373420b37be47a7d.css' rel="stylesheet" media="print" integrity="sha256-8iEE11dwJoK8L6eIoxjq4En9/q9aBVJ/NzQgs3vken0=" />
 
 
-    
+
 </head>
 <body class="index" data-languages="[ &#34;shell&#34; ]">
     <a href="#" id="nav-button">
@@ -33,158 +33,160 @@
       </span>
     </a>
     <div class="toc-wrapper">
-        
+
          <img src='/docs/api/images/logo.png' class="logo" />
-        
+
         <div class="lang-selector">
-            
+
             <a href="#" data-language-name="shell">Shell</a>
-            
+
         </div>
-        
-        
+
+
         <div class="search">
             <input type="search" class="search" id="input-search" placeholder='Search'>
         </div>
         <ul class="search-results"></ul>
-        
-        
+
+
     <ul id="toc" class="toc-list-h1">
-        
-        
+
+
             <li>
                 <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-                
+
                     <ul class="toc-list-h2">
-                        
+
                             <li><a href="#calling-the-api" class="toc-h2 toc-link" data-title="Calling the API">Calling the API</a></li>
-                        
+
                             <li><a href="#data-formats" class="toc-h2 toc-link" data-title="Data Formats">Data Formats</a></li>
-                        
+
                             <li><a href="#status-codes" class="toc-h2 toc-link" data-title="Status Codes">Status Codes</a></li>
-                        
+
                     </ul>
-                
+
             </li>
-        
+
             <li>
                 <a href="#explorer-endpoints" class="toc-h1 toc-link" data-title="Explorer Endpoints">Explorer Endpoints</a>
-                
+
                     <ul class="toc-list-h2">
-                        
+
                             <li><a href="#indexer-status" class="toc-h2 toc-link" data-title="Indexer Status">Indexer Status</a></li>
-                        
+
                             <li><a href="#chain-tip" class="toc-h2 toc-link" data-title="Chain Tip">Chain Tip</a></li>
-                        
+
                             <li><a href="#chain-config" class="toc-h2 toc-link" data-title="Chain Config">Chain Config</a></li>
-                        
+
                             <li><a href="#block" class="toc-h2 toc-link" data-title="Block">Block</a></li>
-                        
+
                             <li><a href="#operation" class="toc-h2 toc-link" data-title="Operation">Operation</a></li>
-                        
+
                             <li><a href="#list-operations" class="toc-h2 toc-link" data-title="List Operations">List Operations</a></li>
-                        
+
                             <li><a href="#account" class="toc-h2 toc-link" data-title="Account">Account</a></li>
-                        
+
                             <li><a href="#contract" class="toc-h2 toc-link" data-title="Contract">Contract</a></li>
-                        
+
                             <li><a href="#cycle" class="toc-h2 toc-link" data-title="Cycle">Cycle</a></li>
-                        
+
                             <li><a href="#election" class="toc-h2 toc-link" data-title="Election">Election</a></li>
-                        
+
                             <li><a href="#market-tickers" class="toc-h2 toc-link" data-title="Market Tickers">Market Tickers</a></li>
-                        
+
                     </ul>
-                
+
             </li>
-        
+
             <li>
                 <a href="#table-endpoints" class="toc-h1 toc-link" data-title="Table Endpoints">Table Endpoints</a>
-                
+
                     <ul class="toc-list-h2">
-                        
+
                             <li><a href="#query-arguments" class="toc-h2 toc-link" data-title="Query Arguments">Query Arguments</a></li>
-                        
+
                             <li><a href="#query-filters" class="toc-h2 toc-link" data-title="Query Filters">Query Filters</a></li>
-                        
+
                             <li><a href="#chain-table" class="toc-h2 toc-link" data-title="Chain Table">Chain Table</a></li>
-                        
+
                             <li><a href="#supply-table" class="toc-h2 toc-link" data-title="Supply Table">Supply Table</a></li>
-                        
+
                             <li><a href="#block-table" class="toc-h2 toc-link" data-title="Block Table">Block Table</a></li>
-                        
+
                             <li><a href="#op-table" class="toc-h2 toc-link" data-title="Op Table">Op Table</a></li>
-                        
+
                             <li><a href="#account-table" class="toc-h2 toc-link" data-title="Account Table">Account Table</a></li>
-                        
+
                             <li><a href="#contract-table" class="toc-h2 toc-link" data-title="Contract Table">Contract Table</a></li>
-                        
+
                             <li><a href="#flow-table" class="toc-h2 toc-link" data-title="Flow Table">Flow Table</a></li>
-                        
+
                             <li><a href="#rights-table" class="toc-h2 toc-link" data-title="Rights Table">Rights Table</a></li>
-                        
+
                             <li><a href="#snapshot-table" class="toc-h2 toc-link" data-title="Snapshot Table">Snapshot Table</a></li>
-                        
+
                             <li><a href="#income-table" class="toc-h2 toc-link" data-title="Income Table">Income Table</a></li>
-                        
+
                             <li><a href="#election-table" class="toc-h2 toc-link" data-title="Election Table">Election Table</a></li>
-                        
+
                             <li><a href="#proposal-table" class="toc-h2 toc-link" data-title="Proposal Table">Proposal Table</a></li>
-                        
+
                             <li><a href="#vote-table" class="toc-h2 toc-link" data-title="Vote Table">Vote Table</a></li>
-                        
+
                             <li><a href="#ballot-table" class="toc-h2 toc-link" data-title="Ballot Table">Ballot Table</a></li>
-                        
+
                     </ul>
-                
+
             </li>
-        
+
             <li>
                 <a href="#time-series-endpoints" class="toc-h1 toc-link" data-title="Time-Series Endpoints">Time-Series Endpoints</a>
-                
+
                     <ul class="toc-list-h2">
-                        
+
                             <li><a href="#query-arguments" class="toc-h2 toc-link" data-title="Query Arguments">Query Arguments</a></li>
-                        
+
                             <li><a href="#query-filters" class="toc-h2 toc-link" data-title="Query Filters">Query Filters</a></li>
-                        
+
                             <li><a href="#block-series" class="toc-h2 toc-link" data-title="Block Series">Block Series</a></li>
-                        
+
                             <li><a href="#operation-series" class="toc-h2 toc-link" data-title="Operation Series">Operation Series</a></li>
-                        
+
                             <li><a href="#flow-series" class="toc-h2 toc-link" data-title="Flow Series">Flow Series</a></li>
-                        
+
                             <li><a href="#ohlcv-series" class="toc-h2 toc-link" data-title="OHLCV Series">OHLCV Series</a></li>
-                        
+
                     </ul>
-                
+
             </li>
-        
+
             <li>
                 <a href="#changelog" class="toc-h1 toc-link" data-title="Changelog">Changelog</a>
-                
+
                     <ul class="toc-list-h2">
-                        
+
+                            <li><a href="#2019-11-01" class="toc-h2 toc-link" data-title="2019-11-01">2019-11-01</a></li>
+
                             <li><a href="#2019-10-26" class="toc-h2 toc-link" data-title="2019-10-26">2019-10-26</a></li>
-                        
+
                             <li><a href="#2019-10-24" class="toc-h2 toc-link" data-title="2019-10-24">2019-10-24</a></li>
-                        
+
                             <li><a href="#2019-10-20" class="toc-h2 toc-link" data-title="2019-10-20">2019-10-20</a></li>
-                        
+
                     </ul>
-                
+
             </li>
-        
+
     </ul>
 
-        
-        
+
+
         <ul class="toc-footer">
-            
-            <li>API v005-2019-10-26</li>
-            
+
+            <li>API v005-2019-11-01</li>
+
         </ul>
-        
+
         <div style="margin-left: 20px; margin-top: 20px">
 <a href="https://github.com/blockwatch-cc/tzindex">
   <img width="20px" src="images/gh.png"/>
@@ -195,9 +197,9 @@
     <div class="page-wrapper">
         <div class="dark-box"></div>
         <div class="content">
-            
-    
-        
+
+
+
 
 <h1 id="introduction">Introduction</h1>
 
@@ -455,8 +457,8 @@ ECDHE-RSA-AES128-SHA256
 </tbody>
 </table>
 
-    
-        
+
+
 
 <h1 id="explorer-endpoints">Explorer Endpoints</h1>
 
@@ -675,12 +677,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>blocks</code> <em>int</em></td>
+<td><code>blocks</code> <em>int64</em></td>
 <td>Most recent block height seen by the connected Tezos node.</td>
 </tr>
 
 <tr>
-<td><code>indexed</code> <em>int</em></td>
+<td><code>indexed</code> <em>int64</em></td>
 <td>Most recent block height indexed.</td>
 </tr>
 
@@ -815,67 +817,67 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Current block height (level).</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Current cycle.</td>
 </tr>
 
 <tr>
-<td><code>total_accounts</code> <em>int</em></td>
+<td><code>total_accounts</code> <em>int64</em></td>
 <td>Total number of on-chain accounts in existence.</td>
 </tr>
 
 <tr>
-<td><code>funded_accounts</code> <em>int</em></td>
+<td><code>funded_accounts</code> <em>int64</em></td>
 <td>Total number on funded (non-zero) accounts.</td>
 </tr>
 
 <tr>
-<td><code>total_ops</code> <em>int</em></td>
+<td><code>total_ops</code> <em>int64</em></td>
 <td>Total number of on-chain operations.</td>
 </tr>
 
 <tr>
-<td><code>delegators</code> <em>int</em></td>
+<td><code>delegators</code> <em>int64</em></td>
 <td>Current number of delegators (updated each block).</td>
 </tr>
 
 <tr>
-<td><code>delegates</code> <em>int</em></td>
+<td><code>delegates</code> <em>int64</em></td>
 <td>Current number of active delegates (updated each block).</td>
 </tr>
 
 <tr>
-<td><code>rolls</code> <em>int</em></td>
+<td><code>rolls</code> <em>int64</em></td>
 <td>Current number of network-wide rolls (updated each block).</td>
 </tr>
 
 <tr>
-<td><code>roll_owners</code> <em>int</em></td>
+<td><code>roll_owners</code> <em>int64</em></td>
 <td>Current number of network-wide roll owners (updated each block).</td>
 </tr>
 
 <tr>
-<td><code>new_accounts_30d</code> <em>int</em></td>
+<td><code>new_accounts_30d</code> <em>int64</em></td>
 <td>Accounts created during the past 30 days.</td>
 </tr>
 
 <tr>
-<td><code>cleared_accounts_30d</code> <em>int</em></td>
+<td><code>cleared_accounts_30d</code> <em>int64</em></td>
 <td>Accounts emptied during the past 30 days.</td>
 </tr>
 
 <tr>
-<td><code>funded_accounts_30d</code> <em>int</em></td>
+<td><code>funded_accounts_30d</code> <em>int64</em></td>
 <td>Accounts (re)funded (new and previously empty) during the past 30 days.</td>
 </tr>
 
 <tr>
-<td><code>inflation_1y</code> <em>float</em></td>
+<td><code>inflation_1y</code> <em>money</em></td>
 <td>Absolute inflation in tz.</td>
 </tr>
 
@@ -885,7 +887,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>health</code> <em>int</em></td>
+<td><code>health</code> <em>int64</em></td>
 <td>Blockchain and consensus health indicator with range [0..100].</td>
 </tr>
 
@@ -997,7 +999,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>version</code> <em>int</em></td>
+<td><code>version</code> <em>int64</em></td>
 <td>Protocol version.</td>
 </tr>
 
@@ -1007,182 +1009,182 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>start_height</code> <em>int</em></td>
+<td><code>start_height</code> <em>int64</em></td>
 <td>Activation height of the protocol.</td>
 </tr>
 
 <tr>
-<td><code>end_height</code> <em>int</em></td>
+<td><code>end_height</code> <em>int64</em></td>
 <td>Deactivation height of the protocol (0 if undefined).</td>
 </tr>
 
 <tr>
-<td><code>no_reward_cycles</code> <em>int</em></td>
+<td><code>no_reward_cycles</code> <em>int64</em></td>
 <td>Number of initial cycles that pay no block rewards.</td>
 </tr>
 
 <tr>
-<td><code>security_deposit_ramp_up_cycles</code> <em>int</em></td>
+<td><code>security_deposit_ramp_up_cycles</code> <em>int64</em></td>
 <td>Number of initial cycles before full deposits are required.</td>
 </tr>
 
 <tr>
-<td><code>decimals</code> <em>int</em></td>
+<td><code>decimals</code> <em>int64</em></td>
 <td>Decimal points of one coin unit.</td>
 </tr>
 
 <tr>
-<td><code>units</code> <em>int</em></td>
+<td><code>units</code> <em>int64</em></td>
 <td>Number of atomic units in one coin (i.e. mutez).</td>
 </tr>
 
 <tr>
-<td><code>block_reward</code> <em>float</em></td>
+<td><code>block_reward</code> <em>money</em></td>
 <td>Block baking reward in tz.</td>
 </tr>
 
 <tr>
-<td><code>block_security_deposit</code> <em>float</em></td>
+<td><code>block_security_deposit</code> <em>money</em></td>
 <td>Baker security deposit in tz.</td>
 </tr>
 
 <tr>
-<td><code>blocks_per_commitment</code> <em>int</em></td>
+<td><code>blocks_per_commitment</code> <em>int64</em></td>
 <td>Number of blocks between seed nonce commitments.</td>
 </tr>
 
 <tr>
-<td><code>blocks_per_cycle</code> <em>int</em></td>
+<td><code>blocks_per_cycle</code> <em>int64</em></td>
 <td>Number of blocks per consensus cycle.</td>
 </tr>
 
 <tr>
-<td><code>blocks_per_roll_snapshot</code> <em>int</em></td>
+<td><code>blocks_per_roll_snapshot</code> <em>int64</em></td>
 <td>Number of blocks between roll snapshots.</td>
 </tr>
 
 <tr>
-<td><code>blocks_per_voting_period</code> <em>int</em></td>
+<td><code>blocks_per_voting_period</code> <em>int64</em></td>
 <td>Number of blocks per voting period.</td>
 </tr>
 
 <tr>
-<td><code>cost_per_byte</code> <em>int</em></td>
+<td><code>cost_per_byte</code> <em>int64</em></td>
 <td>Gas costs per data byte.</td>
 </tr>
 
 <tr>
-<td><code>endorsement_reward</code> <em>int</em></td>
+<td><code>endorsement_reward</code> <em>money</em></td>
 <td>Block endorsing reward per slot in tz.</td>
 </tr>
 
 <tr>
-<td><code>endorsement_security_deposit</code> <em>int</em></td>
+<td><code>endorsement_security_deposit</code> <em>money</em></td>
 <td>Endorser security deposit per slot in tz.</td>
 </tr>
 
 <tr>
-<td><code>endorsers_per_block</code> <em>int</em></td>
+<td><code>endorsers_per_block</code> <em>int64</em></td>
 <td>Max number of endorsing slots.</td>
 </tr>
 
 <tr>
-<td><code>hard_gas_limit_per_block</code> <em>int</em></td>
+<td><code>hard_gas_limit_per_block</code> <em>int64</em></td>
 <td>Max gas limit per block.</td>
 </tr>
 
 <tr>
-<td><code>hard_gas_limit_per_operation</code> <em>int</em></td>
+<td><code>hard_gas_limit_per_operation</code> <em>int64</em></td>
 <td>Max gas limit per single operation.</td>
 </tr>
 
 <tr>
-<td><code>hard_storage_limit_per_operation</code> <em>int</em></td>
+<td><code>hard_storage_limit_per_operation</code> <em>int64</em></td>
 <td>Max gas limit for storage spent be an operation.</td>
 </tr>
 
 <tr>
-<td><code>max_operation_data_length</code> <em>int</em></td>
+<td><code>max_operation_data_length</code> <em>int64</em></td>
 <td>Max data bytes per operation.</td>
 </tr>
 
 <tr>
-<td><code>max_proposals_per_delegate</code> <em>int</em></td>
+<td><code>max_proposals_per_delegate</code> <em>int64</em></td>
 <td>Max proposals per single delegate and proposals operation.</td>
 </tr>
 
 <tr>
-<td><code>max_revelations_per_block</code> <em>int</em></td>
+<td><code>max_revelations_per_block</code> <em>int64</em></td>
 <td>Maximum number of seed nonce revelation operations per block.</td>
 </tr>
 
 <tr>
-<td><code>michelson_maximum_type_size</code> <em>int</em></td>
+<td><code>michelson_maximum_type_size</code> <em>int64</em></td>
 <td>Maximum type size michelson type definition.</td>
 </tr>
 
 <tr>
-<td><code>nonce_length</code> <em>int</em></td>
+<td><code>nonce_length</code> <em>int64</em></td>
 <td>Nonce length</td>
 </tr>
 
 <tr>
-<td><code>origination_burn</code> <em>float</em></td>
+<td><code>origination_burn</code> <em>money</em></td>
 <td>Amount of Tezos burned per origination.</td>
 </tr>
 
 <tr>
-<td><code>origination_size</code> <em>int</em></td>
+<td><code>origination_size</code> <em>int64</em></td>
 <td>Origination storage requirement in bytes.</td>
 </tr>
 
 <tr>
-<td><code>preserved_cycles</code> <em>int</em></td>
+<td><code>preserved_cycles</code> <em>int64</em></td>
 <td>Number of cycles for freezing security deposits and rewards.</td>
 </tr>
 
 <tr>
-<td><code>proof_of_work_nonce_size</code> <em>int</em></td>
+<td><code>proof_of_work_nonce_size</code> <em>int64</em></td>
 <td>Nonce size for P2P messages.</td>
 </tr>
 
 <tr>
-<td><code>proof_of_work_threshold</code> <em>int</em></td>
+<td><code>proof_of_work_threshold</code> <em>int64</em></td>
 <td>Threshold for message nonce complexity.</td>
 </tr>
 
 <tr>
-<td><code>seed_nonce_revelation_tip</code> <em>float</em></td>
+<td><code>seed_nonce_revelation_tip</code> <em>money</em></td>
 <td>Rewards for publishing a seed nonce.</td>
 </tr>
 
 <tr>
-<td><code>time_between_blocks</code> <em>array[int]</em></td>
+<td><code>time_between_blocks</code> <em>array[int64]</em></td>
 <td>Target time between blocks in seconds.</td>
 </tr>
 
 <tr>
-<td><code>tokens_per_roll</code> <em>int</em></td>
+<td><code>tokens_per_roll</code> <em>int64</em></td>
 <td>Amount of Tezos per roll.</td>
 </tr>
 
 <tr>
-<td><code>test_chain_duration</code> <em>int</em></td>
+<td><code>test_chain_duration</code> <em>int64</em></td>
 <td>Test chain lifetime in seconds.</td>
 </tr>
 
 <tr>
-<td><code>min_proposal_quorum</code> <em>int</em></td>
+<td><code>min_proposal_quorum</code> <em>int64</em></td>
 <td>Minimum quorum to accept proposals in centile (i.e. 5% = 500).</td>
 </tr>
 
 <tr>
-<td><code>quorum_min</code> <em>int</em></td>
+<td><code>quorum_min</code> <em>int64</em></td>
 <td>Minimum threshold for voting period quorum in centile.</td>
 </tr>
 
 <tr>
-<td><code>quorum_max</code> <em>int</em></td>
+<td><code>quorum_max</code> <em>int64</em></td>
 <td>Maximum threshold for voting period quorum in centile.</td>
 </tr>
 </tbody>
@@ -1318,12 +1320,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height (a.k.a level).</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Cycle</td>
 </tr>
 
@@ -1343,27 +1345,27 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>version</code> <em>int</em></td>
+<td><code>version</code> <em>int64</em></td>
 <td>Protocol version.</td>
 </tr>
 
 <tr>
-<td><code>validation_pass</code> <em>int</em></td>
+<td><code>validation_pass</code> <em>int64</em></td>
 <td>Block validation pass.</td>
 </tr>
 
 <tr>
-<td><code>fitness</code> <em>int</em></td>
+<td><code>fitness</code> <em>int64</em></td>
 <td>Block fitness used to determine longest chain.</td>
 </tr>
 
 <tr>
-<td><code>priority</code> <em>int</em></td>
+<td><code>priority</code> <em>int64</em></td>
 <td>Baking priority.</td>
 </tr>
 
 <tr>
-<td><code>nonce</code> <em>uint</em></td>
+<td><code>nonce</code> <em>uint64</em></td>
 <td>Block nonce</td>
 </tr>
 
@@ -1373,172 +1375,172 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>endorsed_slots</code> <em>uint</em></td>
+<td><code>endorsed_slots</code> <em>uint64</em></td>
 <td>32bit big-endian bitmask indicating which slots have been endorsed. (Note this field will be set from endorsements published in the subsequent block.)</td>
 </tr>
 
 <tr>
-<td><code>n_endorsed_slots</code> <em>int</em></td>
+<td><code>n_endorsed_slots</code> <em>int64</em></td>
 <td>Count of endorsed slots. (Note this field will be set from endorsements published in the subsequent block.)</td>
 </tr>
 
 <tr>
-<td><code>n_ops</code> <em>int</em></td>
+<td><code>n_ops</code> <em>int64</em></td>
 <td>Count of operations contained in this block.</td>
 </tr>
 
 <tr>
-<td><code>n_ops_failed</code> <em>int</em></td>
+<td><code>n_ops_failed</code> <em>int64</em></td>
 <td>Count of failed operations.</td>
 </tr>
 
 <tr>
-<td><code>n_ops_contract</code> <em>int</em></td>
+<td><code>n_ops_contract</code> <em>int64</em></td>
 <td>Count of smart contract operations (transactions sent to contracts and internal operations sent by contracts).</td>
 </tr>
 
 <tr>
-<td><code>n_tx</code> <em>int</em></td>
+<td><code>n_tx</code> <em>int64</em></td>
 <td>Count of <code>transaction</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_activation</code> <em>int</em></td>
+<td><code>n_activation</code> <em>int64</em></td>
 <td>Count of <code>activate_account</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_seed_nonce_revelation</code> <em>int</em></td>
+<td><code>n_seed_nonce_revelation</code> <em>int64</em></td>
 <td>Count of <code>seed_nonce_revelation</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_baking_evidence</code> <em>int</em></td>
+<td><code>n_double_baking_evidence</code> <em>int64</em></td>
 <td>Count of <code>double_baking_evidence</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_endorsement_evidence</code> <em>int</em></td>
+<td><code>n_double_endorsement_evidence</code> <em>int64</em></td>
 <td>Count of <code>double_endorsement_evidence</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_endorsement</code> <em>int</em></td>
+<td><code>n_endorsement</code> <em>int64</em></td>
 <td>Count of <code>endorsement</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_delegation</code> <em>int</em></td>
+<td><code>n_delegation</code> <em>int64</em></td>
 <td>Count of <code>delegation</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_reveal</code> <em>int</em></td>
+<td><code>n_reveal</code> <em>int64</em></td>
 <td>Count of <code>reveal</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_origination</code> <em>int</em></td>
+<td><code>n_origination</code> <em>int64</em></td>
 <td>Count of <code>origination</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_proposal</code> <em>int</em></td>
+<td><code>n_proposal</code> <em>int64</em></td>
 <td>Count of <code>proposals</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_ballot</code> <em>int</em></td>
+<td><code>n_ballot</code> <em>int64</em></td>
 <td>Count of <code>ballot</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>volume</code> <em>float</em></td>
+<td><code>volume</code> <em>money</em></td>
 <td>Total amount of tokens moved between accounts.</td>
 </tr>
 
 <tr>
-<td><code>fees</code> <em>float</em></td>
+<td><code>fees</code> <em>money</em></td>
 <td>Total fees paid (and frozen) by all operations.</td>
 </tr>
 
 <tr>
-<td><code>rewards</code> <em>float</em></td>
+<td><code>rewards</code> <em>money</em></td>
 <td>Total rewards earned (and frozen) by baker and endorsers.</td>
 </tr>
 
 <tr>
-<td><code>deposits</code> <em>float</em></td>
+<td><code>deposits</code> <em>money</em></td>
 <td>Total deposits frozen by baker and endorsers.</td>
 </tr>
 
 <tr>
-<td><code>unfrozen_fees</code> <em>float</em></td>
+<td><code>unfrozen_fees</code> <em>money</em></td>
 <td>Total unfrozen fees (at end of a cycle).</td>
 </tr>
 
 <tr>
-<td><code>unfrozen_rewards</code> <em>float</em></td>
+<td><code>unfrozen_rewards</code> <em>money</em></td>
 <td>Total unfrozen rewards (at end of a cycle).</td>
 </tr>
 
 <tr>
-<td><code>unfrozen_deposits</code> <em>float</em></td>
+<td><code>unfrozen_deposits</code> <em>money</em></td>
 <td>Total unfrozen deposits (at end of a cycle).</td>
 </tr>
 
 <tr>
-<td><code>activated_supply</code> <em>float</em></td>
+<td><code>activated_supply</code> <em>money</em></td>
 <td>Total amount of commitments activated in tz.</td>
 </tr>
 
 <tr>
-<td><code>burned_supply</code> <em>float</em></td>
+<td><code>burned_supply</code> <em>money</em></td>
 <td>Total amount of tokens burned by operations in tz.</td>
 </tr>
 
 <tr>
-<td><code>n_accounts</code> <em>int</em></td>
+<td><code>n_accounts</code> <em>int64</em></td>
 <td>Count of accounts seen in this block (i.e. this includes all operation senders, receivers, delegates and the block&rsquo;s baker).</td>
 </tr>
 
 <tr>
-<td><code>n_new_accounts</code> <em>int</em></td>
+<td><code>n_new_accounts</code> <em>int64</em></td>
 <td>Count of new accounts created regardless of type.</td>
 </tr>
 
 <tr>
-<td><code>n_new_implicit</code> <em>int</em></td>
+<td><code>n_new_implicit</code> <em>int64</em></td>
 <td>Count of created implicit accounts (tz1/2/3).</td>
 </tr>
 
 <tr>
-<td><code>n_new_managed</code> <em>int</em></td>
+<td><code>n_new_managed</code> <em>int64</em></td>
 <td>Count of created managed accounts (KT1 without code or manager.tz script).</td>
 </tr>
 
 <tr>
-<td><code>n_new_contracts</code> <em>int</em></td>
+<td><code>n_new_contracts</code> <em>int64</em></td>
 <td>Count of created smart contracts (KT1 with code).</td>
 </tr>
 
 <tr>
-<td><code>n_cleared_accounts</code> <em>int</em></td>
+<td><code>n_cleared_accounts</code> <em>int64</em></td>
 <td>Count of accounts that were emptied (final balance = 0).</td>
 </tr>
 
 <tr>
-<td><code>n_funded_accounts</code> <em>int</em></td>
+<td><code>n_funded_accounts</code> <em>int64</em></td>
 <td>Count of accounts that were funded by operations (this includes all new accounts plus previously cleared accounts that were funded again).</td>
 </tr>
 
 <tr>
-<td><code>gas_limit</code> <em>int</em></td>
+<td><code>gas_limit</code> <em>int64</em></td>
 <td>Total gas limit defined by operations.</td>
 </tr>
 
 <tr>
-<td><code>gas_used</code> <em>int</em></td>
+<td><code>gas_used</code> <em>int64</em></td>
 <td>Total gas consumed by operations.</td>
 </tr>
 
@@ -1548,7 +1550,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>storage_size</code> <em>int</em></td>
+<td><code>storage_size</code> <em>int64</em></td>
 <td>Total sum of new storage allocated by operations.</td>
 </tr>
 
@@ -1649,32 +1651,32 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height at which the operation was included on-chain.</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Cycle in which the operation was included on-chain.</td>
 </tr>
 
 <tr>
-<td><code>counter</code> <em>int</em></td>
+<td><code>counter</code> <em>int64</em></td>
 <td>Unique sender account &lsquo;nonce&rsquo; value.</td>
 </tr>
 
 <tr>
-<td><code>op_n</code> <em>int</em></td>
+<td><code>op_n</code> <em>int64</em></td>
 <td>Operation position in block. (Tezos defines 4 arrays used for the different op verification steps. The <code>op_n</code> value represents the global operation position across all these arrays.)</td>
 </tr>
 
 <tr>
-<td><code>op_c</code> <em>int</em></td>
+<td><code>op_c</code> <em>int64</em></td>
 <td>Bulk operation list position.</td>
 </tr>
 
 <tr>
-<td><code>op_i</code> <em>int</em></td>
+<td><code>op_i</code> <em>int64</em></td>
 <td>Internal operation list position.</td>
 </tr>
 
@@ -1694,12 +1696,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>gas_limit</code> <em>int</em></td>
+<td><code>gas_limit</code> <em>int64</em></td>
 <td>Caller-defined gas limit.</td>
 </tr>
 
 <tr>
-<td><code>gas_used</code> <em>int</em></td>
+<td><code>gas_used</code> <em>int64</em></td>
 <td>Gas used by the operation.</td>
 </tr>
 
@@ -1709,42 +1711,42 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>storage_limit</code> <em>int</em></td>
+<td><code>storage_limit</code> <em>int64</em></td>
 <td>Caller-defined storage limit.</td>
 </tr>
 
 <tr>
-<td><code>storage_size</code> <em>int</em></td>
+<td><code>storage_size</code> <em>int64</em></td>
 <td>Actual storage size allocated.</td>
 </tr>
 
 <tr>
-<td><code>storage_paid</code> <em>int</em></td>
+<td><code>storage_paid</code> <em>int64</em></td>
 <td>Part of the storage the operation paid for.</td>
 </tr>
 
 <tr>
-<td><code>volume</code> <em>float</em></td>
+<td><code>volume</code> <em>money</em></td>
 <td>Amount of tokens transferred in tz.</td>
 </tr>
 
 <tr>
-<td><code>fee</code> <em>float</em></td>
+<td><code>fee</code> <em>money</em></td>
 <td>Fees paid in tz.</td>
 </tr>
 
 <tr>
-<td><code>reward</code> <em>float</em></td>
+<td><code>reward</code> <em>money</em></td>
 <td>Rewards earned in tz.</td>
 </tr>
 
 <tr>
-<td><code>deposit</code> <em>float</em></td>
+<td><code>deposit</code> <em>money</em></td>
 <td>Amount of deposited tokens in tz.</td>
 </tr>
 
 <tr>
-<td><code>burned</code> <em>float</em></td>
+<td><code>burned</code> <em>money</em></td>
 <td>Amount of burned tokens in tz.</td>
 </tr>
 
@@ -1863,13 +1865,13 @@ ECDHE-RSA-AES128-SHA256
 <tr>
 <td><code>double_baking_evidence</code></td>
 <td>object</td>
-<td>array of double signed block headers</td>
+<td>JSON array of double signed block headers</td>
 </tr>
 
 <tr>
 <td><code>double_endorsemnt_evidence</code></td>
 <td>object</td>
-<td>array of double signed endorsements</td>
+<td>JSON array of double signed endorsements</td>
 </tr>
 
 <tr>
@@ -2079,42 +2081,42 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>first_in</code> <em>int</em></td>
+<td><code>first_in</code> <em>int64</em></td>
 <td>Block height of first incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_out</code> <em>int</em></td>
+<td><code>first_out</code> <em>int64</em></td>
 <td>Block height of first outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>last_in</code> <em>int</em></td>
+<td><code>last_in</code> <em>int64</em></td>
 <td>Block height of latest incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>last_out</code> <em>int</em></td>
+<td><code>last_out</code> <em>int64</em></td>
 <td>Block height of latest outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_seen</code> <em>int</em></td>
+<td><code>first_seen</code> <em>int64</em></td>
 <td>Block height of account creation.</td>
 </tr>
 
 <tr>
-<td><code>last_seen</code> <em>int</em></td>
+<td><code>last_seen</code> <em>int64</em></td>
 <td>Block height of last activity.</td>
 </tr>
 
 <tr>
-<td><code>delegated_since</code> <em>int</em></td>
+<td><code>delegated_since</code> <em>int64</em></td>
 <td>Block height of most recent delegation.</td>
 </tr>
 
 <tr>
-<td><code>delegate_since</code> <em>int</em></td>
+<td><code>delegate_since</code> <em>int64</em></td>
 <td>Block height of registration as delegate.</td>
 </tr>
 
@@ -2159,87 +2161,87 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>total_received</code> <em>float</em></td>
+<td><code>total_received</code> <em>money</em></td>
 <td>Lifetime total tokens received in transactions.</td>
 </tr>
 
 <tr>
-<td><code>total_sent</code> <em>float</em></td>
+<td><code>total_sent</code> <em>money</em></td>
 <td>Lifetime total tokens sent in transactions.</td>
 </tr>
 
 <tr>
-<td><code>total_burned</code> <em>float</em></td>
+<td><code>total_burned</code> <em>money</em></td>
 <td>Lifetime total tokens burned in tz.</td>
 </tr>
 
 <tr>
-<td><code>total_fees_paid</code> <em>float</em></td>
+<td><code>total_fees_paid</code> <em>money</em></td>
 <td>Lifetime fees paid in tz.</td>
 </tr>
 
 <tr>
-<td><code>total_rewards_earned</code> <em>float</em></td>
+<td><code>total_rewards_earned</code> <em>money</em></td>
 <td>Lifetime rewards earned in tz.</td>
 </tr>
 
 <tr>
-<td><code>total_fees_earned</code> <em>float</em></td>
+<td><code>total_fees_earned</code> <em>money</em></td>
 <td>Lifetime fees earned in tz.</td>
 </tr>
 
 <tr>
-<td><code>total_lost</code> <em>float</em></td>
+<td><code>total_lost</code> <em>money</em></td>
 <td>Lifetime total tokens lost in tz.</td>
 </tr>
 
 <tr>
-<td><code>frozen_deposits</code> <em>float</em></td>
+<td><code>frozen_deposits</code> <em>money</em></td>
 <td>Currently frozen deposits</td>
 </tr>
 
 <tr>
-<td><code>frozen_rewards</code> <em>float</em></td>
+<td><code>frozen_rewards</code> <em>money</em></td>
 <td>Currently frozen rewards.</td>
 </tr>
 
 <tr>
-<td><code>frozen_fees</code> <em>float</em></td>
+<td><code>frozen_fees</code> <em>money</em></td>
 <td>Currently frozen fees.</td>
 </tr>
 
 <tr>
-<td><code>unclaimed_balance</code> <em>float</em></td>
+<td><code>unclaimed_balance</code> <em>money</em></td>
 <td>Currently unclaimed balance (for vesting contracts and commitments).</td>
 </tr>
 
 <tr>
-<td><code>spendable_balance</code> <em>float</em></td>
+<td><code>spendable_balance</code> <em>money</em></td>
 <td>Currently spendable balance.</td>
 </tr>
 
 <tr>
-<td><code>total_balance</code> <em>float</em></td>
+<td><code>total_balance</code> <em>money</em></td>
 <td>Currently spendable and frozen balances (except frozen rewards).</td>
 </tr>
 
 <tr>
-<td><code>delegated_balance</code> <em>float</em></td>
+<td><code>delegated_balance</code> <em>money</em></td>
 <td>(delegate only) Current incoming delegations.</td>
 </tr>
 
 <tr>
-<td><code>staking_balance</code> <em>float</em></td>
+<td><code>staking_balance</code> <em>money</em></td>
 <td>(delegate only) Current delegated and own total balance.</td>
 </tr>
 
 <tr>
-<td><code>total_delegations</code> <em>int</em></td>
+<td><code>total_delegations</code> <em>int64</em></td>
 <td>(delegate only) Lifetime count of delegations.</td>
 </tr>
 
 <tr>
-<td><code>active_delegations</code> <em>int</em></td>
+<td><code>active_delegations</code> <em>int64</em></td>
 <td>(delegate only) Currently active and non-zero delegations.</td>
 </tr>
 
@@ -2294,107 +2296,107 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>blocks_baked</code> <em>int</em></td>
+<td><code>blocks_baked</code> <em>int64</em></td>
 <td>Lifetime total blocks baked.</td>
 </tr>
 
 <tr>
-<td><code>blocks_missed</code> <em>int</em></td>
+<td><code>blocks_missed</code> <em>int64</em></td>
 <td>Lifetime total block baking missed.</td>
 </tr>
 
 <tr>
-<td><code>blocks_stolen</code> <em>int</em></td>
+<td><code>blocks_stolen</code> <em>int64</em></td>
 <td>Lifetime total block baked at priority &gt; 0.</td>
 </tr>
 
 <tr>
-<td><code>blocks_endorsed</code> <em>int</em></td>
+<td><code>blocks_endorsed</code> <em>int64</em></td>
 <td>Lifetime total blocks endorsed.</td>
 </tr>
 
 <tr>
-<td><code>slots_endorsed</code> <em>int</em></td>
+<td><code>slots_endorsed</code> <em>int64</em></td>
 <td>Lifetime total endorsemnt slots endorsed.</td>
 </tr>
 
 <tr>
-<td><code>slots_missed</code> <em>int</em></td>
+<td><code>slots_missed</code> <em>int64</em></td>
 <td>Lifetime total endorsemnt slots missed.</td>
 </tr>
 
 <tr>
-<td><code>n_ops</code> <em>int</em></td>
+<td><code>n_ops</code> <em>int64</em></td>
 <td>Lifetime total number of operations sent and received.</td>
 </tr>
 
 <tr>
-<td><code>n_ops_failed</code> <em>int</em></td>
+<td><code>n_ops_failed</code> <em>int64</em></td>
 <td>Lifetime total number of operations sent that failed.</td>
 </tr>
 
 <tr>
-<td><code>n_tx</code> <em>int</em></td>
+<td><code>n_tx</code> <em>int64</em></td>
 <td>Lifetime total number of transactions sent and received.</td>
 </tr>
 
 <tr>
-<td><code>n_delegation</code> <em>int</em></td>
+<td><code>n_delegation</code> <em>int64</em></td>
 <td>Lifetime total number of delegations sent.</td>
 </tr>
 
 <tr>
-<td><code>n_origination</code> <em>int</em></td>
+<td><code>n_origination</code> <em>int64</em></td>
 <td>Lifetime total number of originations sent.</td>
 </tr>
 
 <tr>
-<td><code>n_proposal</code> <em>int</em></td>
+<td><code>n_proposal</code> <em>int64</em></td>
 <td>Lifetime total number of proposals (operations) sent.</td>
 </tr>
 
 <tr>
-<td><code>n_ballot</code> <em>int</em></td>
+<td><code>n_ballot</code> <em>int64</em></td>
 <td>Lifetime total number of ballots sent.</td>
 </tr>
 
 <tr>
-<td><code>token_gen_min</code> <em>int</em></td>
+<td><code>token_gen_min</code> <em>int64</em></td>
 <td>Minimum generation number of all tokens owned.</td>
 </tr>
 
 <tr>
-<td><code>token_gen_max</code> <em>int</em></td>
+<td><code>token_gen_max</code> <em>int64</em></td>
 <td>Maximum generation number of all tokens owned.</td>
 </tr>
 
 <tr>
-<td><code>grace_period</code> <em>int</em></td>
+<td><code>grace_period</code> <em>int64</em></td>
 <td>(delegate only) Current grace period before deactivation.</td>
 </tr>
 
 <tr>
-<td><code>rolls</code> <em>int</em></td>
+<td><code>rolls</code> <em>int64</em></td>
 <td>(delegate only) Currently owned rolls.</td>
 </tr>
 
 <tr>
-<td><code>rich_rank</code> <em>int</em></td>
+<td><code>rich_rank</code> <em>int64</em></td>
 <td>Global rank on rich list by total balance.</td>
 </tr>
 
 <tr>
-<td><code>traffic_rank</code> <em>int</em></td>
+<td><code>traffic_rank</code> <em>int64</em></td>
 <td>Global rank on 24h most active accounts by transactions sent/received.</td>
 </tr>
 
 <tr>
-<td><code>flow_rank</code> <em>int</em></td>
+<td><code>flow_rank</code> <em>int64</em></td>
 <td>Global rank on 24h most active accounts by volume sent/received.</td>
 </tr>
 
 <tr>
-<td><code>last_bake_height</code> <em>int</em></td>
+<td><code>last_bake_height</code> <em>int64</em></td>
 <td>Height of most recent block baked.</td>
 </tr>
 
@@ -2409,7 +2411,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>last_endorse_height</code> <em>int</em></td>
+<td><code>last_endorse_height</code> <em>int64</em></td>
 <td>Height of most recent block endorsed.</td>
 </tr>
 
@@ -2424,12 +2426,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>next_bake_height</code> <em>int</em></td>
+<td><code>next_bake_height</code> <em>int64</em></td>
 <td>Height of next block baking right.</td>
 </tr>
 
 <tr>
-<td><code>next_bake_priority</code> <em>int</em></td>
+<td><code>next_bake_priority</code> <em>int64</em></td>
 <td>Priority of next baking right (fixed at zero currently).</td>
 </tr>
 
@@ -2439,7 +2441,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>next_endorse_height</code> <em>int</em></td>
+<td><code>next_endorse_height</code> <em>int64</em></td>
 <td>Height of next block endorsing right.</td>
 </tr>
 
@@ -2541,22 +2543,22 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Origination block height.</td>
 </tr>
 
 <tr>
-<td><code>fee</code> <em>float</em></td>
+<td><code>fee</code> <em>money</em></td>
 <td>Fee paid on contract origination.</td>
 </tr>
 
 <tr>
-<td><code>gas_limit</code> <em>int</em></td>
+<td><code>gas_limit</code> <em>int64</em></td>
 <td>Gas limit on contract origination.</td>
 </tr>
 
 <tr>
-<td><code>gas_used</code> <em>int</em></td>
+<td><code>gas_used</code> <em>int64</em></td>
 <td>Gas used on contract origination.</td>
 </tr>
 
@@ -2566,17 +2568,17 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>storage_limit</code> <em>int</em></td>
+<td><code>storage_limit</code> <em>int64</em></td>
 <td>Storage limit defined on contract origination op.</td>
 </tr>
 
 <tr>
-<td><code>storage_size</code> <em>int</em></td>
+<td><code>storage_size</code> <em>int64</em></td>
 <td>Storage size allocated in bytes.</td>
 </tr>
 
 <tr>
-<td><code>storage_paid</code> <em>int</em></td>
+<td><code>storage_paid</code> <em>int64</em></td>
 <td>Storage bytes paid for in bytes.</td>
 </tr>
 
@@ -2611,37 +2613,37 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>first_in</code> <em>int</em></td>
+<td><code>first_in</code> <em>int64</em></td>
 <td>Block height of first incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_out</code> <em>int</em></td>
+<td><code>first_out</code> <em>int64</em></td>
 <td>Block height of first outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>last_in</code> <em>int</em></td>
+<td><code>last_in</code> <em>int64</em></td>
 <td>Block height of latest incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>last_out</code> <em>int</em></td>
+<td><code>last_out</code> <em>int64</em></td>
 <td>Block height of latest outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_seen</code> <em>int</em></td>
+<td><code>first_seen</code> <em>int64</em></td>
 <td>Block height of account creation.</td>
 </tr>
 
 <tr>
-<td><code>last_seen</code> <em>int</em></td>
+<td><code>last_seen</code> <em>int64</em></td>
 <td>Block height of last activity.</td>
 </tr>
 
 <tr>
-<td><code>delegated_since</code> <em>int</em></td>
+<td><code>delegated_since</code> <em>int64</em></td>
 <td>Block height of most recent delegation.</td>
 </tr>
 
@@ -2681,37 +2683,37 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>n_ops</code> <em>int</em></td>
+<td><code>n_ops</code> <em>int64</em></td>
 <td>Lifetime total number of operations sent and received.</td>
 </tr>
 
 <tr>
-<td><code>n_ops_failed</code> <em>int</em></td>
+<td><code>n_ops_failed</code> <em>int64</em></td>
 <td>Lifetime total number of operations sent that failed.</td>
 </tr>
 
 <tr>
-<td><code>n_tx</code> <em>int</em></td>
+<td><code>n_tx</code> <em>int64</em></td>
 <td>Lifetime total number of transactions sent and received.</td>
 </tr>
 
 <tr>
-<td><code>n_delegation</code> <em>int</em></td>
+<td><code>n_delegation</code> <em>int64</em></td>
 <td>Lifetime total number of delegations sent.</td>
 </tr>
 
 <tr>
-<td><code>n_origination</code> <em>int</em></td>
+<td><code>n_origination</code> <em>int64</em></td>
 <td>Lifetime total number of originations sent.</td>
 </tr>
 
 <tr>
-<td><code>token_gen_min</code> <em>int</em></td>
+<td><code>token_gen_min</code> <em>int64</em></td>
 <td>Minimum generation number of all tokens owned.</td>
 </tr>
 
 <tr>
-<td><code>token_gen_max</code> <em>int</em></td>
+<td><code>token_gen_max</code> <em>int64</em></td>
 <td>Maximum generation number of all tokens owned.</td>
 </tr>
 
@@ -2797,17 +2799,17 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>The cycle number.</td>
 </tr>
 
 <tr>
-<td><code>start_height</code> <em>int</em></td>
+<td><code>start_height</code> <em>int64</em></td>
 <td>First block height (level) in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>end_height</code> <em>int</em></td>
+<td><code>end_height</code> <em>int64</em></td>
 <td>Last block height (level) in this cycle.</td>
 </tr>
 
@@ -2842,27 +2844,27 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>snapshot_height</code> <em>int</em></td>
+<td><code>snapshot_height</code> <em>int64</em></td>
 <td>Height of the snapshot block.</td>
 </tr>
 
 <tr>
-<td><code>snapshot_index</code> <em>int</em></td>
+<td><code>snapshot_index</code> <em>int64</em></td>
 <td>Index of the snapshot block.</td>
 </tr>
 
 <tr>
-<td><code>rolls</code> <em>int</em></td>
+<td><code>rolls</code> <em>int64</em></td>
 <td>Number of rolls at selected snapshot block or most recent snapshot block.</td>
 </tr>
 
 <tr>
-<td><code>roll_owners</code> <em>int</em></td>
+<td><code>roll_owners</code> <em>int64</em></td>
 <td>Number of unique roll owners (delegates) at selected snapshot block or most recent snapshot block.</td>
 </tr>
 
 <tr>
-<td><code>staking_supply</code> <em>float</em></td>
+<td><code>staking_supply</code> <em>money</em></td>
 <td>Total staked supply at selected snapshot block or most recent snapshot block.</td>
 </tr>
 
@@ -2872,47 +2874,47 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>active_bakers</code> <em>int</em></td>
+<td><code>active_bakers</code> <em>int64</em></td>
 <td>Number of unique bakers seen.</td>
 </tr>
 
 <tr>
-<td><code>active_endorsers</code> <em>int</em></td>
+<td><code>active_endorsers</code> <em>int64</em></td>
 <td>Number of unique endorsers seen.</td>
 </tr>
 
 <tr>
-<td><code>missed_priorities</code> <em>int</em></td>
+<td><code>missed_priorities</code> <em>int64</em></td>
 <td>Total count of missed block priorities.</td>
 </tr>
 
 <tr>
-<td><code>missed_endorsements</code> <em>int</em></td>
+<td><code>missed_endorsements</code> <em>int64</em></td>
 <td>Total count of missed endorsement slots.</td>
 </tr>
 
 <tr>
-<td><code>n_double_baking</code> <em>int</em></td>
-<td>Count of <code>double_baking_evidence</code> operations.</td>
+<td><code>n_double_baking</code> <em>int64</em></td>
+<td>Count of <code>double_baking_evidence</code> events.</td>
 </tr>
 
 <tr>
-<td><code>n_double_endorsement</code> <em>int</em></td>
-<td>Count of <code>double_endorsement_evidence</code> operations.</td>
+<td><code>n_double_endorsement</code> <em>int64</em></td>
+<td>Count of <code>double_endorsement_evidence</code> events.</td>
 </tr>
 
 <tr>
-<td><code>n_orphans</code> <em>int</em></td>
+<td><code>n_orphans</code> <em>int64</em></td>
 <td>Number of orphan blocks in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>solvetime_min</code> <em>int</em></td>
+<td><code>solvetime_min</code> <em>int64</em></td>
 <td>Minimum time between blocks.</td>
 </tr>
 
 <tr>
-<td><code>solvetime_max</code> <em>int</em></td>
+<td><code>solvetime_max</code> <em>int64</em></td>
 <td>Maximum time between blocks.</td>
 </tr>
 
@@ -2922,12 +2924,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>priority_min</code> <em>int</em></td>
+<td><code>priority_min</code> <em>int64</em></td>
 <td>Minimum block priority.</td>
 </tr>
 
 <tr>
-<td><code>priority_max</code> <em>int</em></td>
+<td><code>priority_max</code> <em>int64</em></td>
 <td>Maximum block priority.</td>
 </tr>
 
@@ -2942,12 +2944,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>endorsements_min</code> <em>int</em></td>
+<td><code>endorsements_min</code> <em>int64</em></td>
 <td>Minimum count of endorsements across all blocks.</td>
 </tr>
 
 <tr>
-<td><code>endorsements_max</code> <em>int</em></td>
+<td><code>endorsements_max</code> <em>int64</em></td>
 <td>Maximum count of endorsements across all blocks.</td>
 </tr>
 
@@ -2957,17 +2959,17 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>seed_rate</code> <em>int</em></td>
+<td><code>seed_rate</code> <em>int64</em></td>
 <td>Percentage of published vs expectd <code>seed_nonce_revelations</code>.</td>
 </tr>
 
 <tr>
-<td><code>worst_baked_block</code> <em>int</em></td>
+<td><code>worst_baked_block</code> <em>int64</em></td>
 <td>Height of the block with lowest priority.</td>
 </tr>
 
 <tr>
-<td><code>worst_endorsed_block</code> <em>int</em></td>
+<td><code>worst_endorsed_block</code> <em>int64</em></td>
 <td>Height of the block with least endorsed slots.</td>
 </tr>
 
@@ -3196,32 +3198,32 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>election_id</code> <em>int</em></td>
+<td><code>election_id</code> <em>int64</em></td>
 <td>Sequence number of the election.</td>
 </tr>
 
 <tr>
-<td><code>num_periods</code> <em>int</em></td>
+<td><code>num_periods</code> <em>int64</em></td>
 <td>Number of voting periods activated durin this election (min 1, max 4)</td>
 </tr>
 
 <tr>
-<td><code>num_proposals</code> <em>int</em></td>
+<td><code>num_proposals</code> <em>int64</em></td>
 <td>Total number of submitted proposals.</td>
 </tr>
 
 <tr>
-<td><code>start_time</code> <em>int</em></td>
+<td><code>start_time</code> <em>int64</em></td>
 <td>Time of the first block in the election.</td>
 </tr>
 
 <tr>
-<td><code>end_time</code> <em>int</em></td>
+<td><code>end_time</code> <em>int64</em></td>
 <td>Time of the last block in the election (when open this is an approximation of the latest possible end assuming all voting periods are used and all remaining blocks are produced at priority zero).</td>
 </tr>
 
 <tr>
-<td><code>start_height</code> <em>int</em></td>
+<td><code>start_height</code> <em>int64</em></td>
 <td>First block of the election period.</td>
 </tr>
 
@@ -3299,7 +3301,7 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>voting_period</code> <em>int</em></td>
+<td><code>voting_period</code> <em>int64</em></td>
 <td>Protocol-level voting period counter.</td>
 </tr>
 
@@ -3319,22 +3321,22 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>period_start_block</code> <em>int</em></td>
+<td><code>period_start_block</code> <em>int64</em></td>
 <td>First block of the voting period.</td>
 </tr>
 
 <tr>
-<td><code>period_end_block</code> <em>int</em></td>
+<td><code>period_end_block</code> <em>int64</em></td>
 <td>Last block of the voting period.</td>
 </tr>
 
 <tr>
-<td><code>eligible_rolls</code> <em>int</em></td>
+<td><code>eligible_rolls</code> <em>int64</em></td>
 <td>Number of rolls eligible to vote snapshot at start of the voting period.</td>
 </tr>
 
 <tr>
-<td><code>eligible_voters</code> <em>int</em></td>
+<td><code>eligible_voters</code> <em>int64</em></td>
 <td>Number of eligible voters (delegates) snapshot at start of the voting period.</td>
 </tr>
 
@@ -3344,17 +3346,17 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>quorum_rolls</code> <em>int</em></td>
+<td><code>quorum_rolls</code> <em>int64</em></td>
 <td>Required rolls to reach quorum.</td>
 </tr>
 
 <tr>
-<td><code>turnout_rolls</code> <em>int</em></td>
+<td><code>turnout_rolls</code> <em>int64</em></td>
 <td>Actual rolls who voted.</td>
 </tr>
 
 <tr>
-<td><code>turnout_voters</code> <em>int</em></td>
+<td><code>turnout_voters</code> <em>int64</em></td>
 <td>Actual voters who voted.</td>
 </tr>
 
@@ -3369,32 +3371,32 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>yay_rolls</code> <em>int</em></td>
+<td><code>yay_rolls</code> <em>int64</em></td>
 <td>Number of Yay rolls.</td>
 </tr>
 
 <tr>
-<td><code>yay_voters</code> <em>int</em></td>
+<td><code>yay_voters</code> <em>int64</em></td>
 <td>Number of Yay voters.</td>
 </tr>
 
 <tr>
-<td><code>nay_rolls</code> <em>int</em></td>
+<td><code>nay_rolls</code> <em>int64</em></td>
 <td>Number of Nay rolls.</td>
 </tr>
 
 <tr>
-<td><code>nay_voters</code> <em>int</em></td>
+<td><code>nay_voters</code> <em>int64</em></td>
 <td>Number of Nay voters.</td>
 </tr>
 
 <tr>
-<td><code>pass_rolls</code> <em>int</em></td>
+<td><code>pass_rolls</code> <em>int64</em></td>
 <td>Number of Pass rolls.</td>
 </tr>
 
 <tr>
-<td><code>pass_voters</code> <em>int</em></td>
+<td><code>pass_voters</code> <em>int64</em></td>
 <td>Number of Pass voters.</td>
 </tr>
 
@@ -3467,7 +3469,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Proposal operation submission height.</td>
 </tr>
 
@@ -3477,12 +3479,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>rolls</code> <em>int</em></td>
+<td><code>rolls</code> <em>int64</em></td>
 <td>Count of rolls voting for this proposal during the proposal period.</td>
 </tr>
 
 <tr>
-<td><code>voters</code> <em>int</em></td>
+<td><code>voters</code> <em>int64</em></td>
 <td>Count of voters voting for this proposal during the proposal period.</td>
 </tr>
 </tbody>
@@ -3564,27 +3566,27 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>exchange</code> <em>float</em></td>
+<td><code>exchange</code> <em>string</em></td>
 <td>Exchange code.</td>
 </tr>
 
 <tr>
-<td><code>open</code> <em>float</em></td>
+<td><code>open</code> <em>money</em></td>
 <td>24h open price in quote currency.</td>
 </tr>
 
 <tr>
-<td><code>high</code> <em>float</em></td>
+<td><code>high</code> <em>money</em></td>
 <td>24h highest price in quote currency.</td>
 </tr>
 
 <tr>
-<td><code>low</code> <em>float</em></td>
+<td><code>low</code> <em>money</em></td>
 <td>24h lowest price in quote currency.</td>
 </tr>
 
 <tr>
-<td><code>last</code> <em>float</em></td>
+<td><code>last</code> <em>money</em></td>
 <td>Last price in quote curreny.</td>
 </tr>
 
@@ -3594,34 +3596,34 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>vwap</code> <em>float</em></td>
+<td><code>vwap</code> <em>money</em></td>
 <td>24h volume weighted average price in quote currency.</td>
 </tr>
 
 <tr>
-<td><code>n_trades</code> <em>float</em></td>
+<td><code>n_trades</code> <em>int64</em></td>
 <td>24h number of trades.</td>
 </tr>
 
 <tr>
-<td><code>volume_base</code> <em>float</em></td>
+<td><code>volume_base</code> <em>money</em></td>
 <td>24h traded volume in base currency.</td>
 </tr>
 
 <tr>
-<td><code>volume_quote</code> <em>float</em></td>
+<td><code>volume_quote</code> <em>money</em></td>
 <td>24h traded volume in quote currency.</td>
 </tr>
 
 <tr>
-<td><code>timestamp</code> <em>float</em></td>
+<td><code>timestamp</code> <em>datetime</em></td>
 <td>Timestamp of the ticker result.</td>
 </tr>
 </tbody>
 </table>
 
-    
-        
+
+
 
 <h1 id="table-endpoints">Table Endpoints</h1>
 
@@ -3912,197 +3914,197 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height the current row refers to.</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Cycle the current row refers to.</td>
 </tr>
 
 <tr>
-<td><code>time</code> <em>dateime</em></td>
+<td><code>time</code> <em>datetime</em></td>
 <td>Block time in UNIX milliseconds the current row refers to.</td>
 </tr>
 
 <tr>
-<td><code>total_accounts</code> <em>int</em></td>
+<td><code>total_accounts</code> <em>int64</em></td>
 <td>Total count of existing funded &amp; non-funded accounts.</td>
 </tr>
 
 <tr>
-<td><code>total_implicit</code> <em>int</em></td>
+<td><code>total_implicit</code> <em>int64</em></td>
 <td>Total count of implicit (tz1/2/3) accounts.</td>
 </tr>
 
 <tr>
-<td><code>total_managed</code> <em>int</em></td>
+<td><code>total_managed</code> <em>int64</em></td>
 <td>Total count of managed accounts (KT1) used for delegation (without code / using manager.tz script).</td>
 </tr>
 
 <tr>
-<td><code>total_contracts</code> <em>int</em></td>
+<td><code>total_contracts</code> <em>int64</em></td>
 <td>Total count of deployed smart contracts.</td>
 </tr>
 
 <tr>
-<td><code>total_ops</code> <em>int</em></td>
+<td><code>total_ops</code> <em>int64</em></td>
 <td>Total count of on-chain operations.</td>
 </tr>
 
 <tr>
-<td><code>total_contract_ops</code> <em>int</em></td>
+<td><code>total_contract_ops</code> <em>int64</em></td>
 <td>Total count of smart contract calls (sent to or originated from contracts).</td>
 </tr>
 
 <tr>
-<td><code>total_activations</code> <em>int</em></td>
+<td><code>total_activations</code> <em>int64</em></td>
 <td>Total count of <code>activate_account</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_seed_nonces</code> <em>int</em></td>
+<td><code>total_seed_nonces</code> <em>int64</em></td>
 <td>Total count of <code>seed_nonce_revelation</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_double_endorsement_evidences</code> <em>int</em></td>
+<td><code>total_double_endorsement_evidences</code> <em>int64</em></td>
 <td>Total count of <code>endorsement</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_double_baking_evidences</code> <em>int</em></td>
+<td><code>total_double_baking_evidences</code> <em>int64</em></td>
 <td>Total count of <code>double_baking_evidence</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_double_endorse</code> <em>int</em></td>
+<td><code>total_double_endorse</code> <em>int64</em></td>
 <td>Total count of <code>double_endorsement_evidence</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_delegations</code> <em>int</em></td>
+<td><code>total_delegations</code> <em>int64</em></td>
 <td>Total count of <code>delegation</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_reveals</code> <em>int</em></td>
+<td><code>total_reveals</code> <em>int64</em></td>
 <td>Total count of <code>reveal</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_originations</code> <em>int</em></td>
+<td><code>total_originations</code> <em>int64</em></td>
 <td>Total count of <code>origination</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_transactions</code> <em>int</em></td>
+<td><code>total_transactions</code> <em>int64</em></td>
 <td>Total count of <code>transaction</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_proposals</code> <em>int</em></td>
+<td><code>total_proposals</code> <em>int64</em></td>
 <td>Total count of <code>proposals</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_ballots</code> <em>int</em></td>
+<td><code>total_ballots</code> <em>int64</em></td>
 <td>Total count of <code>ballot</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>total_storage_bytes</code> <em>int</em></td>
+<td><code>total_storage_bytes</code> <em>int64</em></td>
 <td>Total count of storage bytes allocated.</td>
 </tr>
 
 <tr>
-<td><code>total_paid_bytes</code> <em>int</em></td>
+<td><code>total_paid_bytes</code> <em>int64</em></td>
 <td>Total count of storage bytes paid.</td>
 </tr>
 
 <tr>
-<td><code>total_used_bytes</code> <em>int</em></td>
+<td><code>total_used_bytes</code> <em>int64</em></td>
 <td>Total count of storage used.</td>
 </tr>
 
 <tr>
-<td><code>total_orphans</code> <em>int</em></td>
+<td><code>total_orphans</code> <em>int64</em></td>
 <td>Total count of orphaned blocks.</td>
 </tr>
 
 <tr>
-<td><code>funded_accounts</code> <em>int</em></td>
+<td><code>funded_accounts</code> <em>int64</em></td>
 <td>Current number of funded accounts.</td>
 </tr>
 
 <tr>
-<td><code>unclaimed_accounts</code> <em>int</em></td>
+<td><code>unclaimed_accounts</code> <em>int64</em></td>
 <td>Current number of unclaimed fundraiser accounts.</td>
 </tr>
 
 <tr>
-<td><code>total_delegators</code> <em>int</em></td>
+<td><code>total_delegators</code> <em>int64</em></td>
 <td>Current number of non-zero delegators.</td>
 </tr>
 
 <tr>
-<td><code>active_delegators</code> <em>int</em></td>
+<td><code>active_delegators</code> <em>int64</em></td>
 <td>Current number of non-zero delegators who delegate to an active delegate.</td>
 </tr>
 
 <tr>
-<td><code>inactive_delegators</code> <em>int</em></td>
+<td><code>inactive_delegators</code> <em>int64</em></td>
 <td>Total count of non-zero delegators who delegate to an inactive delegate.</td>
 </tr>
 
 <tr>
-<td><code>total_delegates</code> <em>int</em></td>
+<td><code>total_delegates</code> <em>int64</em></td>
 <td>Current number of registered bakers (active and inactive).</td>
 </tr>
 
 <tr>
-<td><code>active_delegates</code> <em>int</em></td>
+<td><code>active_delegates</code> <em>int64</em></td>
 <td>Current number of active bakers.</td>
 </tr>
 
 <tr>
-<td><code>inactive_delegates</code> <em>int</em></td>
+<td><code>inactive_delegates</code> <em>int64</em></td>
 <td>Current number of inactive bakers (note: inactive bakers can still have future rights, but won&rsquo;t get any new rights).</td>
 </tr>
 
 <tr>
-<td><code>zero_delegates</code> <em>int</em></td>
+<td><code>zero_delegates</code> <em>int64</em></td>
 <td>Current number of active bakers with zero staking balance.</td>
 </tr>
 
 <tr>
-<td><code>self_delegates</code> <em>int</em></td>
+<td><code>self_delegates</code> <em>int64</em></td>
 <td>Current number of active bakers who self-bake only and have no incoming delegations.</td>
 </tr>
 
 <tr>
-<td><code>single_delegates</code> <em>int</em></td>
+<td><code>single_delegates</code> <em>int64</em></td>
 <td>Current number of active bakers who potentially self-bake and have only a single incoming delegation.</td>
 </tr>
 
 <tr>
-<td><code>multi_delegates</code> <em>int</em></td>
+<td><code>multi_delegates</code> <em>int64</em></td>
 <td>Current number of bakers (potentially staking services) who have more than 1 incoming delegation.</td>
 </tr>
 
 <tr>
-<td><code>rolls</code> <em>int</em></td>
+<td><code>rolls</code> <em>int64</em></td>
 <td>Current number of network-wide rolls.</td>
 </tr>
 
 <tr>
-<td><code>roll_owners</code> <em>int</em></td>
+<td><code>roll_owners</code> <em>int64</em></td>
 <td>Current number of network-wide roll owners.</td>
 </tr>
 </tbody>
@@ -4170,22 +4172,22 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height the current row refers to.</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Cycle the current row refers to.</td>
 </tr>
 
 <tr>
-<td><code>time</code> <em>int</em></td>
+<td><code>time</code> <em>int64</em></td>
 <td>Block time the current row refers to.</td>
 </tr>
 
@@ -4195,132 +4197,132 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>activated</code> <em>float64</em></td>
+<td><code>activated</code> <em>money</em></td>
 <td>Acitivated fundraiser supply.</td>
 </tr>
 
 <tr>
-<td><code>unclaimed</code> <em>float64</em></td>
+<td><code>unclaimed</code> <em>money</em></td>
 <td>Unclaimed fundraiser supply.</td>
 </tr>
 
 <tr>
-<td><code>vested</code> <em>float64</em></td>
+<td><code>vested</code> <em>money</em></td>
 <td>Vested genesis supply, i.e. spendable supply owned by vesting contracts.</td>
 </tr>
 
 <tr>
-<td><code>unvested</code> <em>float64</em></td>
+<td><code>unvested</code> <em>money</em></td>
 <td>Unvested genesis supply, i.e. supply that is still locked in vesting contracts.</td>
 </tr>
 
 <tr>
-<td><code>circulating</code> <em>float64</em></td>
+<td><code>circulating</code> <em>money</em></td>
 <td>Circulating supply, i.e. all immediatly spendable supply.</td>
 </tr>
 
 <tr>
-<td><code>delegated</code> <em>float64</em></td>
+<td><code>delegated</code> <em>money</em></td>
 <td>Delegated supply, i.e. all spendable supply owned by delegators.</td>
 </tr>
 
 <tr>
-<td><code>staking</code> <em>float64</em></td>
+<td><code>staking</code> <em>money</em></td>
 <td>Staking supply, i.e. delegated supply and supply owned by bakers in form of spendable balances, frozen deposits and frozen fees. Frozen rewards are explicitly excluded because they can be slashed.</td>
 </tr>
 
 <tr>
-<td><code>active_delegated</code> <em>float64</em></td>
+<td><code>active_delegated</code> <em>money</em></td>
 <td>Portion of delegated supply that is delegated to active delegates.</td>
 </tr>
 
 <tr>
-<td><code>active_staking</code> <em>float64</em></td>
+<td><code>active_staking</code> <em>money</em></td>
 <td>Portion of staking supply available to active delegates and used for securing consensus.</td>
 </tr>
 
 <tr>
-<td><code>inactive_delegated</code> <em>float64</em></td>
+<td><code>inactive_delegated</code> <em>money</em></td>
 <td>Portion of delegated supply that is delegated to inactive delegates.</td>
 </tr>
 
 <tr>
-<td><code>inactive_staking</code> <em>float64</em></td>
+<td><code>inactive_staking</code> <em>money</em></td>
 <td>Portion of staking supply on inactive delegates that is not used for securing consensus.</td>
 </tr>
 
 <tr>
-<td><code>minted</code> <em>float64</em></td>
+<td><code>minted</code> <em>money</em></td>
 <td>Total issued supply in the form of block rewards.</td>
 </tr>
 
 <tr>
-<td><code>minted_baking</code> <em>float64</em></td>
+<td><code>minted_baking</code> <em>money</em></td>
 <td>Issued supply as rewards for block baking.</td>
 </tr>
 
 <tr>
-<td><code>minted_endorsing</code> <em>float64</em></td>
+<td><code>minted_endorsing</code> <em>money</em></td>
 <td>Issued supply as rewards for block endorsement.</td>
 </tr>
 
 <tr>
-<td><code>minted_seeding</code> <em>float64</em></td>
+<td><code>minted_seeding</code> <em>money</em></td>
 <td>Issued supply as rewards for seed nonce revelations.</td>
 </tr>
 
 <tr>
-<td><code>minted_airdrop</code> <em>float64</em></td>
+<td><code>minted_airdrop</code> <em>money</em></td>
 <td>Issued supply as rewards for developers and protocol-upgrade airdrops (i.e. in Babylon).</td>
 </tr>
 
 <tr>
-<td><code>burned</code> <em>float64</em></td>
+<td><code>burned</code> <em>money</em></td>
 <td>Total burned supply.</td>
 </tr>
 
 <tr>
-<td><code>burned_double_baking</code> <em>float64</em></td>
+<td><code>burned_double_baking</code> <em>money</em></td>
 <td>Total supply burned due to double baking.</td>
 </tr>
 
 <tr>
-<td><code>burned_double_endorse</code> <em>float64</em></td>
+<td><code>burned_double_endorse</code> <em>money</em></td>
 <td>Total supply burned due to double endorsement.</td>
 </tr>
 
 <tr>
-<td><code>burned_origination</code> <em>float64</em></td>
+<td><code>burned_origination</code> <em>money</em></td>
 <td>Total supply burned due to contract originations.</td>
 </tr>
 
 <tr>
-<td><code>burned_implicit</code> <em>float64</em></td>
+<td><code>burned_implicit</code> <em>money</em></td>
 <td>Total supply burned due to implicit account creation.</td>
 </tr>
 
 <tr>
-<td><code>burned_seed_miss</code> <em>float64</em></td>
+<td><code>burned_seed_miss</code> <em>money</em></td>
 <td>Total supply burned due to implicit account creation.</td>
 </tr>
 
 <tr>
-<td><code>frozen</code> <em>float64</em></td>
+<td><code>frozen</code> <em>money</em></td>
 <td>Currently frozen supply.</td>
 </tr>
 
 <tr>
-<td><code>frozen_deposits</code> <em>float64</em></td>
+<td><code>frozen_deposits</code> <em>money</em></td>
 <td>Currently frozen bonds.</td>
 </tr>
 
 <tr>
-<td><code>frozen_rewards</code> <em>float64</em></td>
+<td><code>frozen_rewards</code> <em>money</em></td>
 <td>Currently frozen rewards.</td>
 </tr>
 
 <tr>
-<td><code>frozen_fees</code> <em>float64</em></td>
+<td><code>frozen_fees</code> <em>money</em></td>
 <td>Currently frozen fees.</td>
 </tr>
 </tbody>
@@ -4412,12 +4414,12 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>parent_id</code> <em>uint</em></td>
+<td><code>parent_id</code> <em>uint64</em></td>
 <td>Unique row id of parent block.</td>
 </tr>
 
@@ -4432,12 +4434,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height.</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Consensus cycle this block is part of.</td>
 </tr>
 
@@ -4452,32 +4454,32 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>solvetime</code> <em>int</em></td>
+<td><code>solvetime</code> <em>int64</em></td>
 <td>Duration between the parent block&rsquo;s timestamp and this block.</td>
 </tr>
 
 <tr>
-<td><code>version</code> <em>int</em></td>
+<td><code>version</code> <em>int64</em></td>
 <td>Block protocol version (note, this is a serial version that depends on how many protocols have been activated on the current chain so far).</td>
 </tr>
 
 <tr>
-<td><code>validation_pass</code> <em>int</em></td>
+<td><code>validation_pass</code> <em>int64</em></td>
 <td>Block validation pass.</td>
 </tr>
 
 <tr>
-<td><code>fitness</code> <em>int</em></td>
+<td><code>fitness</code> <em>int64</em></td>
 <td>Block fitness used to determine longest chain.</td>
 </tr>
 
 <tr>
-<td><code>priority</code> <em>int</em></td>
+<td><code>priority</code> <em>int64</em></td>
 <td>Baking priority.</td>
 </tr>
 
 <tr>
-<td><code>nonce</code> <em>uint</em></td>
+<td><code>nonce</code> <em>uint64</em></td>
 <td>Block nonce.</td>
 </tr>
 
@@ -4487,177 +4489,177 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>baker_id</code> <em>int</em></td>
+<td><code>baker_id</code> <em>uint64</em></td>
 <td>Unique row id of the block&rsquo;s baker account.</td>
 </tr>
 
 <tr>
-<td><code>endorsed_slots</code> <em>uint</em></td>
+<td><code>endorsed_slots</code> <em>uint64</em></td>
 <td>32bit big-endian bitmask indicating which slots have been endorsed. (Note this field will be set from endorsements published in the subsequent block.)</td>
 </tr>
 
 <tr>
-<td><code>n_endorsed_slots</code> <em>int</em></td>
+<td><code>n_endorsed_slots</code> <em>int64</em></td>
 <td>Count of endorsed slots. (Note this field will be set from endorsements published in the subsequent block.)</td>
 </tr>
 
 <tr>
-<td><code>n_ops</code> <em>int</em></td>
+<td><code>n_ops</code> <em>int64</em></td>
 <td>Count of operations contained in this block.</td>
 </tr>
 
 <tr>
-<td><code>n_ops_failed</code> <em>int</em></td>
+<td><code>n_ops_failed</code> <em>int64</em></td>
 <td>Count of failed operations.</td>
 </tr>
 
 <tr>
-<td><code>n_ops_contract</code> <em>int</em></td>
+<td><code>n_ops_contract</code> <em>int64</em></td>
 <td>Count of smart contract operations (transactions sent to contracts and internal operations sent by contracts).</td>
 </tr>
 
 <tr>
-<td><code>n_tx</code> <em>int</em></td>
+<td><code>n_tx</code> <em>int64</em></td>
 <td>Count of <code>transaction</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_activation</code> <em>int</em></td>
+<td><code>n_activation</code> <em>int64</em></td>
 <td>Count of <code>activate_account</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_seed_nonce_revelation</code> <em>int</em></td>
+<td><code>n_seed_nonce_revelation</code> <em>int64</em></td>
 <td>Count of <code>seed_nonce_revelation</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_baking_evidence</code> <em>int</em></td>
+<td><code>n_double_baking_evidence</code> <em>int64</em></td>
 <td>Count of <code>double_baking_evidence</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_double_endorsement_evidence</code> <em>int</em></td>
+<td><code>n_double_endorsement_evidence</code> <em>int64</em></td>
 <td>Count of <code>double_endorsement_evidence</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_endorsement</code> <em>int</em></td>
+<td><code>n_endorsement</code> <em>int64</em></td>
 <td>Count of <code>endorsement</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_delegation</code> <em>int</em></td>
+<td><code>n_delegation</code> <em>int64</em></td>
 <td>Count of <code>delegation</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_reveal</code> <em>int</em></td>
+<td><code>n_reveal</code> <em>int64</em></td>
 <td>Count of <code>reveal</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_origination</code> <em>int</em></td>
+<td><code>n_origination</code> <em>int64</em></td>
 <td>Count of <code>origination</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_proposal</code> <em>int</em></td>
+<td><code>n_proposal</code> <em>int64</em></td>
 <td>Count of <code>proposals</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>n_ballot</code> <em>int</em></td>
+<td><code>n_ballot</code> <em>int64</em></td>
 <td>Count of <code>ballot</code> operations.</td>
 </tr>
 
 <tr>
-<td><code>volume</code> <em>float</em></td>
+<td><code>volume</code> <em>money</em></td>
 <td>Total amount of tokens moved between accounts.</td>
 </tr>
 
 <tr>
-<td><code>fees</code> <em>float</em></td>
+<td><code>fees</code> <em>money</em></td>
 <td>Total fees paid (and frozen) by all operations.</td>
 </tr>
 
 <tr>
-<td><code>rewards</code> <em>float</em></td>
+<td><code>rewards</code> <em>money</em></td>
 <td>Total rewards earned (and frozen) by baker and endorsers.</td>
 </tr>
 
 <tr>
-<td><code>deposits</code> <em>float</em></td>
+<td><code>deposits</code> <em>money</em></td>
 <td>Total deposits frozen by baker and endorsers.</td>
 </tr>
 
 <tr>
-<td><code>unfrozen_fees</code> <em>float</em></td>
+<td><code>unfrozen_fees</code> <em>money</em></td>
 <td>Total unfrozen fees (at end of a cycle).</td>
 </tr>
 
 <tr>
-<td><code>unfrozen_rewards</code> <em>float</em></td>
+<td><code>unfrozen_rewards</code> <em>money</em></td>
 <td>Total unfrozen rewards (at end of a cycle).</td>
 </tr>
 
 <tr>
-<td><code>unfrozen_deposits</code> <em>float</em></td>
+<td><code>unfrozen_deposits</code> <em>money</em></td>
 <td>Total unfrozen deposits (at end of a cycle).</td>
 </tr>
 
 <tr>
-<td><code>activated_supply</code> <em>float</em></td>
+<td><code>activated_supply</code> <em>money</em></td>
 <td>Total amount of commitments activated in tz.</td>
 </tr>
 
 <tr>
-<td><code>burned_supply</code> <em>float</em></td>
+<td><code>burned_supply</code> <em>money</em></td>
 <td>Total amount of tokens burned by operations in tz.</td>
 </tr>
 
 <tr>
-<td><code>n_accounts</code> <em>int</em></td>
+<td><code>n_accounts</code> <em>int64</em></td>
 <td>Count of accounts seen in this block (i.e. this includes all operation senders, receivers, delegates and the block&rsquo;s baker).</td>
 </tr>
 
 <tr>
-<td><code>n_new_accounts</code> <em>int</em></td>
+<td><code>n_new_accounts</code> <em>int64</em></td>
 <td>Count of new accounts created regardless of type.</td>
 </tr>
 
 <tr>
-<td><code>n_new_implicit</code> <em>int</em></td>
+<td><code>n_new_implicit</code> <em>int64</em></td>
 <td>Count of created implicit accounts (tz1/2/3).</td>
 </tr>
 
 <tr>
-<td><code>n_new_managed</code> <em>int</em></td>
+<td><code>n_new_managed</code> <em>int64</em></td>
 <td>Count of created managed accounts (KT1 without code or manager.tz script).</td>
 </tr>
 
 <tr>
-<td><code>n_new_contracts</code> <em>int</em></td>
+<td><code>n_new_contracts</code> <em>int64</em></td>
 <td>Count of created smart contracts (KT1 with code).</td>
 </tr>
 
 <tr>
-<td><code>n_cleared_accounts</code> <em>int</em></td>
+<td><code>n_cleared_accounts</code> <em>int64</em></td>
 <td>Count of accounts that were emptied (final balance = 0).</td>
 </tr>
 
 <tr>
-<td><code>n_funded_accounts</code> <em>int</em></td>
+<td><code>n_funded_accounts</code> <em>int64</em></td>
 <td>Count of accounts that were funded by operations (this includes all new accounts plus previously cleared accounts that were funded again).</td>
 </tr>
 
 <tr>
-<td><code>gas_limit</code> <em>int</em></td>
+<td><code>gas_limit</code> <em>int64</em></td>
 <td>Total gas limit defined by operations.</td>
 </tr>
 
 <tr>
-<td><code>gas_used</code> <em>int</em></td>
+<td><code>gas_used</code> <em>int64</em></td>
 <td>Total gas consumed by operations.</td>
 </tr>
 
@@ -4667,7 +4669,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>storage_size</code> <em>int</em></td>
+<td><code>storage_size</code> <em>int64</em></td>
 <td>Total sum of new storage allocated by operations.</td>
 </tr>
 
@@ -4759,7 +4761,7 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
@@ -4769,12 +4771,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height.</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Cycle in which the operation was included on-chain.</td>
 </tr>
 
@@ -4784,22 +4786,22 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>counter</code> <em>int</em></td>
+<td><code>counter</code> <em>int64</em></td>
 <td>Unique sender account &lsquo;nonce&rsquo; value.</td>
 </tr>
 
 <tr>
-<td><code>op_n</code> <em>int</em></td>
+<td><code>op_n</code> <em>int64</em></td>
 <td>Operation position in block. (Tezos defines 4 arrays used for the different op verification steps. The <code>op_n</code> value represents the global operation position across all these arrays.)</td>
 </tr>
 
 <tr>
-<td><code>op_c</code> <em>int</em></td>
+<td><code>op_c</code> <em>int64</em></td>
 <td>Bulk operation list position.</td>
 </tr>
 
 <tr>
-<td><code>op_i</code> <em>int</em></td>
+<td><code>op_i</code> <em>int64</em></td>
 <td>Internal operation list position.</td>
 </tr>
 
@@ -4814,7 +4816,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>is_success</code> <em>int</em></td>
+<td><code>is_success</code> <em>int64</em></td>
 <td>Flag indicating operation was successfully applied.</td>
 </tr>
 
@@ -4824,12 +4826,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>gas_limit</code> <em>int</em></td>
+<td><code>gas_limit</code> <em>int64</em></td>
 <td>Caller-defined gas limit.</td>
 </tr>
 
 <tr>
-<td><code>gas_used</code> <em>int</em></td>
+<td><code>gas_used</code> <em>int64</em></td>
 <td>Gas used by the operation.</td>
 </tr>
 
@@ -4839,62 +4841,62 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>storage_limit</code> <em>int</em></td>
+<td><code>storage_limit</code> <em>int64</em></td>
 <td>Caller-defined storage limit.</td>
 </tr>
 
 <tr>
-<td><code>storage_size</code> <em>int</em></td>
+<td><code>storage_size</code> <em>int64</em></td>
 <td>Actual storage size allocated.</td>
 </tr>
 
 <tr>
-<td><code>storage_paid</code> <em>int</em></td>
+<td><code>storage_paid</code> <em>int64</em></td>
 <td>Part of the storage the operation paid for.</td>
 </tr>
 
 <tr>
-<td><code>volume</code> <em>float</em></td>
+<td><code>volume</code> <em>money</em></td>
 <td>Amount of tokens transferred in tz.</td>
 </tr>
 
 <tr>
-<td><code>fee</code> <em>float</em></td>
+<td><code>fee</code> <em>money</em></td>
 <td>Fees paid in tz.</td>
 </tr>
 
 <tr>
-<td><code>reward</code> <em>float</em></td>
+<td><code>reward</code> <em>money</em></td>
 <td>Rewards earned in tz.</td>
 </tr>
 
 <tr>
-<td><code>deposit</code> <em>float</em></td>
+<td><code>deposit</code> <em>money</em></td>
 <td>Amount of deposited tokens in tz.</td>
 </tr>
 
 <tr>
-<td><code>burned</code> <em>float</em></td>
+<td><code>burned</code> <em>money</em></td>
 <td>Amount of burned tokens in tz.</td>
 </tr>
 
 <tr>
-<td><code>sender_id</code> <em>uint</em></td>
+<td><code>sender_id</code> <em>uint64</em></td>
 <td>Unique row id of the operation sender account.</td>
 </tr>
 
 <tr>
-<td><code>receiver_id</code> <em>uint</em></td>
+<td><code>receiver_id</code> <em>uint64</em></td>
 <td>Unique row id of the transaction receiver, may be zero.</td>
 </tr>
 
 <tr>
-<td><code>manager_id</code> <em>uint</em></td>
+<td><code>manager_id</code> <em>uint64</em></td>
 <td>Unique row id of the new manager account, may be zero.</td>
 </tr>
 
 <tr>
-<td><code>delegate_id</code> <em>uint</em></td>
+<td><code>delegate_id</code> <em>uint64</em></td>
 <td>Unique row id of the new delegate account, may be zero.</td>
 </tr>
 
@@ -5058,17 +5060,17 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>delegate_id</code> <em>uint</em></td>
+<td><code>delegate_id</code> <em>uint64</em></td>
 <td>Account delegate unique row_id.</td>
 </tr>
 
 <tr>
-<td><code>manager_id</code> <em>uint</em></td>
+<td><code>manager_id</code> <em>uint64</em></td>
 <td>Account manager unique row_id.</td>
 </tr>
 
@@ -5078,117 +5080,117 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>first_in</code> <em>int</em></td>
+<td><code>first_in</code> <em>int64</em></td>
 <td>Block height of first incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_out</code> <em>int</em></td>
+<td><code>first_out</code> <em>int64</em></td>
 <td>Block height of first outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>last_in</code> <em>int</em></td>
+<td><code>last_in</code> <em>int64</em></td>
 <td>Block height of latest incoming transaction.</td>
 </tr>
 
 <tr>
-<td><code>last_out</code> <em>int</em></td>
+<td><code>last_out</code> <em>int64</em></td>
 <td>Block height of latest outgoing transaction.</td>
 </tr>
 
 <tr>
-<td><code>first_seen</code> <em>int</em></td>
+<td><code>first_seen</code> <em>int64</em></td>
 <td>Block height of account creation.</td>
 </tr>
 
 <tr>
-<td><code>last_seen</code> <em>int</em></td>
+<td><code>last_seen</code> <em>int64</em></td>
 <td>Block height of last activity.</td>
 </tr>
 
 <tr>
-<td><code>delegated_since</code> <em>int</em></td>
+<td><code>delegated_since</code> <em>int64</em></td>
 <td>Block height of most recent delegation.</td>
 </tr>
 
 <tr>
-<td><code>delegate_since</code> <em>int</em></td>
+<td><code>delegate_since</code> <em>int64</em></td>
 <td>Block height of registration as delegate.</td>
 </tr>
 
 <tr>
-<td><code>total_received</code> <em>float</em></td>
+<td><code>total_received</code> <em>money</em></td>
 <td>Lifetime total tokens received in transactions.</td>
 </tr>
 
 <tr>
-<td><code>total_sent</code> <em>float</em></td>
+<td><code>total_sent</code> <em>money</em></td>
 <td>Lifetime total tokens sent in transactions.</td>
 </tr>
 
 <tr>
-<td><code>total_burned</code> <em>float</em></td>
+<td><code>total_burned</code> <em>money</em></td>
 <td>Lifetime total tokens burned in tz.</td>
 </tr>
 
 <tr>
-<td><code>total_fees_paid</code> <em>float</em></td>
+<td><code>total_fees_paid</code> <em>money</em></td>
 <td>Lifetime fees paid in tz.</td>
 </tr>
 
 <tr>
-<td><code>total_rewards_earned</code> <em>float</em></td>
+<td><code>total_rewards_earned</code> <em>money</em></td>
 <td>Lifetime rewards earned in tz.</td>
 </tr>
 
 <tr>
-<td><code>total_fees_earned</code> <em>float</em></td>
+<td><code>total_fees_earned</code> <em>money</em></td>
 <td>Lifetime fees earned in tz.</td>
 </tr>
 
 <tr>
-<td><code>total_lost</code> <em>float</em></td>
+<td><code>total_lost</code> <em>money</em></td>
 <td>Lifetime total tokens lost in tz.</td>
 </tr>
 
 <tr>
-<td><code>frozen_deposits</code> <em>float</em></td>
+<td><code>frozen_deposits</code> <em>money</em></td>
 <td>Currently frozen deposits</td>
 </tr>
 
 <tr>
-<td><code>frozen_rewards</code> <em>float</em></td>
+<td><code>frozen_rewards</code> <em>money</em></td>
 <td>Currently frozen rewards.</td>
 </tr>
 
 <tr>
-<td><code>frozen_fees</code> <em>float</em></td>
+<td><code>frozen_fees</code> <em>money</em></td>
 <td>Currently frozen fees.</td>
 </tr>
 
 <tr>
-<td><code>unclaimed_balance</code> <em>float</em></td>
+<td><code>unclaimed_balance</code> <em>money</em></td>
 <td>Currently unclaimed balance (for vesting contracts and commitments).</td>
 </tr>
 
 <tr>
-<td><code>spendable_balance</code> <em>float</em></td>
+<td><code>spendable_balance</code> <em>money</em></td>
 <td>Currently spendable balance.</td>
 </tr>
 
 <tr>
-<td><code>delegated_balance</code> <em>float</em></td>
+<td><code>delegated_balance</code> <em>money</em></td>
 <td>(baker only) Current incoming delegations.</td>
 </tr>
 
 <tr>
-<td><code>total_delegations</code> <em>int</em></td>
+<td><code>total_delegations</code> <em>int64</em></td>
 <td>(baker only) Lifetime count of delegations.</td>
 </tr>
 
 <tr>
-<td><code>active_delegations</code> <em>int</em></td>
+<td><code>active_delegations</code> <em>int64</em></td>
 <td>(baker only) Currently active and non-zero delegations.</td>
 </tr>
 
@@ -5243,82 +5245,82 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>blocks_baked</code> <em>int</em></td>
+<td><code>blocks_baked</code> <em>int64</em></td>
 <td>Lifetime total blocks baked.</td>
 </tr>
 
 <tr>
-<td><code>blocks_missed</code> <em>int</em></td>
+<td><code>blocks_missed</code> <em>int64</em></td>
 <td>Lifetime total block baking missed.</td>
 </tr>
 
 <tr>
-<td><code>blocks_stolen</code> <em>int</em></td>
+<td><code>blocks_stolen</code> <em>int64</em></td>
 <td>Lifetime total block baked at priority &gt; 0.</td>
 </tr>
 
 <tr>
-<td><code>blocks_endorsed</code> <em>int</em></td>
+<td><code>blocks_endorsed</code> <em>int64</em></td>
 <td>Lifetime total blocks endorsed.</td>
 </tr>
 
 <tr>
-<td><code>slots_endorsed</code> <em>int</em></td>
+<td><code>slots_endorsed</code> <em>int64</em></td>
 <td>Lifetime total endorsemnt slots endorsed.</td>
 </tr>
 
 <tr>
-<td><code>slots_missed</code> <em>int</em></td>
+<td><code>slots_missed</code> <em>int64</em></td>
 <td>Lifetime total endorsemnt slots missed.</td>
 </tr>
 
 <tr>
-<td><code>n_ops</code> <em>int</em></td>
+<td><code>n_ops</code> <em>int64</em></td>
 <td>Lifetime total number of operations sent and received.</td>
 </tr>
 
 <tr>
-<td><code>n_ops_failed</code> <em>int</em></td>
+<td><code>n_ops_failed</code> <em>int64</em></td>
 <td>Lifetime total number of operations sent that failed.</td>
 </tr>
 
 <tr>
-<td><code>n_tx</code> <em>int</em></td>
+<td><code>n_tx</code> <em>int64</em></td>
 <td>Lifetime total number of transactions sent and received.</td>
 </tr>
 
 <tr>
-<td><code>n_delegation</code> <em>int</em></td>
+<td><code>n_delegation</code> <em>int64</em></td>
 <td>Lifetime total number of delegations sent.</td>
 </tr>
 
 <tr>
-<td><code>n_origination</code> <em>int</em></td>
+<td><code>n_origination</code> <em>int64</em></td>
 <td>Lifetime total number of originations sent.</td>
 </tr>
 
 <tr>
-<td><code>n_proposal</code> <em>int</em></td>
+<td><code>n_proposal</code> <em>int64</em></td>
 <td>Lifetime total number of proposals (operations) sent.</td>
 </tr>
 
 <tr>
-<td><code>n_ballot</code> <em>int</em></td>
+<td><code>n_ballot</code> <em>int64</em></td>
 <td>Lifetime total number of ballots sent.</td>
 </tr>
 
 <tr>
-<td><code>token_gen_min</code> <em>int</em></td>
+<td><code>token_gen_min</code> <em>int64</em></td>
 <td>Minimum generation number of all tokens owned.</td>
 </tr>
 
 <tr>
-<td><code>token_gen_max</code> <em>int</em></td>
+<td><code>token_gen_max</code> <em>int64</em></td>
 <td>Maximum generation number of all tokens owned.</td>
 </tr>
 
 <tr>
-<td><code>grace_period</code> <em>int</em></td>
+<td><code>grace_period</code> <em>int64</em></td>
 <td>(baker only) Current grace period before deactivation.</td>
 </tr>
 
@@ -5383,17 +5385,17 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>rich_rank</code> <em>int</em></td>
+<td><code>rich_rank</code> <em>int64</em></td>
 <td>Global rank on rich list by total balance.</td>
 </tr>
 
 <tr>
-<td><code>flow_rank</code> <em>int</em></td>
+<td><code>flow_rank</code> <em>int64</em></td>
 <td>Global rank on 24h most active accounts by transactions sent/received.</td>
 </tr>
 
 <tr>
-<td><code>traffic_rank</code> <em>int</em></td>
+<td><code>traffic_rank</code> <em>int64</em></td>
 <td>Global rank on 24h most active accounts by volume sent/received.</td>
 </tr>
 </tbody>
@@ -5446,37 +5448,37 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>account_id</code> <em>uint</em></td>
+<td><code>account_id</code> <em>uint64</em></td>
 <td>Unique row_id of related account entry.</td>
 </tr>
 
 <tr>
-<td><code>manager_id</code> <em>uint</em></td>
+<td><code>manager_id</code> <em>uint64</em></td>
 <td>Manager account row_id (deprecated in v005 Babylon).</td>
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Origination block height.</td>
 </tr>
 
 <tr>
-<td><code>fee</code> <em>float</em></td>
+<td><code>fee</code> <em>money</em></td>
 <td>Fee paid on contract origination.</td>
 </tr>
 
 <tr>
-<td><code>gas_limit</code> <em>int</em></td>
+<td><code>gas_limit</code> <em>int64</em></td>
 <td>Gas limit on contract origination.</td>
 </tr>
 
 <tr>
-<td><code>gas_used</code> <em>int</em></td>
+<td><code>gas_used</code> <em>int64</em></td>
 <td>Gas used on contract origination.</td>
 </tr>
 
@@ -5486,17 +5488,17 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>storage_limit</code> <em>int</em></td>
+<td><code>storage_limit</code> <em>int64</em></td>
 <td>Storage limit defined on contract origination op.</td>
 </tr>
 
 <tr>
-<td><code>storage_size</code> <em>int</em></td>
+<td><code>storage_size</code> <em>int64</em></td>
 <td>Storage size allocated in bytes.</td>
 </tr>
 
 <tr>
-<td><code>storage_paid</code> <em>int</em></td>
+<td><code>storage_paid</code> <em>int64</em></td>
 <td>Storage bytes paid for in bytes.</td>
 </tr>
 
@@ -5578,17 +5580,17 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height at which this flow was created.</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Cycle at which this flow was created.</td>
 </tr>
 
@@ -5598,12 +5600,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>account_id</code> <em>uint</em></td>
+<td><code>account_id</code> <em>uint64</em></td>
 <td>Unique row_id of the account this flow relates to.</td>
 </tr>
 
 <tr>
-<td><code>origin_id</code> <em>uint</em></td>
+<td><code>origin_id</code> <em>uint64</em></td>
 <td>Unique row_id of the source account that initiated the flow.</td>
 </tr>
 
@@ -5619,16 +5621,16 @@ ECDHE-RSA-AES128-SHA256
 
 <tr>
 <td><code>operation</code> <em>enum</em></td>
-<td>Operation creating this flow <code>activation</code>, <code>denounciation</code>, <code>transaction</code>, <code>origination</code>, <code>delegation</code>, <code>reveal</code>, <code>endorsement</code>, <code>baking</code>, <code>noncerevelation</code>, <code>internal</code>, <code>vest</code>, <code>pour</code>, <code>invoice</code>.</td>
+<td>Operation creating this flow <code>activation</code>, <code>denounciation</code>, <code>transaction</code>, <code>origination</code>, <code>delegation</code>, <code>reveal</code>, <code>endorsement</code>, <code>baking</code>, <code>noncerevelation</code>, <code>internal</code>, <code>vest</code>, <code>pour</code>, <code>invoice</code>, <code>airdrop</code>.</td>
 </tr>
 
 <tr>
-<td><code>amount_in</code> <em>float</em></td>
+<td><code>amount_in</code> <em>money</em></td>
 <td>Incoming amount in tz.</td>
 </tr>
 
 <tr>
-<td><code>amount_out</code> <em>float</em></td>
+<td><code>amount_out</code> <em>money</em></td>
 <td>Outgoing amount in tz.</td>
 </tr>
 
@@ -5653,12 +5655,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>token_gen_min</code> <em>int</em></td>
+<td><code>token_gen_min</code> <em>int64</em></td>
 <td>Minimum generation number of tokens moved.</td>
 </tr>
 
 <tr>
-<td><code>token_gen_max</code> <em>int</em></td>
+<td><code>token_gen_max</code> <em>int64</em></td>
 <td>Maximum generation number of tokens moved.</td>
 </tr>
 
@@ -5723,7 +5725,7 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
@@ -5733,22 +5735,22 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height this right relates to.</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Cycle this right relates to.</td>
 </tr>
 
 <tr>
-<td><code>priority</code> <em>int</em></td>
+<td><code>priority</code> <em>int64</em></td>
 <td>Baking priority of this right.</td>
 </tr>
 
 <tr>
-<td><code>account_id</code> <em>uint</em></td>
+<td><code>account_id</code> <em>uint64</em></td>
 <td>Unique row_id of the baker who owns this right.</td>
 </tr>
 
@@ -5838,17 +5840,17 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height of this snapshot.</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Cycle of this snapshot.</td>
 </tr>
 
@@ -5863,22 +5865,22 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>index</code> <em>int</em></td>
+<td><code>index</code> <em>int64</em></td>
 <td>Snapshot index in the cycle [0..15].</td>
 </tr>
 
 <tr>
-<td><code>rolls</code> <em>int</em></td>
+<td><code>rolls</code> <em>int64</em></td>
 <td>(baker only) Number of rolls owned by the delegate.</td>
 </tr>
 
 <tr>
-<td><code>account_id</code> <em>uint</em></td>
+<td><code>account_id</code> <em>uint64</em></td>
 <td>Unique row_id of the account this snapshot relates to.</td>
 </tr>
 
 <tr>
-<td><code>delegate_id</code> <em>uint</em></td>
+<td><code>delegate_id</code> <em>uint64</em></td>
 <td>Unique row_id of the baker this account delegates to.</td>
 </tr>
 
@@ -5893,22 +5895,22 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>balance</code> <em>float</em></td>
+<td><code>balance</code> <em>money</em></td>
 <td>Account staking balance (for bakers) or spendable balance (for delegators).</td>
 </tr>
 
 <tr>
-<td><code>delegated</code> <em>float</em></td>
+<td><code>delegated</code> <em>money</em></td>
 <td>(baker-only) Incoming delegated amount in tz.</td>
 </tr>
 
 <tr>
-<td><code>n_delegations</code> <em>int</em></td>
+<td><code>n_delegations</code> <em>int64</em></td>
 <td>(baker-only) Incoming number of non-zero delegations.</td>
 </tr>
 
 <tr>
-<td><code>since</code> <em>int</em></td>
+<td><code>since</code> <em>int64</em></td>
 <td>(delegator-only) Block height at which this delegation was created.</td>
 </tr>
 
@@ -5951,7 +5953,8 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">6507</span><span class="p">,</span>             <span class="err">//</span> <span class="err">n_endorsing_rights</span>
     <span class="mf">-292.000000</span><span class="p">,</span>      <span class="err">//</span> <span class="err">luck</span>
     <span class="mf">98.230000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">luck_percent</span>
-    <span class="mf">99.870000</span><span class="p">,</span>        <span class="err">//</span> <span class="err">efficiency_percent</span>
+    <span class="mf">99.87</span><span class="p">,</span>            <span class="err">//</span> <span class="err">performance_percent</span>
+    <span class="mf">100.00</span><span class="p">,</span>           <span class="err">//</span> <span class="err">contribution_percent</span>
     <span class="mi">201</span><span class="p">,</span>              <span class="err">//</span> <span class="err">n_blocks_baked</span>
     <span class="mi">0</span><span class="p">,</span>                <span class="err">//</span> <span class="err">n_blocks_lost</span>
     <span class="mi">2</span><span class="p">,</span>                <span class="err">//</span> <span class="err">n_blocks_stolen</span>
@@ -5998,52 +6001,52 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>cycle</code> <em>int</em></td>
+<td><code>cycle</code> <em>int64</em></td>
 <td>Cycle this income relates to.</td>
 </tr>
 
 <tr>
-<td><code>account_id</code> <em>uint</em></td>
+<td><code>account_id</code> <em>uint64</em></td>
 <td>Unique row_id of the baker account this income relates to.</td>
 </tr>
 
 <tr>
-<td><code>rolls</code> <em>int</em></td>
+<td><code>rolls</code> <em>int64</em></td>
 <td>Number of rolls (at snapshot block).</td>
 </tr>
 
 <tr>
-<td><code>balance</code> <em>float</em></td>
+<td><code>balance</code> <em>money</em></td>
 <td>Staking balance (at snapshot block).</td>
 </tr>
 
 <tr>
-<td><code>delegated</code> <em>float</em></td>
+<td><code>delegated</code> <em>money</em></td>
 <td>Delegated balance (at snapshot block).</td>
 </tr>
 
 <tr>
-<td><code>n_delegations</code> <em>int</em></td>
+<td><code>n_delegations</code> <em>int64</em></td>
 <td>Count of incoming non-zero delegations (at snapshot block).</td>
 </tr>
 
 <tr>
-<td><code>n_baking_rights</code> <em>int</em></td>
+<td><code>n_baking_rights</code> <em>int64</em></td>
 <td>Count of baking rights in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>n_endorsing_rights</code> <em>int</em></td>
+<td><code>n_endorsing_rights</code> <em>int64</em></td>
 <td>Count of endorsing rights in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>luck</code> <em>float</em></td>
+<td><code>luck</code> <em>money</em></td>
 <td>Absolute luck in coins, i.e. the amount of extra coins that can be earned because randomization allocated more rights than the fair share of rolls.</td>
 </tr>
 
@@ -6053,132 +6056,137 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>efficiency_percent</code> <em>float</em></td>
-<td>Effectiveness of a baker to generate all rewards for which rights were assigned. Optimal efficiency is 100%. The value is lower when blocks or endorsements are missed and higher when extra income was generated from stolen blocks or denounciations.</td>
+<td><code>performance_percent</code> <em>float</em></td>
+<td>Effectiveness of a baker in generating expected rewards. Optimal performance is 100%. The value is lower when blocks or endorsements are missed, low value blocks/endorsements are published or the baker is slashed and higher when extra income was generated from stolen blocks or denounciations. NOTE: This value is not ratio scale nor interval scale. CANNOT be used as benchmark between bakers.</td>
 </tr>
 
 <tr>
-<td><code>n_blocks_baked</code> <em>int</em></td>
+<td><code>contribution_percent</code> <em>float</em></td>
+<td>Effectiveness of a baker in utilizing all rights assigned and contribute to consensus. Optimal contribution is 100%. The value is lower when blocks or endorsements are missed and higher when blocks are stolen. NOTE: This value is ratio scale. It can be used as benchmark for baker availability or participation in consensus. It is strongly correlated to generated income, but does not capture low priority blocks, endorsements or slashing.</td>
+</tr>
+
+<tr>
+<td><code>n_blocks_baked</code> <em>int64</em></td>
 <td>Number of blocks baked in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>n_blocks_lost</code> <em>int</em></td>
+<td><code>n_blocks_lost</code> <em>int64</em></td>
 <td>Number of blocks lost in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>n_blocks_stolen</code> <em>int</em></td>
+<td><code>n_blocks_stolen</code> <em>int64</em></td>
 <td>Number of blocks stolen in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>n_slots_endorsed</code> <em>int</em></td>
+<td><code>n_slots_endorsed</code> <em>int64</em></td>
 <td>Number of slots endorsed in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>n_slots_missed</code> <em>int</em></td>
+<td><code>n_slots_missed</code> <em>int64</em></td>
 <td>Number of endorsement slots missed in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>n_seeds_revealed</code> <em>int</em></td>
+<td><code>n_seeds_revealed</code> <em>int64</em></td>
 <td>Number of seed nonces revealed in this cycle.</td>
 </tr>
 
 <tr>
-<td><code>expected_income</code> <em>float</em></td>
+<td><code>expected_income</code> <em>money</em></td>
 <td>Total income expected based on endorsing and priority 0 baking rights.</td>
 </tr>
 
 <tr>
-<td><code>expected_bonds</code> <em>float</em></td>
+<td><code>expected_bonds</code> <em>money</em></td>
 <td>Total expected deposits based on endorsing and priority 0 baking rights.</td>
 </tr>
 
 <tr>
-<td><code>total_income</code> <em>float</em></td>
-<td>Total sum of all income (note: due to losses, the actual income may be smaller).</td>
+<td><code>total_income</code> <em>money</em></td>
+<td>Total sum of all income (note: due to losses, the actual true income may be smaller which is not reflected by this field alone).</td>
 </tr>
 
 <tr>
-<td><code>total_bonds</code> <em>float</em></td>
-<td>Actual deposits (note: due to losses, the actual unfrozen bonds may be smaller).</td>
+<td><code>total_bonds</code> <em>money</em></td>
+<td>Actual deposits (note: due to losses, the actual bonds that will later be unfrozen may be smaller).</td>
 </tr>
 
 <tr>
-<td><code>baking_income</code> <em>float</em></td>
+<td><code>baking_income</code> <em>money</em></td>
 <td>Total income from baking blocks.</td>
 </tr>
 
 <tr>
-<td><code>endorsing_income</code> <em>float</em></td>
+<td><code>endorsing_income</code> <em>money</em></td>
 <td>Total income from endorsing blocks.</td>
 </tr>
 
 <tr>
-<td><code>double_baking_income</code> <em>float</em></td>
+<td><code>double_baking_income</code> <em>money</em></td>
 <td>Total income from denouncing double baking.</td>
 </tr>
 
 <tr>
-<td><code>double_endorsing_income</code> <em>float</em></td>
+<td><code>double_endorsing_income</code> <em>money</em></td>
 <td>Total income from denouncing double endorsing.</td>
 </tr>
 
 <tr>
-<td><code>seed_income</code> <em>float</em></td>
+<td><code>seed_income</code> <em>money</em></td>
 <td>Total income from publishing seed nonces.</td>
 </tr>
 
 <tr>
-<td><code>fees_income</code> <em>float</em></td>
+<td><code>fees_income</code> <em>money</em></td>
 <td>Total income from fees.</td>
 </tr>
 
 <tr>
-<td><code>missed_baking_income</code> <em>float</em></td>
+<td><code>missed_baking_income</code> <em>money</em></td>
 <td>Missed income from lost blocks.</td>
 </tr>
 
 <tr>
-<td><code>missed_endorsing_income</code> <em>float</em></td>
+<td><code>missed_endorsing_income</code> <em>money</em></td>
 <td>Missed income due to missed endorsements.</td>
 </tr>
 
 <tr>
-<td><code>stolen_baking_income</code> <em>float</em></td>
+<td><code>stolen_baking_income</code> <em>money</em></td>
 <td>Extra income from stolen blocks.</td>
 </tr>
 
 <tr>
-<td><code>total_lost</code> <em>float</em></td>
-<td>Total lost income due to denounciations or unpublished seed nonces. This will reduce <code>total_income</code> above.</td>
+<td><code>total_lost</code> <em>money</em></td>
+<td>Total lost income due to denounciations or unpublished seed nonces. NOTE: This does not automatically reduce <code>total_income</code> above.</td>
 </tr>
 
 <tr>
-<td><code>lost_accusation_fees</code> <em>float</em></td>
+<td><code>lost_accusation_fees</code> <em>money</em></td>
 <td>Lost fees due to a denounciation.</td>
 </tr>
 
 <tr>
-<td><code>lost_accusation_rewards</code> <em>float</em></td>
+<td><code>lost_accusation_rewards</code> <em>money</em></td>
 <td>Lost rewards due to a denounciation.</td>
 </tr>
 
 <tr>
-<td><code>lost_accusation_deposits</code> <em>float</em></td>
+<td><code>lost_accusation_deposits</code> <em>money</em></td>
 <td>Lost income due to a denounciation.</td>
 </tr>
 
 <tr>
-<td><code>lost_revelation_fees</code> <em>float</em></td>
+<td><code>lost_revelation_fees</code> <em>money</em></td>
 <td>Lost fees due to an unpublished seed nonce.</td>
 </tr>
 
 <tr>
-<td><code>lost_revelation_rewards</code> <em>float</em></td>
+<td><code>lost_revelation_rewards</code> <em>money</em></td>
 <td>Lost block rewards due to an unpublished seed nonce.</td>
 </tr>
 
@@ -6236,27 +6244,27 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>proposal_id</code> <em>uint</em></td>
+<td><code>proposal_id</code> <em>uint64</em></td>
 <td>Unqiue row_id of the winning proposal, if any.</td>
 </tr>
 
 <tr>
-<td><code>num_periods</code> <em>int</em></td>
+<td><code>num_periods</code> <em>int64</em></td>
 <td>Election duration in number of voting periods.</td>
 </tr>
 
 <tr>
-<td><code>num_proposals</code> <em>int</em></td>
+<td><code>num_proposals</code> <em>int64</em></td>
 <td>Total number of submitted proposals.</td>
 </tr>
 
 <tr>
-<td><code>voting_perid</code> <em>int</em></td>
+<td><code>voting_perid</code> <em>int64</em></td>
 <td>On-chain voting period number.</td>
 </tr>
 
@@ -6271,12 +6279,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>start_height</code> <em>int</em></td>
+<td><code>start_height</code> <em>int64</em></td>
 <td>Block height of election start block.</td>
 </tr>
 
 <tr>
-<td><code>end_height</code> <em>int</em></td>
+<td><code>end_height</code> <em>int64</em></td>
 <td>Block height of election end block.</td>
 </tr>
 
@@ -6360,7 +6368,7 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
@@ -6370,7 +6378,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Proposal operation block height.</td>
 </tr>
 
@@ -6380,32 +6388,32 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>source_id</code> <em>uint</em></td>
+<td><code>source_id</code> <em>uint64</em></td>
 <td>Unique row_id of the proposal sender account.</td>
 </tr>
 
 <tr>
-<td><code>op_id</code> <em>uint</em></td>
+<td><code>op_id</code> <em>uint64</em></td>
 <td>Unique row_id of the proposal operation.</td>
 </tr>
 
 <tr>
-<td><code>election_id</code> <em>uint</em></td>
+<td><code>election_id</code> <em>uint64</em></td>
 <td>Unique row_id of the election this proposal was submitted in.</td>
 </tr>
 
 <tr>
-<td><code>voting_period</code> <em>int</em></td>
+<td><code>voting_period</code> <em>int64</em></td>
 <td>On-chain sequence number of the voting period this proposal was submitted in.</td>
 </tr>
 
 <tr>
-<td><code>rolls</code> <em>int</em></td>
+<td><code>rolls</code> <em>int64</em></td>
 <td>Number of rolls that voted for this proposal in the proposal period.</td>
 </tr>
 
 <tr>
-<td><code>voters</code> <em>int</em></td>
+<td><code>voters</code> <em>int64</em></td>
 <td>Number of voters who voted for this proposal in the proposal period.</td>
 </tr>
 
@@ -6482,22 +6490,22 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>election_id</code> <em>uint</em></td>
+<td><code>election_id</code> <em>uint64</em></td>
 <td>Unique row_id of the election this proposal was submitted in.</td>
 </tr>
 
 <tr>
-<td><code>proposal_id</code> <em>uint</em></td>
+<td><code>proposal_id</code> <em>uint64</em></td>
 <td>Unique row_id of the proposal that is voted for (or the winning proposal, if any, from the proposal period).</td>
 </tr>
 
 <tr>
-<td><code>voting_period</code> <em>int</em></td>
+<td><code>voting_period</code> <em>int64</em></td>
 <td>On-chain sequence number of the voting period.</td>
 </tr>
 
@@ -6517,82 +6525,82 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>period_start_block</code> <em>int</em></td>
+<td><code>period_start_block</code> <em>int64</em></td>
 <td>Block height of vote start block.</td>
 </tr>
 
 <tr>
-<td><code>period_end_block</code> <em>int</em></td>
+<td><code>period_end_block</code> <em>int64</em></td>
 <td>Block height of vote end block.</td>
 </tr>
 
 <tr>
-<td><code>eligible_rolls</code> <em>int</em></td>
+<td><code>eligible_rolls</code> <em>int64</em></td>
 <td>Number of eligible rolls for this vote.</td>
 </tr>
 
 <tr>
-<td><code>eligible_voters</code> <em>int</em></td>
+<td><code>eligible_voters</code> <em>int64</em></td>
 <td>Number of eligible voters for this vote.</td>
 </tr>
 
 <tr>
-<td><code>quorum_pct</code> <em>int</em></td>
+<td><code>quorum_pct</code> <em>int64</em></td>
 <td>Required quorum for this vote in percent.</td>
 </tr>
 
 <tr>
-<td><code>quorum_rolls</code> <em>int</em></td>
+<td><code>quorum_rolls</code> <em>int64</em></td>
 <td>Required quorum for this vote in rolls.</td>
 </tr>
 
 <tr>
-<td><code>turnout_rolls</code> <em>int</em></td>
+<td><code>turnout_rolls</code> <em>int64</em></td>
 <td>Actual vote participation in rolls.</td>
 </tr>
 
 <tr>
-<td><code>turnout_voters</code> <em>int</em></td>
+<td><code>turnout_voters</code> <em>int64</em></td>
 <td>Actual vote participation in voters.</td>
 </tr>
 
 <tr>
-<td><code>turnout_pct</code> <em>int</em></td>
+<td><code>turnout_pct</code> <em>int64</em></td>
 <td>Actual vote participation in percent.</td>
 </tr>
 
 <tr>
-<td><code>turnout_ema</code> <em>int</em></td>
+<td><code>turnout_ema</code> <em>int64</em></td>
 <td>Actual vote participation as moving average.</td>
 </tr>
 
 <tr>
-<td><code>yay_rolls</code> <em>int</em></td>
+<td><code>yay_rolls</code> <em>int64</em></td>
 <td>Count of yay voting rolls.</td>
 </tr>
 
 <tr>
-<td><code>yay_voters</code> <em>int</em></td>
+<td><code>yay_voters</code> <em>int64</em></td>
 <td>Count of yay voting voters.</td>
 </tr>
 
 <tr>
-<td><code>nay_rolls</code> <em>int</em></td>
+<td><code>nay_rolls</code> <em>int64</em></td>
 <td>Count of nay voting rolls.</td>
 </tr>
 
 <tr>
-<td><code>nay_voters</code> <em>int</em></td>
+<td><code>nay_voters</code> <em>int64</em></td>
 <td>Count of nay voting voters.</td>
 </tr>
 
 <tr>
-<td><code>pass_rolls</code> <em>int</em></td>
+<td><code>pass_rolls</code> <em>int64</em></td>
 <td>Count of pass voting rolls.</td>
 </tr>
 
 <tr>
-<td><code>pass_voters</code> <em>int</em></td>
+<td><code>pass_voters</code> <em>int64</em></td>
 <td>Count of pass voting voters.</td>
 </tr>
 
@@ -6627,7 +6635,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>proposal</code> <em>int</em></td>
+<td><code>proposal</code> <em>int64</em></td>
 <td>Hash of the proposal that is voted on, if any.</td>
 </tr>
 </tbody>
@@ -6678,22 +6686,22 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>row_id</code> <em>uint</em></td>
+<td><code>row_id</code> <em>uint64</em></td>
 <td>Unique row identifier.</td>
 </tr>
 
 <tr>
-<td><code>election_id</code> <em>uint</em></td>
+<td><code>election_id</code> <em>uint64</em></td>
 <td>Unique row_id of the election this proposal was submitted in.</td>
 </tr>
 
 <tr>
-<td><code>proposal_id</code> <em>uint</em></td>
+<td><code>proposal_id</code> <em>uint64</em></td>
 <td>Unique row_id of the proposal that is voted for.</td>
 </tr>
 
 <tr>
-<td><code>voting_period</code> <em>int</em></td>
+<td><code>voting_period</code> <em>int64</em></td>
 <td>On-chain sequence number of the voting period this ballot was cast at.</td>
 </tr>
 
@@ -6703,7 +6711,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>height</code> <em>int</em></td>
+<td><code>height</code> <em>int64</em></td>
 <td>Block height where the ballot was included</td>
 </tr>
 
@@ -6713,17 +6721,17 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>source_id</code> <em>uint</em></td>
+<td><code>source_id</code> <em>uint64</em></td>
 <td>Unique row_id if the ballot sender account.</td>
 </tr>
 
 <tr>
-<td><code>op_id</code> <em>uint</em></td>
+<td><code>op_id</code> <em>uint64</em></td>
 <td>Unique row_id if the ballot operation.</td>
 </tr>
 
 <tr>
-<td><code>rolls</code> <em>int</em></td>
+<td><code>rolls</code> <em>int64</em></td>
 <td>Number of rolls owned by source.</td>
 </tr>
 
@@ -6749,8 +6757,8 @@ ECDHE-RSA-AES128-SHA256
 </tbody>
 </table>
 
-    
-        
+
+
 
 <h1 id="time-series-endpoints">Time-Series Endpoints</h1>
 
@@ -7348,12 +7356,21 @@ ECDHE-RSA-AES128-SHA256
 </tbody>
 </table>
 
-    
-        
+
+
 
 <h1 id="changelog">Changelog</h1>
 
 <p>Recent changes and additions to the TzStats Data API.</p>
+
+<h2 id="2019-11-01">2019-11-01</h2>
+
+<ul>
+<li>DEPRECATION NOTICE: income field <code>efficiency_percent</code> will be removed with the next release</li>
+<li>replaced income field <code>efficiency_percent</code> with <code>performance_percent</code> (value range <code>[-Inf,+Inf]</code>) to avoid confusion with existing benchmarking metrics that define baker efficiency as percentage or rights utilized</li>
+<li>added new income field <code>contribution_percent</code> to measure a baker&rsquo;s contribution to consensus in terms of baking/endorsing rights utilized (value range <code>[0,100]</code>, baking/endorsing misses will lower contribution, steals will increase it)</li>
+<li>cycle <code>n_double_baking</code> and <code>n_double_endorsement</code> count events instead of accusation operations now</li>
+</ul>
 
 <h2 id="2019-10-26">2019-10-26</h2>
 
@@ -7379,21 +7396,21 @@ ECDHE-RSA-AES128-SHA256
 <li>support Babylon airdrop of 1 mutez to manager accounts</li>
 </ul>
 
-    
+
 
         </div>
         <div class="dark-box">
-            
+
             <div class="lang-selector">
-                
+
                 <a href="#" data-language-name="shell">Shell</a>
-                
+
             </div>
-            
+
         </div>
     </div>
-    
-    
+
+
 
 
 
