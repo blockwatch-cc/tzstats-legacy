@@ -1,10 +1,10 @@
 import React from 'react';
-import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceBetween, FlexRow, Spinner } from '../../Common';
+import { Card, FlexRow, Spinner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
-import { opNames } from '../../../config';
 import { getAccountByHash } from '../../../services/api/tz-stats';
+import { getOpTags } from '../../../utils';
 
 const Transaction = ({ op }) => {
   const [data, setData] = React.useState({ isLoaded: false });
@@ -20,37 +20,26 @@ const Transaction = ({ op }) => {
         isLoaded: true,
         op: op,
         sender: sender,
-        receiver: receiver
+        receiver: receiver,
       });
     };
 
     fetchData();
   }, [op]);
 
-  return ( data.isLoaded ? (
+  return data.isLoaded ? (
     <FlexRow>
-      <OperationAccount title={'Sender'} account={data.sender}/>
+      <OperationAccount title={'Sender'} account={data.sender} />
       <Wrapper>
-        <Card title={`${opNames[op.type]}`}>
-          <FlexRow height={80}>
-            <TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
-            <FlexColumnSpaceBetween flex={1}>
-              <FlexRow>
-                <DataBox title="Amount" valueSize="14px" value={op.volume} valueType="currency-full" />
-              </FlexRow>
-              <FlexRowSpaceBetween>
-                <DataBox title="Fee" value={op.fee} valueSize="14px" valueType="currency-short" />
-                <DataBox title="Burned" value={op.burned} valueSize="14px" valueType="currency-short" />
-              </FlexRowSpaceBetween>
-            </FlexColumnSpaceBetween>
-          </FlexRow>
+        <Card title={'Contract Call'} tags={getOpTags(op)}>
+          <TxTypeIcon alignSelf={'center'} fontSize={30} type={op.type} isSuccess={op.is_success} />
         </Card>
       </Wrapper>
-      <OperationAccount title={'Receiver'} account={data.receiver}/>
+      <OperationAccount title={'Receiver'} account={data.receiver} />
     </FlexRow>
   ) : (
     <Spinner />
-  ));
+  );
 };
 
 const Wrapper = styled.div`

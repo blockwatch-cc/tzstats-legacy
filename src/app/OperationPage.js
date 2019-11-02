@@ -7,10 +7,11 @@ import { buildTitle } from '../utils';
 import { opNames } from '../config';
 import OperationDetails from '../components/Operations/OperationDetails';
 import OperationType from '../components/Operations/OperationType';
+import OperationError from '../components/Operations/OperationError';
 import { Spinner, NotFound, Error } from '../components/Common';
 
 const OperationPage = ({ match }) => {
-  const [data, setData] = React.useState({ isLoaded: false, wait: false });
+  const [data, setData] = React.useState({ isLoaded: false, wait: false, isBulk: false, isCall: false });
   const [config] = useGlobal('config');
   const hash = match.params.hash;
   useInfiniteScroll(fetchMore, 'body');
@@ -23,11 +24,11 @@ const OperationPage = ({ match }) => {
     if (!data.ops.length) {
       return;
     }
-    let ops = data.ops;
     setData({
-      render: [...data.render, ...ops.splice(0, 20)],
+      render: [...data.render, ...data.ops.splice(0, 20)],
       isLoaded: true,
-      ops: ops,
+      ops: data.ops,
+      isBulk: data.isBulk,
     });
   }
 
@@ -37,6 +38,8 @@ const OperationPage = ({ match }) => {
       document.title = buildTitle(config, opNames[ops[0].type], hash);
       setData({
         isLoaded: true,
+        isBulk: ops.length > 1 && !ops[0].is_contract && ops[0].type === ops[1].type,
+        isCall: ops[0].is_contract,
         render: ops.splice(0, 20),
         ops: ops,
       });
@@ -78,11 +81,17 @@ const OperationPage = ({ match }) => {
     default:
       return (
         <Wrapper>
+          <h1 style={{ textAlign: 'center' }}>
+            {data.isCall
+              ? 'Smart Contract Call'
+              : (data.isBulk ? 'Bulk ' : '') + opNames[data.render.slice(-1)[0].type]}
+          </h1>
           {data.render.map((op, index) => {
             return (
               <Operation key={index}>
-                <OperationDetails op={op} key={'od' + index} />
                 <OperationType op={op} key={'ot' + index} />
+                {((!data.isBulk && !data.isCall) || !index) && <OperationDetails op={op} key={'od' + index} />}
+                {!op.is_success && !!op.errors && <OperationError op={op} />}
               </Operation>
             );
           })}
@@ -94,10 +103,9 @@ const OperationPage = ({ match }) => {
 const Wrapper = styled.div``;
 
 const Operation = styled.div`
-  &:not(:first-child) {
-    margin-top: 10px;
-    border-top: 1px solid transparent;
-  }
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 `;
 
 export default OperationPage;

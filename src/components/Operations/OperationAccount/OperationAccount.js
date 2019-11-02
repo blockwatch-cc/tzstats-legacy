@@ -1,58 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, DataBox, HashedBox, FlexRowSpaceBetween } from '../../Common';
-import { formatValue, timeAgo } from '../../../utils';
+import { Card, HashedBox } from '../../Common';
+import { timeAgo } from '../../../utils';
 
-const OperationAccount = ({account, title, onempty}) => {
-  return ( account ? (
+const OperationAccount = ({ account, title, onempty }) => {
+  return account ? (
     <Wrapper>
-      <Card to={`/${account.address}`} title={title}>
-        <ChartPanel>
-          <HashedBox
-            hash={account.address}
-            isCopy={false}
-            short={true}
-            noLink={true}
-            typeName={`Last active ${timeAgo.format(new Date(account.last_seen_time))}`}
-          />
-          <FlexRowSpaceBetween>
-            <DataBox
-              valueSize="14px"
-              valueType="currency"
-              valueOpts={{round:1, digit:-1}}
-              title="Current Balance"
-              value={account.spendable_balance + account.frozen_deposits}
-            />
-            <DataBox
-              valueSize="14px"
-              valueType="text"
-              title="Transactions / Operations"
-              value={`${formatValue(account.n_tx)} / ${formatValue(account.n_ops)}`}
-            />
-          </FlexRowSpaceBetween>
-        </ChartPanel>
+      <Card flex={1} to={`/${account.address}`} title={title}>
+        <HashedBox
+          hash={account.address}
+          isCopy={false}
+          short={true}
+          noLink={true}
+          typeName={`Last active ${timeAgo.format(new Date(account.last_seen_time))}`}
+        />
       </Card>
     </Wrapper>
-    ) : (
-      <Wrapper>
-        <Card title={title}>
-          <ChartPanel>{onempty}</ChartPanel>
-        </Card>
-      </Wrapper>
-    )
+  ) : (
+    <Wrapper>
+      <Card title={title}>{onempty}</Card>
+    </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   width: 300px;
   margin: 0 5px;
-`;
-
-const ChartPanel = styled.div`
-  height: 80px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex: 1;
 `;
 
 export default OperationAccount;

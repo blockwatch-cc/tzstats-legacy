@@ -26,8 +26,10 @@ const OperationSwitcher = ({ op }) => {
     case 'endorsement':
       return <Endorsement op={op} />;
     case 'transaction':
-      if (op.is_contract) return <SmartContract op={op} />;
-      else return <Transaction op={op} />;
+      if (!op.is_contract || op.is_internal) {
+        return <Transaction op={op} />;
+      }
+      return <SmartContract op={op} />;
     case 'reveal':
       return <Reveal op={op} />;
     case 'origination':

@@ -79,7 +79,7 @@ export const Value = ({
   round = false,
   dim = true,
   zero = null,
-  fontSize = 12
+  fontSize = 12,
 }) => {
   if (value === 0 && zero) {
     return zero;
@@ -92,6 +92,8 @@ export const Value = ({
   }
   let res = '';
   switch (type) {
+    case 'plain':
+      return value;
     case 'text':
       return [prefix, value, suffix].join('');
     case 'datetime':
@@ -104,7 +106,7 @@ export const Value = ({
       res = formatTime(value);
       break;
     case 'currency':
-      sym = isUndefined(sym)?'ꜩ':sym;
+      sym = isUndefined(sym) ? 'ꜩ' : sym;
       if (!!digits) {
         res = formatCurrency(value, '.' + digits + 's');
       } else {
@@ -112,15 +114,15 @@ export const Value = ({
       }
       break;
     case 'currency-short':
-      sym = isUndefined(sym)?'ꜩ':sym;
+      sym = isUndefined(sym) ? 'ꜩ' : sym;
       res = formatCurrency(value, '~s');
       break;
     case 'currency-flex':
-      sym = isUndefined(sym)?'ꜩ':sym;
+      sym = isUndefined(sym) ? 'ꜩ' : sym;
       res = formatCurrency(value, ',.' + digits + 'r');
       break;
     case 'currency-full':
-      sym = isUndefined(sym)?'ꜩ':sym;
+      sym = isUndefined(sym) ? 'ꜩ' : sym;
       res = formatCurrency(value.toFixed(6), ',');
       break;
     case 'currency-usd':
@@ -163,12 +165,18 @@ export const Value = ({
   return arr && arr.length ? (
     <ValueWrapper>
       {`${prefix}${arr[1]}`}
-      {dim?(<Dim>.{arr[2]}</Dim>):'.'+arr[2]}
-      {arr[3]}{arr[3]?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
+      {dim ? <Dim>.{arr[2]}</Dim> : '.' + arr[2]}
+      {arr[3]}
+      {arr[3] ? '' : ' '}
+      {sym === 'ꜩ' ? <Tz fontSize={fontSize} /> : sym}
+      {suffix}
     </ValueWrapper>
   ) : (
     <ValueWrapper>
-      {res}{res.match(/.*[MkGmµ]$/)?'':' '}{sym==='ꜩ'?<Tz fontSize={fontSize}/>:sym}{suffix}
+      {res}
+      {res.match(/.*[MkGmµ]$/) ? '' : ' '}
+      {sym === 'ꜩ' ? <Tz fontSize={fontSize} /> : sym}
+      {suffix}
     </ValueWrapper>
   );
 };
@@ -182,16 +190,16 @@ const Dim = styled.small`
 const Wrapper = styled.div`
   font-size: ${props => props.fontSize};
   text-align: ${props => props.ta};
-  margin-left: ${props => (props.ml||0) + 'px'};
-  margin-right: ${props => (props.mr||0) + 'px'};
+  margin-left: ${props => (props.ml || 0) + 'px'};
+  margin-right: ${props => (props.mr || 0) + 'px'};
   white-space: nowrap;
 `;
 
 const ValueWrapper = styled.span`
   font-size: ${props => props.fontSize};
   text-align: ${props => props.ta};
-  margin-left: ${props => (props.ml||0) + 'px'};
-  margin-right: ${props => (props.mr||0) + 'px'};
+  margin-left: ${props => (props.ml || 0) + 'px'};
+  margin-right: ${props => (props.mr || 0) + 'px'};
   white-space: nowrap;
 `;
 

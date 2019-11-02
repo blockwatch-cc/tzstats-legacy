@@ -13,10 +13,7 @@ const Endorsement = ({ op }) => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let [sender, block] = await Promise.all([
-        op.sender && getAccountByHash(op.sender),
-        getBlock(op.height-1),
-      ]);
+      let [sender, block] = await Promise.all([op.sender && getAccountByHash(op.sender), getBlock(op.height - 1)]);
 
       setData({
         isLoaded: true,
@@ -24,34 +21,37 @@ const Endorsement = ({ op }) => {
         sender: sender,
         block: block,
         allslots: getSlots(block.endorsed_slots).reverse(),
-        opslots: getSlots(parseInt(op.data)).reverse()
+        opslots: getSlots(parseInt(op.data)).reverse(),
       });
     };
 
     fetchData();
   }, [op]);
 
-  return ( data.isLoaded ? (
+  return data.isLoaded ? (
     <FlexRow>
-      <OperationAccount title={'Sender'} account={data.sender}/>
+      <OperationAccount title={'Sender'} account={data.sender} />
       <Wrapper>
         <Card title={`${opNames[op.type]}`}>
-          <FlexRow height={80} alignItems="center">
+          <FlexRow alignItems="center">
             <TxTypeIcon fontSize={50} mr={30} type={op.type} isSuccess={op.is_success} />
-              <FlexRow>
-                <Link to={`/${op.height-1}`}><DataBox title="Block Endorsed" valueSize="14px" value={op.height-1}/></Link>
-                <DataBox title="Deposit" ml={30} value={op.deposit} valueSize="14px" valueType="currency-short" />
-                <DataBox title="Reward" ml={30} value={op.reward} valueSize="14px" valueType="currency-short" />
-              </FlexRow>
+            <Link to={`/${op.height - 1}`}>
+              <DataBox title="Block Endorsed" valueSize="18px" value={op.height - 1} />
+            </Link>
             <FlexColumn flex={1} ml={30}>
-    					<FlexRowWrap width={192} mb={'2px'}>
-    					{data.allslots.map((item, i) => {
-    					  return (
-    					    <Slot key={i} color={data.opslots[i]?white:item?blue:grey}/>
-    					  );
-    					})}
-    					</FlexRowWrap>
-    					<DataBox title={`Slots Endorsed (${data.opslots.map((s,i)=>i).filter(s=>data.opslots[s]).reverse().map(s=>s+1).join(', ')})`} />
+              <FlexRowWrap width={192} mb={'2px'}>
+                {data.allslots.map((item, i) => {
+                  return <Slot key={i} color={data.opslots[i] ? white : item ? blue : grey} />;
+                })}
+              </FlexRowWrap>
+              <DataBox
+                title={`Slots Endorsed (${data.opslots
+                  .map((s, i) => i)
+                  .filter(s => data.opslots[s])
+                  .reverse()
+                  .map(s => s + 1)
+                  .join(', ')})`}
+              />
             </FlexColumn>
           </FlexRow>
         </Card>
@@ -59,7 +59,7 @@ const Endorsement = ({ op }) => {
     </FlexRow>
   ) : (
     <Spinner />
-  ));
+  );
 };
 
 const Wrapper = styled.div`
@@ -80,5 +80,5 @@ const Slot = styled.div`
   text-align: center;
   border-right: 1px solid #444754;
   border-bottom: 1px solid #444754;
-  background: ${props => props.color||grey};
+  background: ${props => props.color || grey};
 `;

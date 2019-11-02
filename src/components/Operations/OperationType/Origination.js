@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, HashedBox, FlexRowSpaceBetween, FlexColumnSpaceBetween, FlexRow, Spinner } from '../../Common';
+import { Card, HashedBox, FlexRow, Spinner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
@@ -15,8 +15,8 @@ const Origination = ({ op }) => {
       let [sender, contract, manager, delegate] = await Promise.all([
         op.sender && getAccountByHash(op.sender),
         op.receiver && getAccountByHash(op.receiver),
-        (op.manager&&op.manager!==op.sender) && getAccountByHash(op.manager),
-        (op.delegate&&op.delegate!==op.sender) && getAccountByHash(op.delegate),
+        op.manager && op.manager !== op.sender && getAccountByHash(op.manager),
+        op.delegate && op.delegate !== op.sender && getAccountByHash(op.delegate),
       ]);
 
       setData({
@@ -24,43 +24,39 @@ const Origination = ({ op }) => {
         op: op,
         sender: sender,
         contract: contract,
-        manager: op.manager?manager||sender:null,
-        delegate: delegate||(op.delegate?sender:null),
+        manager: op.manager ? manager || sender : null,
+        delegate: delegate || (op.delegate ? sender : null),
       });
     };
 
     fetchData();
   }, [op]);
 
-  return ( data.isLoaded ? (
+  return data.isLoaded ? (
     <FlexRow>
-      <OperationAccount title={'Sender'} account={data.sender}/>
+      <OperationAccount title={'Sender'} account={data.sender} />
       <Wrapper>
-        <Card to={data.contract?('/'+data.contract.address):null} title={`${opNames[op.type]}`} tags={getOpTags(op)}>
-          <FlexRow height={80}>
-            <TxTypeIcon fontSize={50} mr={40} type={op.type} isSuccess={op.is_success} />
-            <FlexColumnSpaceBetween flex={1}>
-              <FlexRow>
-                <HashedBox
-                  hash={data.contract?data.contract.address:null}
-                  isCopy={false}
-                  short={true}
-                  typeName={`Last active ${data.contract?timeAgo.format(new Date(data.contract.last_seen_time)):'-'}`}
-                />
-              </FlexRow>
-              <FlexRowSpaceBetween>
-                <DataBox title="Fee" value={op.fee} valueSize="14px" valueType="currency-short" />
-                <DataBox title="Burned" value={op.burned} valueSize="14px" valueType="currency-short" />
-              </FlexRowSpaceBetween>
-            </FlexColumnSpaceBetween>
+        <Card
+          to={data.contract ? '/' + data.contract.address : null}
+          title={`${op.is_internal ? 'Internal ' : ''}${opNames[op.type]}`}
+          tags={getOpTags(op)}
+        >
+          <FlexRow alignItems={'center'}>
+            <TxTypeIcon fontSize={30} mr={20} type={op.type} isSuccess={op.is_success} />
+            <HashedBox
+              hash={data.contract ? data.contract.address : null}
+              isCopy={false}
+              short={true}
+              typeName={`Last active ${data.contract ? timeAgo.format(new Date(data.contract.last_seen_time)) : '-'}`}
+            />
           </FlexRow>
         </Card>
       </Wrapper>
-      <OperationAccount title={'Delegate'} account={data.delegate} onempty={'No delegate set'}/>
+      <OperationAccount title={'Delegate'} account={data.delegate} onempty={'No delegate set'} />
     </FlexRow>
   ) : (
     <Spinner />
-  ));
+  );
 };
 
 const Wrapper = styled.div`

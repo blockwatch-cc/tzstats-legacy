@@ -288,17 +288,26 @@ export function getBlockTags(block, config) {
 
 export function getOpTags(op) {
   let tags = [];
-  if (op.is_internal) {
-    tags.push('Internal');
-  }
-  if (op.is_contract) {
-    tags.push('Contract Call');
-  }
+  // if (op.is_internal) {
+  //   tags.push('Internal');
+  // }
+  // if (op.is_contract) {
+  //   tags.push('Contract Call');
+  // }
   if (op.params) {
     tags.push('Params');
   }
   if (!op.is_success) {
     tags.push('Failed');
+    switch (op.status) {
+      case 'backtracked':
+        tags.push('Backtracked');
+        break;
+      case 'skipped':
+        tags.push('Skipped');
+        break;
+      default:
+    }
   }
   return tags;
 }

@@ -48,6 +48,7 @@ const LinkIcon = styled.div`
 `;
 const Wrapper = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   flex-wrap: wrap;
   border-radius: 2px;

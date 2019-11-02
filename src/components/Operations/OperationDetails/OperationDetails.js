@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CopyHashButton } from '../../Common';
-import { getOpTags } from '../../../utils';
 import Activation from './Activation';
 import Ballot from './Ballot';
 import Delegation from './Delegation';
@@ -16,8 +15,13 @@ import Reveal from './Reveal';
 import { opNames } from '../../../config';
 
 const OperationDetails = ({ op }) => {
+  let title = opNames[op.type];
+  if (op.is_contract) {
+    title = 'Call';
+  }
+  title += ' Details';
   return (
-    <Card title={opNames[op.type]+' Details'} tags={getOpTags(op)} right={<CopyHashButton value={op.hash} type="op" />}>
+    <Card title={title} right={<CopyHashButton value={op.hash} type="op" />}>
       <OperationSwitcher op={op} />
     </Card>
   );
