@@ -32,11 +32,11 @@ const Origination = ({ op }) => {
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween ml={20} minHeight={80}>
           <DataBox title="Days destroyed" valueSize="14px" valueType="value-full" value={op.days_destroyed} />
-          <DataBox title="Storage Paid" valueSize="14px" value={op.storage_paid} />
+          <DataBox title="Storage Size" valueSize="14px" value={op.storage_size} />
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween ml={20} minHeight={80}>
           <HashedBox hash={op.manager} isCopy={false} short={true} typeName={'Manager'} />
-          <DataBox title="Storage Size" valueSize="14px" value={op.storage_size} />
+          <DataBox title="Storage Paid" valueSize="14px" value={op.storage_paid} />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>
     </>

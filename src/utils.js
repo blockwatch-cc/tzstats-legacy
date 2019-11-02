@@ -196,7 +196,7 @@ export function getShortHashOrBakerName(hash) {
     return 'none';
   }
   if (!hash) {
-    return 'God';
+    return '-';
   }
   const baker = bakerAccounts[hash];
   return baker ? baker.name : getShortHash(hash);
@@ -214,7 +214,7 @@ export function getHashOrBakerName(hash) {
     return 'none';
   }
   if (!hash) {
-    return 'God';
+    return '-';
   }
   const baker = bakerAccounts[hash];
   return baker ? baker.name : hash;

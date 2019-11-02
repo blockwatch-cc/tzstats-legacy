@@ -28,12 +28,13 @@ const SmartContract = ({ op }) => {
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween ml={20} minHeight={80}>
           <DataBox title="Storage Limit" valueSize="14px" value={op.storage_limit} />
-        </FlexColumnSpaceBetween>
-        <FlexColumnSpaceBetween ml={20} minHeight={80}>
-          <DataBox title="Storage Paid" valueSize="14px" value={op.storage_paid} />
+          <DataBox title="Counter" valueSize="14px" value={op.counter} />
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween ml={20} minHeight={80}>
           <DataBox title="Storage Size" valueSize="14px" value={op.storage_size} />
+        </FlexColumnSpaceBetween>
+        <FlexColumnSpaceBetween ml={20} minHeight={80}>
+          <DataBox title="Storage Paid" valueSize="14px" value={op.storage_paid} />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>
     </>
