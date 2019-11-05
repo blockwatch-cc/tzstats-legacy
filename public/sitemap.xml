@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>https://tzstats.com/</loc>
+  </url>
+
+  <url>
+    <loc>https://tzstats.com/markets</loc>
+  </url>
+
+  <url>
+    <loc>https://tzstats.com/election/head</loc>
+  </url>
+
+  <url>
+    <loc>https://tzstats.com/docs/api/index.html</loc>
+  </url>
+
+  <url>
+    <loc>https://tzstats.com/blog/</loc>
+  </url>
+
+  <url>
+    <loc>https://babylonnet.tzstats.com/</loc>
+  </url>
+
+  <url>
+    <loc>https://zeronet.tzstats.com/</loc>
+  </url>
+
+</urlset>
