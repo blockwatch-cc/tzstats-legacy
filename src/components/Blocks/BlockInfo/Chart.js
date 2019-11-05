@@ -5,7 +5,7 @@ import { DataBox } from '../../Common';
 const BlocksPie = ({ data, setTxType }) => {
   const getBarColor = bar => bar.color;
   return (
-    <div style={{ width: 130, height: 130, cursor: 'pointer' }}>
+    <div style={{ width: 120, height: 120, cursor: 'pointer' }}>
       <ResponsivePie
         data={data}
         innerRadius={0.7}
@@ -28,7 +28,7 @@ const BlocksPie = ({ data, setTxType }) => {
             },
           },
         }}
-        tooltip={({ id, value }) => <DataBox valueType="text" value={id} />}
+        tooltip={({ id, value }) => <DataBox valueSize={'12px'} valueType="text" value={id} />}
       />
     </div>
   );

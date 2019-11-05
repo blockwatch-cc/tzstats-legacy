@@ -355,36 +355,38 @@ export const getBlockRange = async (height, leftDepth, rightDepth) => {
   return response;
 };
 
-export const getBlockHeight = async height => {
-  const response = await request(
-    `/tables/block?columns=time,hash,height,priority,is_orphan,row_id,parent_id&height=${height}`
-  );
+const defaultBlockColumns = [
+  'time',
+  'hash',
+  'height',
+  'priority',
+  'is_orphan',
+  'row_id',
+  'parent_id',
+  'n_ops',
+  'volume'
+]
 
-  return response;
+export const getBlockHeight = async height => {
+  const columns = defaultBlockColumns;
+  const response = await request(
+    `/tables/block?columns=${columns.join(',')}&height=${height}`
+  );
+  return unpackColumns({response, columns});
 };
 
 export const getBlockTimeRange = async (from, to) => {
   to = to || new Date().getTime();
+  const columns = defaultBlockColumns;
   const response = await request(
-    `/tables/block?columns=time,hash,height,priority,is_orphan,row_id,parent_id&time.rg=${from},${to}`
+    `/tables/block?columns=${columns.join(',')}&time.rg=${from},${to}`
   );
-
-  return response;
+  return unpackColumns({response, columns});
 };
 
-export const unwrapBlock = b => {
-  return b
-    ? {
-        time: b[0],
-        hash: b[1],
-        height: b[2],
-        priority: b[3],
-        is_orphan: b[4],
-        row_id: b[5],
-        parent_id: b[6],
-      }
-    : {};
-};
+// export const unwrapBlock = b => {
+//   return b?unpackColumns({response: [b], columns: defaultBlockColumns })[0]:{};
+// };
 
 //https://api.tzstats.com/explorer/block/BLGza5RgGDYYwpLPZWEdyd2mhaUJSbCYczr1WoFuvrqxRpDkCJ4
 export const getBlock = async id => {
@@ -431,7 +433,7 @@ export const getBlockOperations = async ({ height, type = null, limit = 0, curso
   cursor = cursor ? '&cursor=' + cursor : '';
   limit = limit ? '&limit=' + limit : '';
   const response = await request(
-    `/tables/op?height=${height}&columns=${columns.join(',')}&is_internal=0${type}${cursor}${limit}`
+    `/tables/op?height=${height}&columns=${columns.join(',')}${type}${cursor}${limit}`
   );
   return unpackColumns({ response, columns });
 };

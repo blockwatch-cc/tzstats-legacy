@@ -6,9 +6,28 @@ import { Card, Elevation } from '@blueprintjs/core';
 import { DataBox, FlexRowSpaceBetween, FlexColumn, LinkIcon } from '../../../Common';
 import { withRouter, Link } from 'react-router-dom';
 
-//todo add priori
+function calcAgo(last) {
+  return timeAgo.format(new Date(last));
+}
+
 const LastBlock = ({ history }) => {
   const [chain] = useGlobal('chain');
+
+  // ago update handling
+  const [countInTimeout, setCountInTimeout] = React.useState(0);
+  const [ago, setAgo] = React.useState(calcAgo(chain.timestamp));
+
+  // update displayed time each 10 sec
+  React.useEffect(() => {
+    const diff = (60 - new Date().getSeconds())%10;
+    let timer = setTimeout(() => {
+      setCountInTimeout(c => c + 1);
+    }, diff*1000);
+    setAgo(calcAgo(chain.timestamp));
+    return () => clearTimeout(timer);
+  }, [countInTimeout, chain.timestamp, setAgo]);
+
+
   return (
     <Wrapper>
       <Link to={`/${chain.block_hash}`}>
@@ -18,7 +37,7 @@ const LastBlock = ({ history }) => {
           <FlexColumn>
             <DataBox
               valueSize="16px"
-              title={`Latest Block seen ${timeAgo.format(new Date(chain.timestamp))}`}
+              title={`Latest Block seen ${ago}`}
               value={chain.height}
             />
           </FlexColumn>

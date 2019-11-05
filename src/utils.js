@@ -232,28 +232,6 @@ export function getMinutesInterval(start, n, slot = 60) {
   return timeArray;
 }
 
-export function wrappBlockDataToObj(array, range) {
-  return array.reduce((obj, item, index) => {
-    let timeIdx = range.findIndex(i => i > new Date(item[0]));
-    let time = timeIdx > 0 ? range[timeIdx - 1] : new Date(item[0]).setSeconds(0, 0);
-    obj[time] = [
-      ...(obj[time] || []),
-      {
-        time: new Date(item[0]),
-        hash: item[1],
-        height: item[2],
-        priority: item[3],
-        opacity:
-          item[3] === 0 ? 1 : item[3] === 1 ? 0.8 : item[3] < 4 ? 0.7 : item[3] < 8 ? 0.6 : item[3] < 16 ? 0.5 : 0.4,
-        is_orphan: item[4] || 0,
-        row_id: item[5],
-        parent_id: item[6],
-      },
-    ];
-    return obj;
-  }, {});
-}
-
 export function getPeakVolumeTime(data, hours = 1) {
   const stride = 24 / hours;
   let times = new Array(stride).fill(0);

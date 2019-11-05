@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Tag from './Tag';
-const Card = ({ title, tags = [], right, children, to = null, mh = null }) => {
+const Card = ({ title, tags = [], right, children, flex = 1 ,to = null, mh = null }) => {
   return (
-    <Wrapper isClickable={to} mh={mh}>
+    <Wrapper isClickable={to} mh={mh} flex={flex}>
       {to ? (
         <Link to={to}>
           <LinkIcon>&#x25E5;</LinkIcon>
@@ -48,7 +48,7 @@ const LinkIcon = styled.div`
 `;
 const Wrapper = styled.div`
   display: flex;
-  flex: 1;
+  flex: ${props => props.flex || 0};
   flex-direction: column;
   flex-wrap: wrap;
   border-radius: 2px;

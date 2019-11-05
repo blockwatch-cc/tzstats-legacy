@@ -21,7 +21,7 @@ const HashBlockWrapper = styled.div`
   font-size: 14px;
 `;
 const HashLink = styled(Link)`
-  font-size: 16px;
+  font-size: 14px;
 `;
 
 export default HashedBox;

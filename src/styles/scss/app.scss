@@ -16,7 +16,11 @@ html {
 input::placeholder {
   text-align: center;
 }
-
+h1 {
+  font-size: 1.67rem;
+  margin-block-start: 0.33rem;
+  margin-block-end: 0.33rem;
+}
 a {
   color: #fff;
   text-decoration: none;
