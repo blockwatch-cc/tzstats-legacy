@@ -111,7 +111,6 @@ export default BlocksChart;
 
 const red = 'linear-gradient(45deg, #ED6290 0%, #FC6483 100%)';
 const blue = 'linear-gradient(45deg, #26B2EE 0%, #29C0FF 100%)';
-const white = '#fff';
 
 const BlocksWrapper = styled(FlexRowWrap)`
   justify-content: flex-start;

@@ -16,7 +16,7 @@ function convertRemToPixels(rem) {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
 
-const BlockHistory = ({ }) => {
+const BlockHistory = () => {
   const [config] = useGlobal('config');
   const [chain] = useGlobal('chain');
 
