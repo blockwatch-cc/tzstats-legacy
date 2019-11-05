@@ -8,6 +8,7 @@ const request = async (endpoint, options) => {
   });
   return await handleResponse(response);
 };
+
 const handleResponse = async response => {
   if (response.status >= 400) {
     const { errors } = await response.json();
@@ -19,6 +20,16 @@ const handleResponse = async response => {
 
 function isDefined(x) {
   return typeof x !== 'undefined';
+}
+
+// decodes packed table arrays into js objects
+function unpackColumns({ response = [], columns = [] }) {
+  return response.map(item => {
+    return columns.reduce((o, col, i) => {
+      o[col] = item[i];
+      return o;
+    }, {});
+  });
 }
 
 //******************COMMON****************** */
@@ -39,10 +50,8 @@ export const getChainConfig = async options => {
 
 //******************SUPPLY****************** */
 
-//https://api.tzstats.com/tables/supply?height=523549&verbose=1
 export const getSupply = async height => {
   const response = await request(`/tables/supply?height=${height}&verbose=1`);
-
   return response[0];
 };
 
@@ -50,19 +59,8 @@ export const getSupply = async height => {
 
 export const getAccountByHash = async hash => {
   const response = await request(`/explorer/account/${hash}?`);
-
   return response;
 };
-
-// decodes packed table arrays into js objects
-function unpackColumns({ response = [], columns = [] }) {
-  return response.map(item => {
-    return columns.reduce((o, col, i) => {
-      o[col] = item[i];
-      return o;
-    }, {});
-  });
-}
 
 export const getTableDataByType = async ({ type, cycle, address, cursor, limit }) => {
   let ops = [];
@@ -73,12 +71,6 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
     case 'managed':
       ops = await getAccountContracts({ address, cursor, limit });
       break;
-    // case 'incoming':
-    //   ops = await getAccountOperations({ address, direction: 'receiver', type: 'transaction', cursor, limit });
-    //   break;
-    // case 'outgoing':
-    //   ops = await getAccountOperations({ address, direction: 'sender', type: 'transaction', cursor, limit });
-    //   break;
     case 'votes':
       ops = await getAccountVoting({ address, cursor, limit });
       break;
@@ -88,7 +80,6 @@ export const getTableDataByType = async ({ type, cycle, address, cursor, limit }
   return ops;
 };
 
-//https://api.tzstats.com/tables/op?sender=tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&type=transaction&verbose=1
 export const getAccountOperations = async ({
   address,
   type = 'transaction',
@@ -122,7 +113,6 @@ export const getAccountOperations = async ({
   return unpackColumns({ response, columns });
 };
 
-//https://api.tzstats.com/tables/ballot?source=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&verbose=1
 export const getAccountVoting = async ({ address, op, cursor, limit = 50 }) => {
   cursor = cursor ? '&cursor=' + cursor : '';
   op = op ? '&op=' + op : '';
@@ -130,7 +120,6 @@ export const getAccountVoting = async ({ address, op, cursor, limit = 50 }) => {
   return response;
 };
 
-//api.tzstats.com/tables/account?manager=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt
 export const getAccountContracts = async ({ address, cursor, limit = 50 }) => {
   const columns = ['row_id', 'address', 'first_seen_time', 'last_seen_time', 'spendable_balance', 'delegate', 'n_ops'];
   cursor = cursor ? '&cursor=' + cursor : '';
@@ -172,7 +161,6 @@ export const zeroIncome = (cycle, columns = defaultIncomeColumns) => {
   }, {});
 };
 
-//https://api.tzstats.com/tables/income?cycle=137&verbose=1&address=tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9
 export const getAccountIncome = async ({ address, columns, cycle, cursor, limit, order }) => {
   columns = columns || defaultIncomeColumns;
   cycle = isDefined(cycle) ? '&cycle=' + cycle : '';
@@ -185,9 +173,8 @@ export const getAccountIncome = async ({ address, columns, cycle, cursor, limit,
   return unpackColumns({ response, columns });
 };
 
-//api.tzstats.com/tables/snapshot?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&address.nin=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=10000
+// from account table (live non-snapshot data)
 export const getAccountDelegators = async ({ address, cycle, cursor, limit }) => {
-  // const columns = ['row_id', 'address', 'balance', 'delegated', 'time', 'since_time'];
   const columns = [
     'row_id',
     'address',
@@ -199,11 +186,6 @@ export const getAccountDelegators = async ({ address, cycle, cursor, limit }) =>
   ];
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
-    // from a cycle's role snapshot
-    // `/tables/snapshot?delegate=${address}&cycle=${cycle -
-    // 7}&is_selected=true&columns=${columns.join(',')}&limit=${limit}${cursor}`
-
-    // from most-recent state (including self)
     `/tables/account?delegate=${address}&is_funded=1&columns=${columns.join(',')}&limit=${limit}${cursor}`
   );
   return unpackColumns({ response, columns });
@@ -222,7 +204,6 @@ export const getSnapshotDelegators = async ({ address, cycle, cursor, limit }) =
   return unpackColumns({ response, columns });
 };
 
-//api.tzstats.com/tables/rights?delegate=tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&cycle=134&limit=50000&verbose=1
 export const getAccountRights = async ({ address, cycle, columns, order, limit = 50000, cursor }) => {
   columns = columns || ['height', 'type', 'priority', 'is_stolen', 'is_missed', 'is_lost', 'time'];
   cursor = cursor ? '&cursor=' + cursor : '';
@@ -253,7 +234,7 @@ export const getCycleById = async ({ id = 'head' }) => {
   const response = await request(`/explorer/cycle/${id}`);
   return response;
 };
-//https://api.tzstats.com/tables/income?cycle=137&columns=address,luck_percent,efficiency_percent
+
 export const getDelegationHistory = async ({ cycle }) => {
   const response = await request(
     `/tables/income?cycle=${cycle}&columns=address,rolls,luck_percent,efficiency_percent&limit=1000`
@@ -311,7 +292,6 @@ function fillTimeSeries(series, days = 30, filler = 0, minlength = 1) {
   return res;
 }
 
-//https://api.tzstats.com/series/flow?address=tz1WBfwbT66FC6BTLexc2BoyCCBM9LG7pnVW&collapse=1d&start_date=now-30d&category=balance&
 export const getFlowData = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
   const response = await request(
@@ -323,7 +303,6 @@ export const getFlowData = async ({ hash, days }) => {
 
 //******************BLOCK****************** */
 
-//https://api.tzstats.com/series/block?columns=volume,n_tx&start_date=now-24h&collapse=30m
 export const getTxVolume24h = async () => {
   const response = await request(`/series/block?start_date=now-24h&collapse=1h&columns=volume,n_tx`);
   return response.reduce(
@@ -336,7 +315,6 @@ export const getTxVolume24h = async () => {
   );
 };
 
-//https://api.tzstats.com/series/block?collapse=1d&start_date=now-30d&columns=volume
 export const getTxVolume = async ({ start, days }) => {
   start = start || 'now-' + (days - 1) + 'd';
   const response = await request(`/series/block?start_date=${start}&limit=${days}&collapse=1d&columns=volume,n_tx`);
@@ -346,50 +324,37 @@ export const getTxVolume = async ({ start, days }) => {
   });
 };
 
-//https://api.tzstats.com/tables/block?columns=time,hash,height,priority&time.gte=now-60m&limit=60
-export const getBlockRange = async (height, leftDepth, rightDepth) => {
-  const response = await request(
-    `/tables/block?columns=time,hash,height,priority,is_orphan&height.rg=${height - leftDepth},${height + rightDepth}`
-  );
-
-  return response;
-};
+const defaultBlockColumns = [
+  'time',
+  'hash',
+  'height',
+  'priority',
+  'is_orphan',
+  'row_id',
+  'parent_id',
+  'n_ops',
+  'volume'
+]
 
 export const getBlockHeight = async height => {
+  const columns = defaultBlockColumns;
   const response = await request(
-    `/tables/block?columns=time,hash,height,priority,is_orphan,row_id,parent_id&height=${height}`
+    `/tables/block?columns=${columns.join(',')}&height=${height}`
   );
-
-  return response;
+  return unpackColumns({response, columns});
 };
 
 export const getBlockTimeRange = async (from, to) => {
   to = to || new Date().getTime();
+  const columns = defaultBlockColumns;
   const response = await request(
-    `/tables/block?columns=time,hash,height,priority,is_orphan,row_id,parent_id&time.rg=${from},${to}`
+    `/tables/block?columns=${columns.join(',')}&time.rg=${from},${to}`
   );
-
-  return response;
+  return unpackColumns({response, columns});
 };
 
-export const unwrapBlock = b => {
-  return b
-    ? {
-        time: b[0],
-        hash: b[1],
-        height: b[2],
-        priority: b[3],
-        is_orphan: b[4],
-        row_id: b[5],
-        parent_id: b[6],
-      }
-    : {};
-};
-
-//https://api.tzstats.com/explorer/block/BLGza5RgGDYYwpLPZWEdyd2mhaUJSbCYczr1WoFuvrqxRpDkCJ4
 export const getBlock = async id => {
   const response = await request(`/explorer/block/${id || 'head'}`);
-
   return response;
 };
 
@@ -413,7 +378,6 @@ export const getBakedFlows = async ({ baker, columns, limit, cursor, order }) =>
   return unpackColumns({ response, columns });
 };
 
-//https://api.tzstats.com/tables/op?height=5000&verbose=1&&op_n.rg=0,3&type=endorsement
 export const getBlockOperations = async ({ height, type = null, limit = 0, cursor = null }) => {
   const columns = [
     'row_id',
@@ -431,14 +395,12 @@ export const getBlockOperations = async ({ height, type = null, limit = 0, curso
   cursor = cursor ? '&cursor=' + cursor : '';
   limit = limit ? '&limit=' + limit : '';
   const response = await request(
-    `/tables/op?height=${height}&columns=${columns.join(',')}&is_internal=0${type}${cursor}${limit}`
+    `/tables/op?height=${height}&columns=${columns.join(',')}${type}${cursor}${limit}`
   );
   return unpackColumns({ response, columns });
 };
 
 //****************** OPERATIONS ****************** */
-//https://api.tzstats.com/explorer/op/oojriacbQXp5zuW3hppM2ppY25BTf2rPLmCT74stRGWRzDKYL5T
-
 export const getOperations = async hash => {
   const response = await request(`/explorer/op/${hash}`);
   return response;

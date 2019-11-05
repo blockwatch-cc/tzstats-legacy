@@ -11,28 +11,21 @@ const BlockTxChart = ({ block, setTxType }) => {
   return (
     <Wrapper>
       <FlexRowSpaceBetween>
-        <FlexColumnSpaceBetween minHeight={140}>
+        <FlexColumnSpaceBetween>
           <Total>
             <DataBox ta="center" title="Operations" value={block.n_ops} />
           </Total>
           <Chart data={settings} setTxType={setTxType} />
         </FlexColumnSpaceBetween>
-        <FlexColumn height={130}>
+        <FlexColumn>
           <Legend settings={settings} />
         </FlexColumn>
-      </FlexRowSpaceBetween>
-      <FlexRowSpaceBetween  minHeight={40} alignItems={'flex-end'} >
-          <DataBox ta={"center"} valueSize="16px" valueType="currency-full" title="Transaction Volume" value={block.volume} />
-          <DataBox ta={"center"} valueSize="16px" valueType="value-full" title="Coin Days Destroyed" value={block.days_destroyed} />
       </FlexRowSpaceBetween>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
-  margin-left: 20px;
-  position: relative;
-`;
+const Wrapper = styled.div``;
 
 export default BlockTxChart;
 
@@ -55,21 +48,18 @@ const LegendContent = ({ settings }) => {
 };
 const Total = styled.div`
   position: absolute;
-  top: 48px;
-  left: 39px;
+  top: 40px;
+  left: 35px;
 `;
 
 const LegendWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
-  margin-top: 20px;
 `;
 const LegendItem = styled.div`
   margin-bottom: -30px;
   margin-left: 20px;
   white-space: nowrap;
-  min-width: 100px;
   &:after {
     content: '•';
     position: relative;
@@ -82,12 +72,12 @@ const LegendItem = styled.div`
 
 function getOperationsSettings(block) {
   return [
-    {
-      color: '#18ecf2',
-      value: block.n_ops_contract,
-      id: `${formatValue(block.n_ops_contract)} Contracts`,
-      type: 'contract',
-    },
+    // {
+    //   color: '#18ecf2',
+    //   value: block.n_ops_contract,
+    //   id: `${formatValue(block.n_ops_contract)} Contracts`,
+    //   type: 'contract',
+    // },
     { color: '#29bcfa', value: block.n_tx, id: ` ${formatValue(block.n_tx)} Transactions`, type: 'transaction' },
     {
       color: '#3e85f1',

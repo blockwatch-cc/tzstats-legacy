@@ -23,6 +23,7 @@ export const opNames = {
   endorsement: 'Endorsement',
   proposals: 'Proposal',
   ballot: 'Ballot',
+  call: 'Contract Call'
 };
 export const govNames = {
   '1': 'Proposal',

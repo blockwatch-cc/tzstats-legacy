@@ -75,7 +75,7 @@ const BlockOperations = ({ block, txType }) => {
                     </TableCell>
                     <TableCell width={15}>
                       <TxTypeIcon isSuccess={item.is_success} type={item.is_contract ? 'contract' : item.type} />
-                      <TableDetails>{opNames[item.type]}</TableDetails>
+                      <TableDetails>{opNames[item.is_contract?'call':item.type]}</TableDetails>
                     </TableCell>
                     <TableCell width={20}>
                       {item.receiver ? (

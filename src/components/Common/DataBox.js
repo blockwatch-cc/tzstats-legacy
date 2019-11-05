@@ -55,7 +55,13 @@ const DataBox = ({
           </FlexRow>
         </Wrapper>
       );
-
+    case 'inline':
+      return (
+        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
+          {title && <InlineTitle fontSize={titleSize}>{title}</InlineTitle>}
+          {value !== undefined && <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />}
+        </Wrapper>
+      );
     default:
       return (
         <Wrapper ta={ta} ml={ml} mr={mr} size={valueSize}>
@@ -69,7 +75,7 @@ const DataBox = ({
 let re = /^(.*)\.([^ ]*)( .*)?$/;
 
 export const Value = ({
-  type,
+  type = 'value-full',
   value,
   prec,
   sym,
@@ -136,13 +142,6 @@ export const Value = ({
     case 'value-short':
       res = formatValue(Math.round(value), '.' + digits + 's');
       break;
-    case 'value-full':
-      if (!value && zero) {
-        res = zero;
-      } else {
-        res = formatValue(value, ',');
-      }
-      break;
     case 'percent':
       switch (true) {
         case value === 0.0 && zero:
@@ -159,7 +158,7 @@ export const Value = ({
       if (!value && zero) {
         res = zero;
       } else {
-        res = formatValue(Math.round(value), ',');
+        res = formatValue(value, ',');
       }
   }
   let arr = re.exec(res);
@@ -211,5 +210,13 @@ const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);
   font-size: ${props => props.size + 'rem'};
 `;
+
+const InlineTitle = styled.span`
+  color: rgba(255, 255, 255, 0.52);
+  font-size: ${props => props.fontSize};
+  margin-right: 15px;
+`;
+
+
 
 export default DataBox;
