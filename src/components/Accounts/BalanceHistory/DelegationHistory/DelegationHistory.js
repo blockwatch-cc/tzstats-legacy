@@ -1,7 +1,7 @@
 import React from 'react';
 import BalanceChart from './BalanceChart';
 import { DataBox, FlexRow, Card, FlexColumn } from '../../../Common';
-import { formatCurrency } from '../../../../utils';
+// import { formatCurrency } from '../../../../utils';
 // import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 

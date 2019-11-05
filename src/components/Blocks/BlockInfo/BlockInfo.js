@@ -65,7 +65,7 @@ const BlockInfo = ({ block, setTxType }) => {
                 );
               }) : 'No Endorsers for this block' }
             </FlexRowWrap>
-            <DataBox ml={20} valueType="text" title="" value={`${block.n_endorsed_slots}/32`} />
+            <DataBox ml={1} valueType="text" title="" value={`${block.n_endorsed_slots}/32`} />
           </FlexRow>
         </Card>
         <Card>
@@ -88,7 +88,6 @@ const Slot = styled.div`
 `;
 
 const Wrapper = styled.div`
-  flex: 1;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;

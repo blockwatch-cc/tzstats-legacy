@@ -11,7 +11,7 @@ const DataBox = ({
   valueType,
   valueOpts,
   type = '',
-  valueSize = 1.25,
+  valueSize = 1,
   titleSize = 0.75,
   ta = 'left',
   ml = '0',
