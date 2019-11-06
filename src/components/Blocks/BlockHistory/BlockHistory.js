@@ -170,6 +170,7 @@ const Wrapper = styled.div`
 const BlockHistoryWrapper = styled(FlexColumn)`
   margin-top: 25px;
   margin-bottom: 10px;
+  height: 50px;
   flex: 1;
   bottom: 0;
 `;

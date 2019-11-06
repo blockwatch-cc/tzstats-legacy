@@ -21,7 +21,7 @@ const OperationDetails = ({ op }) => {
   }
   title += ' Details';
   return (
-    <Card title={title} right={<CopyHashButton value={op.hash} type="op" />}>
+    <Card title={title} right={<CopyHashButton value={op.hash} />}>
       <OperationSwitcher op={op} />
     </Card>
   );

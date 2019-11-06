@@ -6,7 +6,7 @@ import { ChartCanvas, Chart } from 'react-stockcharts';
 import { AreaSeries } from 'react-stockcharts/lib/series';
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import { fitWidth } from 'react-stockcharts/lib/helper';
-import { last } from 'react-stockcharts/lib/utils';
+// import { last } from 'react-stockcharts/lib/utils';
 import _ from 'lodash';
 import { format } from 'd3-format';
 import CurrentCoordinate from '../../../Common/CurrentCoordinate';
@@ -14,26 +14,33 @@ import { defaultFont } from '../../../../config';
 
 class BalanceChart extends React.Component {
   render() {
-    const { data: initialData, width, ratio } = this.props;
+    const { data, width, ratio } = this.props;
 
-    const max = _.maxBy(initialData, d => d.value).value;
-    let min = _.minBy(initialData, d => d.value).value;
+    let max = _.maxBy(data, d => d.value).value;
+    let min = _.minBy(data, d => d.value).value;
     min = min < 0.5 * max || min < 100 ? 0 : min;
+    if (max !== min) {
+      max = max+(max-min)/10;
+      min = min-(max-min)/10;
+    } else {
+      max = max*1.05;
+      min = min*0.95;
+    }
 
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => new Date(d.time));
-    let { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
+    let { data: xData, xScale, xAccessor, displayXAccessor } = xScaleProvider(data);
 
-    const start = xAccessor(last(data));
-    const end = xAccessor(data[Math.max(0, data.length - 70)]);
+    // const start = xAccessor(last(data));
+    // const end = xAccessor(data[Math.max(0, data.length - 70)]);
 
-    const xExtents = [start, end];
+    // const xExtents = [start, end];
     const zoomEvent = false;
     const panEvent = false;
     const clamp = false;
     const zoomAnchor = function(e) {};
 
     function formatC(x) {
-      return format(',.2f')(x)+'tz';
+      return format(x>=0.01?',.2f':',.6f')(x)+'tz';
     }
 
     return (
@@ -49,7 +56,7 @@ class BalanceChart extends React.Component {
         }}
         type={'svg'}
         ratio={ratio}
-        data={data}
+        data={xData}
         panEvent={panEvent}
         zoomEvent={zoomEvent}
         clamp={clamp}
@@ -57,9 +64,9 @@ class BalanceChart extends React.Component {
         xScale={xScale}
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
-        xExtents={xExtents}
+        // xExtents={xExtents}
       >
-        <Chart id={1} height={180} yExtents={[d => [max+(max-min)/10, min?min-(max-min)/10:min]]}>
+        <Chart id={1} height={180} yExtents={[d => [max, min]]}>
           <MouseCoordinateX
             opacity={1}
             at="bottom"

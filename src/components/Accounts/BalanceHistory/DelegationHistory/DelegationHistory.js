@@ -1,11 +1,11 @@
 import React from 'react';
 import BalanceChart from './BalanceChart';
 import { DataBox, FlexRow, Card, FlexColumn } from '../../../Common';
-import { formatCurrency } from '../../../../utils';
+// import { formatCurrency } from '../../../../utils';
 // import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 
-const DelegationHistory = ({ account, stakingData }) => {
+const DelegationHistory = ({ account, staking }) => {
   // const [chain] = useGlobal('chain');
   // const stackingCapacity = getStakingCapacity(account, chain);
   // const totalStaking =
@@ -18,11 +18,11 @@ const DelegationHistory = ({ account, stakingData }) => {
       <Card title={'Delegated Last 30d'}>
         <FlexColumn>
           <FlexRow flex={1} mb={20}>
-            <BalanceChart type={'svg'} data={stakingData} />
+            <BalanceChart type={'svg'} data={staking} />
           </FlexRow>
           <FlexRow>
             <LegendItem color={'#418BFD'}>
-              <DataBox title={`Delegated Balance ${formatCurrency(account.delegated_balance)} tz`} />
+              <DataBox title="Delegated Balance" />
             </LegendItem>
           </FlexRow>
         </FlexColumn>

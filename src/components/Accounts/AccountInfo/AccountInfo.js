@@ -9,10 +9,11 @@ import {
   FlexRowSpaceBetween,
   FlexColumnSpaceBetween,
   CopyHashButton,
+  Blockies
 } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
-import { formatValue, timeAgo, getAccountTags, getAccountType } from '../../../utils';
-import { timeFormat } from 'd3-time-format';
+import { formatValue, getAccountTags, getAccountType } from '../../../utils';
+// import { timeFormat } from 'd3-time-format';
 
 const AccountInfo = ({ account }) => {
   const tags = getAccountTags(account);
@@ -25,71 +26,66 @@ const AccountInfo = ({ account }) => {
 
   return (
     <Wrapper>
-      <Card title={`${accountType.name}`} tags={tags} right={<CopyHashButton value={account.address} type="account" />}>
-        <FlexRowSpaceBetween mt={10}>
-          <FlexColumnSpaceBetween minHeight={100}>
-            <HashedBox
-              hash={account.address}
-              isCopy={false}
-              short={true}
-              typeName={`Last active ${timeAgo.format(new Date(account.last_seen_time))}`}
-            />
+      <Card title={<><Blockies hash={account.address} /><span>{accountType.name}</span></>} tags={tags} right={<CopyHashButton value={account.address} />}>
+        <FlexRowSpaceBetween mt={10} alignItems='flex-start'>
+          <FlexColumnSpaceBetween minHeight={80}>
             <DataBox
-              title="Creation Date"
-              valueSize="14px"
-              valueType="text"
-              value={` ${timeFormat('%b %d, %Y')(new Date(account.first_seen_time))}`}
-            />
-          </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={100}>
-            <DataBox
-              valueSize="14px"
               valueType="currency-full"
               title="Total Balance"
               value={account.total_balance + account.unclaimed_balance}
             />
             <DataBox
-              valueSize="14px"
+              title="Last Active"
+              valueType="datetime"
+              value={account.last_seen_time}
+            />
+          </FlexColumnSpaceBetween>
+          <FlexColumnSpaceBetween minHeight={80}>
+            <DataBox
               valueType="currency-full"
               title="Spendable Balance"
               value={account.spendable_balance}
             />
-          </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={100}>
             <DataBox
-              valueSize="14px"
+              title="Creation Date"
+              valueType="date"
+              value={account.first_seen_time}
+            />
+          </FlexColumnSpaceBetween>
+          <FlexColumnSpaceBetween minHeight={80}>
+            <DataBox
               title="Rank"
               valueType="text"
               value={account.rich_rank ? formatValue(account.rich_rank) : '-'}
             />
             <DataBox
-              valueSize="14px"
-              valueType="text"
-              title="Transactions / Operations"
-              value={`${formatValue(account.n_tx)} / ${formatValue(account.n_ops)}`}
-            />
-          </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={100}>
-            <DataBox
-              valueSize="14px"
               valueType="currency-full"
               title="Total Fees Paid"
               value={account.total_fees_paid}
             />
-            <DataBox valueSize="14px" valueType="currency-full" title="Total Burned" value={account.total_burned} />
+          </FlexColumnSpaceBetween>
+          <FlexColumnSpaceBetween minHeight={80}>
+            <DataBox
+              valueType="text"
+              title="Transactions / Operations"
+              value={`${formatValue(account.n_tx)} / ${formatValue(account.n_ops)}`}
+            />
+            <DataBox valueType="currency-full" title="Total Burned" value={account.total_burned} />
           </FlexColumnSpaceBetween>
           {account.is_delegate ? (
-            <FlexColumnSpaceBetween width={200} minHeight={100}>
+            <FlexColumnSpaceBetween width={200} minHeight={90}>
+              <FlexRowSpaceBetween>
+                <DataBox title="Active Delegations" value={account.active_delegations} />
+                <DataBox title="Rolls Owned" ta="right" value={account.rolls} />
+              </FlexRowSpaceBetween>
               <FlexColumn>
                 <FlexRowSpaceBetween>
                   <DataBox
-                    valueSize="14px"
                     valueType="currency"
                     valueOpts={{ round: 1, digits: 0 }}
                     value={account.staking_balance}
                   />
                   <DataBox
-                    valueSize="14px"
                     valueType="currency"
                     valueOpts={{ round: 1, digits: 0 }}
                     value={stakingCapacity}
@@ -101,13 +97,9 @@ const AccountInfo = ({ account }) => {
                   <DataBox title="Staking Capacity" />
                 </FlexRowSpaceBetween>
               </FlexColumn>
-              <FlexRowSpaceBetween>
-                <DataBox valueSize="14px" title="Active Delegations" value={account.active_delegations} />
-                <DataBox valueSize="14px" title="Rolls Owned" ta="right" value={account.rolls} />
-              </FlexRowSpaceBetween>
             </FlexColumnSpaceBetween>
           ) : (account.is_delegated || account.is_contract) ? (
-            <FlexColumnSpaceBetween minHeight={100}>
+            <FlexColumnSpaceBetween minHeight={80}>
               {account.delegate && !account.is_delegate ? (
                 <HashedBox hash={account.delegate} isCopy={false} typeName={`Current Delegate`} />
               ) : (
@@ -120,7 +112,7 @@ const AccountInfo = ({ account }) => {
               )}
             </FlexColumnSpaceBetween>
           ) : (
-            <FlexColumnSpaceBetween minHeight={100} />
+            <FlexColumnSpaceBetween minHeight={80} />
           )}
         </FlexRowSpaceBetween>
       </Card>

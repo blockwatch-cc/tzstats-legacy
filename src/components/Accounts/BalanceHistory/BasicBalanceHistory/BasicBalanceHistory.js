@@ -4,13 +4,13 @@ import { DataBox, FlexRow, Card, FlexColumn } from '../../../Common';
 import styled from 'styled-components';
 
 //Life totals
-const BasicBalanceHistory = ({ account, balanceHistory }) => {
+const BasicBalanceHistory = ({ account, balance }) => {
   return (
     <Wrapper>
       <Card title={'Balance Last 30d'}>
         <FlexColumn>
           <FlexRow flex={1} mb={20}>
-            <BalanceChart type={'svg'} data={balanceHistory} />
+            <BalanceChart type={'svg'} data={balance} />
           </FlexRow>
           <FlexRow>
             <LegendItem color={'#29C0FF'}>

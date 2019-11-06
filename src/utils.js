@@ -98,7 +98,7 @@ export const addCommas = format(',');
 
 export function wrapToBalance(flowData, account) {
   let spendableBalance = account.spendable_balance;
-  let today = new Date().setHours(0, 0, 0, 0);
+  let today = new Date().setUTCHours(0, 0, 0, 0);
   const day = 1000 * 60 * 60 * 24;
   const length = today - day * 30;
   let timeArray30d = [];
@@ -109,14 +109,14 @@ export function wrapToBalance(flowData, account) {
 
   timeArray30d.forEach((timeStamp, i) => {
     let item = _.findLast(flowData, item => {
-      return new Date(item[0]).setHours(0, 0, 0, 0) === timeStamp;
+      return new Date(item[0]).setUTCHours(0, 0, 0, 0) === timeStamp;
     });
 
     if (item) {
       let inFlow = item[1];
       let outFlow = item[2];
-      let sum = parseFloat((inFlow - outFlow).toFixed(4));
-      spendableBalance = parseFloat((spendableBalance - sum).toFixed());
+      let sum = parseFloat((inFlow - outFlow).toFixed(6));
+      spendableBalance = parseFloat((spendableBalance - sum).toFixed(6));
     }
     res.push({ time: timeStamp, value: spendableBalance });
   });
@@ -218,6 +218,11 @@ export function getHashOrBakerName(hash) {
   }
   const baker = bakerAccounts[hash];
   return baker ? baker.name : hash;
+}
+
+export function getBakerName(hash) {
+  const baker = bakerAccounts[hash];
+  return baker ? baker.name : null;
 }
 
 export function capitalizeFirstLetter(str) {

@@ -6,13 +6,13 @@ import DelegationHistory from './DelegationHistory';
 import { EmptyData } from '../../Common';
 import { getAccountType } from '../../../utils';
 
-const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
+const BalanceHistory = ({ account, balance, staking }) => {
   const accountType = getAccountType(account);
   switch (accountType.type) {
     case 'basic':
       return (
         <JoinContainer>
-          <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+          <BasicBalanceHistory account={account} balance={balance} />
           <Wrapper>
             <EmptyData
               title={'How to delegate?'}
@@ -27,7 +27,7 @@ const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
     case 'delegator':
       return (
         <JoinContainer>
-          <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+          <BasicBalanceHistory account={account} balance={balance} />
           <Wrapper>
             <EmptyData title={'Payout History'} height={212} text={'Work in progress...'} />
           </Wrapper>
@@ -36,14 +36,14 @@ const BalanceHistory = ({ account, balanceHistory, stakingData }) => {
     case 'baker':
       return (
         <JoinContainer>
-          <BakerBalanceHistory account={account} balanceHistory={balanceHistory} stakingData={stakingData} />
-          <DelegationHistory account={account} stakingData={stakingData} />
+          <BakerBalanceHistory account={account} balance={balance} staking={staking} />
+          <DelegationHistory account={account} staking={staking} />
         </JoinContainer>
       );
     case 'contract':
       return (
         <JoinContainer>
-          <BasicBalanceHistory account={account} balanceHistory={balanceHistory} />
+          <BasicBalanceHistory account={account} balance={balance} />
         </JoinContainer>
       );
     default:

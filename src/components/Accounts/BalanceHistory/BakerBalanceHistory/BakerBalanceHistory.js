@@ -3,13 +3,13 @@ import BalanceChart from './BalanceChart';
 import { DataBox, FlexRow, FlexColumn, Card } from '../../../Common';
 import styled from 'styled-components';
 
-const BakerBalanceHistory = ({ account, balanceHistory, stakingData }) => {
+const BakerBalanceHistory = ({ account, balance, staking }) => {
   return (
     <Wrapper>
       <Card title={'Balances Last 30d'}>
         <FlexColumn>
           <FlexRow flex={1} mb={20}>
-            <BalanceChart type={'svg'} data={stakingData} />
+            <BalanceChart type={'svg'} data={staking} />
           </FlexRow>
           <FlexRow>
             <LegendItem color={'#858999'}>

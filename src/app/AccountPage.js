@@ -4,7 +4,7 @@ import TransactionHistory from '../components/Accounts/TransactionHistory';
 import AccountInfo from '../components/Accounts/AccountInfo';
 import { getAccountByHash, getFlowData, getStakingData } from '../services/api/tz-stats';
 import { Spinner, NotFound, Error } from '../components/Common';
-import { wrapStakingData, wrapToBalance, getHashOrBakerName, buildTitle } from '../utils';
+import { wrapStakingData, wrapToBalance, getHashOrBakerName, getBakerName, buildTitle } from '../utils';
 import { useGlobal } from 'reactn';
 
 const AccountPage = ({ match }) => {
@@ -27,18 +27,18 @@ const AccountPage = ({ match }) => {
           getStakingData({ hash: addr, days: 30 }),
         ]);
         let staking = wrapStakingData({ ...stakingData, account });
-        let balanceHistory = wrapToBalance(flowData, account);
+        let balance = wrapToBalance(flowData, account);
         setData({
           account,
           isLoaded: true,
-          balanceHistory,
+          balance,
           staking,
         });
       } else {
         setData(data => {
           return {
             isLoaded: true,
-            balanceHistory: data.balanceHistory,
+            balance: data.balance,
             staking: data.staking,
             account: account,
           };
@@ -82,8 +82,9 @@ const AccountPage = ({ match }) => {
     default:
       return (
         <>
+          <h1>{getBakerName(addr)||'Account'}</h1>
           <AccountInfo account={data.account} />
-          <BalanceHistory account={data.account} balanceHistory={data.balanceHistory} stakingData={data.staking} />
+          <BalanceHistory account={data.account} balance={data.balance} staking={data.staking} />
           <TransactionHistory account={data.account} />
         </>
       );

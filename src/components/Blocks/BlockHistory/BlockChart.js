@@ -9,7 +9,7 @@ import { format } from 'd3-format';
 function mapBlocks(array, range, maxVol) {
   return array.reduce((obj, item, index) => {
     let timeIdx = range.findIndex(i => i > new Date(item.time));
-    let time = timeIdx > 0 ? range[timeIdx - 1] : new Date(item.time).setSeconds(0, 0);
+    let time = timeIdx > 0 ? range[timeIdx - 1] : new Date(item.time).setUTCSeconds(0, 0);
     const prio = item.priority;
     let opacity = 1;
     switch (true) {
@@ -46,8 +46,8 @@ const BlocksChart = ({ blocks, config = {size: 60, width: 11, margin: 1} }) => {
   }
 
   let lastBlock = blocks.slice(-1)[0];
-  let firstTime = new Date(blocks[0].time).setSeconds(0, 0);
-  let lastTime = new Date(lastBlock.time).setSeconds(0, 0);
+  let firstTime = new Date(blocks[0].time).setUTCSeconds(0, 0);
+  let lastTime = new Date(lastBlock.time).setUTCSeconds(0, 0);
   if (firstTime < lastTime-chartduration) {
     firstTime = lastTime-chartduration;
   }

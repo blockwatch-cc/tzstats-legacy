@@ -67,10 +67,12 @@ const CardHeader = styled.div`
   margin-bottom: 10px;
 `;
 const Title = styled.div`
+  display: flex;
   font-size: 12px;
   color: #fff;
 `;
 const RightSide = styled.div`
+  display: flex;
   font-size: 12px;
   color: #fff;
   right: -10px;

@@ -81,7 +81,7 @@ const OperationPage = ({ match }) => {
     default:
       return (
         <Wrapper>
-          <h1 style={{ textAlign: 'center' }}>
+          <h1>
             {data.isCall
               ? 'Smart Contract Call'
               : (data.isBulk ? 'Bulk ' : '') + opNames[data.render.slice(-1)[0].type]}

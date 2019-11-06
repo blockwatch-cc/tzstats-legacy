@@ -24,7 +24,7 @@ const BlockInfo = ({ block, setTxType }) => {
   return (
     <Wrapper>
       <FlexColumn flex={1} mr={10}>
-      <Card title="Block Info" tags={getBlockTags(block, config)} right={<CopyHashButton value={block.hash} type="block" />}>
+      <Card title="Block Info" tags={getBlockTags(block, config)} right={<CopyHashButton value={block.hash} />}>
         <FlexRowSpaceBetween flex={1} alignItems="first baseline">
         <FlexColumnSpaceBetween height={'100%'}>
           <HashedBox hash={block.baker} isCopy={false} short={true} typeName={'Baker'} />
