@@ -121,6 +121,7 @@ export const bakerAccounts = {
   tz1c3Wh8gNMMsYwZd67JndQpYxdaaPUV27E7: { name: 'TezosBC', logo: null, link: '', fee_type: '', fee: 0 },
   tz1QGZ3dD2YpRKZ4APeso6EXTeyCUUkw6MQC: { name: 'TezosBC Legacy', logo: null, link: '', fee_type: '', fee: 0 },
   KT1E5rWDHRA679Q98Tks3DppCqvBLUzmnBEe: { name: 'TezosBC Payouts', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1RSWMYKGAykpizFteowByYMueCYv9TMn1L: { name: 'Tezos Alliance', logo: null, link: '', fee_type: '', fee: 0 },
   tz1YKh8T79LAtWxX29N5VedCSmaZGw9LNVxQ: { name: 'Tezos Brazil', logo: null, link: '', fee_type: '', fee: 0 },
   tz2PdGc7U5tiyqPgTSgqCDct94qd6ovQwP6u: { name: 'Tezos Capital', logo: null, link: '', fee_type: '', fee: 0 },
   tz1TDSmoZXwVevLTEvKCTHWpomG76oC9S2fJ: { name: 'Tezos Capital Legacy', logo: null, link: '', fee_type: '', fee: 0 },
