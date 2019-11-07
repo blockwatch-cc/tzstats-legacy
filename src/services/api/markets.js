@@ -8,6 +8,7 @@ export const marketNames = {
   coinbasepro: 'CoinbasePro',
   huobi: 'Huobi',
   binance: 'Binance',
+  okex: 'OKEx',
 };
 
 const request = async (endpoint, options) => {
