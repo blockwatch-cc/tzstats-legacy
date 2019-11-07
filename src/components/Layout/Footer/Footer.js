@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Colors from '../../Common/Colors';
-import { Devices } from '../../Common';
 import { Link } from 'react-router-dom';
 import { FlexRow } from '../../Common';
 

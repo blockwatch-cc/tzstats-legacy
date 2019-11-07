@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGlobal } from 'reactn';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import AnalyticsPanel from '../components/Analytics/AnalyticsPanel';
 import OnchainActivity from '../components/Analytics/OnchainActivity';
 import TransactionActivity from '../components/Analytics/TransactionActivity';

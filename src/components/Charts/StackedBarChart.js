@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
-import { set } from 'd3-collection';
+// import { set } from 'd3-collection';
 import { last } from 'react-stockcharts/lib/utils';
-import { scaleOrdinal, schemeCategory10, scalePoint } from 'd3-scale';
+// import { scaleOrdinal, schemeCategory10, scalePoint } from 'd3-scale';
 import { CrossHairCursor, MouseCoordinateX } from 'react-stockcharts/lib/coordinates';
 import { ChartCanvas, Chart } from 'react-stockcharts';
-import { StackedBarSeries, BarSeries } from 'react-stockcharts/lib/series';
-import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
+import { StackedBarSeries } from 'react-stockcharts/lib/series';
+import { YAxis } from 'react-stockcharts/lib/axes';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { defaultFont } from '../../config';
 import { formatValue, makeid } from '../../utils';
 import { timeFormat } from 'd3-time-format';
 import { format } from 'd3-format';
-import _ from 'lodash';
+// import _ from 'lodash';
 import CurrentCoordinate from '../Common/CurrentCoordinate';
 
 class StackedBarChart extends React.Component {

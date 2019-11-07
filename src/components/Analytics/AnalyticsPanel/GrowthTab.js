@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import { FlexRowWrap, DataBox, FlexColumn, FlexRowSpaceBetween, FlexRowSpaceAround } from '../../Common';
+// import styled from 'styled-components';
+import { FlexRowWrap, DataBox, FlexColumn, FlexRowSpaceAround } from '../../Common';
 import { AreaChart, ChartLegend } from '../../Charts';
 
 const GrowthTab = () => {

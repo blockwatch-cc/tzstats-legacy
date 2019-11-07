@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import { FlexRowWrap, FlexColumn } from '../../Common';
 import { AreaChart, ChartLegend } from '../../Charts';
 
