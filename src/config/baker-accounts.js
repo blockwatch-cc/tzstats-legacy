@@ -107,6 +107,8 @@ export const bakerAccounts = {
   tz1VceyYUpq1gk5dtp6jXQRtCtY8hm5DKt72: { name: 'TeZetetic', logo: null, link: '', fee_type: '', fee: 0 },
   tz1MQJPGNMijnXnVoBENFz9rUhaPt3S7rWoz: { name: 'Tez Mania', logo: null, link: '', fee_type: '', fee: 0 },
   tz1bakeKFwqmtLBzghw8CFnqFvRxLj849Vfg: { name: 'Tez Milk', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1W5VkdB5s7ENMESVBtwyt9kyvLqPcUczRT: { name: 'Tezgate', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1g4o4a2wxpzJ7EgG3onFM5TLaPyiRFjFhL: { name: 'Tezgate Payouts', logo: null, link: '', fee_type: '', fee: 0 },
   tz1TaLYBeGZD3yKVHQGBM857CcNnFFNceLYh: { name: 'Tezocracy', logo: null, link: '', fee_type: '', fee: 0 },
   KT1CthjeJp2pLbSdo6xZR1VfgUD44QYDNmSZ: { name: 'Tezocracy Payouts 1', logo: null, link: '', fee_type: '', fee: 0 },
   tz1hfXvfcbbfcA77U8RXn7xLbRn3NHU4ksU1: { name: 'Tezocracy Payouts 2', logo: null, link: '', fee_type: '', fee: 0 },
