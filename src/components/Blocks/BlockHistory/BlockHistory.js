@@ -152,7 +152,7 @@ const BlockHistory = () => {
           <DataBox type="inline" titleSize="12px" title="Hash" valueType="plain" value={<Link to={`/${chain.block_hash}`}>{getShortHash(chain.block_hash)}</Link>} />
           <DataBox type="inline" titleSize="12px" title="Time" valueType="text" value={ago}/>
           <DataBox type="inline" titleSize="12px" title="Ops" value={data.last.n_ops}/>
-          <DataBox type="inline" titleSize="12px" title="Volume" valueType="currency-short" value={data.last.volume}/>
+          <DataBox type="inline" titleSize="12px" title="Volume" valueType="currency" valueOpts={{round:1,digits:0}} value={data.last.volume}/>
         </FlexRowSpaceAround>
         <FlexRow>
           <BlockHistoryWrapper ref={ref}>

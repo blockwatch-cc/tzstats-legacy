@@ -16,7 +16,7 @@ const TransactionVolume = ({ txSeries, txVol24h }) => {
           <FlexColumnSpaceBetween minWidth={100} ml={20}>
             <DataBox valueSize="14px" title="24h Transactions" value={txVol24h[1]} />
             <DataBox valueSize="14px" valueType="currency" title="24h Volume" valueOpts={{digits:3,dim:0}} value={txVol24h[0]} />
-            <DataBox valueSize="14px" title="30d Avg Transactions" value={avgTxn} />
+            <DataBox valueSize="14px" title="30d Avg Transactions" valueOpts={{prec:0}} value={avgTxn} />
             <DataBox valueSize="14px" valueType="currency" valueOpts={{digits:3,dim:0}} title="30d Avg Volume" value={avgVolume} />
           </FlexColumnSpaceBetween>
         </FlexRow>
