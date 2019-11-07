@@ -98,11 +98,11 @@ export const addCommas = format(',');
 
 export function wrapToBalance(flowData, account) {
   let spendableBalance = account.spendable_balance;
-  let today = new Date().setUTCHours(0, 0, 0, 0);
   const day = 1000 * 60 * 60 * 24;
+  let today = new Date().setUTCHours(0, 0, 0, 0) + day;
   const length = today - day * 30;
   let timeArray30d = [];
-  for (let index = today; index > length; index = index - day) {
+  for (let index = today; index >= length; index = index - day) {
     timeArray30d.push(index);
   }
   let res = [];
