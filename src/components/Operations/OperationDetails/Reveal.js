@@ -1,21 +1,24 @@
 import React from 'react';
 import { DataBox, FlexRowSpaceBetween } from '../../Common';
 import { Link } from 'react-router-dom';
+import { useGlobal } from 'reactn';
 
 const Reveal = ({ op }) => {
+  const [chain] = useGlobal('chain');
   return (
     <FlexRowSpaceBetween>
       <Link to={`/${op.block}`}>
-        <DataBox title="Block" valueSize="14px" value={op.height} />
+        <DataBox title="Block" value={op.height} />
       </Link>
       <Link to={`/cycle/${op.cycle}`}>
-        <DataBox title="Cycle" valueSize="14px" value={op.cycle} />
+        <DataBox title="Cycle" value={op.cycle} />
       </Link>
-      <DataBox title="Date & Time" valueSize="14px" valueType="datetime" value={op.time} />
-      <DataBox title="Fee" value={op.fee} valueSize="14px" valueType="currency-short" />
-      <DataBox title="Gas Limit" valueSize="14px" value={op.gas_limit} />
-      <DataBox title="Gas Used" valueSize="14px" value={op.gas_used} />
-      <DataBox title="Gas Price" valueSize="14px" valueType="currency-short" value={op.gas_price / 1000} />
+      <DataBox title="Confirmations" value={chain.height-op.height} />
+      <DataBox title="Date & Time" valueType="datetime" value={op.time} />
+      <DataBox title="Fee" value={op.fee} valueType="currency-short" />
+      <DataBox title="Gas Limit" value={op.gas_limit} />
+      <DataBox title="Gas Used" value={op.gas_used} />
+      <DataBox title="Gas Price" valueType="currency-short" value={op.gas_price / 1000} />
     </FlexRowSpaceBetween>
   );
 };
