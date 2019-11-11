@@ -237,7 +237,7 @@ export const getCycleById = async ({ id = 'head' }) => {
 
 export const getDelegationHistory = async ({ cycle }) => {
   const response = await request(
-    `/tables/income?cycle=${cycle}&columns=address,rolls,luck_percent,efficiency_percent&limit=1000`
+    `/tables/income?cycle=${cycle}&columns=address,rolls,luck_percent,performance_percent&limit=1000`
   );
   return response;
 };

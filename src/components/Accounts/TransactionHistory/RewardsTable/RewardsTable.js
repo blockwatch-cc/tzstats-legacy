@@ -48,7 +48,7 @@ const columns = [
   'lost_revelation_fees',
   'lost_revelation_rewards',
   'luck_percent',
-  'efficiency_percent',
+  'performance_percent',
 ];
 
 const RewardsTable = ({ account }) => {
@@ -178,7 +178,7 @@ const RewardsTable = ({ account }) => {
               <TableCell width={15}>
                 <Value value={item.luck_percent/100} type="percent" digits={2} zero="-"/>
                 &nbsp;/&nbsp;
-                <Value value={item.efficiency_percent/100} type="percent" digits={2} zero="-"/>
+                <Value value={item.performance_percent/100} type="percent" digits={2} zero="-"/>
               </TableCell>
               <TableCell width={9}><Value value={item.n_delegations} type="value-full" zero="-"/></TableCell>
               <TableCell style={{cursor:'pointer'}} width={5} onClick={(e) => { showSplit(item); }} >&raquo;</TableCell>
