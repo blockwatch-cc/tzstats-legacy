@@ -83,7 +83,7 @@ export const bakerAccounts = {
   tz1V2FYediKBAEaTpXXJBSjuQpjkyCzrTSiE: { name: 'Stake House', logo: null, link: '', fee_type: '', fee: 0 },
   tz1MowoYvqgxhKToQMAmGgTtjfZcRfS733JY: { name: 'StakeBake', logo: null, link: '', fee_type: '', fee: 0 },
   tz1RCFbB9GpALpsZtu6J58sb74dm8qe6XBzv: { name: 'Staked', logo: null, link: '', fee_type: '', fee: 0 },
-  tz1gs78wrxS34XhGPECmN5fABKpEuhUGwAXS: { name: 'Stakery Payments 1', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1gs78wrxS34XhGPECmN5fABKpEuhUGwAXS: { name: 'Stakery Payouts', logo: null, link: '', fee_type: '', fee: 0 },
   tz1go7f6mEQfT2xX2LuHAqgnRGN6c2zHPf5c: { name: 'Stakery', logo: null, link: '', fee_type: '', fee: 0 },
   tz1WpeqFaBG9Jm73Dmgqamy8eF8NWLz9JCoY: { name: 'Staking Facilities', logo: null, link: '', fee_type: '', fee: 0 },
   tz1e2meErj7eEfXwqr7bDK6N1YatmLaugfMp: { name: 'Special Tezos Baking', logo: null, link: '', fee_type: '', fee: 0 },
