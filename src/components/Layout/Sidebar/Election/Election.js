@@ -4,7 +4,6 @@ import { Card, Elevation } from '@blueprintjs/core';
 import { DataBox, LinkIcon } from '../../../Common';
 import { withRouter, Link } from 'react-router-dom';
 import { getElectionById } from '../../../../services/api/tz-stats';
-// import { proposals } from '../../../../config/proposals';
 import { getProposalByHash } from '../../../../config/proposals';
 
 const Election = ({ history }) => {
