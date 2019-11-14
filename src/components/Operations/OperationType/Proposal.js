@@ -3,8 +3,10 @@ import { Card, DataBox, FlexColumnSpaceBetween, FlexRow, Spinner } from '../../C
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
-import { proposals, opNames } from '../../../config';
+import { opNames } from '../../../config';
 import { getAccountByHash, getAccountVoting } from '../../../services/api/tz-stats';
+import { getProposalByHash } from '../../../config/proposals';
+
 
 const Proposal = ({ op }) => {
   const [data, setData] = React.useState({ isLoaded: false });
@@ -21,7 +23,7 @@ const Proposal = ({ op }) => {
         op: op,
         sender: sender,
         hashes: op.data.split(','),
-        proposals: op.data.split(',').map(h => proposals[h] || { name: 'New', link: '' }),
+        proposals: op.data.split(',').map(h => getProposalByHash(h)),
         ballot: ballot[0],
       });
     };

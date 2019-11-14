@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, DataBox, FlexRowSpaceBetween, FlexColumnSpaceAround } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
-import { getEndTime, getProposalByHash } from '../../../utils';
+import { getEndTime } from '../../../utils';
 import { govNames } from '../../../config';
+import { getProposalByHash } from '../../../config/proposals';
 import _ from 'lodash';
 
 const ElectionProgress = ({ election }) => {
@@ -38,8 +39,7 @@ const GovSwitcher = ({ period, election }) => {
 
 const Proposal = ({ period }) => {
   const prop = _.maxBy(period.proposals, d => d.rolls);
-  let lead = prop?getProposalByHash(prop.hash):{name:'New'};
-  lead = lead || {};
+  const lead = getProposalByHash(prop?prop.hash:null);
   const empty = !period.proposals.length;
   return !empty ? (
     <FlexRowSpaceBetween>

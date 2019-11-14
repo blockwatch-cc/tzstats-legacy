@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, FlexRow, DataBox } from '../../Common';
 import styled from 'styled-components';
-import { proposals } from '../../../config/proposals';
 import { Link } from 'react-router-dom';
+import { getProposalByHash, getProposalById } from '../../../config/proposals';
 
 const ElectionHistory = ({ electionHistory, currentElection }) => {
   const periodMap = { empty: 0, proposal: 1, testing_vote: 2, testing: 3, promotion_vote: 4 };
@@ -21,7 +21,7 @@ const ElectionHistory = ({ electionHistory, currentElection }) => {
                     <PeriodBox key={i} />
                   ))}
                 </ElectionBox>
-                <DataBox title={getElectionName(item)} />
+                <DataBox title={(item.proposal?getProposalByHash(item.proposal):getProposalById(item.row_id)).name} />
               </ElectionBoxWrapper>
             );
           })}
@@ -31,13 +31,13 @@ const ElectionHistory = ({ electionHistory, currentElection }) => {
   );
 };
 
-const getElectionName = item => {
-  return proposals[item.proposal] ? (
-    proposals[item.proposal].name.split(" ")[0]
-  ) : (
-    <span>-</span>
-  );
-};
+// const getElectionName = item => {
+//   return proposals[item.proposal] ? (
+//     proposals[item.proposal].name.split(" ")[0]
+//   ) : (
+//     <span>-</span>
+//   );
+// };
 
 const ElectionBoxWrapper = styled.div`
   display: flex;

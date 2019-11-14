@@ -3,9 +3,10 @@ import { Card, DataBox, FlexColumnSpaceBetween, FlexRow, Spinner } from '../../C
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
-import { proposals, opNames, govNames } from '../../../config';
+import { opNames, govNames } from '../../../config';
 import { getAccountByHash, getAccountVoting } from '../../../services/api/tz-stats';
 import { capitalizeFirstLetter } from '../../../utils';
+import { getProposalByHash } from '../../../config/proposals';
 
 const Ballot = ({ op }) => {
   const [data, setData] = React.useState({ isLoaded: false });
@@ -23,7 +24,7 @@ const Ballot = ({ op }) => {
         op: op,
         sender: sender,
         hash: embedded[0],
-        proposal: proposals[embedded[0]],
+        proposal: getProposalByHash(embedded[0]),
         vote: capitalizeFirstLetter(embedded[1]),
         ballot: ballot[0],
       });

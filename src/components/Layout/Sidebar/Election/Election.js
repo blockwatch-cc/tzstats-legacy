@@ -4,7 +4,8 @@ import { Card, Elevation } from '@blueprintjs/core';
 import { DataBox, LinkIcon } from '../../../Common';
 import { withRouter, Link } from 'react-router-dom';
 import { getElectionById } from '../../../../services/api/tz-stats';
-import { proposals } from '../../../../config/proposals';
+// import { proposals } from '../../../../config/proposals';
+import { getProposalByHash } from '../../../../config/proposals';
 
 const Election = ({ history }) => {
   const [election, setElection] = React.useState({});
@@ -16,10 +17,7 @@ const Election = ({ history }) => {
     };
     fetchData();
   }, []);
-  const proposalDetails =
-    election.testing_vote && proposals[election.testing_vote.proposals[0].hash]
-      ? proposals[election.testing_vote.proposals[0].hash]
-      : { name: '–', link: '', archive: '' };
+  let proposalDetails = getProposalByHash(election.num_proposals ? election.proposal.proposals[0].hash : null);
   return (
     <Wrapper>
       <Link to={`/election/${election.election_id}`}>

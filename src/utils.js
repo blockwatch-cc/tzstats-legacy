@@ -358,18 +358,6 @@ export function getEndTime(period, field, noDetail) {
         (noDetail ? '' : ` (+${convertMinutes(new Date(period[field]).getTime() / 60000 - Date.now() / 60000)})`)
     : `has ended on ${formatDay(period[field], 1, 1)}`;
 }
-export function getProposalIdByName(value) {
-  const hashes = Object.keys(proposals).filter(key => {
-    return proposals[key].name.includes(value);
-  });
-  return hashes[0] ? proposals[hashes[0]].id : null;
-}
-export function getProposalByHash(value) {
-  const hashes = Object.keys(proposals).filter(key => {
-    return key.includes(value);
-  });
-  return hashes[0] ? proposals[hashes[0]] : null;
-}
 
 export function getBakerHashByName(value) {
   value = value.toLowerCase();

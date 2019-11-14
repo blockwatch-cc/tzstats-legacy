@@ -2,10 +2,12 @@ import React from 'react';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { NoDataFound } from '../../../Common';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails } from '../../../Common';
-import { getProposalByHash, capitalizeFirstLetter, formatValue, formatDayTime, getShortHash } from '../../../../utils';
+import { capitalizeFirstLetter, formatValue, formatDayTime, getShortHash } from '../../../../utils';
 import { getTableDataByType } from '../../../../services/api/tz-stats';
 import { Spinner } from '../../../../components/Common';
 import { Link } from 'react-router-dom';
+import { getProposalByHash } from '../../../../config/proposals';
+
 
 const VotingTable = ({ account }) => {
   const [data, setData] = React.useState({table:[], isLoaded: false, cursor: 0, eof: false });

@@ -5,7 +5,8 @@ import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell } from '..
 import { Link } from 'react-router-dom';
 import { getShortHash, getShortHashOrBakerName, getEndTime, formatValue } from '../../../utils';
 import { format } from 'd3-format';
-import { proposals } from '../../../config/proposals';
+import { getProposalByHash } from '../../../config/proposals';
+
 
 const ProposalPeriod = ({ election, period }) => {
   if (!period.proposals.length) {
@@ -27,12 +28,12 @@ const ProposalPeriod = ({ election, period }) => {
             return (
               <TableRow key={i}>
                 <TableCell width={20}>
-                  <OutLink target="_blank" rel="noopener noreferrer" href={proposals[item.hash].link}>
-                    {proposals[item.hash].name.split(" ").slice(-1)}
+                  <OutLink target="_blank" rel="noopener noreferrer" href={getProposalByHash(item.hash).link}>
+                    {getProposalByHash(item.hash).name.split(" ").slice(-1)}
                   </OutLink>
                 </TableCell>
                 <TableCell width={30}>
-                  <OutLink target="_blank" rel="noopener noreferrer" href={proposals[item.hash].archive}>
+                  <OutLink target="_blank" rel="noopener noreferrer" href={getProposalByHash(item.hash).archive}>
                     {getShortHash(item.hash)}
                   </OutLink>
                 </TableCell>

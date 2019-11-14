@@ -1,5 +1,4 @@
 import { bakerAccounts } from './baker-accounts';
-import { proposals } from './proposals';
 export const fiatCurrencies = [
   { name: 'USD', symbol: '$' },
   { name: 'EUR', symbol: '€' },
@@ -35,4 +34,4 @@ export const govNames = {
   '4': 'Promotion Vote',
   promotion_vote: 'Promotion Vote',
 };
-export { bakerAccounts, proposals };
+export { bakerAccounts };

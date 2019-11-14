@@ -1,4 +1,12 @@
 export const proposals = {
+  empty: {
+    id: -1,
+    name: '–',
+    by: '',
+    link: '',
+    docu: '',
+    archive: ''
+  },
   Pt24m4xiPbLDhVgVfABUjirbmda3yohdN82Sp9FeuAXJ4eV9otd: {
     id: 11,
     name: 'Athens A',
@@ -55,3 +63,38 @@ export const proposals = {
     archive: 'https://blog.nomadic-labs.com/files/carthage_006_PtCartha.tar',
   },
 };
+
+export function getProposalIdByName(value) {
+  if (!value) {
+    return null; // for search
+  }
+  const hashes = Object.keys(proposals).filter(key => {
+    return proposals[key].name.includes(value);
+  });
+  return hashes[0] ? proposals[hashes[0]].id : null;
+}
+
+export function getProposalById(value) {
+  if (!value) {
+      return proposals.empty;
+  }
+  const hashes = Object.keys(proposals).filter(k => proposals[k].id === value);
+  return proposals[hashes[0]||'empty'];
+}
+
+export function getProposalByHash(value) {
+  if (!value) {
+      return proposals.empty;
+  }
+  const hashes = Object.keys(proposals).filter(key => {
+    return key.includes(value);
+  });
+  return hashes[0] ? proposals[hashes[0]] : {
+    id: 0,
+    by: '',
+    name: value.slice(0, 7) + '...',
+    link: 'https://www.tezosagora.org/',
+    docu: '',
+    archive:''
+  };
+}
