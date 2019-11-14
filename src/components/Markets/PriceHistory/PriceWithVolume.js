@@ -18,9 +18,15 @@ const PriceWithVolume = () => {
     period: '',
     volume: 0,
   });
-  const [market, setMarket] = useLocalStorage('market', { exchange: 'kraken', market: 'XTZ_USD' });
+  const defaultMarket = { exchange: 'kraken', market: 'XTZ_USD' };
+  const [market, setMarket] = useLocalStorage('market', defaultMarket);
   const [tickers] = useGlobal('tickers');
   const isOnline = useOnline();
+
+  // reset when current exchange/market is dead
+  if (!tickers.some((t)=> t.exchange === market.exchange && t.pair === market.market)) {
+    setMarket(defaultMarket);
+  }
 
   React.useEffect(() => {
     const fetchData = async () => {
