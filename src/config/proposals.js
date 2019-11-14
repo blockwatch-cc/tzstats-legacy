@@ -46,4 +46,12 @@ export const proposals = {
     docu: 'http://tezos.gitlab.io/master/protocols/005_babylon.html#bug-affecting-bigmaps-in-005-psbaby5h',
     archive: 'https://blog.nomadic-labs.com/files/babylon_005_PsBabyM1.tar',
   },
+  PtCarthavAMoXqbjBPVgDCRd5LgT7qqKWUPXnYii3xCaHRBMfHH: {
+    id: 15,
+    name: 'Carthage',
+    by: 'Nomadic Labs',
+    link: 'https://blog.nomadic-labs.com/carthage-changelog-and-testnet.html',
+    docu: 'http://tezos.gitlab.io/protocols/006_carthage.html',
+    archive: 'https://blog.nomadic-labs.com/files/carthage_006_PtCartha.tar',
+  },
 };

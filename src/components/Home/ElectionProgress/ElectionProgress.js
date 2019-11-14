@@ -38,7 +38,8 @@ const GovSwitcher = ({ period, election }) => {
 
 const Proposal = ({ period }) => {
   const prop = _.maxBy(period.proposals, d => d.rolls);
-  const lead = prop?getProposalByHash(prop.hash):{};
+  let lead = prop?getProposalByHash(prop.hash):{name:'New'};
+  lead = lead || {};
   const empty = !period.proposals.length;
   return !empty ? (
     <FlexRowSpaceBetween>
