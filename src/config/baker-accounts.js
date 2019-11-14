@@ -154,6 +154,7 @@ export const bakerAccounts = {
   tz1gfipKzYrNRT14oSNQJMCdRRsUtcbZoKsd: { name: 'Tezos Rio Legacy', logo: null, link: '', fee_type: '', fee: 0 },
   tz1R6Ej25VSerE3MkSoEEeBjKHCDTFbpKuSX: { name: 'TezosSEAsia', logo: null, link: '', fee_type: '', fee: 0 },
   tz1V3yg82mcrPJbegqVCPn6bC8w1CSTRp3f8: { name: 'TezoShop', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1Kf25fX1VdmYGSEzwFy1wNmkbSEZ2V83sY: { name: 'Tezos Seoul', logo: null, link: '', fee_type: '', fee: 0 },
   tz1Lh9jeLSWDHYy8AshvG2dpNQseDaHg7cms: { name: 'Tezos Spanish', logo: null, link: '', fee_type: '', fee: 0 },
   tz1hAYfexyzPGG6RhZZMpDvAHifubsbb6kgn: { name: 'Tezos Suisse', logo: null, link: '', fee_type: '', fee: 0 },
   tz1bkKTY9Y3rTsHbpr2fbGUCRm736LLquQfM: { name: 'Tezos Tacos', logo: null, link: '', fee_type: '', fee: 0 },
