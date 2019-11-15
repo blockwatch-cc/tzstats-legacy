@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import CycleSegmentBar from './CycleSegmentBar';
 import { format } from 'd3-format';
 
-const CycleHistory = ({ cycle, lastCycle }) => {
+const CycleHistory = ({ cycle, lastCycle, count }) => {
+
   return (
     <Wrapper>
       <Card title={'Cycle History'}>
@@ -16,7 +17,7 @@ const CycleHistory = ({ cycle, lastCycle }) => {
             percentage={cycle.snapshot_cycle?cycle.snapshot_cycle.progress:0}
             cycle={cycle.snapshot_cycle}
             index={cycle.snapshot_cycle?cycle.snapshot_cycle.snapshot_index:0} />
-          <CycleDots cycleNumber={cycle.snapshot_cycle?cycle.snapshot_cycle.cycle:-(cycle.cycle+1)} lastCycle={lastCycle} />
+          <CycleDots cycleNumber={cycle.snapshot_cycle?cycle.snapshot_cycle.cycle:-(cycle.cycle+1)} lastCycle={lastCycle} count={count} />
           <CycleSegmentBar
             isCenter={true}
             isCurrent={cycle.is_active}
@@ -24,7 +25,7 @@ const CycleHistory = ({ cycle, lastCycle }) => {
             cycle={cycle}
             isSnapshot={cycle.is_snapshot}
             index={cycle.snapshot_index} />
-          <CycleDots cycleNumber={cycle.cycle} lastCycle={lastCycle} />
+          <CycleDots cycleNumber={cycle.cycle} lastCycle={lastCycle} count={count} />
           <CycleSegmentBar
             isCurrent={cycle.follower_cycle.is_active}
             isSnapshot={cycle.follower_cycle.is_snapshot}
@@ -38,12 +39,12 @@ const CycleHistory = ({ cycle, lastCycle }) => {
 };
 const Wrapper = styled.div``;
 
-const CycleDots = ({ cycleNumber, lastCycle }) => {
-  let numCycles = cycleNumber<0?(-cycleNumber)-1:6;
+const CycleDots = ({ cycleNumber, lastCycle, count }) => {
+  let numCycles = cycleNumber<0?(-cycleNumber)-1:count+2;
   cycleNumber = cycleNumber<0?-1:cycleNumber;
   return (
     <FlexRowSpaceBetween zIndex={1} flex={0.4}>
-      {[1, 2, 3, 4, 5, 6].slice(0,numCycles).map(item => {
+      {Array.from(Array(count+2).keys()).slice(1,numCycles).map(item => {
         return (
           <Link key={cycleNumber + item} to={`/cycle/${cycleNumber + item}`}>
             <DotBox cycle={format(',')(cycleNumber+item)}>

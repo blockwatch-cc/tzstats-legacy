@@ -41,7 +41,7 @@ const CyclePage = ({ match, history }) => {
 
   return data.isLoaded ? (
     <Wrapper>
-      <CycleHistory cycle={data.cycle} lastCycle={data.lastCycle} />
+      <CycleHistory cycle={data.cycle} lastCycle={data.lastCycle} count={config.preserved_cycles} />
       <TwoElementsWrapper>
         <CycleSnapshotInfo cycle={data.cycle} />
         <CycleHealth cycle={data.cycle} />
