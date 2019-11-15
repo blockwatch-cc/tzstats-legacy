@@ -59,7 +59,7 @@ const BlocksChart = ({ blocks, config = {size: 60, width: 11, margin: 1} }) => {
   //   "step", chain.time_between_blocks[0],
   //   "range", timeRange.length, timeRange[0], timeRange.slice(-1)[0]
   // );
-  let maxVol = 0;
+  let maxVol = 0.000001;
   blocks.forEach(i => {
     maxVol = Math.max(maxVol, i.volume);
   });
