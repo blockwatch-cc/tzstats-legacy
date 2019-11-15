@@ -49,7 +49,7 @@ const Proposal = ({ op }) => {
                 <DataBox
                   title="Proposals"
                   ml={40}
-                  value={data.proposals.map((p, index) => p.name.split(' ')[1] || index).join(', ')}
+                  value={data.proposals.map((p, index) => p.name.split(' ')[1] || index+1).join(', ')}
                   valueSize="14px"
                   valueType="text"
                 />
