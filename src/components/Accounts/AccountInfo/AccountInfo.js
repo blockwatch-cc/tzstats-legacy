@@ -12,7 +12,7 @@ import {
   Blockies
 } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
-import { formatValue, getAccountTags, getAccountType } from '../../../utils';
+import { formatValue, formatCurrency, getAccountTags, getAccountType } from '../../../utils';
 // import { timeFormat } from 'd3-time-format';
 
 const AccountInfo = ({ account }) => {
@@ -23,6 +23,10 @@ const AccountInfo = ({ account }) => {
   const [config] = useGlobal('config');
   const stakingCapacity = getStakingCapacity(account, chain, config);
   const settings = getStakingSettings(account.staking_balance, stakingCapacity);
+
+  if (account.staking_balance >= stakingCapacity) {
+    tags.push('Overdelegated');
+  }
 
   return (
     <Wrapper>
@@ -120,14 +124,25 @@ const AccountInfo = ({ account }) => {
   );
 };
 
+// based on current rolls (updated each block)
+// function getStakingCapacity(account, chain, config) {
+//   const block_deposits = config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
+//   const network_bond = block_deposits * config.blocks_per_cycle * (config.preserved_cycles + 1);
+//   const network_stake = chain.rolls * config.tokens_per_roll;
+//   const total_balance = account.spendable_balance + account.frozen_deposits + account.frozen_fees;
+//   return total_balance / network_bond * network_stake;
+// }
+
+// from https://github.com/blockwatch-cc/tzstats/issues/46
 function getStakingCapacity(account, chain, config) {
-  const oneroll = config.tokens_per_roll;
-  const deposits = config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
-  return (
-    ((account.spendable_balance + account.frozen_deposits) * chain.rolls * oneroll) /
-    (deposits * config.blocks_per_cycle * config.preserved_cycles)
-  );
+  const block_deposit = config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
+  const adjusted_total = chain.supply.total - chain.supply.frozen_rewards;
+  const self_bond = block_deposit * config.blocks_per_cycle * (config.preserved_cycles + 1) / adjusted_total;
+  const staking_ratio = chain.supply.active_staking / adjusted_total;
+  const total_balance = account.spendable_balance + account.frozen_deposits + account.frozen_fees;
+  return total_balance / self_bond * staking_ratio;
 }
+
 function getStakingSettings(stakingBalance, stakingCapacity) {
   stakingCapacity = stakingCapacity || 1;
   let stakingPct = Math.round((10000 * stakingBalance) / stakingCapacity) / 100;
@@ -135,14 +150,14 @@ function getStakingSettings(stakingBalance, stakingCapacity) {
   return [
     {
       percent: stakingPct,
-      color: '#418BFD',
-      title: 'In Staking',
+      color: stakingBalance>=stakingCapacity?'#ED6290':'#418BFD',
+      title: 'Baker Funds + Delegated Coins',
       value: `${stakingBalance}`,
     },
     {
       percent: 100 - stakingPct,
       color: '#858999;',
-      title: 'Staking Capacity',
+      title: `Remaining Capacity ${formatCurrency(stakingCapacity-stakingBalance, ',', 'tz')}`,
       value: `${stakingCapacity}`,
     },
   ];
