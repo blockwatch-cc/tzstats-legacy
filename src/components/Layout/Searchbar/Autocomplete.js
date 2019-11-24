@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FlexRow, FlexRowSpaceBetween } from '../../Common';
+import { Row, RowSpace } from '../../Common';
 
 const Autocomplete = ({
   searchHistory,
@@ -30,10 +30,10 @@ const Autocomplete = ({
         })}
         {filteredHistory.length ? (
           <>
-          <FlexRowSpaceBetween>
+          <RowSpace>
             <Title>Recent History</Title>
             <CleanButton onClick={e => cleanSearchHistory()}>Clear History</CleanButton>
-          </FlexRowSpaceBetween>
+          </RowSpace>
           {filteredHistory.map((item, i) => {
             return (
               <AutocompleteItem key={i} onClick={e => handleSearch(item.value, item.type.toLowerCase(), item.key)}>
@@ -83,7 +83,7 @@ const Title = styled.div`
   margin: 10px;
 `;
 
-const AutocompleteItem = styled(FlexRow)`
+const AutocompleteItem = styled(Row)`
   padding: 10px;
   &:hover {
     cursor: pointer;
