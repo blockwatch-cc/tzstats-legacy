@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, FlexRowSpaceBetween } from '../../Common';
+import { Card, RowSpace } from '../../Common';
 import { Link } from 'react-router-dom';
 import CycleSegmentBar from './CycleSegmentBar';
 import { format } from 'd3-format';
@@ -10,7 +10,7 @@ const CycleHistory = ({ cycle, lastCycle, count }) => {
   return (
     <Wrapper>
       <Card title={'Cycle History'}>
-        <FlexRowSpaceBetween mb={20}>
+        <RowSpace>
           <CycleSegmentBar
             isCurrent={cycle.snapshot_cycle&&cycle.snapshot_cycle.is_active}
             isSnapshot={cycle.snapshot_cycle&&cycle.snapshot_cycle.is_snapshot}
@@ -32,7 +32,7 @@ const CycleHistory = ({ cycle, lastCycle, count }) => {
             percentage={cycle.follower_cycle.progress}
             cycle={cycle.follower_cycle}
             index={cycle.follower_cycle.snapshot_index} />
-        </FlexRowSpaceBetween>
+        </RowSpace>
       </Card>
     </Wrapper>
   );
@@ -43,7 +43,7 @@ const CycleDots = ({ cycleNumber, lastCycle, count }) => {
   let numCycles = cycleNumber<0?(-cycleNumber)-1:count+2;
   cycleNumber = cycleNumber<0?-1:cycleNumber;
   return (
-    <FlexRowSpaceBetween zIndex={1} flex={0.4}>
+    <RowSpace zIndex={1} flex={0.4} alignItems={'center'}>
       {Array.from(Array(count+2).keys()).slice(1,numCycles).map(item => {
         return (
           <Link key={cycleNumber + item} to={`/cycle/${cycleNumber + item}`}>
@@ -57,7 +57,7 @@ const CycleDots = ({ cycleNumber, lastCycle, count }) => {
           </Link>
         );
       })}
-    </FlexRowSpaceBetween>
+    </RowSpace>
   );
 };
 const DotBox = styled.div`

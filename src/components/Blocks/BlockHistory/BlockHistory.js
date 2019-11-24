@@ -2,7 +2,7 @@ import React from 'react';
 import { useGlobal } from 'reactn';
 import styled from 'styled-components';
 import _ from 'lodash';
-import { Card, DataBox, FlexRow, FlexRowSpaceAround, FlexColumn } from '../../Common';
+import { Card, Value, FlexRow, FlexColumn, Devices } from '../../Common';
 import BlockChart from './BlockChart';
 import { Link } from 'react-router-dom';
 import { timeAgo, getShortHash, formatValue } from '../../../utils';
@@ -147,13 +147,28 @@ const BlockHistory = () => {
   return (
     <Wrapper>
       <Card>
-        <FlexRowSpaceAround>
-          <DataBox type="inline" titleSize="12px" title="Latest Block" valueType="plain" value={<Link to={`/${chain.block_hash}`}>{formatValue(chain.height)}</Link>} />
-          <DataBox type="inline" titleSize="12px" title="Hash" valueType="plain" value={<Link to={`/${chain.block_hash}`}>{getShortHash(chain.block_hash)}</Link>} />
-          <DataBox type="inline" titleSize="12px" title="Time" valueType="text" value={ago}/>
-          <DataBox type="inline" titleSize="12px" title="Ops" value={data.last.n_ops}/>
-          <DataBox type="inline" titleSize="12px" title="Volume" valueType="currency" valueOpts={{round:1,digits:0}} value={data.last.volume}/>
-        </FlexRowSpaceAround>
+        <DataRow>
+          <DataItem>
+            <DataTitle>Latest Block</DataTitle>
+            <Value type="plain" value={<Link to={`/${chain.block_hash}`}>{formatValue(chain.height)}</Link>} />
+          </DataItem>
+          <DataItem>
+            <DataTitle>Hash</DataTitle>
+            <Value type="plain" value={<Link to={`/${chain.block_hash}`}>{getShortHash(chain.block_hash)}</Link>} />
+          </DataItem>
+          <DataItem>
+            <DataTitle>Time</DataTitle>
+            <Value type="text" value={ago}/>
+          </DataItem>
+          <DataItem>
+            <DataTitle>Ops</DataTitle>
+            <Value value={data.last.n_ops}/>
+          </DataItem>
+          <DataItem>
+            <DataTitle>Volume</DataTitle>
+            <Value type="currency" round={1} digits={0} value={data.last.volume} />
+          </DataItem>
+        </DataRow>
         <FlexRow>
           <BlockHistoryWrapper ref={ref}>
             <BlockChart blocks={data.blocks} config={chartConfig} />
@@ -164,8 +179,50 @@ const BlockHistory = () => {
   );
 };
 
+const DataRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  flex-wrap: wrap;
+`;
+
+const DataItem = styled.div`
+  font-size: 14px;
+  margin-left: 0px;
+  margin-right: 20px;
+  white-space: nowrap;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  max-width: 120px;
+  &:last-child {
+    margin-right: 0;
+  }
+  @media ${Devices.mobileL} {
+    max-width: unset;
+    width: 100%;
+    margin-right: 0;
+    line-height: 1.4;
+  }
+`;
+
+const DataTitle = styled.div`
+  color:
+  rgba(255,255,255,0.52);
+  font-size: 12px;
+  margin-right: 15px;
+  width: 100%;
+  text-align: right;
+  @media ${Devices.mobileL} {
+    text-align: left;
+  }
+`;
+
+
 const Wrapper = styled.div`
-  min-width: 340px;
+  min-width: 300px;
 `;
 const BlockHistoryWrapper = styled(FlexColumn)`
   margin-top: 25px;

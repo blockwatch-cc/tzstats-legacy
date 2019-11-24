@@ -1,6 +1,6 @@
 import React from 'react';
 import BalanceChart from './BalanceChart';
-import { DataBox, FlexRow, Card, FlexColumn } from '../../../Common';
+import { DataBox, FlexRow, Card } from '../../../Common';
 // import { formatCurrency } from '../../../../utils';
 // import { useGlobal } from 'reactn';
 import styled from 'styled-components';
@@ -16,16 +16,12 @@ const DelegationHistory = ({ account, staking }) => {
   return (
     <Wrapper>
       <Card title={'Delegated Last 30d'}>
-        <FlexColumn>
-          <FlexRow flex={1} mb={20}>
-            <BalanceChart type={'svg'} data={staking} />
-          </FlexRow>
-          <FlexRow>
-            <LegendItem color={'#418BFD'}>
-              <DataBox title="Delegated Balance" />
-            </LegendItem>
-          </FlexRow>
-        </FlexColumn>
+        <BalanceChart type={'svg'} data={staking} />
+        <FlexRow>
+          <LegendItem color={'#418BFD'}>
+            <DataBox title="Delegated Balance" />
+          </LegendItem>
+        </FlexRow>
       </Card>
     </Wrapper>
   );
@@ -73,7 +69,7 @@ const LegendItem = styled.div`
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
 `;
 

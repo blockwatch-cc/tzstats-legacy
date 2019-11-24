@@ -8,27 +8,27 @@ const Transaction = ({ op }) => {
   return (
     <>
       <FlexRowSpaceBetween mt={10}>
-        <FlexColumnSpaceBetween minHeight={80}>
+        <FlexColumnSpaceBetween>
           <Link to={`/${op.block}`}>
             <DataBox title="Block" value={op.height} />
           </Link>
           <DataBox title="Gas Limit" value={op.gas_limit} />
         </FlexColumnSpaceBetween>
-        <FlexColumnSpaceBetween ml={20} minHeight={80}>
+        <FlexColumnSpaceBetween>
           <DataBox title="Confirmations" value={chain.height-op.height} />
           <DataBox title="Gas Used" value={op.gas_used} />
         </FlexColumnSpaceBetween>
-        <FlexColumnSpaceBetween ml={20} minHeight={80}>
+        <FlexColumnSpaceBetween>
           <Link to={`/cycle/${op.cycle}`}>
             <DataBox title="Cycle" value={op.cycle} />
           </Link>
           <DataBox title="Gas Price" valueType="currency-short" value={op.gas_price / 1000} />
         </FlexColumnSpaceBetween>
-        <FlexColumnSpaceBetween ml={20} minHeight={80}>
+        <FlexColumnSpaceBetween>
           <DataBox title="Fee" value={op.fee} valueType="currency-short" />
           <DataBox title="Burned" value={op.burned} valueType="currency-short" />
         </FlexColumnSpaceBetween>
-        <FlexColumnSpaceBetween ml={20} minHeight={80}>
+        <FlexColumnSpaceBetween>
           <DataBox title="Date & Time" valueType="datetime" value={op.time} />
           <DataBox title="Token Days" valueType="value-full" value={op.days_destroyed} />
         </FlexColumnSpaceBetween>

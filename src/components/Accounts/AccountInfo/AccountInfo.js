@@ -31,8 +31,8 @@ const AccountInfo = ({ account }) => {
   return (
     <Wrapper>
       <Card title={<><Blockies hash={account.address} /><span>{accountType.name}</span></>} tags={tags} right={<CopyHashButton value={account.address} />}>
-        <FlexRowSpaceBetween mt={10} alignItems='flex-start'>
-          <FlexColumnSpaceBetween minHeight={80}>
+        <FlexRowSpaceBetween mt={10}>
+          <FlexColumnSpaceBetween>
             <DataBox
               valueType="currency-full"
               title="Total Balance"
@@ -44,7 +44,7 @@ const AccountInfo = ({ account }) => {
               value={account.last_seen_time}
             />
           </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={80}>
+          <FlexColumnSpaceBetween>
             <DataBox
               valueType="currency-full"
               title="Spendable Balance"
@@ -56,7 +56,7 @@ const AccountInfo = ({ account }) => {
               value={account.first_seen_time}
             />
           </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={80}>
+          <FlexColumnSpaceBetween>
             <DataBox
               title="Rank"
               valueType="text"
@@ -68,7 +68,7 @@ const AccountInfo = ({ account }) => {
               value={account.total_fees_paid}
             />
           </FlexColumnSpaceBetween>
-          <FlexColumnSpaceBetween minHeight={80}>
+          <FlexColumnSpaceBetween>
             <DataBox
               valueType="text"
               title="Transactions / Operations"
@@ -77,12 +77,12 @@ const AccountInfo = ({ account }) => {
             <DataBox valueType="currency-full" title="Total Burned" value={account.total_burned} />
           </FlexColumnSpaceBetween>
           {account.is_delegate ? (
-            <FlexColumnSpaceBetween width={200} minHeight={90}>
-              <FlexRowSpaceBetween>
+            <FlexColumnSpaceBetween width={200} paddingTop={10}>
+              <FlexRowSpaceBetween marginRight={-10}>
                 <DataBox title="Active Delegations" value={account.active_delegations} />
                 <DataBox title="Rolls Owned" ta="right" value={account.rolls} />
               </FlexRowSpaceBetween>
-              <FlexColumn>
+              <FlexColumn marginBottom={-10} marginRight={-10}>
                 <FlexRowSpaceBetween>
                   <DataBox
                     valueType="currency"
@@ -103,7 +103,7 @@ const AccountInfo = ({ account }) => {
               </FlexColumn>
             </FlexColumnSpaceBetween>
           ) : (account.is_delegated || account.is_contract) ? (
-            <FlexColumnSpaceBetween minHeight={80}>
+            <FlexColumnSpaceBetween>
               {account.delegate && !account.is_delegate ? (
                 <HashedBox hash={account.delegate} isCopy={false} typeName={`Current Delegate`} />
               ) : (
@@ -116,7 +116,7 @@ const AccountInfo = ({ account }) => {
               )}
             </FlexColumnSpaceBetween>
           ) : (
-            <FlexColumnSpaceBetween minHeight={80} />
+            <FlexColumnSpaceBetween />
           )}
         </FlexRowSpaceBetween>
       </Card>
@@ -164,7 +164,7 @@ function getStakingSettings(stakingBalance, stakingCapacity) {
 }
 
 const Wrapper = styled.div`
-  min-width: 340px;
+  min-width: 300px;
   flex: 1.8;
 `;
 

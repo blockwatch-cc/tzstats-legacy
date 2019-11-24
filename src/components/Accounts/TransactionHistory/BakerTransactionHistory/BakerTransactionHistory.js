@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, FlexRow } from '../../../Common';
+import { Card, Tabs, Tab } from '../../../Common';
 import DelegationTable from '../DelegationTable';
 import ContractsTable from '../ContractsTable';
 import PerformanceTable from '../PerformanceTable';
@@ -21,54 +21,50 @@ const BakerTransactionHistory = ({ account }) => {
   return (
     <Wrapper>
       <Card>
-        <ButtonRow>
-          <Button active={data.tab === 'perf'} onClick={e => handleClick('perf')}>
+        <Tabs>
+          <Tab active={data.tab === 'perf'} onClick={e => handleClick('perf')}>
             Performance
-          </Button>
-          <Button active={data.tab === 'rewards'} onClick={e => handleClick('rewards')}>
+          </Tab>
+          <Tab active={data.tab === 'rewards'} onClick={e => handleClick('rewards')}>
             Rewards
-          </Button>
-          <Button active={data.tab === 'bonds'} onClick={e => handleClick('bonds')}>
+          </Tab>
+          <Tab active={data.tab === 'bonds'} onClick={e => handleClick('bonds')}>
             Bonds
-          </Button>
-          <Button active={data.tab === 'baking'} onClick={e => handleClick('baking')}>
+          </Tab>
+          <Tab active={data.tab === 'baking'} onClick={e => handleClick('baking')}>
             Baking
-          </Button>
-          <Button active={data.tab === 'endorsing'} onClick={e => handleClick('endorsing')}>
+          </Tab>
+          <Tab active={data.tab === 'endorsing'} onClick={e => handleClick('endorsing')}>
             Endorsing
-          </Button>
-          <Button active={data.tab === 'votes'} onClick={e => handleClick('votes')}>
+          </Tab>
+          <Tab active={data.tab === 'votes'} onClick={e => handleClick('votes')}>
             Votes
-          </Button>
-          <Button active={data.tab === 'delegation'} onClick={e => handleClick('delegation')}>
+          </Tab>
+          <Tab active={data.tab === 'delegation'} onClick={e => handleClick('delegation')}>
             Delegators
-          </Button>
+          </Tab>
           {account.n_origination ? (
-            <Button active={data.tab === 'contracts'} onClick={e => handleClick('contracts')}>
+            <Tab active={data.tab === 'contracts'} onClick={e => handleClick('contracts')}>
               Contracts
-            </Button>
+            </Tab>
           ) : (
             ''
           )}
-          <Button active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
+          <Tab active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
             Sent
-          </Button>
-          <Button active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
+          </Tab>
+          <Tab active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
             Received
-          </Button>
-          <Button active={data.tab === 'other'} onClick={e => handleClick('other')}>
+          </Tab>
+          <Tab active={data.tab === 'other'} onClick={e => handleClick('other')}>
             Other
-          </Button>
-        </ButtonRow>
+          </Tab>
+        </Tabs>
         <OperationsTable type={data.tab} account={account} />
       </Card>
     </Wrapper>
   );
 };
-
-// <Button active={data.tab === 'rights'} onClick={e => handleClick('rights')}>
-//   Rights
-// </Button>
 
 const OperationsTable = ({ type, account }) => {
   switch (type) {
@@ -100,22 +96,6 @@ const OperationsTable = ({ type, account }) => {
       return <></>;
   }
 };
-
-const ButtonRow = styled(FlexRow)`
-  text-overflow: ellipsis;
-  word-break: break-word;
-  white-space: nowrap;
-  margin-bottom: 20px;
-`;
-
-const Button = styled.div`
-  height: 24px;
-  font-size: 12px;
-  padding: 4px 14px;
-  border: 1px solid #6f727f;
-  background-color: ${props => (props.active ? '#525566' : '#424553')};
-  cursor: pointer;
-`;
 
 const Wrapper = styled.div``;
 

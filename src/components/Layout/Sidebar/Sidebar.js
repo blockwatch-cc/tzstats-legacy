@@ -96,7 +96,8 @@ const Stretch = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 220px;
+  min-width: 220px;
+  max-width: 220px;
   min-height: 100vh;
   display: flex;
   display: flex;

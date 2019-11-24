@@ -15,7 +15,7 @@ import {
   getTxVolume24h,
 } from '../services/api/tz-stats';
 import TransactionVolume from '../components/Home/TransactionVolume';
-import { FlexColumn, Spinner, Error, Centered } from '../components/Common';
+import { Spinner, Error, Centered, Devices } from '../components/Common';
 
 // @echa: FIXME dynamic data loading using timeouts and data watchers in react is a clusterfuck!
 // I have no idea how to fix this.
@@ -114,10 +114,10 @@ const Home = () => {
         {isMainnet(config) ? (
           <TwoElementsWrapper>
             <PriceHistory priceHistory={data.priceHistory} />
-            <FlexColumn>
+            <TwoElementsColumn>
               <StakingInfo />
               <ElectionProgress election={data.election} />
-            </FlexColumn>
+            </TwoElementsColumn>
           </TwoElementsWrapper>
         ) : (
           <TwoElementsWrapper>
@@ -145,6 +145,14 @@ const TwoElementsWrapper = styled.div`
   margin-right: -5px;
 `;
 const Wrapper = styled.div``;
+
+const TwoElementsColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media ${Devices.mobileM} {
+    flex-grow: 1;
+  }
+`;
 
 const H1 = styled.div`
   color: rgba(255, 255, 255, 0.52);

@@ -96,6 +96,33 @@ export const Flex = styled(Box)`
   ${flexDirection}
 `;
 
+export const RowSpace = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  ${flex}
+  ${zIndex}
+  ${alignItems}
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  ${flex}
+  ${zIndex}
+  ${alignItems}
+`;
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  ${flex}
+  ${zIndex}
+  ${alignItems}
+`;
+
 export const FlexRow = styled(Box)`
   display: flex;
   flex-direction: row;
@@ -109,6 +136,13 @@ export const FlexRow = styled(Box)`
   ${flex}
   ${width}
   ${height}
+  & > * {
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  @media ${Devices.mobileL} {
+    flex-wrap: wrap;
+  }
 `;
 
 export const FlexColumn = styled(Box)`
@@ -128,6 +162,10 @@ export const FlexColumn = styled(Box)`
   ${height}
   ${minWidth}
   ${minHeight}
+  margin-top: -10px;
+  & > * {
+    margin-top: 10px;
+  }
 `;
 
 export const FlexColumnSpaceBetween = styled(Box)`
@@ -146,7 +184,11 @@ export const FlexColumnSpaceBetween = styled(Box)`
   ${border}
   ${minWidth}
   ${minHeight}
-  `;
+  margin-top: -10px;
+  & > * {
+    margin-top: 10px;
+  }
+`;
 
 export const FlexColumnSpaceAround = styled(Box)`
   display: flex;
@@ -164,7 +206,11 @@ export const FlexColumnSpaceAround = styled(Box)`
   ${border}
   ${minWidth}
   ${minHeight}
-  `;
+  margin-top: -10px;
+  & > * {
+    margin-top: 10px;
+  }
+`;
 
 export const FlexRowWrap = styled(Box)`
   display: flex;
@@ -180,6 +226,11 @@ export const FlexRowWrap = styled(Box)`
   ${width}
   ${minHeight}
   ${height}
+  margin-top: -10px;
+  & > * {
+    margin-top: 10px;
+    margin-right: 10px;
+  }
 `;
 
 export const FlexColumnWrap = styled(Box)`
@@ -198,7 +249,6 @@ export const FlexRowSpaceBetween = styled(Box)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
   position: relative;
   ${alignItems}
   ${alignContent}
@@ -211,6 +261,14 @@ export const FlexRowSpaceBetween = styled(Box)`
   ${height}
   ${flex}
   ${zIndex}
+  margin-top: -10px;
+  & > * {
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  @media ${Devices.mobileL} {
+    flex-wrap: wrap;
+  }
 `;
 
 export const FlexRowSpaceAround = styled(Box)`
@@ -225,6 +283,14 @@ export const FlexRowSpaceAround = styled(Box)`
   ${justifyContent}
   ${flexWrap}
   ${flexBasis}
+  margin-top: -10px;
+  & > * {
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  @media ${Devices.mobileL} {
+    flex-wrap: wrap;
+  }
 `;
 
 export const FlexItem = styled.div`
@@ -236,21 +302,25 @@ export const FlexItem = styled.div`
 export const TableBody = styled.div`
   height: ${props => props.height || 200}px;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
 `;
 
-export const TableHeader = styled(FlexRowSpaceBetween)`
+export const TableHeader = styled(RowSpace)`
   font-size: 12px;
   color: rgba(255, 255, 255, 0.52);
   margin-bottom: 5px;
+  justify-content: space-between;
 `;
 
 export const TableHeaderCell = styled.div`
   width: ${props => props.width}%;
   padding: 3px 5px;
 `;
+  // min-width: max-content;
 
-export const TableRow = styled(FlexRowSpaceBetween)`
+
+export const TableRow = styled(RowSpace)`
+  justify-content: space-between;
   line-height: 20px;
   &:hover {
     background-color: rgba(255, 255, 255, 0.05);
@@ -260,6 +330,7 @@ export const TableRow = styled(FlexRowSpaceBetween)`
 export const TableCell = styled.div`
   font-size: 12px;
   width: ${props => props.width}%;
+  min-width: max-content;
   padding: 4px 5px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -284,4 +355,44 @@ export const TwoCardInline = styled.div`
   justify-content: space-between;
   margin-left: -5px;
   margin-right: -5px;
+`;
+
+export const Tabs = styled.div`
+  background: #4c4f5f;
+  display: flex;
+  font-size: 13px;
+  font-weight: 400;
+  height: 40px;
+  min-height: 40px;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  white-space: nowrap;
+  margin-left: -30px;
+  margin-top: -20px;
+  margin-bottom: 20px;
+  margin-right: -20px;
+  width: calc(100% + 60px);
+  @media ${Devices.mobileL} {
+    margin-left: -15px;
+    margin-top: -15px;
+    width: calc(100% + 30px);
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+`;
+
+export const Tab = styled.div`
+  border: 1px solid transparent;
+  line-height: 1;
+  outline: 0;
+  padding: 12px 15px;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+
+  color: ${props => (props.active ? '#fff' : '#aaa')};
+  border-top-left-radius: ${props => (props.active ? 2 : 0)}px;
+  border-top-right-radius: ${props => (props.active ? 2 : 0)}px;
+  border-color: ${props => (props.active ? '#444755 #444755 transparent' : 'transparent')};
+  background-color: ${props => (props.active ? '#444755' : '#4c4f5f')};
 `;

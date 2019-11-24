@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, FlexRow } from '../../../Common';
+import { Card, Tabs, Tab } from '../../../Common';
 import TransactionTable from '../TransactionTable';
 import ContractsTable from '../ContractsTable';
 
@@ -13,20 +13,20 @@ const BasicTransactionHistory = ({ account }) => {
   return (
     <Wrapper>
       <Card>
-        <FlexRow mb={30}>
-          <Button active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
+        <Tabs>
+          <Tab active={data.tab === 'incoming'} onClick={e => handleClick('incoming')}>
             Received
-          </Button>
-          <Button active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
+          </Tab>
+          <Tab active={data.tab === 'outgoing'} onClick={e => handleClick('outgoing')}>
             Sent
-          </Button>
-          <Button active={data.tab === 'other'} onClick={e => handleClick('other')}>
+          </Tab>
+          <Tab active={data.tab === 'other'} onClick={e => handleClick('other')}>
             Other
-          </Button>
-          <Button active={data.tab === 'contracts'} onClick={e => handleClick('contracts')}>
+          </Tab>
+          <Tab active={data.tab === 'contracts'} onClick={e => handleClick('contracts')}>
             Contracts
-          </Button>
-        </FlexRow>
+          </Tab>
+        </Tabs>
         <OperationsTable account={account} type={data.tab} />
       </Card>
     </Wrapper>
@@ -48,14 +48,6 @@ const OperationsTable = ({ type, account }) => {
   }
 };
 
-const Button = styled.div`
-  height: 24px;
-  font-size: 12px;
-  padding: 4px 8px;
-  border: 1px solid #6f727f;
-  background-color: ${props => (props.active ? '#525566' : '#424553')};
-  cursor: pointer;
-`;
 
 const Wrapper = styled.div``;
 

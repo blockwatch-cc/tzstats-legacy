@@ -36,7 +36,7 @@ const CycleSnapshotInfo = ({ cycle }) => {
   );
 };
 const Wrapper = styled.div`
-  min-width: 340px;
+  min-width: 300px;
   flex:1
   margin: 0 5px;
 `;

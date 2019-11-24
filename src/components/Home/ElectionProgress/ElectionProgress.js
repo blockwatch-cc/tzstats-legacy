@@ -13,7 +13,7 @@ const ElectionProgress = ({ election }) => {
   const title = `${govNames[election.num_periods]} Period ${endTime}`;
   return (
     <Wrapper>
-      <Card title={title} mh={115}>
+      <Card title={title} mh={112}>
         <FlexColumnSpaceAround flex={1}>
           <GovSwitcher period={period} election={election}/>
         </FlexColumnSpaceAround>
@@ -86,8 +86,9 @@ const Vote = ({ period }) => {
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
+  display: flex;
 `;
 
 const Empty = styled(FlexRowSpaceBetween)`

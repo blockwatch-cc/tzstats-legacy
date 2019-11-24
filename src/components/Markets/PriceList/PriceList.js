@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, FlexRowSpaceBetween, FlexColumn, Value } from '../../Common';
+import { Card, RowSpace, Column, Value } from '../../Common';
 import { useGlobal } from 'reactn';
 import _ from 'lodash';
 
@@ -9,9 +9,9 @@ const PriceList = () => {
   return (
     <Wrapper>
       <Card>
-      <FlexRowSpaceBetween>
+      <RowSpace>
       {vwapPrices(tickers).map((t,i) => (
-        <FlexColumn key={i}>
+        <Column key={i}>
            <div style={{fontSize: 12, marginRight:5}}>{t.quote}</div>
           <Value
             fontSize="14px"
@@ -26,9 +26,9 @@ const PriceList = () => {
               {getPriceIndicator(t)}&nbsp;{Math.abs(t.change).toFixed(1)}%
             </span>
           </div>
-        </FlexColumn>
+        </Column>
        ))}
-      </FlexRowSpaceBetween>
+      </RowSpace>
       </Card>
     </Wrapper>
   );
@@ -52,7 +52,8 @@ const getPriceIndicator = (t) => {
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0;
 `;
+
 export default PriceList;

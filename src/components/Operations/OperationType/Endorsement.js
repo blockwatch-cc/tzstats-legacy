@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, DataBox, FlexRow, FlexColumn, FlexRowWrap, Spinner } from '../../Common';
+import { Card, DataBox, FlexRow, FlexColumn, Spinner } from '../../Common';
 import styled from 'styled-components';
 import TxTypeIcon from '../../Common/TxTypeIcon';
 import OperationAccount from '../OperationAccount';
@@ -39,11 +39,11 @@ const Endorsement = ({ op }) => {
               <DataBox title="Block Endorsed" valueSize="18px" value={op.height - 1} />
             </Link>
             <FlexColumn flex={1} ml={30}>
-              <FlexRowWrap width={192} mb={'2px'}>
+              <Boxes>
                 {data.allslots.map((item, i) => {
                   return <Slot key={i} color={data.opslots[i] ? white : item ? blue : grey} />;
                 })}
-              </FlexRowWrap>
+              </Boxes>
               <DataBox
                 title={`Slots Endorsed (${data.opslots
                   .map((s, i) => i)
@@ -65,6 +65,14 @@ const Endorsement = ({ op }) => {
 const Wrapper = styled.div`
   flex: 1;
   margin: 0 5px;
+`;
+
+const Boxes = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 192px;
+  margin-bottom: 2px;
 `;
 
 export default Endorsement;

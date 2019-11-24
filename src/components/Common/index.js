@@ -5,6 +5,9 @@ import {
   InlineBox,
   TextBox,
   DividerBox,
+  Row,
+  Column,
+  RowSpace,
   Flex,
   FlexItem,
   FlexRow,
@@ -22,6 +25,8 @@ import {
   TableCell,
   TableDetails,
   TwoCardInline,
+  Tabs,
+  Tab,
 } from './Box';
 import { LinkIcon } from './Controls';
 import { Value } from './DataBox';
@@ -49,6 +54,9 @@ export {
   InlineBox,
   TextBox,
   DividerBox,
+  Row,
+  Column,
+  RowSpace,
   Flex,
   FlexItem,
   FlexRow,
@@ -70,6 +78,8 @@ export {
   TwoCardInline,
   Devices,
   Sizes,
+  Tabs,
+  Tab,
 };
 
 //Todo replace it

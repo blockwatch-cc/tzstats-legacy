@@ -56,7 +56,7 @@ const TabContent = ({ type }) => {
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
 `;
 

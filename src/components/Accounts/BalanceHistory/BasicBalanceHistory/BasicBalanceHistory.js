@@ -1,6 +1,6 @@
 import React from 'react';
 import BalanceChart from './BalanceChart';
-import { DataBox, FlexRow, Card, FlexColumn } from '../../../Common';
+import { DataBox, Card, FlexColumn } from '../../../Common';
 import styled from 'styled-components';
 
 //Life totals
@@ -9,14 +9,10 @@ const BasicBalanceHistory = ({ account, balance }) => {
     <Wrapper>
       <Card title={'Balance Last 30d'}>
         <FlexColumn>
-          <FlexRow flex={1} mb={20}>
-            <BalanceChart type={'svg'} data={balance} />
-          </FlexRow>
-          <FlexRow>
-            <LegendItem color={'#29C0FF'}>
-              <DataBox title="Spendable Balance" />
-            </LegendItem>
-          </FlexRow>
+          <BalanceChart type={'svg'} data={balance} />
+          <LegendItem color={'#29C0FF'}>
+            <DataBox title="Spendable Balance" />
+          </LegendItem>
         </FlexColumn>
       </Card>
     </Wrapper>
@@ -25,7 +21,7 @@ const BasicBalanceHistory = ({ account, balance }) => {
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
 `;
 

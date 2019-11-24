@@ -27,7 +27,7 @@ const Content = styled.div`
   max-width: 900px;
   min-width: 900px;
   @media ${Devices.mobileL} {
-    min-width: 380px;
+    min-width: 300px;
   }
 `;
 const MainPanel = styled.main`
@@ -39,7 +39,7 @@ const MainPanel = styled.main`
   max-width: 930px;
   margin: 0 auto;
   @media ${Devices.mobileL} {
-    min-width: 380px;
+    min-width: 300px;
   }
 `;
 

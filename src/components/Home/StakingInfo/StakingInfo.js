@@ -8,7 +8,7 @@ const StakingInfo = () => {
 
   return (
     <Wrapper>
-      <Card title={`Staking Activity`} mh={115}>
+      <Card title={`Staking Activity`} mh={112}>
         <FlexColumnSpaceAround flex={1}>
         <FlexRowSpaceBetween mb={'5px'}>
           <DataBox
@@ -43,7 +43,8 @@ const StakingInfo = () => {
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
+  display: flex;
 `;
 export default StakingInfo;

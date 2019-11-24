@@ -6,7 +6,7 @@ import BlockOperations from '../components/Blocks/BlockOperations';
 import BlockInfo from '../components/Blocks/BlockInfo';
 import { getBlock } from '../services/api/tz-stats';
 import { formatValue, buildTitle } from '../utils';
-import { Spinner, NotFound, Error, FlexRow } from '../components/Common';
+import { Spinner, NotFound, Error, Row } from '../components/Common';
 import { withRouter } from 'react-router-dom';
 import { BackIcon, FwdIcon } from '../components/Common/SvgIcons';
 
@@ -71,11 +71,11 @@ const BlockPage = ({ match, history }) => {
     default:
       return (
         <Wrapper>
-          <FlexRow>
+          <Row>
             <NavLeft>{data.block.predecessor&&<Link to={`/${data.block.predecessor}`}><BackIcon fontSize={35} /></Link>}</NavLeft>
             <NavHeadline><h1>{`Block ${formatValue(data.block.height)}`}</h1></NavHeadline>
             <NavRight>{data.block.successor&&<Link to={`/${data.block.successor}`}><FwdIcon fontSize={35}/></Link>}</NavRight>
-          </FlexRow>
+          </Row>
           <BlockInfo block={data.block} setTxType={setTxType} />
           {!data.block.is_orphan ? <BlockOperations block={data.block} txType={txType} /> : ''}
         </Wrapper>
@@ -86,7 +86,6 @@ const BlockPage = ({ match, history }) => {
 const Wrapper = styled.div``;
 
 const NavRight = styled.div`
-  flex: 1;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -101,6 +100,7 @@ const NavLeft = styled(NavRight)`
 `;
 
 const NavHeadline = styled(NavRight)`
+  flex: 1;
   text-align: center;
   color: #fff;
   cursor: default;

@@ -38,7 +38,7 @@ const Legend = ({ data }) => {
         return (
           <FlexColumn key={i}>
             <div style={{ fontSize: 14 }}>{item.id}</div>
-            <DataBox title={formatCurrency(item.value, '.3s')+'tz'} />
+            <DataBox titleSize="12px" title={formatCurrency(item.value, '.3s')+'tz'} />
           </FlexColumn>
         );
       })}
@@ -55,8 +55,9 @@ const LegendWrapper = styled.div`
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
+  display: flex;
 `;
 
 export default TradeCurrency;

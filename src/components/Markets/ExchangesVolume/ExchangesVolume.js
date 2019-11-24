@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, EmptyData, FlexRowWrap } from '../../Common';
+import { Card, EmptyData, Row } from '../../Common';
 import ExchangesVolumePie from './ExchangesVolumePie';
 import Legend from './Legend';
 import _ from 'lodash';
@@ -22,15 +22,14 @@ const VolumesExchanges = ({ tickers }) => {
     return s;
   }, {});
   let settings = getVolumeSettings(byExchange);
-  console.log(settings, 'set');
 
   return (
     <Wrapper>
       <Card title={'24h Volume by Exchange'}>
-        <FlexRowWrap height={160}>
+        <Row height={160}>
           <ExchangesVolumePie data={settings} />
           <Legend settings={settings} />
-        </FlexRowWrap>
+        </Row>
       </Card>
     </Wrapper>
   );
@@ -38,8 +37,9 @@ const VolumesExchanges = ({ tickers }) => {
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
+  display: flex;
 `;
 
 export default VolumesExchanges;

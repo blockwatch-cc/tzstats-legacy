@@ -34,14 +34,14 @@ const TestingPeriod = ({ period }) => {
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
   font-size: 14px;
 `;
 
 const EmptyWrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
   font-size: 14px;
   opacity: 0.5;

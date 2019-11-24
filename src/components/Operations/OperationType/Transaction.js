@@ -34,7 +34,7 @@ const Transaction = ({ op }) => {
       <Wrapper>
         <Card title={`${op.is_internal ? 'Internal ' : ''}${opNames[op.type]}`} tags={getOpTags(op)}>
           <FlexRow>
-            <TxTypeIcon fontSize={25} mr={40} type={op.type} isSuccess={op.is_success} />
+            <TxTypeIcon fontSize={25} type={op.type} isSuccess={op.is_success} />
             <DataBox title="Amount" valueSize="18px" value={op.volume} valueType="currency-full" />
           </FlexRow>
         </Card>

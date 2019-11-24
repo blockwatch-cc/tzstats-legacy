@@ -53,6 +53,7 @@ const BlockOperations = ({ block, txType }) => {
   return (
     <Wrapper>
       <Card title={'Block Operations' + (data.type?' ('+opNames[data.type]+'s)':'')}>
+        <Table>
         <TableHeader>
           <TableHeaderCell width={5}>No</TableHeaderCell>
           <TableHeaderCell width={20}>Sender</TableHeaderCell>
@@ -104,6 +105,7 @@ const BlockOperations = ({ block, txType }) => {
             <Spinner />
           </TableBody>
         )}
+        </Table>
       </Card>
     </Wrapper>
   );
@@ -114,7 +116,12 @@ const NoOperations = styled.div`
   color: #858999;
 `;
 const Wrapper = styled.div`
-  min-width: 340px;
+  min-width: 300px;
   flex: 1.8;
+`;
+
+const Table = styled.div`
+  max-width: 100%;
+  overflow-x: auto;
 `;
 export default BlockOperations;

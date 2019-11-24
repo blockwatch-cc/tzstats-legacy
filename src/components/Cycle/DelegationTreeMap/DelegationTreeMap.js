@@ -51,7 +51,7 @@ const TreeMapWrapper = styled.div`
   cursor: pointer;
 `;
 const Wrapper = styled.div`
-  min-width: 340px;
+  min-width: 300px;
   flex: 1;
 `;
 export default DelegationTreeMap;

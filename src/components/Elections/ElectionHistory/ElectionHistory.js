@@ -67,7 +67,7 @@ const PeriodBox = styled.div`
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
 `;
 
 export default ElectionHistory;

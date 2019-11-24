@@ -23,7 +23,7 @@ const OnchainActivity = () => {
   );
 };
 const Wrapper = styled.div`
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
 `;
 export default OnchainActivity;

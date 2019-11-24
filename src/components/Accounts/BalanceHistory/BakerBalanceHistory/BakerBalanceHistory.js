@@ -1,31 +1,27 @@
 import React from 'react';
 import BalanceChart from './BalanceChart';
-import { DataBox, FlexRow, FlexColumn, Card } from '../../../Common';
+import { DataBox, FlexRow, Card } from '../../../Common';
 import styled from 'styled-components';
 
 const BakerBalanceHistory = ({ account, balance, staking }) => {
   return (
     <Wrapper>
       <Card title={'Balances Last 30d'}>
-        <FlexColumn>
-          <FlexRow flex={1} mb={20}>
-            <BalanceChart type={'svg'} data={staking} />
-          </FlexRow>
-          <FlexRow>
-            <LegendItem color={'#858999'}>
-              <DataBox title="Total" />
-            </LegendItem>
-            <LegendItem color={'#17eef4'}>
-              <DataBox title="Spendable" />
-            </LegendItem>
-            <LegendItem color={'#22BAF8'}>
-              <DataBox title="Deposits" />
-            </LegendItem>
-            <LegendItem color={'#626977'}>
-              <DataBox title="Pending Rewards" />
-            </LegendItem>
-          </FlexRow>
-        </FlexColumn>
+        <BalanceChart type={'svg'} data={staking} />
+        <FlexRow>
+          <LegendItem color={'#858999'}>
+            <DataBox title="Total" />
+          </LegendItem>
+          <LegendItem color={'#17eef4'}>
+            <DataBox title="Spendable" />
+          </LegendItem>
+          <LegendItem color={'#22BAF8'}>
+            <DataBox title="Deposits" />
+          </LegendItem>
+          <LegendItem color={'#626977'}>
+            <DataBox title="Pending Rewards" />
+          </LegendItem>
+        </FlexRow>
       </Card>
     </Wrapper>
   );
@@ -33,7 +29,7 @@ const BakerBalanceHistory = ({ account, balance, staking }) => {
 
 const Wrapper = styled.div`
   flex: 1;
-  min-width: 340px;
+  min-width: 300px;
   margin: 0 5px;
 `;
 

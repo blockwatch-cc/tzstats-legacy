@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FlexRow } from './index';
+import { RowSpace } from './index';
 import { Tz } from './Tz';
 import { formatCurrency, formatValue, formatDayTime, formatDay, formatTime, isUndefined } from '../../utils';
 
@@ -45,14 +45,14 @@ const DataBox = ({
     case 'horizontal-value-as-title':
       return (
         <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
-          <FlexRow justifyContent="space-between" alignItems="center">
+          <RowSpace>
             {<div style={{ paddingRight: '10px' }}>{title}</div>}
             {value !== undefined && (
               <Title fontSize={titleSize}>
                 <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />
               </Title>
             )}
-          </FlexRow>
+          </RowSpace>
         </Wrapper>
       );
     case 'inline':

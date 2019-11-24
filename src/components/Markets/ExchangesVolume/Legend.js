@@ -18,9 +18,9 @@ const LegendContent = ({ settings }) => {
           key={i}
           type="horizontal-value-as-title"
           title={item.id}
+          titleSize="12px"
           valueType="currency"
           valueOpts={{digits:3,dim:0}}
-          valueSize="12px"
           value={item.value}
         />
       </LegendItem>
@@ -34,17 +34,19 @@ const LegendWrapper = styled.div`
   margin-left: 40px;
 `;
 const LegendItem = styled.div`
-  margin-bottom: -28px;
   margin-left: 20px;
   white-space: nowrap;
   min-width: 130px;
   &:after {
-    content: '•';
+    content: '';
     position: relative;
     left: -20px;
-    bottom: 28px;
-    font-size: 30px;
-    color: ${prop => prop.color};
+    bottom: 12px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: ${prop => prop.color};
+    display: block;
   }
 `;
 

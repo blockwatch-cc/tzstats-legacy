@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Tag from './Tag';
+import { Devices } from './Variables';
+
 const Card = ({ title, tags = [], right, children, flex = 1 ,to = null, mh = null }) => {
   return (
     <Wrapper isClickable={to} mh={mh} flex={flex}>
@@ -58,6 +60,9 @@ const Wrapper = styled.div`
   padding: 20px 30px;
   margin-top: 10px;
   position: relative;
+  @media ${Devices.mobileL} {
+    padding: 15px;
+  }
 `;
 const CardHeader = styled.div`
   position: relative;
@@ -70,6 +75,7 @@ const Title = styled.div`
   display: flex;
   font-size: 12px;
   color: #fff;
+  white-space: nowrap;
 `;
 const RightSide = styled.div`
   display: flex;

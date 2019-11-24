@@ -54,7 +54,7 @@ const CycleHealth = ({ cycle }) => {
   );
 };
 const Wrapper = styled.div`
-  min-width: 340px;
+  min-width: 300px;
   flex:2
   margin: 0 5px;
 `;

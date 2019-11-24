@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FlexRowSpaceBetween, FlexColumnSpaceBetween, DataBox, FlexColumn } from '../../../Common';
+import { FlexRowSpaceBetween, FlexColumnSpaceBetween, DataBox, FlexColumn, RowSpace } from '../../../Common';
 import { convertMinutes, formatCurrency, formatDayTime, cycleStartHeight, formatValue } from '../../../../utils';
 import { useGlobal } from 'reactn';
 import { getAccountRights, getAccountIncome, zeroIncome } from '../../../../services/api/tz-stats';
@@ -102,7 +102,7 @@ const PerformanceTable = ({ account }) => {
           <DataBox title="Past Performance" />
           <DataBox ta={'right'} title="Future Rights" />
         </FlexRowSpaceBetween>
-        <FlexRowSpaceBetween mt={10}>
+        <RowSpace mt={20}>
           <DataBox
             valueSize="14px"
             valueType="text"
@@ -142,11 +142,11 @@ const PerformanceTable = ({ account }) => {
             valueType="text"
             value={`${data.income.n_slots_endorsed || '-'} / ${data.income.n_slots_missed || '-'}`}
           />
-        </FlexRowSpaceBetween>
+        </RowSpace>
       </FlexColumn>
 
-      <FlexRowSpaceBetween height={'100%'} minHeight={205} minWidth={230} alignSelf="flex-start">
-        <FlexColumnSpaceBetween minHeight={205} height={'100%'}>
+      <FlexRowSpaceBetween minWidth={230}>
+        <FlexColumnSpaceBetween>
           <DataBox
             valueSize="14px"
             title="Total Income"
@@ -184,7 +184,7 @@ const PerformanceTable = ({ account }) => {
             value={data.income.contribution_percent / 100}
           />
         </FlexColumnSpaceBetween>
-        <FlexColumnSpaceBetween height={'100%'} minHeight={205}>
+        <FlexColumnSpaceBetween>
           <DataBox
             valueSize="14px"
             title="Total Bonds"
