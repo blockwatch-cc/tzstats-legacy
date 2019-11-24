@@ -125,23 +125,23 @@ const AccountInfo = ({ account }) => {
 };
 
 // based on current rolls (updated each block)
-// function getStakingCapacity(account, chain, config) {
-//   const block_deposits = config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
-//   const network_bond = block_deposits * config.blocks_per_cycle * (config.preserved_cycles + 1);
-//   const network_stake = chain.rolls * config.tokens_per_roll;
-//   const total_balance = account.spendable_balance + account.frozen_deposits + account.frozen_fees;
-//   return total_balance / network_bond * network_stake;
-// }
+function getStakingCapacity(account, chain, config) {
+  const block_deposits = config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
+  const network_bond = block_deposits * config.blocks_per_cycle * (config.preserved_cycles + 1);
+  const network_stake = chain.rolls * config.tokens_per_roll;
+  const total_balance = account.spendable_balance + account.frozen_deposits + account.frozen_fees;
+  return total_balance / network_bond * network_stake;
+}
 
 // from https://github.com/blockwatch-cc/tzstats/issues/46
-function getStakingCapacity(account, chain, config) {
-  const block_deposit = config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
-  const adjusted_total = chain.supply.total - chain.supply.frozen_rewards;
-  const self_bond = block_deposit * config.blocks_per_cycle * (config.preserved_cycles + 1) / adjusted_total;
-  const staking_ratio = chain.supply.active_staking / adjusted_total;
-  const total_balance = account.spendable_balance + account.frozen_deposits + account.frozen_fees;
-  return total_balance / self_bond * staking_ratio;
-}
+// function getStakingCapacity(account, chain, config) {
+//   const block_deposit = config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
+//   const adjusted_total = chain.supply.total - chain.supply.frozen_rewards;
+//   const self_bond = block_deposit * config.blocks_per_cycle * (config.preserved_cycles + 1) / adjusted_total;
+//   const staking_ratio = chain.supply.active_staking / adjusted_total;
+//   const total_balance = account.spendable_balance + account.frozen_deposits + account.frozen_fees;
+//   return total_balance / self_bond * staking_ratio;
+// }
 
 function getStakingSettings(stakingBalance, stakingCapacity) {
   stakingCapacity = stakingCapacity || 1;
