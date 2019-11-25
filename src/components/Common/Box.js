@@ -85,6 +85,66 @@ export const TextBox = styled(Box)`
   ${alignSelf}
 `;
 
+export const RowSpace = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  ${textAlign}
+  ${alignItems}
+  ${alignContent}
+  ${alignSelf}
+  ${justifyContent}
+  ${flexWrap}
+  ${flexBasis}
+  ${flex}
+  ${border}
+  ${width}
+  ${height}
+  ${minWidth}
+  ${minHeight}
+  ${zIndex}
+`;
+
+export const Row = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  ${textAlign}
+  ${alignItems}
+  ${alignContent}
+  ${alignSelf}
+  ${justifyContent}
+  ${flexWrap}
+  ${flexBasis}
+  ${flex}
+  ${border}
+  ${width}
+  ${height}
+  ${minWidth}
+  ${minHeight}
+  ${zIndex}
+`;
+
+export const Column = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  ${textAlign}
+  ${alignItems}
+  ${alignContent}
+  ${alignSelf}
+  ${justifyContent}
+  ${flexWrap}
+  ${flexBasis}
+  ${flex}
+  ${border}
+  ${width}
+  ${height}
+  ${minWidth}
+  ${minHeight}
+  ${zIndex}
+`;
+
 export const Flex = styled(Box)`
   display: flex;
   ${alignItems}
@@ -96,37 +156,11 @@ export const Flex = styled(Box)`
   ${flexDirection}
 `;
 
-export const RowSpace = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  ${flex}
-  ${zIndex}
-  ${alignItems}
-`;
-
-export const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  ${flex}
-  ${zIndex}
-  ${alignItems}
-`;
-
-export const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  ${flex}
-  ${zIndex}
-  ${alignItems}
-`;
-
 export const FlexRow = styled(Box)`
   display: flex;
   flex-direction: row;
   position: relative;
+  ${textAlign}
   ${alignItems}
   ${alignContent}
   ${alignSelf}
@@ -134,8 +168,11 @@ export const FlexRow = styled(Box)`
   ${flexWrap}
   ${flexBasis}
   ${flex}
+  ${border}
   ${width}
   ${height}
+  ${minWidth}
+  ${minHeight}
   & > * {
     margin-top: 10px;
     margin-right: 10px;

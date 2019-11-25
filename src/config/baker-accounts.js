@@ -4,7 +4,7 @@ export const bakerAccounts = {
   tz1iLbZZ9uoRuVJCrZ9ZwiJMpfzhy3c67mav: { name: 'AirBie', logo: null, link: '', fee_type: '', fee: 0 },
   tz1gk3TDbU7cJuiBRMhwQXVvgDnjsxuWhcEA: { name: 'Airfoil', logo: null, link: '', fee_type: '', fee: 0 },
   tz1QH3G2btaWc1vRLNsEfx2gHM7Ad81TeRit: { name: 'Airfoil Payouts', logo: null, link: '', fee_type: '', fee: 0 },
-  tz1XhnCdVENzgko5x1MMswLHSoQbJ5NPwLZ6: { name: 'Anon Stake', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1XhnCdVENzgko5x1MMswLHSoQbJ5NPwLZ6: { name: 'Anonstake', logo: null, link: '', fee_type: '', fee: 0 },
   tz3e75hU4EhDU3ukyJueh5v6UvEHzGwkg3yC: { name: 'At James', logo: null, link: '', fee_type: '', fee: 0 },
   tz1KksC8RvjUWAbXYJuNrUbontHGor26Cztk: { name: 'Bakednode', logo: null, link: '', fee_type: '', fee: 0 },
   tz1aRhFErGMgL57DYHMT1vYwv7PzsJN1chrk: { name: 'Baked Tezos', logo: null, link: '', fee_type: '', fee: 0 },
