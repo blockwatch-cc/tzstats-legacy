@@ -167,7 +167,7 @@
                 
                     <ul class="toc-list-h2">
                         
-                            <li><a href="#2019-11-14" class="toc-h2 toc-link" data-title="2019-11-14">2019-11-14</a></li>
+                            <li><a href="#2019-11-27-pre-release" class="toc-h2 toc-link" data-title="2019-11-27 (pre-release)">2019-11-27 (pre-release)</a></li>
                         
                             <li><a href="#2019-11-01" class="toc-h2 toc-link" data-title="2019-11-01">2019-11-01</a></li>
                         
@@ -187,7 +187,7 @@
         
         <ul class="toc-footer">
             
-            <li>API v005-2019-11-14</li>
+            <li>API v005-2019-11-27</li>
             
         </ul>
         
@@ -214,6 +214,7 @@
 <pre><code>Mainnet: https://api.tzstats.com
 Zeronet: https://api.zeronet.tzstats.com
 Babylonnet: https://api.babylonnet.tzstats.com
+Carthagenet: https://api.carthagenet.tzstats.com
 </code></pre>
 
 <p>TzStats provides a powerful API to access fully indexed raw data and statistics collected from the Tezos blockchain. You may use this API free of charge and without limits for non-commercial projects. To inquire about commerial use send an email to info@tzstats.com.</p>
@@ -396,6 +397,7 @@ ECDHE-RSA-AES128-SHA256
 <li><code>400 Bad Request</code> Missing required fields of malformed request data</li>
 <li><code>404 Not Found</code> No such object</li>
 <li><code>405 Method Not Allowed</code> Unsupported request method</li>
+<li><code>409 Conflict</code> Resource state conflict</li>
 <li><code>429 Too Many Requests</code> Request limit exceeded</li>
 <li><code>500 Internal Server</code> Something went wrong</li>
 <li><code>502 Bad Gateway</code> Your connection is beeing throttled or the service is under maintenance</li>
@@ -1203,11 +1205,19 @@ ECDHE-RSA-AES128-SHA256
 
 <h2 id="bigmaps">Bigmaps</h2>
 
-<p>Bigmaps are key-value stores where smart contracts can store large amounts of data. Values in bigmaps are accessed by unique keys. The TzStats bigmap index supports different key encodings: a <code>key_hash</code> (script expression hash), the <code>binary</code> representation of a key and the <code>natural</code> typed version of a key. For convenience, all three variants are present in responses.</p>
+<p>Bigmaps are key-value stores where smart contracts can store large amounts of data. Values in bigmaps are accessed by unique keys. The TzStats bigmap index supports different key encodings: a <strong>hash</strong> (script expression hash), the <strong>binary</strong> representation of a key and the <strong>native</strong> <code>key</code> typed version of a key. For convenience, all three variants are present in responses as <code>key_hash</code>, <code>key_binary</code> and <code>key</code>.</p>
 
-<p>In Tezos a bigmap is defined by a <code>key_type</code> and a <code>value_type</code>. While the key type must be a simple comparable type (int, string, bytes, address, etc), the value can have a complex type structure. API results always contain an unboxed version of the value type by default. Unboxing uses the types and annotations defined in <code>value_type</code> to decompose a complex value into a nested JSON object. Use the optional request parameter <code>prim=1</code> to include the native Michelson value representation (a tree of primitives).</p>
+<p><strong>Types</strong> A bigmap is defined by a <code>key_type</code> and a <code>value_type</code>. While the key type is most often a simple type (int, string, bytes, address, etc), the value can have a complex type structure. Complex keys (using pairs) are represented as JSON primitive tree and a collapsed stringified version of such keys is returned in the optional <code>key_pretty</code> field.</p>
 
-<p>Bigmap ownership is 1:N, ie. smart contracts can own multiple bigmaps, but each bigmap has only one owner.</p>
+<p><strong>Unboxing</strong> The API supports a mix of multiple representations for keys and values. Per default only <strong>decoded keys</strong> (as hash, binary, and native) and <strong>unboxed values</strong> are returned. Unboxing uses the types and annotations defined on contract origination to decompose Michelson primitives into nested JSON objects where annotations become JSON property names. Use the optional request parameter <code>prim</code> (bool) to include the native Michelson value representation (a tree of primitives).</p>
+
+<p><strong>Packed Data</strong> When keys or values are <strong>packed</strong> using the <code>PACK</code> instruction, an unpacked version can be obtained when using the optional <code>unpack</code> (bool) query argument. In this case two additional properties <code>key_unpacked</code> and <code>value_unpacked</code> are added to the result.</p>
+
+<p><strong>Metadata</strong> Each bigmap entry comes with a set of <strong>metadata</strong> that describes latest update time, block hash and height as well as the bigmap id and its owner. Bigmap ownership is 1:N, ie. a smart contract can own multiple bigmaps, but each bigmap has only one owner.</p>
+
+<p><strong>Pagination</strong> The Bigmap API support paginated queries for keys, values and updates using <code>limit</code> and <code>offset</code>.</p>
+
+<p><strong>Time-lock</strong> To query a bigmap at a certain point in time (ie. a specific block) use the optional query argument <code>block</code> (int64|hash) to specific a height or block hash. Hash is reorg-aware, ie. in case you execute a query on a block that becomes orphaned, the API returns a 409 Conflict error. To query for updates after a certain block use the optional argument <code>since</code> (int64|hash).</p>
 
 <h3 id="bigmap-metadata">Bigmap Metadata</h3>
 
@@ -1219,16 +1229,16 @@ ECDHE-RSA-AES128-SHA256
 <p><strong>Example response.</strong></p>
 </blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-  <span class="nt">&#34;address&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1WRUe3csC1jiThN9KUtaji2bd412upfn1E&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;contract&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1R3uoZ6W1ZxEwzqtv75Ro7DhVY6UAcxuK2&#34;</span><span class="p">,</span>
   <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-  <span class="nt">&#34;key_encoding&#34;</span><span class="p">:</span> <span class="s2">&#34;int&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;key_type&#34;</span><span class="p">:</span> <span class="s2">&#34;nat&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;n_updates&#34;</span><span class="p">:</span> <span class="mi">545</span><span class="p">,</span>
-  <span class="nt">&#34;n_keys&#34;</span><span class="p">:</span> <span class="mi">544</span><span class="p">,</span>
-  <span class="nt">&#34;alloc_height&#34;</span><span class="p">:</span> <span class="mi">41835</span><span class="p">,</span>
-  <span class="nt">&#34;alloc_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-07-31T09:13:57Z&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">42398</span><span class="p">,</span>
-  <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-07-31T19:06:57Z&#34;</span>
+  <span class="nt">&#34;n_updates&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_keys&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;alloc_height&#34;</span><span class="p">:</span> <span class="mi">5938</span><span class="p">,</span>
+  <span class="nt">&#34;alloc_block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLCpcCQhYrqMSgAY9vdnAXPXmswBizTJbVAj9yWSXfbUGhXzd3z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;alloc_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-07-04T20:59:27Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;update_height&#34;</span><span class="p">:</span> <span class="mi">5938</span><span class="p">,</span>
+  <span class="nt">&#34;update_block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLCpcCQhYrqMSgAY9vdnAXPXmswBizTJbVAj9yWSXfbUGhXzd3z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;update_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-07-04T20:59:27Z&#34;</span>
 <span class="p">}</span></code></pre></div>
 <p>Returns metadata about a bigmap.</p>
 
@@ -1248,23 +1258,13 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>address</code> <em>hash</em></td>
+<td><code>contract</code> <em>hash</em></td>
 <td>Contract that owns the bigmap.</td>
 </tr>
 
 <tr>
 <td><code>bigmap_id</code> <em>int64</em></td>
 <td>Unique on-chain id of this bigmap.</td>
-</tr>
-
-<tr>
-<td><code>key_encoding</code> <em>enum</em></td>
-<td>Encoding used for keys (e.g. <code>string</code>, <code>bytes</code>, <code>int</code>).</td>
-</tr>
-
-<tr>
-<td><code>key_type</code> <em>enum</em></td>
-<td>Michelson type for keys (any comparable Michelson type).</td>
 </tr>
 
 <tr>
@@ -1283,17 +1283,27 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
+<td><code>alloc_block</code> <em>hash</em></td>
+<td>Hash of the block where the bigmap was allocated.</td>
+</tr>
+
+<tr>
 <td><code>alloc_time</code> <em>datetime</em></td>
 <td>Timestamp when the bigmap was allocated.</td>
 </tr>
 
 <tr>
-<td><code>height</code> <em>int64</em></td>
+<td><code>update_height</code> <em>int64</em></td>
 <td>Last update height.</td>
 </tr>
 
 <tr>
-<td><code>time</code> <em>datetime</em></td>
+<td><code>update_block</code> <em>hash</em></td>
+<td>Hash of the block containing the latest update.</td>
+</tr>
+
+<tr>
+<td><code>update_time</code> <em>datetime</em></td>
 <td>Last update timestamp.</td>
 </tr>
 </tbody>
@@ -1309,14 +1319,28 @@ ECDHE-RSA-AES128-SHA256
 <p><strong>Example response.</strong></p>
 </blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-  <span class="nt">&#34;key_type&#34;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="err">//</span> <span class="err">...</span>
-  <span class="p">},</span>
+  <span class="nt">&#34;contract&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1R3uoZ6W1ZxEwzqtv75Ro7DhVY6UAcxuK2&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;key_type&#34;</span><span class="p">:</span> <span class="s2">&#34;address&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;key_encoding&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
   <span class="nt">&#34;value_type&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;0&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;1@option&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;2&#34;</span><span class="p">:</span> <span class="s2">&#34;mutez&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;3@or&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;0&#34;</span><span class="p">:</span> <span class="s2">&#34;unit&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;1@or&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;0&#34;</span><span class="p">:</span> <span class="s2">&#34;address&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;1&#34;</span><span class="p">:</span> <span class="s2">&#34;unit&#34;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;4&#34;</span><span class="p">:</span> <span class="s2">&#34;timestamp&#34;</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="p">{</span>
     <span class="err">//</span> <span class="err">...</span>
   <span class="p">}</span>
 <span class="p">}</span></code></pre></div>
-<p>Returns bigmap type description in Michelson JSON format, both for keys and values. Keys are always simple scalar types and values can have a simple or complex type.</p>
+<p>Returns bigmap type description in Michelson JSON format, both for keys and values. Keys are simple scalar types and values can have a simple or complex type. Use <code>prim</code> (boolean) to embed original Michelson primities for key and value type definitions.</p>
 
 <h3 id="http-request-2">HTTP Request</h3>
 
@@ -1334,13 +1358,33 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
+<td><code>contract</code> <em>hash</em></td>
+<td>Contract that owns the bigmap.</td>
+</tr>
+
+<tr>
+<td><code>bigmap_id</code> <em>int64</em></td>
+<td>Unique on-chain id of this bigmap.</td>
+</tr>
+
+<tr>
 <td><code>key_type</code> <em>object</em></td>
 <td>Michelson type for keys (i.e. any comparable Michelson type) as JSON encoded Michelson primitives.</td>
 </tr>
 
 <tr>
+<td><code>key_encoding</code> <em>enum</em></td>
+<td>Encoding used for keys (e.g. <code>string</code>, <code>bytes</code>, <code>int</code>).</td>
+</tr>
+
+<tr>
 <td><code>value_type</code> <em>object</em></td>
-<td>Michelson type for values as JSON encoded Michelson primitives.</td>
+<td>Unboxed Michelson type for values as JSON encoded Michelson primitives.</td>
+</tr>
+
+<tr>
+<td><code>prim</code> <em>object</em></td>
+<td>Native JSON encoded Michelson primitives (optional, use <code>prim=true</code> to enable).</td>
 </tr>
 </tbody>
 </table>
@@ -1350,22 +1394,33 @@ ECDHE-RSA-AES128-SHA256
 <blockquote>
 <p><strong>Example request.</strong></p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/explorer/bigmap/382/keys&#34;</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/explorer/bigmap/12/keys&#34;</span></code></pre></div>
 <blockquote>
 <p><strong>Example response.</strong></p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[{</span>
-    <span class="nt">&#34;key_type&#34;</span><span class="p">:</span> <span class="s2">&#34;key_hash&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;key_encoding&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;key_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;expruUBFeTjjbsfCajJrpWANdA4eyaw1ZbDNECXkxVpB1krGW5P6N1&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1P2Po7YM526ughEsRbY4oR9zaUPDZjxFrb&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;encoded_key&#34;</span><span class="p">:</span> <span class="s2">&#34;002523250b271e153be6c2668954114be101d04d3d&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-11-08T05:00:20Z&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">79571</span>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[[</span>
+  <span class="p">{</span>
+    <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;exprtxcQXJiJWzb5PvjHzkf2LKvnvmbvKdNDSvWzegiTMAKsvTgijL&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_binary&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_unpacked&#34;</span><span class="p">:</span> <span class="s2">&#34;NLEv&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_pretty&#34;</span><span class="p">:</span> <span class="s2">&#34;NLEv&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;meta&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;contract&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1NQfJvo9v8hXmEgqos8NP7sS8V4qaEfvRF&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-10-25T16:37:56Z&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">665512</span><span class="p">,</span>
+      <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="s2">&#34;BKucUF1pxUv7JsrmKoLhmoXeoAzBvKUdZA7PVXEEUACyE7PR6qa&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;is_replaced&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nt">&#34;is_removed&#34;</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span>
+    <span class="p">}</span>
   <span class="p">},</span>
   <span class="err">//</span> <span class="err">...</span>
 <span class="p">]</span></code></pre></div>
-<p>Lists keys contained in bigmap. This endpoint supports paging with <code>limit</code> and <code>offset</code> and also allows locking paginated calls to a specific <code>height</code> (int64).</p>
+<p>Lists bigmap keys only. Supports paging with <code>limit</code> and <code>offset</code> and locking calls to a specific <code>block</code> height (int64) or hash (hash). Use <code>prim</code> (boolean) to embed original Michelson primities and <code>unpack</code> (boolean) to unpack packed keys.</p>
 
 <h3 id="http-request-3">HTTP Request</h3>
 
@@ -1383,38 +1438,73 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>key_type</code> <em>enum</em></td>
-<td>Michelson type of keys (any allowed Michelson type).</td>
-</tr>
-
-<tr>
-<td><code>key_encoding</code> <em>enum</em></td>
-<td>Encoding used for keys (e.g. <code>string</code>, <code>bytes</code>, <code>int</code>).</td>
+<td><code>key</code> <em>polymorph</em></td>
+<td>The native representation of the key. Integers are bigints wrapped in strings, other types are rendered according to type rules, e.g. addresses, keys and signatures are base58check encoded, timestamps are ISO8601, etc. Can be used for lookup.</td>
 </tr>
 
 <tr>
 <td><code>key_hash</code> <em>hash</em></td>
-<td>A script expression hash.</td>
+<td>The script expression hash for this key. Can be used for lookup.</td>
 </tr>
 
 <tr>
-<td><code>key</code> <em>string</em></td>
-<td>The original key, e.g. an address or integer.</td>
+<td><code>key_binary</code> <em>string</em></td>
+<td>Hex string containing the binary representation of the key as stored on-chain. Can be used for lookup.</td>
 </tr>
 
 <tr>
-<td><code>encoded_key</code> <em>string</em></td>
-<td>The encoded (binary) version of the key as hex.</td>
+<td><code>key_unpacked</code> <em>polymorph</em></td>
+<td>Unpacked version of the key as Michelson primitives (Pair keys only) or scalar type (all other types). Optional, enable with <code>unpack=true</code>. Cannot be used for lookup.</td>
 </tr>
 
 <tr>
-<td><code>time</code> <em>datetime</em></td>
-<td>Timestamp of last update.</td>
+<td><code>key_pretty</code> <em>string</em></td>
+<td>Prettified version of complex (Pair) keys where all elements are concatenated using <code>#</code>. Same as <code>key</code> or <code>key_unpacked</code> otherwise. Cannot be used for lookup.</td>
 </tr>
 
 <tr>
-<td><code>height</code> <em>int64</em></td>
-<td>Height of last update.</td>
+<td><code>meta</code> <em>object</em></td>
+<td>Metadata for the current bigmap entry.</td>
+</tr>
+
+<tr>
+<td><code>meta.contract</code> <em>hash</em></td>
+<td>Contract that owns the bigmap.</td>
+</tr>
+
+<tr>
+<td><code>meta.bigmap_id</code> <em>int64</em></td>
+<td>Unique on-chain id of this bigmap.</td>
+</tr>
+
+<tr>
+<td><code>meta.time</code> <em>datetime</em></td>
+<td>Update timestamp for this key/value pair.</td>
+</tr>
+
+<tr>
+<td><code>meta.height</code> <em>int64</em></td>
+<td>Update height for this key/value pair.</td>
+</tr>
+
+<tr>
+<td><code>meta.block</code> <em>hash</em></td>
+<td>Hash of the block containing the latest update.</td>
+</tr>
+
+<tr>
+<td><code>meta.is_replaced</code> <em>bool</em></td>
+<td>Flag indicating if a future update has overwritten the current value. Useful in combination with the <code>block</code> parameter that allows to query a value at a fixed block in history.</td>
+</tr>
+
+<tr>
+<td><code>meta.is_removed</code> <em>bool</em></td>
+<td>Flag indicating if a future remove action has deleted the current key. Useful in combination with the <code>block</code> parameter that allows to query a value at a fixed block in history.</td>
+</tr>
+
+<tr>
+<td><code>prim</code> <em>object</em></td>
+<td>Native JSON encoded Michelson primitives (optional, use <code>prim=true</code> to enable).</td>
 </tr>
 </tbody>
 </table>
@@ -1430,34 +1520,46 @@ ECDHE-RSA-AES128-SHA256
 </blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
   <span class="p">{</span>
-    <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&#34;key_type&#34;</span><span class="p">:</span> <span class="s2">&#34;key_hash&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;key_encoding&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;key_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;exprvKTxtJMTa4jD3RW8YZtjMapBCv6sG592coBC1xr9qFzRfjMAnA&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1KfEsrtDaA1sX7vdM4qmEPWuSytuqCDp5j&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;encoded_key&#34;</span><span class="p">:</span> <span class="s2">&#34;00003a96709901319a5da2968782279dae581b9ba4&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-11-08T05:00:20Z&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">79571</span>
+    <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;exprtxcQXJiJWzb5PvjHzkf2LKvnvmbvKdNDSvWzegiTMAKsvTgijL&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_binary&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_unpacked&#34;</span><span class="p">:</span> <span class="s2">&#34;NLEv&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_pretty&#34;</span><span class="p">:</span> <span class="s2">&#34;NLEv&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;0@bytes&#34;</span><span class="p">:</span> <span class="s2">&#34;050000&#34;</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;value_unpacked&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;meta&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;contract&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1NQfJvo9v8hXmEgqos8NP7sS8V4qaEfvRF&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-10-25T16:37:56Z&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">665512</span><span class="p">,</span>
+      <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="s2">&#34;BKucUF1pxUv7JsrmKoLhmoXeoAzBvKUdZA7PVXEEUACyE7PR6qa&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;is_replaced&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nt">&#34;is_removed&#34;</span><span class="p">:</span> <span class="kc">false</span>
     <span class="p">},</span>
     <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="err">//</span> <span class="err">...</span>
-    <span class="p">},</span>
-    <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="err">//</span> <span class="err">...</span>
+      <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;bytes&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;bytes&#34;</span><span class="p">:</span> <span class="s2">&#34;050000&#34;</span>
+      <span class="p">}</span>
     <span class="p">}</span>
-  <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="err">//</span> <span class="err">...</span>
 <span class="p">]</span></code></pre></div>
-<p>Lists key/value pairs contained in bigmap. This endpoint supports paging with <code>limit</code> and <code>offset</code> and also allows locking paginated calls to a specific <code>height</code>. Use <code>prim</code> (boolean) to embed Michelson prim trees in addition to unboxed values. Returns an array of objects.</p>
+<p>Lists key/value pairs contained in bigmap. This endpoint supports paging with <code>limit</code> and <code>offset</code> and also allows locking paginated calls to a specific <code>block</code> height (int64) or hash (hash). Use <code>prim</code> (boolean) to embed original Michelson primities and <code>unpack</code> (boolean) to unpack packed keys and values.</p>
 
 <h3 id="http-request-4">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/values</code></p>
 
-<p>Lists all values currently contained in the bigmap. With optional <code>height</code> (int64) parameter, returns the contents of the bigmap at the specified height.</p>
+<p>Lists all values contained in the bigmap at present time, ie. at blockchain head. Can otioanlly return bigmap contents at the specified block in the past using the optional paramater <code>block</code> height (int64) or hash (hash).</p>
 
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/{key}</code></p>
 
-<p>Returns a single bigmap value stored at <code>key</code>. Key can be a <strong>key hash</strong> (script expr hash), the <strong>native</strong> key representation (i.e. an address or integer) or the <strong>encoded</strong> binary version of the the key. Use the optional <code>height</code> (int64) parameter to lookup the key&rsquo;s value at a specific block in the past.</p>
+<p>Returns a single bigmap value stored at <code>key</code>. Key can be a <strong>key hash</strong> (script expr hash), the <strong>native</strong> key representation (i.e. an address or integer) or the <strong>encoded</strong> binary version of the key. Use the optional <code>block</code> height (int64) or hash (hash) parameter to lookup the key&rsquo;s value at a specific block in the past.</p>
 
 <h3 id="http-response-4">HTTP Response</h3>
 
@@ -1471,18 +1573,83 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>key</code> <em>object</em></td>
-<td>The bigmap key as defined above.</td>
+<td><code>key</code> <em>polymorph</em></td>
+<td>The native representation of the key. Integers are bigints wrapped in strings, other types are rendered according to type rules, e.g. addresses, keys and signatures are base58check encoded, timestamps are ISO8601, etc).</td>
 </tr>
 
 <tr>
-<td><code>prim</code> <em>object</em></td>
-<td>Native Michelson JSON encoded value as prim tree (hidden by default, use <code>prim</code> to enable).</td>
+<td><code>key_hash</code> <em>hash</em></td>
+<td>The script expression hash for this key.</td>
+</tr>
+
+<tr>
+<td><code>key_binary</code> <em>string</em></td>
+<td>Hex string containing the binary representation of the key as stored on-chain.</td>
+</tr>
+
+<tr>
+<td><code>key_unpacked</code> <em>polymorph</em></td>
+<td>Unpacked version of the key as Michelson primitives (Pair keys only) or scalar type (all other types). Optional, enable with <code>unpack=true</code>.</td>
+</tr>
+
+<tr>
+<td><code>key_pretty</code> <em>string</em></td>
+<td>Prettified version of complex (Pair) keys where all elements are concatenated using <code>#</code>. Same as <code>key</code> or <code>key_unpacked</code> otherwise.</td>
 </tr>
 
 <tr>
 <td><code>value</code> <em>object</em></td>
-<td>An unboxed version of the bigmap value using Michelson types and type annotations to map value to JSON. Works for simple values and complex nested structures such as scalar types, lists, sets, maps, and bigmaps.</td>
+<td>Unboxed version of the bigmap value, either a simple value or complex nested structure using scalar types, lists, sets, maps, and bigmaps.</td>
+</tr>
+
+<tr>
+<td><code>value_unpacked</code> <em>object</em></td>
+<td>An unpacked version of any packed binary data contained in the value. This can be a scalar type or a Michelson primitive tree if the type is complex such as lambda, pair, etc.</td>
+</tr>
+
+<tr>
+<td><code>meta</code> <em>object</em></td>
+<td>Metadata for the current bigmap entry.</td>
+</tr>
+
+<tr>
+<td><code>meta.contract</code> <em>hash</em></td>
+<td>Contract that owns the bigmap.</td>
+</tr>
+
+<tr>
+<td><code>meta.bigmap_id</code> <em>int64</em></td>
+<td>Unique on-chain id of this bigmap.</td>
+</tr>
+
+<tr>
+<td><code>meta.time</code> <em>datetime</em></td>
+<td>Update timestamp for this key/value pair.</td>
+</tr>
+
+<tr>
+<td><code>meta.height</code> <em>int64</em></td>
+<td>Update height for this key/value pair.</td>
+</tr>
+
+<tr>
+<td><code>meta.block</code> <em>hash</em></td>
+<td>Hash of the block containing the latest update.</td>
+</tr>
+
+<tr>
+<td><code>meta.is_replaced</code> <em>bool</em></td>
+<td>Flag indicating if a future update has overwritten the current value. Useful in combination with the <code>block</code> parameter that allows to query a value at a fixed block in history.</td>
+</tr>
+
+<tr>
+<td><code>meta.is_removed</code> <em>bool</em></td>
+<td>Flag indicating if a future remove action has deleted the current key. Useful in combination with the <code>block</code> parameter that allows to query a value at a fixed block in history.</td>
+</tr>
+
+<tr>
+<td><code>prim</code> <em>object</em></td>
+<td>Native Michelson JSON encoded value as prim tree. Optional, use <code>prim</code> to enable.</td>
 </tr>
 </tbody>
 </table>
@@ -1499,25 +1666,35 @@ ECDHE-RSA-AES128-SHA256
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
   <span class="p">{</span>
     <span class="nt">&#34;action&#34;</span><span class="p">:</span> <span class="s2">&#34;update&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">382</span><span class="p">,</span>
-    <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&#34;key_type&#34;</span><span class="p">:</span> <span class="s2">&#34;key_hash&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;key_encoding&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;key_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;exprvKTxtJMTa4jD3RW8YZtjMapBCv6sG592coBC1xr9qFzRfjMAnA&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1KfEsrtDaA1sX7vdM4qmEPWuSytuqCDp5j&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;encoded_key&#34;</span><span class="p">:</span> <span class="s2">&#34;00003a96709901319a5da2968782279dae581b9ba4&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-11-08T05:00:20Z&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">79571</span>
+    <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;exprtxcQXJiJWzb5PvjHzkf2LKvnvmbvKdNDSvWzegiTMAKsvTgijL&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_binary&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_unpacked&#34;</span><span class="p">:</span> <span class="s2">&#34;NLEv&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;key_pretty&#34;</span><span class="p">:</span> <span class="s2">&#34;NLEv&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;0@bytes&#34;</span><span class="p">:</span> <span class="s2">&#34;050000&#34;</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;value_unpacked&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;meta&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;contract&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1NQfJvo9v8hXmEgqos8NP7sS8V4qaEfvRF&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-10-25T16:37:56Z&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">665512</span><span class="p">,</span>
+      <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="s2">&#34;BKucUF1pxUv7JsrmKoLhmoXeoAzBvKUdZA7PVXEEUACyE7PR6qa&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;is_replaced&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nt">&#34;is_removed&#34;</span><span class="p">:</span> <span class="kc">false</span>
     <span class="p">},</span>
     <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="err">//</span> <span class="err">...</span>
-    <span class="p">},</span>
-    <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="err">//</span> <span class="err">...</span>
+      <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;bytes&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;bytes&#34;</span><span class="p">:</span> <span class="s2">&#34;050000&#34;</span>
+      <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">]</span></code></pre></div>
-<p>List historic updates to the bigmap in chronological order, including keys that have been deleted. This endpoint supports paging with <code>limit</code> and <code>offset</code>. Use the optional <code>since</code> (int64) parameter to return updates newer or equal to a specific height and <code>prim</code> (boolean) to embed Michelson prim trees in addition to unboxed values. Returns an array of objects.</p>
+<p>List historic updates to a bigmap in chronological order, including keys that have been deleted. Returns an array of objects. This endpoint supports paging with <code>limit</code> and <code>offset</code>. Use the optional <code>since</code> (int64|hash) parameter to return updates newer or equal to a specific block. Use <code>prim</code> (boolean) to embed original Michelson primities and <code>unpack</code> (boolean) to unpack packed keys and values.</p>
 
 <h3 id="http-request-5">HTTP Request</h3>
 
@@ -1531,6 +1708,8 @@ ECDHE-RSA-AES128-SHA256
 
 <h3 id="http-response-5">HTTP Response</h3>
 
+<p>Contains the same fields as the values endpoint above with one exception:</p>
+
 <table>
 <thead>
 <tr>
@@ -1541,18 +1720,8 @@ ECDHE-RSA-AES128-SHA256
 
 <tbody>
 <tr>
-<td><code>key</code> <em>object</em></td>
-<td>The bigmap key as defined above.</td>
-</tr>
-
-<tr>
-<td><code>prim</code> <em>object</em></td>
-<td>Native Michelson JSON encoded value as prim tree.</td>
-</tr>
-
-<tr>
-<td><code>value</code> <em>object</em></td>
-<td>An unboxed version of the bigmap value using Michelson types and type annotations to map value to JSON. Works for simple values and complex nested structures such as scalar types, lists, sets, maps, and bigmaps.</td>
+<td><code>action</code> <em>enum</em></td>
+<td>Update kind, one of <code>alloc</code>, <code>update</code>, <code>remove</code>, <code>copy</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -2337,7 +2506,7 @@ ECDHE-RSA-AES128-SHA256
 
 <tr>
 <td><code>network</code> <em>string</em></td>
-<td>Network name (e.g. <code>Mainnet</code>, <code>Zeronet</code>, <code>Sandbox</code>).</td>
+<td>Network name (e.g. <code>Mainnet</code>, <code>Zeronet</code>, <code>Babylonnet</code>, <code>Carthagenet</code>, <code>Sandbox</code>).</td>
 </tr>
 
 <tr>
@@ -2496,45 +2665,11 @@ ECDHE-RSA-AES128-SHA256
   <span class="nt">&#34;token_gen_max&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;bigmap_ids&#34;</span><span class="p">:</span> <span class="p">[]</span>
 <span class="p">}</span></code></pre></div>
-<p>Provides information about a smart contract with embedded code and initial storage.</p>
+<p>Returns metadata about the smart contract. For more details call the <a href="#accounts">explorer account endpoint</a> using the contract&rsquo;s KT1 address. Separate calls support querying contract code, storage type and entrypoint specifications, storage contents and calls.</p>
 
-<h3 id="http-requests">HTTP Requests</h3>
-
-<h4 id="get-contract-metadata">Get Contract Metadata</h4>
+<h3 id="http-request-9">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/contract/{hash}</code></p>
-
-<p>Returns metadata about the smart contract. For more details call the <a href="#account">explorer account endpoint</a> using the contract&rsquo;s KT1 address.</p>
-
-<h4 id="get-contract-manager-or-originator-when-babylon">Get Contract Manager (or Originator when &gt;= Babylon)</h4>
-
-<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/manager</code></p>
-
-<p>Returns the manager of the contract (before Babylon) or the originator (Babylon and later).</p>
-
-<h4 id="get-contract-delegate-if-any">Get Contract Delegate (if any)</h4>
-
-<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/delegate</code></p>
-
-<p>Returns the current delegate the contract is delegating to.</p>
-
-<h4 id="get-contract-script">Get Contract Script</h4>
-
-<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/script</code></p>
-
-<p>Returns the native Michelson JSON encoding of the deployed smart contract code as well as type specifications for call parameters, storage and bigmaps.</p>
-
-<h4 id="get-contract-storage">Get Contract Storage</h4>
-
-<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/storage</code></p>
-
-<p>Returns the most recent content of the contract&rsquo;s storage or, when using the optional <code>height</code> argument, a prior state at or before a specified height. Use the optional <code>prim</code> (boolean) argument to embed Michelson JSON primitives.</p>
-
-<h4 id="list-contract-calls">List Contract Calls</h4>
-
-<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/calls</code></p>
-
-<p>Returns calls (transactions) sent to the contract with embedded praramters, storage and bigmap updates. Use the optional <code>prim</code> (boolean) argument to embed Michelson primitive trees in addition to unboxed call data.</p>
 
 <h3 id="http-response-9">HTTP Response</h3>
 
@@ -2739,6 +2874,179 @@ ECDHE-RSA-AES128-SHA256
 </tbody>
 </table>
 
+<h3 id="related-http-requests">Related HTTP Requests</h3>
+
+<h3 id="get-contract-script">Get Contract Script</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/script</code></p>
+
+<p>Returns the native Michelson JSON encoding of the deployed smart contract code as well as type specifications for call parameters, storage and bigmaps. Also contains decoded entrypoints and unboxed storage type.</p>
+
+<h3 id="unboxed-contract-script">Unboxed Contract Script</h3>
+
+<blockquote>
+<p><strong>Example script.</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">//</span> <span class="err">...</span>
+<span class="p">{</span>
+  <span class="nt">&#34;script&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;code&#34;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="err">//...</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;storage&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="err">//</span> <span class="err">...</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;storage_type&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;0@big_map&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;0&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;1&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;1&#34;</span><span class="p">:</span> <span class="s2">&#34;address&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;2&#34;</span><span class="p">:</span> <span class="s2">&#34;nat&#34;</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;entrypoints&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;__entry_00__&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;LLR&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;0&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;1&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="err">//</span> <span class="err">...</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="err">//...</span>
+  <span class="p">}</span>
+<span class="p">}</span><span class="err">,</span>
+<span class="err">//</span> <span class="err">...</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>script</code> <em>object</em></td>
+<td>Native Michelson primitives from contract origination containing <code>code</code> with sub-primitives for parameter/entrypoint spec, storage spec and code as well as the initial <code>storage</code> content.</td>
+</tr>
+
+<tr>
+<td><code>storage_type</code> <em>object</em></td>
+<td>Unboxed storage spec using order and nesting defined in script. Uses type annotations for JSON property keys if available and a position number otherwise. Complex types like maps, lists, sets, lambda use keys of form <code>{number}@{type}</code>.</td>
+</tr>
+
+<tr>
+<td><code>entrypoint</code> <em>object</em></td>
+<td>List of named entrypoints using names from constructor/type annotations if present or <code>__entry_{number}__</code> otherwise.</td>
+</tr>
+
+<tr>
+<td><code>id</code> <em>int64</em></td>
+<td>Position of the entrypoint in the Michelson parameter tree.</td>
+</tr>
+
+<tr>
+<td><code>branch</code> <em>string</em></td>
+<td>Path of left (L) or right (R) branches to reach the entrypoint&rsquo;s code in the Michelson code tree.</td>
+</tr>
+
+<tr>
+<td><code>type</code> <em>polymorph</em></td>
+<td>List of unboxed scalar or complex types expected as function call parameters for this entrypoint.</td>
+</tr>
+
+<tr>
+<td><code>prim</code> <em>object</em></td>
+<td>Native Michelson primitives defining the parameter types for this entrypoint.</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="get-contract-storage">Get Contract Storage</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/storage</code></p>
+
+<p>Returns the most recent content of the contract&rsquo;s storage or, when using the optional <code>height</code> (int64) or block <code>hash</code> (hash) argument, a prior state at the specified block. Use the optional <code>prim</code> (boolean) argument to embed Michelson JSON primitives.</p>
+
+<h3 id="unboxed-contract-storage">Unboxed Contract Storage</h3>
+
+<blockquote>
+<p><strong>Example storage update.</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;meta&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;contract&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1NQfJvo9v8hXmEgqos8NP7sS8V4qaEfvRF&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-10-25T16:41:56Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">665516</span><span class="p">,</span>
+    <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLrmdRNxyY5me3UCUhf4bdbys6RbwGuNJj9jkZG6587tZVdroJi&#34;</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;0@big_map&#34;</span><span class="p">:</span> <span class="s2">&#34;12&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;1@lambda&#34;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="err">//</span> <span class="err">...</span>
+    <span class="p">],</span>
+    <span class="nt">&#34;2@address&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1TUQZtFFZ4Eh7TsYzrL7qFVvabTM63qAqY&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;3@nat&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;4@bool&#34;</span><span class="p">:</span> <span class="kc">false</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>meta</code> <em>object</em></td>
+<td>Metadata for the current bigmap entry.</td>
+</tr>
+
+<tr>
+<td><code>meta.contract</code> <em>hash</em></td>
+<td>Contract that owns the bigmap.</td>
+</tr>
+
+<tr>
+<td><code>meta.time</code> <em>datetime</em></td>
+<td>Update timestamp for this key/value pair.</td>
+</tr>
+
+<tr>
+<td><code>meta.height</code> <em>int64</em></td>
+<td>Update height for this key/value pair.</td>
+</tr>
+
+<tr>
+<td><code>meta.block</code> <em>hash</em></td>
+<td>Hash of the block containing the latest update.</td>
+</tr>
+
+<tr>
+<td><code>value</code> <em>object</em></td>
+<td>Unboxed contract storage using keys derived from type annotations or of form <code>number@type</code> and unboxed JSON representations for content.</td>
+</tr>
+
+<tr>
+<td><code>prim</code> <em>object</em></td>
+<td>Native JSON encoded Michelson primitives of storaged values (hidden by default, enable with <code>prim=true</code>).</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="list-contract-calls">List Contract Calls</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/calls</code></p>
+
+<p>Returns calls (transactions) sent to the contract with embedded praramters, storage and bigmap updates. Use the optional <code>prim</code> (boolean) argument to embed Michelson primitive trees in addition to unboxed call data.</p>
+
 <h3 id="unboxed-call-parameters">Unboxed Call Parameters</h3>
 
 <blockquote>
@@ -2747,14 +3055,18 @@ ECDHE-RSA-AES128-SHA256
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">//</span> <span class="err">...</span>
 <span class="s2">&#34;parameters&#34;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&#34;entrypoint&#34;</span><span class="p">:</span> <span class="s2">&#34;default&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;RRR&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+  <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="err">//...</span>
+  <span class="p">},</span>
   <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="p">{</span>
     <span class="err">//</span> <span class="err">...</span>
   <span class="p">},</span>
-  <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
-  <span class="err">//...</span>
-  <span class="p">}</span>
 <span class="p">}</span><span class="err">,</span>
 <span class="err">//</span> <span class="err">...</span></code></pre></div>
+<p>Call parameters are part of the call (operation) structure and contain the following properties:</p>
+
 <table>
 <thead>
 <tr>
@@ -2766,53 +3078,27 @@ ECDHE-RSA-AES128-SHA256
 <tbody>
 <tr>
 <td><code>entrypoint</code> <em>string</em></td>
-<td>Call function or entrypoint into the smart contract.</td>
+<td>Named entrypoint into the smart contract, e.g. &lsquo;default&rsquo; or &lsquo;<strong>entry_00</strong>.</td>
+</tr>
+
+<tr>
+<td><code>branch</code> <em>string</em></td>
+<td>Path of left (L) or right (R) branches to reach the entrypoint&rsquo;s code in the Michelson code tree.</td>
+</tr>
+
+<tr>
+<td><code>id</code> <em>int64</em></td>
+<td>Position of the entrypoint in the Michelson parameter tree.</td>
+</tr>
+
+<tr>
+<td><code>value</code> <em>object</em></td>
+<td>Call parameters in order of type definition.</td>
 </tr>
 
 <tr>
 <td><code>prim</code> <em>object</em></td>
 <td>Michelson JSON encoded representation of call parameters (hidden by default, enable with <code>prim=true</code>).</td>
-</tr>
-
-<tr>
-<td><code>value</code> <em>object</em></td>
-<td>Unboxed parameters mapped using parameter type and annotations.</td>
-</tr>
-</tbody>
-</table>
-
-<h3 id="unboxed-contract-storage">Unboxed Contract Storage</h3>
-
-<blockquote>
-<p><strong>Example storage update.</strong></p>
-</blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">//</span> <span class="err">...</span>
-<span class="s2">&#34;storage&#34;</span><span class="err">:</span> <span class="p">{</span>
-  <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="err">//</span> <span class="err">...</span>
-  <span class="p">},</span>
-  <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
-  <span class="err">//...</span>
-  <span class="p">}</span>
-<span class="p">}</span><span class="err">,</span>
-<span class="err">//</span> <span class="err">...</span></code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td><code>prim</code> <em>object</em></td>
-<td>Michelson JSON encoded representation of contract storage after the call (hidden by default, enable with <code>prim=true</code>).</td>
-</tr>
-
-<tr>
-<td><code>value</code> <em>object</em></td>
-<td>Unboxed storage content mapped using parameter type and annotations.</td>
 </tr>
 </tbody>
 </table>
@@ -2825,21 +3111,31 @@ ECDHE-RSA-AES128-SHA256
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">//</span> <span class="err">...</span>
 <span class="s2">&#34;big_map_diff&#34;</span><span class="err">:</span> <span class="p">[{</span>
   <span class="nt">&#34;action&#34;</span><span class="p">:</span> <span class="s2">&#34;update&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">444</span><span class="p">,</span>
-  <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&#34;key_type&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;key_encoding&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;key_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;expruDLN1rQemarRkrDCAd4S39oKfN2vnaQXpsATbaZoa9NeVKVYEC&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;000caf7e100ecc49dd684621a257f6a92e5cd5a40b&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;encoded_key&#34;</span><span class="p">:</span> <span class="s2">&#34;000caf7e100ecc49dd684621a257f6a92e5cd5a40b&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-11-12T03:32:46Z&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">86052</span>
+  <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;key_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;exprtxcQXJiJWzb5PvjHzkf2LKvnvmbvKdNDSvWzegiTMAKsvTgijL&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;key_binary&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;key_unpacked&#34;</span><span class="p">:</span> <span class="s2">&#34;NLEv&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;key_pretty&#34;</span><span class="p">:</span> <span class="s2">&#34;NLEv&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;0@bytes&#34;</span><span class="p">:</span> <span class="s2">&#34;050000&#34;</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;value_unpacked&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;meta&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;contract&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1NQfJvo9v8hXmEgqos8NP7sS8V4qaEfvRF&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-10-25T16:37:56Z&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">665512</span><span class="p">,</span>
+    <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="s2">&#34;BKucUF1pxUv7JsrmKoLhmoXeoAzBvKUdZA7PVXEEUACyE7PR6qa&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;is_replaced&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;is_removed&#34;</span><span class="p">:</span> <span class="kc">false</span>
   <span class="p">},</span>
   <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="err">//</span> <span class="err">...</span>
-  <span class="p">},</span>
-  <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
-  <span class="err">//...</span>
+    <span class="nt">&#34;key&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;bytes&#34;</span><span class="p">:</span> <span class="s2">&#34;0501000000044e4c4576&#34;</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;bytes&#34;</span><span class="p">:</span> <span class="s2">&#34;050000&#34;</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}]</span>
 <span class="err">//</span> <span class="err">...</span></code></pre></div>
@@ -2858,58 +3154,38 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>bigmap_id</code> <em>int64</em></td>
-<td>Unique on-chain id of the bigmap.</td>
-</tr>
-
-<tr>
-<td><code>key</code> <em>object</em></td>
-<td>Key of the updated bigmap entry. Only present on <code>update</code> and <code>remove</code>.</td>
-</tr>
-
-<tr>
-<td><code>key_type</code> <em>enum</em></td>
-<td>Michelson type of the key.</td>
-</tr>
-
-<tr>
-<td><code>key_encoding</code> <em>enum</em></td>
-<td>Michelson encoding of the key (<code>string</code>, <code>bytes</code>, <code>int</code>).</td>
+<td><code>key</code> <em>polymorph</em></td>
+<td>The native representation of the key. Integers are bigints wrapped in strings, other types are rendered according to type rules, e.g. addresses, keys and signatures are base58check encoded, timestamps are ISO8601, etc). Only present on <code>update</code> and <code>remove</code>.</td>
 </tr>
 
 <tr>
 <td><code>key_hash</code> <em>hash</em></td>
-<td>The script expression hash for this key.</td>
+<td>The script expression hash for this key. Only present on <code>update</code> and <code>remove</code>.</td>
 </tr>
 
 <tr>
-<td><code>key</code> <em>polymorph</em></td>
-<td>The native representation of the key. Integers are bigints wrapped in strings, other types are rendered according to type rules, e.g. addresses, keys and signatures are base58check encoded).</td>
+<td><code>key_binary</code> <em>string</em></td>
+<td>Hex string containing the binary representation of the key as stored on-chain. Only present on <code>update</code> and <code>remove</code>.</td>
 </tr>
 
 <tr>
-<td><code>encoded_key</code> <em>string</em></td>
-<td>Hex string containing the binary representation of the key as stored on-chain.</td>
+<td><code>key_unpacked</code> <em>polymorph</em></td>
+<td>Unpacked version of the key as Michelson primitives (Pair keys only) or scalar type (all other types). Optional, enable with <code>unpack=true</code>. Only present on <code>update</code> and <code>remove</code>.</td>
 </tr>
 
 <tr>
-<td><code>time</code> <em>datetime</em></td>
-<td>Update timestamp, same as for call (transaction).</td>
-</tr>
-
-<tr>
-<td><code>height</code> <em>int64</em></td>
-<td>Update height, same as for call (transaction).</td>
-</tr>
-
-<tr>
-<td><code>prim</code> <em>object</em></td>
-<td>Michelson JSON encoded representation of the updated bigmap value (hidden by default, enable with <code>prim=true</code>). Only present on <code>update</code> and <code>remove</code>.</td>
+<td><code>key_pretty</code> <em>string</em></td>
+<td>Prettified version of complex (Pair) keys where all elements are concatenated using <code>#</code>. Same as <code>key</code> or <code>key_unpacked</code> otherwise. Only present on <code>update</code> and <code>remove</code>.</td>
 </tr>
 
 <tr>
 <td><code>value</code> <em>object</em></td>
-<td>Unboxed bigmap value mapped using parameter type and annotations. Only present on <code>update</code> and <code>remove</code>.</td>
+<td>Unboxed version of the bigmap value, either a simple value or complex nested structure using scalar types, lists, sets, maps, and bigmaps. Only present on <code>update</code>.</td>
+</tr>
+
+<tr>
+<td><code>value_unpacked</code> <em>object</em></td>
+<td>An unpacked version of any packed binary data contained in the value. This can be a scalar type or a Michelson primitive tree if the type is complex such as lambda, pair, etc. Only present on <code>update</code>.</td>
 </tr>
 
 <tr>
@@ -2931,8 +3207,59 @@ ECDHE-RSA-AES128-SHA256
 <td><code>destination_big_map</code> <em>int64</em></td>
 <td>Source bigmap id. Only present on <code>copy</code>.</td>
 </tr>
+
+<tr>
+<td><code>meta</code> <em>object</em></td>
+<td>Metadata for the current bigmap entry.</td>
+</tr>
+
+<tr>
+<td><code>contract</code> <em>hash</em></td>
+<td>Contract that owns the bigmap.</td>
+</tr>
+
+<tr>
+<td><code>bigmap_id</code> <em>int64</em></td>
+<td>Unique on-chain id of this bigmap.</td>
+</tr>
+
+<tr>
+<td><code>time</code> <em>datetime</em></td>
+<td>Update timestamp for this key/value pair.</td>
+</tr>
+
+<tr>
+<td><code>height</code> <em>int64</em></td>
+<td>Update height for this key/value pair.</td>
+</tr>
+
+<tr>
+<td><code>block</code> <em>hash</em></td>
+<td>Hash of the block containing the latest update.</td>
+</tr>
+
+<tr>
+<td><code>is_replaced</code> <em>bool</em></td>
+<td>Flag indicating if a future update has overwritten the current value. Useful in combination with the <code>block</code> parameter that allows to query a value at a fixed block in history.</td>
+</tr>
+
+<tr>
+<td><code>is_removed</code> <em>bool</em></td>
+<td>Flag indicating if a future remove action has deleted the current key. Useful in combination with the <code>block</code> parameter that allows to query a value at a fixed block in history.</td>
+</tr>
+
+<tr>
+<td><code>prim</code> <em>object</em></td>
+<td>Native Michelson JSON encoded <code>key</code> and <code>value</code> as primitive tree. Optional, use <code>prim</code> to enable.</td>
+</tr>
 </tbody>
 </table>
+
+<h3 id="get-contract-manager">Get Contract Manager</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/contract/{hash}/manager</code></p>
+
+<p>Returns the manager of the contract (before Babylon) or the originator account (Babylon and later).</p>
 
 <h2 id="cycles">Cycles</h2>
 
@@ -2988,7 +3315,7 @@ ECDHE-RSA-AES128-SHA256
 <span class="p">}</span></code></pre></div>
 <p>Provides information about a consensus cycle, the past roll snapshot cycle and the future cycle who&rsquo;s rights are deterined by the current cycle. This endpoint accepts <code>head</code> and a cycle <code>number</code> as path parameters.</p>
 
-<h3 id="http-request-9">HTTP Request</h3>
+<h3 id="http-request-10">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/cycle/{head,number}</code></p>
 
@@ -3387,7 +3714,7 @@ ECDHE-RSA-AES128-SHA256
 <span class="p">}</span></code></pre></div>
 <p>Shows full detail about a past or current election including up to four voting periods and detailed results. Elections represent metadata about each consecutive run of related voting periods. Elections may contain 4, 2 or 1 vote periods. They are called empty when only one empty proposal vote without a proposal exists. Votes represent on-chain voting periods, proposals represent individual proposals that are submitted by a source and upvoted by other bakers, ballots represent the individual ballot operations sent by bakers during votes.</p>
 
-<h3 id="http-request-10">HTTP Request</h3>
+<h3 id="http-request-11">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/election/{head,number}</code></p>
 
@@ -3712,7 +4039,7 @@ ECDHE-RSA-AES128-SHA256
 <span class="p">}</span></code></pre></div>
 <p>Returns the current indexer status, useful to check of the indexer is in sync with the blockchain.</p>
 
-<h3 id="http-request-11">HTTP Request</h3>
+<h3 id="http-request-12">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/status</code></p>
 
@@ -3794,7 +4121,7 @@ ECDHE-RSA-AES128-SHA256
 <span class="p">]</span></code></pre></div>
 <p>Fetches a list of market price tickers with 24h OHLCV data.</p>
 
-<h3 id="http-request-12">HTTP Request</h3>
+<h3 id="http-request-13">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/markets/tickers</code></p>
 
@@ -3934,7 +4261,7 @@ ECDHE-RSA-AES128-SHA256
 <span class="p">]</span></code></pre></div>
 <p>Returns info about a single operation or a list of related operations. Because Tezos supports batch operations (multiple operatiosn sharing the same hash) and internal operations (created by smart contract calls in response to a transaction) this endpoint always returns an array of operation objects. In many cases this array contains one element only. Use the optional <code>prim</code> (boolean) parameter to embed Michelson primitive trees with smart contract calls.</p>
 
-<h3 id="http-request-13">HTTP Request</h3>
+<h3 id="http-request-14">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/op/{hash}</code></p>
 
@@ -4318,7 +4645,7 @@ ECDHE-RSA-AES128-SHA256
 <span class="p">}</span></code></pre></div>
 <p>Block and account info can be extended with an embeded list of operations. This endpoint is an optimization to fetch both the operation list and the related resource in one call. Use <code>limit</code> and <code>offset</code> (both integers) to page through operation lists. Operations are sorted by row_id in ascending order.</p>
 
-<h3 id="http-request-14">HTTP Request</h3>
+<h3 id="http-request-15">HTTP Request</h3>
 
 <h4 id="list-block-operations">List Block Operations</h4>
 
@@ -5133,8 +5460,8 @@ ECDHE-RSA-AES128-SHA256
         <span class="mi">0</span><span class="p">,</span>              <span class="err">//</span> <span class="err">is_replaced</span>
         <span class="mi">0</span><span class="p">,</span>              <span class="err">//</span> <span class="err">is_deleted</span>
         <span class="mi">0</span><span class="p">,</span>              <span class="err">//</span> <span class="err">is_copied</span>
-        <span class="s2">&#34;KT1AajLnzG5EyJSZfpSsn44iaHhwdm5AK85b&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">address</span> <span class="err">hash</span>
-        <span class="s2">&#34;oor9UypoAjKYei6miVWhxKVeBhkJV1WH3k1VvzdEBnQFmpPUMaK&#34;</span> <span class="err">//</span> <span class="err">op</span> <span class="err">hash</span>
+        <span class="s2">&#34;KT1AajLnzG5EyJSZfpSsn44iaHhwdm5AK85b&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">address</span>
+        <span class="s2">&#34;oor9UypoAjKYei6miVWhxKVeBhkJV1WH3k1VvzdEBnQFmpPUMaK&#34;</span> <span class="err">//</span> <span class="err">op</span>
     <span class="p">]</span>
 <span class="p">]</span></code></pre></div>
 <p>Lists individual bigmap update operations found in smart contract call results. Use this table to search of filter updates or efficiently access updated data. You can also use the results to reconstruct bigmap state at the client from a sequence of updates. For convenience, the current or past state of a bigmap is available as a set of <a href="#bigmaps">explorer endpoints</a>.</p>
@@ -5635,7 +5962,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">15227175</span><span class="p">,</span>       <span class="err">//</span> <span class="err">total_ops</span>
     <span class="mi">7139</span><span class="p">,</span>           <span class="err">//</span> <span class="err">total_contract_ops</span>
     <span class="mi">20774</span><span class="p">,</span>          <span class="err">//</span> <span class="err">total_activations</span>
-    <span class="mi">19559</span><span class="p">,</span>          <span class="err">//</span> <span class="err">total_seed_nonces</span>
+    <span class="mi">19559</span><span class="p">,</span>          <span class="err">//</span> <span class="err">total_seed_nonce_revelations</span>
     <span class="mi">13113009</span><span class="p">,</span>       <span class="err">//</span> <span class="err">total_endorsements</span>
     <span class="mi">127</span><span class="p">,</span>            <span class="err">//</span> <span class="err">total_double_baking_evidences</span>
     <span class="mi">24</span><span class="p">,</span>             <span class="err">//</span> <span class="err">total_double_endorsement_evidences</span>
@@ -5738,7 +6065,7 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>total_seed_nonces</code> <em>int64</em></td>
+<td><code>total_seed_nonce_revelations</code> <em>int64</em></td>
 <td>Total count of <code>seed_nonce_revelation</code> operations.</td>
 </tr>
 
@@ -5905,7 +6232,7 @@ ECDHE-RSA-AES128-SHA256
     <span class="mi">0</span><span class="p">,</span>           <span class="err">//</span> <span class="err">is_spendable</span>
     <span class="mi">0</span><span class="p">,</span>           <span class="err">//</span> <span class="err">is_delegatable</span>
     <span class="s2">&#34;KT1REHQ183LzfoVoqiDR87mCrt7CLUH1MbcV&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">address</span>
-    <span class="s2">&#34;tz1N74dH3VSeRTeKobbXUbyU82G8pqT2YYEM&#34;</span>  <span class="err">//</span> <span class="err">delegate</span>
+    <span class="s2">&#34;tz1N74dH3VSeRTeKobbXUbyU82G8pqT2YYEM&#34;</span>  <span class="err">//</span> <span class="err">manager</span>
   <span class="p">]</span>
 <span class="p">]</span></code></pre></div>
 <p>List creation-time information about smart contracts with embedded code and initial storage.</p>
@@ -6001,8 +6328,8 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>delegate</code> <em>hash</em></td>
-<td>Contract delegate address base58check encoded.</td>
+<td><code>manager</code> <em>hash</em></td>
+<td>Contract manager address base58check encoded.</td>
 </tr>
 </tbody>
 </table>
@@ -6378,7 +6705,7 @@ ECDHE-RSA-AES128-SHA256
 
 <tr>
 <td><code>balance</code> <em>money</em></td>
-<td>Staking balance (at snapshot block).</td>
+<td>A baker&rsquo;s own balance, composed of spendable balance and frozen deposits plus frozen fees (at snapshot block). Note that frozen rewards do not contribute towards rolls, hence they are not part of balance here.</td>
 </tr>
 
 <tr>
@@ -8233,13 +8560,17 @@ ECDHE-RSA-AES128-SHA256
 
 <p>Recent changes and additions to the TzStats Data API.</p>
 
-<h2 id="2019-11-14">2019-11-14</h2>
+<h2 id="2019-11-27-pre-release">2019-11-27 (pre-release)</h2>
 
 <ul>
 <li>FIXES
 
 <ul>
 <li>account <code>is_revealed</code> is now correctly reset when account balance becomes zero (in this case a Tezos node will remove all account data including a revealed pubkey from storage)</li>
+<li>eligible voting rolls are now taken after cycle start block is processed</li>
+<li>counting duplicate proposal votes has been corrected</li>
+<li>annualized supply calculation has been fixed to use 365 instead of 364 days
+-</li>
 </ul></li>
 <li>NEW EXPLORER FEATURES
 
