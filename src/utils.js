@@ -326,7 +326,7 @@ export function getAccountType(account) {
   if (!account.is_contract && !account.is_delegate && account.is_delegated) {
     return { name: 'Delegator Account', type: 'delegator' };
   }
-  if (!account.is_contract && account.is_delegate && !account.is_delegated) {
+  if (!account.is_contract && account.is_delegate) {
     return { name: 'Baker Account', type: 'baker' };
   }
   if (account.is_contract) {
