@@ -571,7 +571,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>GET /explorer/account/{hash}/op</code></td>
 <td>x</td>
-<td><code>type</code></td>
+<td><code>type</code>, <code>block</code>, <code>since</code></td>
 <td>account info with embedded list of related operations</td>
 </tr>
 
@@ -592,7 +592,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>GET /explorer/contract/{hash}/calls</code></td>
 <td>x</td>
-<td><code>type</code></td>
+<td><code>block</code>, <code>since</code></td>
 <td>list contract calls</td>
 </tr>
 
@@ -1221,6 +1221,12 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tbody>
 </table>
 
+<h3 id="list-account-operations">List Account Operations</h3>
+
+<p><code>GET https://api.tzstats.com/explorer/account/{hash}/op</code></p>
+
+<p>Lists operations sent from and to an account (defaults to all types and ascending order). This endpoint supports pagination with <code>limit</code> and <code>offset</code>. Use <code>type</code> to filter for a specific operation type (e.g. transactions), <code>block</code> (int64|hash) to lock a call to a specific block height or hash (hash is reorg-aware and throws an error when block has become orphan). To query for updates after a certain block use the optional argument <code>since</code> (int64|hash). To change the order of returned calls use the optional <code>order</code> (asc|desc) parameter.</p>
+
 <h2 id="bigmaps">Bigmaps</h2>
 
 <p>Bigmaps are key-value stores where smart contracts can store large amounts of data. Values in bigmaps are accessed by unique keys. The TzStats bigmap index supports different key encodings: a <strong>hash</strong> (script expression hash), the <strong>binary</strong> representation of a key and the <strong>native</strong> typed version of a key. For convenience, all three variants are present in responses as <code>key_hash</code>, <code>key_binary</code> and <code>key</code>.</p>
@@ -1726,11 +1732,11 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/{key}/updates</code></p>
 
-<p>Lists updates for a specific key. Key can be a key hash (script expr hash), the native key representation (i.e. an address or integer) or the encoded binary version of.</p>
+<p>Lists updates for a specific key. Key can be a key hash (script expr hash), the native key representation (i.e. an address or integer) or the encoded binary version.</p>
 
 <h3 id="http-response-5">HTTP Response</h3>
 
-<p>Contains the same fields as the values endpoint above with one exception:</p>
+<p>Contains the same fields as the values endpoint above with one addition:</p>
 
 <table>
 <thead>
@@ -2135,6 +2141,68 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tbody>
 </table>
 
+<h3 id="list-block-operations">List Block Operations</h3>
+
+<blockquote>
+<p>Example request to list block operations.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/explorer/block/head/op&#34;</span></code></pre></div>
+<blockquote>
+<p><strong>Example response.</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLFjwCUTebnhw6ZWpQNxa9VjZgGLgnp1Zazb21T1356VFEnxPrZ&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;predecessor&#34;</span><span class="p">:</span> <span class="s2">&#34;BLWT4x43zqzbtRzWNShkuU1DaTjU9fX34Qs4V3Hku2ZgYxiEpPW&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;baker&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627343</span><span class="p">,</span>
+  <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
+  <span class="err">//</span> <span class="err">...</span>
+  <span class="nt">&#34;ops&#34;</span><span class="p">:</span> <span class="p">[{</span>
+      <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;oozRTWSPr2M2rr1EQKaU4uVgu4kP28UnTu1tMS24DoTAZiC3kx3&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;endorsement&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLFjwCUTebnhw6ZWpQNxa9VjZgGLgnp1Zazb21T1356VFEnxPrZ&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T13:12:51Z&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627343</span><span class="p">,</span>
+      <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
+      <span class="nt">&#34;counter&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;op_n&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;op_c&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;op_i&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;applied&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;is_success&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&#34;is_contract&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nt">&#34;gas_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;gas_used&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;gas_price&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;storage_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;storage_size&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;storage_paid&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;volume&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;fee&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;reward&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&#34;deposit&#34;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+      <span class="nt">&#34;burned&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;is_internal&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nt">&#34;has_data&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&#34;days_destroyed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="s2">&#34;524288&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;sender&#34;</span><span class="p">:</span> <span class="s2">&#34;tz3NExpXn9aPNZPorRE4SdjJ2RGrfbJgMAaV&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;branch_id&#34;</span><span class="p">:</span> <span class="mi">627343</span><span class="p">,</span>
+      <span class="nt">&#34;branch_height&#34;</span><span class="p">:</span> <span class="mi">627342</span><span class="p">,</span>
+      <span class="nt">&#34;branch_depth&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;BLWT4x43zqzbtRzWNShkuU1DaTjU9fX34Qs4V3Hku2ZgYxiEpPW&#34;</span>
+    <span class="p">},</span>
+    <span class="err">//</span> <span class="err">...</span>
+  <span class="p">]</span>
+<span class="p">}</span></code></pre></div>
+<p>Block data can be extended with an embeded list of operations. This endpoint is an optimization to fetch both the operation list and the related resource in one call. Use <code>limit</code> and <code>offset</code> (both integers) to page through operation lists. Operations are sorted by row_id in ascending order.</p>
+
+<h3 id="http-request-7">HTTP Request</h3>
+
+<h4 id="list-block-operations-1">List Block Operations</h4>
+
+<p><code>GET https://api.tzstats.com/explorer/block/{hash,height,head}/op</code></p>
+
 <h2 id="blockchain-config">Blockchain Config</h2>
 
 <blockquote>
@@ -2194,7 +2262,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <span class="p">}</span></code></pre></div>
 <p>Fetches blockchain configuration parameters. This endpoint accepts <code>head</code> and a block <code>height</code> as path parameters, so you can access configurations of past protocols as well.</p>
 
-<h3 id="http-request-7">HTTP Request</h3>
+<h3 id="http-request-8">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/config/head</code></p>
 
@@ -2501,7 +2569,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <span class="p">}</span></code></pre></div>
 <p>Returns info about the most recent block as well as some on-chain and supply statistics.</p>
 
-<h3 id="http-request-8">HTTP Request</h3>
+<h3 id="http-request-9">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/tip</code></p>
 
@@ -2693,7 +2761,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 
 <p>Unlike other on-chain data where values and ranges are predictable the contents of <strong>call parameters</strong>, <strong>storage keys/values</strong> and <strong>code/type annotations</strong> is entirely user-controlled and unpredictable. IT MAY CONTAIN MALICIOUS DATA INTENDED TO ATTACK YOUR APPLICATIONS AND USERS! Be vigilant and sanitize all data before you process or display it.</p>
 
-<h3 id="http-request-9">HTTP Request</h3>
+<h3 id="http-request-10">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/contract/{hash}</code></p>
 
@@ -3071,7 +3139,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 
 <p><code>GET https://api.tzstats.com/explorer/contract/{hash}/calls</code></p>
 
-<p>Returns calls (transactions) sent to the contract with embedded praramters, storage and bigmap updates. Use the optional <code>prim</code> (boolean) argument to embed Michelson primitive trees in addition to unboxed call data.</p>
+<p>Returns calls (transactions) sent to the contract with embedded praramters, storage and bigmap updates. Use the optional <code>prim</code> (boolean) argument to embed Michelson primitive trees in addition to unboxed call data. To query a calls until a specific block use the optional query argument <code>block</code> (int64|hash). Hash is reorg-aware, ie. in case you execute a query on a block that becomes orphaned, the API returns a 409 Conflict error. To query for updates after a certain block use the optional argument <code>since</code> (int64|hash). To change the order of returned calls use the optional <code>order</code> (asc|desc) parameter (defaults to ascending).</p>
 
 <h3 id="unboxed-call-parameters">Unboxed Call Parameters</h3>
 
@@ -3341,7 +3409,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <span class="p">}</span></code></pre></div>
 <p>Provides information about a consensus cycle, the past roll snapshot cycle and the future cycle who&rsquo;s rights are deterined by the current cycle. This endpoint accepts <code>head</code> and a cycle <code>number</code> as path parameters.</p>
 
-<h3 id="http-request-10">HTTP Request</h3>
+<h3 id="http-request-11">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/cycle/{head,number}</code></p>
 
@@ -3740,7 +3808,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <span class="p">}</span></code></pre></div>
 <p>Shows full detail about a past or current election including up to four voting periods and detailed results. Elections represent metadata about each consecutive run of related voting periods. Elections may contain 4, 2 or 1 vote periods. They are called empty when only one empty proposal vote without a proposal exists. Votes represent on-chain voting periods, proposals represent individual proposals that are submitted by a source and upvoted by other bakers, ballots represent the individual ballot operations sent by bakers during votes.</p>
 
-<h3 id="http-request-11">HTTP Request</h3>
+<h3 id="http-request-12">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/election/{head,number}</code></p>
 
@@ -4065,7 +4133,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <span class="p">}</span></code></pre></div>
 <p>Returns the current indexer status, useful to check of the indexer is in sync with the blockchain.</p>
 
-<h3 id="http-request-12">HTTP Request</h3>
+<h3 id="http-request-13">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/status</code></p>
 
@@ -4147,7 +4215,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <span class="p">]</span></code></pre></div>
 <p>Fetches a list of market price tickers with 24h OHLCV data.</p>
 
-<h3 id="http-request-13">HTTP Request</h3>
+<h3 id="http-request-14">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/markets/tickers</code></p>
 
@@ -4287,7 +4355,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <span class="p">]</span></code></pre></div>
 <p>Returns info about a single operation or a list of related operations. Because Tezos supports batch operations (multiple operatiosn sharing the same hash) and internal operations (created by smart contract calls in response to a transaction) this endpoint always returns an array of operation objects. In many cases this array contains one element only. Use the optional <code>prim</code> (boolean) parameter to embed Michelson primitive trees with smart contract calls.</p>
 
-<h3 id="http-request-14">HTTP Request</h3>
+<h3 id="http-request-15">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/op/{hash}</code></p>
 
@@ -4614,72 +4682,6 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 </tbody>
 </table>
-
-<h3 id="list-operations">List Operations</h3>
-
-<blockquote>
-<p>Example request to list block operations.</p>
-</blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/explorer/block/head/op&#34;</span></code></pre></div>
-<blockquote>
-<p><strong>Example response.</strong></p>
-</blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-  <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLFjwCUTebnhw6ZWpQNxa9VjZgGLgnp1Zazb21T1356VFEnxPrZ&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;predecessor&#34;</span><span class="p">:</span> <span class="s2">&#34;BLWT4x43zqzbtRzWNShkuU1DaTjU9fX34Qs4V3Hku2ZgYxiEpPW&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;baker&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1S1Aew75hMrPUymqenKfHo8FspppXKpW7h&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627343</span><span class="p">,</span>
-  <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
-  <span class="err">//</span> <span class="err">...</span>
-  <span class="nt">&#34;ops&#34;</span><span class="p">:</span> <span class="p">[{</span>
-      <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;oozRTWSPr2M2rr1EQKaU4uVgu4kP28UnTu1tMS24DoTAZiC3kx3&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;endorsement&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLFjwCUTebnhw6ZWpQNxa9VjZgGLgnp1Zazb21T1356VFEnxPrZ&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T13:12:51Z&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627343</span><span class="p">,</span>
-      <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
-      <span class="nt">&#34;counter&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;op_n&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;op_c&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;op_i&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;applied&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;is_success&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="nt">&#34;is_contract&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="nt">&#34;gas_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;gas_used&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;gas_price&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;storage_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;storage_size&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;storage_paid&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;volume&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;fee&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;reward&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-      <span class="nt">&#34;deposit&#34;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
-      <span class="nt">&#34;burned&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;is_internal&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-      <span class="nt">&#34;has_data&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="nt">&#34;days_destroyed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-      <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="s2">&#34;524288&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;sender&#34;</span><span class="p">:</span> <span class="s2">&#34;tz3NExpXn9aPNZPorRE4SdjJ2RGrfbJgMAaV&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;branch_id&#34;</span><span class="p">:</span> <span class="mi">627343</span><span class="p">,</span>
-      <span class="nt">&#34;branch_height&#34;</span><span class="p">:</span> <span class="mi">627342</span><span class="p">,</span>
-      <span class="nt">&#34;branch_depth&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-      <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;BLWT4x43zqzbtRzWNShkuU1DaTjU9fX34Qs4V3Hku2ZgYxiEpPW&#34;</span>
-    <span class="p">},</span>
-    <span class="err">//</span> <span class="err">...</span>
-  <span class="p">]</span>
-<span class="p">}</span></code></pre></div>
-<p>Block and account info can be extended with an embeded list of operations. This endpoint is an optimization to fetch both the operation list and the related resource in one call. Use <code>limit</code> and <code>offset</code> (both integers) to page through operation lists. Operations are sorted by row_id in ascending order.</p>
-
-<h3 id="http-request-15">HTTP Request</h3>
-
-<h4 id="list-block-operations">List Block Operations</h4>
-
-<p><code>GET https://api.tzstats.com/explorer/block/{hash,height,head}/op</code></p>
-
-<h4 id="list-account-operations">List Account Operations</h4>
-
-<p><code>GET https://api.tzstats.com/explorer/account/{hash}/op</code></p>
 
     
         
