@@ -167,7 +167,7 @@
                 
                     <ul class="toc-list-h2">
                         
-                            <li><a href="#2019-11-27-pre-release" class="toc-h2 toc-link" data-title="2019-11-27 (pre-release)">2019-11-27 (pre-release)</a></li>
+                            <li><a href="#2019-12-05" class="toc-h2 toc-link" data-title="2019-12-05">2019-12-05</a></li>
                         
                             <li><a href="#2019-11-01" class="toc-h2 toc-link" data-title="2019-11-01">2019-11-01</a></li>
                         
@@ -187,7 +187,7 @@
         
         <ul class="toc-footer">
             
-            <li>API v005-2019-11-27</li>
+            <li>API v005-2019-12-05</li>
             
         </ul>
         
@@ -235,7 +235,7 @@ Carthagenet: https://api.carthagenet.tzstats.com
 
 <p>Table and time-series endpoints stream data, that is, they immediately return response headers after accepting and validating a request and then stream rows or aggregated data points as they are fetched from the underlying database.</p>
 
-<h3 id="security">Security</h3>
+<h3 id="transport-security">Transport Security</h3>
 
 <blockquote>
 <p>All our certificates are signed by <a href="https://letsencrypt.org/certificates/" target="_blank">LetsEncrypt Authority X3 certificate</a>.</p>
@@ -256,6 +256,24 @@ ECDHE-RSA-AES128-SHA256
 </code></pre>
 
 <p>The API supports secure connections via <strong>TLS v1.3</strong>, <strong>v1.2</strong> and <strong>v1.1</strong> with Perfect Forward Secrecy based on Eliptic Curves and Diffie Helman key exchange. Insecure HTTP requests to port 80 are automatically redirected to HTTPS on port 443.</p>
+
+<h3 id="api-response-headers">API Response Headers</h3>
+
+<p>All our API responses are tagged with an API version that&rsquo;s included in the <code>X-Api-Version</code> HTTP header field as well as the Tezos network id and protocol.</p>
+
+<blockquote>
+<p><strong>Current TzStats Mainnet Response Headers</strong></p>
+</blockquote>
+
+<pre><code># API version
+X-Api-Version:   v005-2019-12-05
+
+# Tezos Network (chain id)
+X-Network-Id:    NetXdQprcVkpaWU
+
+# Tezos Protocol (protocol hash)
+X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
+</code></pre>
 
 <h3 id="cors">CORS</h3>
 
@@ -1205,9 +1223,9 @@ ECDHE-RSA-AES128-SHA256
 
 <h2 id="bigmaps">Bigmaps</h2>
 
-<p>Bigmaps are key-value stores where smart contracts can store large amounts of data. Values in bigmaps are accessed by unique keys. The TzStats bigmap index supports different key encodings: a <strong>hash</strong> (script expression hash), the <strong>binary</strong> representation of a key and the <strong>native</strong> <code>key</code> typed version of a key. For convenience, all three variants are present in responses as <code>key_hash</code>, <code>key_binary</code> and <code>key</code>.</p>
+<p>Bigmaps are key-value stores where smart contracts can store large amounts of data. Values in bigmaps are accessed by unique keys. The TzStats bigmap index supports different key encodings: a <strong>hash</strong> (script expression hash), the <strong>binary</strong> representation of a key and the <strong>native</strong> typed version of a key. For convenience, all three variants are present in responses as <code>key_hash</code>, <code>key_binary</code> and <code>key</code>.</p>
 
-<p><strong>Types</strong> A bigmap is defined by a <code>key_type</code> and a <code>value_type</code>. While the key type is most often a simple type (int, string, bytes, address, etc), the value can have a complex type structure. Complex keys (using pairs) are represented as JSON primitive tree and a collapsed stringified version of such keys is returned in the optional <code>key_pretty</code> field.</p>
+<p><strong>Types</strong> A bigmap is defined by a <code>key_type</code> and a <code>value_type</code>. While the key type is most often a simple type (int, string, bytes, address, etc), the value can have a complex type structure. Complex keys (using pairs) are represented as JSON primitive tree and a collapsed stringified version of such keys is returned in the optional <code>key_pretty</code> field. Values are represented in unboxed (decoded) form and optionally as original Michelson primitives.</p>
 
 <p><strong>Unboxing</strong> The API supports a mix of multiple representations for keys and values. Per default only <strong>decoded keys</strong> (as hash, binary, and native) and <strong>unboxed values</strong> are returned. Unboxing uses the types and annotations defined on contract origination to decompose Michelson primitives into nested JSON objects where annotations become JSON property names. Use the optional request parameter <code>prim</code> (bool) to include the native Michelson value representation (a tree of primitives).</p>
 
@@ -1218,6 +1236,10 @@ ECDHE-RSA-AES128-SHA256
 <p><strong>Pagination</strong> The Bigmap API support paginated queries for keys, values and updates using <code>limit</code> and <code>offset</code>.</p>
 
 <p><strong>Time-lock</strong> To query a bigmap at a certain point in time (ie. a specific block) use the optional query argument <code>block</code> (int64|hash) to specific a height or block hash. Hash is reorg-aware, ie. in case you execute a query on a block that becomes orphaned, the API returns a 409 Conflict error. To query for updates after a certain block use the optional argument <code>since</code> (int64|hash).</p>
+
+<h3 id="security-warning"><strong>SECURITY WARNING</strong></h3>
+
+<p>Unlike other on-chain data where values and ranges are predictable the contents of bigmaps are entirely user-controlled and unpredictable. IT MAY CONTAIN MALICIOUS DATA INTENDED TO ATTACK YOUR APPLICATIONS AND USERS! Be vigilant and sanitize all data before you process or display it.</p>
 
 <h3 id="bigmap-metadata">Bigmap Metadata</h3>
 
@@ -1555,7 +1577,7 @@ ECDHE-RSA-AES128-SHA256
 
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/values</code></p>
 
-<p>Lists all values contained in the bigmap at present time, ie. at blockchain head. Can otioanlly return bigmap contents at the specified block in the past using the optional paramater <code>block</code> height (int64) or hash (hash).</p>
+<p>Lists all values contained in the bigmap at present time, ie. at blockchain head. Can return bigmap contents at a specific block in the past using the optional paramater <code>block</code> height (int64) or hash (hash).</p>
 
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/{key}</code></p>
 
@@ -2667,6 +2689,10 @@ ECDHE-RSA-AES128-SHA256
 <span class="p">}</span></code></pre></div>
 <p>Returns metadata about the smart contract. For more details call the <a href="#accounts">explorer account endpoint</a> using the contract&rsquo;s KT1 address. Separate calls support querying contract code, storage type and entrypoint specifications, storage contents and calls.</p>
 
+<h3 id="security-warning-1"><strong>SECURITY WARNING</strong></h3>
+
+<p>Unlike other on-chain data where values and ranges are predictable the contents of <strong>call parameters</strong>, <strong>storage keys/values</strong> and <strong>code/type annotations</strong> is entirely user-controlled and unpredictable. IT MAY CONTAIN MALICIOUS DATA INTENDED TO ATTACK YOUR APPLICATIONS AND USERS! Be vigilant and sanitize all data before you process or display it.</p>
+
 <h3 id="http-request-9">HTTP Request</h3>
 
 <p><code>GET https://api.tzstats.com/explorer/contract/{hash}</code></p>
@@ -2932,7 +2958,7 @@ ECDHE-RSA-AES128-SHA256
 <tbody>
 <tr>
 <td><code>script</code> <em>object</em></td>
-<td>Native Michelson primitives from contract origination containing <code>code</code> with sub-primitives for parameter/entrypoint spec, storage spec and code as well as the initial <code>storage</code> content.</td>
+<td>Native Michelson primitives from contract origination containing <code>code</code> with sub-primitives for parameter/entrypoint spec, storage spec and code as well as the initial <code>storage</code> content (hidden by default, enable with <code>prim=true</code>).</td>
 </tr>
 
 <tr>
@@ -2946,23 +2972,23 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>id</code> <em>int64</em></td>
+<td><code>entrypoint.$.id</code> <em>int64</em></td>
 <td>Position of the entrypoint in the Michelson parameter tree.</td>
 </tr>
 
 <tr>
-<td><code>branch</code> <em>string</em></td>
+<td><code>entrypoint.$.branch</code> <em>string</em></td>
 <td>Path of left (L) or right (R) branches to reach the entrypoint&rsquo;s code in the Michelson code tree.</td>
 </tr>
 
 <tr>
-<td><code>type</code> <em>polymorph</em></td>
+<td><code>entrypoint.$.type</code> <em>polymorph</em></td>
 <td>List of unboxed scalar or complex types expected as function call parameters for this entrypoint.</td>
 </tr>
 
 <tr>
-<td><code>prim</code> <em>object</em></td>
-<td>Native Michelson primitives defining the parameter types for this entrypoint.</td>
+<td><code>entrypoint.$.prim</code> <em>object</em></td>
+<td>Native Michelson primitives defining the parameter types for this entrypoint (hidden by default, enable with <code>prim=true</code>).</td>
 </tr>
 </tbody>
 </table>
@@ -7760,8 +7786,8 @@ ECDHE-RSA-AES128-SHA256
     <span class="s2">&#34;testing_vote&#34;</span><span class="p">,</span>    <span class="err">//</span> <span class="err">voting_period_kind</span>
     <span class="mi">1565333282000</span><span class="p">,</span>     <span class="err">//</span> <span class="err">period_start_time</span>
     <span class="mi">1565333282000</span><span class="p">,</span>     <span class="err">//</span> <span class="err">period_end_time</span>
-    <span class="mi">557056</span><span class="p">,</span>            <span class="err">//</span> <span class="err">period_start_block</span>
-    <span class="mi">589823</span><span class="p">,</span>            <span class="err">//</span> <span class="err">period_end_block</span>
+    <span class="mi">557056</span><span class="p">,</span>            <span class="err">//</span> <span class="err">period_start_height</span>
+    <span class="mi">589823</span><span class="p">,</span>            <span class="err">//</span> <span class="err">period_end_height</span>
     <span class="mi">70585</span><span class="p">,</span>             <span class="err">//</span> <span class="err">eligible_rolls</span>
     <span class="mi">464</span><span class="p">,</span>               <span class="err">//</span> <span class="err">eligible_voters</span>
     <span class="mi">7291</span><span class="p">,</span>              <span class="err">//</span> <span class="err">quorum_pct</span>
@@ -7838,12 +7864,12 @@ ECDHE-RSA-AES128-SHA256
 </tr>
 
 <tr>
-<td><code>period_start_block</code> <em>int64</em></td>
+<td><code>period_start_height</code> <em>int64</em></td>
 <td>Block height of vote start block.</td>
 </tr>
 
 <tr>
-<td><code>period_end_block</code> <em>int64</em></td>
+<td><code>period_end_height</code> <em>int64</em></td>
 <td>Block height of vote end block.</td>
 </tr>
 
@@ -8560,7 +8586,7 @@ ECDHE-RSA-AES128-SHA256
 
 <p>Recent changes and additions to the TzStats Data API.</p>
 
-<h2 id="2019-11-27-pre-release">2019-11-27 (pre-release)</h2>
+<h2 id="2019-12-05">2019-12-05</h2>
 
 <ul>
 <li>FIXES
@@ -8569,8 +8595,11 @@ ECDHE-RSA-AES128-SHA256
 <li>account <code>is_revealed</code> is now correctly reset when account balance becomes zero (in this case a Tezos node will remove all account data including a revealed pubkey from storage)</li>
 <li>eligible voting rolls are now taken after cycle start block is processed</li>
 <li>counting duplicate proposal votes has been corrected</li>
-<li>annualized supply calculation has been fixed to use 365 instead of 364 days
--</li>
+<li>annualized supply calculation has been fixed to use 365 instead of 364 days</li>
+<li>fixed vote table  <code>period_start_height</code> and <code>period_end_height</code> field names</li>
+<li>fixed empty fields in some CSV results</li>
+<li>numeric filters on tables now fully support range, in and not-in argument lists</li>
+<li>corrected <code>missed_baking_income</code> when prio 0 blocks are lost</li>
 </ul></li>
 <li>NEW EXPLORER FEATURES
 
@@ -8606,6 +8635,7 @@ ECDHE-RSA-AES128-SHA256
 <ul>
 <li>added <a href="#operation-table">op table</a> fields <code>branch_id</code>, <code>branch_height</code>, <code>branch_depth</code></li>
 <li>added <a href="#bigmap-table">bigmap table</a> <code>/tables/bigmap</code> to access raw bigmap updates</li>
+<li>changed CSV timestamps to RFC3339 (from UNIX milliseconds)</li>
 </ul></li>
 <li>DEPRECATION NOTICES
 
