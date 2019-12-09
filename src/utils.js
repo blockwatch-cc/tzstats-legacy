@@ -75,7 +75,7 @@ export function isValid(...args) {
 
 export function formatValue(value, prefix = ',') {
   value = value || 0;
-  return format(prefix)(value).replace(/(.*)([MkGmµ])$/, '$1 $2');
+  return format(prefix)(value).replace(/(.*)([MkGmµ])$/, '$1 $2').replace('G', 'B');
 }
 
 export function formatCurrency(value, prefix = ',', symbol = '') {
