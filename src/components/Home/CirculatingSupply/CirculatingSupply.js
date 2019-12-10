@@ -32,12 +32,14 @@ const Wrapper = styled.div`
 export default CirculatingSupply;
 
 function getBarSettings(chain) {
+  const s = chain.supply;
+  let liquid = s.total - s.unvested - s.unclaimed - s.frozen;
   return [
     {
-      percent: (chain.supply.circulating / chain.supply.total) * 100,
+      percent: (liquid / chain.supply.total) * 100,
       color: '#3e85f2',
-      title: 'Circulating',
-      value: chain.supply.circulating,
+      title: 'Liquid',
+      value: liquid,
     },
     {
       percent: (chain.supply.unvested / chain.supply.total) * 100,
