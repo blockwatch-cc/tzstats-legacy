@@ -56,11 +56,19 @@ export const proposals = {
   },
   PtCarthavAMoXqbjBPVgDCRd5LgT7qqKWUPXnYii3xCaHRBMfHH: {
     id: 15,
-    name: 'Carthage',
+    name: 'Carthage 1.0',
     by: 'Nomadic Labs',
     link: 'https://blog.nomadic-labs.com/carthage-changelog-and-testnet.html',
     docu: 'http://tezos.gitlab.io/protocols/006_carthage.html',
     archive: 'https://blog.nomadic-labs.com/files/carthage_006_PtCartha.tar',
+  },
+  PsCARTHAGazKbHtnKfLzQg3kms52kSRpgnDY982a9oYsSXRLQEb: {
+    id: 14,
+    name: 'Carthage 1.1',
+    by: 'Nomadic Labs',
+    link: 'https://medium.com/cryptium/on-the-carthage-proposal-and-the-carthagenet-test-network-de876930445e',
+    docu: 'https://tezos.gitlab.io/protocols/006_carthage.html',
+    archive: 'https://gitlab.com/nomadic-labs/tezos/tree/proto-006',
   },
 };
 
