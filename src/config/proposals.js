@@ -63,7 +63,7 @@ export const proposals = {
     archive: 'https://blog.nomadic-labs.com/files/carthage_006_PtCartha.tar',
   },
   PsCARTHAGazKbHtnKfLzQg3kms52kSRpgnDY982a9oYsSXRLQEb: {
-    id: 14,
+    id: 16,
     name: 'Carthage 2.0',
     by: 'Nomadic Labs',
     link: 'https://medium.com/cryptium/on-the-carthage-proposal-and-the-carthagenet-test-network-de876930445e',
@@ -87,7 +87,14 @@ export function getProposalById(value) {
       return proposals.empty;
   }
   const hashes = Object.keys(proposals).filter(k => proposals[k].id === value);
-  return proposals[hashes[0]||'empty'];
+  return hashes[0] ? proposals[hashes[0]] : {
+    id: value,
+    by: '',
+    name: value.slice(0, 7) + '...',
+    link: 'https://www.tezosagora.org/',
+    docu: '',
+    archive:''
+  };
 }
 
 export function getProposalByHash(value) {
