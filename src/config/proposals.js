@@ -64,7 +64,7 @@ export const proposals = {
   },
   PsCARTHAGazKbHtnKfLzQg3kms52kSRpgnDY982a9oYsSXRLQEb: {
     id: 14,
-    name: 'Carthage 1.1',
+    name: 'Carthage 2.0',
     by: 'Nomadic Labs',
     link: 'https://medium.com/cryptium/on-the-carthage-proposal-and-the-carthagenet-test-network-de876930445e',
     docu: 'https://tezos.gitlab.io/protocols/006_carthage.html',

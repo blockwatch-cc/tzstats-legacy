@@ -179,6 +179,7 @@ export const bakerAccounts = {
   tz1WHALEP56kjCTuUFLWjcBkfFpyevC4xo3t: { name: 'Tez Whale Payouts 2', logo: null, link: '', fee_type: '', fee: 0 },
   tz1Zcxkfa5jKrRbBThG765GP29bUCU3C4ok5: { name: 'Tezz City', logo: null, link: '', fee_type: '', fee: 0 },
   tz1fUjvVhJrHLZCbhPNvDRckxApqbkievJHN: { name: 'Tezzieland', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1WntXgznbivRjyhE7Y5jEzoebAhMPB2iJa: { name: 'Tezzieland Payouts', logo: null, link: '', fee_type: '', fee: 0 },
   tz3adcvQaKXTCg12zbninqo3q8ptKKtDFTLv: { name: 'Tezzigator', logo: null, link: '', fee_type: '', fee: 0 },
   tz1iZEKy4LaAjnTmn2RuGDf2iqdAQKnRi8kY: { name: 'Tezzigator Legacy', logo: null, link: '', fee_type: '', fee: 0 },
   tz1Yh1nLXfwqVpP8btykuRguu61n3veVmADa: { name: 'TzBakeOven', logo: null, link: '', fee_type: '', fee: 0 },
