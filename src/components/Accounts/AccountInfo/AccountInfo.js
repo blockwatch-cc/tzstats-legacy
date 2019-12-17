@@ -24,7 +24,7 @@ const AccountInfo = ({ account }) => {
   const stakingCapacity = getStakingCapacity(account, chain, config);
   const settings = getStakingSettings(account.staking_balance, stakingCapacity);
 
-  if (account.staking_balance >= stakingCapacity) {
+  if (account.is_active_delegate && account.staking_balance >= stakingCapacity) {
     tags.push('Overdelegated');
   }
 
