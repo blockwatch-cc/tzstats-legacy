@@ -90,7 +90,7 @@ export function getProposalById(value) {
   return hashes[0] ? proposals[hashes[0]] : {
     id: value,
     by: '',
-    name: value.slice(0, 7) + '...',
+    name: hashes[0] ? hashes[0].slice(0, 7) + '...' : '-',
     link: 'https://www.tezosagora.org/',
     docu: '',
     archive:''
