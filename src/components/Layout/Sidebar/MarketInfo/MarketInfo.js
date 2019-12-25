@@ -18,17 +18,18 @@ const MarketInfo = ({ history }) => {
         // filter fresh tickers in USD only (age < 2min)
         let usdtickers = tickers.filter(e => e.quote === 'USD' && now - e.timestamp < 2 * 60000);
         // price index: use all USD ticker last prices with equal weight
+        let vol = usdtickers.reduce((s, t) => s + t.volume_base, 0) || 1;
         setGlobal({
           tickers: tickers,
           lastMarketData: {
             date: usdtickers.length?usdtickers[0].timestamp:new Date(),
             price:
               usdtickers.reduce((s, t) => {
-                return s + t.last / usdtickers.length;
+                return s + t.last * t.volume_base / vol;
               }, 0) || 0,
             change:
               usdtickers.reduce((s, t) => {
-                return s + t.change / usdtickers.length;
+                return s + t.change * t.volume_base / vol;
               }, 0) || 0,
           },
         });
