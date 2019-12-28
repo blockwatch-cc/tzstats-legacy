@@ -60,6 +60,7 @@ export const bakerAccounts = {
   tz1QLXqnfN51dkjeghXvKHkJfhvGiM5gK4tc: { name: 'FreshTezos', logo: null, link: '', fee_type: '', fee: 0 },
   tz1NpWrAyDL9k2Lmnyxcgr9xuJakbBxdq7FB: { name: 'Gate.io', logo: null, link: '', fee_type: '', fee: 0 },
   tz1WCd2jm4uSt4vntk4vSuUWoZQGhLcDuR9q: { name: 'Happy Tezos', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1acsihTQWHEnxxNz7EEsBDLMTztoZQE9SW: { name: 'Happy Tezos Payouts', logo: null, link: '', fee_type: '', fee: 0 },
   tz1KzSC1J9aBxKp7u8TUnpN8L7S65PBRkgdF: { name: 'HashQuark', logo: null, link: '', fee_type: '', fee: 0 },
   tz1SohptP53wDPZhzTWzDUFAUcWF6DMBpaJV: { name: 'Hayek Lab', logo: null, link: '', fee_type: '', fee: 0 },
   tz1gg5bjopPcr9agjamyu9BbXKLibNc2rbAq: { name: 'Hodl Farm', logo: null, link: '', fee_type: '', fee: 0 },
