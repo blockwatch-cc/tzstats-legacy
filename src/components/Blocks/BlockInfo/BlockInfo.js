@@ -39,7 +39,7 @@ const BlockInfo = ({ block, setTxType }) => {
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween >
           <DataBox valueType="text" title="Solvetime" value={block.solvetime + ' sec'} />
-          <DataBox title="Level in Cycle" value={parseInt(block.height%config.blocks_per_cycle-1)} />
+          <DataBox title="Level in Cycle" value={parseInt(((block.height||1)-1)%config.blocks_per_cycle)} />
           <DataBox valueType="currency-short" title="Block Fees" value={block.fees} />
           <DataBox valueType="currency-short" title="Gas Price" value={block.gas_price / 1000} />
         </FlexColumnSpaceBetween>
