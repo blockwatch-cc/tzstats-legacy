@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.60.1" />
+	<meta name="generator" content="Hugo 0.61.0" />
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -167,6 +167,8 @@
                 
                     <ul class="toc-list-h2">
                         
+                            <li><a href="#2020-01-06" class="toc-h2 toc-link" data-title="2020-01-06">2020-01-06</a></li>
+                        
                             <li><a href="#2019-12-05" class="toc-h2 toc-link" data-title="2019-12-05">2019-12-05</a></li>
                         
                             <li><a href="#2019-11-01" class="toc-h2 toc-link" data-title="2019-11-01">2019-11-01</a></li>
@@ -187,7 +189,7 @@
         
         <ul class="toc-footer">
             
-            <li>API v005-2019-12-05</li>
+            <li>API v006-2020-01-06</li>
             
         </ul>
         
@@ -211,6 +213,7 @@
 Zeronet: https://api.zeronet.tzstats.com
 Babylonnet: https://api.babylonnet.tzstats.com
 Carthagenet: https://api.carthagenet.tzstats.com
+Labnet: https://api.labnet.tzstats.com
 </code></pre><p>TzStats provides a powerful API to access fully indexed raw data and statistics collected from the Tezos blockchain. You may use this API free of charge and without limits for non-commercial projects. To inquire about commercial use send an email to <a href="mailto:info@tzstats.com">info@tzstats.com</a>.</p>
 <p>This API reference provides information on all public API endpoints and the different schemes of calling them. Access to the API does not require authentication and we do not enforce daily rate limits right now, but we monitor usage and may apply limits later to guarantee fair usage for everybody.</p>
 <p>The API supports three different endpoint flavors to access the same underlying data in different ways:</p>
@@ -247,7 +250,7 @@ ECDHE-RSA-AES128-SHA256
 <p><strong>Current TzStats Mainnet Response Headers</strong></p>
 </blockquote>
 <pre><code># API version
-X-Api-Version:   v005-2019-12-05
+X-Api-Version:   v006-2020-01-06
 
 # Tezos Network (chain id)
 X-Network-Id:    NetXdQprcVkpaWU
@@ -358,7 +361,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <li>as UNIX timestamp in seconds or milliseconds, so <code>1536246000</code> and <code>1536246000000</code> are equal</li>
 <li>as date without time, i.e. <code>2018</code>, <code>2018-09</code>, <code>2018-09-06</code> represents midnight at the first day of month and/or month of year</li>
 <li>as static string such as <code>now</code>, <code>today</code>, or <code>yesterday</code> to reference a relative point in time</li>
-<li>as static string expression to truncated and offset timepoints against now, eg. <code>now/d</code> for start of today or <code>now/d-30d</code> for start of day 30 days ago (expressions support <code>s`.`m`,`h`,`d</code> )</li>
+<li>as static string expression to truncated and offset timepoints against <code>now</code>, eg. <code>now/d</code> for start of today or <code>now/d-30d</code> for start of day 30 days ago (expressions support <code>s</code>,<code>m</code>,<code>h</code>,<code>d</code>)</li>
 </ul>
 <h2 id="status-codes">Status Codes</h2>
 <p>The TzStats Data API responds with regular HTTP status codes in the <code>2xx</code> range to indicate success, in the <code>4xx</code> range to indicate client-side errors and in the <code>5xx</code> range to indicate backend errors. The response body contains additional information encoded as JSON object.</p>
@@ -1075,9 +1078,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;update_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-07-04T20:59:27Z&#34;</span>
 <span class="p">}</span>
 </code></pre></div><p>Returns metadata about a bigmap.</p>
-<h3 id="http-request1">HTTP Request</h3>
+<h3 id="http-request-1">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}</code></p>
-<h3 id="http-response1">HTTP Response</h3>
+<h3 id="http-response-1">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -1159,9 +1162,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>Returns bigmap type description in Michelson JSON format, both for keys and values. Keys are simple scalar types and values can have a simple or complex type. Use <code>prim</code> (boolean) to embed original Michelson primitives for key and value type definitions.</p>
-<h3 id="http-request2">HTTP Request</h3>
+<h3 id="http-request-2">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/type</code></p>
-<h3 id="http-response2">HTTP Response</h3>
+<h3 id="http-response-2">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -1227,9 +1230,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="err">/</span><span class="err">/</span> <span class="err">.</span><span class="err">.</span><span class="err">.</span>
 <span class="p">]</span>
 </code></pre></div><p>Lists bigmap keys only. Supports paging with <code>limit</code> and <code>offset</code> and locking calls to a specific <code>block</code> height (int64) or hash (hash). Use <code>prim</code> (boolean) to embed original Michelson primitives and <code>unpack</code> (boolean) to unpack packed keys.</p>
-<h3 id="http-request3">HTTP Request</h3>
+<h3 id="http-request-3">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/keys</code></p>
-<h3 id="http-response3">HTTP Response</h3>
+<h3 id="http-response-3">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -1336,12 +1339,12 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="err">/</span><span class="err">/</span> <span class="err">.</span><span class="err">.</span><span class="err">.</span>
 <span class="p">]</span>
 </code></pre></div><p>Lists key/value pairs contained in bigmap. This endpoint supports paging with <code>limit</code> and <code>offset</code> and also allows locking paginated calls to a specific <code>block</code> height (int64) or hash (hash). Use <code>prim</code> (boolean) to embed original Michelson primitives and <code>unpack</code> (boolean) to unpack packed keys and values.</p>
-<h3 id="http-request4">HTTP Request</h3>
+<h3 id="http-request-4">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/values</code></p>
 <p>Lists all values contained in the bigmap at present time, ie. at blockchain head. Can return bigmap contents at a specific block in the past using the optional parameter <code>block</code> height (int64) or hash (hash).</p>
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/{key}</code></p>
 <p>Returns a single bigmap value stored at <code>key</code>. Key can be a <strong>key hash</strong> (script expr hash), the <strong>native</strong> key representation (i.e. an address or integer) or the <strong>encoded</strong> binary version of the key. Use the optional <code>block</code> height (int64) or hash (hash) parameter to lookup the key's value at a specific block in the past.</p>
-<h3 id="http-response4">HTTP Response</h3>
+<h3 id="http-response-4">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -1456,12 +1459,12 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div><p>List historic updates to a bigmap in chronological order, including keys that have been deleted. Returns an array of objects. This endpoint supports paging with <code>limit</code> and <code>offset</code>. Use the optional <code>since</code> (int64|hash) parameter to return updates newer or equal to a specific block. Use <code>prim</code> (boolean) to embed original Michelson primitives and <code>unpack</code> (boolean) to unpack packed keys and values.</p>
-<h3 id="http-request5">HTTP Request</h3>
+<h3 id="http-request-5">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/updates</code></p>
 <p>Lists all updates across the entire bigmap.</p>
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/{key}/updates</code></p>
 <p>Lists updates for a specific key. Key can be a key hash (script expr hash), the native key representation (i.e. an address or integer) or the encoded binary version.</p>
-<h3 id="http-response5">HTTP Response</h3>
+<h3 id="http-response-5">HTTP Response</h3>
 <p>Contains the same fields as the values endpoint above with one addition:</p>
 <table>
 <thead>
@@ -1575,9 +1578,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div><p>Fetches information about the specified block. Takes either a block <code>hash</code>, a block <code>height</code> or the string <code>head</code> as argument.</p>
-<h3 id="http-request6">HTTP Request</h3>
+<h3 id="http-request-6">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/block/{hash,height,head}</code></p>
-<h3 id="http-response6">HTTP Response</h3>
+<h3 id="http-response-6">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -1858,8 +1861,8 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div><p>Block data can be extended with an embedded list of operations. This endpoint is an optimization to fetch both the operation list and the related resource in one call. Use <code>limit</code> and <code>offset</code> (both integers) to page through operation lists. Operations are sorted by row_id in ascending order.</p>
-<h3 id="http-request7">HTTP Request</h3>
-<h4 id="list-block-operations1">List Block Operations</h4>
+<h3 id="http-request-7">HTTP Request</h3>
+<h4 id="list-block-operations-1">List Block Operations</h4>
 <p><code>GET https://api.tzstats.com/explorer/block/{hash,height,head}/op</code></p>
 <h2 id="blockchain-config">Blockchain Config</h2>
 <blockquote>
@@ -1883,14 +1886,14 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;security_deposit_ramp_up_cycles&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;decimals&#34;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
   <span class="nt">&#34;units&#34;</span><span class="p">:</span> <span class="mi">1000000</span><span class="p">,</span>
-  <span class="nt">&#34;block_reward&#34;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+  <span class="nt">&#34;block_reward&#34;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
   <span class="nt">&#34;block_security_deposit&#34;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
   <span class="nt">&#34;blocks_per_commitment&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
   <span class="nt">&#34;blocks_per_cycle&#34;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
   <span class="nt">&#34;blocks_per_roll_snapshot&#34;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
   <span class="nt">&#34;blocks_per_voting_period&#34;</span><span class="p">:</span> <span class="mi">32768</span><span class="p">,</span>
   <span class="nt">&#34;cost_per_byte&#34;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
-  <span class="nt">&#34;endorsement_reward&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nt">&#34;endorsement_reward&#34;</span><span class="p">:</span> <span class="mf">1.25</span><span class="p">,</span>
   <span class="nt">&#34;endorsement_security_deposit&#34;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
   <span class="nt">&#34;endorsers_per_block&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
   <span class="nt">&#34;hard_gas_limit_per_block&#34;</span><span class="p">:</span> <span class="mi">8000000</span><span class="p">,</span>
@@ -1915,12 +1918,20 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;test_chain_duration&#34;</span><span class="p">:</span> <span class="mi">1966080</span><span class="p">,</span>
   <span class="nt">&#34;min_proposal_quorum&#34;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
   <span class="nt">&#34;quorum_min&#34;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
-  <span class="nt">&#34;quorum_max&#34;</span><span class="p">:</span> <span class="mi">7000</span>
+  <span class="nt">&#34;quorum_max&#34;</span><span class="p">:</span> <span class="mi">7000</span><span class="p">,</span>
+  <span class="nt">&#34;block_reward_v6&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="mf">1.25</span><span class="p">,</span>
+    <span class="mf">0.1875</span>
+  <span class="p">]</span><span class="p">,</span>
+  <span class="nt">&#34;endorsement_reward_v6&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="mf">1.25</span><span class="p">,</span>
+    <span class="mf">0.833333</span>
+  <span class="p">]</span><span class="p">,</span>
 <span class="p">}</span>
 </code></pre></div><p>Fetches blockchain configuration parameters. This endpoint accepts <code>head</code> and a block <code>height</code> as path parameters, so you can access configurations of past protocols as well.</p>
-<h3 id="http-request8">HTTP Request</h3>
+<h3 id="http-request-8">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/config/head</code></p>
-<h3 id="http-response7">HTTP Response</h3>
+<h3 id="http-response-7">HTTP Response</h3>
 <p>The response contains most of the configuration fields of a regular Tezos blockchain node, enriched with some additional contextual data.</p>
 <table>
 <thead>
@@ -1940,7 +1951,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>network</code> <em>string</em></td>
-<td>Network name (e.g. <code>Mainnet</code>, <code>Zeronet</code>, <code>Babylonnet</code>, <code>Sandbox</code>).</td>
+<td>Network name (e.g. <code>Mainnet</code>, <code>Zeronet</code>, <code>Babylonnet</code>, <code>Labnet</code>, <code>Sandbox</code>).</td>
 </tr>
 <tr>
 <td><code>chain_id</code> <em>hash</em></td>
@@ -2092,15 +2103,23 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>min_proposal_quorum</code> <em>int64</em></td>
-<td>Minimum quorum to accept proposals in centile (i.e. 5% = 500).</td>
+<td>(Babylon, v005) Minimum quorum to accept proposals in centile (i.e. 5% = 500).</td>
 </tr>
 <tr>
 <td><code>quorum_min</code> <em>int64</em></td>
-<td>Minimum threshold for voting period quorum in centile.</td>
+<td>(Babylon, v005) Minimum threshold for voting period quorum in centile.</td>
 </tr>
 <tr>
 <td><code>quorum_max</code> <em>int64</em></td>
-<td>Maximum threshold for voting period quorum in centile.</td>
+<td>(Babylon, v005) Maximum threshold for voting period quorum in centile.</td>
+</tr>
+<tr>
+<td><code>block_reward_v6</code> <em>[2]money</em></td>
+<td>(Carthage, v006) Block reward per included endorsement for prio 0 blocks [0] or &gt;prio 0 blocks [1].</td>
+</tr>
+<tr>
+<td><code>endorsement_reward_v6</code> <em>[2]money</em></td>
+<td>(Carthage, v006) Reward per endorsement for a prio 0 block [0] or &gt;prio 0 block [1].</td>
 </tr>
 </tbody>
 </table>
@@ -2175,9 +2194,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>Returns info about the most recent block as well as some on-chain and supply statistics.</p>
-<h3 id="http-request9">HTTP Request</h3>
+<h3 id="http-request-9">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/tip</code></p>
-<h3 id="http-response8">HTTP Response</h3>
+<h3 id="http-response-8">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -2272,7 +2291,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>health</code> <em>int64</em></td>
-<td>Blockchain and consensus health indicator with range [0..100].</td>
+<td>Blockchain and consensus health indicator with range [0..100] based on recent 128 blocks (priority, endorsements, reorgs).</td>
 </tr>
 <tr>
 <td><code>supply</code> <em>object</em></td>
@@ -2333,11 +2352,11 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;bigmap_ids&#34;</span><span class="p">:</span> <span class="p">[</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div><p>Returns metadata about the smart contract. For more details call the <a href="#accounts">explorer account endpoint</a> using the contract's KT1 address. Separate calls support querying contract code, storage type and entrypoint specifications, storage contents and calls.</p>
-<h3 id="security-warning1"><strong>SECURITY WARNING</strong></h3>
+<h3 id="security-warning-1"><strong>SECURITY WARNING</strong></h3>
 <p>Unlike other on-chain data where values and ranges are predictable the contents of <strong>call parameters</strong>, <strong>storage keys/values</strong> and <strong>code/type annotations</strong> is entirely user-controlled and unpredictable. IT MAY CONTAIN MALICIOUS DATA INTENDED TO ATTACK YOUR APPLICATIONS AND USERS! Be vigilant and sanitize all data before you process or display it.</p>
-<h3 id="http-request10">HTTP Request</h3>
+<h3 id="http-request-10">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/contract/{hash}</code></p>
-<h3 id="http-response9">HTTP Response</h3>
+<h3 id="http-response-9">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -2877,9 +2896,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>Provides information about a consensus cycle, the past roll snapshot cycle and the future cycle whose rights are determined by the current cycle. This endpoint accepts <code>head</code> and a cycle <code>number</code> as path parameters.</p>
-<h3 id="http-request11">HTTP Request</h3>
+<h3 id="http-request-11">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/cycle/{head,number}</code></p>
-<h3 id="http-response10">HTTP Response</h3>
+<h3 id="http-response-10">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -3233,9 +3252,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>Shows full detail about a past or current election including up to four voting periods and detailed results. Elections represent metadata about each consecutive run of related voting periods. Elections may contain 4, 2 or 1 vote periods. They are called empty when only one empty proposal vote without a proposal exists. Votes represent on-chain voting periods, proposals represent individual proposals that are submitted by a source and upvoted by other bakers, ballots represent the individual ballot operations sent by bakers during votes.</p>
-<h3 id="http-request12">HTTP Request</h3>
+<h3 id="http-request-12">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/election/{head,number}</code></p>
-<h3 id="http-response11">HTTP Response</h3>
+<h3 id="http-response-11">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -3495,9 +3514,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;progress&#34;</span><span class="p">:</span> <span class="mi">1</span>
 <span class="p">}</span>
 </code></pre></div><p>Returns the current indexer status, useful to check of the indexer is in sync with the blockchain.</p>
-<h3 id="http-request13">HTTP Request</h3>
+<h3 id="http-request-13">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/status</code></p>
-<h3 id="http-response12">HTTP Response</h3>
+<h3 id="http-response-12">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -3567,9 +3586,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div><p>Fetches a list of market price tickers with 24h OHLCV data.</p>
-<h3 id="http-request14">HTTP Request</h3>
+<h3 id="http-request-14">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/markets/tickers</code></p>
-<h3 id="http-response13">HTTP Response</h3>
+<h3 id="http-response-13">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -3687,9 +3706,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div><p>Returns info about a single operation or a list of related operations. Because Tezos supports batch operations (multiple operations sharing the same hash) and internal operations (created by smart contract calls in response to a transaction) this endpoint always returns an array of operation objects. In many cases this array contains one element only. Use the optional <code>prim</code> (boolean) parameter to embed Michelson primitive trees with smart contract calls.</p>
-<h3 id="http-request15">HTTP Request</h3>
+<h3 id="http-request-15">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/op/{hash}</code></p>
-<h3 id="http-response14">HTTP Response</h3>
+<h3 id="http-response-14">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -4524,9 +4543,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List individual ballot operations sent by bakers during votes.</p>
-<h3 id="http-request1">HTTP Request</h3>
+<h3 id="http-request-1">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/ballot?args</code></p>
-<h3 id="http-response1">HTTP Response</h3>
+<h3 id="http-response-1">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -4625,9 +4644,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>Lists individual bigmap update operations found in smart contract call results. Use this table to search of filter updates or efficiently access updated data. You can also use the results to reconstruct bigmap state at the client from a sequence of updates. For convenience, the current or past state of a bigmap is available as a set of <a href="#bigmaps">explorer endpoints</a>.</p>
-<h3 id="http-request2">HTTP Request</h3>
+<h3 id="http-request-2">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/bigmap?args</code></p>
-<h3 id="http-response2">HTTP Response</h3>
+<h3 id="http-response-2">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -4782,9 +4801,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List detailed information about each block, including orphans.</p>
-<h3 id="http-request3">HTTP Request</h3>
+<h3 id="http-request-3">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/block?args</code></p>
-<h3 id="http-response3">HTTP Response</h3>
+<h3 id="http-response-3">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -5067,9 +5086,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List running totals of network-wide statistics. This table is updated at each block.</p>
-<h3 id="http-request4">HTTP Request</h3>
+<h3 id="http-request-4">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/chain?args</code></p>
-<h3 id="http-response4">HTTP Response</h3>
+<h3 id="http-response-4">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -5265,9 +5284,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List creation-time information about smart contracts with embedded code and initial storage.</p>
-<h3 id="http-request5">HTTP Request</h3>
+<h3 id="http-request-5">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/contract?args</code></p>
-<h3 id="http-response5">HTTP Response</h3>
+<h3 id="http-response-5">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -5371,9 +5390,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List full details about past and current elections. Elections represent metadata about each consecutive run of related voting periods. Elections may contain 4, 2 or 1 vote periods. They are called empty when only one empty proposal vote without a proposal exists.</p>
-<h3 id="http-request6">HTTP Request</h3>
+<h3 id="http-request-6">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/election?args</code></p>
-<h3 id="http-response6">HTTP Response</h3>
+<h3 id="http-response-6">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -5481,9 +5500,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List balance updates on all sub-accounts and different categories. Our categories go beyond on-chain types and include baking, denounciations, vesting contracts and the invoicing feature of protocol upgrades.</p>
-<h3 id="http-request7">HTTP Request</h3>
+<h3 id="http-request-7">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/flow?args</code></p>
-<h3 id="http-response7">HTTP Response</h3>
+<h3 id="http-response-7">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -5626,9 +5645,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List detailed baker income and income statistics. This table is extended for all active bakers at each cycle and updated at every block until a cycle is complete. That way, rows for open cycles will always contain live data up to the most recent block in the chain.</p>
-<h3 id="http-request8">HTTP Request</h3>
+<h3 id="http-request-8">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/income?args</code></p>
-<h3 id="http-response8">HTTP Response</h3>
+<h3 id="http-response-8">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -5851,9 +5870,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List detailed information about operations. Note that Tezos supports <strong>batch operations</strong> and <strong>internal operations</strong> created by smart contract calls in response to a transaction. On both types multiple ops share the same hash.</p>
-<h3 id="http-request9">HTTP Request</h3>
+<h3 id="http-request-9">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/op?args</code></p>
-<h3 id="http-response9">HTTP Response</h3>
+<h3 id="http-response-9">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -6061,9 +6080,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List full details about every submitted proposal</p>
-<h3 id="http-request10">HTTP Request</h3>
+<h3 id="http-request-10">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/proposal?args</code></p>
-<h3 id="http-response10">HTTP Response</h3>
+<h3 id="http-response-10">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -6148,9 +6167,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List detailed rights for baking (all priorities 0..63) and endorsing. This table is extended with future data from cycle n+5 at the start of a new cycle N. During a cycle, rights for each block are updated according to actual baker, priority and endorsers.</p>
-<h3 id="http-request11">HTTP Request</h3>
+<h3 id="http-request-11">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/rights?args</code></p>
-<h3 id="http-response11">HTTP Response</h3>
+<h3 id="http-response-11">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -6244,9 +6263,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List network-wide staking status across all bakers and delegators at snapshot blocks. this table contains all snapshots regardless of them being later chosen as cycle snapshot or not.</p>
-<h3 id="http-request12">HTTP Request</h3>
+<h3 id="http-request-12">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/snaphsot?args</code></p>
-<h3 id="http-response12">HTTP Response</h3>
+<h3 id="http-response-12">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -6373,9 +6392,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List running supply totals at each block.</p>
-<h3 id="http-request13">HTTP Request</h3>
+<h3 id="http-request-13">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/supply?args</code></p>
-<h3 id="http-response13">HTTP Response</h3>
+<h3 id="http-response-13">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -6553,9 +6572,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List full details about every on-chain voting period.</p>
-<h3 id="http-request14">HTTP Request</h3>
+<h3 id="http-request-14">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/vote?args</code></p>
-<h3 id="http-response14">HTTP Response</h3>
+<h3 id="http-response-14">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -6696,7 +6715,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </code></pre><p>The time-series API is an abstraction over tables which allows for server-side aggregation of multiple result rows over time. Time-series are meant to be displayed as graphs with time on the x-axis and some aggregate value on the y-axis. Since the underlying data is still in tabular form all table filters work on time-series as well.</p>
 <p>Note that this time-series API does not fill gaps. That means when the underlying table contains no data for a particular time interval, the corresponding time-series row will be missing. Clients should be prepared for this case and fill gaps if required.</p>
 <p>Intervals between timestamps are equally spaced and can be controlled by the <code>collapse</code> query parameter, i.e. <code>1d</code> means each interval contains 24 hours of aggregated data. Time-series data can contain fields of all supported numeric data types (e.g. no strings or binary data). The aggregation function is fixed by the semantics of the data type. This may either be a sum, a count, first, last, min, max or mean value.</p>
-<h3 id="list-of-supported-timeseries">List of supported time-series</h3>
+<h3 id="list-of-supported-time-series">List of supported time-series</h3>
 <table>
 <thead>
 <tr>
@@ -6970,9 +6989,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <span class="p">]</span>
 </code></pre></div><p>Lists aggregate data about flows. Filters are the same as on the <a href="#flow-table">flow table</a>, but response fields are limited to numeric data that can be aggregated over time. Aggregation function for all fields is <strong>sum</strong>.</p>
 <p>An interesting feature of flow series is that you can reconstruct the entire balance and delegation history of an account. You can either start at account creation time assuming zero balances or start at the current account state and work your way backwards through flows.</p>
-<h3 id="http-request1">HTTP Request</h3>
+<h3 id="http-request-1">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/series/flow?args</code></p>
-<h3 id="http-response1">HTTP Response</h3>
+<h3 id="http-response-1">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -7018,9 +7037,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>Lists aggregate data about operations. Filters are the same as on the <a href="#op-table">operation table</a>, but response fields are limited to numeric data that can be aggregated over time. Aggregation function for all fields is <strong>sum</strong>.</p>
-<h3 id="http-request2">HTTP Request</h3>
+<h3 id="http-request-2">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/series/op?args</code></p>
-<h3 id="http-response2">HTTP Response</h3>
+<h3 id="http-response-2">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -7100,9 +7119,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="err">/</span><span class="err">/</span> <span class="err">.</span><span class="err">.</span><span class="err">.</span>
 <span class="p">]</span>
 </code></pre></div><p>List aggregated OHLCV market data.</p>
-<h3 id="http-request3">HTTP Request</h3>
+<h3 id="http-request-3">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/series/{exchange}/{market}/ohlcv</code></p>
-<h3 id="http-response3">HTTP Response</h3>
+<h3 id="http-response-3">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -7177,6 +7196,36 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     
         <h1 id="changelog">Changelog</h1>
 <p>Recent changes and additions to the TzStats Data API.</p>
+<h2 id="2020-01-06">2020-01-06</h2>
+<ul>
+<li>UPGRADES
+<ul>
+<li>supports Carthage protocol PsCARTHAGazKbHtnKfLzQg3kms52kSRpgnDY982a9oYsSXRLQEb</li>
+<li>supports new Carthage reward constants for Emmy+ called <code>baking_reward_per_endorsement</code> and <code>endorsement_reward</code> in the Tezos RPC</li>
+<li>updated expected income based on new rewards formula</li>
+</ul>
+</li>
+<li>NEW EXPLORER FEATURES
+<ul>
+<li><code>/explorer/config/{height}</code> now returns two additional float arrays <code>block_rewards_v6</code> and <code>endorsement_rewards_v6</code> containing the new Carthage reward constants; the previous fields <code>block_reward</code> and <code>endorsement_reward</code> remain unchanged and will contain the first elements from the corresponding v6 arrays</li>
+<li>add network health estimation based on recent 128 blocks (priority, endorsements, reorgs)</li>
+</ul>
+</li>
+<li>FIXES
+<ul>
+<li>block operation list paging with offset/limit now properly counts internal and batch operations</li>
+<li>voting period start and end heights are no longer off by 1</li>
+<li>voting quorum, ema and eligible rolls calculations are corrected</li>
+<li>improved smart contract entrypoint detection so that annotated parent nodes in the parameter primitive tree are no longer shadowing valid entrypoints</li>
+</ul>
+</li>
+<li>DEPRECATION NOTICES
+<ul>
+<li>removed deprecated <a href="#contracts">contract</a> field <code>ops</code> and endpoint <code>/explorer/contract/{addr}/op</code> (use <code>/explorer/account/{addr}/op</code> endpoint instead)</li>
+<li>removed deprecated <a href="#contracts">contract</a> fields <code>delegate</code>, <code>manager</code>, <code>script</code> (use new endpoints or related account endpoints instead)</li>
+</ul>
+</li>
+</ul>
 <h2 id="2019-12-05">2019-12-05</h2>
 <ul>
 <li>FIXES
