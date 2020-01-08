@@ -33,6 +33,7 @@ export const bakerAccounts = {
   tz1Z7eWGw18LqUgRqmDqNZFQx7f8GEHXRfT8: { name: 'Coinbase 1', logo: null, link: '', fee_type: '', fee: 0 },
   tz1bDhCGNZLQw1QXgf6MCzo6EtAVSGkqEB11: { name: 'Coinbase 2', logo: null, link: '', fee_type: '', fee: 0 },
   tz1irJKkXS2DBWkU1NnmFQx1c1L7pbGg4yhk: { name: 'Coinbase Custody', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1dbfppLAAxXZNtf2SDps7rch3qfUznKSoK: { name: 'Coinhouse', logo: null, link: '', fee_type: '', fee: 0 },
   tz1SYq214SCBy9naR6cvycQsYcUGpBqQAE8d: { name: 'Coinone', logo: null, link: '', fee_type: '', fee: 0 },
   tz1eEnQhbwf6trb8Q8mPb2RaPkNk2rN7BKi8: { name: 'Cryptium Labs', logo: null, link: '', fee_type: '', fee: 0 },
   tz1Tnjaxk6tbAeC2TmMApPh8UsrEVQvhHvx5: { name: 'Crypto Delegate', logo: null, link: '', fee_type: '', fee: 0 },
