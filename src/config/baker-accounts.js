@@ -91,7 +91,7 @@ export const bakerAccounts = {
   tz1d6Fx42mYgVFnHUW8T8A7WBfJ6nD9pVok8: { name: 'MyTezosBaking', logo: null, link: '', fee_type: '', fee: 0 },
   tz1Y2ufHak4AcisVazSS1ymGgv4HAmFGagh5: { name: 'MyTezosBaking Payouts', logo: null, link: '', fee_type: '', fee: 0 },
   tz1YdCPrYbksK7HCoYKDyzgfXwY16Fy9rrGa: { name: 'Norn Delegate', logo: null, link: '', fee_type: '', fee: 0 },
-  tz1UuQ4HWDu3ALNRgAq94dX9MhqhQhnuY3gC: { name: 'OKEx', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1UuQ4HWDu3ALNRgAq94dX9MhqhQhnuY3gC: { name: 'OKEx Baker', logo: null, link: '', fee_type: '', fee: 0 },
   tz1X1fpAZtwQk94QXUgZwfgsvkQgyc2KHp9d: { name: 'ownBLOCK Legacy', logo: null, link: '', fee_type: '', fee: 0 },
   tz1hTFcQk2KJRPzZyHkCwbj7E1zY1xBkiHsk: { name: 'ownBLOCK', logo: null, link: '', fee_type: '', fee: 0 },
   tz1P2Po7YM526ughEsRbY4oR9zaUPDZjxFrb: { name: 'P2P Validator', logo: null, link: '', fee_type: '', fee: 0 },

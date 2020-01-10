@@ -11,7 +11,7 @@ import Logo from './Logo';
 import { getChainData, getChainConfig } from '../../../services/api/tz-stats';
 import { useGlobal } from 'reactn';
 import useOnline from '../../../hooks/useOnline';
-import { isMainnet } from '../../../utils';
+import { enableMarket } from '../../../config';
 import Footer from '../Footer';
 
 const Sidebar = () => {
@@ -76,7 +76,7 @@ const Sidebar = () => {
       <Logo />
       <NetworkCircle />
       <LastBlock />
-      {isMainnet(chain) && <MarketInfo />}
+      {enableMarket && <MarketInfo />}
       <Election />
       <NetworkHealth />
       {chain && chain.status.status !== 'synced' && (

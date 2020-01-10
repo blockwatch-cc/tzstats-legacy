@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch';
 export const marketNames = {
   kraken: 'Kraken',
   bitfinex: 'Bitfinex',
+  bittrex: 'Bittrex',
   hitbtc: 'HitBTC',
   coinbasepro: 'CoinbasePro',
   huobi: 'Huobi',
@@ -127,8 +128,14 @@ const steps = {
 
 
 let fill = (data, n, step, offset, fillerFunc) => {
-  if (data.length === n) {
+  switch (data.length) {
+  case n:
     return data;
+  case 0:
+    data = [Array(5)];
+    break;
+  default:
+    break;
   }
   let today = new Date().setUTCHours(0, 0, 0, 0) + offset || 0;
   let timeArray = [];

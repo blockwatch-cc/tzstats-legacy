@@ -10,6 +10,7 @@ export const TZSTATS_API_URL = process.env.REACT_APP_TZSTATS_API_URL || '<[TZSTA
 export const GOOGLE_ANALYTICS_API_KEY =
   process.env.REACT_APP_GOOGLE_ANALYTICS_API_KEY || '<[GOOGLE_ANALYTICS_API_KEY]>';
 export const defaultFont = "-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif";
+export const enableMarket = process.env.REACT_APP_TZSTATS_ENABLE_MARKET || !!(parseInt('<[ENABLE_MARKET]>') || '<[ENABLE_MARKET]>' === "true");
 export const opNames = {
   activate_account: 'Activation',
   double_baking_evidence: 'Double Baking',

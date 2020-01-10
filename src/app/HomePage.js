@@ -8,7 +8,8 @@ import StakingInfo from '../components/Home/StakingInfo';
 import ElectionProgress from '../components/Home/ElectionProgress';
 import AccountsGrowth from '../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../services/api/markets';
-import { isMainnet, buildTitle } from '../utils';
+import { buildTitle } from '../utils';
+import { enableMarket } from '../config';
 import {
   getElectionById,
   getTxVolume,
@@ -38,7 +39,7 @@ const Home = () => {
       }
       try {
         let [priceHistory, txVolSeries, txVol24h, election] = await Promise.all([
-          isMainnet(config) ? getOhlcvData({ days: 30, collapse: '6h', limit: 30 * 4 }) : null,
+          enableMarket ? getOhlcvData({ days: 30, collapse: '6h', limit: 30 * 4 }) : null,
           getTxVolume({ start: now === last ? last - 30 * 86400 * 1000 : null, days: 30 }),
           getTxVolume24h(),
           getElectionById(),
@@ -111,7 +112,7 @@ const Home = () => {
     return (
       <Wrapper>
         <BlockHistory />
-        {isMainnet(config) ? (
+        {enableMarket ? (
           <TwoElementsWrapper>
             <PriceHistory priceHistory={data.priceHistory} />
             <TwoElementsColumn>

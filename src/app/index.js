@@ -1,5 +1,4 @@
 import React from 'react';
-import { useGlobal } from 'reactn';
 import ReactGA from 'react-ga';
 import { Route, Redirect, Switch, Router } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -16,23 +15,23 @@ import CyclePage from './CyclePage';
 import AnalyticPage from './AnalyticPage';
 
 import history from '../hooks/history';
-import { isMainnet, getHashType } from '../utils';
+import { getHashType } from '../utils';
 import '../styles/css/index.css';
 import { GOOGLE_ANALYTICS_API_KEY } from '../config/index';
+import { enableMarket } from '../config';
 
 ReactGA.initialize(GOOGLE_ANALYTICS_API_KEY);
 ReactGA.pageview(window.location.pathname + window.location.search);
 const theme = {};
 const App = () => {
-  const [config] = useGlobal('config');
   return (
     <Router history={history}>
       <ThemeProvider theme={theme}>
         <Layout>
           <Switch>
             <Route exact path="/" component={HomePage} />
-            {isMainnet(config) && <Redirect path="/markets" to="/market" />}
-            {isMainnet(config) && <Route path="/market" component={MarketPage} />}
+            {enableMarket && <Redirect path="/markets" to="/market" />}
+            {enableMarket && <Route path="/market" component={MarketPage} />}
             <Route path="/terms" component={TermsPage} />
             <Route path="/analytics" component={AnalyticPage} />
             <Route path="/privacy" component={PrivacyPage} />
