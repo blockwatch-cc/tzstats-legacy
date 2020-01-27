@@ -15,13 +15,13 @@ const StakingInfo = () => {
             title="Staking Ratio"
             valueSize="14px"
             valueType="text"
-            value={`${((100 * chain.supply.staking) / chain.supply.total).toFixed(2)}%`}
+            value={`${((100 * chain.supply.active_staking) / chain.supply.total).toFixed(2)}%`}
           />
           <DataBox
             title="Rewards"
             valueType="text"
             valueSize="14px"
-            value={`${(chain.inflation_rate_1y / (chain.supply.staking / chain.supply.total)).toFixed(2)}%`}
+            value={`${(chain.inflation_rate_1y / (chain.supply.active_staking / chain.supply.total)).toFixed(2)}%`}
           />
           <DataBox
             title="Inflation"
