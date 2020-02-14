@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.61.0" />
+	<meta name="generator" content="Hugo 0.63.2" />
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -19,7 +19,7 @@
 
 
 <link href='/docs/api/styles/screen.min.4acc4be5ef0c72a7b4438c0138b4073a6c55ab91e976dedec0ba6a56482e28d1.css' rel="stylesheet" media="screen" integrity="sha256-SsxL5e8Mcqe0Q4wBOLQHOmxVq5Hpdt7ewLpqVkguKNE=" />
-<link href='/docs/api/styles/extra.min.5dbf13650b3831b4a0340daa4a535af03ead28e43972ab284963c83470a4295c.css' rel="stylesheet" media="screen" integrity="sha256-Xb8TZQs4MbSgNA2qSlNa8D6tKOQ5cqsoSWPINHCkKVw=" />
+<link href='/docs/api/styles/extra.min.db6c550b95fbdbb95635ea9ac2464745f5c026a5542f2f546d53f3de79a1e94d.css' rel="stylesheet" media="screen" integrity="sha256-22xVC5X727lWNeqawkZHRfXAJqVULy9UbVPz3nmh6U0=" />
 <link href='/docs/api/styles/print.min.5bc26ad96d294055b644f3d9e29b93babae367701f18ae15eea2016bea8fc8d8.css' rel="stylesheet" media="print" integrity="sha256-W8Jq2W0pQFW2RPPZ4puTurrjZ3AfGK4V7qIBa&#43;qPyNg=" />
 
 
@@ -156,6 +156,10 @@
                         
                             <li><a href="#operation-series" class="toc-h2 toc-link" data-title="Operation Series">Operation Series</a></li>
                         
+                            <li><a href="#chain-series" class="toc-h2 toc-link" data-title="Chain Series">Chain Series</a></li>
+                        
+                            <li><a href="#supply-series" class="toc-h2 toc-link" data-title="Supply Series">Supply Series</a></li>
+                        
                             <li><a href="#ohlcv-series" class="toc-h2 toc-link" data-title="OHLCV Series">OHLCV Series</a></li>
                         
                     </ul>
@@ -166,6 +170,8 @@
                 <a href="#changelog" class="toc-h1 toc-link" data-title="Changelog">Changelog</a>
                 
                     <ul class="toc-list-h2">
+                        
+                            <li><a href="#2020-02-12-pre-release" class="toc-h2 toc-link" data-title="2020-02-12 pre-release">2020-02-12 pre-release</a></li>
                         
                             <li><a href="#2020-01-06" class="toc-h2 toc-link" data-title="2020-01-06">2020-01-06</a></li>
                         
@@ -189,13 +195,16 @@
         
         <ul class="toc-footer">
             
-            <li>API v006-2020-01-06</li>
+            <li>API v006-2020-02-12</li>
             
         </ul>
         
-        <div style="margin-left: 20px; margin-top: 20px">
-<a href="https://github.com/blockwatch-cc/tzindex">
+        <div style="margin-left: 15px; margin-top: 20px; display:flex; align-items:center">
+<a href="https://github.com/blockwatch-cc/tzindex" rel="noopener noreferrer external">
   <img width="20px" src="images/gh.png"/>
+</a>
+<a href="https://discord.gg/D5e98Hw" rel="noopener noreferrer external">
+  <img width="27px" src="images/dc.png"/>
 </a>
 </div>
 
@@ -245,7 +254,7 @@ ECDHE-RSA-AES128-SHA256
 </code></pre>
 <p>The API supports secure connections via <strong>TLS v1.3</strong>, <strong>v1.2</strong> and <strong>v1.1</strong> with Perfect Forward Secrecy based on Elliptic Curves and Diffie Helman key exchange. Insecure HTTP requests to port 80 are automatically redirected to HTTPS on port 443.</p>
 <h3 id="api-response-headers">API Response Headers</h3>
-<p>All our API responses are tagged with an API version that's included in the <code>X-Api-Version</code> HTTP header field as well as the Tezos network id and protocol.</p>
+<p>All our API responses are tagged with an API version that&rsquo;s included in the <code>X-Api-Version</code> HTTP header field as well as the Tezos network id and protocol.</p>
 <blockquote>
 <p><strong>Current TzStats Mainnet Response Headers</strong></p>
 </blockquote>
@@ -437,7 +446,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <li>a block <code>height</code> (a.k.a level in Tezos)</li>
 <li>a sequence <code>number</code> for cycles and elections</li>
 </ul>
-<p>Some endpoints support a simple pagination scheme to walk lists of results (i.e. for related operations or accounts). To paginate append <code>limit</code> and <code>offset</code>, both are positive integers. Limit defaults to 20 and is capped to a maximum value of 100. Results are always sorted by <code>row_id</code> of the underlying table. If you require a different sort order, you have to do this client-side.</p>
+<p>Some endpoints support a simple pagination scheme to walk lists of results (i.e. for related operations or accounts). To paginate append <code>limit</code> and <code>offset</code>, both are positive integers. Limit defaults to 20 and is capped to a maximum value of 100. Results are always sorted by <code>row_id</code> of the underlying table. Sort direction can be controlled by <code>order</code> (asc, or desc). If you require sorting by a different field, you have to do this client-side.</p>
 <h3 id="list-of-supported-endpoints">List of supported endpoints</h3>
 <table>
 <thead>
@@ -474,10 +483,10 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>block info</td>
 </tr>
 <tr>
-<td><code>GET /explorer/block/{head,hash,height}/op</code>| x</td>
+<td><code>GET /explorer/block/{head,hash,height}/op</code></td>
+<td>x</td>
 <td><code>type</code></td>
 <td>list block operations</td>
-<td></td>
 </tr>
 <tr>
 <td><code>GET /explorer/op/{hash}</code></td>
@@ -588,10 +597,10 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>active cycle or cycle N info</td>
 </tr>
 <tr>
-<td><code>GET /explorer/election/{head,num,height}</code>|</td>
+<td><code>GET /explorer/election/{head,num,height}</code></td>
+<td></td>
 <td></td>
 <td>election info (num ::= [1,1024]</td>
-<td></td>
 </tr>
 <tr>
 <td><code>GET /markets</code></td>
@@ -641,36 +650,36 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;pubkey&#34;</span><span class="p">:</span> <span class="s2">&#34;sppk7bn9MKAWDUFwqowcxA1zJgp12yn2kEnMQJP3WmqSZ4W8WQhLqJN&#34;</span><span class="p">,</span>
   <span class="nt">&#34;first_in&#34;</span><span class="p">:</span> <span class="mi">360996</span><span class="p">,</span>
   <span class="nt">&#34;first_out&#34;</span><span class="p">:</span> <span class="mi">360997</span><span class="p">,</span>
-  <span class="nt">&#34;last_in&#34;</span><span class="p">:</span> <span class="mi">627433</span><span class="p">,</span>
-  <span class="nt">&#34;last_out&#34;</span><span class="p">:</span> <span class="mi">627433</span><span class="p">,</span>
+  <span class="nt">&#34;last_in&#34;</span><span class="p">:</span> <span class="mi">815396</span><span class="p">,</span>
+  <span class="nt">&#34;last_out&#34;</span><span class="p">:</span> <span class="mi">815396</span><span class="p">,</span>
   <span class="nt">&#34;first_seen&#34;</span><span class="p">:</span> <span class="mi">360996</span><span class="p">,</span>
-  <span class="nt">&#34;last_seen&#34;</span><span class="p">:</span> <span class="mi">627433</span><span class="p">,</span>
+  <span class="nt">&#34;last_seen&#34;</span><span class="p">:</span> <span class="mi">815396</span><span class="p">,</span>
   <span class="nt">&#34;delegated_since&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;delegate_since&#34;</span><span class="p">:</span> <span class="mi">361000</span><span class="p">,</span>
   <span class="nt">&#34;first_in_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-03-20T23:10:52Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;first_out_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-03-20T23:11:52Z&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;last_in_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:43:06Z&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;last_out_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:43:06Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_in_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-02-08T10:11:08Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_out_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-02-08T10:11:08Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;first_seen_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-03-20T23:10:52Z&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;last_seen_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:43:06Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_seen_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-02-08T10:11:08Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;delegated_since_time&#34;</span><span class="p">:</span> <span class="s2">&#34;0001-01-01T00:00:00Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;delegate_since_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-03-20T23:14:52Z&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;total_received&#34;</span><span class="p">:</span> <span class="mf">4129917.992</span><span class="p">,</span>
-  <span class="nt">&#34;total_sent&#34;</span><span class="p">:</span> <span class="mf">1241985.094354</span><span class="p">,</span>
+  <span class="nt">&#34;total_received&#34;</span><span class="p">:</span> <span class="mf">4202918.18456</span><span class="p">,</span>
+  <span class="nt">&#34;total_sent&#34;</span><span class="p">:</span> <span class="mf">2512194.094354</span><span class="p">,</span>
   <span class="nt">&#34;total_burned&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;total_fees_paid&#34;</span><span class="p">:</span> <span class="mf">0.041097</span><span class="p">,</span>
-  <span class="nt">&#34;total_rewards_earned&#34;</span><span class="p">:</span> <span class="mf">463712.421526</span><span class="p">,</span>
-  <span class="nt">&#34;total_fees_earned&#34;</span><span class="p">:</span> <span class="mf">51.817584</span><span class="p">,</span>
+  <span class="nt">&#34;total_fees_paid&#34;</span><span class="p">:</span> <span class="mf">0.103097</span><span class="p">,</span>
+  <span class="nt">&#34;total_rewards_earned&#34;</span><span class="p">:</span> <span class="mf">1232762.021346</span><span class="p">,</span>
+  <span class="nt">&#34;total_fees_earned&#34;</span><span class="p">:</span> <span class="mf">209.190761</span><span class="p">,</span>
   <span class="nt">&#34;total_lost&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;frozen_deposits&#34;</span><span class="p">:</span> <span class="mi">2777472</span><span class="p">,</span>
-  <span class="nt">&#34;frozen_rewards&#34;</span><span class="p">:</span> <span class="mf">86384.999996</span><span class="p">,</span>
-  <span class="nt">&#34;frozen_fees&#34;</span><span class="p">:</span> <span class="mf">10.252118</span><span class="p">,</span>
+  <span class="nt">&#34;frozen_deposits&#34;</span><span class="p">:</span> <span class="mi">2397248</span><span class="p">,</span>
+  <span class="nt">&#34;frozen_rewards&#34;</span><span class="p">:</span> <span class="mf">74359.874998</span><span class="p">,</span>
+  <span class="nt">&#34;frozen_fees&#34;</span><span class="p">:</span> <span class="mf">22.40987</span><span class="p">,</span>
   <span class="nt">&#34;unclaimed_balance&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;spendable_balance&#34;</span><span class="p">:</span> <span class="mf">487829.843545</span><span class="p">,</span>
-  <span class="nt">&#34;total_balance&#34;</span><span class="p">:</span> <span class="mf">3265312.095663</span><span class="p">,</span>
-  <span class="nt">&#34;delegated_balance&#34;</span><span class="p">:</span> <span class="mf">28092992.436557</span><span class="p">,</span>
-  <span class="nt">&#34;total_delegations&#34;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
-  <span class="nt">&#34;active_delegations&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="nt">&#34;spendable_balance&#34;</span><span class="p">:</span> <span class="mf">452064.914348</span><span class="p">,</span>
+  <span class="nt">&#34;total_balance&#34;</span><span class="p">:</span> <span class="mf">2849335.3242180003</span><span class="p">,</span>
+  <span class="nt">&#34;delegated_balance&#34;</span><span class="p">:</span> <span class="mf">25265328.132026</span><span class="p">,</span>
+  <span class="nt">&#34;total_delegations&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+  <span class="nt">&#34;active_delegations&#34;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
   <span class="nt">&#34;is_funded&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="nt">&#34;is_activated&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
   <span class="nt">&#34;is_vesting&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
@@ -681,38 +690,38 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;is_delegate&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="nt">&#34;is_active_delegate&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="nt">&#34;is_contract&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="nt">&#34;blocks_baked&#34;</span><span class="p">:</span> <span class="mi">5867</span><span class="p">,</span>
-  <span class="nt">&#34;blocks_missed&#34;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
-  <span class="nt">&#34;blocks_stolen&#34;</span><span class="p">:</span> <span class="mi">127</span><span class="p">,</span>
-  <span class="nt">&#34;blocks_endorsed&#34;</span><span class="p">:</span> <span class="mi">97968</span><span class="p">,</span>
-  <span class="nt">&#34;slots_endorsed&#34;</span><span class="p">:</span> <span class="mi">185547</span><span class="p">,</span>
-  <span class="nt">&#34;slots_missed&#34;</span><span class="p">:</span> <span class="mi">332</span><span class="p">,</span>
-  <span class="nt">&#34;n_ops&#34;</span><span class="p">:</span> <span class="mi">98177</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_baked&#34;</span><span class="p">:</span> <span class="mi">15852</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_missed&#34;</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_stolen&#34;</span><span class="p">:</span> <span class="mi">342</span><span class="p">,</span>
+  <span class="nt">&#34;blocks_endorsed&#34;</span><span class="p">:</span> <span class="mi">251413</span><span class="p">,</span>
+  <span class="nt">&#34;slots_endorsed&#34;</span><span class="p">:</span> <span class="mi">497424</span><span class="p">,</span>
+  <span class="nt">&#34;slots_missed&#34;</span><span class="p">:</span> <span class="mi">543</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops&#34;</span><span class="p">:</span> <span class="mi">252190</span><span class="p">,</span>
   <span class="nt">&#34;n_ops_failed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_tx&#34;</span><span class="p">:</span> <span class="mi">38</span><span class="p">,</span>
+  <span class="nt">&#34;n_tx&#34;</span><span class="p">:</span> <span class="mi">74</span><span class="p">,</span>
   <span class="nt">&#34;n_delegation&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
   <span class="nt">&#34;n_origination&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_proposal&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-  <span class="nt">&#34;n_ballot&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;n_proposal&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nt">&#34;n_ballot&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
   <span class="nt">&#34;token_gen_min&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-  <span class="nt">&#34;token_gen_max&#34;</span><span class="p">:</span> <span class="mi">4875</span><span class="p">,</span>
-  <span class="nt">&#34;grace_period&#34;</span><span class="p">:</span> <span class="mi">159</span><span class="p">,</span>
-  <span class="nt">&#34;staking_balance&#34;</span><span class="p">:</span> <span class="mf">31358304.53222</span><span class="p">,</span>
-  <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">3919</span><span class="p">,</span>
-  <span class="nt">&#34;rich_rank&#34;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+  <span class="nt">&#34;token_gen_max&#34;</span><span class="p">:</span> <span class="mi">8144</span><span class="p">,</span>
+  <span class="nt">&#34;grace_period&#34;</span><span class="p">:</span> <span class="mi">205</span><span class="p">,</span>
+  <span class="nt">&#34;staking_balance&#34;</span><span class="p">:</span> <span class="mf">28114663.456244</span><span class="p">,</span>
+  <span class="nt">&#34;rolls&#34;</span><span class="p">:</span> <span class="mi">3514</span><span class="p">,</span>
+  <span class="nt">&#34;rich_rank&#34;</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
   <span class="nt">&#34;traffic_rank&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;flow_rank&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;last_bake_height&#34;</span><span class="p">:</span> <span class="mi">627422</span><span class="p">,</span>
-  <span class="nt">&#34;last_bake_block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLeU7pnXhFRKsjvc3XYQ2gByCqwAALpKc7vZSoTeVNeUgHWDZ3V&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;last_bake_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:32:01Z&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;last_endorse_height&#34;</span><span class="p">:</span> <span class="mi">627433</span><span class="p">,</span>
-  <span class="nt">&#34;last_endorse_block&#34;</span><span class="p">:</span> <span class="s2">&#34;BLapVsFS7DB9H76njHSoFyGTTSfMn7ZJvUzB1KekUvtUk8KeXMy&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;last_endorse_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:43:06Z&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;next_bake_height&#34;</span><span class="p">:</span> <span class="mi">627464</span><span class="p">,</span>
+  <span class="nt">&#34;last_bake_height&#34;</span><span class="p">:</span> <span class="mi">815365</span><span class="p">,</span>
+  <span class="nt">&#34;last_bake_block&#34;</span><span class="p">:</span> <span class="s2">&#34;BMR7ApaErqeM6cEuzZG7G6evq8CvDXuKMtSw3ZvXjzSeDPRFaX3&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_bake_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-02-08T09:39:28Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_endorse_height&#34;</span><span class="p">:</span> <span class="mi">815396</span><span class="p">,</span>
+  <span class="nt">&#34;last_endorse_block&#34;</span><span class="p">:</span> <span class="s2">&#34;BMGFNGsDPKYVyHKfszQv65mxkHk8BPwTxYGia9LpPn8oo1hwCKV&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;last_endorse_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-02-08T10:11:08Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;next_bake_height&#34;</span><span class="p">:</span> <span class="mi">815436</span><span class="p">,</span>
   <span class="nt">&#34;next_bake_priority&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;next_bake_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T15:14:06Z&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;next_endorse_height&#34;</span><span class="p">:</span> <span class="mi">627434</span><span class="p">,</span>
-  <span class="nt">&#34;next_endorse_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T14:44:06Z&#34;</span>
+  <span class="nt">&#34;next_bake_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-02-08T10:51:08Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;next_endorse_height&#34;</span><span class="p">:</span> <span class="mi">815397</span><span class="p">,</span>
+  <span class="nt">&#34;next_endorse_time&#34;</span><span class="p">:</span> <span class="s2">&#34;2020-02-08T10:12:08Z&#34;</span>
 <span class="p">}</span>
 </code></pre></div><p>Provides information about the most recent state of implicit and smart contract accounts.</p>
 <h3 id="http-request">HTTP Request</h3>
@@ -1046,7 +1055,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </table>
 <h3 id="list-account-operations">List Account Operations</h3>
 <p><code>GET https://api.tzstats.com/explorer/account/{hash}/op</code></p>
-<p>Lists operations sent from and to an account (defaults to all types and ascending order). This endpoint supports pagination with <code>limit</code> and <code>offset</code>. Use <code>type</code> to filter for a specific operation type (e.g. transactions), <code>block</code> (int64|hash) to lock a call to a specific block height or hash (hash is reorg-aware and throws an error when block has become orphan). To query for updates after a certain block use the optional argument <code>since</code> (int64|hash). To change the order of returned calls use the optional <code>order</code> (asc|desc) parameter.</p>
+<p>Lists operations sent from and to an account (defaults to all types and ascending order). This endpoint supports pagination with <code>limit</code> and <code>offset</code>. Use <code>type</code> to <a href="#query-filters">filter</a> for a specific operation type (e.g. transaction), <code>block</code> (int64|hash) to lock a call to a specific block height or hash (hash is reorg-aware and throws an error when block has become orphan). To query for updates after a certain block use the optional argument <code>since</code> (int64|hash). To change the order of returned calls use the optional <code>order</code> (asc|desc) parameter.</p>
 <h2 id="bigmaps">Bigmaps</h2>
 <p>Bigmaps are key-value stores where smart contracts can store large amounts of data. Values in bigmaps are accessed by unique keys. The TzStats bigmap index supports different key encodings: a <strong>hash</strong> (script expression hash), the <strong>binary</strong> representation of a key and the <strong>native</strong> typed version of a key. For convenience, all three variants are present in responses as <code>key_hash</code>, <code>key_binary</code> and <code>key</code>.</p>
 <p><strong>Types</strong> A bigmap is defined by a <code>key_type</code> and a <code>value_type</code>. While the key type is most often a simple type (int, string, bytes, address, etc), the value can have a complex type structure. Complex keys (using pairs) are represented as JSON primitive tree and a collapsed stringified version of such keys is returned in the optional <code>key_pretty</code> field. Values are represented in unboxed (decoded) form and optionally as original Michelson primitives.</p>
@@ -1135,33 +1144,42 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <blockquote>
 <p><strong>Example request.</strong></p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/explorer/bigmap/1/type&#34;</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/explorer/bigmap/17/type&#34;</span>
 </code></pre></div><blockquote>
 <p><strong>Example response.</strong></p>
 </blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-  <span class="nt">&#34;contract&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1R3uoZ6W1ZxEwzqtv75Ro7DhVY6UAcxuK2&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-  <span class="nt">&#34;key_type&#34;</span><span class="p">:</span> <span class="s2">&#34;address&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;contract&#34;</span><span class="p">:</span> <span class="s2">&#34;KT1ChNsEFxwyCbJyWGSL3KdjeXE28AY1Kaog&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;bigmap_id&#34;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+  <span class="nt">&#34;key_type&#34;</span><span class="p">:</span> <span class="s2">&#34;key_hash&#34;</span><span class="p">,</span>
   <span class="nt">&#34;key_encoding&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
   <span class="nt">&#34;value_type&#34;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&#34;0&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;1@option&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;2&#34;</span><span class="p">:</span> <span class="s2">&#34;mutez&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;3@or&#34;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&#34;0&#34;</span><span class="p">:</span> <span class="s2">&#34;unit&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;1@or&#34;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;0&#34;</span><span class="p">:</span> <span class="s2">&#34;address&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;1&#34;</span><span class="p">:</span> <span class="s2">&#34;unit&#34;</span>
-      <span class="p">}</span>
+    <span class="nt">&#34;0@data@option&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;0@bakerName&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;1@openForDelegation&#34;</span><span class="p">:</span> <span class="s2">&#34;bool&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;2@bakerOffchainRegistryUrl&#34;</span><span class="p">:</span> <span class="s2">&#34;bytes&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;3@split&#34;</span><span class="p">:</span> <span class="s2">&#34;nat&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;4@bakerPaysFromAccounts@list&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;0&#34;</span><span class="p">:</span> <span class="s2">&#34;address&#34;</span>
+      <span class="p">}</span><span class="p">,</span>
+      <span class="nt">&#34;5@minDelegation&#34;</span><span class="p">:</span> <span class="s2">&#34;nat&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;6@subtractPayoutsLessThanMin&#34;</span><span class="p">:</span> <span class="s2">&#34;bool&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;7@payoutDelay&#34;</span><span class="p">:</span> <span class="s2">&#34;int&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;8@payoutFrequency&#34;</span><span class="p">:</span> <span class="s2">&#34;nat&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;9@minPayout&#34;</span><span class="p">:</span> <span class="s2">&#34;int&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;10@bakerChargesTransactionFee&#34;</span><span class="p">:</span> <span class="s2">&#34;bool&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;11@paymentConfigMask&#34;</span><span class="p">:</span> <span class="s2">&#34;nat&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;12@overDelegationThreshold&#34;</span><span class="p">:</span> <span class="s2">&#34;nat&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;13@subtractRewardsFromUninvitedDelegation&#34;</span><span class="p">:</span> <span class="s2">&#34;bool&#34;</span>
     <span class="p">}</span><span class="p">,</span>
-    <span class="nt">&#34;4&#34;</span><span class="p">:</span> <span class="s2">&#34;timestamp&#34;</span>
+    <span class="nt">&#34;1@reporterAccount@option&#34;</span><span class="p">:</span> <span class="s2">&#34;address&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;2@last_update&#34;</span><span class="p">:</span> <span class="s2">&#34;timestamp&#34;</span>
   <span class="p">}</span><span class="p">,</span>
   <span class="nt">&#34;prim&#34;</span><span class="p">:</span> <span class="p">{</span>
     <span class="err">/</span><span class="err">/</span> <span class="err">.</span><span class="err">.</span><span class="err">.</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><p>Returns bigmap type description in Michelson JSON format, both for keys and values. Keys are simple scalar types and values can have a simple or complex type. Use <code>prim</code> (boolean) to embed original Michelson primitives for key and value type definitions.</p>
+</code></pre></div><p>Returns bigmap type description in Michelson JSON format, both for keys and values. Keys are simple scalar types and values can have a simple or complex type. JSON keys for bigmap type arguments now always follow the convention <code>&lt;order&gt;@&lt;name&gt;@&lt;container-type&gt;</code>, ie. they include an integer order number as first argument (starting at zero), followed by an optional <code>@</code> symbol, an optional name extracted from type annotations and in case the type is a container like list, map or set another <code>@</code> and the container type. JSON value contains a string with the michelson type name (if scalar) or a JSON object describing the nested type following the same naming conventions. Use <code>prim</code> (boolean) to embed original Michelson primitives for key and value type definitions.</p>
 <h3 id="http-request-2">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/type</code></p>
 <h3 id="http-response-2">HTTP Response</h3>
@@ -1343,7 +1361,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/values</code></p>
 <p>Lists all values contained in the bigmap at present time, ie. at blockchain head. Can return bigmap contents at a specific block in the past using the optional parameter <code>block</code> height (int64) or hash (hash).</p>
 <p><code>GET https://api.tzstats.com/explorer/bigmap/{id}/{key}</code></p>
-<p>Returns a single bigmap value stored at <code>key</code>. Key can be a <strong>key hash</strong> (script expr hash), the <strong>native</strong> key representation (i.e. an address or integer) or the <strong>encoded</strong> binary version of the key. Use the optional <code>block</code> height (int64) or hash (hash) parameter to lookup the key's value at a specific block in the past.</p>
+<p>Returns a single bigmap value stored at <code>key</code>. Key can be a <strong>key hash</strong> (script expr hash), the <strong>native</strong> key representation (i.e. an address or integer) or the <strong>encoded</strong> binary version of the key. Use the optional <code>block</code> height (int64) or hash (hash) parameter to lookup the key&rsquo;s value at a specific block in the past.</p>
 <h3 id="http-response-4">HTTP Response</h3>
 <table>
 <thead>
@@ -1489,92 +1507,93 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <p><strong>Example response.</strong></p>
 </blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-  <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BLWT4x43zqzbtRzWNShkuU1DaTjU9fX34Qs4V3Hku2ZgYxiEpPW&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;predecessor&#34;</span><span class="p">:</span> <span class="s2">&#34;BKqv8SBNabXEMXV9fsy21yx9BNsqWBKVVp9ca4KTMpGsF2Wi8Uj&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;successor&#34;</span><span class="p">:</span> <span class="s2">&#34;BLFjwCUTebnhw6ZWpQNxa9VjZgGLgnp1Zazb21T1356VFEnxPrZ&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;baker&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1cZfFQpcYhwDp7y1njZXDsZqCrn2NqmVof&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627342</span><span class="p">,</span>
+  <span class="nt">&#34;hash&#34;</span><span class="p">:</span> <span class="s2">&#34;BKqv8SBNabXEMXV9fsy21yx9BNsqWBKVVp9ca4KTMpGsF2Wi8Uj&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;predecessor&#34;</span><span class="p">:</span> <span class="s2">&#34;BKr3kjkbi5LndjDTDDSPUWubZjrdSBCWLJudmuGYuiVuG2j8fvj&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;successor&#34;</span><span class="p">:</span> <span class="s2">&#34;BLWT4x43zqzbtRzWNShkuU1DaTjU9fX34Qs4V3Hku2ZgYxiEpPW&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;baker&#34;</span><span class="p">:</span> <span class="s2">&#34;tz1SxEdtfkFChtqioi96hvMfisj4mt744rXi&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">627341</span><span class="p">,</span>
   <span class="nt">&#34;cycle&#34;</span><span class="p">:</span> <span class="mi">153</span><span class="p">,</span>
   <span class="nt">&#34;is_cycle_snapshot&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T13:11:51Z&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;time&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-09-28T13:10:51Z&#34;</span><span class="p">,</span>
   <span class="nt">&#34;solvetime&#34;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
   <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
   <span class="nt">&#34;validation_pass&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-  <span class="nt">&#34;fitness&#34;</span><span class="p">:</span> <span class="mi">19846458</span><span class="p">,</span>
+  <span class="nt">&#34;fitness&#34;</span><span class="p">:</span> <span class="mi">19846425</span><span class="p">,</span>
   <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;nonce&#34;</span><span class="p">:</span> <span class="mi">11996642917503807005</span><span class="p">,</span>
+  <span class="nt">&#34;nonce&#34;</span><span class="p">:</span> <span class="mi">16299522299</span><span class="p">,</span>
   <span class="nt">&#34;voting_period_kind&#34;</span><span class="p">:</span> <span class="s2">&#34;promotion_vote&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;endorsed_slots&#34;</span><span class="p">:</span> <span class="mi">4294965247</span><span class="p">,</span>
-  <span class="nt">&#34;n_endorsed_slots&#34;</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span>
-  <span class="nt">&#34;n_ops&#34;</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+  <span class="nt">&#34;endorsed_slots&#34;</span><span class="p">:</span> <span class="mi">4294967295</span><span class="p">,</span>
+  <span class="nt">&#34;n_endorsed_slots&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops&#34;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
   <span class="nt">&#34;n_ops_failed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_ops_contract&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_tx&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
   <span class="nt">&#34;n_activation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_seed_nonce_revelation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_double_baking_evidence&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_double_endorsement_evidence&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_endorsement&#34;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
+  <span class="nt">&#34;n_seed_nonce_revelations&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_double_baking_evidences&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_double_endorsement_evidences&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_endorsement&#34;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>
   <span class="nt">&#34;n_delegation&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_reveal&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;n_reveal&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
   <span class="nt">&#34;n_origination&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_proposal&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_ballot&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;volume&#34;</span><span class="p">:</span> <span class="mf">2.434174</span><span class="p">,</span>
-  <span class="nt">&#34;fees&#34;</span><span class="p">:</span> <span class="mf">0.00142</span><span class="p">,</span>
-  <span class="nt">&#34;rewards&#34;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
-  <span class="nt">&#34;deposits&#34;</span><span class="p">:</span> <span class="mi">2560</span><span class="p">,</span>
+  <span class="nt">&#34;volume&#34;</span><span class="p">:</span> <span class="mf">2047.9</span><span class="p">,</span>
+  <span class="nt">&#34;fees&#34;</span><span class="p">:</span> <span class="mf">0.01142</span><span class="p">,</span>
+  <span class="nt">&#34;rewards&#34;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+  <span class="nt">&#34;deposits&#34;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
   <span class="nt">&#34;unfrozen_fees&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;unfrozen_rewards&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;unfrozen_deposits&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;activated_supply&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;burned_supply&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;n_accounts&#34;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>
+  <span class="nt">&#34;n_accounts&#34;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
   <span class="nt">&#34;n_new_accounts&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_new_implicit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_new_managed&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_new_contracts&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_cleared_accounts&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;n_funded_accounts&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;gas_limit&#34;</span><span class="p">:</span> <span class="mi">10300</span><span class="p">,</span>
-  <span class="nt">&#34;gas_used&#34;</span><span class="p">:</span> <span class="mi">10200</span><span class="p">,</span>
-  <span class="nt">&#34;gas_price&#34;</span><span class="p">:</span> <span class="mf">0.13922</span><span class="p">,</span>
+  <span class="nt">&#34;gas_limit&#34;</span><span class="p">:</span> <span class="mi">20400</span><span class="p">,</span>
+  <span class="nt">&#34;gas_used&#34;</span><span class="p">:</span> <span class="mi">20200</span><span class="p">,</span>
+  <span class="nt">&#34;gas_price&#34;</span><span class="p">:</span> <span class="mf">0.56535</span><span class="p">,</span>
   <span class="nt">&#34;storage_size&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;days_destroyed&#34;</span><span class="p">:</span> <span class="mf">0.003381</span><span class="p">,</span>
+  <span class="nt">&#34;days_destroyed&#34;</span><span class="p">:</span> <span class="mf">203.367847</span><span class="p">,</span>
   <span class="nt">&#34;pct_account_reuse&#34;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+  <span class="nt">&#34;n_ops_implicit&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
   <span class="nt">&#34;endorsers&#34;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="s2">&#34;tz1LLNkQK4UQV6QcFShiXJ2vT2ELw449MzAA&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1isXamBXpTUgbByQ6gXgZQg4GWNW7r6rKE&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1gk3TDbU7cJuiBRMhwQXVvgDnjsxuWhcEA&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1MXFrtZoaXckE41bjUCSjAjAap3AFDSr3N&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1dZhK4HMbGTPUucpKy1rNG1WfYLqdRMs6Z&#34;</span><span class="p">,</span>
     <span class="s2">&#34;tz3bvNMQ95vfAYtG8193ymshqjSvmxiCUuR5&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1TaLYBeGZD3yKVHQGBM857CcNnFFNceLYh&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz3RB4aoyjov4KEVRbuhvQ1CKJgBJMWhaeB8&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1PeZx7FXy7QRuMREGXGxeipb24RsMMzUNe&#34;</span><span class="p">,</span>
     <span class="s2">&#34;tz3bTdwZinP8U1JmSweNzVKhmwafqWmFWRfk&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1Ukm38BsGU58drCoJ31u3w6kgPo4oda4gL&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1TzaNn7wSQSP5gYPXCnNzBCpyMiidCq1PX&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1UHxJUMWHY4FxK3RxgbSdwMXAhEzmoLVWA&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz3bTdwZinP8U1JmSweNzVKhmwafqWmFWRfk&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1NPbgLoqoct15RfrGu29DhUw41sVvTmqjP&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1VQnqCCqX4K5sP3FNkVSNKTdCAMJDd3E1n&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1T7duV5gZWSTq4YpBGbXNLTfznCLDrFxvs&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz3RB4aoyjov4KEVRbuhvQ1CKJgBJMWhaeB8&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1bLwpPfr3xqy1gWBF4sGvv8bLJyPHR11kx&#34;</span><span class="p">,</span>
     <span class="s2">&#34;tz3NExpXn9aPNZPorRE4SdjJ2RGrfbJgMAaV&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz3bTdwZinP8U1JmSweNzVKhmwafqWmFWRfk&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz3VEZ4k6a4Wx42iyev6i2aVAptTRLEAivNN&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz3VEZ4k6a4Wx42iyev6i2aVAptTRLEAivNN&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1LmaFsWRkjr7QMCx5PtV6xTUz3AmEpKQiF&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1VmiY38m3y95HqQLjMwqnMS7sdMfGomzKi&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1ajgycuHmd2z2JbTSJxKv7x6cok2KuNSk1&#34;</span><span class="p">,</span>
     <span class="s2">&#34;tz1bHzftcTKZMTZgLLtnrXydCm6UEqf4ivca&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz3bTdwZinP8U1JmSweNzVKhmwafqWmFWRfk&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3RB4aoyjov4KEVRbuhvQ1CKJgBJMWhaeB8&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3UoffC7FG7zfpmvmjUmUeAaHvzdcUvAj6r&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1TzaNn7wSQSP5gYPXCnNzBCpyMiidCq1PX&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1VmiY38m3y95HqQLjMwqnMS7sdMfGomzKi&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1PesW5khQNhy4revu2ETvMtWPtuVyH2XkZ&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3NExpXn9aPNZPorRE4SdjJ2RGrfbJgMAaV&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1Ldzz6k1BHdhuKvAtMRX7h5kJSMHESMHLC&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1Xek93iSXXckyQ6aYLVS5Rr2tge2en7ZxS&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1NpWrAyDL9k2Lmnyxcgr9xuJakbBxdq7FB&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1bHzftcTKZMTZgLLtnrXydCm6UEqf4ivca&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1TzaNn7wSQSP5gYPXCnNzBCpyMiidCq1PX&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3WMqdzXqRWXwyvj5Hp2H7QEepaUuS7vd9K&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1c5vSjZDMsgx7NCQapHjmSM5Wv9bjbwP9B&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3bvNMQ95vfAYtG8193ymshqjSvmxiCUuR5&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3WMqdzXqRWXwyvj5Hp2H7QEepaUuS7vd9K&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1aJS7Pk9uWR3wWyFf1i3RwhYxN84G7stom&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1TzaNn7wSQSP5gYPXCnNzBCpyMiidCq1PX&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz3WMqdzXqRWXwyvj5Hp2H7QEepaUuS7vd9K&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1LH4L6XYT2JNPhvWYC4Zq3XEiGgEwzNRvo&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1NpWrAyDL9k2Lmnyxcgr9xuJakbBxdq7FB&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1Vd1rXpV8hTHbFXCXN3c3qzCsgcU5BZw1e&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1NortRftucvAkD1J58L32EhSVrQEWJCEnB&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1Vd1rXpV8hTHbFXCXN3c3qzCsgcU5BZw1e&#34;</span><span class="p">,</span>
     <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1irJKkXS2DBWkU1NnmFQx1c1L7pbGg4yhk&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz1cmvE9SbB63z9GB1h64P3YawsMqiBmQpCG&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;tz3VEZ4k6a4Wx42iyev6i2aVAptTRLEAivNN&#34;</span>
+    <span class="s2">&#34;tz1TaLYBeGZD3yKVHQGBM857CcNnFFNceLYh&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;tz1abTjX2tjtMdaq5VCzkDtBnMSCFPW2oRPa&#34;</span>
   <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div><p>Fetches information about the specified block. Takes either a block <code>hash</code>, a block <code>height</code> or the string <code>head</code> as argument.</p>
@@ -1670,6 +1689,10 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Count of smart contract operations (transactions sent to contracts and internal operations sent by contracts).</td>
 </tr>
 <tr>
+<td><code>n_ops_implicit</code> <em>int64</em></td>
+<td>Count of implicit events, ie. operations and state changes that don&rsquo;t have an operation hash such as <code>bake</code>, <code>unfreeze</code>, <code>seed_slash</code>, <code>airdrop</code> and <code>invoice</code>.</td>
+</tr>
+<tr>
 <td><code>n_tx</code> <em>int64</em></td>
 <td>Count of <code>transaction</code> operations.</td>
 </tr>
@@ -1719,15 +1742,15 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>fees</code> <em>money</em></td>
-<td>Total fees paid (and frozen) by all operations.</td>
+<td>Fees paid (and frozen) by all operations.</td>
 </tr>
 <tr>
 <td><code>rewards</code> <em>money</em></td>
-<td>Total rewards earned (and frozen) by baker and endorsers.</td>
+<td>Rewards earned (and frozen) by the block baker.</td>
 </tr>
 <tr>
 <td><code>deposits</code> <em>money</em></td>
-<td>Total deposits frozen by baker and endorsers.</td>
+<td>Deposits frozen by the block baker.</td>
 </tr>
 <tr>
 <td><code>unfrozen_fees</code> <em>money</em></td>
@@ -1751,7 +1774,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>n_accounts</code> <em>int64</em></td>
-<td>Count of accounts seen in this block (i.e. this includes all operation senders, receivers, delegates and the block's baker).</td>
+<td>Count of accounts seen in this block (i.e. this includes all operation senders, receivers, delegates and the block&rsquo;s baker).</td>
 </tr>
 <tr>
 <td><code>n_new_accounts</code> <em>int64</em></td>
@@ -1833,6 +1856,8 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
       <span class="nt">&#34;op_n&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
       <span class="nt">&#34;op_c&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
       <span class="nt">&#34;op_i&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;op_l&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&#34;op_p&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
       <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;applied&#34;</span><span class="p">,</span>
       <span class="nt">&#34;is_success&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
       <span class="nt">&#34;is_contract&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
@@ -1860,7 +1885,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="err">/</span><span class="err">/</span> <span class="err">.</span><span class="err">.</span><span class="err">.</span>
   <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><p>Block data can be extended with an embedded list of operations. This endpoint is an optimization to fetch both the operation list and the related resource in one call. Use <code>limit</code> and <code>offset</code> (both integers) to page through operation lists. Operations are sorted by row_id in ascending order.</p>
+</code></pre></div><p>Block data can be extended with an embedded list of operations. This endpoint is an optimization to fetch both the operation list and the related resource in one call. Use <code>limit</code> and <code>offset</code> (both integers) to page through operation lists. Operations are sorted by row_id in ascending order. Use <code>order</code> to switch between <code>asc</code> or <code>desc</code>. Allows filtering operations by <code>type</code> using <a href="#query-filters">query filters</a>.</p>
 <h3 id="http-request-7">HTTP Request</h3>
 <h4 id="list-block-operations-1">List Block Operations</h4>
 <p><code>GET https://api.tzstats.com/explorer/block/{hash,height,head}/op</code></p>
@@ -2351,7 +2376,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;token_gen_max&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;bigmap_ids&#34;</span><span class="p">:</span> <span class="p">[</span><span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><p>Returns metadata about the smart contract. For more details call the <a href="#accounts">explorer account endpoint</a> using the contract's KT1 address. Separate calls support querying contract code, storage type and entrypoint specifications, storage contents and calls.</p>
+</code></pre></div><p>Returns metadata about the smart contract. For more details call the <a href="#accounts">explorer account endpoint</a> using the contract&rsquo;s KT1 address. Separate calls support querying contract code, storage type and entrypoint specifications, storage contents and calls.</p>
 <h3 id="security-warning-1"><strong>SECURITY WARNING</strong></h3>
 <p>Unlike other on-chain data where values and ranges are predictable the contents of <strong>call parameters</strong>, <strong>storage keys/values</strong> and <strong>code/type annotations</strong> is entirely user-controlled and unpredictable. IT MAY CONTAIN MALICIOUS DATA INTENDED TO ATTACK YOUR APPLICATIONS AND USERS! Be vigilant and sanitize all data before you process or display it.</p>
 <h3 id="http-request-10">HTTP Request</h3>
@@ -2523,6 +2548,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <h3 id="get-contract-script">Get Contract Script</h3>
 <p><code>GET https://api.tzstats.com/explorer/contract/{hash}/script</code></p>
 <p>Returns the native Michelson JSON encoding of the deployed smart contract code as well as type specifications for call parameters, storage and bigmaps. Also contains decoded entrypoints and unboxed storage type.</p>
+<p>JSON keys for entrypoint arguments always follow the convention <code>&lt;order&gt;@&lt;name&gt;</code>, ie. they include an integer order number as first argument, followed by an optional <code>@</code> symbol and an optional argument name extracted from type annotations.</p>
 <h3 id="unboxed-contract-script">Unboxed Contract Script</h3>
 <blockquote>
 <p><strong>Example script.</strong></p>
@@ -2587,7 +2613,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>entrypoint.$.branch</code> <em>string</em></td>
-<td>Path of left (L) or right (R) branches to reach the entrypoint's code in the Michelson code tree.</td>
+<td>Path of left (L) or right (R) branches to reach the entrypoint&rsquo;s code in the Michelson code tree.</td>
 </tr>
 <tr>
 <td><code>entrypoint.$.type</code> <em>polymorph</em></td>
@@ -2601,7 +2627,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </table>
 <h3 id="get-contract-storage">Get Contract Storage</h3>
 <p><code>GET https://api.tzstats.com/explorer/contract/{hash}/storage</code></p>
-<p>Returns the most recent content of the contract's storage or, when using the optional <code>height</code> (int64) or block <code>hash</code> (hash) argument, a prior state at the specified block. Use the optional <code>prim</code> (boolean) argument to embed Michelson JSON primitives.</p>
+<p>Returns the most recent content of the contract&rsquo;s storage or, when using the optional <code>height</code> (int64) or block <code>hash</code> (hash) argument, a prior state at the specified block. Use the optional <code>prim</code> (boolean) argument to embed Michelson JSON primitives.</p>
 <h3 id="unboxed-contract-storage">Unboxed Contract Storage</h3>
 <blockquote>
 <p><strong>Example storage update.</strong></p>
@@ -2696,7 +2722,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>branch</code> <em>string</em></td>
-<td>Path of left (L) or right (R) branches to reach the entrypoint's code in the Michelson code tree.</td>
+<td>Path of left (L) or right (R) branches to reach the entrypoint&rsquo;s code in the Michelson code tree.</td>
 </tr>
 <tr>
 <td><code>id</code> <em>int64</em></td>
@@ -3675,6 +3701,8 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="nt">&#34;op_n&#34;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>
     <span class="nt">&#34;op_c&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
     <span class="nt">&#34;op_i&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;op_l&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;op_p&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
     <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;applied&#34;</span><span class="p">,</span>
     <span class="nt">&#34;is_success&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nt">&#34;is_contract&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
@@ -3702,12 +3730,13 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="nt">&#34;branch_id&#34;</span><span class="p">:</span> <span class="mi">627341</span><span class="p">,</span>
     <span class="nt">&#34;branch_height&#34;</span><span class="p">:</span> <span class="mi">627340</span><span class="p">,</span>
     <span class="nt">&#34;branch_depth&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;BKr3kjkbi5LndjDTDDSPUWubZjrdSBCWLJudmuGYuiVuG2j8fvj&#34;</span>
+    <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;BKr3kjkbi5LndjDTDDSPUWubZjrdSBCWLJudmuGYuiVuG2j8fvj&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;is_implicit&#34;</span><span class="p">:</span> <span class="kc">false</span>
   <span class="p">}</span>
 <span class="p">]</span>
-</code></pre></div><p>Returns info about a single operation or a list of related operations. Because Tezos supports batch operations (multiple operations sharing the same hash) and internal operations (created by smart contract calls in response to a transaction) this endpoint always returns an array of operation objects. In many cases this array contains one element only. Use the optional <code>prim</code> (boolean) parameter to embed Michelson primitive trees with smart contract calls.</p>
+</code></pre></div><p>Returns info about a single operation or a list of related operations. Because Tezos supports batch operations (multiple operations sharing the same hash), internal operations (created by smart contract calls in response to a transaction) and implicit events (state changes that do not have an operation hash) this endpoint always returns an array of operation objects. In many cases this array contains one element only. Use the optional <code>prim</code> (boolean) parameter to embed Michelson primitive trees with smart contract calls.</p>
 <h3 id="http-request-15">HTTP Request</h3>
-<p><code>GET https://api.tzstats.com/explorer/op/{hash}</code></p>
+<p><code>GET https://api.tzstats.com/explorer/op/{hash|id}</code></p>
 <h3 id="http-response-14">HTTP Response</h3>
 <table>
 <thead>
@@ -3747,7 +3776,15 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>op_n</code> <em>int64</em></td>
-<td>Operation position in block. (Tezos defines 4 arrays used for the different op verification steps. The <code>op_n</code> value represents the global operation position across all these arrays.)</td>
+<td>In block operation counter.</td>
+</tr>
+<tr>
+<td><code>op_l</code> <em>int64</em></td>
+<td>Tezos RPC operation list number (0..3).</td>
+</tr>
+<tr>
+<td><code>op_p</code> <em>int64</em></td>
+<td>Tezos RPC operation list position.</td>
 </tr>
 <tr>
 <td><code>op_c</code> <em>int64</em></td>
@@ -3795,19 +3832,19 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>volume</code> <em>money</em></td>
-<td>Amount of tokens transferred in tz.</td>
+<td>Amount of tokens transferred in tz. In denunciation operations, this field contains the accuser reward.</td>
 </tr>
 <tr>
 <td><code>fee</code> <em>money</em></td>
-<td>Fees paid in tz.</td>
+<td>Fees paid in tz. In denunciation operations, this field contains the offender loss as negative value.</td>
 </tr>
 <tr>
 <td><code>reward</code> <em>money</em></td>
-<td>Rewards earned in tz.</td>
+<td>Rewards earned in tz. In denunciation operations, this field contains the offender loss as negative value.</td>
 </tr>
 <tr>
 <td><code>deposit</code> <em>money</em></td>
-<td>Amount of deposited tokens in tz.</td>
+<td>Amount of deposited tokens in tz. In denunciation operations, this field contains the offender loss as negative value.</td>
 </tr>
 <tr>
 <td><code>burned</code> <em>money</em></td>
@@ -3816,6 +3853,10 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>is_internal</code> <em>bool</em></td>
 <td>Flag indicating if this operation was sent be a smart contract.</td>
+</tr>
+<tr>
+<td><code>is_implicit</code> <em>bool</em></td>
+<td>Flag indicating implicit on-chain events, ie. state changes that don&rsquo;t have an operation hash such as <code>bake</code>, <code>unfreeze</code>, <code>seed_slash</code>, <code>airdrop</code> and <code>invoice</code>.</td>
 </tr>
 <tr>
 <td><code>has_data</code> <em>bool</em></td>
@@ -3867,11 +3908,11 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>sender</code> <em>hash</em></td>
-<td>Operation sender, always set.</td>
+<td>Operation sender.</td>
 </tr>
 <tr>
 <td><code>receiver</code> <em>hash</em></td>
-<td>Transaction receiver, may be empty.</td>
+<td>Transaction receiver, may be empty. For <code>activate_account</code> the source account is referenced when the activation merged coins from a second blinded account (ie. when a fundraiser signed up twice). For <code>delegation</code> the previous delegate is referenced. For <code>seed_nonce_revelation</code> the actual seed publisher is referenced.</td>
 </tr>
 <tr>
 <td><code>delegate</code> <em>hash</em></td>
@@ -3879,7 +3920,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>manager</code> <em>hash</em></td>
-<td>Contract manager, <code>origination</code> only.</td>
+<td>Contains contract manager (Athens) or creator (Babylon+) on <code>origination</code>. For internal <code>transactions</code>, the original sender of the external transaction is referenced.</td>
 </tr>
 <tr>
 <td><code>branch_id</code> <em>uint64</em></td>
@@ -3912,6 +3953,11 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <li><code>endorsement</code></li>
 <li><code>proposals</code></li>
 <li><code>ballot</code></li>
+<li><code>bake</code> (implict, no hash, block header event <code>op_n = -1</code>)</li>
+<li><code>unfreeze</code> (implict, no hash, block header event <code>op_n = -1</code>)</li>
+<li><code>seed_slash</code> (implict, no hash, block header event <code>op_n = -1</code>)</li>
+<li><code>airdrop</code> (implict, no hash, protocol upgrade event <code>op_n = -2</code>)</li>
+<li><code>invoice</code> (implict, no hash, protocol upgrade event <code>op_n = -2</code>)</li>
 </ul>
 <h3 id="decoding-operation-data">Decoding Operation Data</h3>
 <p>Some operations contain extra data in the polymorphic <code>data</code> field. This field exists when the <code>has_data</code> flag is true. Decoding the data depends on the operation <code>type</code>.</p>
@@ -4846,7 +4892,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>solvetime</code> <em>int64</em></td>
-<td>Duration between the parent block's timestamp and this block.</td>
+<td>Duration between the parent block&rsquo;s timestamp and this block.</td>
 </tr>
 <tr>
 <td><code>version</code> <em>int64</em></td>
@@ -4874,7 +4920,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>baker_id</code> <em>uint64</em></td>
-<td>Unique row id of the block's baker account.</td>
+<td>Unique row id of the block&rsquo;s baker account.</td>
 </tr>
 <tr>
 <td><code>endorsed_slots</code> <em>uint64</em></td>
@@ -4978,7 +5024,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>n_accounts</code> <em>int64</em></td>
-<td>Count of accounts seen in this block (i.e. this includes all operation senders, receivers, delegates and the block's baker).</td>
+<td>Count of accounts seen in this block (i.e. this includes all operation senders, receivers, delegates and the block&rsquo;s baker).</td>
 </tr>
 <tr>
 <td><code>n_new_accounts</code> <em>int64</em></td>
@@ -5227,7 +5273,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>inactive_delegates</code> <em>int64</em></td>
-<td>Current number of inactive bakers (note: inactive bakers can still have future rights, but won't get any new rights).</td>
+<td>Current number of inactive bakers (note: inactive bakers can still have future rights, but won&rsquo;t get any new rights).</td>
 </tr>
 <tr>
 <td><code>zero_delegates</code> <em>int64</em></td>
@@ -5481,8 +5527,14 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="mi">360996</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">h</span><span class="err">e</span><span class="err">i</span><span class="err">g</span><span class="err">h</span><span class="err">t</span>
     <span class="mi">88</span><span class="p">,</span>            <span class="err">/</span><span class="err">/</span> <span class="err">c</span><span class="err">y</span><span class="err">c</span><span class="err">l</span><span class="err">e</span>
     <span class="mi">1553123452000</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">i</span><span class="err">m</span><span class="err">e</span>
+    <span class="mi">8361752</span><span class="p">,</span>       <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">i</span><span class="err">d</span>
+    <span class="mi">24</span><span class="p">,</span>            <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">n</span>
+    <span class="mi">0</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">l</span>
+    <span class="mi">0</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">p</span>
+    <span class="mi">0</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">c</span>
+    <span class="mi">0</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">i</span>
     <span class="mi">278469</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">c</span><span class="err">c</span><span class="err">o</span><span class="err">u</span><span class="err">n</span><span class="err">t</span><span class="err">_</span><span class="err">i</span><span class="err">d</span>
-    <span class="mi">31922</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">r</span><span class="err">i</span><span class="err">g</span><span class="err">i</span><span class="err">n</span><span class="err">_</span><span class="err">i</span><span class="err">d</span>
+    <span class="mi">31922</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">c</span><span class="err">o</span><span class="err">u</span><span class="err">n</span><span class="err">t</span><span class="err">e</span><span class="err">r</span><span class="err">p</span><span class="err">a</span><span class="err">r</span><span class="err">t</span><span class="err">y</span><span class="err">_</span><span class="err">i</span><span class="err">d</span>
     <span class="s2">&#34;secp256k1&#34;</span><span class="p">,</span>   <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">d</span><span class="err">d</span><span class="err">r</span><span class="err">e</span><span class="err">s</span><span class="err">s</span><span class="err">_</span><span class="err">t</span><span class="err">y</span><span class="err">p</span><span class="err">e</span>
     <span class="s2">&#34;balance&#34;</span><span class="p">,</span>     <span class="err">/</span><span class="err">/</span> <span class="err">c</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">g</span><span class="err">o</span><span class="err">r</span><span class="err">y</span>
     <span class="s2">&#34;transaction&#34;</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">e</span><span class="err">r</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span>
@@ -5496,10 +5548,11 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="mi">1194</span><span class="p">,</span>          <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">k</span><span class="err">e</span><span class="err">n</span><span class="err">_</span><span class="err">g</span><span class="err">e</span><span class="err">n</span><span class="err">_</span><span class="err">m</span><span class="err">a</span><span class="err">x</span>
     <span class="mi">60</span><span class="p">,</span>            <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">k</span><span class="err">e</span><span class="err">n</span><span class="err">_</span><span class="err">a</span><span class="err">g</span><span class="err">e</span>
     <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">d</span><span class="err">d</span><span class="err">r</span><span class="err">e</span><span class="err">s</span><span class="err">s</span>
-    <span class="s2">&#34;tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&#34;</span>  <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">r</span><span class="err">i</span><span class="err">g</span><span class="err">i</span><span class="err">n</span>
+    <span class="s2">&#34;tz1Yju7jmmsaUiG9qQLoYv35v5pHgnWoLWbt&#34;</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">c</span><span class="err">o</span><span class="err">u</span><span class="err">n</span><span class="err">t</span><span class="err">e</span><span class="err">r</span><span class="err">p</span><span class="err">a</span><span class="err">r</span><span class="err">t</span><span class="err">y</span>
+    <span class="s2">&#34;opPdGCS8cgW5j1id7WH485NuwjGnD4rVsJTaTZo4ftaT9jatFKJ&#34;</span> <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span>
   <span class="p">]</span>
 <span class="p">]</span>
-</code></pre></div><p>List balance updates on all sub-accounts and different categories. Our categories go beyond on-chain types and include baking, denounciations, vesting contracts and the invoicing feature of protocol upgrades.</p>
+</code></pre></div><p>List balance updates on all sub-accounts and different categories. Our categories go beyond on-chain types and include baking, denunciations, vesting contracts and the invoicing feature of protocol upgrades.</p>
 <h3 id="http-request-7">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/tables/flow?args</code></p>
 <h3 id="http-response-7">HTTP Response</h3>
@@ -5528,12 +5581,32 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Block time at which this flow was created.</td>
 </tr>
 <tr>
+<td><code>op_n</code> <em>int64</em></td>
+<td>Related operation position in block.</td>
+</tr>
+<tr>
+<td><code>op_l</code> <em>int64</em></td>
+<td>Tezos RPC operation list (0..3).</td>
+</tr>
+<tr>
+<td><code>op_p</code> <em>int64</em></td>
+<td>Tezos RPC operation list position.</td>
+</tr>
+<tr>
+<td><code>op_c</code> <em>int64</em></td>
+<td>Related bulk operation list position.</td>
+</tr>
+<tr>
+<td><code>op_i</code> <em>int64</em></td>
+<td>Related internal operation list position.</td>
+</tr>
+<tr>
 <td><code>account_id</code> <em>uint64</em></td>
 <td>Unique row_id of the account this flow relates to.</td>
 </tr>
 <tr>
-<td><code>origin_id</code> <em>uint64</em></td>
-<td>Unique row_id of the source account that initiated the flow.</td>
+<td><code>counterparty_id</code> <em>uint64</em></td>
+<td>Unique row_id of the counterparty that initiated/received the flow.</td>
 </tr>
 <tr>
 <td><code>address_type</code> <em>enum</em></td>
@@ -5545,7 +5618,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>operation</code> <em>enum</em></td>
-<td>Operation creating this flow <code>activation</code>, <code>denounciation</code>, <code>transaction</code>, <code>origination</code>, <code>delegation</code>, <code>reveal</code>, <code>endorsement</code>, <code>baking</code>, <code>noncerevelation</code>, <code>internal</code>, <code>vest</code>, <code>pour</code>, <code>invoice</code>, <code>airdrop</code>.</td>
+<td>Operation creating this flow <code>activation</code>, <code>denunciation</code>, <code>transaction</code>, <code>origination</code>, <code>delegation</code>, <code>reveal</code>, <code>endorsement</code>, <code>baking</code>, <code>noncerevelation</code>, <code>internal</code>, <code>vest</code>, <code>pour</code>, <code>invoice</code>, <code>airdrop</code>.</td>
 </tr>
 <tr>
 <td><code>amount_in</code> <em>money</em></td>
@@ -5588,8 +5661,8 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Address of the related account.</td>
 </tr>
 <tr>
-<td><code>origin</code> <em>hash</em></td>
-<td>Address of the flow initiating account.</td>
+<td><code>counterparty</code> <em>hash</em></td>
+<td>Address of the counterparty of this flow.</td>
 </tr>
 </tbody>
 </table>
@@ -5641,7 +5714,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">l</span><span class="err">o</span><span class="err">s</span><span class="err">t</span><span class="err">_</span><span class="err">a</span><span class="err">c</span><span class="err">c</span><span class="err">u</span><span class="err">s</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">p</span><span class="err">o</span><span class="err">s</span><span class="err">i</span><span class="err">t</span><span class="err">s</span>
     <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">l</span><span class="err">o</span><span class="err">s</span><span class="err">t</span><span class="err">_</span><span class="err">r</span><span class="err">e</span><span class="err">v</span><span class="err">e</span><span class="err">l</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span><span class="err">_</span><span class="err">f</span><span class="err">e</span><span class="err">e</span><span class="err">s</span>
     <span class="mf">0.000000</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">l</span><span class="err">o</span><span class="err">s</span><span class="err">t</span><span class="err">_</span><span class="err">r</span><span class="err">e</span><span class="err">v</span><span class="err">e</span><span class="err">l</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span><span class="err">_</span><span class="err">r</span><span class="err">e</span><span class="err">w</span><span class="err">a</span><span class="err">r</span><span class="err">d</span><span class="err">s</span>
-    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span>  <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">d</span><span class="err">d</span><span class="err">r</span><span class="err">e</span><span class="err">s</span><span class="err">s</span>
+    <span class="s2">&#34;tz2TSvNTh2epDMhZHrw73nV9piBX7kLZ9K9m&#34;</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">d</span><span class="err">d</span><span class="err">r</span><span class="err">e</span><span class="err">s</span><span class="err">s</span>
+    <span class="mi">1568887343000</span><span class="p">,</span>    <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">t</span><span class="err">a</span><span class="err">r</span><span class="err">t</span><span class="err">_</span><span class="err">t</span><span class="err">i</span><span class="err">m</span><span class="err">e</span>
+    <span class="mi">1569136305000</span>     <span class="err">/</span><span class="err">/</span> <span class="err">e</span><span class="err">n</span><span class="err">d</span><span class="err">_</span><span class="err">t</span><span class="err">i</span><span class="err">m</span><span class="err">e</span>
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List detailed baker income and income statistics. This table is extended for all active bakers at each cycle and updated at every block until a cycle is complete. That way, rows for open cycles will always contain live data up to the most recent block in the chain.</p>
@@ -5674,7 +5749,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>balance</code> <em>money</em></td>
-<td>A baker's own balance, composed of spendable balance and frozen deposits plus frozen fees (at snapshot block). Note that frozen rewards do not contribute towards rolls, hence they are not part of balance here.</td>
+<td>A baker&rsquo;s own balance, composed of spendable balance and frozen deposits plus frozen fees (at snapshot block). Note that frozen rewards do not contribute towards rolls, hence they are not part of balance here.</td>
 </tr>
 <tr>
 <td><code>delegated</code> <em>money</em></td>
@@ -5702,7 +5777,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>performance_percent</code> <em>float</em></td>
-<td>Effectiveness of a baker in generating expected rewards. Optimal performance is 100%. The value is lower when blocks or endorsements are missed, low value blocks/endorsements are published or the baker is slashed and higher when extra income was generated from stolen blocks or denounciations. NOTE: This value is not ratio scale nor interval scale. CANNOT be used as benchmark between bakers.</td>
+<td>Effectiveness of a baker in generating expected rewards. Optimal performance is 100%. The value is lower when blocks or endorsements are missed, low value blocks/endorsements are published or the baker is slashed and higher when extra income was generated from stolen blocks or denunciations. NOTE: This value is not ratio scale nor interval scale. CANNOT be used as benchmark between bakers.</td>
 </tr>
 <tr>
 <td><code>contribution_percent</code> <em>float</em></td>
@@ -5786,19 +5861,19 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>total_lost</code> <em>money</em></td>
-<td>Total lost income due to denounciations or unpublished seed nonces. NOTE: This does not automatically reduce <code>total_income</code> above.</td>
+<td>Total lost income due to denunciations or unpublished seed nonces. NOTE: This does not automatically reduce <code>total_income</code> above.</td>
 </tr>
 <tr>
 <td><code>lost_accusation_fees</code> <em>money</em></td>
-<td>Lost fees due to a denounciation.</td>
+<td>Lost fees due to a denunciation.</td>
 </tr>
 <tr>
 <td><code>lost_accusation_rewards</code> <em>money</em></td>
-<td>Lost rewards due to a denounciation.</td>
+<td>Lost rewards due to a denunciation.</td>
 </tr>
 <tr>
 <td><code>lost_accusation_deposits</code> <em>money</em></td>
-<td>Lost income due to a denounciation.</td>
+<td>Lost income due to a denunciation.</td>
 </tr>
 <tr>
 <td><code>lost_revelation_fees</code> <em>money</em></td>
@@ -5811,6 +5886,14 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>address</code> <em>hash</em></td>
 <td>Account address base58check encoded.</td>
+</tr>
+<tr>
+<td><code>start_time</code> <em>datetime</em></td>
+<td>Income cycle start time.</td>
+</tr>
+<tr>
+<td><code>end_time</code> <em>datetime</em></td>
+<td>Income cycle end time.</td>
 </tr>
 </tbody>
 </table>
@@ -5831,6 +5914,8 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="s2">&#34;opGz2Sg1QiXchJMyz9v1rV9VN7mQadmkL81KVwteANQWZpgV5ew&#34;</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">h</span><span class="err">a</span><span class="err">s</span><span class="err">h</span>
     <span class="mi">0</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">c</span><span class="err">o</span><span class="err">u</span><span class="err">n</span><span class="err">t</span><span class="err">e</span><span class="err">r</span>
     <span class="mi">0</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">n</span>
+    <span class="mi">0</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">l</span>
+    <span class="mi">0</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">p</span>
     <span class="mi">0</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">c</span>
     <span class="mi">0</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">i</span>
     <span class="s2">&#34;endorsement&#34;</span><span class="p">,</span>    <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">y</span><span class="err">p</span><span class="err">e</span>
@@ -5863,6 +5948,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="mi">689942</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">c</span><span class="err">h</span><span class="err">_</span><span class="err">i</span><span class="err">d</span>
     <span class="mi">689941</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">c</span><span class="err">h</span><span class="err">_</span><span class="err">h</span><span class="err">e</span><span class="err">i</span><span class="err">g</span><span class="err">h</span><span class="err">t</span>
     <span class="mi">1</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">c</span><span class="err">h</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">p</span><span class="err">t</span><span class="err">h</span>
+    <span class="mi">0</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">s</span><span class="err">_</span><span class="err">i</span><span class="err">m</span><span class="err">p</span><span class="err">l</span><span class="err">i</span><span class="err">c</span><span class="err">i</span><span class="err">t</span>
     <span class="s2">&#34;tz1Z2jXfEXL7dXhs6bsLmyLFLfmAkXBzA9WE&#34;</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">e</span><span class="err">n</span><span class="err">d</span><span class="err">e</span><span class="err">r</span>
     <span class="kc">null</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">r</span><span class="err">e</span><span class="err">c</span><span class="err">e</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">r</span>
     <span class="kc">null</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">a</span><span class="err">n</span><span class="err">a</span><span class="err">g</span><span class="err">e</span><span class="err">r</span>
@@ -5907,7 +5993,15 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 <tr>
 <td><code>op_n</code> <em>int64</em></td>
-<td>Operation position in block. (Tezos defines 4 arrays used for the different op verification steps. The <code>op_n</code> value represents the global operation position across all these arrays.)</td>
+<td>Operation position in block.</td>
+</tr>
+<tr>
+<td><code>op_l</code> <em>int64</em></td>
+<td>Tezos RPC operation list (0..3).</td>
+</tr>
+<tr>
+<td><code>op_p</code> <em>int64</em></td>
+<td>Tezos RPC operation list position.</td>
 </tr>
 <tr>
 <td><code>op_c</code> <em>int64</em></td>
@@ -6036,6 +6130,10 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>branch_depth</code> <em>int64</em></td>
 <td>Count of blocks between branch block and block including this op.</td>
+</tr>
+<tr>
+<td><code>is_implicit</code> <em>bool</em></td>
+<td>Flag indicating implicit on-chain events, ie. state changes that don&rsquo;t have an operation hash such as <code>bake</code>, <code>unfreeze</code>, <code>seed_slash</code>, <code>airdrop</code> and <code>invoice</code>.</td>
 </tr>
 <tr>
 <td><code>sender</code> <em>hash</em></td>
@@ -6737,6 +6835,14 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>aggregated operations data</td>
 </tr>
 <tr>
+<td><code>GET /series/chain</code></td>
+<td>running total counters for on-chain operations, accounts and rolls</td>
+</tr>
+<tr>
+<td><code>GET /series/supply</code></td>
+<td>running supply totals</td>
+</tr>
+<tr>
 <td><code>GET /series/{exchange}/{market}/ohlcv</code></td>
 <td>OHLCV candles</td>
 </tr>
@@ -6778,7 +6884,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 </tbody>
 </table>
-<p>When only start or end date are provided, the other end of the range is deducted from collapse and limit. I.e. with collapse of <code>1d</code> and limit of <code>30</code> you'll get 30 days of data after start_date or before end_date. Called without any optional parameters a query defaults to the most recent 500 minutes (<code>end_date=now</code>, <code>limit=500</code> and <code>collapse=1m</code>).</p>
+<p>When only start or end date are provided, the other end of the range is deducted from collapse and limit. I.e. with collapse of <code>1d</code> and limit of <code>30</code> you&rsquo;ll get 30 days of data after start_date or before end_date. Called without any optional parameters a query defaults to the most recent 500 minutes (<code>end_date=now</code>, <code>limit=500</code> and <code>collapse=1m</code>).</p>
 <h2 id="query-filters">Query Filters</h2>
 <p>Time-series support the same filters <a href="#query-filters">used on tables</a> with the same filter expressions of form <code>&lt;column&gt;.&lt;operator&gt;=&lt;arg&gt;</code>. Filters can be used on all table fields, including fields that are not part of the aggregated result such as addresses and type enums.</p>
 <h2 id="block-series">Block Series</h2>
@@ -7090,6 +7196,398 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </tr>
 </tbody>
 </table>
+<h2 id="chain-series">Chain Series</h2>
+<blockquote>
+<p><strong>Example request.</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/series/chain?start_date=today&amp;collapse=1d&#34;</span>
+</code></pre></div><blockquote>
+<p><strong>Example response.</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">[</span>
+    <span class="mi">815464</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">h</span><span class="err">e</span><span class="err">i</span><span class="err">g</span><span class="err">h</span><span class="err">t</span>
+    <span class="mi">199</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">c</span><span class="err">y</span><span class="err">c</span><span class="err">l</span><span class="err">e</span>
+    <span class="mi">1581160828000</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">i</span><span class="err">m</span><span class="err">e</span>
+    <span class="mi">425778</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">a</span><span class="err">c</span><span class="err">c</span><span class="err">o</span><span class="err">u</span><span class="err">n</span><span class="err">t</span><span class="err">s</span>
+    <span class="mi">398643</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">i</span><span class="err">m</span><span class="err">p</span><span class="err">l</span><span class="err">i</span><span class="err">c</span><span class="err">i</span><span class="err">t</span>
+    <span class="mi">26819</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">m</span><span class="err">a</span><span class="err">n</span><span class="err">a</span><span class="err">g</span><span class="err">e</span><span class="err">d</span>
+    <span class="mi">316</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">c</span><span class="err">o</span><span class="err">n</span><span class="err">t</span><span class="err">r</span><span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">s</span>
+    <span class="mi">20554157</span><span class="p">,</span>      <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">o</span><span class="err">p</span><span class="err">s</span>
+    <span class="mi">104074</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">c</span><span class="err">o</span><span class="err">n</span><span class="err">t</span><span class="err">r</span><span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">_</span><span class="err">o</span><span class="err">p</span><span class="err">s</span>
+    <span class="mi">22179</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span><span class="err">s</span>
+    <span class="mi">25277</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">s</span><span class="err">e</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">n</span><span class="err">o</span><span class="err">n</span><span class="err">c</span><span class="err">e</span><span class="err">_</span><span class="err">r</span><span class="err">e</span><span class="err">v</span><span class="err">e</span><span class="err">l</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span><span class="err">s</span>
+    <span class="mi">17393631</span><span class="p">,</span>      <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">e</span><span class="err">n</span><span class="err">d</span><span class="err">o</span><span class="err">r</span><span class="err">s</span><span class="err">e</span><span class="err">m</span><span class="err">e</span><span class="err">n</span><span class="err">t</span><span class="err">s</span>
+    <span class="mi">131</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">d</span><span class="err">o</span><span class="err">u</span><span class="err">b</span><span class="err">l</span><span class="err">e</span><span class="err">_</span><span class="err">b</span><span class="err">a</span><span class="err">k</span><span class="err">i</span><span class="err">n</span><span class="err">g</span><span class="err">_</span><span class="err">e</span><span class="err">v</span><span class="err">i</span><span class="err">d</span><span class="err">e</span><span class="err">n</span><span class="err">c</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">24</span><span class="p">,</span>            <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">d</span><span class="err">o</span><span class="err">u</span><span class="err">b</span><span class="err">l</span><span class="err">e</span><span class="err">_</span><span class="err">e</span><span class="err">n</span><span class="err">d</span><span class="err">o</span><span class="err">r</span><span class="err">s</span><span class="err">e</span><span class="err">m</span><span class="err">e</span><span class="err">n</span><span class="err">t</span><span class="err">_</span><span class="err">e</span><span class="err">v</span><span class="err">i</span><span class="err">d</span><span class="err">e</span><span class="err">n</span><span class="err">c</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">54288</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span><span class="err">s</span>
+    <span class="mi">272080</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">r</span><span class="err">e</span><span class="err">v</span><span class="err">e</span><span class="err">a</span><span class="err">l</span><span class="err">s</span>
+    <span class="mi">29052</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">o</span><span class="err">r</span><span class="err">i</span><span class="err">g</span><span class="err">i</span><span class="err">n</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span><span class="err">s</span>
+    <span class="mi">2755973</span><span class="p">,</span>       <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">t</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">s</span><span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span><span class="err">s</span>
+    <span class="mi">494</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">p</span><span class="err">r</span><span class="err">o</span><span class="err">p</span><span class="err">o</span><span class="err">s</span><span class="err">a</span><span class="err">l</span><span class="err">s</span>
+    <span class="mi">1036</span><span class="p">,</span>          <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">b</span><span class="err">a</span><span class="err">l</span><span class="err">l</span><span class="err">o</span><span class="err">t</span><span class="err">s</span>
+    <span class="mi">122042155</span><span class="p">,</span>     <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">s</span><span class="err">t</span><span class="err">o</span><span class="err">r</span><span class="err">a</span><span class="err">g</span><span class="err">e</span><span class="err">_</span><span class="err">b</span><span class="err">y</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">470269</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">p</span><span class="err">a</span><span class="err">i</span><span class="err">d</span><span class="err">_</span><span class="err">b</span><span class="err">y</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">0</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">u</span><span class="err">s</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">b</span><span class="err">y</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">0</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">o</span><span class="err">r</span><span class="err">p</span><span class="err">h</span><span class="err">a</span><span class="err">n</span><span class="err">s</span>
+    <span class="mi">387718</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">f</span><span class="err">u</span><span class="err">n</span><span class="err">d</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">a</span><span class="err">c</span><span class="err">c</span><span class="err">o</span><span class="err">u</span><span class="err">n</span><span class="err">t</span><span class="err">s</span>
+    <span class="mi">9346</span><span class="p">,</span>          <span class="err">/</span><span class="err">/</span> <span class="err">u</span><span class="err">n</span><span class="err">c</span><span class="err">l</span><span class="err">a</span><span class="err">i</span><span class="err">m</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">a</span><span class="err">c</span><span class="err">c</span><span class="err">o</span><span class="err">u</span><span class="err">n</span><span class="err">t</span><span class="err">s</span>
+    <span class="mi">29352</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">o</span><span class="err">r</span><span class="err">s</span>
+    <span class="mi">28005</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">o</span><span class="err">r</span><span class="err">s</span>
+    <span class="mi">1347</span><span class="p">,</span>          <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">n</span><span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">o</span><span class="err">r</span><span class="err">s</span>
+    <span class="mi">4031</span><span class="p">,</span>          <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">461</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">3570</span><span class="p">,</span>          <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">n</span><span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">8</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">z</span><span class="err">e</span><span class="err">r</span><span class="err">o</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">138</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">e</span><span class="err">l</span><span class="err">f</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">68</span><span class="p">,</span>            <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">i</span><span class="err">n</span><span class="err">g</span><span class="err">l</span><span class="err">e</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">255</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">u</span><span class="err">l</span><span class="err">t</span><span class="err">i</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mi">81005</span><span class="p">,</span>         <span class="err">/</span><span class="err">/</span> <span class="err">r</span><span class="err">o</span><span class="err">l</span><span class="err">l</span><span class="err">s</span>
+    <span class="mi">433</span>            <span class="err">/</span><span class="err">/</span> <span class="err">r</span><span class="err">o</span><span class="err">l</span><span class="err">l</span><span class="err">_</span><span class="err">o</span><span class="err">w</span><span class="err">n</span><span class="err">e</span><span class="err">r</span><span class="err">s</span>
+  <span class="p">]</span>
+<span class="p">]</span>
+</code></pre></div><p>Lists aggregate data about operations. Filters are the same as on the <a href="#op-table">operation table</a>, but response fields are limited to numeric data that can be aggregated over time. Aggregation function for all fields is <strong>sum</strong>.</p>
+<h3 id="http-request-3">HTTP Request</h3>
+<p><code>GET https://api.tzstats.com/series/op?args</code></p>
+<h3 id="http-response-3">HTTP Response</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>height</code> <em>int64</em></td>
+<td>block height</td>
+</tr>
+<tr>
+<td><code>cycle</code> <em>int64</em></td>
+<td>block cycle</td>
+</tr>
+<tr>
+<td><code>time</code> <em>int64</em></td>
+<td>block creation time</td>
+</tr>
+<tr>
+<td><code>total_accounts</code> <em>int64</em></td>
+<td>total number of accounts (all types, all states)</td>
+</tr>
+<tr>
+<td><code>total_implicit</code> <em>int64</em></td>
+<td>total number of implicit accounts (tz1/2/3)</td>
+</tr>
+<tr>
+<td><code>total_managed</code> <em>int64</em></td>
+<td>total number of managed delegation contracts (KT1, formerly without code)</td>
+</tr>
+<tr>
+<td><code>total_contracts</code> <em>int64</em></td>
+<td>total number of deployed smart contracts (KT1 with code)</td>
+</tr>
+<tr>
+<td><code>total_ops</code> <em>int64</em></td>
+<td>total number of on-chain operations (external and internal, but not implicit events)</td>
+</tr>
+<tr>
+<td><code>total_contract_ops</code> <em>int64</em></td>
+<td>total number of on-chain calls to KT1 contracts</td>
+</tr>
+<tr>
+<td><code>total_activations</code> <em>int64</em></td>
+<td>total number of on-chain fundraiser account activations</td>
+</tr>
+<tr>
+<td><code>total_seed_nonce_revelations</code> <em>int64</em></td>
+<td>total number of on-chain seed nonce revelations</td>
+</tr>
+<tr>
+<td><code>total_endorsements</code> <em>int64</em></td>
+<td>total number of on-chain endorsement operations (not slots)</td>
+</tr>
+<tr>
+<td><code>total_double_baking_evidences</code> <em>int64</em></td>
+<td>total number of on-chain double-baking denunciations</td>
+</tr>
+<tr>
+<td><code>total_double_endorsement_evidences</code> <em>int64</em></td>
+<td>total number of on-chain double-endorsing denunciations</td>
+</tr>
+<tr>
+<td><code>total_delegations</code> <em>int64</em></td>
+<td>total number of on-chain delegations (including delegation withdrawals)</td>
+</tr>
+<tr>
+<td><code>total_reveals</code> <em>int64</em></td>
+<td>total number of on-chain pubkey revelations</td>
+</tr>
+<tr>
+<td><code>total_originations</code> <em>int64</em></td>
+<td>total number of on-chain contract originations (contains pre-Babylon delegation contracts)</td>
+</tr>
+<tr>
+<td><code>total_transactions</code> <em>int64</em></td>
+<td>total number of on-chain transactions (contains internal transactions)</td>
+</tr>
+<tr>
+<td><code>total_proposals</code> <em>int64</em></td>
+<td>total number of on-chain voting proposals operations</td>
+</tr>
+<tr>
+<td><code>total_ballots</code> <em>int64</em></td>
+<td>total number of on-chain voting ballots</td>
+</tr>
+<tr>
+<td><code>total_storage_bytes</code> <em>int64</em></td>
+<td>total number of allocated storage in bytes</td>
+</tr>
+<tr>
+<td><code>total_paid_bytes</code> <em>int64</em></td>
+<td>total number of paid bytes</td>
+</tr>
+<tr>
+<td><code>total_used_bytes</code> <em>int64</em></td>
+<td>total number of used bytes (TODO: does not work as expected yet)</td>
+</tr>
+<tr>
+<td><code>total_orphans</code> <em>int64</em></td>
+<td>total number of alternative blocks</td>
+</tr>
+<tr>
+<td><code>funded_accounts</code> <em>int64</em></td>
+<td>current number of funded accounts (non-zero balance)</td>
+</tr>
+<tr>
+<td><code>unclaimed_accounts</code> <em>int64</em></td>
+<td>current number of unclaimed fundraiser accounts</td>
+</tr>
+<tr>
+<td><code>total_delegators</code> <em>int64</em></td>
+<td>current number on non-zero balance delegators</td>
+</tr>
+<tr>
+<td><code>active_delegators</code> <em>int64</em></td>
+<td>current number of non-zero balance delegators delegating to active delegates</td>
+</tr>
+<tr>
+<td><code>inactive_delegators</code> <em>int64</em></td>
+<td>current number of non-zero balance delegators delegating to inactive delegates</td>
+</tr>
+<tr>
+<td><code>total_delegates</code> <em>int64</em></td>
+<td>current number of registered delegates (active and inactive)</td>
+</tr>
+<tr>
+<td><code>active_delegates</code> <em>int64</em></td>
+<td>current number of active delegates</td>
+</tr>
+<tr>
+<td><code>inactive_delegates</code> <em>int64</em></td>
+<td>current number of inactive delegates</td>
+</tr>
+<tr>
+<td><code>zero_delegates</code> <em>int64</em></td>
+<td>current number of active delegates with zero staking balance</td>
+</tr>
+<tr>
+<td><code>self_delegates</code> <em>int64</em></td>
+<td>current number of active delegates with no incoming delegation</td>
+</tr>
+<tr>
+<td><code>single_delegates</code> <em>int64</em></td>
+<td>current number of active delegates with 1 incoming delegation</td>
+</tr>
+<tr>
+<td><code>multi_delegates</code> <em>int64</em></td>
+<td>current number of active delegates with &gt;1 incoming delegations (delegation services)</td>
+</tr>
+<tr>
+<td><code>rolls</code> <em>int64</em></td>
+<td>current number of rolls</td>
+</tr>
+<tr>
+<td><code>roll_owners</code> <em>int64</em></td>
+<td>current number of distinct active delegates with rolls</td>
+</tr>
+</tbody>
+</table>
+<h2 id="supply-series">Supply Series</h2>
+<blockquote>
+<p><strong>Example request.</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">curl <span class="s2">&#34;https://api.tzstats.com/series/supply?start_date=today&amp;collapse=1d&#34;</span>
+</code></pre></div><blockquote>
+<p><strong>Example response.</strong></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[</span>
+  <span class="p">[</span>
+    <span class="mi">815478</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">h</span><span class="err">e</span><span class="err">i</span><span class="err">g</span><span class="err">h</span><span class="err">t</span>
+    <span class="mi">199</span><span class="p">,</span>              <span class="err">/</span><span class="err">/</span> <span class="err">c</span><span class="err">y</span><span class="err">c</span><span class="err">l</span><span class="err">e</span>
+    <span class="mi">1581161668000</span><span class="p">,</span>    <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">i</span><span class="err">m</span><span class="err">e</span>
+    <span class="mf">825170161.728791</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">o</span><span class="err">t</span><span class="err">a</span><span class="err">l</span>
+    <span class="mf">548313102.872648</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">d</span>
+    <span class="mf">63141775.537532</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">u</span><span class="err">n</span><span class="err">c</span><span class="err">l</span><span class="err">a</span><span class="err">i</span><span class="err">m</span><span class="err">e</span><span class="err">d</span>
+    <span class="mf">27582743.428170</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">v</span><span class="err">e</span><span class="err">s</span><span class="err">t</span><span class="err">e</span><span class="err">d</span>
+    <span class="mf">125280976.174350</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">u</span><span class="err">n</span><span class="err">v</span><span class="err">e</span><span class="err">s</span><span class="err">t</span><span class="err">e</span><span class="err">d</span>
+    <span class="mf">699889185.554441</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">c</span><span class="err">i</span><span class="err">r</span><span class="err">c</span><span class="err">u</span><span class="err">l</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">n</span><span class="err">g</span><span class="err">u</span><span class="err">n</span><span class="err">v</span><span class="err">e</span><span class="err">s</span><span class="err">t</span><span class="err">e</span><span class="err">d</span><span class="err">)</span>
+    <span class="mf">516489777.211404</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">d</span>
+    <span class="mf">660867550.008684</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">t</span><span class="err">a</span><span class="err">k</span><span class="err">i</span><span class="err">n</span><span class="err">g</span>
+    <span class="mf">514264193.700025</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">d</span>
+    <span class="mf">649473768.198626</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">_</span><span class="err">s</span><span class="err">t</span><span class="err">a</span><span class="err">k</span><span class="err">i</span><span class="err">n</span><span class="err">g</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mf">2225583.511379</span><span class="p">,</span>   <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">n</span><span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">d</span>
+    <span class="mf">11393781.810058</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">n</span><span class="err">a</span><span class="err">c</span><span class="err">t</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">_</span><span class="err">s</span><span class="err">t</span><span class="err">a</span><span class="err">k</span><span class="err">i</span><span class="err">n</span><span class="err">g</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">s</span>
+    <span class="mf">61045504.551923</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">i</span><span class="err">n</span><span class="err">t</span><span class="err">e</span><span class="err">d</span>
+    <span class="mf">12446481.404808</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">i</span><span class="err">n</span><span class="err">t</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">b</span><span class="err">a</span><span class="err">k</span><span class="err">i</span><span class="err">n</span><span class="err">g</span>
+    <span class="mf">48595263.514794</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">i</span><span class="err">n</span><span class="err">t</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">e</span><span class="err">n</span><span class="err">d</span><span class="err">o</span><span class="err">r</span><span class="err">s</span><span class="err">i</span><span class="err">n</span><span class="err">g</span>
+    <span class="mf">3159.625000</span><span class="p">,</span>      <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">i</span><span class="err">n</span><span class="err">t</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">s</span><span class="err">e</span><span class="err">e</span><span class="err">d</span><span class="err">i</span><span class="err">n</span><span class="err">g</span>
+    <span class="mf">600.007321</span><span class="p">,</span>       <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">i</span><span class="err">n</span><span class="err">t</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">a</span><span class="err">i</span><span class="err">r</span><span class="err">d</span><span class="err">r</span><span class="err">o</span><span class="err">p</span>
+    <span class="mf">193940.835832</span><span class="p">,</span>    <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">u</span><span class="err">r</span><span class="err">n</span><span class="err">e</span><span class="err">d</span>
+    <span class="mf">114197.267834</span><span class="p">,</span>    <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">u</span><span class="err">r</span><span class="err">n</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">d</span><span class="err">o</span><span class="err">u</span><span class="err">b</span><span class="err">l</span><span class="err">e</span><span class="err">_</span><span class="err">b</span><span class="err">a</span><span class="err">k</span><span class="err">i</span><span class="err">n</span><span class="err">g</span>
+    <span class="mf">31838.219485</span><span class="p">,</span>     <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">u</span><span class="err">r</span><span class="err">n</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">d</span><span class="err">o</span><span class="err">u</span><span class="err">b</span><span class="err">l</span><span class="err">e</span><span class="err">_</span><span class="err">e</span><span class="err">n</span><span class="err">d</span><span class="err">o</span><span class="err">r</span><span class="err">s</span><span class="err">e</span>
+    <span class="mf">7221.767000</span><span class="p">,</span>      <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">u</span><span class="err">r</span><span class="err">n</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">o</span><span class="err">r</span><span class="err">i</span><span class="err">g</span><span class="err">i</span><span class="err">n</span><span class="err">a</span><span class="err">t</span><span class="err">i</span><span class="err">o</span><span class="err">n</span>
+    <span class="mf">37584.857000</span><span class="p">,</span>     <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">u</span><span class="err">r</span><span class="err">n</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">i</span><span class="err">m</span><span class="err">p</span><span class="err">l</span><span class="err">i</span><span class="err">c</span><span class="err">i</span><span class="err">t</span>
+    <span class="mf">3098.724513</span><span class="p">,</span>      <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">u</span><span class="err">r</span><span class="err">n</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">s</span><span class="err">e</span><span class="err">e</span><span class="err">d</span><span class="err">_</span><span class="err">m</span><span class="err">i</span><span class="err">s</span><span class="err">s</span>
+    <span class="mf">54639772.184175</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">f</span><span class="err">r</span><span class="err">o</span><span class="err">z</span><span class="err">e</span><span class="err">n</span>
+    <span class="mf">52997504.000000</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">f</span><span class="err">r</span><span class="err">o</span><span class="err">z</span><span class="err">e</span><span class="err">n</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">p</span><span class="err">o</span><span class="err">s</span><span class="err">i</span><span class="err">t</span><span class="err">s</span>
+    <span class="mf">1641852.516645</span><span class="p">,</span>   <span class="err">/</span><span class="err">/</span> <span class="err">f</span><span class="err">r</span><span class="err">o</span><span class="err">z</span><span class="err">e</span><span class="err">n</span><span class="err">_</span><span class="err">r</span><span class="err">e</span><span class="err">w</span><span class="err">a</span><span class="err">r</span><span class="err">d</span><span class="err">s</span>
+    <span class="mf">415.667530</span>        <span class="err">/</span><span class="err">/</span> <span class="err">f</span><span class="err">r</span><span class="err">o</span><span class="err">z</span><span class="err">e</span><span class="err">n</span><span class="err">_</span><span class="err">f</span><span class="err">e</span><span class="err">e</span><span class="err">s</span>
+  <span class="p">]</span>
+<span class="p">]</span>
+</code></pre></div><p>Lists aggregate data about operations. Filters are the same as on the <a href="#op-table">operation table</a>, but response fields are limited to numeric data that can be aggregated over time. Aggregation function for all fields is <strong>sum</strong>.</p>
+<h3 id="http-request-4">HTTP Request</h3>
+<p><code>GET https://api.tzstats.com/series/op?args</code></p>
+<h3 id="http-response-4">HTTP Response</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>height</code> <em>int64</em></td>
+<td>block height</td>
+</tr>
+<tr>
+<td><code>cycle</code> <em>int64</em></td>
+<td>block cycle</td>
+</tr>
+<tr>
+<td><code>time</code> <em>datetime</em></td>
+<td>block creation time</td>
+</tr>
+<tr>
+<td><code>total</code> <em>money</em></td>
+<td>total available supply (including unclaimed)</td>
+</tr>
+<tr>
+<td><code>activated</code> <em>money</em></td>
+<td>total activated fundraiser supply</td>
+</tr>
+<tr>
+<td><code>unclaimed</code> <em>money</em></td>
+<td>total non-activated fundraiser supply</td>
+</tr>
+<tr>
+<td><code>vested</code> <em>money</em></td>
+<td>total genesis vesting-contract supply that has already vested</td>
+</tr>
+<tr>
+<td><code>unvested</code> <em>money</em></td>
+<td>total genesis vesting-contract supply that has not vested yet</td>
+</tr>
+<tr>
+<td><code>circulating</code> <em>money</em></td>
+<td>current circulating supply (by unanimous consent this is total - unvested even though frozen supply cannot move next block but still counts against total network value)</td>
+</tr>
+<tr>
+<td><code>delegated</code> <em>money</em></td>
+<td>current delegated supply (balances of all delegators)</td>
+</tr>
+<tr>
+<td><code>staking</code> <em>money</em></td>
+<td>current staking supply (balances of delegators and all bakers even if inactive, see below)</td>
+</tr>
+<tr>
+<td><code>active_delegated</code> <em>money</em></td>
+<td>current active delegated supply (balances of all delegators delegating to active bakers)</td>
+</tr>
+<tr>
+<td><code>active_staking</code> <em>money</em></td>
+<td>current active staking supply (balances of all active bakers and their delegators)</td>
+</tr>
+<tr>
+<td><code>inactive_delegated</code> <em>money</em></td>
+<td>current inactive delegated supply (balances of all delegators delegating to inactive bakers)</td>
+</tr>
+<tr>
+<td><code>inactive_staking</code> <em>money</em></td>
+<td>current inactive staking supply (balances of all inactive bakers and their delegators)</td>
+</tr>
+<tr>
+<td><code>minted</code> <em>money</em></td>
+<td>total supply minted so far</td>
+</tr>
+<tr>
+<td><code>minted_baking</code> <em>money</em></td>
+<td>total supply minted as baking rewards</td>
+</tr>
+<tr>
+<td><code>minted_endorsing</code> <em>money</em></td>
+<td>total supply minted as endorsing rewards</td>
+</tr>
+<tr>
+<td><code>minted_seeding</code> <em>money</em></td>
+<td>total supply minted as seed nonce revelation rewards</td>
+</tr>
+<tr>
+<td><code>minted_airdrop</code> <em>money</em></td>
+<td>total supply minted in airdrops</td>
+</tr>
+<tr>
+<td><code>burned</code> <em>money</em></td>
+<td>total supply burned so far</td>
+</tr>
+<tr>
+<td><code>burned_double_baking</code> <em>money</em></td>
+<td>total supply burned by double baking denunciations</td>
+</tr>
+<tr>
+<td><code>burned_double_endorse</code> <em>money</em></td>
+<td>total supply burned by double endorsing denunciations</td>
+</tr>
+<tr>
+<td><code>burned_origination</code> <em>money</em></td>
+<td>total supply burned by contract originations</td>
+</tr>
+<tr>
+<td><code>burned_implicit</code> <em>money</em></td>
+<td>total supply burned by implicit account allocations</td>
+</tr>
+<tr>
+<td><code>burned_seed_miss</code> <em>money</em></td>
+<td>total supply burned by seed nonce revelation misses</td>
+</tr>
+<tr>
+<td><code>frozen</code> <em>money</em></td>
+<td>current frozen supply</td>
+</tr>
+<tr>
+<td><code>frozen_deposits</code> <em>money</em></td>
+<td>current frozen deposits</td>
+</tr>
+<tr>
+<td><code>frozen_rewards</code> <em>money</em></td>
+<td>current frozen rewards</td>
+</tr>
+<tr>
+<td><code>frozen_fees</code> <em>money</em></td>
+<td>current frozen fees</td>
+</tr>
+</tbody>
+</table>
 <h2 id="ohlcv-series">OHLCV Series</h2>
 <blockquote>
 <p><strong>Example request for the 24 most recent hourly candles.</strong></p>
@@ -7119,9 +7617,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="err">/</span><span class="err">/</span> <span class="err">.</span><span class="err">.</span><span class="err">.</span>
 <span class="p">]</span>
 </code></pre></div><p>List aggregated OHLCV market data.</p>
-<h3 id="http-request-3">HTTP Request</h3>
+<h3 id="http-request-5">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/series/{exchange}/{market}/ohlcv</code></p>
-<h3 id="http-response-3">HTTP Response</h3>
+<h3 id="http-response-5">HTTP Response</h3>
 <table>
 <thead>
 <tr>
@@ -7196,6 +7694,40 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     
         <h1 id="changelog">Changelog</h1>
 <p>Recent changes and additions to the TzStats Data API.</p>
+<h2 id="2020-02-12-pre-release">2020-02-12 pre-release</h2>
+<h3 id="fixes">FIXES</h3>
+<ul>
+<li>etl/model: frozen deposits, rewards and fees were not correctly deducted from delegate balance and total frozen supply</li>
+<li>etl/model: fixed spelling of <code>denunciation</code> type in flow table</li>
+<li>chain: use protocol constants for snapshot block calculations (was a fixed offset value before that only worked on mainnet)</li>
+<li>chain: tolerate arbitrary padding after binary address values in contract storage (when manually packed into type bytes inside a contract one can add an optional annotation which now gets stripped to obtain a valid address)</li>
+<li>etl/index: fix zero rights, zero income to yield 100% performance to avoid edge case in 3rd party reputation algorithms that penalized bakers without rights</li>
+<li>micheline/entrypoint: fix detecting named Unit entrypoints</li>
+<li>etl/index: fix empty bigmap operation that deletes all keys and allocates a new bigmap, added <code>is_removed</code> bool field to explorer/bigmap endpoint</li>
+<li>micheline/bigmap: refactor to support pairs as key type</li>
+</ul>
+<h3 id="new-features">NEW FEATURES</h3>
+<ul>
+<li>etl: <code>delegation</code> operation now stores previous delegate in formerly unused <code>receiver</code> field</li>
+<li>etl: <code>seed_nonce_revelation</code> operation now stores actual seed publisher in formerly unused <code>receiver</code> field</li>
+<li>etl: internal transaction operations keep original sender of an external transaction in  formerly unused <code>manager</code> field</li>
+<li>etl: added new operation types for implicit events <code>bake</code>, <code>invoice</code>, <code>airdrop</code>, <code>unfreeze</code>, <code>seed_slash</code>; op hashes for implicit operations are empty, values for <code>op_n</code> are negative (-1 for block header, -2 for protocol upgrade events); available on explorer, table and series endpoints</li>
+<li>api/explorer: block operation listing now supports <code>order</code> similar to accounts</li>
+<li>api/explorer: explorer operation lists now support table-style filters on type, e.g. to filter for multiple types use <code>type.in=bake,endorsement</code> as query argument</li>
+<li>api/explorer: explorer operation lists now support <code>prim</code> and <code>unpack</code> query arguments to simplify working with contract calls</li>
+<li>etl/model: added cycle <code>start_time</code> and <code>end_time</code> to baker income (estimated when start or end is in the future)</li>
+<li>api/series: new time-series endpoints for <code>chain</code> and <code>supply</code> tables that will return the first value per collapse interval (ie. first value per hour or day)</li>
+</ul>
+<h3 id="breaking-changes">BREAKING CHANGES</h3>
+<ul>
+<li>block deposits/rewards changed to only cover baking, before they were total sums for baking and endorsing</li>
+<li>replaced flow table fields <code>origin_id</code> and <code>origin</code> with <code>counterparty_id</code> and <code>counterparty</code>; origin used to contain the source of a flow but was too restrictive since on-way only, now counterparty can hold either party (sender or receiver) who has caused or received a flow, on in-flows (amount_in &gt; 0) the counterparty is the sender, on out-flows (amount_out &gt; 0) counterparty it receiver</li>
+<li>changed field usage on <code>denunciation</code> operations, now losses incured by the offender are kept in <code>reward</code>, <code>fee</code>, and <code>deposit</code> <strong>as negative values</strong>, reward for the accuser is stored in <code>volume</code> as positive value</li>
+<li>contract/script: JSON keys for entrypoint arguments now always follow the convention <code>&lt;order&gt;@&lt;name&gt;</code>, ie. they include an integer order number as first argument, followed by an optional <code>@</code> symbol and an optional argument name extracted from type annotations. This way argument order is no longer lost when a name is defined.</li>
+<li>bigmap/type: JSON keys for bigmap type arguments now always follow the convention <code>&lt;order&gt;@&lt;name&gt;@&lt;container-type&gt;</code>, ie. they include an integer order number as first argument, followed by an optional <code>@</code> symbol, an optional name extracted from type annotations and in case the type is a container like list, map or set another <code>@</code> and the container type. This way type argument order is no longer lost when a name is defined.</li>
+<li>flow table: added new fields <code>op</code> (hash), <code>op_id</code> (uint64), <code>op_n</code>, <code>op_l</code>, <code>op_p</code>, <code>op_c</code>, <code>op_i</code> (int) which contain metadata about the operation the flow relates to (Note: JSON bulk array list positions shift because these fields are not added to the end of the inner array)</li>
+<li>operation table: added new fields <code>op_l</code>, <code>op_p</code> containing Tezos RPC operation list positions, and <code>is_implicit</code> for non-operation events (Note: JSON bulk array list positions shift because this field is not added to the end of the inner array). Changed <code>op_n</code> to contain a unique per-block operation counter for all events and regular operations.</li>
+</ul>
 <h2 id="2020-01-06">2020-01-06</h2>
 <ul>
 <li>UPGRADES
@@ -7290,7 +7822,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <ul>
 <li>DEPRECATION NOTICE: income field <code>efficiency_percent</code> will be removed with the next release</li>
 <li>replaced income field <code>efficiency_percent</code> with <code>performance_percent</code> (value range <code>[-Inf,+Inf]</code>) to avoid confusion with existing benchmarking metrics that define baker efficiency as percentage or rights utilized</li>
-<li>added new income field <code>contribution_percent</code> to measure a baker's contribution to consensus in terms of baking/endorsing rights utilized (value range <code>[0,100]</code>, baking/endorsing misses will lower contribution, steals will increase it)</li>
+<li>added new income field <code>contribution_percent</code> to measure a baker&rsquo;s contribution to consensus in terms of baking/endorsing rights utilized (value range <code>[0,100]</code>, baking/endorsing misses will lower contribution, steals will increase it)</li>
 <li>cycle <code>n_double_baking</code> and <code>n_double_endorsement</code> count events instead of accusation operations now</li>
 </ul>
 <h2 id="2019-10-26">2019-10-26</h2>
