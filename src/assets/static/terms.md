@@ -8,7 +8,7 @@ TzStats.com is a public information website displaying publicly available data a
 
 Data available via the TzStats API is subject to the Creative Commons Attribution-NonCommercial License **CC BY-NC 4.0**. All information is displayed *as is* and we provide no guarantee for correctness or fitness for a particular purpose. Information does not constitute investment advice, financial advice, trading advice, or any other sort of advice. We disclaim any responsibility for any missing or wrong information. You understand that you are using any and all information available here at your own risk.
 
-If you wish to use the API for commercial projects you need to obtain a separate commercial license from Blockwatch Data Inc. Please contact us at licensing@blockwatch.cc for details.
+If you wish to use the API for commercial projects you need to obtain a separate commercial license from Blockwatch Data Inc. Please contact us at [license@blockwatch.cc](license@blockwatch.cc) for details.
 
 ### Terms
 
@@ -67,7 +67,7 @@ Under the Creative Commons License, you are free to adapt and share the Public D
 - (iii) provide a link to the Creative Commons License, and
 - (iv) indicate if changes were made to the Public Data ((i)-(iv) collectively, “Attribution”).
 
-Attribution allows others to correct errors and keep the Public Data current. You may give Attribution in any reasonable manner, but not in any way that suggests that Blockwatch or TzStats endorses you or your use. A reasonable way is, for example, to include a note reading “Data provided by Blockwatch on TzStats.com“ together with a hyperlink to https://tzstats.com.
+Attribution allows others to correct errors and keep the Public Data current. You may give Attribution in any reasonable manner, but not in any way that suggests that Blockwatch or TzStats endorses you or your use. A reasonable way is, for example, to include a note reading “Data provided by Blockwatch on TzStats.com“ together with a hyperlink to [https://tzstats.com](https://tzstats.com).
 
 You are solely responsible for your compliance with the Creative Commons License whenever you use or reuse the Public Data. If you have any questions regarding Attribution, you can contact us at [license@blockwatch.cc](mailto:license@blockwatch.cc).
 
