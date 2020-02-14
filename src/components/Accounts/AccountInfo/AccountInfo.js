@@ -35,8 +35,8 @@ const AccountInfo = ({ account }) => {
           <FlexColumnSpaceBetween>
             <DataBox
               valueType="currency-full"
-              title="Total Balance"
-              value={account.total_balance + account.unclaimed_balance}
+              title="Full Balance"
+              value={account.spendable_balance + account.unclaimed_balance + account.frozen_deposits + account.frozen_rewards + account.frozen_fees}
             />
             <DataBox
               title="Last Active"
