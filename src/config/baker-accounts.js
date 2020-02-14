@@ -42,6 +42,7 @@ export const bakerAccounts = {
   tz1NqKH9D5HdfvoEQssMS5Up13CVypVxLA1k: { name: 'Cypher-Baker', logo: null, link: '', fee_type: '', fee: 0 },
   tz1Lc87p6zRaDwzJs9kHvdpm7XzeWE8QTwVB: { name: 'Dashmaster', logo: null, link: '', fee_type: '', fee: 0 },
   KT1A13N5XXJLgD9rQ6BF6xg71yhNhQhrCxia: { name: 'Dashmaster Payouts', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1ZRWFLgT9sz8iFi1VYWPfRYeUvUSFAaDao: { name: 'Delegated Capital', logo: null, link: '', fee_type: '', fee: 0 },
   tz1LsuPvP2u63nouVGAPi13AYqqB2VQjhoSF: { name: 'Drunk Tortuga Bakery', logo: null, link: '', fee_type: '', fee: 0 },
   tz1W1f1JrE7VsqgpUpj1iiDobqP5TixgZhDk: { name: 'Elite Tezos', logo: null, link: '', fee_type: '', fee: 0 },
   tz1PK8bNrfPbc73BtHH1A63jfU5UtbRFkvU4: { name: 'EON Staking', logo: null, link: '', fee_type: '', fee: 0 },
