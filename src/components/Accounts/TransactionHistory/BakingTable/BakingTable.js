@@ -17,7 +17,7 @@ const blockColumns = [
   'solvetime',
   'priority',
   'n_endorsement',
-  'fees',
+  'fee',
 ];
 
 const flowColumns = [
