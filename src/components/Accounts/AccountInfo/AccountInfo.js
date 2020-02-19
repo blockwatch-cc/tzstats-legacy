@@ -157,7 +157,7 @@ function getStakingSettings(stakingBalance, stakingCapacity) {
     {
       percent: 100 - stakingPct,
       color: '#858999;',
-      title: `Remaining Capacity ${formatCurrency(stakingCapacity-stakingBalance, ',', 'tz')}`,
+      title: `Remaining Capacity ${formatCurrency(stakingCapacity-stakingBalance, ',', 'XTZ')}`,
       value: `${stakingCapacity}`,
     },
   ];

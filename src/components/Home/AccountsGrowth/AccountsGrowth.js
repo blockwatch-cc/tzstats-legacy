@@ -1,37 +1,79 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from '../../Common';
+import { Card, AlignedForm, Label, Value } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { useGlobal } from 'reactn';
-import { format } from 'd3-format';
 
 const AccountsGrowth = props => {
   const [chain] = useGlobal('chain');
 
-  let settings = getBarSettings(chain);
+  let bar = getBarSettings(chain);
 
   return (
     <Wrapper>
-      <Card title={'Tezos Account Growth (30d)'}>
-        <Details>
-          <Value>{format(',')(chain.new_accounts_30d)}</Value>
-          <Value>{format(',')(chain.cleared_accounts_30d)}</Value>
-        </Details>
-        <HorizontalProgressBar settings={settings} />
+      <Card title={'Account Growth'}>
+        <HorizontalProgressBar settings={bar} />
         <Details>
           <Title>New Accounts</Title>
           <Title>Cleared Accounts</Title>
         </Details>
+        <AlignedForm>
+          <div>
+            <Label>Total Funded Accounts</Label>
+            <Label>New Accounts 30d</Label>
+            <Label>Cleared Accounts 30d</Label>
+            <Label>Funded Accounts 30d</Label>
+          </div>
+          <div>
+            <Value pad={0.25} ml={1} type="value-full" dim={0} value={chain.funded_accounts} />
+            <Value pad={0.25} ml={1} type="value-full" dim={0} value={chain.new_accounts_30d} />
+            <Value pad={0.25} ml={1} type="value-full" dim={0} value={chain.cleared_accounts_30d} />
+            <Value pad={0.25} ml={1} type="value-full" dim={0} value={chain.funded_accounts_30d} />
+          </div>
+          <div>
+            <Value pad={0.25} ml={1} type="percent" value={1} digits={2} dim={0} opacity={0.7} zero="-" />
+            <Value
+              pad={0.25}
+              ml={1}
+              type="percent"
+              value={chain.new_accounts_30d / chain.funded_accounts}
+              digits={2}
+              dim={0}
+              opacity={0.7}
+              zero="-"
+            />
+            <Value
+              pad={0.25}
+              ml={1}
+              type="percent"
+              value={chain.cleared_accounts_30d / chain.funded_accounts}
+              digits={2}
+              dim={0}
+              opacity={0.7}
+              zero="-"
+            />
+            <Value
+              pad={0.25}
+              ml={1}
+              type="percent"
+              value={chain.funded_accounts_30d / chain.funded_accounts}
+              digits={2}
+              dim={0}
+              opacity={0.7}
+              zero="-"
+            />
+          </div>
+        </AlignedForm>
       </Card>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  flex: 1;
-  min-width: 300px;
-  margin: 0 5px;
   display: flex;
+  flex: 1;
+  align-items: strech;
+  margin: 0 5px;
 `;
 const Details = styled.div`
   display: flex;
@@ -41,10 +83,6 @@ const Details = styled.div`
 const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);
   font-size: 10px;
-`;
-const Value = styled.div`
-  color: #fff;
-  font-size: 18px;
 `;
 
 export default AccountsGrowth;

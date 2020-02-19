@@ -109,8 +109,8 @@ const EndorsingTable = ({ account }) => {
                     <Link to={`/${item.height}`}><Value value={item.height} type="value-full"/></Link>
                   </TableCell>
                   <TableCell width={20}>{item.slots.join(', ')}</TableCell>
-                  <TableCell width={10}><Value value={item.reward||0} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={10}><Value value={item.deposit||0} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={10}><Value value={item.reward||0} type="currency" sym="" digits={0} zero="-"/></TableCell>
+                  <TableCell width={10}><Value value={item.deposit||0} type="currency" sym="" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={10}>
                       <Link style={{color:item.is_orphan?'#ED6290':'inherit'}} to={`/${item.hash}`}>{getShortHash(item.hash)}</Link>

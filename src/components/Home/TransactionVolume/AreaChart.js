@@ -49,7 +49,7 @@ class AreaChart extends React.Component {
             axisAt="right"
             orient="right"
             ticks={0}
-            tickFormat={x => format('~s')(x) + 'tz'} //ꜩ
+            tickFormat={x => format('~s')(x) + 'XTZ'}
             innerTickSize={-width + 160}
             tickStrokeDasharray={'Solid'}
             tickStrokeOpacity={0.3}

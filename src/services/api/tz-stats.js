@@ -391,7 +391,7 @@ export const getBlockOperations = async ({ height, type = null, limit = 0, curso
     'is_success',
     'is_contract',
   ];
-  type = type ? '&type=' + type : '';
+  type = type ? '&type=' + type : '&type.in=transaction,activate_account,endorsement,delegation,origination,reveal,seed_nonce_revelation,double_baking_evidence,double_endorsement_evidence,proposals,ballot';
   cursor = cursor ? '&cursor=' + cursor : '';
   limit = limit ? '&limit=' + limit : '';
   const response = await request(

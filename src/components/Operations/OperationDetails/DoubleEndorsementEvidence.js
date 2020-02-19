@@ -15,8 +15,9 @@ const DoubleEndorsementEvidence = ({ op }) => {
 				<DataBox title="Cycle" value={op.cycle} />
 			</Link>
 			<DataBox title="Date & Time" valueType="datetime" value={op.time} />
+			<DataBox title="Reward" value={op.volume} valueType="currency-short" />
 			<DataBox title="Burned" value={op.burned} valueType="currency-short" />
-			<DataBox title="Reward" value={op.reward} valueType="currency-short" />
+			<DataBox title="Slashed" value={-op.reward-op.deposit-op.fee} valueType="currency-short" />
 		</FlexRowSpaceBetween>
 	);
 };

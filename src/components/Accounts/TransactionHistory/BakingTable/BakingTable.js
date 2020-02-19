@@ -125,9 +125,9 @@ const BakingTable = ({ account }) => {
         <TableHeaderCell width={7}>Priority</TableHeaderCell>
         <TableHeaderCell width={11}>Endorsements</TableHeaderCell>
         <TableHeaderCell width={10}>Bake Time</TableHeaderCell>
-        <TableHeaderCell width={10}>Rewards</TableHeaderCell>
-        <TableHeaderCell width={10}>Fees</TableHeaderCell>
-        <TableHeaderCell width={10}>Deposits</TableHeaderCell>
+        <TableHeaderCell width={10}>Reward</TableHeaderCell>
+        <TableHeaderCell width={10}>Fee</TableHeaderCell>
+        <TableHeaderCell width={10}>Deposit</TableHeaderCell>
         <TableHeaderCell width={20}>Date</TableHeaderCell>
         <TableHeaderCell width={10}>Hash</TableHeaderCell>
       </TableHeader>
@@ -142,9 +142,9 @@ const BakingTable = ({ account }) => {
                   <TableCell width={7}>{item.priority}</TableCell>
                   <TableCell width={11}>{item.n_endorsement}</TableCell>
                   <TableCell width={10}>{item.solvetime}s</TableCell>
-                  <TableCell width={10}><Value value={item.reward||0} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={10}><Value value={item.fees||0} type="currency" digits={0} zero="-"/></TableCell>
-                  <TableCell width={10}><Value value={item.deposit||0} type="currency" digits={0} zero="-"/></TableCell>
+                  <TableCell width={10}><Value value={item.reward||0} type="currency" sym="" digits={0} zero="-"/></TableCell>
+                  <TableCell width={10}><Value value={item.fees||0} type="currency" sym="" digits={0} zero="-"/></TableCell>
+                  <TableCell width={10}><Value value={item.deposit||0} type="currency" sym="" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={10}>
                       <Link style={{color:item.is_orphan?'#ED6290':'inherit'}} to={`/${item.hash}`}>{getShortHash(item.hash)}</Link>

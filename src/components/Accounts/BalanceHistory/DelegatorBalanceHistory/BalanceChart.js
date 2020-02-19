@@ -33,7 +33,7 @@ class BalanceChart extends React.Component {
     const zoomAnchor = function(e) {};
 
     function formatC(x) {
-      return format(',.2f')(x)+'tz';
+      return format(',.2f')(x)+' XTZ';
     }
 
     return (

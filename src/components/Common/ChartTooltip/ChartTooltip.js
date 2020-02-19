@@ -9,7 +9,7 @@ const ChartTooltip = ({ slice }) => {
       <Separator />
       {slice.points.map(point => (
         <Value key={point.id}>
-          {point.serieId} : {point.data.yFormatted.toFixed()}ꜩ
+          {point.serieId} : {point.data.yFormatted.toFixed()} XTZ
         </Value>
       ))}
     </Wrapper>

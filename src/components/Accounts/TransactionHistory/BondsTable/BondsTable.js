@@ -189,31 +189,31 @@ const BondsTable = ({ account }) => {
                   </TableCell>
                   <TableCell width={8}>{item.status}</TableCell>
                   <TableCell width={10}>
-                    <Value value={item.balance} type="currency-short" digits={0} zero="-" />
+                    <Value value={item.balance} type="currency-short" sym="" prec={0} zero="-" />
                   </TableCell>
                   <TableCell width={10}>
-                    <Value value={item.delegated} type="currency-short" digits={0} zero="-" />
+                    <Value value={item.delegated} type="currency-short" sym="" prec={0} zero="-" />
                   </TableCell>
                   <TableCell width={10}>
                     <Value value={item.n_baking_rights} zero="-" />/<Value value={item.n_endorsing_rights} zero="-" />
                   </TableCell>
                   <TableCell width={10}>
-                    <Value value={item.expected_income} type="currency-short" digits={0} zero="-" />
+                    <Value value={item.expected_income} type="currency-short" sym="" prec={0} zero="-" />
                   </TableCell>
                   <TableCell width={10}>
-                    <Value value={item.total_income - item.total_lost} type="currency-short" digits={0} zero="-" />
+                    <Value value={item.total_income - item.total_lost} type="currency-short" sym="" prec={0} zero="-" />
                   </TableCell>
                   <TableCell width={10}>
-                    <Value value={item.expected_bonds} type="currency-short" digits={0} zero="-" />
+                    <Value value={item.expected_bonds} type="currency-short" sym="" prec={0} zero="-" />
                   </TableCell>
                   <TableCell width={10}>
-                    <Value value={item.total_bonds} type="currency-short" digits={0} zero="-" />
+                    <Value value={item.total_bonds} type="currency-short" sym="" prec={0} zero="-" />
                   </TableCell>
                   <TableCell width={10}>
-                    <Value value={item.projected_balance} type="currency-short" zero="-" />
+                    <Value value={item.projected_balance} type="currency-short" sym="" prec={0} zero="-" />
                   </TableCell>
                   <TableCell width={10}>
-                    <Value value={item.available_balance} type="currency-short" zero="-" />
+                    <Value value={item.available_balance} type="currency-short" sym="" prec={0} zero="-" />
                   </TableCell>
                 </TableRow>
               );

@@ -79,17 +79,18 @@ export function formatValue(value, prefix = ',') {
 }
 
 export function formatCurrency(value, prefix = ',', symbol = '') {
-  // ꜩ
+  // XTZ
   // symbol = symbol?' ' + symbol:'';
   if (value === 0) {
     return 0 + symbol;
   }
-  return prefix === ','
-    ? format(prefix)(value) + symbol
-    : (format(prefix)(value) + symbol).replace(/([0-9.]*)(.*)$/, '$1 $2');
+  return format(prefix)(value) + symbol;
+  // return prefix === ','
+  //   ? format(prefix)(value) + symbol;
+  //   : (format(prefix)(value) + symbol).replace(/([0-9.]*)(.*)$/, '$1 $2');
 }
 
-export function formatCurrencyShort(value, symbol = 'tz') {
+export function formatCurrencyShort(value, symbol = 'XTZ') {
   return formatCurrency(value, ',.3s', symbol);
   // return format(',.2s')(value) + ' ' + symbol;
 }
