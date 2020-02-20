@@ -8,7 +8,6 @@ import StakingInfo from '../components/Home/StakingInfo';
 import ElectionProgress from '../components/Home/ElectionProgress';
 import AccountsGrowth from '../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../services/api/markets';
-import { buildTitle } from '../utils';
 import { enableMarket } from '../config';
 import {
   getElectionById,
@@ -17,6 +16,7 @@ import {
 } from '../services/api/tz-stats';
 import TransactionVolume from '../components/Home/TransactionVolume';
 import { Spinner, Error, Centered, Devices } from '../components/Common';
+import { useMetaTags, isMainnet } from '../hooks/useMetaTags';
 
 // @echa: FIXME dynamic data loading using timeouts and data watchers in react is a clusterfuck!
 // I have no idea how to fix this.
@@ -25,9 +25,10 @@ const Home = () => {
   const [lastBlockTime, setLastBlockTime] = React.useState(0);
   const [config] = useGlobal('config');
   const [chain] = useGlobal('chain');
+  const net = isMainnet(config) ? '' : config.network;
+  useMetaTags('TzStats - Tezos ' + net + ' Block Explorer', '', 'by Blockwatch');
 
   React.useEffect(() => {
-    document.title = buildTitle(config, 'Block Explorer');
     let timer = null;
     const fetchData = async () => {
       let now = parseInt(new Date().getTime() / 1000) * 1000; // round to seconds

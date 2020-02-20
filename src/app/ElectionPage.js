@@ -10,18 +10,17 @@ import {
   PromotionPeriod,
   ElectionHistory,
 } from '../components/Elections';
-import { buildTitle } from '../utils';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 const ElectionPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false });
   const [config] = useGlobal('config');
   const currentElectionId = match.params.id;
+  useMetaTags('Tezos Governance');
 
   React.useEffect(() => {
-    document.title = buildTitle(config, 'Governance');
     const fetchData = async () => {
       let [election, electionHistory] = await Promise.all([getElectionById(currentElectionId), getElectionHistory()]);
-
       setData({
         election,
         electionHistory,

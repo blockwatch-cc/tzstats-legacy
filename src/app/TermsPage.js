@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 const TermsPage = () => {
-  React.useEffect(() => {
-    document.title = 'Terms of Service';
-  }, []);
+  useMetaTags('TzStats Terms of Service', '', '');
   return (
     <Policy>
       <h1 id="terms-of-service">Terms of Service</h1>

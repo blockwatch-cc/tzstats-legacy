@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 const PrivacyPage = () => {
-  React.useEffect(() => {
-    document.title = 'Privacy Policy';
-  }, []);
+  useMetaTags('TzStats Privacy Policy', '', '');
 
   return (
     <Policy>

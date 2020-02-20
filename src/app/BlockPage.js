@@ -5,27 +5,23 @@ import styled from 'styled-components';
 import BlockOperations from '../components/Blocks/BlockOperations';
 import BlockInfo from '../components/Blocks/BlockInfo';
 import { getBlock } from '../services/api/tz-stats';
-import { formatValue, buildTitle } from '../utils';
+import { formatValue, getShortHash } from '../utils';
 import { Spinner, NotFound, Error, Row } from '../components/Common';
 import { withRouter } from 'react-router-dom';
 import { BackIcon, FwdIcon } from '../components/Common/SvgIcons';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 const BlockPage = ({ match, history }) => {
   const [data, setData] = React.useState({ isLoaded: false, wait: false });
   const [txType, setTxType] = React.useState(null);
   const blk = React.useRef(0);
-  const [config] = useGlobal('config');
   const [chain] = useGlobal('chain');
   const hash = match.params.hash;
-
-  React.useEffect(() => {
-    document.title = buildTitle(config, 'Block', hash);
-  }, [config, hash]);
+  useMetaTags('Tezos Block', getShortHash(hash));
 
   const load = React.useCallback(async () => {
     try {
       let block = await getBlock(hash);
-      document.title = buildTitle(config, 'Block', formatValue(block.height));
       blk.current = block;
       setData({
         isLoaded: true,
@@ -49,7 +45,7 @@ const BlockPage = ({ match, history }) => {
           });
       }
     }
-  }, [hash, config]);
+  }, [hash]);
 
   React.useEffect(() => {
     load();

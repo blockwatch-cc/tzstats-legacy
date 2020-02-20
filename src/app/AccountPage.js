@@ -4,19 +4,16 @@ import TransactionHistory from '../components/Accounts/TransactionHistory';
 import AccountInfo from '../components/Accounts/AccountInfo';
 import { getAccountByHash, getFlowData, getStakingData } from '../services/api/tz-stats';
 import { Spinner, NotFound, Error } from '../components/Common';
-import { wrapStakingData, wrapToBalance, getHashOrBakerName, getBakerName, buildTitle } from '../utils';
+import { wrapStakingData, wrapToBalance, getShortHashOrBakerName, getBakerName } from '../utils';
 import { useGlobal } from 'reactn';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 const AccountPage = ({ match }) => {
   const last = React.useRef({ last_seen: 0, address: null });
   const [data, setData] = React.useState({ isLoaded: false, wait: false });
   const [chain] = useGlobal('chain');
-  const [config] = useGlobal('config');
   const addr = match.params.hash;
-
-  React.useEffect(() => {
-    document.title = buildTitle(config, 'Account', getHashOrBakerName(addr));
-  }, [config, addr]);
+  useMetaTags('', getShortHashOrBakerName(addr));
 
   const load = React.useCallback(async () => {
     try {

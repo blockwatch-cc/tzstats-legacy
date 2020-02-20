@@ -6,13 +6,11 @@ import TradeCurrency from '../components/Markets/TradeCurrency';
 import ExchangesVolume from '../components/Markets/ExchangesVolume';
 import PriceList from '../components/Markets/PriceList';
 import { Spinner } from '../components/Common';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 const MarketPage = () => {
   const [tickers] = useGlobal('tickers');
-
-  React.useEffect(() => {
-    document.title = 'Tezos Markets';
-  }, []);
+  useMetaTags('Tezos Markets');
 
   return tickers.length ? (
     <Wrapper>

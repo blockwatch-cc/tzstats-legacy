@@ -4,7 +4,6 @@ import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import { bakerAccounts } from './config/baker-accounts';
 import { proposals } from './config/proposals';
-import { TZSTATS_API_URL } from './config';
 import _ from 'lodash';
 
 TimeAgo.addLocale(en);
@@ -184,12 +183,15 @@ export function fixPercent(settings) {
   return settings;
 }
 
-export function getShortHash(hash) {
+export function getShortHash(hash, l, r) {
   if (hash === null) {
     return 'none';
   }
+  l = l || 5;
+  r = r || 4;
   // return hash?`${hash.slice(0, 3)}...${hash.slice(-4)}`:'-';
-  return hash ? `${hash.slice(0, 7)}...` : '-';
+  // return hash ? `${hash.slice(0, 7)}...` : '-';
+  return hash ? `${hash.slice(0, l)}..${hash.slice(-r)}` : '-';
 }
 
 export function getShortHashOrBakerName(hash) {
@@ -200,14 +202,7 @@ export function getShortHashOrBakerName(hash) {
     return '-';
   }
   const baker = bakerAccounts[hash];
-  return baker ? baker.name : getShortHash(hash);
-}
-
-export function buildTitle(config, page, name) {
-  let title = [isMainnet(config) ? 'Tezos ' : 'TESTNET Tezos ' + config.network];
-  page && title.push(page);
-  name && title.push(name);
-  return title.join(' ');
+  return baker ? baker.name : getShortHash(hash, 8, 6);
 }
 
 export function getHashOrBakerName(hash) {
@@ -465,9 +460,4 @@ export function getHashType(hash, strictMatch) {
     );
   });
   return match.length ? hashTypeMap[match[0]].type : null;
-}
-
-// works with /explorer/config and /explorer/chain objects
-export function isMainnet(o) {
-  return o && o.chain_id === 'NetXdQprcVkpaWU' && TZSTATS_API_URL === 'https://api.tzstats.com';
 }

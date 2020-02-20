@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { CopyButton } from '../Common';
 
 const CopyHashButton = ({ value, link, short = true }) => {
-  const display = short?getShortHash(value):value;
+  const display = short?getShortHash(value, 8, 6):value;
   return (
     <Wrapper>
       {link?(

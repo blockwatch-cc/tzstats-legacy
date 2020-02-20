@@ -16,11 +16,17 @@ const CirculatingSupply = () => {
       value: chain.supply.total,
     },
     ...bar,
+    {
+      percent: chain.supply.active_staking / (chain.supply.total||1) * 100,
+      color: '#999',
+      title: 'Staking Supply',
+      value: chain.supply.active_staking,
+    }
   ];
 
   return (
     <Wrapper>
-      <Card title="Tezos Supply">
+      <Card title="Tezos Supply Distribution">
         <FlexColumnSpaceBetween>
           <HorizontalProgressBar settings={bar} />
           <AlignedForm>
@@ -35,13 +41,21 @@ const CirculatingSupply = () => {
             </div>
             <div>
               {all.map((item, i) => {
-                return <Value pad={0.25} ml={1} type="currency" digits={4} dim={0} value={item.value} />;
+                return <Value
+                  key={i}
+                  pad={0.25}
+                  ml={1}
+                  type="currency"
+                  digits={4}
+                  dim={0}
+                  value={item.value} />;
               })}
             </div>
             <div>
               {all.map((item, i) => {
                 return (
                   <Value
+                    key={i}
                     pad={0.25}
                     ml={1}
                     type="percent"
@@ -76,26 +90,26 @@ function getBarSettings(chain) {
     {
       percent: (liquid / chain.supply.total) * 100,
       color: '#3e85f2',
-      title: 'Liquid',
+      title: 'Liquid Supply',
       value: liquid,
     },
     {
       percent: (chain.supply.unvested / chain.supply.total) * 100,
       color: '#4672b9',
-      title: 'Unvested',
+      title: 'Unvested Supply',
       value: chain.supply.unvested,
     },
     {
       percent: (chain.supply.frozen / chain.supply.total) * 100,
       color: '#49679b',
-      title: 'Frozen',
+      title: 'Frozen Supply',
       value: chain.supply.frozen,
     },
     {
       percent: (chain.supply.unclaimed / chain.supply.total) * 100,
       color: '#30313b',
-      title: 'Unclaimed',
+      title: 'Unclaimed Supply',
       value: chain.supply.unclaimed,
     },
-  ];
+  ].filter(v => !!v.value);
 }
