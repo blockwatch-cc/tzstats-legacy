@@ -171,7 +171,7 @@
                 
                     <ul class="toc-list-h2">
                         
-                            <li><a href="#2020-02-12-pre-release" class="toc-h2 toc-link" data-title="2020-02-12 pre-release">2020-02-12 pre-release</a></li>
+                            <li><a href="#2020-02-24" class="toc-h2 toc-link" data-title="2020-02-24">2020-02-24</a></li>
                         
                             <li><a href="#2020-01-06" class="toc-h2 toc-link" data-title="2020-01-06">2020-01-06</a></li>
                         
@@ -195,7 +195,7 @@
         
         <ul class="toc-footer">
             
-            <li>API v006-2020-02-12</li>
+            <li>API v006-2020-02-24</li>
             
         </ul>
         
@@ -527,7 +527,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>GET /explorer/contract/{hash}/calls</code></td>
 <td>x</td>
-<td><code>block</code>, <code>since</code></td>
+<td><code>block</code>, <code>since</code>, <code>entrypoint</code></td>
 <td>list contract calls</td>
 </tr>
 <tr>
@@ -2341,6 +2341,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;manager&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
   <span class="nt">&#34;delegate&#34;</span><span class="p">:</span> <span class="s2">&#34;tz3RDC3Jdn4j15J7bBHZd29EUee9gVB1CxD9&#34;</span><span class="p">,</span>
   <span class="nt">&#34;height&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;op_l&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="nt">&#34;op_p&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nt">&#34;op_i&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;fee&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;gas_limit&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;gas_used&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -2374,7 +2377,12 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;n_origination&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;token_gen_min&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;token_gen_max&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="nt">&#34;bigmap_ids&#34;</span><span class="p">:</span> <span class="p">[</span><span class="p">]</span>
+  <span class="nt">&#34;bigmap_ids&#34;</span><span class="p">:</span> <span class="p">[</span><span class="p">]</span><span class="p">,</span>
+  <span class="nt">&#34;iface_hash&#34;</span><span class="p">:</span> <span class="s2">&#34;4ff4b751&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;call_stats&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="mi">2</span>
+  <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div><p>Returns metadata about the smart contract. For more details call the <a href="#accounts">explorer account endpoint</a> using the contract&rsquo;s KT1 address. Separate calls support querying contract code, storage type and entrypoint specifications, storage contents and calls.</p>
 <h3 id="security-warning-1"><strong>SECURITY WARNING</strong></h3>
@@ -2405,6 +2413,18 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>height</code> <em>int64</em></td>
 <td>Origination block height.</td>
+</tr>
+<tr>
+<td><code>op_l</code> <em>int64</em></td>
+<td>Origination block operation list number (0..3).</td>
+</tr>
+<tr>
+<td><code>op_p</code> <em>int64</em></td>
+<td>Origination block operation list position.</td>
+</tr>
+<tr>
+<td><code>op_i</code> <em>int64</em></td>
+<td>Internal origination operation list position.</td>
 </tr>
 <tr>
 <td><code>fee</code> <em>money</em></td>
@@ -2541,6 +2561,14 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>bigmap_ids</code> <em>[]int64</em></td>
 <td>Array of bigmap ids owned by this contract.</td>
+</tr>
+<tr>
+<td><code>iface_hash</code> <em>bytes</em></td>
+<td>Short hash to uniquely identify the contract interface, first 4 bytes of the SHA256 hash over binary encoded Michelson script parameters.</td>
+</tr>
+<tr>
+<td><code>call_stats</code> <em>array</em></td>
+<td>Per-entrypoint call statistics, an integer array containing running totals for each entrypoint in id order.</td>
 </tr>
 </tbody>
 </table>
@@ -2689,7 +2717,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 </table>
 <h3 id="list-contract-calls">List Contract Calls</h3>
 <p><code>GET https://api.tzstats.com/explorer/contract/{hash}/calls</code></p>
-<p>Returns calls (transactions) sent to the contract with embedded parameters, storage and bigmap updates. Use the optional <code>prim</code> (boolean) argument to embed Michelson primitive trees in addition to unboxed call data. To query calls until a specific block use the optional query argument <code>block</code> (int64|hash). Hash is reorg-aware, ie. in case you execute a query on a block that becomes orphaned, the API returns a 409 Conflict error. To query for updates after a certain block use the optional argument <code>since</code> (int64|hash). To change the order of returned calls use the optional <code>order</code> (asc|desc) parameter (defaults to ascending).</p>
+<p>Returns calls (transactions) sent to the contract with embedded parameters, storage and bigmap updates. Use the optional <code>prim</code> (boolean) argument to embed Michelson primitive trees in addition to unboxed call data. To query calls until a specific block use the optional query argument <code>block</code> (int64|hash). Hash is reorg-aware, ie. in case you execute a query on a block that becomes orphaned, the API returns a 409 Conflict error. To query for updates after a certain block use the optional argument <code>since</code> (int64|hash). To change the order of returned calls use the optional <code>order</code> (asc|desc) parameter (defaults to ascending). Use the optional <code>entrypoint</code> (int64|string) argument to filter calls by entrypoint. This argument takes either an id value (eg. 7), a name (eg. &ldquo;mint&rdquo;) or the branch (eg. &ldquo;RRR&rdquo;).</p>
 <h3 id="unboxed-call-parameters">Unboxed Call Parameters</h3>
 <blockquote>
 <p><strong>Example call parameters.</strong></p>
@@ -2698,6 +2726,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <span class="s2">&#34;parameters&#34;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&#34;entrypoint&#34;</span><span class="p">:</span> <span class="s2">&#34;default&#34;</span><span class="p">,</span>
   <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;RRR&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;call&#34;</span><span class="p">:</span> <span class="s2">&#34;mint&#34;</span><span class="p">,</span>
   <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
   <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="p">{</span>
     <span class="err">/</span><span class="err">/</span><span class="err">.</span><span class="err">.</span><span class="err">.</span>
@@ -2723,6 +2752,10 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>branch</code> <em>string</em></td>
 <td>Path of left (L) or right (R) branches to reach the entrypoint&rsquo;s code in the Michelson code tree.</td>
+</tr>
+<tr>
+<td><code>call</code> <em>string</em></td>
+<td>Name of the actaully called entrypoint. This is useful if parameters contain a call to default or root entrypoints and specify the real entrypoint by branching only.</td>
 </tr>
 <tr>
 <td><code>id</code> <em>int64</em></td>
@@ -3731,7 +3764,8 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="nt">&#34;branch_height&#34;</span><span class="p">:</span> <span class="mi">627340</span><span class="p">,</span>
     <span class="nt">&#34;branch_depth&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="nt">&#34;branch&#34;</span><span class="p">:</span> <span class="s2">&#34;BKr3kjkbi5LndjDTDDSPUWubZjrdSBCWLJudmuGYuiVuG2j8fvj&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;is_implicit&#34;</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="nt">&#34;is_implicit&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&#34;entrypoint_id&#34;</span><span class="p">:</span> <span class="mi">0</span>
   <span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div><p>Returns info about a single operation or a list of related operations. Because Tezos supports batch operations (multiple operations sharing the same hash), internal operations (created by smart contract calls in response to a transaction) and implicit events (state changes that do not have an operation hash) this endpoint always returns an array of operation objects. In many cases this array contains one element only. Use the optional <code>prim</code> (boolean) parameter to embed Michelson primitive trees with smart contract calls.</p>
@@ -3937,6 +3971,10 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>branch</code> <em>hash</em></td>
 <td>Block hash of the branch this op refers to.</td>
+</tr>
+<tr>
+<td><code>entrypoint_id</code> <em>int64</em></td>
+<td>Serial id of the called entrypoint, only relevant if the operation was a transaction, the receiver is a smart contract and call parameters are present.</td>
 </tr>
 </tbody>
 </table>
@@ -4273,7 +4311,8 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="mi">1553123692000</span><span class="p">,</span>      <span class="err">/</span><span class="err">/</span> <span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">e</span><span class="err">_</span><span class="err">s</span><span class="err">i</span><span class="err">n</span><span class="err">c</span><span class="err">e</span><span class="err">_</span><span class="err">t</span><span class="err">i</span><span class="err">m</span><span class="err">e</span>
     <span class="mi">0</span><span class="p">,</span>                  <span class="err">/</span><span class="err">/</span> <span class="err">r</span><span class="err">i</span><span class="err">c</span><span class="err">h</span><span class="err">_</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">k</span>
     <span class="mi">0</span><span class="p">,</span>                  <span class="err">/</span><span class="err">/</span> <span class="err">f</span><span class="err">l</span><span class="err">o</span><span class="err">w</span><span class="err">_</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">k</span>
-    <span class="mi">0</span>                   <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">r</span><span class="err">a</span><span class="err">f</span><span class="err">f</span><span class="err">i</span><span class="err">c</span><span class="err">_</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">k</span>
+    <span class="mi">0</span><span class="p">,</span>                  <span class="err">/</span><span class="err">/</span> <span class="err">t</span><span class="err">r</span><span class="err">a</span><span class="err">f</span><span class="err">f</span><span class="err">i</span><span class="err">c</span><span class="err">_</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">k</span>
+    <span class="s2">&#34;000000&#34;</span>            <span class="err">/</span><span class="err">/</span> <span class="err">c</span><span class="err">a</span><span class="err">l</span><span class="err">l</span><span class="err">_</span><span class="err">s</span><span class="err">t</span><span class="err">a</span><span class="err">t</span><span class="err">s</span>
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List information about the most recent state of implicit and smart contract accounts.</p>
@@ -4559,6 +4598,10 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>traffic_rank</code> <em>int64</em></td>
 <td>Global rank on 24h most active accounts by volume sent/received.</td>
+</tr>
+<tr>
+<td><code>call_stats</code> <em>bytes</em></td>
+<td>Big-endian uint32 call statistic counters per entrypoint. Only used on smart contracts.</td>
 </tr>
 </tbody>
 </table>
@@ -5322,11 +5365,15 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="mi">4082</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">t</span><span class="err">o</span><span class="err">r</span><span class="err">a</span><span class="err">g</span><span class="err">e</span><span class="err">_</span><span class="err">l</span><span class="err">i</span><span class="err">m</span><span class="err">i</span><span class="err">t</span>
     <span class="mi">3805</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">t</span><span class="err">o</span><span class="err">r</span><span class="err">a</span><span class="err">g</span><span class="err">e</span><span class="err">_</span><span class="err">s</span><span class="err">i</span><span class="err">z</span><span class="err">e</span>
     <span class="mi">3805</span><span class="p">,</span>        <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">t</span><span class="err">o</span><span class="err">r</span><span class="err">a</span><span class="err">g</span><span class="err">e</span><span class="err">_</span><span class="err">p</span><span class="err">a</span><span class="err">i</span><span class="err">d</span>
-    <span class="s2">&#34;000008b002000008...&#34;</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">c</span><span class="err">r</span><span class="err">i</span><span class="err">p</span><span class="err">t</span>
-    <span class="mi">0</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">s</span><span class="err">_</span><span class="err">s</span><span class="err">p</span><span class="err">e</span><span class="err">n</span><span class="err">d</span><span class="err">a</span><span class="err">b</span><span class="err">l</span><span class="err">e</span>
+    <span class="s2">&#34;00000eb30200000eae...&#34;</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">c</span><span class="err">r</span><span class="err">i</span><span class="err">p</span><span class="err">t</span>
+    <span class="mi">1</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">s</span><span class="err">_</span><span class="err">s</span><span class="err">p</span><span class="err">e</span><span class="err">n</span><span class="err">d</span><span class="err">a</span><span class="err">b</span><span class="err">l</span><span class="err">e</span>
     <span class="mi">0</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">s</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">l</span><span class="err">e</span><span class="err">g</span><span class="err">a</span><span class="err">t</span><span class="err">a</span><span class="err">b</span><span class="err">l</span><span class="err">e</span>
+    <span class="mi">3</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">l</span>
+    <span class="mi">5</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">p</span>
+    <span class="mi">0</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">o</span><span class="err">p</span><span class="err">_</span><span class="err">i</span>
+    <span class="s2">&#34;5f89baed&#34;</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">f</span><span class="err">a</span><span class="err">c</span><span class="err">e</span><span class="err">_</span><span class="err">h</span><span class="err">a</span><span class="err">s</span><span class="err">h</span>
     <span class="s2">&#34;KT1REHQ183LzfoVoqiDR87mCrt7CLUH1MbcV&#34;</span><span class="p">,</span> <span class="err">/</span><span class="err">/</span> <span class="err">a</span><span class="err">d</span><span class="err">d</span><span class="err">r</span><span class="err">e</span><span class="err">s</span><span class="err">s</span>
-    <span class="s2">&#34;tz1N74dH3VSeRTeKobbXUbyU82G8pqT2YYEM&#34;</span>  <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">a</span><span class="err">n</span><span class="err">a</span><span class="err">g</span><span class="err">e</span><span class="err">r</span>
+    <span class="s2">&#34;tz1N74dH3VSeRTeKobbXUbyU82G8pqT2YYEM&#34;</span> <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">a</span><span class="err">n</span><span class="err">a</span><span class="err">g</span><span class="err">e</span><span class="err">r</span>
   <span class="p">]</span>
 <span class="p">]</span>
 </code></pre></div><p>List creation-time information about smart contracts with embedded code and initial storage.</p>
@@ -5396,6 +5443,22 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>is_delegatable</code> <em>bool</em></td>
 <td>Flag indicating the contract is delegatable (deprecated in v005 Babylon).</td>
+</tr>
+<tr>
+<td><code>op_l</code> <em>int64</em></td>
+<td>Origination block operation list number (0..3).</td>
+</tr>
+<tr>
+<td><code>op_p</code> <em>int64</em></td>
+<td>Origination block operation list position.</td>
+</tr>
+<tr>
+<td><code>op_i</code> <em>int64</em></td>
+<td>Internal origination operation list position.</td>
+</tr>
+<tr>
+<td><code>iface_hash</code> <em>bytes</em></td>
+<td>Short hash to uniquely identify the contract interface, first 4 bytes of the SHA256 hash over binary encoded Michelson script parameters.</td>
 </tr>
 <tr>
 <td><code>address</code> <em>hash</em></td>
@@ -5949,6 +6012,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="mi">689941</span><span class="p">,</span>           <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">c</span><span class="err">h</span><span class="err">_</span><span class="err">h</span><span class="err">e</span><span class="err">i</span><span class="err">g</span><span class="err">h</span><span class="err">t</span>
     <span class="mi">1</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">b</span><span class="err">r</span><span class="err">a</span><span class="err">n</span><span class="err">c</span><span class="err">h</span><span class="err">_</span><span class="err">d</span><span class="err">e</span><span class="err">p</span><span class="err">t</span><span class="err">h</span>
     <span class="mi">0</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">i</span><span class="err">s</span><span class="err">_</span><span class="err">i</span><span class="err">m</span><span class="err">p</span><span class="err">l</span><span class="err">i</span><span class="err">c</span><span class="err">i</span><span class="err">t</span>
+    <span class="mi">0</span><span class="p">,</span>                <span class="err">/</span><span class="err">/</span> <span class="err">e</span><span class="err">n</span><span class="err">t</span><span class="err">r</span><span class="err">y</span><span class="err">p</span><span class="err">o</span><span class="err">i</span><span class="err">n</span><span class="err">t</span><span class="err">_</span><span class="err">i</span><span class="err">d</span>
     <span class="s2">&#34;tz1Z2jXfEXL7dXhs6bsLmyLFLfmAkXBzA9WE&#34;</span><span class="p">,</span>  <span class="err">/</span><span class="err">/</span> <span class="err">s</span><span class="err">e</span><span class="err">n</span><span class="err">d</span><span class="err">e</span><span class="err">r</span>
     <span class="kc">null</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">r</span><span class="err">e</span><span class="err">c</span><span class="err">e</span><span class="err">i</span><span class="err">v</span><span class="err">e</span><span class="err">r</span>
     <span class="kc">null</span><span class="p">,</span>             <span class="err">/</span><span class="err">/</span> <span class="err">m</span><span class="err">a</span><span class="err">n</span><span class="err">a</span><span class="err">g</span><span class="err">e</span><span class="err">r</span>
@@ -6134,6 +6198,10 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <tr>
 <td><code>is_implicit</code> <em>bool</em></td>
 <td>Flag indicating implicit on-chain events, ie. state changes that don&rsquo;t have an operation hash such as <code>bake</code>, <code>unfreeze</code>, <code>seed_slash</code>, <code>airdrop</code> and <code>invoice</code>.</td>
+</tr>
+<tr>
+<td><code>entrypoint_id</code> <em>int64</em></td>
+<td>Serial id of the called entrypoint, only relevant if the operation was a transaction, the receiver is a smart contract and call parameters are present.</td>
 </tr>
 <tr>
 <td><code>sender</code> <em>hash</em></td>
@@ -7694,7 +7762,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     
         <h1 id="changelog">Changelog</h1>
 <p>Recent changes and additions to the TzStats Data API.</p>
-<h2 id="2020-02-12-pre-release">2020-02-12 pre-release</h2>
+<h2 id="2020-02-24">2020-02-24</h2>
 <h3 id="fixes">FIXES</h3>
 <ul>
 <li><strong>etl/model:</strong> frozen deposits, rewards and fees were not correctly deducted from delegate balance and total frozen supply</li>
@@ -7712,9 +7780,15 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <li><strong>etl:</strong> <code>seed_nonce_revelation</code> operation now stores actual seed publisher in formerly unused <code>receiver</code> field</li>
 <li><strong>etl:</strong> internal transaction operations keep original sender of an external transaction in  formerly unused <code>manager</code> field</li>
 <li><strong>etl:</strong> added new operation types for implicit events <code>bake</code>, <code>invoice</code>, <code>airdrop</code>, <code>unfreeze</code>, <code>seed_slash</code>; op hashes for implicit operations are empty, values for <code>op_n</code> are negative (-1 for block header, -2 for protocol upgrade events); available on explorer, table and series endpoints</li>
-<li><strong>api/explorer:</strong> block operation listing now supports <code>order</code> similar to accounts</li>
-<li><strong>api/explorer:</strong> explorer operation lists now support table-style filters on type, e.g. to filter for multiple types use <code>type.in=bake,endorsement</code> as query argument</li>
-<li><strong>api/explorer:</strong> explorer operation lists now support <code>prim</code> and <code>unpack</code> query arguments to simplify working with contract calls</li>
+<li><strong>api/block:</strong> block operation listing now supports <code>order</code> similar to accounts</li>
+<li><strong>api/op:</strong> explorer operation lists now support table-style filters on type, e.g. to filter for multiple types use <code>type.in=bake,endorsement</code> as query argument</li>
+<li><strong>api/op:</strong> explorer operation lists now support <code>prim</code> and <code>unpack</code> query arguments to simplify working with contract calls</li>
+<li><strong>api/op:</strong> added new field <code>entrypoint_id</code> to operations which contains the sequence number (id) of the called entrypoint; filter by entrypoint on table endpoints is also supported</li>
+<li><strong>api/op:</strong> added new field <code>call</code> to embedded operation <code>parameters</code> to identify the actual named entrypoint that was called, this is useful if parameters call the default or root entrypoint and specify the real one by branching</li>
+<li><strong>api/contract:</strong> added new field <code>iface_hash</code> (first 4 bytes of the SHA256 hash over binary encoded Michelson script parameters)</li>
+<li><strong>api/contract:</strong> added new field <code>call_stats</code> with per-entrypoint call statistics (an array containing running totals)</li>
+<li><strong>api/contract:</strong> added new fields <code>op_l</code>, <code>op_p</code> and <code>op_i</code> to reference the position of the contract&rsquo;s origination operation in a block.</li>
+<li><strong>api/contract:</strong> contract calls now support <code>entrypoint</code> filters using entrypoint name, branch or id</li>
 <li><strong>etl/model:</strong> added cycle <code>start_time</code> and <code>end_time</code> to baker income (estimated when start or end is in the future)</li>
 <li><strong>api/series:</strong> new time-series endpoints for <code>chain</code> and <code>supply</code> tables that will return the first value per collapse interval (ie. first value per hour or day)</li>
 </ul>
@@ -7726,7 +7800,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <li><strong>contract/script:</strong> JSON keys for entrypoint arguments now always follow the convention <code>&lt;order&gt;@&lt;name&gt;</code>, ie. they include an integer order number as first argument, followed by an optional <code>@</code> symbol and an optional argument name extracted from type annotations. This way argument order is no longer lost when a name is defined.</li>
 <li><strong>bigmap/type:</strong> JSON keys for bigmap type arguments now always follow the convention <code>&lt;order&gt;@&lt;name&gt;@&lt;container-type&gt;</code>, ie. they include an integer order number as first argument, followed by an optional <code>@</code> symbol, an optional name extracted from type annotations and in case the type is a container like list, map or set another <code>@</code> and the container type. This way type argument order is no longer lost when a name is defined.</li>
 <li><strong>flow table:</strong> added new fields <code>op</code> (hash), <code>op_id</code> (uint64), <code>op_n</code>, <code>op_l</code>, <code>op_p</code>, <code>op_c</code>, <code>op_i</code> (int) which contain metadata about the operation the flow relates to (Note: JSON bulk array list positions shift because these fields are not added to the end of the inner array)</li>
-<li><strong>operation table:</strong> added new fields <code>op_l</code>, <code>op_p</code> containing Tezos RPC operation list positions, and <code>is_implicit</code> for non-operation events (Note: JSON bulk array list positions shift because this field is not added to the end of the inner array). Changed <code>op_n</code> to contain a unique per-block operation counter for all events and regular operations.</li>
+<li><strong>operation table:</strong> added new fields <code>op_l</code>, <code>op_p</code> containing Tezos RPC operation list positions, and <code>is_implicit</code> for non-operation events as well as <code>entrypoint_id</code> (Note: JSON bulk array list positions shift because this field is not added to the end of the inner array). Changed <code>op_n</code> to contain a unique per-block operation counter for all events and regular operations.</li>
 </ul>
 <h2 id="2020-01-06">2020-01-06</h2>
 <ul>
