@@ -7769,10 +7769,11 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <li><strong>etl/model:</strong> fixed spelling of <code>denunciation</code> type in flow table</li>
 <li><strong>chain:</strong> use protocol constants for snapshot block calculations (was a fixed offset value before that only worked on mainnet)</li>
 <li><strong>chain:</strong> tolerate arbitrary padding after binary address values in contract storage (when manually packed into type bytes inside a contract one can add an optional annotation which now gets stripped to obtain a valid address)</li>
-<li><strong>etl/index:</strong> fix performance on zero rights to avoid edge case in 3rd party reputation algorithms that penalized bakers without rights, no income still yields 100% performance now</li>
+<li><strong>etl/index:</strong> fix baker performance on zero rights to avoid edge case in 3rd party reputation algorithms that penalized bakers without rights, no income still yields 100% performance now</li>
 <li><strong>micheline/entrypoint:</strong> fix detecting named Unit entrypoints</li>
 <li><strong>etl/index:</strong> fix empty bigmap operation that deletes all keys and allocates a new bigmap, added <code>is_removed</code> bool field to explorer/bigmap endpoint</li>
 <li><strong>micheline/bigmap:</strong> refactor to support pairs as key type</li>
+<li><strong>micheline/bigmap:</strong> render empty optional values, use inner type in keys when option annotation is missing</li>
 </ul>
 <h3 id="new-features">NEW FEATURES</h3>
 <ul>
@@ -7785,22 +7786,25 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <li><strong>api/op:</strong> explorer operation lists now support <code>prim</code> and <code>unpack</code> query arguments to simplify working with contract calls</li>
 <li><strong>api/op:</strong> added new field <code>entrypoint_id</code> to operations which contains the sequence number (id) of the called entrypoint; filter by entrypoint on table endpoints is also supported</li>
 <li><strong>api/op:</strong> added new field <code>call</code> to embedded operation <code>parameters</code> to identify the actual named entrypoint that was called, this is useful if parameters call the default or root entrypoint and specify the real one by branching</li>
+<li><strong>api/op:</strong> <code>unpack=1</code> now recursively unpacks all packed binary data</li>
 <li><strong>api/contract:</strong> added new field <code>iface_hash</code> (first 4 bytes of the SHA256 hash over binary encoded Michelson script parameters)</li>
 <li><strong>api/contract:</strong> added new field <code>call_stats</code> with per-entrypoint call statistics (an array containing running totals)</li>
 <li><strong>api/contract:</strong> added new fields <code>op_l</code>, <code>op_p</code> and <code>op_i</code> to reference the position of the contract&rsquo;s origination operation in a block.</li>
 <li><strong>api/contract:</strong> contract calls now support <code>entrypoint</code> filters using entrypoint name, branch or id</li>
 <li><strong>etl/model:</strong> added cycle <code>start_time</code> and <code>end_time</code> to baker income (estimated when start or end is in the future)</li>
 <li><strong>api/series:</strong> new time-series endpoints for <code>chain</code> and <code>supply</code> tables that will return the first value per collapse interval (ie. first value per hour or day)</li>
+<li><strong>flow table:</strong> added new fields <code>op</code> (hash), <code>op_id</code> (uint64), <code>op_n</code>, <code>op_l</code>, <code>op_p</code>, <code>op_c</code>, <code>op_i</code> (int) which contain metadata about the operation the flow relates to</li>
+<li><strong>operation table:</strong> added new fields <code>op_l</code>, <code>op_p</code> containing Tezos RPC operation list positions, and <code>is_implicit</code> for non-operation events as well as <code>entrypoint_id</code></li>
 </ul>
 <h3 id="breaking-changes">BREAKING CHANGES</h3>
 <ul>
 <li><strong>block:</strong> replaced fields <code>deposits</code>, <code>fees</code>, <code>rewards</code> (plural) which included total sums of all baking and endorsing activity in a block with <code>deposit</code>, <code>fee</code>, <code>reward</code> (singular form) to only cover baking activity</li>
 <li><strong>flow:</strong> replaced  fields <code>origin_id</code> and <code>origin</code> with <code>counterparty_id</code> and <code>counterparty</code>; origin used to contain the source of a flow but was too restrictive since on-way only, now counterparty can hold either party (sender or receiver) who has caused or received a flow, on in-flows (amount_in &gt; 0) the counterparty is the sender, on out-flows (amount_out &gt; 0) counterparty it receiver</li>
-<li><strong>flow:</strong> changed data for <code>denunciation</code> operations, now losses incured by the offender are kept in <code>reward</code>, <code>fee</code>, and <code>deposit</code> <strong>as negative values</strong>, reward for the accuser is stored in <code>volume</code> as positive value</li>
+<li><strong>flow:</strong> JSON bulk array list positions shift because of new fields in the inner array</li>
+<li><strong>operation:</strong> changed data for <code>denunciation</code> operations, now losses incured by the offender are kept in <code>reward</code>, <code>fee</code>, and <code>deposit</code> <strong>as negative values</strong>, reward for the accuser is stored in <code>volume</code> as positive value</li>
+<li><strong>operation:</strong> JSON bulk array list positions shift because of new fields in the inner array. Changed <code>op_n</code> to contain a unique per-block operation counter across all implicit and regular operations.</li>
 <li><strong>contract/script:</strong> JSON keys for entrypoint arguments now always follow the convention <code>&lt;order&gt;@&lt;name&gt;</code>, ie. they include an integer order number as first argument, followed by an optional <code>@</code> symbol and an optional argument name extracted from type annotations. This way argument order is no longer lost when a name is defined.</li>
 <li><strong>bigmap/type:</strong> JSON keys for bigmap type arguments now always follow the convention <code>&lt;order&gt;@&lt;name&gt;@&lt;container-type&gt;</code>, ie. they include an integer order number as first argument, followed by an optional <code>@</code> symbol, an optional name extracted from type annotations and in case the type is a container like list, map or set another <code>@</code> and the container type. This way type argument order is no longer lost when a name is defined.</li>
-<li><strong>flow table:</strong> added new fields <code>op</code> (hash), <code>op_id</code> (uint64), <code>op_n</code>, <code>op_l</code>, <code>op_p</code>, <code>op_c</code>, <code>op_i</code> (int) which contain metadata about the operation the flow relates to (Note: JSON bulk array list positions shift because these fields are not added to the end of the inner array)</li>
-<li><strong>operation table:</strong> added new fields <code>op_l</code>, <code>op_p</code> containing Tezos RPC operation list positions, and <code>is_implicit</code> for non-operation events as well as <code>entrypoint_id</code> (Note: JSON bulk array list positions shift because this field is not added to the end of the inner array). Changed <code>op_n</code> to contain a unique per-block operation counter for all events and regular operations.</li>
 </ul>
 <h2 id="2020-01-06">2020-01-06</h2>
 <ul>
