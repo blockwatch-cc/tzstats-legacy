@@ -11,7 +11,7 @@ export const GOOGLE_ANALYTICS_API_KEY =
   process.env.REACT_APP_GOOGLE_ANALYTICS_API_KEY || '<[GOOGLE_ANALYTICS_API_KEY]>';
 export const defaultFont = "-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif";
 function isMarketEnabled(val) { return !!(parseInt(val) || val === "true"); }
-export const enableMarket = process.env.REACT_APP_TZSTATS_ENABLE_MARKET || isMarketEnabled('<[TZSTATS_ENABLE_MARKET]>');
+export const enableMarket = process.env.REACT_APP_TZSTATS_ENABLE_MARKET === "true" || isMarketEnabled('<[TZSTATS_ENABLE_MARKET]>');
 export const opNames = {
   activate_account: 'Activation',
   double_baking_evidence: 'Double Baking',

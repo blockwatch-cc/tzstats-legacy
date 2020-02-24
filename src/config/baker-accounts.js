@@ -218,4 +218,6 @@ export const bakerAccounts = {
   tz1eZwq8b5cvE2bPKokatLkVMzkxz24z3Don: { name: 'You Loaf We Bake', logo: null, link: '', fee_type: '', fee: 0 },
   tz1L3vFD8mFzBaS8yLHFsd7qDJY1t276Dh8i: { name: 'Zed Node', logo: null, link: '', fee_type: '', fee: 0 },
   tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE: { name: 'ØCrypto Pool', logo: null, link: '', fee_type: '', fee: 0 },
+  KT1LH2o12xVRwTpJMZ6QJG74Fox8gE9QieFd: { name: 'TZBTC', logo: null, link: '', fee_type: '', fee: 0, token_type: 'tzbtc', bigmap_id: 446 },
+  KT1NCuMkcRrGDSiB5BX4xyBGEUtyyF7YDDYz: { name: 'TZBTC', logo: null, link: '', fee_type: '', fee: 0, token_type: 'tzbtc', bigmap_id: 518, txfn: '__entry_13__' },
 };

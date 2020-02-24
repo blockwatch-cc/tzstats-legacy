@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, FlexColumnSpaceBetween, Value, AlignedForm, LabelDotLeft } from '../../Common';
+import { Card, Value, AlignedForm, LabelDotLeft } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { useGlobal } from 'reactn';
 
@@ -27,49 +27,47 @@ const CirculatingSupply = () => {
   return (
     <Wrapper>
       <Card title="Tezos Supply Distribution">
-        <FlexColumnSpaceBetween>
-          <HorizontalProgressBar settings={bar} />
-          <AlignedForm>
-            <div>
-              {all.map((item, i) => {
-                return (
-                  <LabelDotLeft key={i} color={item.color}>
-                    {item.title}
-                  </LabelDotLeft>
-                );
-              })}
-            </div>
-            <div>
-              {all.map((item, i) => {
-                return <Value
+        <HorizontalProgressBar settings={bar} />
+        <AlignedForm>
+          <div>
+            {all.map((item, i) => {
+              return (
+                <LabelDotLeft key={i} color={item.color}>
+                  {item.title}
+                </LabelDotLeft>
+              );
+            })}
+          </div>
+          <div>
+            {all.map((item, i) => {
+              return <Value
+                key={i}
+                pad={0.25}
+                ml={1}
+                type="currency"
+                digits={4}
+                dim={0}
+                value={item.value} />;
+            })}
+          </div>
+          <div>
+            {all.map((item, i) => {
+              return (
+                <Value
                   key={i}
                   pad={0.25}
                   ml={1}
-                  type="currency"
-                  digits={4}
+                  type="percent"
+                  value={item.percent / 100}
+                  digits={2}
                   dim={0}
-                  value={item.value} />;
-              })}
-            </div>
-            <div>
-              {all.map((item, i) => {
-                return (
-                  <Value
-                    key={i}
-                    pad={0.25}
-                    ml={1}
-                    type="percent"
-                    value={item.percent / 100}
-                    digits={2}
-                    dim={0}
-                    opacity={0.7}
-                    zero="-"
-                  />
-                );
-              })}
-            </div>
-          </AlignedForm>
-        </FlexColumnSpaceBetween>
+                  opacity={0.7}
+                  zero="-"
+                />
+              );
+            })}
+          </div>
+        </AlignedForm>
       </Card>
     </Wrapper>
   );

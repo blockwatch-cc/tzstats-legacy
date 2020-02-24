@@ -1,7 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Flex } from './index';
-import { formatCurrency, formatValue, formatDayTime, formatDay, formatTime, isUndefined } from '../../utils';
+import {
+  formatCurrency,
+  formatValue,
+  formatDayTime,
+  formatDay,
+  formatTime,
+  isUndefined,
+  getShortHashOrBakerName,
+  timeAgo,
+} from '../../utils';
 
 //Todo refactoring
 const DataBox = ({
@@ -99,9 +109,18 @@ export const Value = ({
   let res = '';
   switch (type) {
     case 'plain':
-      return value;
+      return (<ValueWrapper {...props}>{value}</ValueWrapper>);
     case 'text':
-      return [prefix, value, suffix].join('');
+      return (<ValueWrapper {...props}>{[prefix, value, suffix].join('')}</ValueWrapper>);
+    case 'address':
+      return (
+        <ValueWrapper {...props}>
+          <Link to={`/$value`}>{getShortHashOrBakerName(value)}</Link>
+        </ValueWrapper>
+      );
+    case 'ago':
+      res = timeAgo.format(new Date(value));
+      break;
     case 'datetime':
       res = formatDayTime(value, 1, 1);
       break;
@@ -114,7 +133,7 @@ export const Value = ({
     case 'currency':
       sym = isUndefined(sym) ? 'XTZ' : sym;
       if (!!digits) {
-        res = formatCurrency(value, '.' + digits + 's');
+        res = formatCurrency(value, ',.' + digits + 'f');
       } else {
         res = formatCurrency(value, ',');
       }

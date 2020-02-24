@@ -19,6 +19,7 @@ const HashedBox = ({ hash, typeName, name, short = true, isCopy = true, noLink =
 
 const HashBlockWrapper = styled.div`
   font-size: 14px;
+  white-space: nowrap;
 `;
 const HashLink = styled(Link)`
   font-size: 14px;

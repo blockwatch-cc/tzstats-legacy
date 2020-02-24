@@ -57,7 +57,6 @@ const ElectionBoxWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 5px;
 `;
 const ElectionBox = styled.div`
   width: 20px;
