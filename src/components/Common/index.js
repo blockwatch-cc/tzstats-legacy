@@ -31,6 +31,8 @@ import {
 import { LinkIcon } from './Controls';
 import { Value } from './DataBox';
 
+import { AlignedForm, Label, LabelDotLeft } from './Form';
+
 export { default as CurrencySelect } from './CurrencySelect';
 export { default as IntervalSelect } from './IntervalSelect';
 
@@ -80,6 +82,9 @@ export {
   Sizes,
   Tabs,
   Tab,
+  AlignedForm,
+  Label,
+  LabelDotLeft
 };
 
 //Todo replace it

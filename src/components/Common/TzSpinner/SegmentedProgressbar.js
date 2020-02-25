@@ -75,7 +75,7 @@ export default function SegmentedProgressbar(props) {
           <div style={{ textAlign: 'center' }}>
             <span style={{ fontSize: 20, color: '#fff' }}>{props.circleNumber}</span>
             <p>
-              <span style={{ fontSize: 40, color: 'rgba(255, 255, 255, 0.52)' }}>ꜩ</span>
+              <span style={{ fontSize: 40, color: 'rgba(255, 255, 255, 0.52)' }}>XTZ</span>
             </p>
           </div>
         )

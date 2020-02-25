@@ -1,52 +1,197 @@
-# TzStats Privacy Policy
+# Privacy Statement
 
-*last revised: July 28, 2019*
+*Effective date: February 14, 2020*
+
+Thanks for entrusting Blockwatch Data Inc. (referred to as “Blockwatch, “we”, ”us”, ”our”) with your personal information. This Privacy Policy describes our policies and procedures on the collection, use and disclosure of your information when you use our Service and tells you about your privacy rights and how you are protected by the law.
+
+We use your personal data to provide and improve our Service. By using the Service, you agree to the collection and use of information in accordance with this Privacy Policy.
+
+Under the GDPR (General Data Protection Regulation), you can be referred to as the Data Subject or as the User as you are the individual using the Service whereas we are the Data Controller. The controller responsible for the processing of your personal information in connection with the Service is Blockwatch Data Inc, 61 Greenpoint Ave, Suite 693, Brooklyn, NY 11222.
+
 
 ### 1 What Information We Collect From You
 
-TzStats is a public information website (the Site) displaying publicly available Tezos blockchain data and aggregate statistics (collectively the Services). We do not support user signup or personalization of the site that requires us to store and process Your data in a central database on our backends. All personalized data like display currency and time-frame selections are exclusively stored in your web browser's local storage.
+We collect and/or receive the following categories of information.
 
-We do, however, collect and/or receive anonymized data about Your use of our site for the sole purpose of understanding and optimizing Your user experience and for finding bugs and performance issues. This includes information from the following categories:
+**Personal Information:** is any information about one of our Users which could, alone or together with other information, personally identify them or otherwise be reasonably linked or connected with them. Information such as a username and password, an email address, a real name, an Internet protocol (IP) address, and a photograph are examples of Personal Information.”
 
-- **From Your Activity.** In an ongoing effort to improve the Site, and the Services we automatically collect certain information when You visit the Site and access the Services. This information consists of IP addresses, browser type and language, referring and exit pages and URLs, date and time, amount of time spent on particular pages, what sections of the Sites You visit, and similar information concerning Your use of the Site and the Services.
+Personal Information does not include aggregated, non-personally identifying information that does not identify a User or cannot otherwise be reasonably linked or connected with them. We may use such aggregated, non-personally identifying information for research purposes and to operate, analyze, improve, and optimize our Website and Service.
 
-- **From Cookies.** We also collect information by using “cookie” (more specifically ”local storage”) technology. Cookies are small packets of data that a website stores on the hard drive of your computer or mobile device to “remember” information about your visit. We use persistent cookies (which stay on your computer/device until you delete them) to store Your preferences. If you do not want us to place a cookie on your hard drive, you may be able to turn that feature off on your computer or mobile device. Please consult your Internet browser’s documentation for information on how to do this and how to delete persistent cookies. However, if you decide not to accept cookies from us, the Site, and/or the Services may not function properly.
+When you contact us through the “Contact Us” page, request a demo of our services, sign up to receive our newsletter, or sign up to become a Registered User, you will be asked to provide certain information which include first name, last name, e-mail address, job title, and name of your organization (”Personal Information”). Your Personal Information is used to contact or identify you for purposes of providing the Service and for direct marketing of our current and future products and services in case you did not opt out of such use. We may use Personal Information for the following purposes:
 
-- **Third-Party Analytics.** We use one or more third–party analytics services (such as Google Analytics and Mixpanel) to evaluate your use of the Site, and the Services, compile reports on activity (based on their collection of IP addresses, Internet service provider, browser type, operating system and language, referring and exit pages and URLs, data and time, amount of time spent on particular pages, what sections of the Sites you visit, number of links clicked while on the Sites, search terms and other similar usage data), and analyze performance metrics. These third parties use cookies and other technologies to help analyze and provide us the data. By visiting the Site, and accessing and using the Services, you consent to the processing of data about you by these analytics providers in the manner and for the purposes set out in this Privacy Policy. For more information on these third parties, including how to opt out from certain data collection, please visit the sites below. Analytics services are optional, if you decide not to accept such cookies and/or tracking, your experience using our Site's will not be affected.
+- (a) To provide and maintain our Service, including to monitor the usage of our Service.
+- (b) To manage your account: to manage your registration as a user of the Service. The Personal Information you provide can give you access to different functionalities of the Service that are available to you as a registered user.
+- (c) For the performance of a contract: the development, compliance and undertaking of the purchase contract for the data services you have purchased or of any other contract with us through the Service.
+- (d) To contact you: To contact you by email regarding updates, security related notifications or informative communications related to the functionalities of the Site and our products.
+- (e) To provide you with news, special offers and general information about other services and events which we offer that are similar to those that you have already purchased or enquired about unless you have opted not to receive such information.
+- (f) To manage your requests: To attend and manage your requests to us.
 
-- **Aggregate Data.** In an ongoing effort to better understand Your needs and use of our Site and Services, we analyze your information in aggregate form in order to operate, maintain, manage, and improve the Site, and the Services. This aggregate information does not identify you personally. We share this aggregate data with our affiliates, agents, and business partners. We may also disclose aggregated user statistics in order to describe our products and services to current and prospective business partners and to other third parties for other lawful purposes. In addition, we provide aggregated statistical collective user information, to our partners so that they understand how often people use specific components of our Services.
+We don’t knowingly collect information from children under 13, and we don’t collect Sensitive Personal Information.
 
-For Google Analytics, please visit: https://www.google.com/analytics
+**Billing Information:** In order to purchase our Services, you will be required to provide certain additional information which may include a credit card number, expiration date, billing zip code, security code, and related information (“Billing Information”). Blockwatch does not directly obtain or process any Billing Information. Billing Information is collected and processed by our third-party payment processor Stripe operating as our agent (for the purpose of the GDPR, the payment processor is considered a Data Processor). Stripe adheres to the standards set by PCI-DSS as managed by the PCI Security Standards Council, which is a joint effort of Visa, Mastercard, American Express and Discover. PCI-DSS requirements help ensure the secure handling of payment information. For more information on the privacy practices of Stripe, please visit the Stripe Privacy web page: https://stripe.com/us/privacy
 
-For Mixpanel, please visit: https://mixpanel.com
+**Usage Information:** In addition to Personal Information, we may collect or receive the following information either generated by your use of the Service or from the Service infrastructure itself (“Usage Information”):
 
+- **From Your Activity:** In an ongoing effort to improve the Site, and the Services we automatically collect certain information when you visit the Site or when you access the Services. This information consists of device information such as IP addresse, browser type and language, operating system and application version, device type and ID, and device model and manufacturer, as well as information from your activity such as referring sites, entry and exit pages and URLs, date and time, amount of time spent on particular pages, what sections of the Site you visit, and similar information concerning your use of the Site and the Services.
 
-### 2 How Your Information is Protected
+- **From Cookies:** We also collect information by using “cookie” or local storage technology in your web browser. Cookies are small packets of data that a website stores on the hard drive of your computer or mobile device to “remember” information about your visit. We use session cookies (which expire once you close your web browser or logout) and persistent cookies (which stay on your computer/device until you delete them) for purposes listed below. If you do not want us to place a cookie on your hard drive, you may be able to turn that feature off on your computer or mobile device. Please consult your Internet browser’s documentation for information on how to do this and how to delete persistent cookies. However, if you decide not to accept cookies from us, the Site, and/or the Services may not function properly.
 
-All Internet communication with the TzStats Site is end-to-end encrypted using state-of-the-art technology like TLS. Keep in mind that other forms of Internet communication, including email sent to and from us, may be stored and forwarded unencrypted. You should therefore take special care in deciding what information You send to us via e-mail or other electronic means.
+- **Third-Party Analytics.** We use one or more third–party analytics services (such as Google Analytics and Mixpanel) to evaluate your use of the Site, and the Services, compile reports on activity (based on the collection of IP addresses, Internet service provider, browser type, operating system and language, referring and exit pages and URLs, data and time, amount of time spent on particular pages, what sections of the Sites you visit, number of links clicked while on the Sites, search terms and other similar usage data), and analyze performance metrics. These third parties use cookies and other technologies to help analyze and provide us the data. By visiting the Site, and accessing and using the Services, you consent to the processing of data about you by these analytics providers in the manner and for the purposes set out in this Privacy Policy. For more information on these third parties, including how to opt out from certain data collection, please visit the sites below. Analytics services are optional, if you decide not to accept such cookies and/or tracking, your experience using our Site's will not be affected.
 
-### 3 How Long Your Information is Retained
+    - **Google Analytics** is a web analytics service offered by Google that tracks and reports website traffic. Google uses the data collected to track and monitor the use of our Service. This data is shared with other Google services. Google may use the collected data to contextualise and personalise the ads of its own advertising network. You can opt-out of letting Google Analytics track your activity on the Service by installing the Google Analytics opt-out browser add-on or by enabling the Do-Not-Track setting in your web browser. For more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: https://policies.google.com/privacy?hl=en. Google also [offers a browser add-on to opt out of Google Analytics tracking](https://tools.google.com/dlpage/gaoptout).
 
-Site activity and analytics data, including analytics data collected by third parties who function as our data processing agents, is retained for 180 days and automatically deleted after this time period.
-
-### 4 What Choices are Available to You on Our Services
-
-You can at any time choose to limit the amount of information we share with third parties.
-
-**Analytics collection is optional.** If you choose not to disclose your activity on the Site, you can opt out of analytics collection altogether by enabling the do-no-track option in your web browser or by blocking 3rd part scripts using a script blocker. We strongly encourage you to use open-source script blockers like uBlock Origin because they generally improve your overall security when browsing the Internet.
-
-### 5 International Users and Applicable Law
-
-Please note that activity and analytics information from using our Site will be transferred to the United States of America, the European Union and other countries so as to provide this Site and our data products to You. If you are not a US or EU resident, you acknowledge and agree that we collect, process, use and store your information, as discussed in this Privacy Policy, outside your resident jurisdiction, including in the European Union and the United States. Please be aware that EU law, US law and laws of other countries where we may store and process your data offer different levels of protection for personal information than what may be available in your country.
-
-EU users have the right to access, rectify or delete any personal information that we hold under GDPR data protection legislation. You also have the right to portability and to object to the use of your personal information. If you wish to exercise any of these rights, please send an email to [info@tzstats.com](mailto:info@tzstats.com).
+    - **Mixpanel** is a web analytics service that tracks and reports user behaviour on websites. Mixpanel uses the data collected to compile individual or aggregated reports for us to understand how you use our Site and Services and where we can improve your user experience and the usability of our Services. You can opt-out of letting Mixpanel track your activity on the Service by enabling the Do-Not-Track setting on your web browser. For more information please visit the Mixpanel Privacy Policy: https://mixpanel.com/legal/privacy-policy/
 
 
-### 6 Updates to This Policy
+- **Aggregate Data:** In an ongoing effort to better understand how our visitors and registered users use our products and services, we analyze your information in aggregate form in order to operate, maintain, manage, and improve the Site, and the Services. This aggregate information does not identify you personally. We share this aggregate data with our affiliates, agents, and business partners. We may also disclose aggregated user statistics in order to describe our products and services to current and prospective business partners and to other third parties for other lawful purposes. In addition, we provide aggregated statistical collective user information, to our partners so that they understand how often people use specific components of our Services.
+
+
+#### Information we collect from third parties
+
+Blockwach may collect User Personal Information from third parties. For example, this may happen if you provide feedback through online forms, request a demo of our Services, contact us or send bug reports or feature requests on Github, Discord, Telegram, Twitter, Reddit or via other third party providers or communication channels. Blockwatch does not purchase User Personal Information from third-party data brokers.
+
+
+- For Google Analytics, please visit: https://www.google.com/analytics
+- For Mixpanel, please visit: https://mixpanel.com
+- For Stripe, please visit https://stripe.com
+- For Github, please visit https://github.com
+- For Discord, please visit https://discordapp.com
+- For Telegram, please visit https://telegram.org
+- For Twitter, please visit https://twitter.com
+- For Reddit, please visit https://reddit.com
+
+
+### 2 What Information We Do Not Collect
+
+We do not intentionally collect “Sensitive Personal Information”, such as personal data revealing racial or ethnic origin, political opinions, religious or philosophical beliefs, or trade union membership, and the processing of genetic data, biometric data for the purpose of uniquely identifying a natural person, data concerning health or data concerning a natural person’s sex life or sexual orientation. If you choose to store any Sensitive Personal Information on our servers, you are responsible for complying with any regulatory controls regarding that data.
+
+If you are a child under the age of 13, you may not have an Account on Blockwatch. Blockwatch does not knowingly collect information from or direct any of our content specifically to children under 13. If we learn or have reason to suspect that you are a User who is under the age of 13, we will have to close your Account. We don't want to discourage you from learning about blockchains and cryptocurrencies, but those are the rules. Please see our Terms of Service for information about Account termination. Different countries may have different minimum age limits, and if you are below the minimum age for providing consent for data collection in your country, you may not have an Account on Blockwatch.
+
+We do not intentionally collect Personal Information that is stored encoded or unencoded on publicly accessible distributed ledgers. Any personal information within a public ledger network is treated as opaque public domain data by us.
+
+
+### 3 How Your Information is Protected
+
+Your Blockwatch account information is protected by a password for your privacy and security. You are responsible for creating this password and for protecting it and not sharing it with any third party. Blockwatch takes reasonable and appropriate security measures to protect your personal information from loss, misuse, and unauthorized access, disclosure, alteration and destruction, taking into account the risks involved in processing and the nature of such data, and compliance with applicable laws and regulations.
+
+All Internet communication with the Blockwatch Site is end-to-end encrypted using state-of-the-art technology like TLS. Keep in mind that other forms of Internet communication, including email sent to and from us, may be stored and forwarded unencrypted. You should therefore take special care in deciding what information you send to us via e-mail or other electronic means.
+
+
+### 4 How Your Information is Retained
+
+We retain your personal information for as long as you have an active account, as needed to provide you with data, to comply with our legal and regulatory processes and to enforce this Privacy Policy. Blockwatch has established internal policies for the deletion of personal information from client accounts following termination of a client’s subscription to the data product. After you close your account, we delete your personal information and only retain data in a form such that it does not identify you personally.
+
+Site activity and analytics data, including analytics data collected by third parties who function as our data processing agents, is retained for 180 days and automatically deleted after this time period unless when this data is used to strengthen the security or to improve the functionality of our Service, or we are legally obligated to retain this data for longer time periods.
+
+Your information, including Personal Information, is processed at Blockwatch's main offices and in any other places where our employees and service providers are located. This means that your personal information may be transferred to — and maintained on — computers located outside of your state, province, country or other governmental jurisdiction where the data protection laws may differ from those in your jurisdiction. Your explicit consent to this Privacy Policy during signup followed by your submission of such information represents your agreement to that transfer.
+
+### 5 How Your Information is Shared
+
+We contract with other companies to perform certain business-related services. We disclose Information, including personal information in some cases, to certain types of third-party companies, but only to the extent needed to enable them to provide such services, including, without limitation, hosting, monitoring and analyzing Websites activity, operations and marketing assistance, and payment processing. All such third parties function as our agents, or Data Processors under GDPR, and perform services at our instruction and on our behalf pursuant to contracts which require they provide at least the same level of privacy protection as is required by this Privacy Policy and implemented by Blockwatch.
+
+**We may share your personal information in the following situations**
+
+- With third-party services providers to provide specific services to us, such as a hosting providers, credit card processing company, email messaging providers, monitoring and analytics providers, and other third parties that perform services on our behalf as a part of our data product offerings.
+- When you share personal information or otherwise interact with other users in the public areas of our Service, such information may be viewed by all users and may be publicly distributed. Similarly, other users will be able to view descriptions of your activity, communicate with you and view your profile.
+- As required by law and when we believe that disclosure is necessary to protect our rights, property or safety of Blockwatch. and/or comply with a judicial proceeding, court order, enforceable governmental request, or legal process served on our Site.
+- To detect, prevent or otherwise respond to fraud, security or other technical concerns and/or to support auditing and compliance functions.
+- If Blockwatch is involved in a merger, acquisition or any form of transfer or sale of some or all of its business, whether as a going concern or as part of bankruptcy, liquidation or similar proceeding, personal information is transferred along with the business. All such transfers shall be subject to our commitments with respect to the privacy and confidentiality of such personal information as set forth in this Privacy Policy.
+
+
+### 6 What Choices are Available to You on Our Services
+
+You can limit the information you provide to us, you can limit the amount of information we share with third parties, and you can limit the communications that we send to you.
+
+**Registration is optional.** If you choose not to register, certain features of Blockwatch and sections of our Site may be inaccessible, but you will be able view the main pages of the Site. Registration and log-in are required to access full information about some of our data products including pricing, licensing, and data samples.
+
+In the Settings section, you may make changes to or delete inaccuracies in your account and change your password, privacy settings, or contact information such as your name, email address, etc. We will retain your information for as long as your account is active or as needed to provide you with our data products and as necessary to comply with our legal obligations, resolve disputes, and enforce our agreements. If you wish to cancel your account, modify your information, or request that we no longer use your information to provide you the with the data products, contact us at [privacy@blockwatch.cc](mailto:privacy@blockwatch.cc).
+
+**Analytics collection is optional.** If you choose not to disclose your activity on the Site, you can opt out of analytics collection alltogether by enabling the do-no-track option in your web browser or by disabling analytics collection in privacy settings.
+
+**Promotional emails are optional.** You may choose whether you wish to receive any promotional email communications from Blockwatch or not. You can always opt out by selecting the unsubscribe option in your user profile and/or sending an email to [privacy@blockwatch.cc](mailto:privacy@blockwatch.cc).
+
+
+### 7 International Users and Applicable Law
+
+Please note that the personal information you submit to our Site will be transferred to the United States, European Union and other countries so as to provide this Site and our data products to you and/or for such other purposes as set forth in this Privacy Policy. If you are not a resident of the United States or the European Union, you acknowledge and agree that we collect, process, use and store your personal information, as discussed in this Privacy Policy, outside your resident jurisdiction, including in the United States and the European Union. Please be aware that US law, EU law, and laws of other countries where we may store and process your data offer different levels of protection for personal information than may be available in your country.
+
+### 8 GDPR Privacy
+
+#### Legal Basis for Processing Personal Data under GDPR
+
+We may process Personal in under the following conditions:
+
+- **Consent:** You have given Your consent for processing Personal Data for one or more specific purposes.
+- **Performance of a contract:** Provision of Personal Data is necessary for the performance of an agreement with you and/or for any pre-contractual obligations thereof.
+- **Legal obligations:** Processing Personal Data is necessary for compliance with legal obligations to which Blockwatch is subject.
+- **Vital interests:** Processing Personal Data is necessary in order to protect your or other natural persons vital interests.
+- **Legitimate interests:** Processing Personal Data is necessary for the purposes of the legitimate interests pursued by Blockwatch.
+
+In any case, we will gladly help to clarify the specific legal basis that applies to the processing, and in particular whether the provision of Personal Data is a statutory or contractual requirement, or a requirement necessary to enter into a contract.
+
+#### Your Rights under the GDPR
+
+Blockwatch respects the confidentiality of your Personal Data and guarantees You can exercise your rights. If you are a EU resident you have the following rights by law:
+
+- **Request access to Your Personal Data.** The right to access, update or delete the information we have on you. Whenever made possible, you can access, update or request deletion of your Personal Data directly within your account profile section. If you are unable to perform these actions yourself, please contact us to assist you. You can also request to receive a copy of the Personal Data we hold about you.
+- **Request correction of the Personal Data that we hold about you.** You have the right to have any incomplete or inaccurate information we hold about you corrected.
+- **Object to processing of Your Personal Data.** This right exists where we are relying on a legitimate interest as the legal basis for our processing and there is something about your particular situation, which makes you want to object to our processing of your Personal Data on this ground. You also have the right to object where we are processing your Personal Data for direct marketing purposes.
+- **Request erasure of Your Personal Data.** You have the right to ask us to delete or remove Personal Data when there is no good reason for us to continue processing it.
+- **Request the transfer of Your Personal Data.** We will provide to you, or to a third-party you have chosen, your Personal Data in a structured, commonly used, machine-readable format. Please note that this right only applies to automated information which you initially provided consent for us to use or where we used the information to perform a contract with you.
+- **Withdraw Your consent.** You have the right to withdraw your consent on using your Personal Data. If you withdraw your consent, we may not be able to provide you with access to certain specific functionalities of the Service.
+
+#### Exercising of Your GDPR Data Protection Rights
+
+You may exercise your rights of access, rectification, cancellation and opposition by contacting us. Please note that we may ask you to verify your identity before responding to such requests. If you make a request, we will try our best to respond to you as soon as possible.
+
+You have the right to complain to a Data Protection Authority about our collection and use of your Personal Data. For more information please contact your local data protection authority.
+
+### 9 CCPA Privacy
+
+### Your Rights under the CCPA
+
+Under this Privacy Policy, and by law if you are a resident of California, you have the following rights:
+
+- **The right to notice.** You must be properly notified which categories of Personal Data are being collected and the purposes for which the Personal Data is being used.
+- **The right to access / the right to request.** The CCPA permits you to request and obtain from us information regarding the disclosure of your Personal Data that has been collected in the past 12 months by us or our subsidiaries or provided by us or our subsidiaries to a third-party for the third party’s direct marketing purposes.
+- **The right to say no to the sale of Personal Data.** You also have the right to ask us not to sell your Personal Data to third parties. Blockwatch does not sell your Private Information.
+- **The right to know about Your Personal Data.** You have the right to request and obtain the following information from us:
+	- The categories of Personal Data collected.
+	- The sources from which the Personal Data was collected.
+	- The business or commercial purpose for collecting or selling the Personal Data.
+	- Categories of third parties with whom we share Personal Data.
+    - The specific pieces of Personal Data we collected about You
+- **The right to delete Personal Data.** You also have the right to request the deletion of your Personal Data that has been collected in the past 12 months.
+- **The right not to be discriminated against.** You have the right not to be discriminated against for exercising any of your consumer's rights, including by:
+	- Denying goods or services to you.
+	- Charging different prices or rates for goods or services, including the use of discounts or other benefits or imposing penalties.
+	- Providing a different level or quality of goods or services to you.
+	- Suggesting that you will receive a different price or rate for goods or services or a different level or quality of goods or services.
+
+#### Exercising Your CCPA Data Protection Rights
+
+In order to exercise any of your rights under the CCPA, and if you are a California resident, you can email us at [privacy@blockwatch.cc](mailto:privacy@blockwatch.cc) or manage your privacy settings in your user profile on our web page.
+
+We will disclose and deliver the required information free of charge within 45 days of receiving your verifiable request. The time period to provide the required information may be extended once by an additional 45 days when reasonable necessary and with prior notice.
+
+#### Do Not Sell My Personal Information
+
+We **do not** sell your Personal Information for monetary or other consideration.
+
+The California Consumer Privacy Act of 2018 (“CCPA”) requires businesses to state in their privacy policy whether or not they disclose personal information in exchange for monetary or other valuable consideration. While CCPA only covers California residents, when it goes into effect we will voluntarily extend its core rights for people to control their data to all of our users in the United States, not just those who live in California. You can learn more about the CCPA and how we comply with it here.
+
+
+### 10 Updates to This Policy
 
 We may update this Privacy Policy to reflect changes to our information practices. If we change our Privacy Policy, we will post those changes to this Privacy Policy and change the "last revised" date above. If we make any material changes, notice of the changes will be posted along with the revised Privacy Policy. We encourage you to periodically review this page for the latest information on our privacy practices.
 
 
-### 8 Contact Us
+### 11 Contact Us
 
-If you have questions or concerns regarding your privacy or security on our Site, feel free to contact us at [info@tzstats.com](mailto:info@tzstats.com).
+If you have questions or concerns regarding your privacy or security on our Site, feel free to contact us at [privacy@blockwatch.cc](mailto:privacy@blockwatch.cc).
+
+	BLOCKWATCH DATA INC.
+	61 Greenpoint Ave
+	Suite 693
+	Brooklyn, NY 11222
+	United States

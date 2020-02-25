@@ -6,18 +6,15 @@ import CycleSnapshotInfo from '../components/Cycle/CycleSnapshotInfo';
 import CycleHealth from '../components/Cycle/CycleHealth';
 import DelegationTreeMap from '../components/Cycle/DelegationTreeMap';
 import { getChainData, getCycleById, getDelegationHistory } from '../services/api/tz-stats';
-import { buildTitle } from '../utils';
 import { Spinner } from '../components/Common';
 import { withRouter } from 'react-router-dom';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 const CyclePage = ({ match, history }) => {
   const [data, setData] = React.useState({ isLoaded: false, match });
   const [config] = useGlobal('config');
   const currentCycleId = match.params.id;
-
-  React.useEffect(() => {
-    document.title = buildTitle(config, 'Cycle', currentCycleId);
-  }, [config, currentCycleId]);
+  useMetaTags('Tezos Cycle', currentCycleId);
 
   React.useEffect(() => {
     const fetchData = async () => {

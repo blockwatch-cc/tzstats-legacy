@@ -1,24 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useGlobal } from 'reactn';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import { getOperations } from '../services/api/tz-stats';
-import { buildTitle } from '../utils';
 import { opNames } from '../config';
 import OperationDetails from '../components/Operations/OperationDetails';
 import OperationType from '../components/Operations/OperationType';
 import OperationError from '../components/Operations/OperationError';
 import { Spinner, NotFound, Error } from '../components/Common';
+import { getShortHash } from '../utils';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 const OperationPage = ({ match }) => {
   const [data, setData] = React.useState({ isLoaded: false, wait: false, isBulk: false, isCall: false });
-  const [config] = useGlobal('config');
   const hash = match.params.hash;
   useInfiniteScroll(fetchMore, 'body');
-
-  React.useEffect(() => {
-    document.title = buildTitle(config, 'Operation', hash);
-  }, [config, hash]);
+  useMetaTags('Tezos Operation', getShortHash(hash));
 
   async function fetchMore() {
     if (!data.ops.length) {
@@ -35,7 +31,6 @@ const OperationPage = ({ match }) => {
   const load = React.useCallback(async () => {
     try {
       let ops = await getOperations(hash);
-      document.title = buildTitle(config, opNames[ops[0].type], hash);
       setData({
         isLoaded: true,
         isBulk: ops.length > 1 && !ops[0].is_contract && ops[0].type === ops[1].type,
@@ -61,7 +56,7 @@ const OperationPage = ({ match }) => {
           });
       }
     }
-  }, [hash, config]);
+  }, [hash]);
 
   React.useEffect(() => {
     setData({ isLoaded: false, wait: false });

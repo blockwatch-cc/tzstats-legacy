@@ -1,5 +1,5 @@
 import { TZSTATS_API_URL } from '../../config';
-
+import { bakerAccounts } from '../../config/baker-accounts';
 import fetch from 'isomorphic-fetch';
 
 const request = async (endpoint, options) => {
@@ -111,6 +111,63 @@ export const getAccountOperations = async ({
     `/tables/op?${direction}=${address}&${typ}&order=${order}&columns=${columns.join(',')}&limit=${limit}${cursor}`
   );
   return unpackColumns({ response, columns });
+};
+
+/* Contract */
+export const getContract = async hash => {
+  const response = await request(`/explorer/contract/${hash}?`);
+  return response;
+};
+
+export const getContractCallsTable = async ({
+  address,
+  type = 'transaction',
+  direction = 'sender',
+  cursor,
+  columns,
+  limit = 100,
+  order = 'asc',
+}) => {
+  columns = columns || [
+    'row_id',
+    'type',
+    'hash',
+    'sender',
+    'receiver',
+    'is_success',
+    'time',
+    'volume',
+    'fee',
+    'burned',
+    'height',
+    'gas_used',
+    'gas_limit',
+  ];
+  const typ ='type=' + type;
+  cursor = cursor ? '&cursor=' + cursor : '';
+  const response = await request(
+    `/tables/op?${direction}=${address}&${typ}&order=${order}&columns=${columns.join(',')}&limit=${limit}${cursor}`
+  );
+  return unpackColumns({ response, columns });
+};
+
+export const getContractCalls = async ({
+  address,
+  type = 'transaction',
+  entrypoint,
+  offset,
+  limit = 100,
+  order = 'asc',
+}) => {
+  const typ ='type=' + type;
+  offset = offset ? '&offset=' + offset : '';
+  limit = limit ? '&limit=' + limit : '';
+  order = '&order='+order;
+  entrypoint = entrypoint ? '&entrypoint=' + entrypoint : '';
+  const response = await request(
+    `/explorer/contract/${address}/calls?${typ}${entrypoint}${order}${offset}${limit}`
+  );
+  return response;
 };
 
 export const getAccountVoting = async ({ address, op, cursor, limit = 50 }) => {
@@ -243,7 +300,7 @@ export const getDelegationHistory = async ({ cycle }) => {
 };
 
 //******************FLOW****************** */
-export const getStakingData = async ({ hash, days = 30 }) => {
+export const getStakingFlows = async ({ hash, days = 30 }) => {
   const statTime = `now-${days}d`;
   let [balance, deposits, rewards, fees, delegation] = await Promise.all([
     request(
@@ -292,7 +349,7 @@ function fillTimeSeries(series, days = 30, filler = 0, minlength = 1) {
   return res;
 }
 
-export const getFlowData = async ({ hash, days }) => {
+export const getBalanceFlow = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
   const response = await request(
     `/series/flow?start_date=${statTime}&address=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`
@@ -391,7 +448,7 @@ export const getBlockOperations = async ({ height, type = null, limit = 0, curso
     'is_success',
     'is_contract',
   ];
-  type = type ? '&type=' + type : '';
+  type = type ? '&type=' + type : '&type.in=transaction,activate_account,endorsement,delegation,origination,reveal,seed_nonce_revelation,double_baking_evidence,double_endorsement_evidence,proposals,ballot';
   cursor = cursor ? '&cursor=' + cursor : '';
   limit = limit ? '&limit=' + limit : '';
   const response = await request(
@@ -405,3 +462,178 @@ export const getOperations = async hash => {
   const response = await request(`/explorer/op/${hash}`);
   return response;
 };
+
+/* Token Model */
+export class Token {
+  constructor(address, bigmap_id ) {
+    this.addr = address;      // keep contract address
+    this.id = bigmap_id;      // keep contract bigmap id
+    this.script = null;       // contract script with entrypoints etc.
+    this.bigmap = null;       // bigmap metadata (for max number of keys and latest update)
+    this.type = null;         // detected token type
+    this.name = null;         // token name for rendering
+    this.code = null;         // token name for rendering (ie. symbol)
+    this.digits = 0;          // token precision
+    this._bval = [];          // full list of bigmap values fetched so far
+    this.holders = [];        // converted list of token holders extracted from bigmap
+    this.error = null;        // first fetch error
+    this.promise = null;      // in-progress promise
+    this.hpromise = null;     // in-progress holder fetching promise
+    this.eof = false;         // true when all bigmap values are fetched
+  }
+
+  // fetch initial data like script and bigmap info
+  async load() {
+    if (this.promise ) {
+      return this.promise;
+    }
+    this.error = null;
+    this.eof = false;
+    this.promise = Promise.all([
+      request(`/explorer/contract/${this.addr}/script`),
+      request(`/explorer/bigmap/${this.id}`),
+    ]).then(
+      async function(resp) {
+        this.processScript(resp[0]);
+        this.script = resp[0];
+        this.bigmap = resp[1];
+        this.eof = !this.bigmap.n_keys;
+        return this
+      }.bind(this),
+      async function(error) {
+        this.error = error;
+        throw error;
+      }.bind(this)
+    )
+    .then(this.more.bind(this, 100));
+    return this.promise;
+  }
+
+  async more(limit = 100) {
+    if (this.eof) {
+      return this; // async wraps this into a resolved promise
+    }
+    if (this.hpromise) {
+      return this.hpromise;
+    }
+    this.error = null;
+    this.hpromise = request(`/explorer/bigmap/${this.id}/values?unpack=1&offset=${this._bval.length}&limit=${limit}&block=${this.bigmap.update_block}`)
+    .then(
+      async function(resp) {
+        this.processBigmapValues(resp);
+        Array.prototype.push.apply(this._bval, resp);
+        this.eof = this._bval.length === this.bigmap.n_keys;
+        this.hpromise = null;
+        return this;
+      }.bind(this),
+      async function(error) {
+        this.hpromise = null;
+        this.error = error;
+        throw error;
+      }.bind(this)
+    );
+    return this.hpromise;
+  }
+
+  // special token impls must overwrite these functions to extract
+  // token info and holders
+  processBigmapValues(values = []) {
+    return values;
+  }
+
+  processScript(script) {
+    return;
+  }
+
+}
+
+export class FA12Token extends Token {
+  constructor(contract) {
+    super(contract);
+    this.type = 'fa12';
+  }
+
+  processBigmapValues(values = []) {
+    return values;
+  }
+
+  processScript(script) {
+    return;
+  }
+}
+
+// TZBTC high-level info is stored in the bigmap along with its ledger
+//
+// Name          Bigmap       Key          Value          Example
+// -------------------------------------------------------------
+// admin         proxy        admin        value_unpacked tz1aqsunnQ9ECPAfvRaWeMfiNFhF3s8M15sy
+// paused        proxy        paused       value_unpacked false
+// tokencode     proxy        tokencode    value_unpacked TZBTC
+// tokenname     proxy        tokenname    value_unpacked TZBTC
+// totalBurned   proxy        totalBurned  value_unpacked 0
+// totalMinted   proxy        totalMinted  value_unpacked 100
+// totalSupply   proxy        totalSupply  value_unpacked 100
+// redeemAdress  proxy        redeemAdress value_unpacked tz1aqsunnQ9ECPAfvRaWeMfiNFhF3s8M15sy
+//
+export class TZBTCToken extends Token {
+  constructor(address, meta = {}) {
+    super(address, meta.bigmap_id);
+    this.type = 'tzbtc';
+    this.digits = 6;
+    this.config = {};
+    this.txfn = meta.txfn || 'transfer';
+  }
+
+  processBigmapValues(values = []) {
+    values.forEach(val => {
+      switch (true) {
+      case val.key_pretty.startsWith('ledger'):
+        // ledger entries
+        this.holders.push({
+          address: val.key_unpacked['1@bytes'],
+          balance: parseInt(val.value_unpacked['0@int']),
+        });
+        break;
+      case val.key_pretty.startsWith('code'):
+        // ignore code entries
+        break;
+      default:
+        // non-ledger entries
+        this.config[val.key_pretty] = val.value_unpacked;
+        switch (val.key_pretty) {
+        case 'tokencode':
+          this.code = val.value_unpacked;
+          break;
+        case 'tokenname':
+          this.name = val.value_unpacked;
+          break;
+        default:
+        }
+      }
+    }, this);
+  }
+
+  // processScript(script) {
+  //   return;
+  // }
+}
+
+export async function makeToken(address) {
+  if (!address) {
+    return null;
+  }
+  const meta = bakerAccounts[address];
+  let token = null;
+  if (meta&&meta.token_type) {
+    switch (meta.token_type) {
+    case 'tzbtc':
+      token = new TZBTCToken(address, meta);
+      break;
+    case 'fa12':
+      token = new FA12Token(address, meta);
+      break;
+    default:
+    }
+  }
+  return token?token.load():null;
+}

@@ -2,29 +2,30 @@ import React from 'react';
 import BalanceHistory from '../components/Accounts/BalanceHistory';
 import TransactionHistory from '../components/Accounts/TransactionHistory';
 import AccountInfo from '../components/Accounts/AccountInfo';
-import { getAccountByHash, getFlowData, getStakingData } from '../services/api/tz-stats';
+import ContractInfo from '../components/Accounts/ContractInfo';
+import ContractTabs from '../components/Accounts/ContractTabs';
+import { getAccountByHash, getContract, getBalanceFlow, getStakingFlows, makeToken } from '../services/api/tz-stats';
 import { Spinner, NotFound, Error } from '../components/Common';
-import { wrapStakingData, wrapToBalance, getHashOrBakerName, getBakerName, buildTitle } from '../utils';
+import { wrapStakingData, wrapToBalance, getShortHashOrBakerName, getBakerName } from '../utils';
 import { useGlobal } from 'reactn';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 const AccountPage = ({ match }) => {
   const last = React.useRef({ last_seen: 0, address: null });
   const [data, setData] = React.useState({ isLoaded: false, wait: false });
   const [chain] = useGlobal('chain');
-  const [config] = useGlobal('config');
   const addr = match.params.hash;
-
-  React.useEffect(() => {
-    document.title = buildTitle(config, 'Account', getHashOrBakerName(addr));
-  }, [config, addr]);
+  useMetaTags('', getShortHashOrBakerName(addr));
 
   const load = React.useCallback(async () => {
     try {
       let account = await getAccountByHash(addr);
       if (last.current.address !== account.address || last.current.last_seen < account.last_seen) {
-        let [flowData, stakingData] = await Promise.all([
-          getFlowData({ hash: addr, days: 30 }),
-          getStakingData({ hash: addr, days: 30 }),
+        let [flowData, stakingData, contract, token] = await Promise.all([
+          getBalanceFlow({ hash: addr, days: 30 }),
+          getStakingFlows({ hash: addr, days: 30 }),
+          account.is_contract?getContract(addr):null,
+          account.is_contract?makeToken(addr):null
         ]);
         let staking = wrapStakingData({ ...stakingData, account });
         let balance = wrapToBalance(flowData, account);
@@ -33,6 +34,8 @@ const AccountPage = ({ match }) => {
           isLoaded: true,
           balance,
           staking,
+          contract,
+          token,
         });
       } else {
         setData(data => {
@@ -41,6 +44,8 @@ const AccountPage = ({ match }) => {
             balance: data.balance,
             staking: data.staking,
             account: account,
+            contract: data.contract,
+            token: data.token,
           };
         });
       }
@@ -79,6 +84,14 @@ const AccountPage = ({ match }) => {
       return <Error err={data.error} />;
     case data.wait:
       return <NotFound reloadFunc={load} type="account" hash={addr} />;
+    case data.account.is_contract:
+      return (
+        <>
+          <h1>{getBakerName(addr)||'Contract'}</h1>
+          <ContractInfo account={data.account} contract={data.contract} token={data.token} />
+          <ContractTabs account={data.account} contract={data.contract} token={data.token} />
+        </>
+      );
     default:
       return (
         <>

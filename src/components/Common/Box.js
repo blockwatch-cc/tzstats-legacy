@@ -351,7 +351,11 @@ export const TableHeader = styled(RowSpace)`
 
 export const TableHeaderCell = styled.div`
   width: ${props => props.width}%;
+  justify-content: ${props => props.justify||'flex-start'};
   padding: 3px 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
   // min-width: max-content;
 
@@ -367,6 +371,7 @@ export const TableRow = styled(RowSpace)`
 export const TableCell = styled.div`
   font-size: 12px;
   width: ${props => props.width}%;
+  justify-content: ${props => props.justify||'flex-start'};
   min-width: max-content;
   padding: 4px 5px;
   white-space: nowrap;

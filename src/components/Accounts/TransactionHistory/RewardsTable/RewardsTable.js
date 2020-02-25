@@ -170,11 +170,11 @@ const RewardsTable = ({ account }) => {
             <TableRow key={i} color={item.color}>
               <TableCell width={5}><Value value={item.cycle} type="value-full"/></TableCell>
               <TableCell width={8}>{item.status}</TableCell>
-              <TableCell width={11}><Value value={item.baking_income} type="currency" digits={0} zero="-"/></TableCell>
-              <TableCell width={11}><Value value={item.endorsing_income} type="currency" digits={0} zero="-"/></TableCell>
-              <TableCell width={10}><Value value={item.seed_income + item.double_baking_income + item.double_endorsing_income} type="currency" digits={0} zero="-"/></TableCell>
-              <TableCell width={10}><Value value={item.fees_income} type="currency" digits={0} zero="-"/></TableCell>
-              <TableCell width={10}><Value value={item.total_lost} type="currency" digits={0} zero="-"/></TableCell>
+              <TableCell width={11}><Value value={item.baking_income} type="currency" sym="" digits={0} zero="-"/></TableCell>
+              <TableCell width={11}><Value value={item.endorsing_income} type="currency" sym="" digits={0} zero="-"/></TableCell>
+              <TableCell width={10}><Value value={item.seed_income + item.double_baking_income + item.double_endorsing_income} type="currency" sym="" digits={0} zero="-"/></TableCell>
+              <TableCell width={10}><Value value={item.fees_income} type="currency" sym="" digits={0} zero="-"/></TableCell>
+              <TableCell width={10}><Value value={item.total_lost} type="currency" sym="" digits={0} zero="-"/></TableCell>
               <TableCell width={15}>
                 <Value value={item.luck_percent/100} type="percent" digits={2} zero="-"/>
                 &nbsp;/&nbsp;

@@ -1,8 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { RowSpace } from './index';
-import { Tz } from './Tz';
-import { formatCurrency, formatValue, formatDayTime, formatDay, formatTime, isUndefined } from '../../utils';
+import { Flex } from './index';
+import {
+  formatCurrency,
+  formatValue,
+  formatDayTime,
+  formatDay,
+  formatTime,
+  isUndefined,
+  getShortHashOrBakerName,
+  timeAgo,
+} from '../../utils';
 
 //Todo refactoring
 const DataBox = ({
@@ -11,8 +20,8 @@ const DataBox = ({
   valueType,
   valueOpts,
   type = '',
-  valueSize = '14px',
-  titleSize = '10px',
+  valueSize = 1,
+  titleSize = 0.75,
   ta = 'left',
   ml = '0',
   mr = '0',
@@ -20,39 +29,39 @@ const DataBox = ({
   switch (type) {
     case 'title-bottom':
       return (
-        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
+        <Wrapper ta={ta} ml={ml} mr={mr} size={valueSize}>
           {title && (valueType && !value) ? (
-            <Title fontSize={titleSize}>
+            <Title size={titleSize}>
               <Value type={valueType} value={title} {...valueOpts} />
             </Title>
           ) : (
-            <Title fontSize={titleSize}>{title}</Title>
+            <Title size={titleSize}>{title}</Title>
           )}
-          {value !== undefined && <Value type={valueType} value={value} fontSize={valueSize} />}
+          {value !== undefined && <Value type={valueType} value={value} size={valueSize} />}
         </Wrapper>
       );
     case 'value-as-title':
       return (
-        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
+        <Wrapper ta={ta} ml={ml} mr={mr} size={valueSize}>
           {title}
           {value !== undefined && (
-            <Title fontSize={titleSize}>
-              <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />
+            <Title size={titleSize}>
+              <Value type={valueType} value={value} {...valueOpts} size={valueSize} />
             </Title>
           )}
         </Wrapper>
       );
     case 'horizontal-value-as-title':
       return (
-        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
-          <RowSpace>
-            {<div style={{ paddingRight: '10px' }}>{title}</div>}
+        <Wrapper ta={ta} ml={ml} mr={mr} size={valueSize}>
+          <Flex justifyContent="space-between" alignItems="center">
+            {<div style={{ paddingRight: '20px' }}>{title}</div>}
             {value !== undefined && (
-              <Title fontSize={titleSize}>
-                <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />
+              <Title size={titleSize}>
+                <Value type={valueType} value={value} {...valueOpts} size={valueSize} />
               </Title>
             )}
-          </RowSpace>
+          </Flex>
         </Wrapper>
       );
     case 'inline':
@@ -64,9 +73,9 @@ const DataBox = ({
       );
     default:
       return (
-        <Wrapper ta={ta} ml={ml} mr={mr} fontSize={valueSize}>
-          {value !== undefined && <Value type={valueType} value={value} {...valueOpts} fontSize={valueSize} />}
-          {title && <Title fontSize={titleSize}>{title}</Title>}
+        <Wrapper ta={ta} ml={ml} mr={mr} size={valueSize}>
+          {value !== undefined && <Value type={valueType} value={value} {...valueOpts} size={valueSize} />}
+          {title && <Title size={titleSize}>{title}</Title>}
         </Wrapper>
       );
   }
@@ -86,6 +95,7 @@ export const Value = ({
   dim = true,
   zero = null,
   fontSize = 12,
+  ...props
 }) => {
   if (value === 0 && zero) {
     return zero;
@@ -99,9 +109,18 @@ export const Value = ({
   let res = '';
   switch (type) {
     case 'plain':
-      return value;
+      return (<ValueWrapper {...props}>{value}</ValueWrapper>);
     case 'text':
-      return [prefix, value, suffix].join('');
+      return (<ValueWrapper {...props}>{[prefix, value, suffix].join('')}</ValueWrapper>);
+    case 'address':
+      return (
+        <ValueWrapper {...props}>
+          <Link to={`/$value`}>{getShortHashOrBakerName(value)}</Link>
+        </ValueWrapper>
+      );
+    case 'ago':
+      res = timeAgo.format(new Date(value));
+      break;
     case 'datetime':
       res = formatDayTime(value, 1, 1);
       break;
@@ -112,23 +131,24 @@ export const Value = ({
       res = formatTime(value);
       break;
     case 'currency':
-      sym = isUndefined(sym) ? 'ꜩ' : sym;
+      sym = isUndefined(sym) ? 'XTZ' : sym;
       if (!!digits) {
-        res = formatCurrency(value, '.' + digits + 's');
+        res = formatCurrency(value, ',.' + digits + 'f');
       } else {
         res = formatCurrency(value, ',');
       }
       break;
     case 'currency-short':
-      sym = isUndefined(sym) ? 'ꜩ' : sym;
-      res = formatCurrency(value, '~s');
+      sym = isUndefined(sym) ? 'XTZ' : sym;
+      // res = formatCurrency(value, '~s');
+      res = formatCurrency(value, ',');
       break;
     case 'currency-flex':
-      sym = isUndefined(sym) ? 'ꜩ' : sym;
+      sym = isUndefined(sym) ? 'XTZ' : sym;
       res = formatCurrency(value, ',.' + digits + 'r');
       break;
     case 'currency-full':
-      sym = isUndefined(sym) ? 'ꜩ' : sym;
+      sym = isUndefined(sym) ? 'XTZ' : sym;
       res = formatCurrency(value.toFixed(6), ',');
       break;
     case 'currency-usd':
@@ -162,49 +182,51 @@ export const Value = ({
   }
   let arr = re.exec(res);
   return arr && arr.length ? (
-    <ValueWrapper>
+    <ValueWrapper {...props}>
       {`${prefix}${arr[1]}`}
       {dim ? <Dim>.{arr[2]}</Dim> : '.' + arr[2]}
       {arr[3]}
-      {arr[3] ? '' : ' '}
-      {sym === 'ꜩ' ? <Tz fontSize={fontSize} /> : sym}
+      {' '}
+      {sym}
       {suffix}
     </ValueWrapper>
   ) : (
-    <ValueWrapper>
+    <ValueWrapper {...props}>
       {res}
-      {res.match(/.*[MkGmµ]$/) ? '' : ' '}
-      {sym === 'ꜩ' ? <Tz fontSize={fontSize} /> : sym}
+      {' '}
+      {sym}
       {suffix}
     </ValueWrapper>
   );
 };
 
-const Dim = styled.small`
-  opacity: 0.7;
-  font-size: 85%;
-  font-weight: 200;
+export const Dim = styled.span`
+  opacity: 0.5;
 `;
 
 const Wrapper = styled.div`
-  font-size: ${props => props.fontSize};
+  font-size: ${props => props.size + 'rem'};
   text-align: ${props => props.ta};
-  margin-left: ${props => (props.ml || 0) + 'px'};
-  margin-right: ${props => (props.mr || 0) + 'px'};
+  margin-left: ${props => (props.ml || 0) + 'rem'};
+  margin-right: ${props => (props.mr || 0) + 'rem'};
+  padding: ${props => (props.pad || 0) + 'rem'};
+  opacity: ${props => props.opacity || 1};
   white-space: nowrap;
 `;
 
 const ValueWrapper = styled.span`
-  font-size: ${props => props.fontSize};
+  font-size: ${props => props.size};
   text-align: ${props => props.ta};
-  margin-left: ${props => (props.ml || 0) + 'px'};
-  margin-right: ${props => (props.mr || 0) + 'px'};
+  margin-left: ${props => (props.ml || 0) + 'rem'};
+  margin-right: ${props => (props.mr || 0) + 'rem'};
+  padding: ${props => (props.pad || 0) + 'rem'};
+  opacity: ${props => props.opacity || 1};
   white-space: nowrap;
 `;
 
 const Title = styled.div`
   color: rgba(255, 255, 255, 0.52);
-  font-size: ${props => props.fontSize};
+  font-size: ${props => props.size + 'rem'};
 `;
 
 const InlineTitle = styled.span`

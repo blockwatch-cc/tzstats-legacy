@@ -62,7 +62,7 @@ class StackedBarChart extends React.Component {
             axisAt="right"
             orient="right"
             ticks={4}
-            tickFormat={x => format('~s')(x) + 'ꜩ'}
+            tickFormat={x => format('~s')(x) + 'XTZ'}
             tickStrokeDasharray={'Solid'}
             tickStrokeOpacity={0.3}
             tickStrokeWidth={1}

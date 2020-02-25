@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { timeAgo } from '../../../../utils';
 import { useGlobal } from 'reactn';
 import { Card, Elevation } from '@blueprintjs/core';
-import { DataBox, FlexRowSpaceBetween, FlexColumn, LinkIcon } from '../../../Common';
+import { DataBox, FlexColumn, LinkIcon } from '../../../Common';
 import { withRouter, Link } from 'react-router-dom';
 
 function calcAgo(last) {
@@ -33,15 +33,13 @@ const LastBlock = ({ history }) => {
       <Link to={`/${chain.block_hash}`}>
       <LinkIcon>&#x25E5;</LinkIcon>
       <Card interactive={true} elevation={Elevation.ZERO}>
-        <FlexRowSpaceBetween>
-          <FlexColumn>
-            <DataBox
-              valueSize="16px"
-              title={`Latest Block seen ${ago}`}
-              value={chain.height}
-            />
-          </FlexColumn>
-        </FlexRowSpaceBetween>
+        <FlexColumn>
+          <DataBox
+            valueSize="16px"
+            title={`Latest Block seen ${ago}`}
+            value={chain.height}
+          />
+        </FlexColumn>
       </Card>
       </Link>
     </Wrapper>

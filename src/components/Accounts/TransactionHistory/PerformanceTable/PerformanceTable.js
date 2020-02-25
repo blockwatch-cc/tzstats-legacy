@@ -71,7 +71,7 @@ const PerformanceTable = ({ account }) => {
             valueSize="14px"
             valueType="percent"
             valueOpts={{ digits: 2, zero: '-' }}
-            title={`Performance ${formatCurrency(data.total - data.lost)} tz`}
+            title={`Performance ${formatCurrency(data.total - data.lost)} XTZ`}
             value={data.income.performance_percent / 100}
           />
           <CycleSwitcher>
@@ -91,7 +91,7 @@ const PerformanceTable = ({ account }) => {
             valueSize="14px"
             valueType="percent"
             valueOpts={{ digits: 2, zero: '-' }}
-            title={`Luck ${formatCurrency(data.income.expected_income)} tz`}
+            title={`Luck ${formatCurrency(data.income.expected_income)} XTZ`}
             value={data.income.luck_percent / 100}
           />
         </FlexRowSpaceBetween>

@@ -36,10 +36,10 @@ const Legend = ({ data }) => {
     <LegendWrapper>
       {data.map((item, i) => {
         return (
-          <FlexColumn key={i}>
+          <LegendItem key={i}>
             <div style={{ fontSize: 14 }}>{item.id}</div>
-            <DataBox titleSize="12px" title={formatCurrency(item.value, '.3s')+'tz'} />
-          </FlexColumn>
+            <DataBox titleSize="12px" title={formatCurrency(item.value, '.3s')} />
+          </LegendItem>
         );
       })}
     </LegendWrapper>
@@ -51,6 +51,11 @@ const LegendWrapper = styled.div`
   flex-direction: row;
   margin-top: 10px;
   justify-content: space-between;
+`;
+
+const LegendItem = styled(FlexColumn)`
+  text-align: center;
+  min-width: 40px;
 `;
 
 const Wrapper = styled.div`
