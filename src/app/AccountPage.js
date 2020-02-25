@@ -24,14 +24,13 @@ const AccountPage = ({ match }) => {
       let account = await getAccountByHash(addr);
       if (last.current.address !== account.address || last.current.last_seen < account.last_seen) {
         let [flowData, stakingData, contract] = await Promise.all([
-          !account.is_contract?getBalanceFlow({ hash: addr, days: 30 }):null,
-          account.is_delegate||account.is_delegated?getStakingFlows({ hash: addr, days: 30 }):null,
+          getBalanceFlow({ hash: addr, days: 30 }),
+          getStakingFlows({ hash: addr, days: 30 }),
           account.is_contract?getContract(addr):null
         ]);
         let staking = wrapStakingData({ ...stakingData, account });
         let balance = wrapToBalance(flowData, account);
         let token = null;
-        console.log('Staking', staking, account.is_delegated, account.is_delegate);
         if (meta&&meta.token_type) {
           switch (meta.token_type) {
           case 'tzbtc':
