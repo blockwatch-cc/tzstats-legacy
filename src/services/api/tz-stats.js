@@ -1,5 +1,5 @@
 import { TZSTATS_API_URL } from '../../config';
-
+import { bakerAccounts } from '../../config/baker-accounts';
 import fetch from 'isomorphic-fetch';
 
 const request = async (endpoint, options) => {
@@ -465,9 +465,9 @@ export const getOperations = async hash => {
 
 /* Token Model */
 export class Token {
-  constructor(contract ) {
-    this.addr = contract.address;      // keep contract address
-    this.id = contract.bigmap_ids[0];  // keep contract bigmap id
+  constructor(address, bigmap_id ) {
+    this.addr = address;      // keep contract address
+    this.id = bigmap_id;      // keep contract bigmap id
     this.script = null;       // contract script with entrypoints etc.
     this.bigmap = null;       // bigmap metadata (for max number of keys and latest update)
     this.type = null;         // detected token type
@@ -576,8 +576,8 @@ export class FA12Token extends Token {
 // redeemAdress  proxy        redeemAdress value_unpacked tz1aqsunnQ9ECPAfvRaWeMfiNFhF3s8M15sy
 //
 export class TZBTCToken extends Token {
-  constructor(contract, meta = {}) {
-    super(contract);
+  constructor(address, meta = {}) {
+    super(address, meta.bigmap_id);
     this.type = 'tzbtc';
     this.digits = 6;
     this.config = {};
@@ -618,3 +618,22 @@ export class TZBTCToken extends Token {
   // }
 }
 
+export async function makeToken(address) {
+  if (!address) {
+    return null;
+  }
+  const meta = bakerAccounts[address];
+  let token = null;
+  if (meta&&meta.token_type) {
+    switch (meta.token_type) {
+    case 'tzbtc':
+      token = new TZBTCToken(address, meta);
+      break;
+    case 'fa12':
+      token = new FA12Token(address, meta);
+      break;
+    default:
+    }
+  }
+  return token?token.load():null;
+}

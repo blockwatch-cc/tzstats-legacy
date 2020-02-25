@@ -12,19 +12,6 @@ import {
 
 const TzbtcInfo = ({ token }) => {
 
-  // load bigmap keys
-  // let tzbtc = {
-  //   admin: 'tz1aqsunnQ9ECPAfvRaWeMfiNFhF3s8M15sy',
-  //   paused: false,
-  //   tokencode: 'TZBTC',
-  //   tokenname: 'TZBTC',
-  //   totalBurned: 0,
-  //   totalMinted: 100,
-  //   totalSupply: 100,
-  //   redeemAdress: 'tz1aqsunnQ9ECPAfvRaWeMfiNFhF3s8M15sy',
-  // };
-  // console.log('Token', token);
-
   return (
     <Card title={'Token Details'}>
       <FlexRowSpaceBetween mt={10}>

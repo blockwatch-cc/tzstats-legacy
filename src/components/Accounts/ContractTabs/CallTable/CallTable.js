@@ -59,10 +59,10 @@ const CallTableTpl = ({ data, contract, incoming }) => {
       <TableHeader>
         <TableHeaderCell width={3}>No</TableHeaderCell>
         <TableHeaderCell width={18}>Sender</TableHeaderCell>
-        <TableHeaderCell width={18}>Target</TableHeaderCell>
-        <TableHeaderCell width={12}>Call</TableHeaderCell>
-        <TableHeaderCell width={12}>Fee</TableHeaderCell>
-        <TableHeaderCell width={20}>Date</TableHeaderCell>
+        <TableHeaderCell width={17}>Target</TableHeaderCell>
+        <TableHeaderCell width={15}>Call</TableHeaderCell>
+        <TableHeaderCell width={10}>Fee</TableHeaderCell>
+        <TableHeaderCell width={18}>Date</TableHeaderCell>
         <TableHeaderCell width={15}>Hash</TableHeaderCell>
       </TableHeader>
       <TableBody id="calls">
@@ -76,17 +76,17 @@ const CallTableTpl = ({ data, contract, incoming }) => {
                     <Blockies hash={item.sender} />
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                   </TableCell>
-                  <TableCell width={18}>
+                  <TableCell width={17}>
                     <Blockies hash={item.receiver} />
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                   </TableCell>
-                  <TableCell width={12}>
+                  <TableCell width={15}>
                     <Value value={item.parameters.call} type="plain"/>
                   </TableCell>
-                  <TableCell width={12}>
+                  <TableCell width={10}>
                     <Value value={item.fee>0?item.fee:0} type="currency" digits={6} zero="-"/>
                   </TableCell>
-                  <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
+                  <TableCell width={18}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={15}>
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>

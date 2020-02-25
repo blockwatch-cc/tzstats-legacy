@@ -4,12 +4,11 @@ import TransactionHistory from '../components/Accounts/TransactionHistory';
 import AccountInfo from '../components/Accounts/AccountInfo';
 import ContractInfo from '../components/Accounts/ContractInfo';
 import ContractTabs from '../components/Accounts/ContractTabs';
-import { getAccountByHash, getContract, getBalanceFlow, getStakingFlows, TZBTCToken, FA12Token } from '../services/api/tz-stats';
+import { getAccountByHash, getContract, getBalanceFlow, getStakingFlows, makeToken } from '../services/api/tz-stats';
 import { Spinner, NotFound, Error } from '../components/Common';
 import { wrapStakingData, wrapToBalance, getShortHashOrBakerName, getBakerName } from '../utils';
 import { useGlobal } from 'reactn';
 import { useMetaTags } from '../hooks/useMetaTags';
-import { bakerAccounts } from '../config/baker-accounts';
 
 const AccountPage = ({ match }) => {
   const last = React.useRef({ last_seen: 0, address: null });
@@ -17,32 +16,19 @@ const AccountPage = ({ match }) => {
   const [chain] = useGlobal('chain');
   const addr = match.params.hash;
   useMetaTags('', getShortHashOrBakerName(addr));
-  const meta = bakerAccounts[addr];
 
   const load = React.useCallback(async () => {
     try {
       let account = await getAccountByHash(addr);
       if (last.current.address !== account.address || last.current.last_seen < account.last_seen) {
-        let [flowData, stakingData, contract] = await Promise.all([
+        let [flowData, stakingData, contract, token] = await Promise.all([
           getBalanceFlow({ hash: addr, days: 30 }),
           getStakingFlows({ hash: addr, days: 30 }),
-          account.is_contract?getContract(addr):null
+          account.is_contract?getContract(addr):null,
+          account.is_contract?makeToken(addr):null
         ]);
         let staking = wrapStakingData({ ...stakingData, account });
         let balance = wrapToBalance(flowData, account);
-        let token = null;
-        if (meta&&meta.token_type) {
-          switch (meta.token_type) {
-          case 'tzbtc':
-            token = new TZBTCToken(contract, meta);
-            break;
-          case 'fa12':
-            token = new FA12Token(contract, meta);
-            break;
-          default:
-          }
-          await token.load();
-        }
         setData({
           account,
           isLoaded: true,
@@ -83,7 +69,7 @@ const AccountPage = ({ match }) => {
           });
       }
     }
-  }, [addr, meta]);
+  }, [addr]);
 
   React.useEffect(() => {
     if (chain.height) {
