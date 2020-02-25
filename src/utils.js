@@ -97,6 +97,9 @@ export function formatCurrencyShort(value, symbol = 'XTZ') {
 export const addCommas = format(',');
 
 export function wrapToBalance(flowData, account) {
+  if (!account) {
+    return [];
+  }
   let spendableBalance = account.spendable_balance;
   const day = 1000 * 60 * 60 * 24;
   let today = new Date().setUTCHours(0, 0, 0, 0) + day;
@@ -132,7 +135,10 @@ export function wrapToVolume(volSeries) {
   return volume;
 }
 
-export function wrapStakingData({ balance, deposits, rewards, fees, account, delegation }) {
+export function wrapStakingData({ balance, deposits, rewards, fees, delegation, account }) {
+  if (!account) {
+    return [];
+  }
   let spendableBalance = account.spendable_balance;
   let frozenDeposit = account.frozen_deposits;
   let frozenRewards = account.frozen_rewards;

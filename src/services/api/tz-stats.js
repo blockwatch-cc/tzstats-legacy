@@ -300,7 +300,7 @@ export const getDelegationHistory = async ({ cycle }) => {
 };
 
 //******************FLOW****************** */
-export const getStakingData = async ({ hash, days = 30 }) => {
+export const getStakingFlows = async ({ hash, days = 30 }) => {
   const statTime = `now-${days}d`;
   let [balance, deposits, rewards, fees, delegation] = await Promise.all([
     request(
@@ -349,7 +349,7 @@ function fillTimeSeries(series, days = 30, filler = 0, minlength = 1) {
   return res;
 }
 
-export const getFlowData = async ({ hash, days }) => {
+export const getBalanceFlow = async ({ hash, days }) => {
   const statTime = `now-${days}d`;
   const response = await request(
     `/series/flow?start_date=${statTime}&address=${hash}&category=balance&collapse=1d&columns=time,amount_in,amount_out`
