@@ -47,7 +47,10 @@
       "react-app",
       "plugin:prettier/recommended",
       "prettier/react"
-    ]
+    ],
+    "rules": {
+      "no-fallthrough": ["error", { "commentPattern": "break[\\s\\w]*omitted" }]
+    }
   },
   "babel": {
     "presets": [

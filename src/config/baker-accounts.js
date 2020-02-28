@@ -7,6 +7,8 @@ export const bakerAccounts = {
   tz1MJx9vhaNRSimcuXPK2rW4fLccQnDAnVKJ: { name: 'AirGap', logo: null, link: '', fee_type: '', fee: 0 },
   tz1XhnCdVENzgko5x1MMswLHSoQbJ5NPwLZ6: { name: 'Anonstake', logo: null, link: '', fee_type: '', fee: 0 },
   tz3e75hU4EhDU3ukyJueh5v6UvEHzGwkg3yC: { name: 'At James', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1ZcTRk5uxD86EFEn1vvNffWWqJy7q5eVhc: { name: 'AZETA', logo: null, link: '', fee_type: '', fee: 0 },
+  tz1TqU5hwh6CtC8Ps5GYBi7YyawvtKLNCbvQ: { name: 'AZETA Payouts', logo: null, link: '', fee_type: '', fee: 0 },
   tz1KksC8RvjUWAbXYJuNrUbontHGor26Cztk: { name: 'Bakednode', logo: null, link: '', fee_type: '', fee: 0 },
   tz1aRhFErGMgL57DYHMT1vYwv7PzsJN1chrk: { name: 'Baked Tezos', logo: null, link: '', fee_type: '', fee: 0 },
   tz1Z1WwoqgRFbLE3YNdYRpCx44NSfiMJzeAG: { name: 'Bakemon', logo: null, link: '', fee_type: '', fee: 0 },
@@ -220,6 +222,7 @@ export const bakerAccounts = {
   tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE: { name: 'ØCrypto Pool', logo: null, link: '', fee_type: '', fee: 0 },
   KT1LH2o12xVRwTpJMZ6QJG74Fox8gE9QieFd: { name: 'TZBTC', logo: null, link: '', fee_type: '', fee: 0, token_type: 'tzbtc', bigmap_id: 446 },
   KT1NCuMkcRrGDSiB5BX4xyBGEUtyyF7YDDYz: { name: 'TZBTC', logo: null, link: '', fee_type: '', fee: 0, token_type: 'tzbtc', bigmap_id: 518, txfn: '__entry_13__' },
+  KT1VG2WtYdSWz5E7chTeAdDPZNy2MpP8pTfL: { name: 'Atomex', logo: null, link: '', fee_type: '', fee: 0, token_type: 'atomex', bigmap_id: 4, txfn: 'redeem' },
 };
 
 let payoutMap = null;

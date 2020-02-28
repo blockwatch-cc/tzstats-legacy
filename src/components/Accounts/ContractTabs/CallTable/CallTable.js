@@ -2,7 +2,7 @@ import React from 'react';
 import { Spinner } from '../../../../components/Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 import { TableBody, TableHeader, TableHeaderCell, TableRow, TableCell, TableDetails, Blockies, NoDataFound, Value } from '../../../Common';
-import { getShortHashOrBakerName } from '../../../../utils';
+import { getShortHashOrBakerName, getShortHash } from '../../../../utils';
 import { Link } from 'react-router-dom';
 import { getContractCalls } from '../../../../services/api/tz-stats';
 
@@ -14,7 +14,6 @@ const CallTable = ({ contract }) => {
     if (data.eof) { return; }
     let calls = await getContractCalls({
       address: contract.address,
-      type: 'transaction',
       order: 'desc',
       offset: data.table.length
     });
@@ -30,7 +29,6 @@ const CallTable = ({ contract }) => {
     const fetchData = async () => {
       let calls = await getContractCalls({
         address: contract.address,
-        type: 'transaction',
         order: 'desc',
       });
       let eof = !calls.length;
@@ -54,6 +52,13 @@ const CallTable = ({ contract }) => {
 };
 
 const CallTableTpl = ({ data, contract, incoming }) => {
+  function shortenHash(h) {
+    if (h === contract.address) {
+      return 'Self';
+    }
+    return getShortHashOrBakerName(h);
+  }
+
   return (
     <>
       <TableHeader>
@@ -74,21 +79,21 @@ const CallTableTpl = ({ data, contract, incoming }) => {
                   <TableCell width={3}><TableDetails>{i+1}</TableDetails></TableCell>
                   <TableCell width={18}>
                     <Blockies hash={item.sender} />
-                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.sender}`}>{shortenHash(item.sender)}</Link>
                   </TableCell>
                   <TableCell width={17}>
                     <Blockies hash={item.receiver} />
-                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.receiver}`}>{shortenHash(item.receiver)}</Link>
                   </TableCell>
                   <TableCell width={15}>
-                    <Value value={item.parameters.call} type="plain"/>
+                    <Value value={item.parameters?item.parameters.call:item.type} type="plain"/>
                   </TableCell>
                   <TableCell width={10}>
                     <Value value={item.fee>0?item.fee:0} type="currency" digits={6} zero="-"/>
                   </TableCell>
                   <TableCell width={18}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={15}>
-                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.hash}`}>{getShortHash(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
               );

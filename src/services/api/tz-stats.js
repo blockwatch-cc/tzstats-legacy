@@ -143,7 +143,7 @@ export const getContractCallsTable = async ({
     'gas_used',
     'gas_limit',
   ];
-  const typ ='type=' + type;
+  const typ = Array.isArray(type)?'type.in=' + type.join(','):'type='+type;
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     `/tables/op?${direction}=${address}&${typ}&order=${order}&columns=${columns.join(',')}&limit=${limit}${cursor}`
@@ -159,7 +159,7 @@ export const getContractCalls = async ({
   limit = 100,
   order = 'asc',
 }) => {
-  const typ ='type=' + type;
+  const typ = Array.isArray(type)?'type.in=' + type.join(','):'type='+type;
   offset = offset ? '&offset=' + offset : '';
   limit = limit ? '&limit=' + limit : '';
   order = '&order='+order;
@@ -470,6 +470,7 @@ export class Token {
     this.id = bigmap_id;      // keep contract bigmap id
     this.script = null;       // contract script with entrypoints etc.
     this.bigmap = null;       // bigmap metadata (for max number of keys and latest update)
+    this.storage = null;      // most recent contract storage
     this.type = null;         // detected token type
     this.name = null;         // token name for rendering
     this.code = null;         // token name for rendering (ie. symbol)
@@ -491,13 +492,14 @@ export class Token {
     this.eof = false;
     this.promise = Promise.all([
       request(`/explorer/contract/${this.addr}/script`),
-      request(`/explorer/bigmap/${this.id}`),
+      request(`/explorer/contract/${this.addr}/storage`),
+      this.id?request(`/explorer/bigmap/${this.id}`):null,
     ]).then(
       async function(resp) {
-        this.processScript(resp[0]);
-        this.script = resp[0];
-        this.bigmap = resp[1];
-        this.eof = !this.bigmap.n_keys;
+        this.script = this.processScript(resp[0]);
+        this.storage = this.processStorage(resp[1]);
+        this.bigmap = resp[2];
+        this.eof = !this.bigmap||!this.bigmap.n_keys;
         return this
       }.bind(this),
       async function(error) {
@@ -542,7 +544,11 @@ export class Token {
   }
 
   processScript(script) {
-    return;
+    return script;
+  }
+
+  processStorage(storage) {
+    return storage;
   }
 
 }
@@ -553,12 +559,9 @@ export class FA12Token extends Token {
     this.type = 'fa12';
   }
 
-  processBigmapValues(values = []) {
-    return values;
-  }
-
-  processScript(script) {
-    return;
+  processStorage(storage) {
+    this.config.totalSupply = storage.value.totalSupply;
+    return storage;
   }
 }
 
@@ -612,28 +615,25 @@ export class TZBTCToken extends Token {
       }
     }, this);
   }
-
-  // processScript(script) {
-  //   return;
-  // }
 }
 
-export async function makeToken(address) {
+export async function makeToken(address, bigmap_id) {
   if (!address) {
     return null;
   }
-  const meta = bakerAccounts[address];
+  const meta = bakerAccounts[address]||{};
+  const typ = meta.token_type||'unknown';
   let token = null;
-  if (meta&&meta.token_type) {
-    switch (meta.token_type) {
-    case 'tzbtc':
-      token = new TZBTCToken(address, meta);
-      break;
-    case 'fa12':
-      token = new FA12Token(address, meta);
-      break;
-    default:
-    }
+  switch (typ) {
+  case 'tzbtc':
+    token = new TZBTCToken(address, meta);
+    break;
+  case 'fa12':
+    token = new FA12Token(address, meta);
+    break;
+  default:
+    token = new Token(address, bigmap_id);
+    break;
   }
   return token?token.load():null;
 }

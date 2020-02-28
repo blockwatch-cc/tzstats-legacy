@@ -5,9 +5,11 @@ import { formatValue } from '../../../utils';
 import CallTable from './CallTable';
 import HolderTable from './HolderTable';
 import TransferTable from './TransferTable';
+import EntrypointTable from './EntrypointTable';
+import StorageTable from './StorageTable';
 
 const ContractTabs = ({ contract, token }) => {
-  const [data, setData] = React.useState({ tab: !!token?'holders':'calls' });
+  const [data, setData] = React.useState({ tab: !!token.type?'holders':'calls' });
   const handleClick = tab => {
     setData({ tab: tab });
   };
@@ -16,7 +18,7 @@ const ContractTabs = ({ contract, token }) => {
     <Wrapper>
       <Card>
         <Tabs>
-          {token?(
+          {token.type?(
           <>
             <Tab active={data.tab === 'holders'} onClick={e => handleClick('holders')}>
               Holders
@@ -57,6 +59,10 @@ const OperationsTable = ({ type, contract, token }) => {
       return <TransferTable token={token} />;
     case 'calls':
       return <CallTable contract={contract} incoming={true} type={'transaction'} />;
+    case 'entry':
+      return <EntrypointTable contract={contract} token={token} />;
+    case 'store':
+      return <StorageTable contract={contract} token={token} />;
     default:
       return <></>;
   }

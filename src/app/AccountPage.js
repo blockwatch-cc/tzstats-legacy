@@ -21,14 +21,15 @@ const AccountPage = ({ match }) => {
     try {
       let account = await getAccountByHash(addr);
       if (last.current.address !== account.address || last.current.last_seen < account.last_seen) {
-        let [flowData, stakingData, contract, token] = await Promise.all([
+        let [flowData, stakingData, contract] = await Promise.all([
           getBalanceFlow({ hash: addr, days: 30 }),
           getStakingFlows({ hash: addr, days: 30 }),
           account.is_contract?getContract(addr):null,
-          account.is_contract?makeToken(addr):null
         ]);
         let staking = wrapStakingData({ ...stakingData, account });
         let balance = wrapToBalance(flowData, account);
+        // async load token after bigmap id is known
+        let token = account.is_contract?await makeToken(addr, contract.bigmap_ids[0]):null
         setData({
           account,
           isLoaded: true,

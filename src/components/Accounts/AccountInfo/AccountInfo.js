@@ -86,12 +86,12 @@ const AccountInfo = ({ account }) => {
                 <FlexRowSpaceBetween>
                   <DataBox
                     valueType="currency"
-                    valueOpts={{ round: 1, digits: 0 }}
+                    valueOpts={{ round: 1, digits: 0, sym:'' }}
                     value={account.staking_balance}
                   />
                   <DataBox
                     valueType="currency"
-                    valueOpts={{ round: 1, digits: 0 }}
+                    valueOpts={{ round: 1, digits: 0, sym:'' }}
                     value={stakingCapacity}
                   />
                 </FlexRowSpaceBetween>

@@ -378,7 +378,7 @@ export const TableCell = styled.div`
   text-overflow: ellipsis;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 export const TableDetails = styled.span`
@@ -388,7 +388,7 @@ export const TableDetails = styled.span`
   text-overflow: ellipsis;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 export const TwoCardInline = styled.div`

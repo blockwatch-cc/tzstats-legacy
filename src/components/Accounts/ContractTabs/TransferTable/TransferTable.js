@@ -15,7 +15,6 @@ const TransferTable = ({ token }) => {
     if (data.eof) { return; }
     let xfer = await getContractCalls({
       address: token.addr,
-      type: 'transaction',
       order: 'desc',
       entrypoint: token.txfn,
       offset: data.table.length
@@ -33,7 +32,6 @@ const TransferTable = ({ token }) => {
     const fetchData = async () => {
       let xfer = await getContractCalls({
         address: token.addr,
-        type: 'transaction',
         order: 'desc',
         entrypoint: token.txfn,
       });
