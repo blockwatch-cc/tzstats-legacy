@@ -29,7 +29,7 @@ const AccountPage = ({ match }) => {
         let staking = wrapStakingData({ ...stakingData, account });
         let balance = wrapToBalance(flowData, account);
         // async load token after bigmap id is known
-        let token = account.is_contract?await makeToken(addr, contract.bigmap_ids[0]):null
+        let token = account.is_contract?await makeToken(addr, contract.bigmap_ids):null
         setData({
           account,
           isLoaded: true,

@@ -6,14 +6,20 @@ import CallTable from './CallTable';
 import HolderTable from './HolderTable';
 import TransferTable from './TransferTable';
 import EntrypointTable from './EntrypointTable';
+import BigmapTable from './BigmapTable';
 import StorageTable from './StorageTable';
+
+const isNumber = val => !isNaN(parseFloat(val)) && !isNaN(val - 0)
 
 const ContractTabs = ({ contract, token }) => {
   const [data, setData] = React.useState({ tab: !!token.type?'holders':'calls' });
   const handleClick = tab => {
     setData({ tab: tab });
   };
-
+  // reset to avoid rendering non-existent bigmap
+  if (isNumber(data.tab) && contract.bigmap_ids.indexOf(data.tab)<0) {
+    setData({tab:'calls'});
+  }
   return (
     <Wrapper>
       <Card>
@@ -64,7 +70,7 @@ const OperationsTable = ({ type, contract, token }) => {
     case 'store':
       return <StorageTable contract={contract} token={token} />;
     default:
-      return <></>;
+      return <BigmapTable bigmapid={type} token={token} />;
   }
 };
 

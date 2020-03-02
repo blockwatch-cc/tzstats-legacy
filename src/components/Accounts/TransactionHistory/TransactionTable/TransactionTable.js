@@ -75,12 +75,12 @@ const TxTable = ({ data, account, incoming }) => {
     <>
       <TableHeader>
         <TableHeaderCell width={5}>No</TableHeaderCell>
-        <TableHeaderCell width={20}>{incoming?'Sender':'Receiver'}</TableHeaderCell>
+        <TableHeaderCell width={18}>{incoming?'Sender':'Receiver'}</TableHeaderCell>
         <TableHeaderCell width={15}>Amount</TableHeaderCell>
         {!incoming?<TableHeaderCell width={20}>Fee / Burn</TableHeaderCell>:''}
         <TableHeaderCell width={20}>Date</TableHeaderCell>
-        <TableHeaderCell width={10}>Block</TableHeaderCell>
-        <TableHeaderCell width={10}>Hash</TableHeaderCell>
+        <TableHeaderCell width={8}>Block</TableHeaderCell>
+        <TableHeaderCell width={15}>Hash</TableHeaderCell>
       </TableHeader>
       <TableBody id={data.id}>
         {data.isLoaded ? (
@@ -90,12 +90,12 @@ const TxTable = ({ data, account, incoming }) => {
                 <TableRow key={i} color={item.is_success?'inherit':'#ED6290'}>
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   { incoming ? (
-                    <TableCell width={20}>
+                    <TableCell width={18}>
                       <Blockies hash={item.sender} />
                       <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
                     </TableCell>
                     ) : (
-                    <TableCell width={20}>
+                    <TableCell width={18}>
                       <Blockies hash={item.receiver||item.delegate} />
                       <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                     </TableCell>
@@ -110,10 +110,10 @@ const TxTable = ({ data, account, incoming }) => {
                     ) : ''
                   }
                   <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
-                  <TableCell width={10}>
+                  <TableCell width={8}>
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.height}`}>{formatValue(item.height)}</Link>
                   </TableCell>
-                  <TableCell width={10}>
+                  <TableCell width={15}>
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>
                 </TableRow>

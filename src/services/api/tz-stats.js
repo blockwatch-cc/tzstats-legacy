@@ -465,22 +465,28 @@ export const getOperations = async hash => {
 
 /* Token Model */
 export class Token {
-  constructor(address, bigmap_id ) {
+  constructor(address, bigmap_ids = []) {
+    // console.log("Building Token", address, bigmap_ids);
     this.addr = address;      // keep contract address
-    this.id = bigmap_id;      // keep contract bigmap id
+    this.ids = bigmap_ids;    // keep contract bigmap id
     this.script = null;       // contract script with entrypoints etc.
-    this.bigmap = null;       // bigmap metadata (for max number of keys and latest update)
     this.storage = null;      // most recent contract storage
     this.type = null;         // detected token type
     this.name = null;         // token name for rendering
     this.code = null;         // token name for rendering (ie. symbol)
     this.digits = 0;          // token precision
-    this._bval = [];          // full list of bigmap values fetched so far
+    this.bigmaps = {};        // support multiple bigmaps by id
+    this.ids.forEach(id => {
+      this.bigmaps[id] = {
+        meta: null,           // per-bigmap metadata (for max number of keys and latest update)
+        values: [],           // full list of bigmap values fetched so far
+        eof: false,           // true when all bigmap values are fetched
+        promise: null,       // in-progress holder fetching promise
+      };
+    }, this)
     this.holders = [];        // converted list of token holders extracted from bigmap
     this.error = null;        // first fetch error
     this.promise = null;      // in-progress promise
-    this.hpromise = null;     // in-progress holder fetching promise
-    this.eof = false;         // true when all bigmap values are fetched
   }
 
   // fetch initial data like script and bigmap info
@@ -493,48 +499,55 @@ export class Token {
     this.promise = Promise.all([
       request(`/explorer/contract/${this.addr}/script`),
       request(`/explorer/contract/${this.addr}/storage`),
-      this.id?request(`/explorer/bigmap/${this.id}`):null,
+      ...this.ids.map(id => request(`/explorer/bigmap/${id}`)),
     ]).then(
       async function(resp) {
         this.script = this.processScript(resp[0]);
         this.storage = this.processStorage(resp[1]);
-        this.bigmap = resp[2];
-        this.eof = !this.bigmap||!this.bigmap.n_keys;
+        this.ids.forEach((id, i) => {
+          let meta = resp[2+i]
+          this.bigmaps[id].meta = meta;
+          this.bigmaps[id].eof = !meta||!meta.n_keys;
+        }, this);
+        // console.log("Loaded Token", this);
         return this
       }.bind(this),
       async function(error) {
+        // console.log("Loaded error", error);
         this.error = error;
         throw error;
       }.bind(this)
     )
-    .then(this.more.bind(this, 100));
+    .then(this.more.bind(this, this.ids[0], 100));
     return this.promise;
   }
 
-  async more(limit = 100) {
-    if (this.eof) {
+  async more(id, limit = 100) {
+    id = id || this.ids[0];
+    if (!id || this.bigmaps[id].eof) {
       return this; // async wraps this into a resolved promise
     }
-    if (this.hpromise) {
-      return this.hpromise;
+    if (this.bigmaps[id].promise) {
+      return this.bigmaps[id].promise;
     }
+    let b = this.bigmaps[id];
     this.error = null;
-    this.hpromise = request(`/explorer/bigmap/${this.id}/values?unpack=1&offset=${this._bval.length}&limit=${limit}&block=${this.bigmap.update_block}`)
+    b.promise = request(`/explorer/bigmap/${id}/values?unpack=1&offset=${b.values.length}&limit=${limit}&block=${b.meta.update_block}`)
     .then(
       async function(resp) {
-        this.processBigmapValues(resp);
-        Array.prototype.push.apply(this._bval, resp);
-        this.eof = this._bval.length === this.bigmap.n_keys;
-        this.hpromise = null;
+        this.processBigmapValues(resp); // id included in reponse
+        Array.prototype.push.apply(b.values, resp);
+        b.eof = b.values.length === b.meta.n_keys;
+        b.promise = null;
         return this;
       }.bind(this),
       async function(error) {
-        this.hpromise = null;
+        b.promise = null;
         this.error = error;
         throw error;
       }.bind(this)
     );
-    return this.hpromise;
+    return b.promise;
   }
 
   // special token impls must overwrite these functions to extract
@@ -554,8 +567,8 @@ export class Token {
 }
 
 export class FA12Token extends Token {
-  constructor(contract) {
-    super(contract);
+  constructor(contract, meta) {
+    super(contract, meta&&meta.bigmap_id?[meta.bigmap_id]:[]);
     this.type = 'fa12';
   }
 
@@ -579,8 +592,8 @@ export class FA12Token extends Token {
 // redeemAdress  proxy        redeemAdress value_unpacked tz1aqsunnQ9ECPAfvRaWeMfiNFhF3s8M15sy
 //
 export class TZBTCToken extends Token {
-  constructor(address, meta = {}) {
-    super(address, meta.bigmap_id);
+  constructor(address, meta) {
+    super(address, meta&&meta.bigmap_id?[meta.bigmap_id]:[]);
     this.type = 'tzbtc';
     this.digits = 6;
     this.config = {};
@@ -617,7 +630,7 @@ export class TZBTCToken extends Token {
   }
 }
 
-export async function makeToken(address, bigmap_id) {
+export async function makeToken(address, bigmap_ids = []) {
   if (!address) {
     return null;
   }
@@ -632,7 +645,7 @@ export async function makeToken(address, bigmap_id) {
     token = new FA12Token(address, meta);
     break;
   default:
-    token = new Token(address, bigmap_id);
+    token = new Token(address, bigmap_ids);
     break;
   }
   return token?token.load():null;

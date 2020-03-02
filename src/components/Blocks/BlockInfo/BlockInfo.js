@@ -34,13 +34,13 @@ const BlockInfo = ({ block, setTxType }) => {
         <FlexColumnSpaceBetween >
           <DataBox title="Priority" value={block.priority} />
           <Link to={`/cycle/${block.cycle}`}><DataBox title="Cycle" value={block.cycle} /></Link>
-          <DataBox valueType="currency" valueOpts={{digits:0}} title="Block Reward" value={block.reward} />
+          <DataBox valueType="currency" valueOpts={{digits:0}} title="Baker Reward" value={block.reward} />
           <DataBox title="Gas Used" value={block.gas_used} />
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween >
           <DataBox valueType="text" title="Solvetime" value={block.solvetime + ' sec'} />
           <DataBox title="Level in Cycle" value={parseInt(((block.height||1)-1)%config.blocks_per_cycle)} />
-          <DataBox valueType="currency-short" title="Block Fee" value={block.fee} />
+          <DataBox valueType="currency-short" title="Baker Fees" value={block.fee} />
           <DataBox valueType="currency-short" title="Gas Price" value={block.gas_price / 1000} />
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween>

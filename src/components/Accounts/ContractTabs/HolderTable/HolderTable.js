@@ -50,9 +50,9 @@ const HolderTable = ({ token }) => {
         <TableHeaderCell width={10} justify="flex-end">Share</TableHeaderCell>
         <TableHeaderCell width={45}></TableHeaderCell>
       </TableHeader>
-      {data.isLoaded ? (
-        <TableBody id={'hodl'}>
-          {data.table.length ? (
+      <TableBody id={'hodl'} height="calc(100vh - 450px)">
+        {data.isLoaded ? (
+          data.table.length ? (
             data.table.map((item, i) => {
               return (
                 <TableRow key={i}>
@@ -71,13 +71,11 @@ const HolderTable = ({ token }) => {
             })
           ) : (
             <NoDataFound />
-          )}
-        </TableBody>
+          )
       ) : (
-        <TableBody>
-          <Spinner />
-        </TableBody>
+        <Spinner />
       )}
+      </TableBody>
     </>
   );
 };

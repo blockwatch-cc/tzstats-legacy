@@ -23,7 +23,7 @@ const ProposalPeriod = ({ election, period }) => {
           <TableHeaderCell width={35}>Source</TableHeaderCell>
           <TableHeaderCell width={15}>Rolls</TableHeaderCell>
         </TableHeader>
-        <TableBody height={120}>
+        <TableBody height="120px">
           {period.proposals.map((item, i) => {
             return (
               <TableRow key={i}>

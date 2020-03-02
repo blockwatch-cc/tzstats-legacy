@@ -15,7 +15,8 @@ const CallTable = ({ contract }) => {
     let calls = await getContractCalls({
       address: contract.address,
       order: 'desc',
-      offset: data.table.length
+      offset: data.table.length,
+      limit: 20
     });
     let eof = !calls.length;
     setData({
@@ -30,6 +31,7 @@ const CallTable = ({ contract }) => {
       let calls = await getContractCalls({
         address: contract.address,
         order: 'desc',
+        limit: 20
       });
       let eof = !calls.length;
       setData({
@@ -64,13 +66,13 @@ const CallTableTpl = ({ data, contract, incoming }) => {
       <TableHeader>
         <TableHeaderCell width={3}>No</TableHeaderCell>
         <TableHeaderCell width={18}>Sender</TableHeaderCell>
-        <TableHeaderCell width={17}>Target</TableHeaderCell>
-        <TableHeaderCell width={15}>Call</TableHeaderCell>
+        <TableHeaderCell width={18}>Target</TableHeaderCell>
+        <TableHeaderCell width={20}>Call</TableHeaderCell>
         <TableHeaderCell width={10}>Fee</TableHeaderCell>
         <TableHeaderCell width={18}>Date</TableHeaderCell>
-        <TableHeaderCell width={15}>Hash</TableHeaderCell>
+        <TableHeaderCell width={12}>Hash</TableHeaderCell>
       </TableHeader>
-      <TableBody id="calls">
+      <TableBody id="calls" height="calc(100vh - 450px)">
         {data.isLoaded ? (
           data.table && data.table.length ? (
             data.table.map((item, i) => {
@@ -81,18 +83,18 @@ const CallTableTpl = ({ data, contract, incoming }) => {
                     <Blockies hash={item.sender} />
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.sender}`}>{shortenHash(item.sender)}</Link>
                   </TableCell>
-                  <TableCell width={17}>
+                  <TableCell width={18}>
                     <Blockies hash={item.receiver} />
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.receiver}`}>{shortenHash(item.receiver)}</Link>
                   </TableCell>
-                  <TableCell width={15}>
+                  <TableCell width={20}>
                     <Value value={item.parameters?item.parameters.call:item.type} type="plain"/>
                   </TableCell>
                   <TableCell width={10}>
                     <Value value={item.fee>0?item.fee:0} type="currency" digits={6} zero="-"/>
                   </TableCell>
                   <TableCell width={18}><Value value={item.time} type="datetime"/></TableCell>
-                  <TableCell width={15}>
+                  <TableCell width={12}>
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.hash}`}>{getShortHash(item.hash)}</Link>
                   </TableCell>
                 </TableRow>

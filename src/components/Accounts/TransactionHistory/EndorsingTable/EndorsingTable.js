@@ -93,7 +93,7 @@ const EndorsingTable = ({ account }) => {
         <TableHeaderCell width={10}>Rewards</TableHeaderCell>
         <TableHeaderCell width={10}>Deposits</TableHeaderCell>
         <TableHeaderCell width={20}>Date</TableHeaderCell>
-        <TableHeaderCell width={10}>Hash</TableHeaderCell>
+        <TableHeaderCell width={15}>Hash</TableHeaderCell>
       </TableHeader>
       {data.isLoaded ? (
         <TableBody id={'endorsed'}>
@@ -112,7 +112,7 @@ const EndorsingTable = ({ account }) => {
                   <TableCell width={10}><Value value={item.reward||0} type="currency" sym="" digits={0} zero="-"/></TableCell>
                   <TableCell width={10}><Value value={item.deposit||0} type="currency" sym="" digits={0} zero="-"/></TableCell>
                   <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
-                  <TableCell width={10}>
+                  <TableCell width={15}>
                       <Link style={{color:item.is_orphan?'#ED6290':'inherit'}} to={`/${item.hash}`}>{getShortHash(item.hash)}</Link>
                   </TableCell>
                 </TableRow>

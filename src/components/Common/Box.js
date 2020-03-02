@@ -337,7 +337,8 @@ export const FlexItem = styled.div`
 `;
 
 export const TableBody = styled.div`
-  height: ${props => props.height || 200}px;
+  height: ${props => props.height || '200px'};
+  min-height: 120px;
   overflow-y: auto;
   overflow-x: auto;
 `;
@@ -350,7 +351,8 @@ export const TableHeader = styled(RowSpace)`
 `;
 
 export const TableHeaderCell = styled.div`
-  width: ${props => props.width}%;
+  flex-basis: ${props => props.width}%;
+  flex-grow: 1;
   justify-content: ${props => props.justify||'flex-start'};
   padding: 3px 5px;
   display: flex;
@@ -363,6 +365,7 @@ export const TableHeaderCell = styled.div`
 export const TableRow = styled(RowSpace)`
   justify-content: space-between;
   line-height: 20px;
+  flex-basis: 100%;
   &:hover {
     background-color: rgba(255, 255, 255, 0.05);
   }
@@ -370,16 +373,35 @@ export const TableRow = styled(RowSpace)`
 
 export const TableCell = styled.div`
   font-size: 12px;
-  width: ${props => props.width}%;
+  flex-basis: ${props => props.width}%;
+  flex-grow: 1;
   justify-content: ${props => props.justify||'flex-start'};
-  min-width: max-content;
   padding: 4px 5px;
-  white-space: nowrap;
+  padding-left: ${props => props.pl?props.pl:'4'}px;
+  white-space: ${props => props.whitespace||'nowrap'};
   text-overflow: ellipsis;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 `;
+
+export const TableCellMinMax = styled.div`
+  font-size: 12px;
+  flex-basis: ${props => props.width}%;
+  min-width: ${props => props.width}%;
+  max-width: ${props => props.width}%;
+  flex-grow: 1;
+  justify-content: ${props => props.justify||'flex-start'};
+  padding: 4px 5px;
+  padding-left: ${props => props.pl?props.pl:'4'}px;
+  white-space: ${props => props.whitespace||'nowrap'};
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+`;
+
+  // min-width: max-content;
 
 export const TableDetails = styled.span`
   color: rgba(255, 255, 255, 0.52);

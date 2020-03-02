@@ -67,23 +67,24 @@ const TransferTableTpl = ({ data, token }) => {
         <TableHeaderCell width={20}>Date</TableHeaderCell>
         <TableHeaderCell width={20}>Hash</TableHeaderCell>
       </TableHeader>
-      <TableBody id="xfer">
+      <TableBody id="xfer" height="calc(100vh - 450px)">
         {data.isLoaded ? (
           data.table && data.table.length ? (
             data.table.map((item, i) => {
+              const xfer = item.parameters.value.transfer;
               return (
                 <TableRow key={i} color={item.is_success?'inherit':'#ED6290'}>
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   <TableCell width={15} justify="flex-end">
-                    <Value value={item.parameters.value.transfer['2@nat']} type="currency" sym={token.code} digits={token.digits} zero="-"/>
+                    <Value value={xfer.value} type="currency" sym={token.code} digits={token.digits} zero="-"/>
                   </TableCell>
                   <TableCell width={20}>
-                    <Blockies hash={item.parameters.value.transfer['0@address']} />
-                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.parameters.value.transfer['0@address']}`}>{getShortHashOrBakerName(item.parameters.value.transfer['0@address'])}</Link>
+                    <Blockies hash={xfer.from} />
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${xfer.from}`}>{getShortHashOrBakerName(xfer.from)}</Link>
                   </TableCell>
                   <TableCell width={20}>
-                    <Blockies hash={item.parameters.value.transfer['1@address']} />
-                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.parameters.value.transfer['1@address']}`}>{getShortHashOrBakerName(item.parameters.value.transfer['1@address'])}</Link>
+                    <Blockies hash={xfer.to} />
+                    <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${xfer.to}`}>{getShortHashOrBakerName(xfer.to)}</Link>
                   </TableCell>
                   <TableCell width={20}><Value value={item.time} type="datetime"/></TableCell>
                   <TableCell width={20}>

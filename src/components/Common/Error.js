@@ -6,7 +6,7 @@ const Error = ({ err }) => {
   return (
     <Centered>
       <H1>Error</H1>
-      <Dim>{err.detail}.</Dim>
+      <Dim>{err.detail||err.reason||err.toString()}.</Dim>
     </Centered>
   );
 };
@@ -20,7 +20,6 @@ const H1 = styled.div`
 const Dim = styled.div`
 	color: rgba(255, 255, 255, 0.25);
 	font-size: 1.2rem;
-  text-transform: capitalize;
 `;
 
 export default Error;

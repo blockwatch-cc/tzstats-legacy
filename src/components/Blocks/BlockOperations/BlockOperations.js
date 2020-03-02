@@ -56,12 +56,12 @@ const BlockOperations = ({ block, txType }) => {
         <Table>
         <TableHeader>
           <TableHeaderCell width={5}>No</TableHeaderCell>
+          <TableHeaderCell width={5}>Type</TableHeaderCell>
           <TableHeaderCell width={20}>Sender</TableHeaderCell>
-          <TableHeaderCell width={15}>Type</TableHeaderCell>
           <TableHeaderCell width={20}>Receiver</TableHeaderCell>
-          <TableHeaderCell width={15}>Amount</TableHeaderCell>
-          <TableHeaderCell width={10}>Fee</TableHeaderCell>
-          <TableHeaderCell width={10}>Hash</TableHeaderCell>
+          <TableHeaderCell width={20}>Amount/Reward</TableHeaderCell>
+          <TableHeaderCell width={15}>Fee</TableHeaderCell>
+          <TableHeaderCell width={15}>Hash</TableHeaderCell>
         </TableHeader>
         {data.isLoaded ? (
           <TableBody id={'block-ops'}>
@@ -70,13 +70,12 @@ const BlockOperations = ({ block, txType }) => {
                 return (
                   <TableRow key={i} color={item.is_success?'inherit':'#ED6290'}>
                     <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
+                    <TableCell width={5} title={opNames[item.is_contract?'call':item.type]}>
+                      <TxTypeIcon isSuccess={item.is_success} type={item.is_contract ? 'contract' : item.type} />
+                    </TableCell>
                     <TableCell width={20}>
                       <Blockies hash={item.sender} />
                       <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.sender}`}>{getShortHashOrBakerName(item.sender)}</Link>
-                    </TableCell>
-                    <TableCell width={15}>
-                      <TxTypeIcon isSuccess={item.is_success} type={item.is_contract ? 'contract' : item.type} />
-                      <TableDetails>{opNames[item.is_contract?'call':item.type]}</TableDetails>
                     </TableCell>
                     <TableCell width={20}>
                       {item.receiver ? (
@@ -88,9 +87,9 @@ const BlockOperations = ({ block, txType }) => {
                         '-'
                       )}
                     </TableCell>
-                    <TableCell width={15}><Value value={item.volume||item.reward} type="currency" digits={0} zero="-"/></TableCell>
-                    <TableCell width={10}><Value value={item.fee} type="currency" digits={0} zero="-"/></TableCell>
-                    <TableCell width={10}>
+                    <TableCell width={20}><Value value={item.volume||item.reward} type="currency" digits={6} zero="-"/></TableCell>
+                    <TableCell width={15}><Value value={item.fee} type="currency" digits={6} zero="-"/></TableCell>
+                    <TableCell width={15}>
                       <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.hash}`}>{getShortHash(item.hash)}</Link>
                     </TableCell>
                   </TableRow>
