@@ -19,7 +19,7 @@ const TransactionVolume = ({ txSeries, txVol24h }) => {
             </DataItem>
             <DataItem>
               <DataTitle>24h Volume</DataTitle>
-              <Value type="currency" digits={3} dim={0} value={txVol24h[0]} />
+              <Value type="currency" digits={0} round={true} dim={0} value={txVol24h[0]} />
             </DataItem>
           </DataColumn>
           <DataColumn>
@@ -29,7 +29,7 @@ const TransactionVolume = ({ txSeries, txVol24h }) => {
             </DataItem>
             <DataItem>
               <DataTitle>30d Avg Volume</DataTitle>
-              <Value type="currency" digits={3} dim={0} value={avgVolume}/>
+              <Value type="currency" digits={0} round={true} dim={0} value={avgVolume}/>
             </DataItem>
           </DataColumn>
         </DataRow>

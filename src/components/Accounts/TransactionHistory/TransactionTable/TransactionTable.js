@@ -96,7 +96,7 @@ const TxTable = ({ data, account, incoming }) => {
                     </TableCell>
                     ) : (
                     <TableCell width={18}>
-                      <Blockies hash={item.receiver||item.delegate} />
+                      <Blockies hash={item.receiver} />
                       <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.receiver}`}>{getShortHashOrBakerName(item.receiver)}</Link>
                     </TableCell>
                   )}
@@ -134,13 +134,13 @@ const OtherTable = ({ data, account }) => {
   return (
     <>
       <TableHeader>
-        <TableHeaderCell width={5}>No</TableHeaderCell>
-        <TableHeaderCell width={15}>Type</TableHeaderCell>
+        <TableHeaderCell width={3}>No</TableHeaderCell>
+        <TableHeaderCell width={5}>Type</TableHeaderCell>
         <TableHeaderCell width={20}>Receiver</TableHeaderCell>
-        <TableHeaderCell width={20}>Fee / Burn</TableHeaderCell>
+        <TableHeaderCell width={22}>Fee / Burn</TableHeaderCell>
         <TableHeaderCell width={20}>Date</TableHeaderCell>
         <TableHeaderCell width={10}>Block</TableHeaderCell>
-        <TableHeaderCell width={10}>Hash</TableHeaderCell>
+        <TableHeaderCell width={20}>Hash</TableHeaderCell>
       </TableHeader>
       <TableBody id={data.id}>
         {data.isLoaded ? (
@@ -148,20 +148,19 @@ const OtherTable = ({ data, account }) => {
             data.table.map((item, i) => {
               return (
                 <TableRow key={i} color={item.is_success?'inherit':'#ED6290'}>
-                  <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
-                  <TableCell width={15}>
+                  <TableCell width={3}><TableDetails>{i+1}</TableDetails></TableCell>
+                  <TableCell width={5} title={(item.is_success?'':'Failed ')+opNames[item.type]}>
                     <TxTypeIcon isSuccess={item.is_success} type={item.type} />
-                    <TableDetails>{`${opNames[item.type]}`}</TableDetails>
                   </TableCell>
-                  {item.receiver||item.delegate ? (
+                  {item.delegate||item.receiver ? (
                     <TableCell width={20}>
-                      <Blockies hash={item.receiver||item.delegate} />
-                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.receiver||item.delegate}`}>{getShortHashOrBakerName(item.receiver||item.delegate)}</Link>
+                      <Blockies hash={item.delegate||item.receiver} />
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.delegate||item.receiver}`}>{getShortHashOrBakerName(item.delegate||item.receiver)}</Link>
                     </TableCell>
                   ) : (
                     <TableCell width={20}>-</TableCell>
                   )}
-                  <TableCell width={20}>
+                  <TableCell width={22}>
                     <Value value={item.fee>0?item.fee:0} type="currency" digits={0} zero="-"/>
                     &nbsp;/&nbsp;
                     <Value value={item.burned} type="currency" digits={0} zero="-"/>
@@ -170,7 +169,7 @@ const OtherTable = ({ data, account }) => {
                   <TableCell width={10}>
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.height}`}>{formatValue(item.height)}</Link>
                   </TableCell>
-                  <TableCell width={10}>
+                  <TableCell width={20}>
                     <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.hash}`}>{getShortHashOrBakerName(item.hash)}</Link>
                   </TableCell>
                 </TableRow>
