@@ -45,8 +45,9 @@ const CirculatingSupply = () => {
                 pad={0.25}
                 ml={1}
                 type="currency"
-                digits={4}
+                digits={0}
                 dim={0}
+                round={true}
                 value={item.value} />;
             })}
           </div>
