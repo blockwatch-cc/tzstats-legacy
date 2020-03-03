@@ -18,9 +18,15 @@ const CirculatingSupply = () => {
     ...bar,
     {
       percent: chain.supply.active_staking / (chain.supply.total||1) * 100,
-      color: '#999',
+      color: '#777',
       title: 'Staking Supply',
       value: chain.supply.active_staking,
+    },
+    {
+      percent: chain.supply.circulating / (chain.supply.total||1) * 100,
+      color: '#999',
+      title: 'Circulating Supply',
+      value: chain.supply.circulating,
     }
   ];
 
