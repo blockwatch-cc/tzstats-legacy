@@ -1,7 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { getHashOrBakerName } from '../../../../utils';
+import {
+  getHashOrBakerName,
+  isSimpleType,
+  isAddressType,
+  // isContainerType,
+  isString,
+  isArray,
+  isObject,
+  isBool,
+  isNumber,
+  isDefined,
+  isAddress,
+  isCode,
+  f,
+  fp,
+  j,
+  utf8ArrayToStr,
+  fromHexString,
+} from '../../../../utils';
 import {
   TableBody,
   TableHeader,
@@ -12,30 +30,6 @@ import {
   TableDetails,
   NoDataFound } from '../../../Common';
 
-const isSimpleType = typ => ['int','nat','mutez','bool'].indexOf(typ) > -1;
-const isAddressType = typ => ['key_hash','address','contract'].indexOf(typ) > -1;
-// const isContainerType = typ => ['list','set','map','big_map'].indexOf(typ) > -1;
-const isString = val => typeof val === 'string' || val instanceof String;
-const isArray = val => Array.isArray(val);
-const isObject = val => typeof val === 'object' && val !== null && !isArray(val);
-// const isBool = val => typeof val === "boolean";
-// const isNumber = val => !isNaN(parseFloat(val)) && !isNaN(val - 0)
-const isDefined = val => typeof val !== 'undefined';
-// const isAddress = val => isString(val) && val.length === 36;
-const isCode = val => isArray(val) && val.length && isDefined(val[0].prim);
-
-
-function f(v, pos) {
-  return v.split('@')[pos];
-}
-
-function fp(v, pos) {
-  return parseInt(f(v,pos));
-}
-
-function j(v) {
-  return isObject(v)||isArray(v)?JSON.stringify(v,null,2):undefined;
-}
 
 const StorageTable = ({ token, contract }) => {
   const rows = flattenStorage(token);
@@ -98,11 +92,19 @@ function flattenStorage(token) {
 function flatten(typ, value, level, counter, token) {
   let res = [];
   var vkeys, tkeys;
+  // console.log('Flatten', level, typ, value);
   // be resilient against simple/packed data where tye is 'bytes' and
   // value may be an object or array
-  if (isObject(value)) {
+  switch (true) {
+  case isObject(value):
     vkeys = Object.keys(value).sort((a,b) => fp(a,0)-fp(b,0));
-  } else {
+    break;
+  case isArray(value):
+    vkeys = ['#'];
+    value = {'#': value};
+    // vkeys = Array.from(Array(typ.length), (x, i) => i);
+    break;
+  default:
     res.push({
       c: counter,
       l: level,
@@ -113,9 +115,15 @@ function flatten(typ, value, level, counter, token) {
     });
     return res;
   }
-  if (isObject(typ)) {
+  switch (true) {
+  case isObject(typ):
     tkeys = Object.keys(typ).sort((a,b) => fp(a,0)-fp(b,0));
-  } else {
+    break;
+  case isArray(typ):
+    tkeys = vkeys;
+    // tkeys = Array.from(Array(typ.length), (x, i) => i);
+    break;
+  default:
     res.push({
       c: counter,
       l: level,
@@ -126,8 +134,16 @@ function flatten(typ, value, level, counter, token) {
     });
     return res;
   }
+  // console.log('Level', level, 'tkeys', tkeys);
+  // console.log('Level', level, 'vkeys', vkeys);
   tkeys.forEach((key, i) => {
-    let val = value[vkeys[i]];
+    // console.log('Key', key, '=>', f(key,0), ':', value[f(key,0)]);
+    // let val = value[vkeys[i]];
+    let val = value[f(key,0)];
+    if (!isDefined(val) && isNumber(fp(key,0))) {
+      // console.log('Alt Key', key, '=>', vkeys[i]);
+      val = value[vkeys[i]];
+    }
     const ktyp = f(key,2) || ( isString(val) ? val : f(key,1) );
     switch (ktyp) {
     case 'big_map':
@@ -135,14 +151,15 @@ function flatten(typ, value, level, counter, token) {
         c: counter,
         l: level,
         k: key,
-        kt: ktyp,
-        v: isObject(val)?token.id:val,
+        kt: typ[key],
+        v: isNumber(val)?val:token.ids.join(', '),
         vt: 'int',
       });
       counter++;
       break;
     case 'map':
       // add 'n entries' line
+      // console.log('MAP', key, typ[key], val, vkeys[i], vkeys, i, 'orig', value);
       res.push({
         c: counter,
         l: level,
@@ -200,7 +217,16 @@ function flatten(typ, value, level, counter, token) {
         // nested maps / objects
         if (isObject(e)) {
           // recurse and append
-          let rec = flatten(typ[key], e, level+1, counter, token);
+          res.push({
+            c: counter,
+            l: level+1,
+            k: i.toString(),
+            kt: null,
+            v: Object.keys(e).length,
+            vt: 'counter',
+          });
+          counter++;
+          let rec = flatten(typ[key], e, level+2, counter, token);
           counter += rec.length;
           res.push(...rec);
         } else {
@@ -230,6 +256,7 @@ function flatten(typ, value, level, counter, token) {
     default:
       // nested maps / objects
       if (isObject(val)) {
+        // console.log('OTHER', ktyp, key, typ[key], val, vkeys[f(key,0)], 'orig', value);
         // add 'n entries' line
         res.push({
           c: counter,
@@ -245,6 +272,7 @@ function flatten(typ, value, level, counter, token) {
         counter += rec.length;
         res.push(...rec);
       } else {
+        // console.log('SIMPLE', ktyp, key, typ[key], val, vkeys[f(key,0)], 'orig', value);
         res.push({
           c: counter,
           l: level,
@@ -263,34 +291,39 @@ function flatten(typ, value, level, counter, token) {
 const KeyType = ({ label, value }) => {
   const typ = f(label,2) || (isString(value) ? value : f(label,1));
   let name = f(label,1) || f(label,0);
-  if (name === typ) {
+  if (name === 'option' || name === typ ) {
     name = f(label,0);
   }
   switch (typ) {
   case 'big_map':
   case 'map':
+    // guard against undefined key types (ie. when handling unpacked data)
+    let kt = isObject(value)?value['0']:typ;
+    let vt = isObject(value)?value['1']:'?';
     return (
       <>
         <Var>{name}</Var>:&nbsp;
         <Typ>{typ}</Typ>&nbsp;{'{'}&nbsp;
-        <Typ title={j(value['0'])}>
-          { isString(value['0'])?value['0']:'object' }
+        <Typ title={j(kt)}>
+          { isString(kt)?kt:'object' }
         </Typ>
         &nbsp;=>&nbsp;
-        <Typ title={j(value['1'])}>
-          { isString(value['1'])?value['1']:'object' }
+        <Typ title={j(vt)}>
+          { isString(vt)?vt:'object' }
         </Typ>
         &nbsp;{'}'}
       </>
     );
   case 'set':
   case 'list':
+    // guard against undefined key types (ie. when handling unpacked data)
+    let v = isObject(value)?value['0']:'?';
     return (
       <>
         <Var>{name}</Var>:&nbsp;
         <Typ>{typ}</Typ>&nbsp;{'{'}&nbsp;
-        <Typ title={j(value['0'])}>
-          { isString(value['0'])?value['0']:'object' }
+        <Typ title={j(v)}>
+          { isString(v)?v:'object' }
         </Typ>
         &nbsp;{'}'}
       </>
@@ -299,12 +332,25 @@ const KeyType = ({ label, value }) => {
     return (
       <>
         <Var>{name}</Var>:&nbsp;
-        <Typ title={j(value)}>{typ}</Typ>
+        <Typ>{typ}</Typ>&nbsp;
+        <Typ title={j(value)}>[...]</Typ>
+      </>
+    );
+  case 'or':
+    return (
+      <>
+        <Var>{name}</Var>:&nbsp;
+        <Typ>{typ}</Typ>
+        ({
+          Object.values(value).map((v,i) => {
+            return (<ListArg key={i}><Typ title={j(v)}>{isString(v)?v:'object'}</Typ></ListArg>);
+          })
+        })
       </>
     );
   default:
     return ((isAddressType(typ) || !typ) && name.length === 36) ? (
-      <Link to={`/${name}`}><Var>{name}</Var></Link>
+      <Link to={`/${name}`}><Var>{getHashOrBakerName(name)}</Var></Link>
     ) : (
       <>
         <Var>{name}</Var>{typ&&':'}&nbsp;
@@ -315,8 +361,9 @@ const KeyType = ({ label, value }) => {
 };
 
 const Value = ({ type, value }) => {
-  // const typ = f(label,2) || f(label,1) || type; // type is either third part or second
-  // console.log(label, keytype, value, typ);
+  if (value === null || value === undefined) {
+    type = 'null';
+  }
   switch (type) {
   case 'lambda':
     return <Code>{j(value)}</Code>;
@@ -326,6 +373,42 @@ const Value = ({ type, value }) => {
     return <Hint>{value} {value!==1?'entries':'entry'}</Hint>
   case 'key_hash': case 'address': case 'contract':
     return <Link to={`/${value}`}><Var>{getHashOrBakerName(value)}</Var></Link>;
+  case 'null':
+    return <Hint>null</Hint>
+  case 'bytes':
+    // data may be unpacked and untyped, so we have to detect type from
+    // javascript type
+    switch (true) {
+    case isCode(value):
+      return <Code>{j(value)}</Code>;
+    case isArray(value):
+      return (
+        <>
+        [
+          {
+            value.map((e, i) => {
+              return (<ListArg key={i}>{value}</ListArg>)
+            })
+          }
+        ]
+        </>
+      );
+    case isBool(value) || isNumber(value):
+      return <Simple>{value.toString()}</Simple>;
+    case isString(value) && /^[0-9A-F]+$/i.test(value):
+      try {
+        const utf8 = utf8ArrayToStr(fromHexString(value));
+        // console.log("HEX->UTF-8", value, utf8);
+        return <Simple>{utf8}</Simple>;
+      }
+      catch(e) {
+        return <Simple>{value}</Simple>;
+      }
+    case isAddress(value):
+      return <Link to={`/${value}`}><Var>{getHashOrBakerName(value)}</Var></Link>;
+    default:
+      return <Simple>{value}</Simple>;
+    }
   default:
     return isSimpleType(type) ? (
       <Simple>{value}</Simple>
@@ -335,12 +418,12 @@ const Value = ({ type, value }) => {
   }
 };
 
-// const ListArg = styled.span`
-//   &:not(:last-child):after {
-//     content: ",";
-//     padding-right: 4px;
-//   }
-// `;
+const ListArg = styled.span`
+  &:not(:last-child):after {
+    content: ",";
+    padding-right: 4px;
+  }
+`;
 
 const CodeWrapper = styled.div`
   margin: 0;

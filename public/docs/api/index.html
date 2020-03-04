@@ -7314,7 +7314,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="mi">433</span>            <span class="err">/</span><span class="err">/</span> <span class="err">r</span><span class="err">o</span><span class="err">l</span><span class="err">l</span><span class="err">_</span><span class="err">o</span><span class="err">w</span><span class="err">n</span><span class="err">e</span><span class="err">r</span><span class="err">s</span>
   <span class="p">]</span>
 <span class="p">]</span>
-</code></pre></div><p>Lists aggregate data about operations. Filters are the same as on the <a href="#op-table">operation table</a>, but response fields are limited to numeric data that can be aggregated over time. Aggregation function for all fields is <strong>sum</strong>.</p>
+</code></pre></div><p>Lists running totals and counters at each block. Collapse selects data from the <strong>first</strong> block in a time window.</p>
 <h3 id="http-request-3">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/series/op?args</code></p>
 <h3 id="http-response-3">HTTP Response</h3>
@@ -7522,9 +7522,9 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
     <span class="mf">415.667530</span>        <span class="err">/</span><span class="err">/</span> <span class="err">f</span><span class="err">r</span><span class="err">o</span><span class="err">z</span><span class="err">e</span><span class="err">n</span><span class="err">_</span><span class="err">f</span><span class="err">e</span><span class="err">e</span><span class="err">s</span>
   <span class="p">]</span>
 <span class="p">]</span>
-</code></pre></div><p>Lists aggregate data about operations. Filters are the same as on the <a href="#op-table">operation table</a>, but response fields are limited to numeric data that can be aggregated over time. Aggregation function for all fields is <strong>sum</strong>.</p>
+</code></pre></div><p>Lists running supply totals at each block. Collapse selects data from the <strong>first</strong> block in a time window.</p>
 <h3 id="http-request-4">HTTP Request</h3>
-<p><code>GET https://api.tzstats.com/series/op?args</code></p>
+<p><code>GET https://api.tzstats.com/series/supply?args</code></p>
 <h3 id="http-response-4">HTTP Response</h3>
 <table>
 <thead>

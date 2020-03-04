@@ -17,7 +17,7 @@ import { formatValue, formatCurrency, getAccountTags, getAccountType } from '../
 
 const AccountInfo = ({ account }) => {
   const tags = getAccountTags(account);
-  const accountType = getAccountType(account);
+  const typ = getAccountType(account);
 
   const [chain] = useGlobal('chain');
   const [config] = useGlobal('config');
@@ -30,7 +30,7 @@ const AccountInfo = ({ account }) => {
 
   return (
     <Wrapper>
-      <Card title={<><Blockies hash={account.address} /><span>{accountType.name}</span></>} tags={tags} right={<CopyHashButton value={account.address} />}>
+      <Card title={<><Blockies hash={account.address} /><span>{typ.name}</span></>} tags={tags} right={<CopyHashButton value={account.address} />}>
         <FlexRowSpaceBetween mt={10}>
           <FlexColumnSpaceBetween>
             <DataBox
@@ -102,7 +102,7 @@ const AccountInfo = ({ account }) => {
                 </FlexRowSpaceBetween>
               </FlexColumn>
             </FlexColumnSpaceBetween>
-          ) : (account.is_delegated || account.is_contract) ? (
+          ) : (typ.type === 'delegator' || account.is_contract) ? (
             <FlexColumnSpaceBetween>
               {account.delegate && !account.is_delegate ? (
                 <HashedBox hash={account.delegate} isCopy={false} typeName={`Current Delegate`} />

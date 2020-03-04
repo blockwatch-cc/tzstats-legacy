@@ -1,7 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { getHashOrBakerName, formatValue } from '../../../../utils';
+import {
+  getHashOrBakerName,
+  formatValue,
+  isSimpleType,
+  isAddressType,
+  // isContainerType,
+  isString,
+  isArray,
+  isObject,
+  isBool,
+  isNumber,
+  isDefined,
+  isAddress,
+  isCode,
+  f,
+  fp,
+  j,
+  utf8ArrayToStr,
+  fromHexString,
+} from '../../../../utils';
 import {
   TableBody,
   TableHeader,
@@ -14,88 +33,19 @@ import {
   Spinner } from '../../../Common';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 
-const isSimpleType = typ => ['int','nat','mutez','bool'].indexOf(typ) > -1;
-const isAddressType = typ => ['key_hash','address','contract'].indexOf(typ) > -1;
-// const isContainerType = typ => ['list','set','map','big_map'].indexOf(typ) > -1;
-const isString = val => typeof val === 'string' || val instanceof String;
-const isArray = val => Array.isArray(val);
-const isObject = val => typeof val === 'object' && val !== null && !isArray(val);
-const isBool = val => typeof val === "boolean";
-const isNumber = val => !isNaN(parseFloat(val)) && !isNaN(val - 0)
-const isDefined = val => typeof val !== 'undefined';
-const isAddress = val => isString(val) && val.length === 36;
-const isCode = val => isArray(val) && val.length && isDefined(val[0].prim);
-
-function f(v, pos) {
-  return v.split('@')[pos];
-}
-
-function fp(v, pos) {
-  return parseInt(f(v,pos));
-}
-
-function j(v) {
-  return isObject(v)||isArray(v)?JSON.stringify(v,null,2):undefined;
-}
-
-
-/* utf.js - UTF-8 <=> UTF-16 convertion
- *
- * Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
- * Version: 1.0
- * LastModified: Dec 25 1999
- * This library is free.  You can redistribute it and/or modify it.
- */
-function Utf8ArrayToStr(array) {
-  var out, i, len, c;
-  var char2, char3;
-
-  out = "";
-  len = array.length;
-  i = 0;
-  while(i < len) {
-    c = array[i++];
-    switch(c >> 4)
-    {
-      case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-        // 0xxxxxxx
-        out += String.fromCharCode(c);
-        break;
-      case 12: case 13:
-        // 110x xxxx   10xx xxxx
-        char2 = array[i++];
-        out += String.fromCharCode(((c & 0x1F) << 6) | (char2 & 0x3F));
-        break;
-      case 14:
-        // 1110 xxxx  10xx xxxx  10xx xxxx
-        char2 = array[i++];
-        char3 = array[i++];
-        out += String.fromCharCode(((c & 0x0F) << 12) |
-                       ((char2 & 0x3F) << 6) |
-                       ((char3 & 0x3F) << 0));
-        break;
-      default:
-        break;
-    }
-  }
-
-  return out;
-}
-
-const fromHexString = hexString =>
-  new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+const init = { table: [], isLoaded: false, id: null, eof: false };
 
 const BigmapTable = ({ token, bigmapid }) => {
-  const [data, setData] = React.useState({ table: [], isLoaded: false, eof: false });
+  const [data, setData] = React.useState(init);
   useInfiniteScroll(fetchMore, 'bigmap_'+bigmapid);
 
-  // fetch transactions sent to token and entrypoint 'transfer'
   async function fetchMore() {
     if (data.eof) { return; }
-    await token.more(bigmapid); // supports multiple bigmaps
+    await token.more(bigmapid);
     setData({
       table: token.bigmaps[bigmapid].values,
       isLoaded: true,
+      id: bigmapid,
       eof: token.bigmaps[bigmapid].eof,
     });
   }
@@ -106,18 +56,15 @@ const BigmapTable = ({ token, bigmapid }) => {
       setData({
         table: token.bigmaps[bigmapid].values,
         isLoaded: true,
+        id: bigmapid,
         eof: token.bigmaps[bigmapid].eof,
       });
     };
     fetchData();
     return function cleanup() {
-      setData({
-        table: [],
-        isLoaded: false,
-        eof: false,
-      });
+      setData({...init});
     };
-  }, [token, bigmapid]);
+  }, [bigmapid, token]);
 
   return <BigmapTableTpl data={data} token={token} bigmapid={bigmapid} />;
 };
@@ -125,7 +72,7 @@ const BigmapTable = ({ token, bigmapid }) => {
 const BigmapTableTpl = ({ data, token, bigmapid }) => {
   const typ = token.bigmaps[bigmapid].meta.type;
   let rows = flattenBigmap(typ, data.table);
-  console.log(rows);
+  // console.log(rows);
   return (
     <>
       <TableHeader>
@@ -136,7 +83,7 @@ const BigmapTableTpl = ({ data, token, bigmapid }) => {
       </TableHeader>
       <TableBody id={'bigmap_'+bigmapid} height="calc(100vh - 450px)">
       {
-        data.isLoaded ? (
+        data.isLoaded && data.id === bigmapid ? (
           rows && rows.length ? (
             rows.map((row, i) => {
               return (
@@ -295,7 +242,14 @@ function flatten(typ, value, level) {
         // nested maps / objects
         if (isObject(e)) {
           // recurse and append
-          let rec = flatten(typ[key], e, level+1);
+          res.push({
+            l: level+1,
+            k: i.toString(),
+            kt: null,
+            v: Object.keys(e).length,
+            vt: 'counter',
+          });
+          let rec = flatten(typ[key], e, level+2);
           res.push(...rec);
         } else {
           res.push({
@@ -314,7 +268,7 @@ function flatten(typ, value, level) {
         k: key,
         kt: typ[key],
         v: j(value),
-        vt: 'json',
+        vt: ktyp,
       });
       break;
     case 'bytes':
@@ -396,6 +350,18 @@ const KeyType = ({ label, value }) => {
         <Typ title={j(value)}>[...]</Typ>
       </>
     );
+  case 'or':
+    return (
+      <>
+        <Var>{name}</Var>:&nbsp;
+        <Typ>{typ}</Typ>
+        ({
+          Object.values(value).map((v,i) => {
+            return (<ListArg key={i}><Typ title={j(v)}>{isString(v)?v:'object'}</Typ></ListArg>);
+          })
+        })
+      </>
+    );
   default:
     return ((isAddressType(typ) || !typ) && name.length === 36) ? (
       <Link to={`/${name}`}><Var>{getHashOrBakerName(name)}</Var></Link>
@@ -415,8 +381,8 @@ const Value = ({ type, value }) => {
   switch (type) {
   case 'key_hash': case 'address': case 'contract':
     return <Link to={`/${value}`}><Var>{getHashOrBakerName(value)}</Var></Link>;
-  case 'json':
-    return <Code>{value}</Code>;
+  case 'lambda':
+    return <Code>{j(value)}</Code>;
   case 'bool':
     return <Simple>{value.toString()}</Simple>;
   case 'counter':
@@ -445,7 +411,7 @@ const Value = ({ type, value }) => {
       return <Simple>{value.toString()}</Simple>;
     case isString(value) && /^[0-9A-F]+$/i.test(value):
       try {
-        const utf8 = Utf8ArrayToStr(fromHexString(value));
+        const utf8 = utf8ArrayToStr(fromHexString(value));
         // console.log("HEX->UTF-8", value, utf8);
         return <Simple>{utf8}</Simple>;
       }

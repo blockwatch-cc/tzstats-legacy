@@ -9,14 +9,6 @@ import _ from 'lodash';
 TimeAgo.addLocale(en);
 export const timeAgo = new TimeAgo('en-US');
 
-export function isUndefined(x) {
-  return typeof x === 'undefined';
-}
-
-export function isDefined(x) {
-  return typeof x !== 'undefined';
-}
-
 export function formatDayTime(ts, fullyear, noweekday) {
   const d = new Date(ts);
   const isThisYear = d.getFullYear() === new Date().getFullYear();
@@ -321,17 +313,17 @@ export function getAccountTags(account) {
   return tags;
 }
 
-export function getAccountType(account) {
-  if (!account.is_contract && !account.is_delegate && !account.is_delegated) {
+export function getAccountType(a) {
+  if (a.address.startsWith('tz') && !a.is_delegate && !a.is_delegated) {
     return { name: 'Basic Account', type: 'basic' };
   }
-  if (!account.is_contract && !account.is_delegate && account.is_delegated) {
+  if (a.address.startsWith('KT') && !a.is_contract) {
     return { name: 'Delegator Account', type: 'delegator' };
   }
-  if (!account.is_contract && account.is_delegate) {
+  if (a.address.startsWith('tz') && a.is_delegate) {
     return { name: 'Baker Account', type: 'baker' };
   }
-  if (account.is_contract) {
+  if (a.is_contract) {
     return { name: 'Smart Contract', type: 'contract' };
   }
   return { name: 'Basic Account', type: 'basic' };
@@ -466,4 +458,70 @@ export function getHashType(hash, strictMatch) {
     );
   });
   return match.length ? hashTypeMap[match[0]].type : null;
+}
+
+/* Smart Contract Data Rendering */
+
+export const isSimpleType = typ => ['int','nat','mutez','bool'].indexOf(typ) > -1;
+export const isAddressType = typ => ['key_hash','address','contract'].indexOf(typ) > -1;
+export const isContainerType = typ => ['list','set','map','big_map'].indexOf(typ) > -1;
+export const isString = val => typeof val === 'string' || val instanceof String;
+export const isArray = val => Array.isArray(val);
+export const isObject = val => typeof val === 'object' && val !== null && !isArray(val);
+export const isBool = val => typeof val === "boolean";
+export const isNumber = val => !isNaN(parseFloat(val)) && !isNaN(val - 0);
+export const isDefined = val => typeof val !== 'undefined';
+export const isUndefined = val => typeof x === 'undefined';
+export const isAddress = val => isString(val) && val.length === 36;
+export const isCode = val => isArray(val) && val.length && isDefined(val[0].prim);
+
+export const f = (v, pos) => v.split('@')[pos];
+export const fp = (v, pos) => parseInt(f(v,pos));
+export const j = v => isObject(v)||isArray(v)?JSON.stringify(v,null,2):undefined;
+
+/* utf.js - UTF-8 <=> UTF-16 convertion
+ *
+ * Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
+ * Version: 1.0
+ * LastModified: Dec 25 1999
+ * This library is free.  You can redistribute it and/or modify it.
+ */
+export const utf8ArrayToStr = array => {
+  var out, i, len, c;
+  var char2, char3;
+
+  out = "";
+  len = array.length;
+  i = 0;
+  while(i < len) {
+    c = array[i++];
+    switch(c >> 4)
+    {
+      case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+        // 0xxxxxxx
+        out += String.fromCharCode(c);
+        break;
+      case 12: case 13:
+        // 110x xxxx   10xx xxxx
+        char2 = array[i++];
+        out += String.fromCharCode(((c & 0x1F) << 6) | (char2 & 0x3F));
+        break;
+      case 14:
+        // 1110 xxxx  10xx xxxx  10xx xxxx
+        char2 = array[i++];
+        char3 = array[i++];
+        out += String.fromCharCode(((c & 0x0F) << 12) |
+                       ((char2 & 0x3F) << 6) |
+                       ((char3 & 0x3F) << 0));
+        break;
+      default:
+        break;
+    }
+  }
+
+  return out;
+}
+
+export const fromHexString = hexString => {
+  new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
 }

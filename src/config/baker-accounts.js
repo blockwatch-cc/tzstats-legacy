@@ -223,6 +223,9 @@ export const bakerAccounts = {
   KT1LH2o12xVRwTpJMZ6QJG74Fox8gE9QieFd: { name: 'TZBTC', logo: null, link: '', fee_type: '', fee: 0, token_type: 'tzbtc', bigmap_id: 446, net: 'NetXUdfLh6Gm88t' },
   KT1NCuMkcRrGDSiB5BX4xyBGEUtyyF7YDDYz: { name: 'TZBTC', logo: null, link: '', fee_type: '', fee: 0, token_type: 'tzbtc', bigmap_id: 518, txfn: '__entry_13__', net: 'NetXUdfLh6Gm88t' },
   KT1VG2WtYdSWz5E7chTeAdDPZNy2MpP8pTfL: { name: 'Atomex', logo: null, link: '', fee_type: '', fee: 0, token_type: 'atomex', bigmap_id: 4, txfn: 'redeem' },
+  KT1EctCuorV2NfVb1XTQgvzJ88MQtWP8cMMv: { name: 'StakerDAO', logo: null, link: '', fee_type: '', fee: 0, token_type: 'sdao', bigmap_id: 20, txfn: 'transfer' },
+  KT1BvVxWM6cjFuJNet4R9m64VDCN2iMvjuGE: { name: 'Tez-Baking Token', logo: null, link: '', fee_type: '', fee: 0, token_type: 'dab' },
+  KT1ChNsEFxwyCbJyWGSL3KdjeXE28AY1Kaog: { name: 'Baker Registry', logo: null, link: '', fee_type: '', fee: 0, token_type: 'breg' },
 };
 
 let payoutMap = null;
