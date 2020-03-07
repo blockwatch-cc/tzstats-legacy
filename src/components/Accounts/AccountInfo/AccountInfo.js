@@ -18,7 +18,8 @@ import { formatValue, formatCurrency, getAccountTags, getAccountType } from '../
 const AccountInfo = ({ account }) => {
   const tags = getAccountTags(account);
   const typ = getAccountType(account);
-
+  const isDelegator = typ.type === 'delegator';
+  const isBaker = typ.type === 'baker';
   const [chain] = useGlobal('chain');
   const [config] = useGlobal('config');
   const stakingCapacity = getStakingCapacity(account, chain, config);
@@ -76,7 +77,7 @@ const AccountInfo = ({ account }) => {
             />
             <DataBox valueType="currency-full" title="Total Burned" value={account.total_burned} />
           </FlexColumnSpaceBetween>
-          {account.is_delegate ? (
+          {isBaker ? (
             <FlexColumnSpaceBetween width={200} paddingTop={10}>
               <FlexRowSpaceBetween marginRight={-10}>
                 <DataBox title="Active Delegations" value={account.active_delegations} />
@@ -102,9 +103,9 @@ const AccountInfo = ({ account }) => {
                 </FlexRowSpaceBetween>
               </FlexColumn>
             </FlexColumnSpaceBetween>
-          ) : (typ.type === 'delegator' || account.is_contract) ? (
+          ) : (isDelegator || account.is_contract) ? (
             <FlexColumnSpaceBetween>
-              {account.delegate && !account.is_delegate ? (
+              {account.delegate && !isBaker ? (
                 <HashedBox hash={account.delegate} isCopy={false} typeName={`Current Delegate`} />
               ) : (
                 <DataBox title="Current Delegate" valueType="text" value="-"/>
