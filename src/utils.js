@@ -317,11 +317,11 @@ export function getAccountType(a) {
   if (a.address.startsWith('tz') && !a.is_delegate && !a.is_delegated) {
     return { name: 'Basic Account', type: 'basic' };
   }
+  if (a.address.startsWith('tz') && a.is_delegate) {
+    return { name: 'Baker Account', type: 'baker' };
+  }
   if (a.is_delegated || (a.address.startsWith('KT') && !a.is_contract)) {
     return { name: 'Delegator Account', type: 'delegator' };
-  }
-  if (a.address.startsWith('tz') && a.is_delegate && !a.is_delegated) {
-    return { name: 'Baker Account', type: 'baker' };
   }
   if (a.is_contract) {
     return { name: 'Smart Contract', type: 'contract' };
