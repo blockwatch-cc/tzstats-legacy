@@ -52,14 +52,14 @@ const StorageTable = ({ token, contract }) => {
                   <TableCellMinMax width={50}>
                     <CodeWrapper>
                       <PreWrapper>
-                        <Value type={row.vt} value={row.v} />
+                        <Value type={row.vt} value={row.v} utf8={token.config.utf8} />
                       </PreWrapper>
                     </CodeWrapper>
                   </TableCellMinMax>
                   ) : (
                   <TableCell width={50}>
                     <KVWrapper>
-                      <Value type={row.vt} value={row.v} />
+                      <Value type={row.vt} value={row.v} utf8={token.config.utf8} />
                     </KVWrapper>
                   </TableCell>
                   )
@@ -360,7 +360,7 @@ const KeyType = ({ label, value }) => {
   }
 };
 
-const Value = ({ type, value }) => {
+const Value = ({ type, value, utf8 }) => {
   if (value === null || value === undefined) {
     type = 'null';
   }
@@ -395,7 +395,7 @@ const Value = ({ type, value }) => {
       );
     case isBool(value) || isNumber(value):
       return <Simple>{value.toString()}</Simple>;
-    case isString(value) && /^[0-9A-F]+$/i.test(value):
+    case utf8 && isString(value) && /^[0-9A-F]+$/i.test(value):
       try {
         const utf8 = utf8ArrayToStr(fromHexString(value));
         // console.log("HEX->UTF-8", value, utf8);
@@ -470,7 +470,11 @@ const Code = styled.code`
 
 const KVWrapper = styled.div`
   white-space: normal;
-  display: block;
+  word-wrap: anywhere;
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 2;
+  flex-basis: 100%;
 `;
 
 const Var = styled.span`

@@ -475,6 +475,7 @@ export class Token {
     this.name = null;         // token name for rendering
     this.code = null;         // token name for rendering (ie. symbol)
     this.digits = 0;          // token precision
+    this.config = {};         // render config settings (txfn, utf8bytes)
     this.bigmaps = {};        // support multiple bigmaps by id
     this.ids.forEach(id => {
       this.bigmaps[id] = {
@@ -646,6 +647,8 @@ export async function makeToken(address, bigmap_ids = []) {
     break;
   default:
     token = new Token(address, bigmap_ids);
+    token.config.utf8 = !!meta.utf8;
+    token.config.txfn = meta.txfn||'transfer';
     break;
   }
   return token?token.load():null;

@@ -226,7 +226,7 @@ export const bakerAccounts = {
   KT1VG2WtYdSWz5E7chTeAdDPZNy2MpP8pTfL: { name: 'Atomex', logo: null, link: '', fee_type: '', fee: 0, token_type: 'atomex', bigmap_id: 4, txfn: 'redeem' },
   KT1EctCuorV2NfVb1XTQgvzJ88MQtWP8cMMv: { name: 'StakerDAO', logo: null, link: '', fee_type: '', fee: 0, token_type: 'sdao', bigmap_id: 20, txfn: 'transfer' },
   KT1BvVxWM6cjFuJNet4R9m64VDCN2iMvjuGE: { name: 'Tez-Baking Token', logo: null, link: '', fee_type: '', fee: 0, token_type: 'dab' },
-  KT1ChNsEFxwyCbJyWGSL3KdjeXE28AY1Kaog: { name: 'Baker Registry', logo: null, link: '', fee_type: '', fee: 0, token_type: 'breg' },
+  KT1ChNsEFxwyCbJyWGSL3KdjeXE28AY1Kaog: { name: 'Baker Registry', logo: null, link: '', fee_type: '', fee: 0, token_type: 'breg', utf8: true },
   KT1RM4Nzwe9kgyiF3WpqPdUezJ2SS7ixUdHX: { name: 'Trianon STO Issuer', logo: null, link: '', fee_type: '', fee: 0, token_type: 'nyx_issuer' },
   KT1XHAmdRKugP1Q38CxDmpcRSxq143KpEiYx: { name: 'Trianon STO Token', logo: null, link: '', fee_type: '', fee: 0, token_type: 'nyx_token' },
   KT1U1JZaXoG4u1EPnhHL4R4otzkWc1L34q3c: { name: 'Trianon KYC Registrar', logo: null, link: '', fee_type: '', fee: 0, token_type: 'nyx_kyc' },
