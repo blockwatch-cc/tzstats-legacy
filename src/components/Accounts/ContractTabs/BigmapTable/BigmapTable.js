@@ -174,7 +174,7 @@ function flattenBigmap(typ, entries) {
 function flatten(typ, value, level) {
   let res = [];
   var vkeys, tkeys;
-  // be resilient against simple/packed data where tye is 'bytes' and
+  // be resilient against simple/packed data where type is 'bytes' and
   // value may be an object or array
   if (isObject(value)) {
     vkeys = Object.keys(value).sort((a,b) => fp(a,0)-fp(b,0));
@@ -267,13 +267,13 @@ function flatten(typ, value, level) {
         l: level,
         k: key,
         kt: typ[key],
-        v: j(value),
+        v: value,
         vt: ktyp,
       });
       break;
-    case 'bytes':
-      //
-      break;
+    // case 'bytes':
+    //   //
+    //   break;
     default:
       // nested maps / objects
       if (isObject(val)) {
@@ -294,7 +294,7 @@ function flatten(typ, value, level) {
           k: key,
           kt: typ[key],
           v: val,
-          vt: typ[key],
+          vt: typ[key]||f(key,1),
         });
       }
     }
@@ -315,7 +315,7 @@ const KeyType = ({ label, value }) => {
     let kt = isObject(value)?value['0']:typ;
     let vt = isObject(value)?value['1']:'?';
     return (
-      <>
+      <KVWrapper>
         <Var>{name}</Var>:&nbsp;
         <Typ>{typ}</Typ>&nbsp;{'{'}&nbsp;
         <Typ title={j(kt)}>
@@ -326,33 +326,33 @@ const KeyType = ({ label, value }) => {
           { isString(vt)?vt:'object' }
         </Typ>
         &nbsp;{'}'}
-      </>
+      </KVWrapper>
     );
   case 'set':
   case 'list':
     // guard against undefined key types (ie. when handling unpacked data)
     let v = isObject(value)?value['0']:'?';
     return (
-      <>
+      <KVWrapper>
         <Var>{name}</Var>:&nbsp;
         <Typ>{typ}</Typ>&nbsp;{'{'}&nbsp;
         <Typ title={j(v)}>
           { isString(v)?v:'object' }
         </Typ>
         &nbsp;{'}'}
-      </>
+      </KVWrapper>
     );
   case 'lambda':
     return (
-      <>
+      <KVWrapper>
         <Var>{name}</Var>:&nbsp;
         <Typ>{typ}</Typ>&nbsp;
         <Typ title={j(value)}>[...]</Typ>
-      </>
+      </KVWrapper>
     );
   case 'or':
     return (
-      <>
+      <KVWrapper>
         <Var>{name}</Var>:&nbsp;
         <Typ>{typ}</Typ>
         ({
@@ -360,16 +360,16 @@ const KeyType = ({ label, value }) => {
             return (<ListArg key={i}><Typ title={j(v)}>{isString(v)?v:'object'}</Typ></ListArg>);
           })
         })
-      </>
+      </KVWrapper>
     );
   default:
     return ((isAddressType(typ) || !typ) && name.length === 36) ? (
       <Link to={`/${name}`}><Var>{getHashOrBakerName(name)}</Var></Link>
     ) : (
-      <>
+      <KVWrapper>
         <Var>{name}</Var>{typ&&':'}&nbsp;
         <Typ>{typ}</Typ>
-      </>
+      </KVWrapper>
     );
   }
 };
@@ -453,6 +453,7 @@ const CodeWrapper = styled.div`
   // flex-shrink: 0;
   // flex: 1;
   width: 100%;
+  max-width: 420px;
   &:before{
     content: 'Code';
     color: #999;
@@ -467,6 +468,8 @@ const PreWrapper = styled.pre`
   margin: 0;
   padding: 5px;
   overflow: auto;
+  word-wrap: anywhere;
+  max-height: 200px;
   // display: flex;
   // flex-basis: 100%;
   // flex-shrink: 0;
@@ -498,6 +501,7 @@ const Var = styled.span`
 
 const Typ = styled.span`
   color: #FF72EC;
+  white-space: nowrap;
 `;
 
 const Simple = styled.span`
