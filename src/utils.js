@@ -307,7 +307,7 @@ export function getAccountTags(account) {
       tags.push('Activated');
     }
   }
-  if (!account.is_active_delegate && account.is_delegate && !account.is_delegated) {
+  if (!account.is_active_delegate && account.is_delegate) {
     tags.push('Inactive');
   }
   return tags;
