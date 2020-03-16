@@ -118,6 +118,7 @@ export const bakerAccounts = {
   tz1go7f6mEQfT2xX2LuHAqgnRGN6c2zHPf5c: { name: 'Stakery' },
   tz1gs78wrxS34XhGPECmN5fABKpEuhUGwAXS: { name: 'Stakery Payouts', from: 'tz1go7f6mEQfT2xX2LuHAqgnRGN6c2zHPf5c' },
   tz1WpeqFaBG9Jm73Dmgqamy8eF8NWLz9JCoY: { name: 'Staking Facilities' },
+  tz1STeamwbp68THcny9zk3LsbG3H36DMvbRK: { name: 'StakingTeam' },
   tz1LH4L6XYT2JNPhvWYC4Zq3XEiGgEwzNRvo: { name: 'Stir Delegate' },
   tz1Lhf4J9Qxoe3DZ2nfe8FGDnvVj7oKjnMY6: { name: 'Tez Baker' },
   KT1TUi7KGFcTLku6niB2iGqzkv49ZLYxLRy1: { name: 'Tez Baker Payouts 1', from: 'tz1Lhf4J9Qxoe3DZ2nfe8FGDnvVj7oKjnMY6' },
@@ -196,6 +197,7 @@ export const bakerAccounts = {
   tz1WHALEgzq8cUUkg1vBKrpQrg9mysEX9NYR: { name: 'Tez Whale Payouts 1', from: 'tz1isXamBXpTUgbByQ6gXgZQg4GWNW7r6rKE' },
   tz1WHALEP56kjCTuUFLWjcBkfFpyevC4xo3t: { name: 'Tez Whale Payouts 2', from: 'tz1isXamBXpTUgbByQ6gXgZQg4GWNW7r6rKE' },
   tz1Zcxkfa5jKrRbBThG765GP29bUCU3C4ok5: { name: 'Tezz City' },
+  tz1dhwJY5B1jKdkF7zcyu1v6EBEQjpGmAp1E: { name: 'Tezzz' },
   tz1fUjvVhJrHLZCbhPNvDRckxApqbkievJHN: { name: 'Tezzieland' },
   tz1WntXgznbivRjyhE7Y5jEzoebAhMPB2iJa: { name: 'Tezzieland Payouts', from: 'tz1fUjvVhJrHLZCbhPNvDRckxApqbkievJHN' },
   tz3adcvQaKXTCg12zbninqo3q8ptKKtDFTLv: { name: 'Tezzigator' },
@@ -222,7 +224,8 @@ export const bakerAccounts = {
   tz1eZwq8b5cvE2bPKokatLkVMzkxz24z3Don: { name: 'You Loaf We Bake' },
   tz1L3vFD8mFzBaS8yLHFsd7qDJY1t276Dh8i: { name: 'Zed Node' },
   tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE: { name: 'ØCrypto Pool' },
-  // well-known contracts
+  // well-known contracts/accounts
+  tz1WcCGBxxPq61ddkp8X7vYMrWsBFMCxe5RD: { name: 'Fight COVID-19' },
   KT1LH2o12xVRwTpJMZ6QJG74Fox8gE9QieFd: { name: 'TZBTC', token_type: 'tzbtc', bigmap_id: 446, net: 'NetXUdfLh6Gm88t' },
   KT1NCuMkcRrGDSiB5BX4xyBGEUtyyF7YDDYz: { name: 'TZBTC', token_type: 'tzbtc', bigmap_id: 518, txfn: '__entry_13__', net: 'NetXUdfLh6Gm88t' },
   KT1VG2WtYdSWz5E7chTeAdDPZNy2MpP8pTfL: { name: 'Atomex', token_type: 'atomex', bigmap_id: 4, txfn: 'redeem' },

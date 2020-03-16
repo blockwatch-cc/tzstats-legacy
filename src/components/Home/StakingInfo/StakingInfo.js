@@ -5,6 +5,8 @@ import { useGlobal } from 'reactn';
 
 const StakingInfo = () => {
   const [chain] = useGlobal('chain');
+  // past year's absolute inflation relative to current total supply
+  const futureInflationRate = chain.inflation_1y / chain.supply.total * 100;
 
   return (
     <Wrapper>
@@ -21,7 +23,7 @@ const StakingInfo = () => {
             title="Rewards"
             valueType="text"
             valueSize="14px"
-            value={`${(chain.inflation_rate_1y / (chain.supply.active_staking / chain.supply.total)).toFixed(2)}%`}
+            value={`${(futureInflationRate / (chain.supply.active_staking / chain.supply.total)).toFixed(2)}%`}
           />
           <DataBox
             title="Inflation"
