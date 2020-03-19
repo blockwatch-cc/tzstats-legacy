@@ -1,4 +1,4 @@
-import { bakerAccounts } from './baker-accounts';
+import { getAliases, isMainnet } from './aliases';
 export const fiatCurrencies = [
   { name: 'USD', symbol: '$' },
   { name: 'EUR', symbol: '€' },
@@ -36,4 +36,4 @@ export const govNames = {
   '4': 'Promotion Vote',
   promotion_vote: 'Promotion Vote',
 };
-export { bakerAccounts };
+export { getAliases, isMainnet };

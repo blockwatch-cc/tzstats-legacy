@@ -1,12 +1,7 @@
 import React from 'react';
 import { useGlobal } from 'reactn';
-import { TZSTATS_API_URL } from '../config';
 import _ from 'lodash';
 
-// works with /explorer/config and /explorer/chain objects
-export function isMainnet(o) {
-  return (o && o.chain_id === 'NetXdQprcVkpaWU') || TZSTATS_API_URL === "https://api.tzstats.com" || TZSTATS_API_URL === "https://api.staging.tzstats.com";
-}
 
 export function buildTitle(config, page, name, by) {
   let title = [];

@@ -8,7 +8,7 @@ import StakingInfo from '../components/Home/StakingInfo';
 import ElectionProgress from '../components/Home/ElectionProgress';
 import AccountsGrowth from '../components/Home/AccountsGrowth';
 import { getOhlcvData } from '../services/api/markets';
-import { enableMarket } from '../config';
+import { enableMarket, isMainnet } from '../config';
 import {
   getElectionById,
   getTxVolume,
@@ -16,7 +16,7 @@ import {
 } from '../services/api/tz-stats';
 import TransactionVolume from '../components/Home/TransactionVolume';
 import { Spinner, Error, Centered, Devices } from '../components/Common';
-import { useMetaTags, isMainnet } from '../hooks/useMetaTags';
+import { useMetaTags } from '../hooks/useMetaTags';
 
 // @echa: FIXME dynamic data loading using timeouts and data watchers in react is a clusterfuck!
 // I have no idea how to fix this.

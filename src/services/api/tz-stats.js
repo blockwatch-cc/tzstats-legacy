@@ -1,5 +1,5 @@
 import { TZSTATS_API_URL } from '../../config';
-import { bakerAccounts } from '../../config/baker-accounts';
+import { getAliases } from '../../config/aliases';
 import fetch from 'isomorphic-fetch';
 
 const request = async (endpoint, options) => {
@@ -635,7 +635,7 @@ export async function makeToken(address, bigmap_ids = []) {
   if (!address) {
     return null;
   }
-  const meta = bakerAccounts[address]||{};
+  const meta = getAliases()[address]||{};
   const typ = meta.token_type||'unknown';
   let token = null;
   switch (typ) {

@@ -1,4 +1,6 @@
-export const bakerAccounts = {
+import { TZSTATS_API_URL } from '.';
+
+const allAliases = {
   tz1W1qbXXJrtLWwaaoXhe8LYGZqmNnpKaH9q: { name: '01Node' },
   tz1WBfwbT66FC6BTLexc2BoyCCBM9LG7pnVW: { name: '888XTZ' },
   tz1iLbZZ9uoRuVJCrZ9ZwiJMpfzhy3c67mav: { name: 'AirBie' },
@@ -226,8 +228,9 @@ export const bakerAccounts = {
   tz1KtvGSYU5hdKD288a1koTBURWYuADJGrLE: { name: 'ØCrypto Pool' },
   // well-known contracts/accounts
   tz1WcCGBxxPq61ddkp8X7vYMrWsBFMCxe5RD: { name: 'Fight COVID-19' },
-  KT1LH2o12xVRwTpJMZ6QJG74Fox8gE9QieFd: { name: 'TZBTC', token_type: 'tzbtc', bigmap_id: 446, net: 'NetXUdfLh6Gm88t' },
-  KT1NCuMkcRrGDSiB5BX4xyBGEUtyyF7YDDYz: { name: 'TZBTC', token_type: 'tzbtc', bigmap_id: 518, txfn: '__entry_13__', net: 'NetXUdfLh6Gm88t' },
+  KT1S4ne7rmQArkAeEzXqRYVhGU1dtDwPW1zY: { name: 'tzBTC', token_type: 'tzbtc', bigmap_id: 30, },
+  KT1LH2o12xVRwTpJMZ6QJG74Fox8gE9QieFd: { name: 'tzBTC', token_type: 'tzbtc', bigmap_id: 446, net: 'NetXUdfLh6Gm88t' },
+  KT1NCuMkcRrGDSiB5BX4xyBGEUtyyF7YDDYz: { name: 'tzBTC', token_type: 'tzbtc', bigmap_id: 518, txfn: '__entry_13__', net: 'NetXUdfLh6Gm88t' },
   KT1VG2WtYdSWz5E7chTeAdDPZNy2MpP8pTfL: { name: 'Atomex', token_type: 'atomex', bigmap_id: 4, txfn: 'redeem' },
   KT1EctCuorV2NfVb1XTQgvzJ88MQtWP8cMMv: { name: 'StakerDAO', token_type: 'sdao', bigmap_id: 20, txfn: 'transfer' },
   KT1BvVxWM6cjFuJNet4R9m64VDCN2iMvjuGE: { name: 'Tez-Baking Token', token_type: 'dab' },
@@ -237,14 +240,35 @@ export const bakerAccounts = {
   KT1U1JZaXoG4u1EPnhHL4R4otzkWc1L34q3c: { name: 'Trianon KYC Registrar', token_type: 'nyx_kyc' },
 };
 
+// works with /explorer/config and /explorer/chain objects
+export function isMainnet(o) {
+  return (o && o.chain_id === 'NetXdQprcVkpaWU') || TZSTATS_API_URL === "https://api.tzstats.com" || TZSTATS_API_URL === "https://api.staging.tzstats.com";
+}
+
+let __aliases = null;
+
+export function getAliases(o) {
+  if (!__aliases && o) {
+    const net = isMainnet(o.chain_id) ? undefined : o.chain_id;
+    __aliases = {};
+    Object.keys(allAliases).forEach(key => {
+      if (allAliases[key].net === net) {
+        __aliases[key] = allAliases[key];
+      }
+    });
+  }
+  return __aliases || allAliases;
+}
+
 let payoutMap = null;
 
 export function getPayoutAddresses(baker = []) {
   // lazy-create payout map
   if (!payoutMap) {
     payoutMap = new Map();
-    Object.keys(bakerAccounts).forEach(key => {
-      const desc = bakerAccounts[key];
+    const aliases = getAliases();
+    Object.keys(aliases).forEach(key => {
+      const desc = aliases[key];
       if (desc.from) {
         let arr = payoutMap.get(desc.from)||[];
         arr.push(key);

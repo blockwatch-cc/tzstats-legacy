@@ -11,7 +11,7 @@ import Logo from './Logo';
 import { getChainData, getChainConfig } from '../../../services/api/tz-stats';
 import { useGlobal } from 'reactn';
 import useOnline from '../../../hooks/useOnline';
-import { enableMarket } from '../../../config';
+import { enableMarket, getAliases } from '../../../config';
 import Footer from '../Footer';
 
 const Sidebar = () => {
@@ -47,6 +47,7 @@ const Sidebar = () => {
           const [c, d] = await Promise.all([getChainConfig(), getChainData()]);
           delay.current = c.time_between_blocks[0] * 1000 || 60000;
           timer = setTimer(diffTime(d.timestamp, delay.current * 1.25));
+          getAliases(c); // init network-specific aliases
           setConfig(c);
           setChain(d);
         } catch (e) {
