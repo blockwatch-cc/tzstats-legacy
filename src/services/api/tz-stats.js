@@ -618,10 +618,10 @@ export class TZBTCToken extends Token {
         // non-ledger entries
         this.config[val.key_pretty] = val.value_unpacked;
         switch (val.key_pretty) {
-        case 'tokencode':
+        case 'tokenCode': case 'tokencode':
           this.code = val.value_unpacked;
           break;
-        case 'tokenname':
+        case 'tokenName': case 'tokenname':
           this.name = val.value_unpacked;
           break;
         default:

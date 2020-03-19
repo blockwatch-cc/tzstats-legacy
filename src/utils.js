@@ -473,7 +473,7 @@ export const isObject = val => typeof val === 'object' && val !== null && !isArr
 export const isBool = val => typeof val === "boolean";
 export const isNumber = val => !isNaN(parseFloat(val)) && !isNaN(val - 0);
 export const isDefined = val => typeof val !== 'undefined';
-export const isUndefined = val => typeof x === 'undefined';
+export const isUndefined = val => typeof val === 'undefined';
 export const isAddress = val => isString(val) && val.length === 36;
 export const isCode = val => isArray(val) && val.length && isDefined(val[0].prim);
 
