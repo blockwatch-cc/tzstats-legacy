@@ -38,8 +38,8 @@ const EntrypointTable = ({ token, contract }) => {
 
 const CallTpl = ({ entry }) => {
   return (
-    <>
-      <Fname>{entry.call}</Fname>&nbsp;(
+    <FunWrapper>
+      <Fname>{entry.call}</Fname> (
       {
         Object.keys(entry.type)
         .sort((a,b) => parseInt(a.split('@')[0])-parseInt(b.split('@')[0]))
@@ -53,10 +53,17 @@ const CallTpl = ({ entry }) => {
         })
       }
       )
-    </>
+    </FunWrapper>
   );
 };
 
+const FunWrapper = styled.div`
+  white-space: normal;
+  word-wrap: normal;
+  flex-grow: 1;
+  flex-shrink: 2;
+  flex-basis: 100%;
+`;
 
 const Fname = styled.span`
   color: #fff;
@@ -64,8 +71,7 @@ const Fname = styled.span`
 
 const Farg = styled.span`
   &:not(:last-child):after {
-    content: ",";
-    padding-right: 4px;
+    content: ", ";
   }
 `;
 
