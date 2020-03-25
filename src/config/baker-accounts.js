@@ -24,6 +24,8 @@ export const bakerAccounts = {
   tz1NRGxXV9h6SdNaZLcgmjuLx3hyy2f8YoGN: { name: 'Bake Tz For Me' },
   tz1Pv7ha8wzAyRHkR9RahWapdopK1tt6nVz1: { name: 'Baking Co-operative' },
   tz1RV1MBbZMR68tacosb7Mwj6LkbPSUS1er1: { name: 'Baking Tacos' },
+  tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g: { name: 'Baking Team' },
+  tz1PayLDWLg39fbkwKejnT3aijz4QEd5kgt3: { name: 'Baking Team Payouts' },
   tz1SiPXX4MYGNJNDsRc7n8hkvUqFzg8xqF9m: { name: 'Binance' },
   tz1S8MNvuFEUsWgjHvi3AxibRBf388NhT1q2: { name: 'Binance Baker' },
   tz1eogbwM5NdoojKEvvSnjYGcJapZgADRK3m: { name: 'Binance Delegator' },
