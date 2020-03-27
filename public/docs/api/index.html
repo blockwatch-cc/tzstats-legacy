@@ -3913,10 +3913,6 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Inserted, updated or deleted bigmap entries as embedded JSON object, contract-only.</td>
 </tr>
 <tr>
-<td><code>errors</code> <em>object</em></td>
-<td>When failed, contains details about the reason as JSON object.</td>
-</tr>
-<tr>
 <td><code>days_destroyed</code> <em>float</em></td>
 <td>Token days destroyed by this operation (<code>tokens transferred * token idle time</code>).</td>
 </tr>
@@ -3937,8 +3933,8 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>List of bigmap updates.</td>
 </tr>
 <tr>
-<td><code>errors</code> <em>object</em></td>
-<td>Embedded native Tezos RPC error object.</td>
+<td><code>errors</code> <em>array</em></td>
+<td>Native Tezos RPC errors.</td>
 </tr>
 <tr>
 <td><code>sender</code> <em>hash</em></td>
