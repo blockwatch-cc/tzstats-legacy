@@ -596,7 +596,7 @@ export class TZBTCToken extends Token {
   constructor(address, meta) {
     super(address, meta&&meta.bigmap_id?[meta.bigmap_id]:[]);
     this.type = 'tzbtc';
-    this.digits = 6;
+    this.digits = 8;
     this.config = {};
     this.txfn = meta.txfn || 'transfer';
   }
