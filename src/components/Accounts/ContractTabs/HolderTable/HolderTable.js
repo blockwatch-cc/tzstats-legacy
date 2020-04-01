@@ -64,7 +64,7 @@ const HolderTable = ({ token }) => {
                     <Link to={`/${item.address}`}>{getShortHashOrBakerName(item.address)}</Link>
                   </TableCell>
                   <TableCell width={15} justify="flex-end"><Value value={item.balance} type="currency" sym={token.code} digits={0} zero="-"/></TableCell>
-                  <TableCell width={10} justify="flex-end"><Value value={item.balance/token.config.totalSupply} type="percent" prec={6} digits={3} zero="-"/></TableCell>
+                  <TableCell width={10} justify="flex-end"><Value value={item.balance/token.totalSupply} type="percent" prec={token.decimals} digits={3} zero="-"/></TableCell>
                   <TableCell width={45}></TableCell>
                 </TableRow>
               );

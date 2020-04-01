@@ -474,7 +474,10 @@ export class Token {
     this.type = null;         // detected token type
     this.name = null;         // token name for rendering
     this.code = null;         // token name for rendering (ie. symbol)
-    this.digits = 0;          // token precision
+    this.decimals = 0;        // token precision
+    this.totalSupply = 0;     // supply data
+    this.totalMinted = 0;     //
+    this.totalBurned = 0;     //
     this.config = {};         // render config settings (txfn, utf8bytes)
     this.bigmaps = {};        // support multiple bigmaps by id
     this.ids.forEach(id => {
@@ -574,7 +577,7 @@ export class FA12Token extends Token {
   }
 
   processStorage(storage) {
-    this.config.totalSupply = storage.value.totalSupply;
+    this.totalSupply = parseInt(storage.value.totalSupply);
     return storage;
   }
 }
@@ -596,33 +599,53 @@ export class TZBTCToken extends Token {
   constructor(address, meta) {
     super(address, meta&&meta.bigmap_id?[meta.bigmap_id]:[]);
     this.type = 'tzbtc';
-    this.digits = 8;
+    this.decimals = 8;
     this.config = {};
     this.txfn = meta.txfn || 'transfer';
   }
 
   processBigmapValues(values = []) {
+    // extract metadata first (to read decimals)
+    values.forEach(val => {
+      if (val.key_pretty === 'tokenMetadata') {
+        // https://gitlab.com/tzip/tzip/-/blob/master/proposals/tzip-12/tzip-12.md#token_metadata
+        this.code = val.value_unpacked['1@string'];
+        this.name = val.value_unpacked['2@string'];
+        this.decimals = parseInt(val.value_unpacked['3@int']);
+        this.meta = val.value_unpacked['4@list'];
+      }
+    });
+
     values.forEach(val => {
       switch (true) {
       case val.key_pretty.startsWith('ledger'):
         // ledger entries
         this.holders.push({
           address: val.key_unpacked['1@bytes'],
-          balance: parseInt(val.value_unpacked['0@int']),
+          balance: parseInt(val.value_unpacked['0@int'])/Math.pow(10, this.decimals),
         });
         break;
       case val.key_pretty.startsWith('code'):
         // ignore code entries
         break;
       default:
-        // non-ledger entries
+        // other non-ledger entries
         this.config[val.key_pretty] = val.value_unpacked;
         switch (val.key_pretty) {
-        case 'tokenCode': case 'tokencode':
+        case 'tokenCode': case 'tokencode': // deprecated
           this.code = val.value_unpacked;
           break;
-        case 'tokenName': case 'tokenname':
+        case 'tokenName': case 'tokenname': // deprecated
           this.name = val.value_unpacked;
+          break;
+        case 'totalSupply':
+          this.totalSupply = parseInt(val.value_unpacked)/Math.pow(10, this.decimals);
+          break;
+        case 'totalMinted':
+          this.totalMinted = parseInt(val.value_unpacked)/Math.pow(10, this.decimals);
+          break;
+        case 'totalBurned':
+          this.totalBurned = parseInt(val.value_unpacked)/Math.pow(10, this.decimals);
           break;
         default:
         }

@@ -19,7 +19,8 @@ const TransferTable = ({ token }) => {
       entrypoint: token.txfn,
       offset: data.table.length
     });
-    xfer = xfer.filter(op => op.parameters.entrypoint === 'transfer');
+    // Note: 'entrypoint' is the Michelson entrypoint, 'call' is the actual function
+    xfer = xfer.filter(op => op.parameters.call === token.txfn);
     let eof = !xfer.length;
     setData({
       table: [...data.table, ...xfer],
@@ -35,7 +36,7 @@ const TransferTable = ({ token }) => {
         order: 'desc',
         entrypoint: token.txfn,
       });
-      xfer = xfer.filter(op => op.parameters.entrypoint === 'transfer');
+      xfer = xfer.filter(op => op.parameters.call === token.txfn);
       let eof = !xfer.length;
       setData({
         table: xfer,
@@ -71,12 +72,12 @@ const TransferTableTpl = ({ data, token }) => {
         {data.isLoaded ? (
           data.table && data.table.length ? (
             data.table.map((item, i) => {
-              const xfer = item.parameters.value.transfer;
+              const xfer = item.parameters.value[token.txfn];
               return (
                 <TableRow key={i} color={item.is_success?'inherit':'#ED6290'}>
                   <TableCell width={5}><TableDetails>{i+1}</TableDetails></TableCell>
                   <TableCell width={15} justify="flex-end">
-                    <Value value={xfer.value} type="currency" sym={token.code} digits={token.digits} zero="-"/>
+                    <Value value={parseInt(xfer.value)/Math.pow(10, token.decimals)} type="currency" sym={token.code} digits={0} zero="-"/>
                   </TableCell>
                   <TableCell width={20}>
                     <Blockies hash={xfer.from} />

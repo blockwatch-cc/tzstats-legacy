@@ -18,7 +18,7 @@ const TzbtcInfo = ({ token }) => {
           <DataBox
             valueType="currency-full"
             title="Total Supply"
-            value={parseInt(token.config.totalSupply)}
+            value={token.totalSupply}
             valueOpts={{sym:token.code}}
           />
           <DataBox
