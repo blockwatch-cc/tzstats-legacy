@@ -49,7 +49,7 @@ const ContractInfo = ({ account, contract, token }) => {
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween>
             {account.manager ? (
-              <HashedBox hash={account.manager} isCopy={false} typeName={`Manager`} />
+              <HashedBox hash={account.manager} isCopy={false} typeName={`Creator`} />
             ) : (
               <div>&nbsp;</div>
             )}

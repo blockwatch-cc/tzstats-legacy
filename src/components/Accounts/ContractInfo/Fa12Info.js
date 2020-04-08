@@ -25,7 +25,7 @@ const Fa12Info = ({ token }) => {
           />
         </FlexColumnSpaceBetween>
         <FlexColumnSpaceBetween>
-          <HashedBox hash={token.config.admin} isCopy={false} typeName={`Admin`} />
+          <HashedBox hash={token.config.admin} isCopy={false} typeName={`Owner`} />
           <HashedBox hash={token.config.redeemAddress} isCopy={false} typeName={`Redeem Address`} />
         </FlexColumnSpaceBetween>
       </FlexRowSpaceBetween>

@@ -65,9 +65,9 @@ const CallTableTpl = ({ data, contract, incoming }) => {
     <>
       <TableHeader>
         <TableHeaderCell width={3}>No</TableHeaderCell>
-        <TableHeaderCell width={18}>Sender</TableHeaderCell>
+        <TableHeaderCell width={20}>Sender</TableHeaderCell>
         <TableHeaderCell width={18}>Target</TableHeaderCell>
-        <TableHeaderCell width={20}>Call</TableHeaderCell>
+        <TableHeaderCell width={19}>Call</TableHeaderCell>
         <TableHeaderCell width={10}>Fee</TableHeaderCell>
         <TableHeaderCell width={18}>Date</TableHeaderCell>
         <TableHeaderCell width={12}>Hash</TableHeaderCell>
