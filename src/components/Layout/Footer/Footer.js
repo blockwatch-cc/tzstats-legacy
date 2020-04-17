@@ -67,5 +67,5 @@ const LinkedText = styled.span`
 const Text = styled.span`
   color: rgba(255, 255, 255, 0.52);
   padding-right: 15px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 `;
