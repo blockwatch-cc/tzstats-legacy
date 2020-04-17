@@ -40,6 +40,16 @@ const Footer = () => (
         </LinkedText>
       </Text>
     </FlexRow>
+    <FlexRow width='100%' flex={1}>
+      <Text>
+        {'Made by '}
+        <LinkedText>
+          <a target="_blank" rel="noopener" href="https://blockwatch.cc">
+            Blockwatch Data
+          </a>
+        </LinkedText>
+      </Text>
+    </FlexRow>
   </Wrapper>
 );
 export default Footer;
