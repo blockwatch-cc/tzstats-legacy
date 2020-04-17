@@ -44,7 +44,7 @@ const Footer = () => (
       <Text>
         {'Made by '}
         <LinkedText>
-          <a target="_blank" rel="noopener" href="https://blockwatch.cc">
+          <a target="_blank" rel="noopener noreferrer" href="https://blockwatch.cc">
             Blockwatch Data
           </a>
         </LinkedText>
