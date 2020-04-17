@@ -146,16 +146,17 @@ const OtherTable = ({ data, account }) => {
         {data.isLoaded ? (
           data.table && data.table.length ? (
             data.table.map((item, i) => {
+              const target = item.type === 'delegation' ? item.delegate : item.receiver;
               return (
                 <TableRow key={i} color={item.is_success?'inherit':'#ED6290'}>
                   <TableCell width={3}><TableDetails>{i+1}</TableDetails></TableCell>
                   <TableCell width={5} title={(item.is_success?'':'Failed ')+opNames[item.type]}>
                     <TxTypeIcon isSuccess={item.is_success} type={item.type} />
                   </TableCell>
-                  {item.delegate||item.receiver ? (
+                  {target ? (
                     <TableCell width={20}>
-                      <Blockies hash={item.delegate||item.receiver} />
-                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${item.delegate||item.receiver}`}>{getShortHashOrBakerName(item.delegate||item.receiver)}</Link>
+                      <Blockies hash={target} />
+                      <Link style={{color:item.is_success?'inherit':'#ED6290'}} to={`/${target}`}>{getShortHashOrBakerName(target)}</Link>
                     </TableCell>
                   ) : (
                     <TableCell width={20}>-</TableCell>
