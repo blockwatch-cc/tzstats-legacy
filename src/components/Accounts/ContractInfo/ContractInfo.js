@@ -77,6 +77,7 @@ const TokenInfo = ({ token }) => {
   case 'tzbtc':
     return <TzbtcInfo token={token} />;
   case 'fa12':
+  case 'staker':
     return <Fa12Info token={token} />;
   default:
     return (

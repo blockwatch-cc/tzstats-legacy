@@ -220,7 +220,7 @@ function flatten(typ, value, level) {
           res.push({
             l: level+1,
             k: k,
-            kt: null, // typ[key]['0'],
+            kt: typ[key]['0'],
             v: val[k],
             vt: typ[key]['1'],
           });
@@ -245,7 +245,7 @@ function flatten(typ, value, level) {
           res.push({
             l: level+1,
             k: i.toString(),
-            kt: null,
+            kt: typ[key]['0'],
             v: Object.keys(e).length,
             vt: 'counter',
           });
@@ -255,9 +255,9 @@ function flatten(typ, value, level) {
           res.push({
             l: level+1,
             k: i.toString(),
-            kt: null,
+            kt: typ[key]['0'],
             v: e,
-            vt: typ[key],
+            vt: typ[key]['0'],
           });
         }
       });

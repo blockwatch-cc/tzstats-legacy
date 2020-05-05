@@ -153,19 +153,17 @@ export const getContractCallsTable = async ({
 
 export const getContractCalls = async ({
   address,
-  type = 'transaction',
   entrypoint,
   offset,
   limit = 100,
   order = 'asc',
 }) => {
-  const typ = Array.isArray(type)?'type.in=' + type.join(','):'type='+type;
   offset = offset ? '&offset=' + offset : '';
   limit = limit ? '&limit=' + limit : '';
   order = '&order='+order;
   entrypoint = entrypoint ? '&entrypoint=' + entrypoint : '';
   const response = await request(
-    `/explorer/contract/${address}/calls?${typ}${entrypoint}${order}${offset}${limit}`
+    `/explorer/contract/${address}/calls?${entrypoint}${order}${offset}${limit}`
   );
   return response;
 };
@@ -571,14 +569,58 @@ export class Token {
 }
 
 export class FA12Token extends Token {
-  constructor(contract, meta) {
-    super(contract, meta&&meta.bigmap_id?[meta.bigmap_id]:[]);
+  constructor(contract, meta = {}) {
+    super(contract, meta.bigmap_id?[meta.bigmap_id]:[]);
     this.type = 'fa12';
+    this.decimals = 0;
+    this.code = meta.code;
+    this.name = meta.name;
+    this.txfn = meta.txfn || 'transfer';
   }
 
   processStorage(storage) {
-    this.totalSupply = parseInt(storage.value.totalSupply);
+    this.totalSupply = parseInt(storage.value.totalSupply)/Math.pow(10, this.decimals);
+    this.paused = storage.value.paused === 'true';
+    this.admin = storage.value.admin;
     return storage;
+  }
+
+  processBigmapValues(values = []) {
+    // ledger entries
+    values.forEach(val => {
+      this.holders.push({
+        address: val.key, // address
+        balance: parseInt(val.value.balance)/Math.pow(10, this.decimals), // nat
+      });
+    });
+  }
+}
+
+// Staker DAO seems like FA12 but uses different storage
+export class StakerToken extends Token {
+  constructor(contract, meta) {
+    super(contract, meta&&meta.bigmap_id?[meta.bigmap_id]:[]);
+    this.type = 'staker';
+    this.code = 'STKR';
+    this.name = 'Staker';
+    this.decimals = 1;
+    this.txfn = meta.txfn || 'transfer';
+  }
+
+  processStorage(storage) {
+    this.totalSupply = parseInt(storage.value['6@nat'])/Math.pow(10, this.decimals);
+    return storage;
+  }
+
+  processBigmapValues(values = []) {
+    // ledger entries
+    values.forEach(val => {
+      this.holders.push({
+        address: val.key, // address
+        balance: parseInt(val.value)/Math.pow(10, this.decimals), // nat
+      });
+    });
+    return values;
   }
 }
 
@@ -651,6 +693,8 @@ export class TZBTCToken extends Token {
         }
       }
     }, this);
+
+    return values;
   }
 }
 
@@ -667,6 +711,9 @@ export async function makeToken(address, bigmap_ids = []) {
     break;
   case 'fa12':
     token = new FA12Token(address, meta);
+    break;
+  case 'staker':
+    token = new StakerToken(address, meta);
     break;
   default:
     token = new Token(address, bigmap_ids);

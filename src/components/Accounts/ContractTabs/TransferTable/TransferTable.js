@@ -20,7 +20,7 @@ const TransferTable = ({ token }) => {
       offset: data.table.length
     });
     // Note: 'entrypoint' is the Michelson entrypoint, 'call' is the actual function
-    xfer = xfer.filter(op => op.parameters.call === token.txfn);
+    xfer = xfer.filter(op => op.parameters && op.parameters.call === token.txfn);
     let eof = !xfer.length;
     setData({
       table: [...data.table, ...xfer],
@@ -36,7 +36,7 @@ const TransferTable = ({ token }) => {
         order: 'desc',
         entrypoint: token.txfn,
       });
-      xfer = xfer.filter(op => op.parameters.call === token.txfn);
+      xfer = xfer.filter(op => op.parameters && op.parameters.call === token.txfn);
       let eof = !xfer.length;
       setData({
         table: xfer,
