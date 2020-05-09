@@ -1,6 +1,6 @@
-## Tezos Blockchain Explorer
+## Tezos Block Explorer
 
-A block explorer for public and private Tezos blockchain networks based on the TzStats/Blockwatch Indexer backend available [here](https://github.com/blockwatch-cc/tzindex).
+A block explorer for public and private Tezos blockchain networks based on the TzIndex backend available [here](https://github.com/blockwatch-cc/tzindex). Supported by [Blockwatch Data](https://blockwatch.cc), Pro version available on request.
 
 ## Develop
 
