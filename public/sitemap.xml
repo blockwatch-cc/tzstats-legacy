@@ -7,14 +7,6 @@
   </url>
 
   <url>
-    <loc>https://tzstats.com/markets</loc>
-  </url>
-
-  <url>
-    <loc>https://tzstats.com/election/head</loc>
-  </url>
-
-  <url>
     <loc>https://tzstats.com/docs/api/index.html</loc>
   </url>
 
@@ -23,11 +15,11 @@
   </url>
 
   <url>
-    <loc>https://babylonnet.tzstats.com/</loc>
+    <loc>https://carthagenet.tzstats.com/</loc>
   </url>
 
   <url>
-    <loc>https://zeronet.tzstats.com/</loc>
+    <loc>https://babylonnet.tzstats.com/</loc>
   </url>
 
 </urlset>

@@ -572,7 +572,7 @@ export class FA12Token extends Token {
   constructor(contract, meta = {}) {
     super(contract, meta.bigmap_id?[meta.bigmap_id]:[]);
     this.type = 'fa12';
-    this.decimals = 0;
+    this.decimals = meta.decimals || 0;
     this.code = meta.code;
     this.name = meta.name;
     this.txfn = meta.txfn || 'transfer';

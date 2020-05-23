@@ -1,13 +1,13 @@
-# Tzstats build container
+# TzStats build container
 #
 FROM          idx.trimmer.io/serve:1.1-alpine
-MAINTAINER    Alexander Eichhorn <alex@kidtsunami.com>
+MAINTAINER    Alexander Eichhorn <alex@blockwatch.cc>
 
 ARG           BUILD_VERSION
 ARG           BUILD_DATE
 ARG           BUILD_ID
 
-LABEL         vendor=KIDTSUNAMI\ UG \
+LABEL         vendor=BLOCKWATCH\ DATA\ INC \
               io.trimmer.service="tzstats" \
               io.trimmer.tier="frontend" \
               io.trimmer.arch="browser" \
