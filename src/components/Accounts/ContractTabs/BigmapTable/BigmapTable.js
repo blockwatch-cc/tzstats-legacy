@@ -191,13 +191,14 @@ function flatten(typ, value, level) {
     let val = value[vkeys[i]];
     const ktyp = f(key,2) || ( isString(val) ? val : f(key,1) );
       // console.log("Value", ktyp, typ[key], val);
+    const typdef = typ[key];
     switch (ktyp) {
     case 'map':
       // add 'n entries' line
       res.push({
         l: level,
         k: key,
-        kt: typ[key],
+        kt: typdef,
         v: Object.keys(val).length,
         vt: 'counter',
       });
@@ -209,20 +210,20 @@ function flatten(typ, value, level) {
           res.push({
             l: level+1,
             k: k,
-            kt: typ[key]['0'],
+            kt: typdef ? typdef['0'] : null,
             v: Object.keys(val[k]).length,
             vt: 'counter',
           });
           // recurse and append
-          let rec = flatten(typ[key]['1'], val[k], level+2);
+          let rec = flatten(typdef ? typdef['1'] : null, val[k], level+2);
           res.push(...rec);
         } else {
           res.push({
             l: level+1,
             k: k,
-            kt: typ[key]['0'],
+            kt: typdef ? typdef['0'] : null,
             v: val[k],
-            vt: typ[key]['1'],
+            vt: typdef ? typdef['1'] : null,
           });
         }
       });
@@ -233,7 +234,7 @@ function flatten(typ, value, level) {
       res.push({
         l: level,
         k: key,
-        kt: typ[key],
+        kt: typdef,
         v: Object.keys(val).length,
         vt: 'counter',
       });
@@ -245,19 +246,22 @@ function flatten(typ, value, level) {
           res.push({
             l: level+1,
             k: i.toString(),
-            kt: typ[key]['0'],
+            kt: typdef ? typdef['0'] : null,
             v: Object.keys(e).length,
             vt: 'counter',
           });
-          let rec = flatten(typ[key], e, level+2);
+          let rec = flatten(typdef, e, level+2);
           res.push(...rec);
         } else {
+          if (!typ[key]) {
+            console.log("MISSING KEY:", key ,"in", typ);
+          }
           res.push({
             l: level+1,
             k: i.toString(),
-            kt: typ[key]['0'],
+            kt: typdef ? typdef['0'] : null,
             v: e,
-            vt: typ[key]['0'],
+            vt: typdef ? typdef['0'] : null,
           });
         }
       });
@@ -266,7 +270,7 @@ function flatten(typ, value, level) {
       res.push({
         l: level,
         k: key,
-        kt: typ[key],
+        kt: typdef,
         v: value,
         vt: ktyp,
       });
@@ -281,20 +285,20 @@ function flatten(typ, value, level) {
         res.push({
           l: level,
           k: key,
-          kt: typ[key],
+          kt: typdef,
           v: Object.keys(val).length,
           vt: 'counter',
         });
         // recurse and append
-        let rec = flatten(typ[key], val, level+1);
+        let rec = flatten(typdef, val, level+1);
         res.push(...rec);
       } else {
         res.push({
           l: level,
           k: key,
-          kt: typ[key],
+          kt: typdef,
           v: val,
-          vt: typ[key]||f(key,1),
+          vt: typdef||f(key,1),
         });
       }
     }
