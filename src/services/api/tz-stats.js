@@ -603,7 +603,7 @@ export class StakerToken extends Token {
     this.type = 'staker';
     this.code = 'STKR';
     this.name = 'Staker';
-    this.decimals = 1;
+    this.decimals = 0;
     this.txfn = meta.txfn || 'transfer';
   }
 
