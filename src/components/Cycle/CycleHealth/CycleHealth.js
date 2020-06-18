@@ -13,8 +13,8 @@ const CycleHealth = ({ cycle }) => {
         {cycle.is_active || cycle.is_complete ? (
           <FlexRowSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
-              <DataBox title="Active Bakers" value={cycle.active_bakers} />
-              <DataBox title="Active Endorsers" value={cycle.active_endorsers} />
+              <DataBox title="Active Bakers" value={cycle.active_bakers||cycle.working_bakers} />
+              <DataBox title="Active Endorsers" value={cycle.active_endorsers||cycle.working_endorsers} />
             </FlexColumnSpaceBetween>
             <FlexColumnSpaceBetween minHeight={100}>
               <DataBox title="Missed Priorities" value={cycle.missed_priorities} />
