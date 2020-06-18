@@ -205,6 +205,7 @@ const allAliases = {
   tz1PeZx7FXy7QRuMREGXGxeipb24RsMMzUNe: { name: 'Tezos Panda' },
   KT1PnRgUjx7dD4xrnXnpJHz9MfnCWoeT6UBr: { name: 'Tezos Panda Payouts', from: 'tz1PeZx7FXy7QRuMREGXGxeipb24RsMMzUNe' },
   tz1b9MYGrbN1NAxphLEsPPNT9JC7aNFc5nA4: { name: 'Tezos R Us' },
+  tz1LXz7C2wPr74nfMMHmqsqbnasPvi89o2U6: { name: 'Tezos Rus Payouts', from: 'tz1b9MYGrbN1NAxphLEsPPNT9JC7aNFc5nA4' },
   tz1PG54voChw5E5311WAnsfEo19VFtkUadYt: { name: 'Tezos Réunion 🇷🇪' },
   tz1cZfFQpcYhwDp7y1njZXDsZqCrn2NqmVof: { name: 'Tezos Rio' },
   tz1gfipKzYrNRT14oSNQJMCdRRsUtcbZoKsd: { name: 'Tezos Rio Legacy' },
