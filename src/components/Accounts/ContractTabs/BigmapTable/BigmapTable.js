@@ -70,9 +70,9 @@ const BigmapTable = ({ token, bigmapid }) => {
 };
 
 const BigmapTableTpl = ({ data, token, bigmapid }) => {
+  if (!data || data.id !== bigmapid) { return ''; }
   const typ = token.bigmaps[bigmapid].meta.type;
   let rows = flattenBigmap(typ, data.table);
-  // console.log(rows);
   return (
     <>
       <TableHeader>
