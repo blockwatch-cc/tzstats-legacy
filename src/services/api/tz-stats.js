@@ -104,8 +104,7 @@ export const getAccountOperations = async ({
     'height',
     'reward',
   ];
-  const typ =
-    'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals,seed_nonce_revelation' : '=' + type);
+  const typ = 'type' + (type === 'other' ? '.nin=transaction,endorsement,ballot,proposals,bake,unfreeze' : '=' + type);
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     `/tables/op?${direction}=${address}&${typ}&order=${order}&columns=${columns.join(',')}&limit=${limit}${cursor}`
@@ -143,7 +142,7 @@ export const getContractCallsTable = async ({
     'gas_used',
     'gas_limit',
   ];
-  const typ = Array.isArray(type)?'type.in=' + type.join(','):'type='+type;
+  const typ = Array.isArray(type) ? 'type.in=' + type.join(',') : 'type=' + type;
   cursor = cursor ? '&cursor=' + cursor : '';
   const response = await request(
     `/tables/op?${direction}=${address}&${typ}&order=${order}&columns=${columns.join(',')}&limit=${limit}${cursor}`
@@ -151,20 +150,12 @@ export const getContractCallsTable = async ({
   return unpackColumns({ response, columns });
 };
 
-export const getContractCalls = async ({
-  address,
-  entrypoint,
-  offset,
-  limit = 100,
-  order = 'asc',
-}) => {
+export const getContractCalls = async ({ address, entrypoint, offset, limit = 100, order = 'asc' }) => {
   offset = offset ? '&offset=' + offset : '';
   limit = limit ? '&limit=' + limit : '';
-  order = '&order='+order;
+  order = '&order=' + order;
   entrypoint = entrypoint ? '&entrypoint=' + entrypoint : '';
-  const response = await request(
-    `/explorer/contract/${address}/calls?${entrypoint}${order}${offset}${limit}`
-  );
+  const response = await request(`/explorer/contract/${address}/calls?${entrypoint}${order}${offset}${limit}`);
   return response;
 };
 
@@ -388,24 +379,20 @@ const defaultBlockColumns = [
   'row_id',
   'parent_id',
   'n_ops',
-  'volume'
-]
+  'volume',
+];
 
 export const getBlockHeight = async height => {
   const columns = defaultBlockColumns;
-  const response = await request(
-    `/tables/block?columns=${columns.join(',')}&height=${height}`
-  );
-  return unpackColumns({response, columns});
+  const response = await request(`/tables/block?columns=${columns.join(',')}&height=${height}`);
+  return unpackColumns({ response, columns });
 };
 
 export const getBlockTimeRange = async (from, to) => {
   to = to || new Date().getTime();
   const columns = defaultBlockColumns;
-  const response = await request(
-    `/tables/block?columns=${columns.join(',')}&time.rg=${from},${to}`
-  );
-  return unpackColumns({response, columns});
+  const response = await request(`/tables/block?columns=${columns.join(',')}&time.rg=${from},${to}`);
+  return unpackColumns({ response, columns });
 };
 
 export const getBlock = async id => {
@@ -446,12 +433,12 @@ export const getBlockOperations = async ({ height, type = null, limit = 0, curso
     'is_success',
     'is_contract',
   ];
-  type = type ? '&type=' + type : '&type.in=transaction,activate_account,endorsement,delegation,origination,reveal,seed_nonce_revelation,double_baking_evidence,double_endorsement_evidence,proposals,ballot';
+  type = type
+    ? '&type=' + type
+    : '&type.in=transaction,activate_account,endorsement,delegation,origination,reveal,seed_nonce_revelation,double_baking_evidence,double_endorsement_evidence,proposals,ballot';
   cursor = cursor ? '&cursor=' + cursor : '';
   limit = limit ? '&limit=' + limit : '';
-  const response = await request(
-    `/tables/op?height=${height}&columns=${columns.join(',')}${type}${cursor}${limit}`
-  );
+  const response = await request(`/tables/op?height=${height}&columns=${columns.join(',')}${type}${cursor}${limit}`);
   return unpackColumns({ response, columns });
 };
 
@@ -465,35 +452,35 @@ export const getOperations = async hash => {
 export class Token {
   constructor(address, bigmap_ids = []) {
     // console.log("Building Token", address, bigmap_ids);
-    this.addr = address;      // keep contract address
-    this.ids = bigmap_ids;    // keep contract bigmap id
-    this.script = null;       // contract script with entrypoints etc.
-    this.storage = null;      // most recent contract storage
-    this.type = null;         // detected token type
-    this.name = null;         // token name for rendering
-    this.code = null;         // token name for rendering (ie. symbol)
-    this.decimals = 0;        // token precision
-    this.totalSupply = 0;     // supply data
-    this.totalMinted = 0;     //
-    this.totalBurned = 0;     //
-    this.config = {};         // render config settings (txfn, utf8bytes)
-    this.bigmaps = {};        // support multiple bigmaps by id
+    this.addr = address; // keep contract address
+    this.ids = bigmap_ids; // keep contract bigmap id
+    this.script = null; // contract script with entrypoints etc.
+    this.storage = null; // most recent contract storage
+    this.type = null; // detected token type
+    this.name = null; // token name for rendering
+    this.code = null; // token name for rendering (ie. symbol)
+    this.decimals = 0; // token precision
+    this.totalSupply = 0; // supply data
+    this.totalMinted = 0; //
+    this.totalBurned = 0; //
+    this.config = {}; // render config settings (txfn, utf8bytes)
+    this.bigmaps = {}; // support multiple bigmaps by id
     this.ids.forEach(id => {
       this.bigmaps[id] = {
-        meta: null,           // per-bigmap metadata (for max number of keys and latest update)
-        values: [],           // full list of bigmap values fetched so far
-        eof: false,           // true when all bigmap values are fetched
-        promise: null,       // in-progress holder fetching promise
+        meta: null, // per-bigmap metadata (for max number of keys and latest update)
+        values: [], // full list of bigmap values fetched so far
+        eof: false, // true when all bigmap values are fetched
+        promise: null, // in-progress holder fetching promise
       };
-    }, this)
-    this.holders = [];        // converted list of token holders extracted from bigmap
-    this.error = null;        // first fetch error
-    this.promise = null;      // in-progress promise
+    }, this);
+    this.holders = []; // converted list of token holders extracted from bigmap
+    this.error = null; // first fetch error
+    this.promise = null; // in-progress promise
   }
 
   // fetch initial data like script and bigmap info
   async load() {
-    if (this.promise ) {
+    if (this.promise) {
       return this.promise;
     }
     this.error = null;
@@ -502,25 +489,26 @@ export class Token {
       request(`/explorer/contract/${this.addr}/script`),
       request(`/explorer/contract/${this.addr}/storage`),
       ...this.ids.map(id => request(`/explorer/bigmap/${id}`)),
-    ]).then(
-      async function(resp) {
-        this.script = this.processScript(resp[0]);
-        this.storage = this.processStorage(resp[1]);
-        this.ids.forEach((id, i) => {
-          let meta = resp[2+i]
-          this.bigmaps[id].meta = meta;
-          this.bigmaps[id].eof = !meta||!meta.n_keys;
-        }, this);
-        // console.log("Loaded Token", this);
-        return this
-      }.bind(this),
-      async function(error) {
-        // console.log("Loaded error", error);
-        this.error = error;
-        throw error;
-      }.bind(this)
-    )
-    .then(this.more.bind(this, this.ids[0], 100));
+    ])
+      .then(
+        async function(resp) {
+          this.script = this.processScript(resp[0]);
+          this.storage = this.processStorage(resp[1]);
+          this.ids.forEach((id, i) => {
+            let meta = resp[2 + i];
+            this.bigmaps[id].meta = meta;
+            this.bigmaps[id].eof = !meta || !meta.n_keys;
+          }, this);
+          // console.log("Loaded Token", this);
+          return this;
+        }.bind(this),
+        async function(error) {
+          // console.log("Loaded error", error);
+          this.error = error;
+          throw error;
+        }.bind(this)
+      )
+      .then(this.more.bind(this, this.ids[0], 100));
     return this.promise;
   }
 
@@ -534,8 +522,9 @@ export class Token {
     }
     let b = this.bigmaps[id];
     this.error = null;
-    b.promise = request(`/explorer/bigmap/${id}/values?unpack=1&offset=${b.values.length}&limit=${limit}&block=${b.meta.update_block}`)
-    .then(
+    b.promise = request(
+      `/explorer/bigmap/${id}/values?unpack=1&offset=${b.values.length}&limit=${limit}&block=${b.meta.update_block}`
+    ).then(
       async function(resp) {
         this.processBigmapValues(resp); // id included in reponse
         Array.prototype.push.apply(b.values, resp);
@@ -565,12 +554,11 @@ export class Token {
   processStorage(storage) {
     return storage;
   }
-
 }
 
 export class FA12Token extends Token {
   constructor(contract, meta = {}) {
-    super(contract, meta.bigmap_id?[meta.bigmap_id]:[]);
+    super(contract, meta.bigmap_id ? [meta.bigmap_id] : []);
     this.type = 'fa12';
     this.decimals = meta.decimals || 0;
     this.code = meta.code;
@@ -579,7 +567,7 @@ export class FA12Token extends Token {
   }
 
   processStorage(storage) {
-    this.totalSupply = parseInt(storage.value.totalSupply)/Math.pow(10, this.decimals);
+    this.totalSupply = parseInt(storage.value.totalSupply) / Math.pow(10, this.decimals);
     this.paused = storage.value.paused === 'true';
     this.admin = storage.value.admin;
     return storage;
@@ -590,7 +578,7 @@ export class FA12Token extends Token {
     values.forEach(val => {
       this.holders.push({
         address: val.key, // address
-        balance: parseInt(val.value.balance)/Math.pow(10, this.decimals), // nat
+        balance: parseInt(val.value.balance) / Math.pow(10, this.decimals), // nat
       });
     });
   }
@@ -599,7 +587,7 @@ export class FA12Token extends Token {
 // Staker DAO seems like FA12 but uses different storage
 export class StakerToken extends Token {
   constructor(contract, meta) {
-    super(contract, meta&&meta.bigmap_id?[meta.bigmap_id]:[]);
+    super(contract, meta && meta.bigmap_id ? [meta.bigmap_id] : []);
     this.type = 'staker';
     this.code = 'STKR';
     this.name = 'Staker';
@@ -608,7 +596,7 @@ export class StakerToken extends Token {
   }
 
   processStorage(storage) {
-    this.totalSupply = parseInt(storage.value['6@nat'])/Math.pow(10, this.decimals);
+    this.totalSupply = parseInt(storage.value['6@nat']) / Math.pow(10, this.decimals);
     return storage;
   }
 
@@ -617,7 +605,7 @@ export class StakerToken extends Token {
     values.forEach(val => {
       this.holders.push({
         address: val.key, // address
-        balance: parseInt(val.value)/Math.pow(10, this.decimals), // nat
+        balance: parseInt(val.value) / Math.pow(10, this.decimals), // nat
       });
     });
     return values;
@@ -639,7 +627,7 @@ export class StakerToken extends Token {
 //
 export class TZBTCToken extends Token {
   constructor(address, meta) {
-    super(address, meta&&meta.bigmap_id?[meta.bigmap_id]:[]);
+    super(address, meta && meta.bigmap_id ? [meta.bigmap_id] : []);
     this.type = 'tzbtc';
     this.decimals = 8;
     this.config = {};
@@ -660,37 +648,39 @@ export class TZBTCToken extends Token {
 
     values.forEach(val => {
       switch (true) {
-      case val.key_pretty.startsWith('ledger'):
-        // ledger entries
-        this.holders.push({
-          address: val.key_unpacked['1@bytes'],
-          balance: parseInt(val.value_unpacked['0@int'])/Math.pow(10, this.decimals),
-        });
-        break;
-      case val.key_pretty.startsWith('code'):
-        // ignore code entries
-        break;
-      default:
-        // other non-ledger entries
-        this.config[val.key_pretty] = val.value_unpacked;
-        switch (val.key_pretty) {
-        case 'tokenCode': case 'tokencode': // deprecated
-          this.code = val.value_unpacked;
+        case val.key_pretty.startsWith('ledger'):
+          // ledger entries
+          this.holders.push({
+            address: val.key_unpacked['1@bytes'],
+            balance: parseInt(val.value_unpacked['0@int']) / Math.pow(10, this.decimals),
+          });
           break;
-        case 'tokenName': case 'tokenname': // deprecated
-          this.name = val.value_unpacked;
-          break;
-        case 'totalSupply':
-          this.totalSupply = parseInt(val.value_unpacked)/Math.pow(10, this.decimals);
-          break;
-        case 'totalMinted':
-          this.totalMinted = parseInt(val.value_unpacked)/Math.pow(10, this.decimals);
-          break;
-        case 'totalBurned':
-          this.totalBurned = parseInt(val.value_unpacked)/Math.pow(10, this.decimals);
+        case val.key_pretty.startsWith('code'):
+          // ignore code entries
           break;
         default:
-        }
+          // other non-ledger entries
+          this.config[val.key_pretty] = val.value_unpacked;
+          switch (val.key_pretty) {
+            case 'tokenCode':
+            case 'tokencode': // deprecated
+              this.code = val.value_unpacked;
+              break;
+            case 'tokenName':
+            case 'tokenname': // deprecated
+              this.name = val.value_unpacked;
+              break;
+            case 'totalSupply':
+              this.totalSupply = parseInt(val.value_unpacked) / Math.pow(10, this.decimals);
+              break;
+            case 'totalMinted':
+              this.totalMinted = parseInt(val.value_unpacked) / Math.pow(10, this.decimals);
+              break;
+            case 'totalBurned':
+              this.totalBurned = parseInt(val.value_unpacked) / Math.pow(10, this.decimals);
+              break;
+            default:
+          }
       }
     }, this);
 
@@ -702,24 +692,24 @@ export async function makeToken(address, bigmap_ids = []) {
   if (!address) {
     return null;
   }
-  const meta = getAliases()[address]||{};
-  const typ = meta.token_type||'unknown';
+  const meta = getAliases()[address] || {};
+  const typ = meta.token_type || 'unknown';
   let token = null;
   switch (typ) {
-  case 'tzbtc':
-    token = new TZBTCToken(address, meta);
-    break;
-  case 'fa12':
-    token = new FA12Token(address, meta);
-    break;
-  case 'staker':
-    token = new StakerToken(address, meta);
-    break;
-  default:
-    token = new Token(address, bigmap_ids);
-    token.config.utf8 = !!meta.utf8;
-    token.config.txfn = meta.txfn||'transfer';
-    break;
+    case 'tzbtc':
+      token = new TZBTCToken(address, meta);
+      break;
+    case 'fa12':
+      token = new FA12Token(address, meta);
+      break;
+    case 'staker':
+      token = new StakerToken(address, meta);
+      break;
+    default:
+      token = new Token(address, bigmap_ids);
+      token.config.utf8 = !!meta.utf8;
+      token.config.txfn = meta.txfn || 'transfer';
+      break;
   }
-  return token?token.load():null;
+  return token ? token.load() : null;
 }
