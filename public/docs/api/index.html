@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.69.0" />
+	<meta name="generator" content="Hugo 0.73.0" />
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -824,7 +824,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
   <span class="nt">&#34;traffic_rank&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
   <span class="nt">&#34;volume_rank&#34;</span><span class="p">:</span> <span class="mi">0</span>
 <span class="p">}</span>
-</code></pre></div><p>Provides information about the most recent state of accounts and smart contracts. Baker accounts contain addtional information.</p>
+</code></pre></div><p>Provides information about the most recent state of accounts and smart contracts. Baker accounts and delegator accounts contain additional state information. See the table below for details.</p>
 <h3 id="http-request">HTTP Request</h3>
 <p><code>GET https://api.tzstats.com/explorer/account/{hash}</code></p>
 <h3 id="http-response">HTTP Response</h3>
@@ -881,12 +881,16 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Block height of last activity.</td>
 </tr>
 <tr>
-<td><code>delegated_since</code> <em>int64</em></td>
+<td><code>delegated_since</code> <em>int64</em> <strong>delegator-only</strong></td>
 <td>Block height of most recent delegation.</td>
 </tr>
 <tr>
-<td><code>delegate_since</code> <em>int64</em></td>
-<td>Block height of registration as delegate.</td>
+<td><code>delegate_since</code> <em>int64</em> <strong>baker-only</strong></td>
+<td>Block height of most recent baker registration.</td>
+</tr>
+<tr>
+<td><code>delegate_until</code> <em>int64</em> <strong>baker-only</strong></td>
+<td>Block height of most recent baker deactivation.</td>
 </tr>
 <tr>
 <td><code>first_in_time</code> <em>datetime</em></td>
@@ -913,12 +917,16 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Block time of last activity.</td>
 </tr>
 <tr>
-<td><code>delegated_since_time</code> <em>datetime</em></td>
+<td><code>delegated_since_time</code> <em>datetime</em> <strong>delegator-only</strong></td>
 <td>Block time of most recent delegation.</td>
 </tr>
 <tr>
-<td><code>delegate_since_time</code> <em>datetime</em></td>
-<td>Block time of registration as delegate.</td>
+<td><code>delegate_since_time</code> <em>datetime</em> <strong>baker-only</strong></td>
+<td>Block time of most recent baker registration.</td>
+</tr>
+<tr>
+<td><code>delegate_until_time</code> <em>datetime</em> <strong>baker-only</strong></td>
+<td>Block time of most recent baker deactivation.</td>
 </tr>
 <tr>
 <td><code>total_received</code> <em>money</em></td>
@@ -937,27 +945,27 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Lifetime fees paid in tz.</td>
 </tr>
 <tr>
-<td><code>total_rewards_earned</code> <em>money</em></td>
+<td><code>total_rewards_earned</code> <em>money</em> <strong>baker-only</strong></td>
 <td>Lifetime rewards earned in tz.</td>
 </tr>
 <tr>
-<td><code>total_fees_earned</code> <em>money</em></td>
+<td><code>total_fees_earned</code> <em>money</em> <strong>baker-only</strong></td>
 <td>Lifetime fees earned in tz.</td>
 </tr>
 <tr>
-<td><code>total_lost</code> <em>money</em></td>
+<td><code>total_lost</code> <em>money</em> <strong>baker-only</strong></td>
 <td>Lifetime total tokens lost in tz.</td>
 </tr>
 <tr>
-<td><code>frozen_deposits</code> <em>money</em></td>
+<td><code>frozen_deposits</code> <em>money</em> <strong>baker-only</strong></td>
 <td>Currently frozen deposits</td>
 </tr>
 <tr>
-<td><code>frozen_rewards</code> <em>money</em></td>
+<td><code>frozen_rewards</code> <em>money</em> <strong>baker-only</strong></td>
 <td>Currently frozen rewards.</td>
 </tr>
 <tr>
-<td><code>frozen_fees</code> <em>money</em></td>
+<td><code>frozen_fees</code> <em>money</em> <strong>baker-only</strong></td>
 <td>Currently frozen fees.</td>
 </tr>
 <tr>
@@ -973,19 +981,19 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Currently spendable and frozen balances (except frozen rewards).</td>
 </tr>
 <tr>
-<td><code>delegated_balance</code> <em>money</em></td>
+<td><code>delegated_balance</code> <em>money</em> <strong>baker-only</strong></td>
 <td>(delegate only) Current incoming delegations.</td>
 </tr>
 <tr>
-<td><code>staking_balance</code> <em>money</em></td>
+<td><code>staking_balance</code> <em>money</em> <strong>baker-only</strong></td>
 <td>(delegate only) Current delegated and own total balance.</td>
 </tr>
 <tr>
-<td><code>total_delegations</code> <em>int64</em></td>
+<td><code>total_delegations</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>(delegate only) Lifetime count of delegations.</td>
 </tr>
 <tr>
-<td><code>active_delegations</code> <em>int64</em></td>
+<td><code>active_delegations</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>(delegate only) Currently active and non-zero delegations.</td>
 </tr>
 <tr>
@@ -1029,27 +1037,27 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Flag indicating the account is a smart contract.</td>
 </tr>
 <tr>
-<td><code>blocks_baked</code> <em>int64</em></td>
+<td><code>blocks_baked</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Lifetime total blocks baked.</td>
 </tr>
 <tr>
-<td><code>blocks_missed</code> <em>int64</em></td>
+<td><code>blocks_missed</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Lifetime total block baking missed.</td>
 </tr>
 <tr>
-<td><code>blocks_stolen</code> <em>int64</em></td>
+<td><code>blocks_stolen</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Lifetime total block baked at priority &gt; 0.</td>
 </tr>
 <tr>
-<td><code>blocks_endorsed</code> <em>int64</em></td>
+<td><code>blocks_endorsed</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Lifetime total blocks endorsed.</td>
 </tr>
 <tr>
-<td><code>slots_endorsed</code> <em>int64</em></td>
+<td><code>slots_endorsed</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Lifetime total endorsemnt slots endorsed.</td>
 </tr>
 <tr>
-<td><code>slots_missed</code> <em>int64</em></td>
+<td><code>slots_missed</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Lifetime total endorsemnt slots missed.</td>
 </tr>
 <tr>
@@ -1073,11 +1081,11 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Lifetime total number of originations sent.</td>
 </tr>
 <tr>
-<td><code>n_proposal</code> <em>int64</em></td>
+<td><code>n_proposal</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Lifetime total number of proposals (operations) sent.</td>
 </tr>
 <tr>
-<td><code>n_ballot</code> <em>int64</em></td>
+<td><code>n_ballot</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Lifetime total number of ballots sent.</td>
 </tr>
 <tr>
@@ -1089,11 +1097,11 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Maximum generation number of all tokens owned.</td>
 </tr>
 <tr>
-<td><code>grace_period</code> <em>int64</em></td>
+<td><code>grace_period</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>(delegate only) Current grace period before deactivation.</td>
 </tr>
 <tr>
-<td><code>rolls</code> <em>int64</em></td>
+<td><code>rolls</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>(delegate only) Currently owned rolls.</td>
 </tr>
 <tr>
@@ -1109,63 +1117,63 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <td>Global rank on 1D most active accounts by volume sent/received.</td>
 </tr>
 <tr>
-<td><code>last_bake_height</code> <em>int64</em></td>
+<td><code>last_bake_height</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Height of most recent block baked.</td>
 </tr>
 <tr>
-<td><code>last_bake_block</code> <em>hash</em></td>
+<td><code>last_bake_block</code> <em>hash</em> <strong>baker-only</strong></td>
 <td>Hash of most recent block baked.</td>
 </tr>
 <tr>
-<td><code>last_bake_time</code> <em>datetime</em></td>
+<td><code>last_bake_time</code> <em>datetime</em> <strong>baker-only</strong></td>
 <td>Timestamp of most recent block baked.</td>
 </tr>
 <tr>
-<td><code>last_endorse_height</code> <em>int64</em></td>
+<td><code>last_endorse_height</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Height of most recent block endorsed.</td>
 </tr>
 <tr>
-<td><code>last_endorse_block</code> <em>hash</em></td>
+<td><code>last_endorse_block</code> <em>hash</em> <strong>baker-only</strong></td>
 <td>Hash of most recent block endorsed.</td>
 </tr>
 <tr>
-<td><code>last_endorse_time</code> <em>datetime</em></td>
+<td><code>last_endorse_time</code> <em>datetime</em> <strong>baker-only</strong></td>
 <td>Timestamp of most recent block endorsed.</td>
 </tr>
 <tr>
-<td><code>next_bake_height</code> <em>int64</em></td>
+<td><code>next_bake_height</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Height of next block baking right.</td>
 </tr>
 <tr>
-<td><code>next_bake_priority</code> <em>int64</em></td>
+<td><code>next_bake_priority</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Priority of next baking right (fixed at zero currently).</td>
 </tr>
 <tr>
-<td><code>next_bake_time</code> <em>datetime</em></td>
+<td><code>next_bake_time</code> <em>datetime</em> <strong>baker-only</strong></td>
 <td>Approximate time of next block baking right.</td>
 </tr>
 <tr>
-<td><code>next_endorse_height</code> <em>int64</em></td>
+<td><code>next_endorse_height</code> <em>int64</em> <strong>baker-only</strong></td>
 <td>Height of next block endorsing right.</td>
 </tr>
 <tr>
-<td><code>next_endorse_time</code> <em>datetime</em></td>
+<td><code>next_endorse_time</code> <em>datetime</em> <strong>baker-only</strong></td>
 <td>Approximate time of next block endorsing right.</td>
 </tr>
 <tr>
-<td><code>avg_luck_64</code> <em>float</em></td>
+<td><code>avg_luck_64</code> <em>float</em> <strong>baker-only</strong></td>
 <td>Average luck to get random priority zero baking/endorsing rights for the past 64 cycles (182 days, 6 months).</td>
 </tr>
 <tr>
-<td><code>avg_performance_64</code> <em>float</em></td>
+<td><code>avg_performance_64</code> <em>float</em> <strong>baker-only</strong></td>
 <td>Average performance for the past 64 cycles (182 days, 6 months).</td>
 </tr>
 <tr>
-<td><code>avg_contribution_64</code> <em>float</em></td>
+<td><code>avg_contribution_64</code> <em>float</em> <strong>baker-only</strong></td>
 <td>Average utilization of rights to bake/endorse blocks for the past 64 cycles. Since block rewards have become dynamic, a baker who fails to contribute to the consensus by utilizing 100% of their rights diminishes the income for other bakers.</td>
 </tr>
 <tr>
-<td><code>baker_version</code> <em>hash</em></td>
+<td><code>baker_version</code> <em>hash</em> <strong>baker-only</strong></td>
 <td>Software version run by the baker at the last seen block. This is the first 8 hex digits of the Git repository hash.</td>
 </tr>
 </tbody>
@@ -8226,6 +8234,7 @@ X-Protocol-Hash: PsBabyM1eUXZseaJdmXFApDSBqj8YBfwELoxZHHW77EMcAbbwAS
 <li><strong>etl/statistics:</strong> fixed block volume counting for failed ops</li>
 <li><strong>etl/account:</strong> fixed pubkey updates on reveal that caused some keys to be scrambled</li>
 <li><strong>api/deployments:</strong> fixed protocol version lookup and deployment info</li>
+<li><strong>etl/income:</strong> fixed <code>total_income</code> to include all fees and decunciation rewards</li>
 </ul>
 <h3 id="new-features">NEW FEATURES</h3>
 <ul>
