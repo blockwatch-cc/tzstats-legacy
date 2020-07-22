@@ -9,7 +9,7 @@ import {
   FlexRowSpaceBetween,
   FlexColumnSpaceBetween,
   CopyHashButton,
-  Blockies
+  Blockies,
 } from '../../Common';
 import { HorizontalProgressBar } from '../../Common/ProgressBar';
 import { formatValue, formatCurrency, getAccountTags, getAccountType } from '../../../utils';
@@ -31,43 +31,38 @@ const AccountInfo = ({ account }) => {
 
   return (
     <Wrapper>
-      <Card title={<><Blockies hash={account.address} /><span>{typ.name}</span></>} tags={tags} right={<CopyHashButton value={account.address} />}>
+      <Card
+        title={
+          <>
+            <Blockies hash={account.address} />
+            <span>{typ.name}</span>
+          </>
+        }
+        tags={tags}
+        right={<CopyHashButton value={account.address} />}
+      >
         <FlexRowSpaceBetween mt={10}>
           <FlexColumnSpaceBetween>
             <DataBox
               valueType="currency-full"
               title="Full Balance"
-              value={account.spendable_balance + account.unclaimed_balance + account.frozen_deposits + account.frozen_rewards + account.frozen_fees}
+              value={
+                (account.spendable_balance || 0) +
+                (account.unclaimed_balance || 0) +
+                (account.frozen_deposits || 0) +
+                (account.frozen_rewards || 0) +
+                (account.frozen_fees || 0)
+              }
             />
-            <DataBox
-              title="Last Active"
-              valueType="datetime"
-              value={account.last_seen_time}
-            />
+            <DataBox title="Last Active" valueType="datetime" value={account.last_seen_time} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween>
-            <DataBox
-              valueType="currency-full"
-              title="Spendable Balance"
-              value={account.spendable_balance}
-            />
-            <DataBox
-              title="Creation Date"
-              valueType="date"
-              value={account.first_seen_time}
-            />
+            <DataBox valueType="currency-full" title="Spendable Balance" value={account.spendable_balance} />
+            <DataBox title="Creation Date" valueType="date" value={account.first_seen_time} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween>
-            <DataBox
-              title="Rank"
-              valueType="text"
-              value={account.rich_rank ? formatValue(account.rich_rank) : '-'}
-            />
-            <DataBox
-              valueType="currency-full"
-              title="Total Fees Paid"
-              value={account.total_fees_paid}
-            />
+            <DataBox title="Rank" valueType="text" value={account.rich_rank ? formatValue(account.rich_rank) : '-'} />
+            <DataBox valueType="currency-full" title="Total Fees Paid" value={account.total_fees_paid} />
           </FlexColumnSpaceBetween>
           <FlexColumnSpaceBetween>
             <DataBox
@@ -87,14 +82,10 @@ const AccountInfo = ({ account }) => {
                 <FlexRowSpaceBetween>
                   <DataBox
                     valueType="currency"
-                    valueOpts={{ round: 1, digits: 0, sym:'' }}
+                    valueOpts={{ round: 1, digits: 0, sym: '' }}
                     value={account.staking_balance}
                   />
-                  <DataBox
-                    valueType="currency"
-                    valueOpts={{ round: 1, digits: 0, sym:'' }}
-                    value={stakingCapacity}
-                  />
+                  <DataBox valueType="currency" valueOpts={{ round: 1, digits: 0, sym: '' }} value={stakingCapacity} />
                 </FlexRowSpaceBetween>
                 <HorizontalProgressBar height={10} settings={settings} />
                 <FlexRowSpaceBetween>
@@ -103,12 +94,12 @@ const AccountInfo = ({ account }) => {
                 </FlexRowSpaceBetween>
               </FlexColumn>
             </FlexColumnSpaceBetween>
-          ) : (isDelegator || account.is_contract) ? (
+          ) : isDelegator || account.is_contract ? (
             <FlexColumnSpaceBetween>
               {account.delegate && !isBaker ? (
                 <HashedBox hash={account.delegate} isCopy={false} typeName={`Current Delegate`} />
               ) : (
-                <DataBox title="Current Delegate" valueType="text" value="-"/>
+                <DataBox title="Current Delegate" valueType="text" value="-" />
               )}
               {account.manager ? (
                 <HashedBox hash={account.manager} isCopy={false} typeName={`Manager`} />
@@ -127,11 +118,12 @@ const AccountInfo = ({ account }) => {
 
 // based on current rolls (updated each block)
 function getStakingCapacity(account, chain, config) {
-  const block_deposits = config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
+  const block_deposits =
+    config.block_security_deposit + config.endorsement_security_deposit * config.endorsers_per_block;
   const network_bond = block_deposits * config.blocks_per_cycle * (config.preserved_cycles + 1);
   const network_stake = chain.rolls * config.tokens_per_roll;
   const total_balance = account.spendable_balance + account.frozen_deposits + account.frozen_fees;
-  return total_balance / network_bond * network_stake;
+  return (total_balance / network_bond) * network_stake;
 }
 
 // from https://github.com/blockwatch-cc/tzstats/issues/46
@@ -151,14 +143,14 @@ function getStakingSettings(stakingBalance, stakingCapacity) {
   return [
     {
       percent: stakingPct,
-      color: stakingBalance>=stakingCapacity?'#ED6290':'#418BFD',
+      color: stakingBalance >= stakingCapacity ? '#ED6290' : '#418BFD',
       title: 'Baker Funds + Delegated Coins',
       value: `${stakingBalance}`,
     },
     {
       percent: 100 - stakingPct,
       color: '#858999;',
-      title: `Remaining Capacity ${formatCurrency(stakingCapacity-stakingBalance, ',', 'XTZ')}`,
+      title: `Remaining Capacity ${formatCurrency(stakingCapacity - stakingBalance, ',', 'XTZ')}`,
       value: `${stakingCapacity}`,
     },
   ];

@@ -1,6 +1,6 @@
 # TzStats build container
 #
-FROM          idx.trimmer.io/serve:1.2.1-alpine
+FROM          idx.trimmer.io/serve:v1.2.3-alpine
 MAINTAINER    Alexander Eichhorn <alex@blockwatch.cc>
 
 ARG           BUILD_VERSION
