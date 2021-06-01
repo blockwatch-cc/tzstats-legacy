@@ -14,39 +14,39 @@ const NotFound = ({ reloadFunc, type, hash }) => {
 };
 
 const H1 = styled.div`
-	color: rgba(255, 255, 255, 0.25);
-	font-size: 1.2em;
-	margin: 10px;
-	text-transform: capitalize;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 1.2em;
+  margin: 10px;
+  text-transform: capitalize;
 `;
 
 const Dim = styled.div`
-	color: rgba(255, 255, 255, 0.25);
-	font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 1.2rem;
 `;
 
 const H2 = styled.div`
-	color: rgba(255, 255, 255, 0.52);
-	font-size: 1.5em;
-	margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 1.5em;
+  margin-bottom: 20px;
 `;
 
 const Button = styled.button`
-    border: 0 none;
-    background-color: #3d404d;
-    color: #ccc;
-    cursor: pointer;
-    margin: 2em;
-  	padding: 1em 2em;
-  	font-size: 14px;
-    &:hover{
-    	color: #fff;
-    	background-color: #404252;
-    }
-    &:active{
-    	color: #fff;
-    	background-color: #3b3d4d;
-    }
+  border: 0 none;
+  background-color: #3d404d;
+  color: #ccc;
+  cursor: pointer;
+  margin: 2em;
+  padding: 1em 2em;
+  font-size: 14px;
+  &:hover {
+    color: #fff;
+    background-color: #404252;
+  }
+  &:active {
+    color: #fff;
+    background-color: #3b3d4d;
+  }
 `;
 
 export default NotFound;

@@ -6,14 +6,15 @@ import { getShortHashOrBakerName } from '../../../../utils';
 import { Link } from 'react-router-dom';
 import useInfiniteScroll from '../../../../hooks/useInfiniteScroll';
 
-
 const HolderTable = ({ token }) => {
   const [data, setData] = React.useState({ table: [], isLoaded: false, eof: false });
   useInfiniteScroll(fetchMore, 'hodl');
 
   // fetch transactions sent to token and entrypoint 'transfer'
   async function fetchMore() {
-    if (data.eof) { return; }
+    if (data.eof) {
+      return;
+    }
     await token.more();
     setData({
       table: token.holders,
@@ -46,8 +47,12 @@ const HolderTable = ({ token }) => {
       <TableHeader>
         <TableHeaderCell width={5}>No</TableHeaderCell>
         <TableHeaderCell width={20}>Address</TableHeaderCell>
-        <TableHeaderCell width={15} justify="flex-end">Balance</TableHeaderCell>
-        <TableHeaderCell width={10} justify="flex-end">Share</TableHeaderCell>
+        <TableHeaderCell width={15} justify="flex-end">
+          Balance
+        </TableHeaderCell>
+        <TableHeaderCell width={10} justify="flex-end">
+          Share
+        </TableHeaderCell>
         <TableHeaderCell width={45}></TableHeaderCell>
       </TableHeader>
       <TableBody id={'hodl'} height="calc(100vh - 450px)">
@@ -63,8 +68,18 @@ const HolderTable = ({ token }) => {
                     <Blockies hash={item.address} />
                     <Link to={`/${item.address}`}>{getShortHashOrBakerName(item.address)}</Link>
                   </TableCell>
-                  <TableCell width={15} justify="flex-end"><Value value={item.balance} type="currency" sym={token.code} digits={0} zero="-"/></TableCell>
-                  <TableCell width={10} justify="flex-end"><Value value={item.balance/token.totalSupply} type="percent" prec={token.decimals} digits={3} zero="-"/></TableCell>
+                  <TableCell width={15} justify="flex-end">
+                    <Value value={item.balance} type="currency" sym={token.code} digits={0} zero="-" />
+                  </TableCell>
+                  <TableCell width={10} justify="flex-end">
+                    <Value
+                      value={item.balance / token.totalSupply}
+                      type="percent"
+                      prec={token.decimals}
+                      digits={3}
+                      zero="-"
+                    />
+                  </TableCell>
                   <TableCell width={45}></TableCell>
                 </TableRow>
               );
@@ -72,9 +87,9 @@ const HolderTable = ({ token }) => {
           ) : (
             <NoDataFound />
           )
-      ) : (
-        <Spinner />
-      )}
+        ) : (
+          <Spinner />
+        )}
       </TableBody>
     </>
   );
